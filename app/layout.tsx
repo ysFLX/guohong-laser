@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Guohong Lazer - Lazer Makineleri ve Yedek ParÃ§alarÄ±",
-  description: "YÃ¼ksek kaliteli lazer makineleri ve yedek parÃ§alarÄ± iÃ§in doÄŸru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
-  keywords: "lazer makinesi, yedek parÃ§a, lazer kesim, lazer kazÄ±ma, endÃ¼striyel lazer",
+  title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
+  description: "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+  keywords: "lazer makinesi, yedek parca, lazer kesim, lazer kazima, endustriyel lazer",
   icons: {
     icon: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png",
     shortcut: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png",
@@ -34,6 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900">
+      <head>
+        <link rel="icon" href="https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png" />
+        <link rel="apple-touch-icon" href="https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png" />
+        <link rel="shortcut icon" href="https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`}>
         <Providers>
           <Header />

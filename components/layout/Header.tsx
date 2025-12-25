@@ -20,6 +20,12 @@ export default function Header() {
   const [profileOpen, setProfileOpen] = useState(false);
   const { theme, toggle: toggleTheme } = useTheme();
   const avatarUrl = data?.user?.image;
+  const [logoError, setLogoError] = useState(false);
+
+  const logoSrc =
+    theme === "dark"
+      ? "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png"
+      : "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logoacik.png";
 
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
@@ -28,16 +34,17 @@ export default function Header() {
           <div className="flex">
             <div className="shrink-0 flex items-center">
               <Link href="/" className="inline-flex items-center">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={
-                    theme === "dark"
-                      ? "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png"
-                      : "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logoacik.png"
-                  }
-                  alt="Guohong Lazer"
-                  className="h-8 w-auto sm:h-9"
-                />
+                {!logoError ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={logoSrc}
+                    alt="Guohong Lazer"
+                    className="h-8 w-auto sm:h-9"
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  <span className="text-xl font-bold text-gray-900 dark:text-white">Guohong Lazer</span>
+                )}
               </Link>
             </div>
             <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menu">
