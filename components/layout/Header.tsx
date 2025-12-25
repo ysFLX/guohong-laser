@@ -27,8 +27,13 @@ export default function Header() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white">
-                Guohong Lazer
+              <Link href="/" className="inline-flex items-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={theme === "dark" ? "/logokoyu.png" : "/logoacik.png"}
+                  alt="Guohong Lazer"
+                  className="h-8 w-auto sm:h-9"
+                />
               </Link>
             </div>
             <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menu">

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -17,9 +17,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Guohong Lazer - Lazer Makineleri ve Yedek Parçaları",
-  description: "Yüksek kaliteli lazer makineleri ve yedek parçaları için doğru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
-  keywords: "lazer makinesi, yedek parça, lazer kesim, lazer kazıma, endüstriyel lazer",
+  title: "Guohong Lazer - Lazer Makineleri ve Yedek ParÃ§alarÄ±",
+  description: "YÃ¼ksek kaliteli lazer makineleri ve yedek parÃ§alarÄ± iÃ§in doÄŸru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+  keywords: "lazer makinesi, yedek parÃ§a, lazer kesim, lazer kazÄ±ma, endÃ¼striyel lazer",
+  icons: {
+    icon: "/logokoyu.png",
+    shortcut: "/logokoyu.png",
+    apple: "/logokoyu.png",
+  },
 };
 
 export default function RootLayout({
