@@ -56,7 +56,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              className="hidden sm:inline-flex relative items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
               aria-label="Tema degistir"
             >
               {theme === 'dark' ? (
@@ -153,33 +153,6 @@ export default function Header() {
               </svg>
             </button>
 
-            {!isAuthed && (
-              <div className="relative group sm:hidden">
-                <button
-                  type="button"
-                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
-                >
-                  Giris Yap / Kayit Ol
-                </button>
-                <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
-                  <div className="py-1">
-                    <Link
-                      href="/login"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Giris Yap
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Kayit Ol
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <div className="hidden sm:flex sm:items-center space-x-4 ml-auto">
               {!isAuthed && (
                 <div className="relative group">
@@ -187,7 +160,7 @@ export default function Header() {
                     type="button"
                     className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
                   >
-                  Giris Yap / Kayit Ol
+                    Giris Yap / Kayit Ol
                   </button>
                   <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                     <div className="py-1">
@@ -195,13 +168,13 @@ export default function Header() {
                         href="/login"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                      Giris Yap
+                        Giris Yap
                       </Link>
                       <Link
                         href="/register"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                      Kayit Ol
+                        Kayit Ol
                       </Link>
                     </div>
                   </div>
@@ -301,14 +274,14 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                      Giris Yap
+                    Giris Yap
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
                   >
-                      Kayit Ol
+                    Kayit Ol
                   </Link>
                 </>
               )}
