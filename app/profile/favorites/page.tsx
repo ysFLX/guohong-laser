@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import ProfileLayout from '@/components/profile/ProfileLayout';
+import AddToCartButton from '@/components/cart/AddToCartButton';
 
 type SparePart = {
   id: string;
@@ -121,10 +122,10 @@ export default function FavoritesPage() {
   return (
     <ProfileLayout showSide={false}>
       <div>
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold">Favorilerim</h1>
-            <p className="mt-1 text-sm text-gray-600">Favorilediğin ürünleri burada görebilirsin.</p>
+            <p className="mt-1 text-sm text-gray-600">Favorilediğin ürünleri burada yönetebilirsin.</p>
           </div>
           <Link href="/spare-parts" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
             Yedek Parçalara Git
@@ -141,28 +142,30 @@ export default function FavoritesPage() {
         )}
 
         {!isLoading && !error && items.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
             {items.map((item) => (
               <div
                 key={item.id}
                 className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
               >
-                <Link href={`/spare-parts/${item.sparePartId}`} className="block">
-                  <div className="relative h-48 w-full">
-                    <Image
-                      src={item.sparePart.imageUrl || '/images/1.jpg'}
-                      alt={item.sparePart.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover group-hover:scale-[1.02] transition-transform"
-                      loading="lazy"
-                      unoptimized
-                    />
-                    <div className="absolute top-3 right-3 bg-white/90 text-gray-900 text-xs font-semibold px-2 py-1 rounded-full">
-                      {item.sparePart.category.name}
+                <div className="relative">
+                  <Link href={`/spare-parts/${item.sparePartId}`} className="block">
+                    <div className="relative h-52 w-full">
+                      <Image
+                        src={item.sparePart.imageUrl || '/images/1.jpg'}
+                        alt={item.sparePart.name}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="object-cover group-hover:scale-[1.02] transition-transform"
+                        loading="lazy"
+                        unoptimized
+                      />
+                      <div className="absolute top-3 right-3 bg-white/90 text-gray-900 text-xs font-semibold px-2 py-1 rounded-full">
+                        {item.sparePart.category.name}
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
 
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -178,18 +181,30 @@ export default function FavoritesPage() {
 
                   <p className="mt-2 text-sm text-gray-600 line-clamp-2">{item.sparePart.description}</p>
 
-                  <div className="mt-4 flex items-center justify-between gap-3">
+                  <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                    <span>Stok: {item.sparePart.stockOnHand}</span>
+                    <span>Ölçü: {item.sparePart.dimensions || '-'}</span>
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    <AddToCartButton
+                      id={item.sparePart.id}
+                      name={item.sparePart.name}
+                      priceCents={item.sparePart.priceCents}
+                      imageUrl={item.sparePart.imageUrl}
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700"
+                    />
                     <Link
                       href={`/spare-parts/${item.sparePartId}`}
-                      className="text-sm font-semibold text-gray-900 hover:text-gray-700"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-900 hover:bg-gray-50"
                     >
-                      Detayları Gör
+                      Detaylar
                     </Link>
                     <button
                       type="button"
                       onClick={() => toggleFavorite(item.sparePartId)}
                       disabled={toggling.has(item.sparePartId)}
-                      className="text-sm font-semibold text-red-600 hover:text-red-700 disabled:text-gray-400"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold text-red-600 border border-red-100 hover:bg-red-50 disabled:text-gray-400"
                     >
                       Favoriden kaldır
                     </button>
