@@ -230,6 +230,8 @@ export async function POST(request: Request) {
     const codeHash = await bcrypt.hash(code, 10);
     const expiresAt = new Date(Date.now() + CODE_TTL_MINUTES * 60 * 1000);
 
+    const addressValue = safeAddress ?? undefined;
+
     await prisma.emailVerification.upsert({
       where: { email: safeEmail },
       create: {
@@ -240,7 +242,7 @@ export async function POST(request: Request) {
         lastName: safeLastName,
         phone: safePhone,
         hashedPassword,
-        address: safeAddress,
+        address: addressValue,
       },
       update: {
         codeHash,
@@ -249,7 +251,7 @@ export async function POST(request: Request) {
         lastName: safeLastName,
         phone: safePhone,
         hashedPassword,
-        address: safeAddress,
+        address: addressValue,
       },
     });
 
