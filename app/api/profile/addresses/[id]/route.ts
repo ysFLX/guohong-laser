@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -23,7 +23,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     // Ensure address belongs to user
     const existing = await prisma.address.findUnique({ where: { id } });
     if (!existing || existing.userId !== session.user.id) {
-      return new Response(JSON.stringify({ error: 'Adres bulunamadı' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Adres bulunamadi' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
     }
 
     // If setting default, unset others
@@ -38,7 +38,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return new Response(JSON.stringify({ success: true, address: updated, addresses }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e) {
     console.error('[PATCH] /api/profile/addresses/[id] error:', e);
-    const msg = e instanceof Error ? e.message : 'Güncelleme hatası';
+    const msg = e instanceof Error ? e.message : 'Guncelleme hatasi';
     return new Response(JSON.stringify({ error: msg }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
@@ -54,7 +54,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     const existing = await prisma.address.findUnique({ where: { id } });
     if (!existing || existing.userId !== session.user.id) {
-      return new Response(JSON.stringify({ error: 'Adres bulunamadı' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Adres bulunamadi' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
     }
 
     await prisma.address.delete({ where: { id } });
@@ -64,7 +64,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     return new Response(JSON.stringify({ success: true, addresses }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e) {
     console.error('[DELETE] /api/profile/addresses/[id] error:', e);
-    const msg = e instanceof Error ? e.message : 'Silme hatası';
+    const msg = e instanceof Error ? e.message : 'Silme hatasi';
     return new Response(JSON.stringify({ error: msg }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }

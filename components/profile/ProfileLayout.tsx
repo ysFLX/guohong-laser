@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { ReactNode } from 'react';
 import { useSession } from 'next-auth/react';
@@ -26,10 +26,10 @@ export default function ProfileLayout({
                   {(session?.user?.name?.[0] || (session?.user?.email ?? 'U')[0]).toUpperCase()}
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Hesabım</h1>
+                  <h1 className="text-2xl font-bold text-gray-900">Hesabim</h1>
                   <div className="mt-1 text-sm text-gray-600">
                     {session?.user?.email ?? ''}
-                    {session?.user?.role === 'ADMIN' ? ' · Admin' : ''}
+                    {session?.user?.role === 'ADMIN' ? ' - Admin' : ''}
                   </div>
                 </div>
               </div>
@@ -46,7 +46,7 @@ export default function ProfileLayout({
                 {side ?? (
                   <>
                     <div className="text-sm font-semibold text-gray-900">Adres</div>
-                    <div className="mt-1 text-sm text-gray-500">Adreslerini yönetmek için tıkla</div>
+                    <div className="mt-1 text-sm text-gray-500">Adreslerini yonetmek icin tikla</div>
                     <div className="mt-4">
                       <Link href="/profile/addresses" className="px-3 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
                         Adreslerim
@@ -62,3 +62,4 @@ export default function ProfileLayout({
     </div>
   );
 }
+
