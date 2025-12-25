@@ -22,10 +22,7 @@ export default function Header() {
   const avatarUrl = data?.user?.image;
   const [logoError, setLogoError] = useState(false);
 
-  const logoSrc =
-    theme === "dark"
-      ? "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png"
-      : "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logoacik.png";
+  const logoSrc = theme === "dark" ? "/images/logokoyu.png" : "/images/logoacik.png";
 
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
