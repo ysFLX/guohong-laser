@@ -14,23 +14,87 @@ export default function GalleryPage() {
       alt: "Lazer kesim atelye",
     },
     {
-      src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/2.jpg",
       alt: "Uretim hatti detay",
     },
     {
-      src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1400&q=80&sat=-25",
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/3.jpg",
       alt: "Metal isleme",
     },
     {
-      src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80&sat=-20",
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/4.jpg",
       alt: "Makine detay",
     },
     {
-      src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1400&q=80&sat=-15",
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/5.jpg",
       alt: "Atolye gorunumu",
     },
     {
-      src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80&sat=-10",
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/6.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/7.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/8.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/9.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/10.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/11.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/12.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/13.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/14.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/15.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/16.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/17.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/18.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/19.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/20.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/21.jpg",
+      alt: "Calisma alani",
+    },
+    {
+      src: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/22.jpg",
       alt: "Calisma alani",
     },
   ] as GalleryImage[];
