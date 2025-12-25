@@ -16,6 +16,11 @@ type Address = {
   isDefault: boolean;
 };
 
+type City = {
+  code: string;
+  name: string;
+};
+
 type Toast = {
   type: "success" | "error";
   message: string;
@@ -51,33 +56,6 @@ function Modal({ title, open, onClose, children }: ModalProps) {
   );
 }
 
-const CITY_OPTIONS = [
-  "Istanbul",
-  "Ankara",
-  "Izmir",
-  "Bursa",
-  "Antalya",
-  "Konya",
-  "Adana",
-  "Gaziantep",
-  "Kocaeli",
-  "Kayseri",
-  "Diger",
-];
-
-const DISTRICTS: Record<string, string[]> = {
-  Istanbul: ["Avcilar", "Bagcilar", "Bahcelievler", "Bakirkoy", "Besiktas", "Esenyurt", "Kadikoy", "Maltepe", "Pendik", "Uskudar"],
-  Ankara: ["Cankaya", "Etimesgut", "Kecioren", "Mamak", "Sincan", "Yenimahalle"],
-  Izmir: ["Bornova", "Buca", "Gaziemir", "Karsiyaka", "Konak", "Menemen"],
-  Bursa: ["Gemlik", "Inegol", "Nilufer", "Osmangazi", "Yildirim"],
-  Antalya: ["Aksu", "Kepez", "Konyaalti", "Muratpasa", "Serik"],
-  Konya: ["Karatay", "Meram", "Selcuklu"],
-  Adana: ["Cukurova", "Seyhan", "Yuregir"],
-  Gaziantep: ["Sehitkamil", "Sahinbey"],
-  Kocaeli: ["Gebze", "Izmit", "Kartepe", "Korfez"],
-  Kayseri: ["Kocasinan", "Melikgazi", "Talas"],
-};
-
 const emptyForm = {
   label: "Ev",
   firstName: "",
@@ -85,10 +63,9 @@ const emptyForm = {
   phone: "",
   line1: "",
   line2: "",
-  city: "",
-  cityCustom: "",
-  state: "",
-  stateCustom: "",
+  cityCode: "",
+  cityName: "",
+  district: "",
   postalCode: "",
   country: "Turkiye",
   isDefault: false,
@@ -98,12 +75,17 @@ export default function AddressesManager() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [cities, setCities] = useState<City[]>([]);
+  const [districts, setDistricts] = useState<string[]>([]);
+  const [loadingCities, setLoadingCities] = useState(false);
+  const [loadingDistricts, setLoadingDistricts] = useState(false);
   const [form, setForm] = useState({ ...emptyForm });
   const [editingid, setEditingid] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     load();
+    loadCities();
   }, []);
 
   useEffect(() => {
@@ -111,6 +93,22 @@ export default function AddressesManager() {
     const t = setTimeout(() => setToast(null), 3500);
     return () => clearTimeout(t);
   }, [toast]);
+
+  useEffect(() => {
+    if (!form.cityCode) {
+      setDistricts([]);
+      return;
+    }
+    loadDistricts(form.cityCode);
+  }, [form.cityCode]);
+
+  useEffect(() => {
+    if (!form.cityName || form.cityCode || cities.length === 0) return;
+    const match = cities.find((city) => city.name === form.cityName);
+    if (match) {
+      setForm((prev) => ({ ...prev, cityCode: match.code }));
+    }
+  }, [cities, form.cityName, form.cityCode]);
 
   async function load() {
     setLoading(true);
@@ -125,6 +123,32 @@ export default function AddressesManager() {
     }
   }
 
+  async function loadCities() {
+    setLoadingCities(true);
+    try {
+      const res = await fetch("/api/locations/tr/cities");
+      const data = await res.json();
+      setCities(data.cities || []);
+    } catch {
+      setToast({ type: "error", message: "Iller yuklenemedi" });
+    } finally {
+      setLoadingCities(false);
+    }
+  }
+
+  async function loadDistricts(cityCode: string) {
+    setLoadingDistricts(true);
+    try {
+      const res = await fetch(`/api/locations/tr/districts?code=${encodeURIComponent(cityCode)}`);
+      const data = await res.json();
+      setDistricts(data.districts || []);
+    } catch {
+      setToast({ type: "error", message: "Ilceler yuklenemedi" });
+    } finally {
+      setLoadingDistricts(false);
+    }
+  }
+
   function openCreate() {
     setEditingid(null);
     setForm({ ...emptyForm });
@@ -136,9 +160,8 @@ export default function AddressesManager() {
     const [firstName, ...rest] = fullName.trim().split(" ");
     const lastName = rest.join(" ");
     const cityValue = address.city ?? "";
-    const cityIsKnown = CITY_OPTIONS.includes(cityValue);
-    const districtValue = address.state ?? "";
-    const districtIsKnown = cityIsKnown && DISTRICTS[cityValue]?.includes(districtValue);
+    const cityMatch = cities.find((city) => city.name === cityValue);
+    const cityCode = cityMatch?.code ?? "";
 
     setEditingid(address.id);
     setForm({
@@ -148,10 +171,9 @@ export default function AddressesManager() {
       phone: address.phone ?? "",
       line1: address.line1 ?? "",
       line2: address.line2 ?? "",
-      city: cityIsKnown ? cityValue : "Diger",
-      cityCustom: cityIsKnown ? "" : cityValue,
-      state: districtIsKnown ? districtValue : "Diger",
-      stateCustom: districtIsKnown ? "" : districtValue,
+      cityCode,
+      cityName: cityValue,
+      district: address.state ?? "",
       postalCode: address.postalCode ?? "",
       country: address.country ?? "Turkiye",
       isDefault: address.isDefault ?? false,
@@ -166,8 +188,9 @@ export default function AddressesManager() {
       const firstName = form.firstName.trim();
       const lastName = form.lastName.trim();
       const fullName = `${firstName} ${lastName}`.trim();
-      const cityValue = form.city === "Diger" ? form.cityCustom.trim() : form.city.trim();
-      const districtValue = form.state === "Diger" ? form.stateCustom.trim() : form.state.trim();
+      const cityValue =
+        form.cityName.trim() || cities.find((city) => city.code === form.cityCode)?.name || "";
+      const districtValue = form.district.trim();
 
       if (!firstName || !lastName || !form.phone.trim() || !form.line1.trim() || !cityValue) {
         throw new Error("Ad, soyad, telefon, adres ve il zorunludur");
@@ -384,64 +407,49 @@ export default function AddressesManager() {
             <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
             <select
               className="border rounded-lg px-3 py-2 text-sm w-full"
-              value={form.city}
-              onChange={(e) =>
+              value={form.cityCode}
+              onChange={(e) => {
+                const cityCode = e.target.value;
+                const selected = cities.find((city) => city.code === cityCode);
                 setForm({
                   ...form,
-                  city: e.target.value,
-                  cityCustom: "",
-                  state: "",
-                  stateCustom: "",
-                })
-              }
+                  cityCode,
+                  cityName: selected?.name ?? "",
+                  district: "",
+                });
+              }}
+              disabled={loadingCities}
             >
               <option value="" disabled>
                 Il sec
               </option>
-              {CITY_OPTIONS.map((city) => (
-                <option key={city} value={city}>
-                  {city}
+              {cities.map((city) => (
+                <option key={city.code} value={city.code}>
+                  {city.name}
                 </option>
               ))}
             </select>
-            {form.city === "Diger" && (
-              <input
-                className="border rounded-lg px-3 py-2 text-sm w-full"
-                placeholder="Il (diger)"
-                value={form.cityCustom}
-                onChange={(e) => setForm({ ...form, cityCustom: e.target.value })}
-              />
-            )}
+            {loadingCities && <div className="text-xs text-gray-500">Iller yukleniyor...</div>}
           </div>
 
           <div className="md:col-span-2 space-y-2">
             <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
             <select
               className="border rounded-lg px-3 py-2 text-sm w-full"
-              value={form.state}
-              onChange={(e) => setForm({ ...form, state: e.target.value, stateCustom: "" })}
-              disabled={!form.city}
+              value={form.district}
+              onChange={(e) => setForm({ ...form, district: e.target.value })}
+              disabled={!form.cityCode || loadingDistricts}
             >
               <option value="" disabled>
                 Ilce sec
               </option>
-              {form.city && form.city !== "Diger" && DISTRICTS[form.city]
-                ? DISTRICTS[form.city].map((district) => (
-                    <option key={district} value={district}>
-                      {district}
-                    </option>
-                  ))
-                : null}
-              <option value="Diger">Diger</option>
+              {districts.map((district) => (
+                <option key={district} value={district}>
+                  {district}
+                </option>
+              ))}
             </select>
-            {(form.state === "Diger" || (form.city && !DISTRICTS[form.city])) && (
-              <input
-                className="border rounded-lg px-3 py-2 text-sm w-full"
-                placeholder="Ilce (diger)"
-                value={form.stateCustom}
-                onChange={(e) => setForm({ ...form, stateCustom: e.target.value })}
-              />
-            )}
+            {loadingDistricts && <div className="text-xs text-gray-500">Ilceler yukleniyor...</div>}
           </div>
 
           <input

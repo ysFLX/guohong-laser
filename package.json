@@ -28,7 +28,8 @@
     "prisma": "^5.22.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-hook-form": "^7.69.0"
+    "react-hook-form": "^7.69.0",
+    "turkey-neighbourhoods": "^4.0.3"
   },
   "overrides": {
     "cookie": "^1.1.1"

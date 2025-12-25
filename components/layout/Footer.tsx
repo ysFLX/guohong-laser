@@ -35,7 +35,7 @@ export default function Footer() {
             <div className="mt-4">
               <p className="text-base text-gray-500 dark:text-gray-400">
                 Adres: Fevziçakmak Mahallesi Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi A Blok No 18T
-Konya/Karatay 42210
+                Konya/Karatay 42210
               </p>
               <p className="mt-2 text-base text-gray-500 dark:text-gray-400">
                 Telefon: +90 536 831 67 87
