@@ -1,0 +1,82 @@
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+
+import { authOptions } from '@/auth';
+
+const BUCKET = 'spare-parts';
+
+type UploadRequest = {
+  fileName?: string;
+  contentType?: string;
+};
+
+function sanitizeFileName(name: string) {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9.\-_]+/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 80);
+}
+
+export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+  }
+
+  if (session.user.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
+  }
+
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    process.env.SUPABASE_URL ||
+    '';
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return NextResponse.json(
+      { error: 'Supabase env eksik. NEXT_PUBLIC_SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY gerekli.' },
+      { status: 500 }
+    );
+  }
+
+  let body: UploadRequest;
+  try {
+    body = (await req.json()) as UploadRequest;
+  } catch {
+    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+  }
+
+  const fileName = typeof body.fileName === 'string' ? body.fileName : 'image';
+  const contentType = typeof body.contentType === 'string' ? body.contentType : 'application/octet-stream';
+
+  const { id } = await ctx.params;
+  const safeName = sanitizeFileName(fileName) || 'image';
+  const objectPath = `${id}/${Date.now()}-${safeName}`;
+
+  const supabase = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+
+  const { data, error } = await supabase.storage.from(BUCKET).createSignedUploadUrl(objectPath, {
+    upsert: true,
+  });
+
+  if (error || !data) {
+    return NextResponse.json({ error: error?.message || 'Signed upload olusturulamadi' }, { status: 500 });
+  }
+
+  const publicUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/public/${BUCKET}/${objectPath}`;
+
+  return NextResponse.json({
+    path: data.path,
+    token: data.token,
+    signedUrl: data.signedUrl,
+    contentType,
+    publicUrl,
+  });
+}

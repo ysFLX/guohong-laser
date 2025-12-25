@@ -1,0 +1,242 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  firstName      String?
+  lastName       String?
+  phone          String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  role           String    @default("USER")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  accounts       Account[]
+  sessions       Session[]
+  addresses      Address[]
+  favorites      Favorite[]
+  stockMovementsCreated StockMovement[] @relation("StockMovementCreatedBy")
+  inquiries       Inquiry[] @relation("InquiryCreatedBy")
+  inquiriesResponded Inquiry[] @relation("InquiryRespondedBy")
+}
+
+model EmailVerification {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  codeHash       String
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
+  firstName      String
+  lastName       String
+  phone          String
+  hashedPassword String
+  address        Json?
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  tokenHash String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model InquiryOtp {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  codeHash  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  userId     String
+  label      String?
+  fullName   String?
+  phone      String?
+  line1      String?
+  line2      String?
+  city       String?
+  state      String?
+  postalCode String?
+  country    String?
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum StockMovementReason {
+  INITIAL
+  PURCHASE
+  ADJUSTMENT
+  SALE
+  RETURN
+  DAMAGE
+}
+
+model SparePartCategory {
+  id        String      @id @default(cuid())
+  name      String
+  slug      String      @unique
+  isActive  Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  spareParts SparePart[]
+}
+
+model SparePart {
+  id           String   @id @default(cuid())
+  sku          String?  @unique
+  name         String
+  description  String
+  dimensions   String?
+  priceCents   Int
+  currency     String   @default("TRY")
+  imageUrl     String?
+  isFeatured   Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  stockOnHand  Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  categoryId String
+  category   SparePartCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  images        SparePartImage[]
+  stockMovements StockMovement[]
+  favorites     Favorite[]
+
+  @@index([categoryId])
+  @@index([isFeatured])
+  @@index([isActive])
+}
+
+model SparePartImage {
+  id          String   @id @default(cuid())
+  sparePartId String
+  url         String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  sparePart SparePart @relation(fields: [sparePartId], references: [id], onDelete: Cascade)
+
+  @@index([sparePartId])
+  @@index([sortOrder])
+}
+
+model Favorite {
+  id          String   @id @default(cuid())
+  userId      String
+  sparePartId String
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sparePart SparePart @relation(fields: [sparePartId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sparePartId])
+  @@index([userId])
+  @@index([sparePartId])
+}
+
+model StockMovement {
+  id          String              @id @default(cuid())
+  sparePartId String
+  delta       Int
+  reason      StockMovementReason
+  note        String?
+  createdAt   DateTime            @default(now())
+
+  createdByUserId String?
+  createdByUser   User?               @relation("StockMovementCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  sparePart SparePart @relation(fields: [sparePartId], references: [id], onDelete: Cascade)
+
+  @@index([sparePartId])
+  @@index([createdByUserId])
+  @@index([createdAt])
+}
+
+enum InquiryType {
+  CONTACT
+  QUOTE
+}
+
+enum InquiryStatus {
+  NEW
+  READ
+  CLOSED
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  type      InquiryType
+  status    InquiryStatus @default(NEW)
+
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  subject   String?
+  product   String?
+  message   String
+
+  userId    String?
+  user      User?         @relation("InquiryCreatedBy", fields: [userId], references: [id], onDelete: SetNull)
+
+  adminResponse       String?
+  respondedAt         DateTime?
+  respondedByUserId   String?
+  respondedByUser     User?     @relation("InquiryRespondedBy", fields: [respondedByUserId], references: [id], onDelete: SetNull)
+
+  userSeenAt DateTime?
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId])
+  @@index([respondedByUserId])
+}
