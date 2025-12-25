@@ -382,26 +382,28 @@ export default function AddressesManager() {
 
           <div className="md:col-span-2 space-y-2">
             <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
-            <div className="flex flex-wrap gap-3">
+            <select
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              value={form.city}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  city: e.target.value,
+                  cityCustom: "",
+                  state: "",
+                  stateCustom: "",
+                })
+              }
+            >
+              <option value="" disabled>
+                Il sec
+              </option>
               {CITY_OPTIONS.map((city) => (
-                <label key={city} className="inline-flex items-center gap-2 text-sm text-gray-700">
-                  <input
-                    type="checkbox"
-                    checked={form.city === city}
-                    onChange={() =>
-                      setForm({
-                        ...form,
-                        city,
-                        cityCustom: city === "Diger" ? form.cityCustom : "",
-                        state: "",
-                        stateCustom: "",
-                      })
-                    }
-                  />
+                <option key={city} value={city}>
                   {city}
-                </label>
+                </option>
               ))}
-            </div>
+            </select>
             {form.city === "Diger" && (
               <input
                 className="border rounded-lg px-3 py-2 text-sm w-full"
@@ -414,39 +416,24 @@ export default function AddressesManager() {
 
           <div className="md:col-span-2 space-y-2">
             <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
-            {form.city && form.city !== "Diger" && DISTRICTS[form.city] ? (
-              <div className="flex flex-wrap gap-3">
-                {DISTRICTS[form.city].map((district) => (
-                  <label key={district} className="inline-flex items-center gap-2 text-sm text-gray-700">
-                    <input
-                      type="checkbox"
-                      checked={form.state === district}
-                      onChange={() => setForm({ ...form, state: district, stateCustom: "" })}
-                    />
-                    {district}
-                  </label>
-                ))}
-                <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                  <input
-                    type="checkbox"
-                    checked={form.state === "Diger"}
-                    onChange={() => setForm({ ...form, state: "Diger", stateCustom: "" })}
-                  />
-                  Diger
-                </label>
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-3">
-                <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                  <input
-                    type="checkbox"
-                    checked={form.state === "Diger"}
-                    onChange={() => setForm({ ...form, state: "Diger", stateCustom: "" })}
-                  />
-                  Diger
-                </label>
-              </div>
-            )}
+            <select
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              value={form.state}
+              onChange={(e) => setForm({ ...form, state: e.target.value, stateCustom: "" })}
+              disabled={!form.city}
+            >
+              <option value="" disabled>
+                Ilce sec
+              </option>
+              {form.city && form.city !== "Diger" && DISTRICTS[form.city]
+                ? DISTRICTS[form.city].map((district) => (
+                    <option key={district} value={district}>
+                      {district}
+                    </option>
+                  ))
+                : null}
+              <option value="Diger">Diger</option>
+            </select>
             {(form.state === "Diger" || (form.city && !DISTRICTS[form.city])) && (
               <input
                 className="border rounded-lg px-3 py-2 text-sm w-full"
