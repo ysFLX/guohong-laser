@@ -30,7 +30,7 @@ export default function Header() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="shrink-0 flex items-center">
-              <Link href="/" className="inline-flex items-center">
+              <Link href="/" className="inline-flex items-start">
                 {!logoError ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
