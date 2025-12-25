@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import ProfileAvatarUploader from '@/components/profile/ProfileAvatarUploader';
 type SessionUserWithRole = {
   name?: string | null;
   email?: string | null;
@@ -33,6 +34,7 @@ type ProfileUser = {
   firstName: string | null;
   lastName: string | null;
   phone: string | null;
+  image: string | null;
   role: string;
   addresses: Address[];
 };
@@ -177,6 +179,7 @@ export default function ProfilePage() {
 
   const userName = `${profile?.firstName ?? ''} ${profile?.lastName ?? ''}`.trim();
   const profileComplete = (session.user as SessionUserWithRole).profileComplete;
+  const avatarUrl = profile?.image ?? session.user.image ?? null;
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
@@ -185,8 +188,13 @@ export default function ProfilePage() {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-4">
-                <div className="h-14 w-14 rounded-full bg-gray-900 text-white flex items-center justify-center font-semibold text-lg">
-                  {(profile?.firstName?.[0] || session.user.name?.[0] || 'U').toUpperCase()}
+                <div className="h-14 w-14 rounded-full bg-gray-900 text-white flex items-center justify-center font-semibold text-lg overflow-hidden">
+                  {avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={avatarUrl} alt="Profil fotografi" className="h-full w-full object-cover" />
+                  ) : (
+                    (profile?.firstName?.[0] || session.user.name?.[0] || 'U').toUpperCase()
+                  )}
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">{userName || 'Hesabim'}</h1>
@@ -285,6 +293,10 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-4">
+              <ProfileAvatarUploader
+                imageUrl={avatarUrl}
+                onUpdated={(url) => setProfile((p) => (p ? { ...p, image: url } : p))}
+              />
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
                 <div className="text-sm font-semibold text-gray-900">Hizli Erisim</div>
                 <div className="mt-3 grid grid-cols-1 gap-2">

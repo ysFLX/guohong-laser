@@ -77,6 +77,32 @@ export default function Home() {
       title: 'Lazer Demir Kesimi',
     },
   ];
+  const galleryImages = [
+    {
+      src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+      alt: "Lazer kesim atelye",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+      alt: "Uretim hatti detay",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80&sat=-25",
+      alt: "Metal isleme",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80&sat=-20",
+      alt: "Makine detay",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80&sat=-15",
+      alt: "Atolye gorunumu",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80&sat=-10",
+      alt: "Calisma alani",
+    },
+  ];
 
   return (
     <div className="bg-white dark:bg-gray-900">
@@ -119,6 +145,29 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
             <VideoSlider items={heroVideos} />
+          </div>
+          <div id="gallery" className="mb-16">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                Galeri
+              </h2>
+              <p className="mt-3 text-lg text-gray-500 dark:text-gray-300">
+                Lazer kesim ve uretimden sahneler
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {galleryImages.map((item, index) => (
+                <div key={index} className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    className="h-56 w-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           <div className="text-center mb-16">
             <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">

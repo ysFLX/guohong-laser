@@ -77,12 +77,13 @@ export const authOptions: NextAuthOptions = {
         if (token.id) {
           const dbUser = await prisma.user.findUnique({
             where: { id: String(token.id) },
-            select: { firstName: true, lastName: true, phone: true },
+            select: { firstName: true, lastName: true, phone: true, image: true },
           });
 
           session.user.firstName = dbUser?.firstName ?? null;
           session.user.lastName = dbUser?.lastName ?? null;
           session.user.phone = dbUser?.phone ?? null;
+          session.user.image = dbUser?.image ?? null;
           session.user.profileComplete = Boolean(
             dbUser?.firstName && dbUser?.lastName && dbUser?.phone
           );

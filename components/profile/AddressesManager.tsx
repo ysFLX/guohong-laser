@@ -368,40 +368,55 @@ export default function AddressesManager() {
         onClose={() => setShowForm(false)}
       >
         <form onSubmit={submitForm} className="grid grid-cols-1 md:grid-cols-2 text-black gap-4">
-          <input
-            className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="Etiket (Ev, Is)"
-            value={form.label}
-            onChange={(e) => setForm({ ...form, label: e.target.value })}
-          />
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Etiket</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Etiket (Ev, Is)"
+              value={form.label}
+              onChange={(e) => setForm({ ...form, label: e.target.value })}
+            />
+          </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="Ad"
-            value={form.firstName}
-            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-          />
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Ad</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Ad"
+              value={form.firstName}
+              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+            />
+          </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="Soyad"
-            value={form.lastName}
-            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-          />
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Soyad</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Soyad"
+              value={form.lastName}
+              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+            />
+          </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="Telefon"
-            value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          />
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Telefon</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Telefon"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+          </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm md:col-span-2"
-            placeholder="Adres"
-            value={form.line1}
-            onChange={(e) => setForm({ ...form, line1: e.target.value })}
-          />
+          <div className="md:col-span-2 space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Adres</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Adres"
+              value={form.line1}
+              onChange={(e) => setForm({ ...form, line1: e.target.value })}
+            />
+          </div>
 
           <div className="md:col-span-2 space-y-2">
             <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
@@ -452,26 +467,35 @@ export default function AddressesManager() {
             {loadingDistricts && <div className="text-xs text-gray-500">Ilceler yukleniyor...</div>}
           </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="Posta Kodu"
-            value={form.postalCode}
-            onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
-          />
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Posta Kodu</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Posta Kodu"
+              value={form.postalCode}
+              onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
+            />
+          </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm md:col-span-2"
-            placeholder="Daire / Not (opsiyonel)"
-            value={form.line2}
-            onChange={(e) => setForm({ ...form, line2: e.target.value })}
-          />
+          <div className="md:col-span-2 space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Daire / Not</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Daire / Not (opsiyonel)"
+              value={form.line2}
+              onChange={(e) => setForm({ ...form, line2: e.target.value })}
+            />
+          </div>
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm md:col-span-2"
-            placeholder="Ulke"
-            value={form.country}
-            onChange={(e) => setForm({ ...form, country: e.target.value })}
-          />
+          <div className="md:col-span-2 space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Ulke</div>
+            <input
+              className="border rounded-lg px-3 py-2 text-sm w-full"
+              placeholder="Ulke"
+              value={form.country}
+              onChange={(e) => setForm({ ...form, country: e.target.value })}
+            />
+          </div>
 
           <label className="md:col-span-2 inline-flex items-center gap-2 text-sm font-medium text-gray-700">
             <input

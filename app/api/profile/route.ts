@@ -22,6 +22,7 @@ export async function GET() {
       firstName: true,
       lastName: true,
       phone: true,
+      image: true,
       role: true,
       addresses: {
         orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],

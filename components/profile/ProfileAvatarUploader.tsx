@@ -1,0 +1,114 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { createClient } from "@supabase/supabase-js";
+
+type Props = {
+  imageUrl?: string | null;
+  onUpdated?: (url: string) => void;
+};
+
+export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
+  const router = useRouter();
+  const { update } = useSession();
+
+  const supabase = useMemo(() => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+    if (!url || !anon) return null;
+    return createClient(url, anon);
+  }, []);
+
+  const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setError("");
+    setIsUploading(true);
+    try {
+      if (!supabase) {
+        throw new Error("Supabase client hazir degil");
+      }
+
+      const signRes = await fetch("/api/profile/avatar/upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: file.name,
+          contentType: file.type,
+        }),
+      });
+      const signData = await signRes.json();
+      if (!signRes.ok) throw new Error(signData?.error || "Upload url olusturulamadi");
+
+      const upload = await supabase.storage
+        .from("profile-avatars")
+        .uploadToSignedUrl(signData.path, signData.token, file, { contentType: file.type });
+
+      if (upload.error) {
+        throw new Error(upload.error.message || "Yukleme basarisiz");
+      }
+
+      const saveRes = await fetch("/api/profile/avatar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: signData.publicUrl }),
+      });
+      const saveData = await saveRes.json();
+      if (!saveRes.ok) throw new Error(saveData?.error || "Kaydedilemedi");
+
+      setFile(null);
+      onUpdated?.(signData.publicUrl);
+      await update?.();
+      router.refresh();
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Yukleme basarisiz");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div className="rounded-2xl border border-gray-200 p-4 bg-white">
+      <div className="text-sm font-semibold text-gray-900">Profil Fotograf</div>
+      <div className="mt-1 text-xs text-gray-500">JPEG/PNG/WEBP onerilir.</div>
+
+      <div className="mt-4 flex items-center gap-4">
+        <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center text-gray-400">
+          {imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={imageUrl} alt="Profil fotografi" className="h-full w-full object-cover" />
+          ) : (
+            <span className="text-xs">Yok</span>
+          )}
+        </div>
+        <div className="flex-1">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const selected = e.target.files?.[0] || null;
+              setError("");
+              setFile(selected);
+            }}
+            className="block w-full text-sm text-gray-700"
+          />
+        </div>
+        <button
+          type="button"
+          disabled={!file || isUploading}
+          onClick={handleUpload}
+          className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60"
+        >
+          {isUploading ? "Yukleniyor..." : "Yukle"}
+        </button>
+      </div>
+
+      {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
+    </div>
+  );
+}

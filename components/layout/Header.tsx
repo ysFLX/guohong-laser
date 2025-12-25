@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
@@ -19,6 +19,7 @@ export default function Header() {
   const { open: openNotifications, unreadCount } = useNotifications();
   const [profileOpen, setProfileOpen] = useState(false);
   const { theme, toggle: toggleTheme } = useTheme();
+  const avatarUrl = data?.user?.image;
 
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
@@ -30,7 +31,7 @@ export default function Header() {
                 Guohong Lazer
               </Link>
             </div>
-            <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menü">
+            <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menÃ¼">
               <Link href="/" aria-current="page" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Ana Sayfa
               </Link>
@@ -38,13 +39,16 @@ export default function Header() {
                 Makineler
               </Link>
               <Link href="/spare-parts" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Yedek Parçalar
+              <Link href="/#gallery" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Galeri
+              </Link>
+                Yedek ParÃ§alar
               </Link>
               <Link href="/about" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Hakkımızda
+                HakkÄ±mÄ±zda
               </Link>
               <Link href="/contact" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                İletişim
+                Ä°letiÅŸim
               </Link>
             </nav>
           </div>
@@ -53,7 +57,7 @@ export default function Header() {
               type="button"
               onClick={toggleTheme}
               className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-              aria-label="Tema değiştir"
+              aria-label="Tema deÄŸiÅŸtir"
             >
               {theme === 'dark' ? (
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +102,7 @@ export default function Header() {
                   type="button"
                   onClick={openNotifications}
                   className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                  aria-label="Bildirimleri aç"
+                  aria-label="Bildirimleri aÃ§"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
@@ -119,7 +123,7 @@ export default function Header() {
                   type="button"
                   onClick={toggleCart}
                   className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                  aria-label="Sepeti aç"
+                  aria-label="Sepeti aÃ§"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -138,7 +142,7 @@ export default function Header() {
               className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-expanded={mobileMenuOpen}
-              aria-label="Menüyü aç/kapat"
+              aria-label="MenÃ¼yÃ¼ aÃ§/kapat"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileMenuOpen ? (
@@ -155,7 +159,7 @@ export default function Header() {
                   type="button"
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
                 >
-                  Giriş Yap / Kayıt Ol
+                  GiriÅŸ Yap / KayÄ±t Ol
                 </button>
                 <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                   <div className="py-1">
@@ -163,13 +167,13 @@ export default function Header() {
                       href="/login"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      Giriş Yap
+                      GiriÅŸ Yap
                     </Link>
                     <Link
                       href="/register"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      Kayıt Ol
+                      KayÄ±t Ol
                     </Link>
                   </div>
                 </div>
@@ -183,7 +187,7 @@ export default function Header() {
                     type="button"
                     className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
                   >
-                    Giriş Yap / Kayıt Ol
+                    GiriÅŸ Yap / KayÄ±t Ol
                   </button>
                   <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                     <div className="py-1">
@@ -191,13 +195,13 @@ export default function Header() {
                         href="/login"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Giriş Yap
+                        GiriÅŸ Yap
                       </Link>
                       <Link
                         href="/register"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Kayıt Ol
+                        KayÄ±t Ol
                       </Link>
                     </div>
                   </div>
@@ -210,14 +214,19 @@ export default function Header() {
                     type="button"
                     onClick={() => setProfileOpen(true)}
                     className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                    aria-label="Profili aç"
+                    aria-label="Profili aÃ§"
                   >
                     <span className="sr-only">Profil</span>
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+                    {avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={avatarUrl} alt="Profil fotografi" className="h-8 w-8 rounded-full object-cover" />
+                    ) : (
+                      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    )}
                   </button>
-                  {/* Çıkış butonu artık profil çekmecesinde; header'dan kaldırıldı */}
+                  {/* Ã‡Ä±kÄ±ÅŸ butonu artÄ±k profil Ã§ekmecesinde; header'dan kaldÄ±rÄ±ldÄ± */}
                 </>
               )}
             </div>
@@ -237,7 +246,7 @@ export default function Header() {
                 }}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                Tema: {theme === 'dark' ? 'Koyu' : 'Açık'}
+                Tema: {theme === 'dark' ? 'Koyu' : 'AÃ§Ä±k'}
               </button>
 
               <Link
@@ -256,24 +265,27 @@ export default function Header() {
               </Link>
               <Link
                 href="/spare-parts"
+              <Link href="/#gallery" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Galeri
+              </Link>
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                Yedek Parçalar
+                Yedek ParÃ§alar
               </Link>
               <Link
                 href="/about"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                Hakkımızda
+                HakkÄ±mÄ±zda
               </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                İletişim
+                Ä°letiÅŸim
               </Link>
 
               <div className="my-2 border-t border-gray-200" />
@@ -285,14 +297,14 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    Giriş Yap
+                    GiriÅŸ Yap
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
                   >
-                    Kayıt Ol
+                    KayÄ±t Ol
                   </Link>
                 </>
               )}
@@ -321,7 +333,7 @@ export default function Header() {
                     }}
                     className="text-left px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    Çıkış Yap
+                    Ã‡Ä±kÄ±ÅŸ Yap
                   </button>
                 </>
               )}
