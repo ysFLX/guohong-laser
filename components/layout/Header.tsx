@@ -31,29 +31,24 @@ export default function Header() {
                 Guohong Lazer
               </Link>
             </div>
-            <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menÃ¼">
+              aria-label="Menuyu ac/kapat"
               <Link href="/" aria-current="page" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Ana Sayfa
               </Link>
               <Link href="/products" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Makineler
               </Link>
-              <Link
-                href="/spare-parts"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
-              >
+              <Link href="/spare-parts" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Yedek Parcalar
               </Link>
-              <Link
-                href="/#gallery"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
-              >
+              <Link href="/gallery" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Galeri
               </Link>
+              <Link href="/about" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Hakkimizda
+              </Link>
               <Link href="/contact" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Ä°letiÅŸim
+                Iletisim
               </Link>
             </nav>
           </div>
@@ -62,7 +57,7 @@ export default function Header() {
               type="button"
               onClick={toggleTheme}
               className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-              aria-label="Tema deÄŸiÅŸtir"
+              aria-label="Tema degistir"
             >
               {theme === 'dark' ? (
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +102,7 @@ export default function Header() {
                   type="button"
                   onClick={openNotifications}
                   className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                  aria-label="Bildirimleri aÃ§"
+                  aria-label="Bildirimleri ac"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
@@ -128,7 +123,7 @@ export default function Header() {
                   type="button"
                   onClick={toggleCart}
                   className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                  aria-label="Sepeti aÃ§"
+                  aria-label="Sepeti ac"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -147,7 +142,7 @@ export default function Header() {
               className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-expanded={mobileMenuOpen}
-              aria-label="MenÃ¼yÃ¼ aÃ§/kapat"
+              aria-label="Menuyu ac/kapat"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileMenuOpen ? (
@@ -164,7 +159,7 @@ export default function Header() {
                   type="button"
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
                 >
-                  GiriÅŸ Yap / KayÄ±t Ol
+                  Giris Yap / Kayit Ol
                 </button>
                 <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                   <div className="py-1">
@@ -172,13 +167,13 @@ export default function Header() {
                       href="/login"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      GiriÅŸ Yap
+                      Giris Yap
                     </Link>
                     <Link
                       href="/register"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      KayÄ±t Ol
+                      Kayit Ol
                     </Link>
                   </div>
                 </div>
@@ -192,7 +187,7 @@ export default function Header() {
                     type="button"
                     className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
                   >
-                    GiriÅŸ Yap / KayÄ±t Ol
+                  Giris Yap / Kayit Ol
                   </button>
                   <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                     <div className="py-1">
@@ -200,13 +195,13 @@ export default function Header() {
                         href="/login"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        GiriÅŸ Yap
+                      Giris Yap
                       </Link>
                       <Link
                         href="/register"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        KayÄ±t Ol
+                      Kayit Ol
                       </Link>
                     </div>
                   </div>
@@ -219,7 +214,7 @@ export default function Header() {
                     type="button"
                     onClick={() => setProfileOpen(true)}
                     className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                    aria-label="Profili aÃ§"
+                    aria-label="Profili ac"
                   >
                     <span className="sr-only">Profil</span>
                     {avatarUrl ? (
@@ -231,7 +226,7 @@ export default function Header() {
                       </svg>
                     )}
                   </button>
-                  {/* Ã‡Ä±kÄ±ÅŸ butonu artÄ±k profil Ã§ekmecesinde; header'dan kaldÄ±rÄ±ldÄ± */}
+                  {/* Cikis butonu artik profil cekmecesinde; header'dan kaldirildi */}
                 </>
               )}
             </div>
@@ -251,7 +246,7 @@ export default function Header() {
                 }}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                Tema: {theme === 'dark' ? 'Koyu' : 'AÃ§Ä±k'}
+                Tema: {theme === 'dark' ? 'Koyu' : 'Acik'}
               </button>
 
               <Link
@@ -276,7 +271,7 @@ export default function Header() {
                 Yedek Parcalar
               </Link>
               <Link
-                href="/#gallery"
+                href="/gallery"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
@@ -287,14 +282,14 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                HakkÄ±mÄ±zda
+                Hakkimizda
               </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                Ä°letiÅŸim
+                Iletisim
               </Link>
 
               <div className="my-2 border-t border-gray-200" />
@@ -306,14 +301,14 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    GiriÅŸ Yap
+                      Giris Yap
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
                   >
-                    KayÄ±t Ol
+                      Kayit Ol
                   </Link>
                 </>
               )}
@@ -342,7 +337,7 @@ export default function Header() {
                     }}
                     className="text-left px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    Ã‡Ä±kÄ±ÅŸ Yap
+                    Cikis Yap
                   </button>
                 </>
               )}
@@ -353,3 +348,7 @@ export default function Header() {
     </header>
   );
 }
+
+
+
+
