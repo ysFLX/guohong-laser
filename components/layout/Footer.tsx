@@ -34,13 +34,14 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">İletişim</h3>
             <div className="mt-4">
               <p className="text-base text-gray-500 dark:text-gray-400">
-                Adres: [Şirket Adresi]
+                Adres: Fevziçakmak Mahallesi Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi A Blok No 18T
+Konya/Karatay 42210
               </p>
               <p className="mt-2 text-base text-gray-500 dark:text-gray-400">
-                Telefon: [Telefon Numarası]
+                Telefon: +90 536 831 67 87
               </p>
               <p className="mt-2 text-base text-gray-500 dark:text-gray-400">
-                E-posta: info@guohonglazer.com
+                E-posta: guohonglazerinfo@gmail.com
               </p>
             </div>
           </div>

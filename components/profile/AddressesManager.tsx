@@ -10,6 +10,7 @@ type Address = {
   line1: string | null;
   line2: string | null;
   city: string | null;
+  state: string | null;
   postalCode: string | null;
   country: string | null;
   isDefault: boolean;
@@ -50,13 +51,44 @@ function Modal({ title, open, onClose, children }: ModalProps) {
   );
 }
 
+const CITY_OPTIONS = [
+  "Istanbul",
+  "Ankara",
+  "Izmir",
+  "Bursa",
+  "Antalya",
+  "Konya",
+  "Adana",
+  "Gaziantep",
+  "Kocaeli",
+  "Kayseri",
+  "Diger",
+];
+
+const DISTRICTS: Record<string, string[]> = {
+  Istanbul: ["Avcilar", "Bagcilar", "Bahcelievler", "Bakirkoy", "Besiktas", "Esenyurt", "Kadikoy", "Maltepe", "Pendik", "Uskudar"],
+  Ankara: ["Cankaya", "Etimesgut", "Kecioren", "Mamak", "Sincan", "Yenimahalle"],
+  Izmir: ["Bornova", "Buca", "Gaziemir", "Karsiyaka", "Konak", "Menemen"],
+  Bursa: ["Gemlik", "Inegol", "Nilufer", "Osmangazi", "Yildirim"],
+  Antalya: ["Aksu", "Kepez", "Konyaalti", "Muratpasa", "Serik"],
+  Konya: ["Karatay", "Meram", "Selcuklu"],
+  Adana: ["Cukurova", "Seyhan", "Yuregir"],
+  Gaziantep: ["Sehitkamil", "Sahinbey"],
+  Kocaeli: ["Gebze", "Izmit", "Kartepe", "Korfez"],
+  Kayseri: ["Kocasinan", "Melikgazi", "Talas"],
+};
+
 const emptyForm = {
   label: "Ev",
-  fullName: "",
+  firstName: "",
+  lastName: "",
   phone: "",
   line1: "",
   line2: "",
   city: "",
+  cityCustom: "",
+  state: "",
+  stateCustom: "",
   postalCode: "",
   country: "Turkiye",
   isDefault: false,
@@ -100,14 +132,26 @@ export default function AddressesManager() {
   }
 
   function openEdit(address: Address) {
+    const fullName = address.fullName ?? "";
+    const [firstName, ...rest] = fullName.trim().split(" ");
+    const lastName = rest.join(" ");
+    const cityValue = address.city ?? "";
+    const cityIsKnown = CITY_OPTIONS.includes(cityValue);
+    const districtValue = address.state ?? "";
+    const districtIsKnown = cityIsKnown && DISTRICTS[cityValue]?.includes(districtValue);
+
     setEditingid(address.id);
     setForm({
       label: address.label ?? "",
-      fullName: address.fullName ?? "",
+      firstName: firstName ?? "",
+      lastName: lastName ?? "",
       phone: address.phone ?? "",
       line1: address.line1 ?? "",
       line2: address.line2 ?? "",
-      city: address.city ?? "",
+      city: cityIsKnown ? cityValue : "Diger",
+      cityCustom: cityIsKnown ? "" : cityValue,
+      state: districtIsKnown ? districtValue : "Diger",
+      stateCustom: districtIsKnown ? "" : districtValue,
       postalCode: address.postalCode ?? "",
       country: address.country ?? "Turkiye",
       isDefault: address.isDefault ?? false,
@@ -119,17 +163,27 @@ export default function AddressesManager() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (!form.fullName.trim() || !form.phone.trim() || !form.line1.trim() || !form.city.trim()) {
-        throw new Error("isim, telefon, adres ve il zorunludur");
+      const firstName = form.firstName.trim();
+      const lastName = form.lastName.trim();
+      const fullName = `${firstName} ${lastName}`.trim();
+      const cityValue = form.city === "Diger" ? form.cityCustom.trim() : form.city.trim();
+      const districtValue = form.state === "Diger" ? form.stateCustom.trim() : form.state.trim();
+
+      if (!firstName || !lastName || !form.phone.trim() || !form.line1.trim() || !cityValue) {
+        throw new Error("Ad, soyad, telefon, adres ve il zorunludur");
+      }
+      if (!districtValue) {
+        throw new Error("Ilce secimi zorunludur");
       }
 
       const payload = {
         label: form.label.trim() || "Ev",
-        fullName: form.fullName.trim(),
+        fullName,
         phone: form.phone.trim(),
         line1: form.line1.trim(),
         line2: form.line2.trim() || null,
-        city: form.city.trim(),
+        city: cityValue,
+        state: districtValue,
         postalCode: form.postalCode.trim() || null,
         country: form.country.trim() || "Turkiye",
         isDefault: form.isDefault,
@@ -247,7 +301,8 @@ export default function AddressesManager() {
                 {a.line1 || "-"}
                 {a.line2 ? `, ${a.line2}` : ""}
                 <br />
-                {a.city || "-"} {a.postalCode || ""} {a.country || ""}
+                {a.city || "-"}
+                {a.state ? ` / ${a.state}` : ""} {a.postalCode || ""} {a.country || ""}
               </p>
 
               <p className="text-sm text-gray-500">{a.phone || "-"}</p>
@@ -292,16 +347,23 @@ export default function AddressesManager() {
         <form onSubmit={submitForm} className="grid grid-cols-1 md:grid-cols-2 text-black gap-4">
           <input
             className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="Etiket (Ev, is)"
+            placeholder="Etiket (Ev, Is)"
             value={form.label}
             onChange={(e) => setForm({ ...form, label: e.target.value })}
           />
 
           <input
             className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="isim Soyisim"
-            value={form.fullName}
-            onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+            placeholder="Ad"
+            value={form.firstName}
+            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+          />
+
+          <input
+            className="border rounded-lg px-3 py-2 text-sm"
+            placeholder="Soyad"
+            value={form.lastName}
+            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
           />
 
           <input
@@ -318,12 +380,82 @@ export default function AddressesManager() {
             onChange={(e) => setForm({ ...form, line1: e.target.value })}
           />
 
-          <input
-            className="border rounded-lg px-3 py-2 text-sm"
-            placeholder="il"
-            value={form.city}
-            onChange={(e) => setForm({ ...form, city: e.target.value })}
-          />
+          <div className="md:col-span-2 space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
+            <div className="flex flex-wrap gap-3">
+              {CITY_OPTIONS.map((city) => (
+                <label key={city} className="inline-flex items-center gap-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={form.city === city}
+                    onChange={() =>
+                      setForm({
+                        ...form,
+                        city,
+                        cityCustom: city === "Diger" ? form.cityCustom : "",
+                        state: "",
+                        stateCustom: "",
+                      })
+                    }
+                  />
+                  {city}
+                </label>
+              ))}
+            </div>
+            {form.city === "Diger" && (
+              <input
+                className="border rounded-lg px-3 py-2 text-sm w-full"
+                placeholder="Il (diger)"
+                value={form.cityCustom}
+                onChange={(e) => setForm({ ...form, cityCustom: e.target.value })}
+              />
+            )}
+          </div>
+
+          <div className="md:col-span-2 space-y-2">
+            <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
+            {form.city && form.city !== "Diger" && DISTRICTS[form.city] ? (
+              <div className="flex flex-wrap gap-3">
+                {DISTRICTS[form.city].map((district) => (
+                  <label key={district} className="inline-flex items-center gap-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      checked={form.state === district}
+                      onChange={() => setForm({ ...form, state: district, stateCustom: "" })}
+                    />
+                    {district}
+                  </label>
+                ))}
+                <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={form.state === "Diger"}
+                    onChange={() => setForm({ ...form, state: "Diger", stateCustom: "" })}
+                  />
+                  Diger
+                </label>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-3">
+                <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={form.state === "Diger"}
+                    onChange={() => setForm({ ...form, state: "Diger", stateCustom: "" })}
+                  />
+                  Diger
+                </label>
+              </div>
+            )}
+            {(form.state === "Diger" || (form.city && !DISTRICTS[form.city])) && (
+              <input
+                className="border rounded-lg px-3 py-2 text-sm w-full"
+                placeholder="Ilce (diger)"
+                value={form.stateCustom}
+                onChange={(e) => setForm({ ...form, stateCustom: e.target.value })}
+              />
+            )}
+          </div>
 
           <input
             className="border rounded-lg px-3 py-2 text-sm"
@@ -361,7 +493,7 @@ export default function AddressesManager() {
               onClick={() => setShowForm(false)}
               className="px-4 py-2 text-sm rounded-md border border-gray-200 text-gray-700"
             >
-              iptal
+              Iptal
             </button>
             <button
               type="submit"
