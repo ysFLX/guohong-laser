@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   description: "YÃ¼ksek kaliteli lazer makineleri ve yedek parÃ§alarÄ± iÃ§in doÄŸru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
   keywords: "lazer makinesi, yedek parÃ§a, lazer kesim, lazer kazÄ±ma, endÃ¼striyel lazer",
   icons: {
-    icon: "/logokoyu.png",
-    shortcut: "/logokoyu.png",
-    apple: "/logokoyu.png",
+    icon: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png",
+    shortcut: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png",
+    apple: "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png",
   },
 };
 

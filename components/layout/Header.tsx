@@ -30,7 +30,11 @@ export default function Header() {
               <Link href="/" className="inline-flex items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={theme === "dark" ? "/logokoyu.png" : "/logoacik.png"}
+                  src={
+                    theme === "dark"
+                      ? "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logokoyu.png"
+                      : "https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/logoacik.png"
+                  }
                   alt="Guohong Lazer"
                   className="h-8 w-auto sm:h-9"
                 />
