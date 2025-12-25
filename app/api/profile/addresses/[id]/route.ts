@@ -2,28 +2,13 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return new Response(JSON.stringify({ error: 'Yetkisiz' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
   }
 
-  let id = params?.id;
-  if (!id) {
-    try {
-      const u = new URL(request.url);
-      const parts = u.pathname.split('/').filter(Boolean);
-      const idx = parts.lastIndexOf('addresses');
-      if (idx !== -1 && parts.length > idx + 1) {
-        id = parts[idx + 1];
-      } else {
-        id = parts[parts.length - 1];
-      }
-    } catch (err) {
-      console.error('Failed to parse id from request.url', request.url, err);
-    }
-  }
-  console.log('[PATCH] resolved id:', id, 'params:', params);
+  const { id } = await params;
   const body = await request.json();
 
   const data: any = {};
@@ -58,28 +43,13 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return new Response(JSON.stringify({ error: 'Yetkisiz' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
   }
 
-  let id = params?.id;
-  if (!id) {
-    try {
-      const u = new URL(request.url);
-      const parts = u.pathname.split('/').filter(Boolean);
-      const idx = parts.lastIndexOf('addresses');
-      if (idx !== -1 && parts.length > idx + 1) {
-        id = parts[idx + 1];
-      } else {
-        id = parts[parts.length - 1];
-      }
-    } catch (err) {
-      console.error('Failed to parse id from request.url', request.url, err);
-    }
-  }
-  console.log('[DELETE] resolved id:', id, 'params:', params);
+  const { id } = await params;
 
   try {
     const existing = await prisma.address.findUnique({ where: { id } });
