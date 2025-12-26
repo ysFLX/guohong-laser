@@ -118,34 +118,34 @@ export default function Home() {
         <div className="grid gap-6 lg:grid-cols-[240px_1fr_280px]">
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Hızlı Menü
                 </p>
                 <div className="mt-4 space-y-2 text-sm">
-                  <Link className="block text-white/80 hover:text-white" href="#hero">
+                  <Link className="block text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white" href="#hero">
                     Genel Bakış
                   </Link>
-                  <Link className="block text-white/80 hover:text-white" href="#video">
+                  <Link className="block text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white" href="#video">
                     Video Galerisi
                   </Link>
-                  <Link className="block text-white/80 hover:text-white" href="#hizmetler">
+                  <Link className="block text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white" href="#hizmetler">
                     Hizmetler
                   </Link>
-                  <Link className="block text-white/80 hover:text-white" href="#surec">
+                  <Link className="block text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white" href="#surec">
                     Süreç
                   </Link>
-                  <Link className="block text-white/80 hover:text-white" href="#referanslar">
+                  <Link className="block text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white" href="#referanslar">
                     Referanslar
                   </Link>
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Öncelikli Destek
                 </p>
-                <p className="mt-3 text-sm text-white/80">
+                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
                   Sac, boru ve demir kesim hatları için en doğru konfigürasyonu seçelim.
                 </p>
                 <Link
@@ -159,7 +159,7 @@ export default function Home() {
           </aside>
 
           <main>
-            <div className="overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/60 shadow-2xl backdrop-blur">
+            <div className="overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/60 text-white shadow-2xl backdrop-blur dark:border-white/10">
               <section id="hero" className="border-b border-white/10 px-6 py-6 sm:px-10 sm:py-8">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
@@ -405,51 +405,51 @@ export default function Home() {
 
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   İletişim
                 </p>
-                <p className="mt-3 text-sm text-white/80">
+                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
                   24 saat içinde geri dönüş hedefi.
                 </p>
-                <div className="mt-4 space-y-2 text-sm text-white/80">
+                <div className="mt-4 space-y-2 text-sm text-slate-700 dark:text-white/80">
                   <p>?? +90 536 831 67 87</p>
                   <p>?? info@guohonglaser.com</p>
                   <p>?? İstanbul</p>
                 </div>
                 <Link
                   href="/contact"
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
+                  className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/90 dark:hover:border-white/60 dark:hover:text-white"
                 >
                   İletişime Geç
                 </Link>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Katalog / Doküman
                 </p>
-                <p className="mt-3 text-sm text-white/80">
+                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
                   Teknik detayları tek dosyada toparlayın.
                 </p>
                 <Link
                   href="/downloads"
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900"
                 >
                   Dokümanlar
                 </Link>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Referans Portföy
                 </p>
-                <p className="mt-3 text-sm text-white/80">
+                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
                   Son kurulumlarımız ve başarı hikayeleri için galeriye göz atın.
                 </p>
                 <Link
                   href="/gallery"
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/90 dark:hover:border-white/60 dark:hover:text-white"
                 >
                   Galeriye Git
                 </Link>
@@ -461,7 +461,4 @@ export default function Home() {
     </div>
   );
 }
-
-
-
 
