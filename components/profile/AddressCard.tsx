@@ -35,14 +35,14 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
               <div className="text-sm text-gray-600 dark:text-gray-300">{address.fullName}</div>
             </div>
             {address.isDefault && (
-              <span className="ml-2 inline-block text-xs font-medium bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">VarsayÄ±lan</span>
+              <span className="ml-2 inline-block text-xs font-medium bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">Varsayılan</span>
             )}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <button
-            title="DÃ¼zenle"
+            title="Düzenle"
             className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => onEdit(address.id)}
           >
@@ -53,7 +53,7 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
           </button>
 
           <button
-            title="VarsayÄ±lan Yap"
+            title="Varsayılan Yap"
             className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => onMakeDefault(address.id)}
           >
@@ -83,5 +83,6 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
     </article>
   );
 }
+
 
 

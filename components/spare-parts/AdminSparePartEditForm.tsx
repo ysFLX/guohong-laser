@@ -1,4 +1,4 @@
-﻿'use client';
+﻿﻿﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -43,8 +43,8 @@ export default function AdminSparePartEditForm({
     <div className="mt-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-lg font-bold text-gray-900 dark:text-white">ÃœrÃ¼n Bilgileri</div>
-          <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">DeÄŸiÅŸiklikleri kaydetmek iÃ§in alttaki butonu kullan.</div>
+          <div className="text-lg font-bold text-gray-900 dark:text-white">Ürün Bilgileri</div>
+          <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Değişiklikleri kaydetmek için alttaki butonu kullan.</div>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default function AdminSparePartEditForm({
 
       <div className="mt-6 grid grid-cols-1 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-900 dark:text-white">ÃœrÃ¼n AdÄ±</label>
+          <label className="block text-sm font-semibold text-gray-900 dark:text-white">Ürün Adı</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -62,7 +62,7 @@ export default function AdminSparePartEditForm({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-900 dark:text-white">AÃ§Ä±klama</label>
+          <label className="block text-sm font-semibold text-gray-900 dark:text-white">Açıklama</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -73,11 +73,11 @@ export default function AdminSparePartEditForm({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white">Ã–lÃ§Ã¼ler</label>
+            <label className="block text-sm font-semibold text-gray-900 dark:text-white">Ölçüler</label>
             <input
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
-              placeholder="Ã–rn: M16, D30, F125"
+              placeholder="Örn: M16, D30, F125"
               className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
             />
           </div>
@@ -117,7 +117,7 @@ export default function AdminSparePartEditForm({
               onChange={(e) => setStockOnHand(e.target.value)}
               className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
             />
-            <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">Stok deÄŸiÅŸince otomatik ADJUSTMENT hareketi yazÄ±lÄ±r.</div>
+            <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">Stok değişince otomatik ADJUSTMENT hareketi yazılır.</div>
           </div>
         </div>
 
@@ -145,19 +145,19 @@ export default function AdminSparePartEditForm({
               const parsedStock = Number(stockOnHand);
 
               if (!name.trim()) {
-                setError('ÃœrÃ¼n adÄ± boÅŸ olamaz');
+                setError('Ürün adı boş olamaz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
-                setError('Fiyat geÃ§ersiz');
+                setError('Fiyat geçersiz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedStock) || parsedStock < 0) {
-                setError('Stok geÃ§ersiz');
+                setError('Stok geçersiz');
                 setIsSaving(false);
                 return;
               }
@@ -198,5 +198,6 @@ export default function AdminSparePartEditForm({
     </div>
   );
 }
+
 
 

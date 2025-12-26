@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+﻿﻿﻿import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { prisma } from '@/lib/prisma';
@@ -92,7 +92,7 @@ export default async function SparePartDetailPage({
       <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between">
           <Link href="/spare-parts" className="text-sm font-semibold text-gray-700 dark:text-gray-200 hover:underline">
-            â† Yedek ParÃ§alara DÃ¶n
+            ← Yedek Parçalara Dön
           </Link>
           {p.isFeatured && (
             <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-900 text-white">
@@ -126,7 +126,7 @@ export default async function SparePartDetailPage({
                 Stok: <span className="font-semibold">{p.stockOnHand}</span>
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">
-                Ã–lÃ§Ã¼: <span className="font-semibold">{p.dimensions || '-'}</span>
+                Ölçü: <span className="font-semibold">{p.dimensions || '-'}</span>
               </div>
             </div>
 
@@ -149,7 +149,7 @@ export default async function SparePartDetailPage({
                 href="/contact"
                 className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
               >
-                ÃœrÃ¼n HakkÄ±nda Sor
+                Ürün Hakkında Sor
               </Link>
             </div>
           </div>
@@ -158,5 +158,6 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
+
 
 

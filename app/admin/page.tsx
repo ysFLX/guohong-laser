@@ -210,7 +210,7 @@ export default async function AdminHomePage() {
                       )}
                     </div>
                     <div className="text-xs text-gray-600 dark:text-gray-300">
-                      {p.category.name} Â· Stok: {p.stockOnHand} Â· {formatPriceTry(p.priceCents)}
+                      {p.category.name} · Stok: {p.stockOnHand} · {formatPriceTry(p.priceCents)}
                     </div>
                   </div>
                   <Link
@@ -260,10 +260,10 @@ export default async function AdminHomePage() {
                 <div key={inq.id} className="rounded-xl border border-gray-100 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-900/40">
                   <div className="flex items-center justify-between gap-2">
                     <div className="text-sm font-semibold text-gray-900 dark:text-white">
-                      {inq.name || 'Isim yok'} Â· {inq.email}
+                      {inq.name || 'Isim yok'} · {inq.email}
                     </div>
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusBadge(inq.status)}`}>
-                      {typeLabel(inq.type)} Â· {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapali'}
+                      {typeLabel(inq.type)} · {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapali'}
                     </span>
                   </div>
                   <div className="mt-1 text-xs text-gray-500 dark:text-gray-300">{formatDateTime(inq.createdAt)}</div>
@@ -282,5 +282,6 @@ export default async function AdminHomePage() {
     </div>
   );
 }
+
 
 

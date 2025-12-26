@@ -200,7 +200,7 @@ export default function ProfilePage() {
                   <h1 className="text-2xl font-bold text-gray-900">{userName || 'Hesabim'}</h1>
                   <div className="mt-1 text-sm text-gray-600">
                     {profile?.email ?? session.user.email ?? ''}
-                    {(session.user as SessionUserWithRole).role === 'ADMIN' ? ' Â· Admin' : ''}
+                    {(session.user as SessionUserWithRole).role === 'ADMIN' ? ' · Admin' : ''}
                   </div>
                 </div>
               </div>
@@ -343,5 +343,6 @@ export default function ProfilePage() {
     </div>
   );
 }
+
 
 

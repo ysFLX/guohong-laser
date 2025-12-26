@@ -1,28 +1,28 @@
-﻿'use client';
+﻿﻿﻿'use client';
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-// Ekip Ã¼yeleri iÃ§in geÃ§ici resim URL'leri
+// Ekip üyeleri için geçici resim URL'leri
 const teamMembers = [
   {
     name: 'Fatih Turgut Polat',
-    role: 'SatÄ±ÅŸ MÃ¼dÃ¼rÃ¼',
+    role: 'Satış Müdürü',
     image: 'https://randomuser.me/api/portraits/men/1.jpg',
   },
   {
     name: 'Arafat Uygur',
-    role: 'SatÄ±ÅŸ MÃ¼dÃ¼rÃ¼',
+    role: 'Satış Müdürü',
     image: 'https://randomuser.me/api/portraits/men/2.jpg',
   },
   {
-    name: 'Yusuf Can GÃ¶rdebil',
-    role: 'SatÄ±ÅŸ Pazarlama',
+    name: 'Yusuf Can Gördebil',
+    role: 'Satış Pazarlama',
     image: 'https://randomuser.me/api/portraits/men/3.jpg',
   },
   {
-    name: 'Yusuf KÃ¼Ã§Ã¼ktongarlak',
-    role: 'Sosyal Medya YÃ¶neticisi',
+    name: 'Yusuf Küçüktongarlak',
+    role: 'Sosyal Medya Yöneticisi',
     image: 'https://randomuser.me/api/portraits/men/4.jpg',
   },
 ];
@@ -41,7 +41,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-emerald-100 bg-emerald-700/30 rounded-full backdrop-blur-sm"
             >
-              HakkÄ±mÄ±zda
+              Hakkımızda
             </motion.span>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -53,7 +53,7 @@ export default function AboutPage() {
                 Lazer Teknolojisinde
               </span>
               <span className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-400">
-                GeleceÄŸi Åekillendiriyoruz
+                Geleceği Şekillendiriyoruz
               </span>
             </motion.h1>
             <motion.div 
@@ -63,10 +63,10 @@ export default function AboutPage() {
               className="mt-8 max-w-3xl mx-auto text-xl text-emerald-100 leading-relaxed space-y-4"
             >
               <p className="text-emerald-50 font-medium">
-                SektÃ¶rdeki 10+ yÄ±llÄ±k deneyimimizle, en ileri teknoloji lazer Ã§Ã¶zÃ¼mleri sunuyoruz.
+                Sektördeki 10+ yıllık deneyimimizle, en ileri teknoloji lazer çözümleri sunuyoruz.
               </p>
               <p className="text-emerald-100/90">
-                MÃ¼ÅŸteri odaklÄ± yaklaÅŸÄ±mÄ±mÄ±z ve yenilikÃ§i Ã§Ã¶zÃ¼mlerimizle, iÅŸletmenizin ihtiyaÃ§larÄ±na Ã¶zel Ã§Ã¶zÃ¼mler Ã¼retiyoruz.
+                Müşteri odaklı yaklaşımımız ve yenilikçi çözümlerimizle, işletmenizin ihtiyaçlarına özel çözümler üretiyoruz.
               </p>
             </motion.div>
             <motion.div
@@ -79,13 +79,13 @@ export default function AboutPage() {
                 href="#iletisim"
                 className="px-8 py-4 bg-white text-emerald-700 font-medium rounded-lg hover:bg-emerald-50 transition-all duration-300 shadow-lg hover:shadow-xl text-center"
               >
-                Hemen Teklif AlÄ±n
+                Hemen Teklif Alın
               </a>
               <a
                 href="#urunler"
                 className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300 text-center"
               >
-                ÃœrÃ¼nleri KeÅŸfedin
+                Ürünleri Keşfedin
               </a>
             </motion.div>
           </div>
@@ -104,7 +104,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="text-base text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide uppercase"
             >
-              HakkÄ±mÄ±zda
+              Hakkımızda
             </motion.span>
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
@@ -113,7 +113,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
             >
-              Guohong Lazer&apos;e HoÅŸ Geldiniz
+              Guohong Lazer&apos;e Hoş Geldiniz
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -122,7 +122,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto"
             >
-              YÃ¼ksek kaliteli lazer makineleri ve yedek parÃ§alarÄ± ile sektÃ¶rde Ã¶ncÃ¼yÃ¼z.
+              Yüksek kaliteli lazer makineleri ve yedek parçaları ile sektörde öncüyüz.
             </motion.p>
           </div>
 
@@ -153,12 +153,12 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">FirmamÄ±z</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Firmamız</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Guohong Lazer olarak, sektÃ¶rdeki 10 yÄ±lÄ± aÅŸkÄ±n deneyimimizle, en son teknoloji lazer makineleri ve yedek parÃ§alarÄ± Ã¼retiyoruz. MÃ¼ÅŸteri memnuniyetini her zaman Ã¶n planda tutarak, kaliteli ve gÃ¼venilir Ã¼rÃ¼nler sunuyoruz.
+                  Guohong Lazer olarak, sektördeki 10 yılı aşkın deneyimimizle, en son teknoloji lazer makineleri ve yedek parçaları üretiyoruz. Müşteri memnuniyetini her zaman ön planda tutarak, kaliteli ve güvenilir ürünler sunuyoruz.
                 </p>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Uzman ekibimiz, her bÃ¼tÃ§eye uygun Ã§Ã¶zÃ¼mler sunarak mÃ¼ÅŸterilerimizin ihtiyaÃ§larÄ±nÄ± en iyi ÅŸekilde karÅŸÄ±lamak iÃ§in Ã§alÄ±ÅŸmaktadÄ±r.
+                  Uzman ekibimiz, her bütçeye uygun çözümler sunarak müşterilerimizin ihtiyaçlarını en iyi şekilde karşılamak için çalışmaktadır.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mt-8">
                   <motion.div 
@@ -166,14 +166,14 @@ export default function AboutPage() {
                     className="p-4 bg-emerald-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
                   >
                     <h4 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">10+</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">YÄ±llÄ±k Deneyim</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Yıllık Deneyim</p>
                   </motion.div>
                   <motion.div 
                     whileHover={{ y: -5 }}
                     className="p-4 bg-emerald-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
                   >
                     <h4 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">500+</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Mutlu MÃ¼ÅŸteri</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Mutlu Müşteri</p>
                   </motion.div>
                 </div>
               </motion.div>
@@ -200,7 +200,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Vizyonumuz</h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Lazer teknolojileri alanÄ±nda dÃ¼nya Ã§apÄ±nda tanÄ±nan, yenilikÃ§i ve sÃ¼rdÃ¼rÃ¼lebilir Ã§Ã¶zÃ¼mler sunan Ã¶ncÃ¼ bir marka olmak. EndÃ¼stri 4.0&apos;a uyumlu, akÄ±llÄ± Ã¼retim Ã§Ã¶zÃ¼mleriyle sektÃ¶rde fark yaratmayÄ± hedefliyoruz.
+                Lazer teknolojileri alanında dünya çapında tanınan, yenilikçi ve sürdürülebilir çözümler sunan öncü bir marka olmak. Endüstri 4.0&apos;a uyumlu, akıllı üretim çözümleriyle sektörde fark yaratmayı hedefliyoruz.
               </p>
             </motion.div>
 
@@ -218,7 +218,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Misyonumuz</h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                MÃ¼ÅŸterilerimize en yÃ¼ksek kalitede lazer makineleri ve yedek parÃ§alarÄ± sunarak, iÅŸ sÃ¼reÃ§lerini optimize etmek ve verimliliklerini artÄ±rmak iÃ§in Ã§Ã¶zÃ¼mler Ã¼retmek. SÃ¼rekli AR-GE Ã§alÄ±ÅŸmalarÄ±mÄ±zla yenilikÃ§i Ã¼rÃ¼nler geliÅŸtirerek sektÃ¶re yÃ¶n veriyoruz.
+                Müşterilerimize en yüksek kalitede lazer makineleri ve yedek parçaları sunarak, iş süreçlerini optimize etmek ve verimliliklerini artırmak için çözümler üretmek. Sürekli AR-GE çalışmalarımızla yenilikçi ürünler geliştirerek sektöre yön veriyoruz.
               </p>
             </motion.div>
           </div>
@@ -245,7 +245,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 mx-auto"
             >
-              Deneyimli ve uzman kadromuzla yanÄ±nÄ±zdayÄ±z.
+              Deneyimli ve uzman kadromuzla yanınızdayız.
             </motion.p>
           </div>
 
@@ -304,11 +304,11 @@ export default function AboutPage() {
             className="lg:w-2/3"
           >
             <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              <span className="block">HazÄ±r mÄ±sÄ±nÄ±z?</span>
-              <span className="block text-emerald-100">Hemen teklif alÄ±n veya bizimle iletiÅŸime geÃ§in.</span>
+              <span className="block">Hazır mısınız?</span>
+              <span className="block text-emerald-100">Hemen teklif alın veya bizimle iletişime geçin.</span>
             </h2>
             <p className="mt-3 max-w-3xl text-lg leading-6 text-emerald-100">
-              Uzman ekibimiz, ihtiyaÃ§larÄ±nÄ±za en uygun Ã§Ã¶zÃ¼mler iÃ§in size yardÄ±mcÄ± olmaktan mutluluk duyacaktÄ±r.
+              Uzman ekibimiz, ihtiyaçlarınıza en uygun çözümler için size yardımcı olmaktan mutluluk duyacaktır.
             </p>
           </motion.div>
           <motion.div 
@@ -323,7 +323,7 @@ export default function AboutPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-white hover:bg-emerald-50 transition-colors duration-300"
               >
-                Ä°letiÅŸime GeÃ§in
+                İletişime Geçin
               </a>
             </div>
             <div className="ml-3 inline-flex rounded-md shadow">
@@ -331,7 +331,7 @@ export default function AboutPage() {
                 href="/products"
                 className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 bg-opacity-70 hover:bg-opacity-90 transition-all duration-300"
               >
-                ÃœrÃ¼nlerimiz
+                Ürünlerimiz
               </a>
             </div>
           </motion.div>
@@ -340,4 +340,5 @@ export default function AboutPage() {
     </div>
   );
 }
+
 
