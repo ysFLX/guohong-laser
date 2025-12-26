@@ -17,7 +17,10 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
   }, [isOpen]);
 
   return (
-    <div className={`fixed inset-0 z-[80] ${isOpen ? '' : 'pointer-events-none'}`}>
+    <div
+      className={`fixed inset-0 z-[80] ${isOpen ? '' : 'pointer-events-none hidden'}`}
+      aria-hidden={!isOpen}
+    >
       <div
         className={`absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] transition-opacity duration-200 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
