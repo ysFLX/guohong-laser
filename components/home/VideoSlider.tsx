@@ -34,8 +34,6 @@ export default function VideoSlider({
   }, [autoAdvanceMs, items.length]);
 
   useEffect(() => {
-    setPlayBlocked(false);
-
     videoRefs.current.forEach((video, i) => {
       if (!video) return;
       if (i === index) {
