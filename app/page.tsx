@@ -394,13 +394,13 @@ export default function Home() {
                     <div className="flex flex-col gap-3 sm:flex-row">
                       <Link
                         href="/quote"
-                        className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
+                        className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
                       >
                         Hemen Teklif Al
                       </Link>
                       <Link
                         href="/contact"
-                        className="inline-flex items-center justify-center rounded-full border border-white/50 px-7 py-3 text-sm font-semibold text-white transition hover:border-white"
+                        className="inline-flex items-center justify-center rounded-full border border-white/70 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:border-white"
                       >
                         İletişime Geçin
                       </Link>
@@ -469,5 +469,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 
