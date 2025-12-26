@@ -105,13 +105,13 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className={`${manrope.className} min-h-screen bg-slate-950 text-white`}>
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-40" />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.98),_rgba(15,23,42,0.94))]" />
-        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[140px]" />
-        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[160px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:52px_52px] opacity-30" />
+    <div className={`${manrope.className} relative z-0 min-h-screen bg-slate-900 text-white`}>
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-25" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
+        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/15 blur-[160px]" />
+        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[180px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:64px_64px] opacity-20" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -461,4 +461,5 @@ export default function Home() {
     </div>
   );
 }
+
 
