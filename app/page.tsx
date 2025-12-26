@@ -1,4 +1,4 @@
-import Image from "next/image";
+ï»¿import Image from "next/image";
 import Link from "next/link";
 import { Manrope } from "next/font/google";
 
@@ -28,77 +28,77 @@ const heroVideos = [
 ];
 
 const stats = [
-  { name: "Yıllık Deneyim", value: "10+" },
-  { name: "Mutlu Müşteri", value: "500+" },
+  { name: "YÄ±llÄ±k Deneyim", value: "10+" },
+  { name: "Mutlu MÃ¼ÅŸteri", value: "500+" },
   { name: "Tamamlanan Proje", value: "1000+" },
-  { name: "Aktif Servis Noktası", value: "24" },
+  { name: "Aktif Servis NoktasÄ±", value: "24" },
 ];
 
 const services = [
   {
     name: "Lazer Kesim Makineleri",
-    description: "Sac, boru ve demir kesim hatlarında yüksek performans.",
+    description: "Sac, boru ve demir kesim hatlarÄ±nda yÃ¼ksek performans.",
     href: "/products?category=Sac+Kesim",
   },
   {
     name: "Teknik Servis",
-    description: "Bakım, arıza ve performans iyileştirme çözümleri.",
+    description: "BakÄ±m, arÄ±za ve performans iyileÅŸtirme Ã§Ã¶zÃ¼mleri.",
     href: "/contact?subject=Teknik+Servis",
   },
   {
-    name: "Yedek Parça",
-    description: "Orijinal yedek parça ve hızlı temin ağı.",
+    name: "Yedek ParÃ§a",
+    description: "Orijinal yedek parÃ§a ve hÄ±zlÄ± temin aÄŸÄ±.",
     href: "/products?category=Yedek+Par%C3%A7a",
   },
   {
-    name: "Danışmanlık",
-    description: "Üretim hattınıza özel planlama ve teknoloji danışmanlığı.",
+    name: "DanÄ±ÅŸmanlÄ±k",
+    description: "Ãœretim hattÄ±nÄ±za Ã¶zel planlama ve teknoloji danÄ±ÅŸmanlÄ±ÄŸÄ±.",
     href: "/contact?subject=Dan%C4%B1%C5%9Fmanl%C4%B1k",
   },
 ];
 
 const process = [
   {
-    title: "Keşif ve analiz",
-    description: "Üretim ihtiyaçlarınızı ve hedef kapasiteyi netleştiriyoruz.",
+    title: "KeÅŸif ve analiz",
+    description: "Ãœretim ihtiyaÃ§larÄ±nÄ±zÄ± ve hedef kapasiteyi netleÅŸtiriyoruz.",
   },
   {
     title: "Teknik teklif",
-    description: "Sahaya uygun makine konfigürasyonu ve yatırım planı.",
+    description: "Sahaya uygun makine konfigÃ¼rasyonu ve yatÄ±rÄ±m planÄ±.",
   },
   {
-    title: "Kurulum ve eğitim",
-    description: "Kurulum, test ve operatör eğitimini uçtan uca sağlıyoruz.",
+    title: "Kurulum ve eÄŸitim",
+    description: "Kurulum, test ve operatÃ¶r eÄŸitimini uÃ§tan uca saÄŸlÄ±yoruz.",
   },
   {
-    title: "Sürekli destek",
-    description: "Bakım, yedek parça ve performans geliştirme takibi.",
+    title: "SÃ¼rekli destek",
+    description: "BakÄ±m, yedek parÃ§a ve performans geliÅŸtirme takibi.",
   },
 ];
 
 const testimonials = [
   {
-    name: "Ahmet Yılmaz",
-    role: "Üretim Müdürü",
+    name: "Ahmet YÄ±lmaz",
+    role: "Ãœretim MÃ¼dÃ¼rÃ¼",
     company: "ABC Metal Sanayi",
     content:
-      "Makine kalitesi kadar sonrası destek süreçleri de kusursuz. Duruş süreleri azaldı.",
+      "Makine kalitesi kadar sonrasÄ± destek sÃ¼reÃ§leri de kusursuz. DuruÅŸ sÃ¼releri azaldÄ±.",
     avatar: "/images/avatar1.jpg",
   },
   {
-    name: "Ayşe Kaya",
-    role: "İşletme Sahibi",
+    name: "AyÅŸe Kaya",
+    role: "Ä°ÅŸletme Sahibi",
     company: "Kaya Metal",
     content:
-      "Yedek parça hızı ve teknik ekip erişimi bizi ciddi anlamda rahatlatıyor.",
+      "Yedek parÃ§a hÄ±zÄ± ve teknik ekip eriÅŸimi bizi ciddi anlamda rahatlatÄ±yor.",
     avatar: "/images/avatar2.jpg",
   },
   {
     name: "Mehmet Demir",
-    role: "Teknik Müdür",
-    company: "Demir Çelik A.Ş.",
+    role: "Teknik MÃ¼dÃ¼r",
+    company: "Demir Ã‡elik A.Å.",
     content:
-      "Kurulum süreci planlandığı gibi ilerledi, performans hedeflerimizi yakaladık.",
+      "Kurulum sÃ¼reci planlandÄ±ÄŸÄ± gibi ilerledi, performans hedeflerimizi yakaladÄ±k.",
     avatar: "/images/avatar3.jpg",
   },
 ];
@@ -123,25 +123,25 @@ export default function Home() {
             </div>
             <h1 className="mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
               Lazer kesimde
-              <span className="block text-emerald-200">yeni bir kalite standardı</span>
+              <span className="block text-emerald-200">yeni bir kalite standardÄ±</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate-200">
-              Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı
-              sürekli artıran lazer teknolojileri. Guohong Laser ile üretiminizi
-              geleceğe taşıyın.
+              Ãœretim hattÄ±nÄ±zÄ± hÄ±zlandÄ±ran, fire oranÄ±nÄ± dÃ¼ÅŸÃ¼ren ve performansÄ±
+              sÃ¼rekli artÄ±ran lazer teknolojileri. Guohong Laser ile Ã¼retiminizi
+              geleceÄŸe taÅŸÄ±yÄ±n.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/spare-parts"
                 className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
               >
-                Ürünleri Keşfet
+                ÃœrÃ¼nleri KeÅŸfet
               </Link>
               <Link
                 href="/quote"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
               >
-                Ücretsiz Teklif Al
+                Ãœcretsiz Teklif Al
               </Link>
             </div>
 
@@ -163,10 +163,10 @@ export default function Home() {
           <div className="relative hidden min-h-[520px] lg:block">
             <div className="absolute right-10 top-6 w-64 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
               <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                Akıllı Üretim
+                AkÄ±llÄ± Ãœretim
               </p>
               <p className="mt-2 text-sm text-white/80">
-                Sensör destekli hat yönetimi ve anlık performans takibi.
+                SensÃ¶r destekli hat yÃ¶netimi ve anlÄ±k performans takibi.
               </p>
             </div>
             <div className="absolute bottom-16 left-0 w-64 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
@@ -174,14 +174,14 @@ export default function Home() {
                 Verimlilik
               </p>
               <p className="mt-2 text-sm text-white/80">
-                Üretimde %30'a varan hız artışı için optimize çözümler.
+                Ãœretimde %30'a varan hÄ±z artÄ±ÅŸÄ± iÃ§in optimize Ã§Ã¶zÃ¼mler.
               </p>
             </div>
             <div className="absolute inset-0">
               <div className="absolute left-10 top-20 h-[420px] w-[320px] rotate-[-4deg] overflow-hidden rounded-[36px] border border-white/10 shadow-2xl">
                 <Image
                   src="/images/about-showcase.jpg"
-                  alt="Guohong Laser üretim sahası"
+                  alt="Guohong Laser Ã¼retim sahasÄ±"
                   fill
                   className="object-cover"
                   priority
@@ -190,7 +190,7 @@ export default function Home() {
               <div className="absolute bottom-0 right-0 h-[300px] w-[240px] rotate-[6deg] overflow-hidden rounded-[32px] border border-white/10 shadow-2xl">
                 <Image
                   src="/images/3.jpg"
-                  alt="Lazer kesim uygulaması"
+                  alt="Lazer kesim uygulamasÄ±"
                   fill
                   className="object-cover"
                 />
@@ -209,7 +209,7 @@ export default function Home() {
                   Video Galerisi
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">
-                  Üretim hatlarını yakından inceleyin
+                  Ãœretim hatlarÄ±nÄ± yakÄ±ndan inceleyin
                 </h2>
               </div>
               <Link
@@ -232,11 +232,11 @@ export default function Home() {
                 Neden Guohong?
               </p>
               <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
-                Teknoloji, hız ve tasarım tek bir ekosistemde
+                Teknoloji, hÄ±z ve tasarÄ±m tek bir ekosistemde
               </h2>
               <p className="mt-5 text-lg text-slate-600">
-                Her üretim hattı benzersizdir. Bu yüzden çözümlerimizi her
-                projede yeniden şekillendiriyor, performans ve güveni aynı anda
+                Her Ã¼retim hattÄ± benzersizdir. Bu yÃ¼zden Ã§Ã¶zÃ¼mlerimizi her
+                projede yeniden ÅŸekillendiriyor, performans ve gÃ¼veni aynÄ± anda
                 sunuyoruz.
               </p>
             </div>
@@ -245,17 +245,17 @@ export default function Home() {
                 {
                   title: "Mikron hassasiyet",
                   description:
-                    "Kesim kalitesinde milimetrik değil, mikron seviyesinde netlik.",
+                    "Kesim kalitesinde milimetrik deÄŸil, mikron seviyesinde netlik.",
                 },
                 {
-                  title: "Tasarım + üretim gücü",
+                  title: "TasarÄ±m + Ã¼retim gÃ¼cÃ¼",
                   description:
-                    "Mühendislik yaklaşımıyla her hat için optimize edilmiş çözüm.",
+                    "MÃ¼hendislik yaklaÅŸÄ±mÄ±yla her hat iÃ§in optimize edilmiÅŸ Ã§Ã¶zÃ¼m.",
                 },
                 {
-                  title: "Sürekli destek",
+                  title: "SÃ¼rekli destek",
                   description:
-                    "Kurulum sonrası eğitim, bakım ve hızlı yedek parça erişimi.",
+                    "Kurulum sonrasÄ± eÄŸitim, bakÄ±m ve hÄ±zlÄ± yedek parÃ§a eriÅŸimi.",
                 },
               ].map((item) => (
                 <div
@@ -263,7 +263,7 @@ export default function Home() {
                   className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-lg"
                 >
                   <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
-                    Özellik
+                    Ã–zellik
                   </p>
                   <h3 className="mt-3 text-lg font-semibold text-slate-900">
                     {item.title}
@@ -285,10 +285,10 @@ export default function Home() {
               Hizmetler
             </p>
             <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              Uçtan uca lazer çözümleri
+              UÃ§tan uca lazer Ã§Ã¶zÃ¼mleri
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
-              Makine, servis ve danışmanlıkta tek adres ile üretim gücünüzü büyütün.
+              Makine, servis ve danÄ±ÅŸmanlÄ±kta tek adres ile Ã¼retim gÃ¼cÃ¼nÃ¼zÃ¼ bÃ¼yÃ¼tÃ¼n.
             </p>
           </div>
 
@@ -303,7 +303,7 @@ export default function Home() {
                   <h3 className="text-lg font-semibold text-white">
                     {service.name}
                   </h3>
-                  <span className="text-emerald-200">›</span>
+                  <span className="text-emerald-200">â€º</span>
                 </div>
                 <p className="mt-3 text-sm text-slate-300">
                   {service.description}
@@ -319,13 +319,13 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
-                Süreç
+                SÃ¼reÃ§
               </p>
               <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
-                Şeffaf ve kontrollü proje yönetimi
+                Åeffaf ve kontrollÃ¼ proje yÃ¶netimi
               </h2>
               <p className="mt-4 text-lg text-slate-600">
-                Teklif aşamasından satış sonrası desteğe kadar planlı ve ölçümlenebilir bir sistem.
+                Teklif aÅŸamasÄ±ndan satÄ±ÅŸ sonrasÄ± desteÄŸe kadar planlÄ± ve Ã¶lÃ§Ã¼mlenebilir bir sistem.
               </p>
             </div>
             <div className="space-y-6">
@@ -361,10 +361,10 @@ export default function Home() {
               Referanslar
             </p>
             <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              İş ortaklarımızın deneyimleri
+              Ä°ÅŸ ortaklarÄ±mÄ±zÄ±n deneyimleri
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
-              Güven veren iş birlikleri ile her yıl daha fazla üretim hattı güçleniyor.
+              GÃ¼ven veren iÅŸ birlikleri ile her yÄ±l daha fazla Ã¼retim hattÄ± gÃ¼Ã§leniyor.
             </p>
           </div>
 
@@ -389,12 +389,12 @@ export default function Home() {
                       {testimonial.name}
                     </p>
                     <p className="text-xs text-slate-300">
-                      {testimonial.role} · {testimonial.company}
+                      {testimonial.role} Â· {testimonial.company}
                     </p>
                   </div>
                 </div>
                 <p className="mt-4 text-sm text-slate-200">
-                  “{testimonial.content}”
+                  â€œ{testimonial.content}â€
                 </p>
               </div>
             ))}
@@ -406,13 +406,13 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:justify-between lg:px-8">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
-              Hemen Başlayın
+              Hemen BaÅŸlayÄ±n
             </p>
             <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
+              Ãœretiminizi gÃ¼Ã§lendirecek doÄŸru Ã§Ã¶zÃ¼mÃ¼ birlikte seÃ§elim
             </h2>
             <p className="mt-4 max-w-2xl text-lg text-emerald-100">
-              Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
+              Uzman ekibimiz ihtiyacÄ±nÄ±za uygun yapÄ±landÄ±rmayÄ± hÄ±zla hazÄ±rlasÄ±n.
             </p>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row lg:mt-0">
@@ -426,7 +426,7 @@ export default function Home() {
               href="/contact"
               className="inline-flex items-center justify-center rounded-full border border-white/50 px-7 py-3 text-sm font-semibold text-white transition hover:border-white"
             >
-              İletişime Geçin
+              Ä°letiÅŸime GeÃ§in
             </Link>
           </div>
         </div>
@@ -434,3 +434,4 @@ export default function Home() {
     </div>
   );
 }
+
