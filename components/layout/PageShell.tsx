@@ -81,7 +81,7 @@ export default function PageShell({ children }: PageShellProps) {
                 </p>
                 <div className="mt-4 space-y-2 text-sm text-slate-700 dark:text-white/80">
                   <p>📞 +90 536 831 67 87</p>
-                  <p>✉️ info@guohonglaser.com</p>
+                  <p>✉️ guohonglazerinfo@gmail.com</p>
                   <p>📍 İstanbul</p>
                 </div>
                 <Link
