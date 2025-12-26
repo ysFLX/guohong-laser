@@ -159,16 +159,19 @@ export default function Home() {
           </aside>
 
           <main>
-            <div className="overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/60 text-white shadow-2xl backdrop-blur dark:border-white/10">
+            <div className="overflow-hidden rounded-[36px] border border-slate-200/70 bg-white/85 text-slate-900 shadow-2xl backdrop-blur dark:border-white/10 dark:bg-slate-950/60 dark:text-white">
               <section id="hero" className="border-b border-white/10 px-6 py-6 sm:px-10 sm:py-8">
-                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                <div className="inline-flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/70 px-4 py-2 text-xs uppercase tracking-[0.4em] text-slate-600 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-300" />
                   Guohong Laser
                 </div>
                 <h1 className="mt-5 text-3xl font-semibold leading-tight sm:text-4xl">
-                  Lazer kesimde <span className="text-emerald-200">yeni bir kalite standardı</span>
+                  Lazer kesimde{" "}
+                  <span className="text-emerald-600 dark:text-emerald-200">
+                    yeni bir kalite standardı
+                  </span>
                 </h1>
-                <p className="mt-4 max-w-2xl text-base text-slate-200">
+                <p className="mt-4 max-w-2xl text-base text-slate-600 dark:text-slate-200">
                   Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı sürekli artıran
                   lazer teknolojileri. Guohong Laser ile üretiminizi geleceğe taşıyın.
                 </p>
@@ -194,29 +197,31 @@ export default function Home() {
                   {stats.map((stat) => (
                     <div
                       key={stat.name}
-                      className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4"
+                      className="rounded-2xl border border-slate-200/70 bg-white/70 px-4 py-4 dark:border-white/10 dark:bg-white/5"
                     >
-                      <p className="text-2xl font-semibold text-white">{stat.value}</p>
-                      <p className="text-xs uppercase tracking-widest text-white/60">
+                      <p className="text-2xl font-semibold text-slate-900 dark:text-white">
+                        {stat.value}
+                      </p>
+                      <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-white/60">
                         {stat.name}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <section id="video" className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
+                <section id="video" className="rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow-xl dark:border-white/10 dark:bg-white/5">
                   <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                      <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
                         Video Galerisi
                       </p>
-                      <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">
+                      <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
                         Üretim hatlarını yakından inceleyin
                       </h2>
                     </div>
                     <Link
                       href="/gallery"
-                      className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-white hover:text-white"
+                      className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/80 dark:hover:border-white dark:hover:text-white"
                     >
                       Galeriye Git
                     </Link>
@@ -226,10 +231,10 @@ export default function Home() {
 
                 <section id="hizmetler" className="space-y-5">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
                       Hizmetler
                     </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-white">
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                       Uçtan uca lazer çözümleri
                     </h2>
                   </div>
@@ -239,15 +244,15 @@ export default function Home() {
                       <Link
                         key={service.name}
                         href={service.href}
-                        className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-emerald-300"
+                        className="group rounded-2xl border border-slate-200/70 bg-white/80 p-6 transition hover:-translate-y-1 hover:border-emerald-300 dark:border-white/10 dark:bg-white/5"
                       >
                         <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-semibold text-white">
+                          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                             {service.name}
                           </h3>
-                          <span className="text-emerald-200">›</span>
+                          <span className="text-emerald-600 dark:text-emerald-200">›</span>
                         </div>
-                        <p className="mt-3 text-sm text-slate-300">
+                        <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
                           {service.description}
                         </p>
                       </Link>
@@ -256,14 +261,14 @@ export default function Home() {
                 </section>
 
                 <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-                  <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                  <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5">
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
                       Sahadan Notlar
                     </p>
-                    <h3 className="mt-3 text-xl font-semibold text-white">
+                    <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
                       Akıllı üretim hattı entegrasyonu
                     </h3>
-                    <p className="mt-3 text-sm text-slate-300">
+                    <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
                       Sensör destekli hat yönetimi, gerçek zamanlı performans takibi ve enerji
                       optimizasyonu ile süreçleri ölçülebilir hale getiriyoruz.
                     </p>
@@ -274,7 +279,10 @@ export default function Home() {
                         "Otomatik bakım takvimi",
                         "Enerji tüketimi kontrolü",
                       ].map((item) => (
-                        <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
+                        <div
+                          key={item}
+                          className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3 text-sm text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80"
+                        >
                           {item}
                         </div>
                       ))}
@@ -299,10 +307,10 @@ export default function Home() {
 
                 <section id="surec" className="space-y-5">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
                       Süreç
                     </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-white">
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                       Şeffaf ve kontrollü proje yönetimi
                     </h2>
                   </div>
@@ -311,17 +319,17 @@ export default function Home() {
                     {process.map((step, index) => (
                       <div
                         key={step.title}
-                        className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                        className="rounded-2xl border border-slate-200/70 bg-white/80 p-5 dark:border-white/10 dark:bg-white/5"
                       >
                         <div className="flex items-start gap-4">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-sm font-semibold text-white">
                             {String(index + 1).padStart(2, "0")}
                           </div>
                           <div>
-                            <h3 className="text-base font-semibold text-white">
+                            <h3 className="text-base font-semibold text-slate-900 dark:text-white">
                               {step.title}
                             </h3>
-                            <p className="mt-1 text-sm text-slate-300">
+                            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                               {step.description}
                             </p>
                           </div>
@@ -333,10 +341,10 @@ export default function Home() {
 
                 <section id="referanslar" className="space-y-5">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
                       Referanslar
                     </p>
-                    <h2 className="mt-2 text-2xl font-semibold text-white">
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                       İş ortaklarımızın deneyimleri
                     </h2>
                   </div>
@@ -345,7 +353,7 @@ export default function Home() {
                     {testimonials.map((t) => (
                       <div
                         key={t.name}
-                        className="rounded-2xl border border-white/10 bg-white/5 p-6"
+                        className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5"
                       >
                         <div className="flex items-center gap-4">
                           <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
@@ -358,13 +366,13 @@ export default function Home() {
                             />
                           </div>
                           <div>
-                            <p className="text-sm font-semibold text-white">{t.name}</p>
-                            <p className="text-xs text-slate-300">
+                            <p className="text-sm font-semibold text-slate-900 dark:text-white">{t.name}</p>
+                            <p className="text-xs text-slate-600 dark:text-slate-300">
                               {t.role} · {t.company}
                             </p>
                           </div>
                         </div>
-                        <p className="mt-4 text-sm text-slate-200">“{t.content}”</p>
+                        <p className="mt-4 text-sm text-slate-600 dark:text-slate-200">“{t.content}”</p>
                       </div>
                     ))}
                   </div>
@@ -461,4 +469,5 @@ export default function Home() {
     </div>
   );
 }
+
 
