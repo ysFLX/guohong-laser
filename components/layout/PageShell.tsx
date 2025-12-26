@@ -1,22 +1,325 @@
-import Link from "next/link";
-import React from "react";
+﻿'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
 type PageShellProps = {
   children: React.ReactNode;
 };
 
-const quickLinks = [
-  { label: "Ana Sayfa", href: "/" },
-  { label: "Makineler", href: "/products" },
-  { label: "Yedek Parçalar", href: "/spare-parts" },
-  { label: "Galeri", href: "/gallery" },
-  { label: "Hakkımızda", href: "/about" },
-  { label: "İletişim", href: "/contact" },
+type Card = {
+  title: string;
+  description: string;
+  cta?: { label: string; href: string };
+  list?: string[];
+};
+
+type PagePanels = {
+  left: Card[];
+  right: Card[];
+};
+
+const baseLinks = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Makineler', href: '/products' },
+  { label: 'Yedek Parçalar', href: '/spare-parts' },
+  { label: 'Galeri', href: '/gallery' },
+  { label: 'Hakkımızda', href: '/about' },
+  { label: 'İletişim', href: '/contact' },
 ];
 
-export default function PageShell({ children }: PageShellProps) {
+function panelsFor(pathname: string): PagePanels {
+  if (pathname.startsWith('/products')) {
+    return {
+      left: [
+        {
+          title: 'Kategori İpuçları',
+          description: 'Sac, boru ve kombine kesim filtrelerini kullanarak doğru ürünü hızlıca bulun.',
+          list: ['Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'],
+        },
+        {
+          title: 'Teknik Danışman',
+          description: 'Model seçimi için 10 dakikalık ücretsiz danışmanlık alın.',
+          cta: { label: 'Danışmanlık Al', href: '/contact?subject=Urun+Secimi' },
+        },
+      ],
+      right: [
+        {
+          title: 'Hızlı Teklif',
+          description: 'İhtiyaçlarınızı yazın, aynı gün içinde teklif hazırlayalım.',
+          cta: { label: 'Teklif Formu', href: '/quote' },
+        },
+        {
+          title: 'Kurulum Süresi',
+          description: 'Standart hatlar 7–10 gün içinde devreye alınır.',
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/spare-parts')) {
+    return {
+      left: [
+        {
+          title: 'Uyumluluk Kontrolü',
+          description: 'Parça kodu veya makine modeliyle hızlı eşleştirme yapın.',
+          cta: { label: 'Destek Al', href: '/contact?subject=Yedek+Parca' },
+        },
+        {
+          title: 'Stok Avantajı',
+          description: 'Kritik parçalar aynı gün kargoya verilir.',
+        },
+      ],
+      right: [
+        {
+          title: 'Servis Ağı',
+          description: 'Türkiye geneli servis noktalarıyla hızlı çözüm.',
+        },
+        {
+          title: 'Katalog',
+          description: 'Yedek parça kataloğunu tek dosyada inceleyin.',
+          cta: { label: 'Dokümanlar', href: '/downloads' },
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/contact')) {
+    return {
+      left: [
+        {
+          title: 'İletişim Saatleri',
+          description: 'Pazartesi–Cumartesi 09:00–18:00 arası destek.',
+        },
+        {
+          title: 'Teklif Süreci',
+          description: 'Formu doldurun, 24 saat içinde dönüş alırsınız.',
+          cta: { label: 'Teklif Formu', href: '/quote' },
+        },
+      ],
+      right: [
+        {
+          title: 'Doğrudan İletişim',
+          description: '+90 536 831 67 87 · guohonglazerinfo@gmail.com',
+        },
+        {
+          title: 'Adres',
+          description: 'Konya / Karatay · Fevziçakmak Mah.',
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/quote')) {
+    return {
+      left: [
+        {
+          title: 'Hızlı Bilgi',
+          description: 'Üretim kapasitesi ve malzeme türü teklif süresini kısaltır.',
+        },
+        {
+          title: 'Dosya Gönder',
+          description: 'Teknik çizim varsa bizimle paylaşabilirsiniz.',
+          cta: { label: 'İletişime Geç', href: '/contact?subject=Teknik+Cizim' },
+        },
+      ],
+      right: [
+        {
+          title: 'Tahmini Süre',
+          description: 'Çoğu teklif 24 saat içinde hazırlanır.',
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/about')) {
+    return {
+      left: [
+        {
+          title: 'Vizyon',
+          description: 'Akıllı üretim hatlarında lider çözüm ortağı olmak.',
+        },
+        {
+          title: 'Misyon',
+          description: 'Yüksek kalite ve güvenilir servis anlayışı.',
+        },
+      ],
+      right: [
+        {
+          title: 'Kurumsal',
+          description: '10+ yıllık saha deneyimi ve güçlü mühendislik ekibi.',
+        },
+        {
+          title: 'Referanslar',
+          description: 'Saha kurulumlarını galeride inceleyin.',
+          cta: { label: 'Galeri', href: '/gallery' },
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/gallery')) {
+    return {
+      left: [
+        {
+          title: 'Saha Görselleri',
+          description: 'Kurulum öncesi/sonrası gerçek projeler.',
+        },
+        {
+          title: 'Video Arşivi',
+          description: 'Üretim hatlarını video galerisinde inceleyin.',
+          cta: { label: 'Video Galerisi', href: '/' },
+        },
+      ],
+      right: [
+        {
+          title: 'Teknik Bilgi',
+          description: 'Görsellerde yer alan modeller için bilgi alın.',
+          cta: { label: 'İletişime Geç', href: '/contact?subject=Galeri' },
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/cart')) {
+    return {
+      left: [
+        {
+          title: 'Teslimat',
+          description: 'Stoklu ürünler aynı gün kargoya verilir.',
+        },
+        {
+          title: 'Ödeme',
+          description: 'Güvenli ödeme altyapısı hazırlanmaktadır.',
+        },
+      ],
+      right: [
+        {
+          title: 'Sepet Desteği',
+          description: 'Sipariş öncesi teknik sorular için bize yazın.',
+          cta: { label: 'Destek Al', href: '/contact?subject=Sepet' },
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/profile')) {
+    return {
+      left: [
+        {
+          title: 'Profil Kontrolü',
+          description: 'Bilgilerinizi güncel tutun, teklif süreci hızlansın.',
+        },
+        {
+          title: 'Adres Yönetimi',
+          description: 'Teslimat adreslerinizi düzenleyin.',
+          cta: { label: 'Adreslerim', href: '/profile/addresses' },
+        },
+      ],
+      right: [
+        {
+          title: 'Favoriler',
+          description: 'Beğendiğiniz ürünlere hızlı erişin.',
+          cta: { label: 'Favorilerim', href: '/profile/favorites' },
+        },
+        {
+          title: 'Siparişler',
+          description: 'Sipariş durumunu görüntüleyin.',
+          cta: { label: 'Siparişlerim', href: '/profile/orders' },
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/admin')) {
+    return {
+      left: [
+        {
+          title: 'Operasyon Notu',
+          description: 'Bildirimleri kontrol edip dönüşleri hızlandırın.',
+        },
+        {
+          title: 'Stok Yönetimi',
+          description: 'Yeni ürün ve kategori güncellemeleri.',
+        },
+      ],
+      right: [
+        {
+          title: 'Kısayollar',
+          description: 'Yedek parça ve başvuru panellerine geçiş.',
+          list: ['Yedek Parçalar', 'Kategoriler', 'Teklifler', 'İletişim'],
+        },
+      ],
+    };
+  }
+
+  if (pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/complete-profile')) {
+    return {
+      left: [
+        {
+          title: 'Güvenli Giriş',
+          description: 'Hesabınızı güvenle yönetin.',
+        },
+      ],
+      right: [
+        {
+          title: 'Yardım',
+          description: 'Sorun yaşarsanız destek ekibine yazın.',
+          cta: { label: 'İletişim', href: '/contact?subject=Hesap' },
+        },
+      ],
+    };
+  }
+
+  return {
+    left: [
+      {
+        title: 'Hızlı Menü',
+        description: 'Sayfalara hızlı geçiş yapın.',
+        list: baseLinks.map((link) => link.label),
+      },
+    ],
+    right: [
+      {
+        title: 'İletişim',
+        description: 'Sorular için bize ulaşın.',
+        cta: { label: 'İletişime Geç', href: '/contact' },
+      },
+    ],
+  };
+}
+
+function CardItem({ card }: { card: Card }) {
   return (
-    <div className="relative z-0">
+    <div className="card-surface p-5 text-slate-900 dark:text-white">
+      <p className="eyebrow">{card.title}</p>
+      <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">{card.description}</p>
+      {card.list && (
+        <ul className="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          {card.list.map((item) => (
+            <li key={item} className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+      {card.cta && (
+        <Link href={card.cta.href} className="btn-outline mt-4 inline-flex">
+          {card.cta.label}
+        </Link>
+      )}
+    </div>
+  );
+}
+
+export default function PageShell({ children }: PageShellProps) {
+  const pathname = usePathname();
+  const panels = panelsFor(pathname);
+
+  return (
+    <div className="relative z-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#10b981,_transparent_45%)] opacity-20 dark:opacity-40" />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.75),_rgba(226,232,240,0.4))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
@@ -29,98 +332,23 @@ export default function PageShell({ children }: PageShellProps) {
         <div className="grid gap-6 lg:grid-cols-[240px_1fr_280px]">
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Hızlı Menü
-                </p>
-                <div className="mt-4 space-y-2 text-sm">
-                  {quickLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      className="block text-slate-700 hover:text-slate-900 dark:text-white/80 dark:hover:text-white"
-                      href={link.href}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Öncelikli Destek
-                </p>
-                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
-                  Sac, boru ve demir kesim hatları için en doğru konfigürasyonu
-                  birlikte seçelim.
-                </p>
-                <Link
-                  href="/quote"
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-emerald-500/25 transition hover:-translate-y-0.5 hover:bg-emerald-400"
-                >
-                  Teklif Al
-                </Link>
-              </div>
+              {panels.left.map((card) => (
+                <CardItem key={card.title} card={card} />
+              ))}
             </div>
           </aside>
 
           <div className="min-w-0">
-            <div className="overflow-hidden rounded-[36px] border border-slate-200/70 bg-white/85 text-slate-900 shadow-2xl backdrop-blur dark:border-white/10 dark:bg-slate-950/60 dark:text-white">
-              <div className="p-6 sm:p-10">{children}</div>
+            <div className="card-surface overflow-hidden text-slate-900 backdrop-blur dark:text-white">
+              <div className="fade-up p-6 sm:p-10">{children}</div>
             </div>
           </div>
 
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  İletişim
-                </p>
-                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
-                  24 saat içinde geri dönüş hedefi.
-                </p>
-                <div className="mt-4 space-y-2 text-sm text-slate-700 dark:text-white/80">
-                  <p>📞 +90 536 831 67 87</p>
-                  <p>✉️ guohonglazerinfo@gmail.com</p>
-                  <p>📍 İstanbul</p>
-                </div>
-                <Link
-                  href="/contact"
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/90 dark:hover:border-white/60 dark:hover:text-white"
-                >
-                  İletişime Geç
-                </Link>
-              </div>
-
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Katalog / Doküman
-                </p>
-                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
-                  Teknik detayları tek dosyada toparlayın.
-                </p>
-                <Link
-                  href="/downloads"
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900"
-                >
-                  Dokümanlar
-                </Link>
-              </div>
-
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
-                <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Referans Portföy
-                </p>
-                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
-                  Son kurulumlarımız ve başarı hikayeleri için galeriye göz atın.
-                </p>
-                <Link
-                  href="/gallery"
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/90 dark:hover:border-white/60 dark:hover:text-white"
-                >
-                  Galeriye Git
-                </Link>
-              </div>
+              {panels.right.map((card) => (
+                <CardItem key={card.title} card={card} />
+              ))}
             </div>
           </aside>
         </div>
@@ -128,3 +356,4 @@ export default function PageShell({ children }: PageShellProps) {
     </div>
   );
 }
+
