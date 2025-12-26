@@ -5,6 +5,10 @@
 :root {
   --background: #fafafa;
   --foreground: #171717;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --surface-border: #e2e8f0;
+  --surface-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
   --gray-100: #f5f5f5;
   --gray-200: #e5e5e5;
   --gray-300: #d1d1d1;
@@ -55,6 +59,10 @@
 :root.dark {
   --background: #171717;
   --foreground: #fafafa;
+  --surface: #0f172a;
+  --surface-muted: #111827;
+  --surface-border: rgba(148, 163, 184, 0.2);
+  --surface-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   --gray-100: #333333;
   --gray-200: #555555;
   --gray-300: #777777;
@@ -106,6 +114,67 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+.card-surface {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 24px;
+  box-shadow: var(--surface-shadow);
+}
+
+.card-muted {
+  background: var(--surface-muted);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+}
+
+.eyebrow {
+  color: var(--gray-500);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.btn-outline {
+  border: 1px solid var(--gray-300);
+  color: var(--gray-800);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+}
+
+.dark .btn-outline {
+  border-color: var(--gray-400);
+  color: var(--gray-100);
+}
+
+.btn-outline:hover {
+  border-color: var(--emerald-500);
+  color: var(--emerald-600);
+}
+
+.dark .btn-outline:hover {
+  border-color: var(--emerald-400);
+  color: var(--emerald-300);
+}
+
+.fade-up {
+  animation: fade-up 600ms ease both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 

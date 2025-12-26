@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -46,13 +46,13 @@ function panelsFor(pathname: string): PagePanels {
       ],
       right: [
         {
-          title: 'Hızlı Teklif',
+          title: 'Teklif Talebi',
           description: 'İhtiyaçlarınızı yazın, aynı gün içinde teklif hazırlayalım.',
           cta: { label: 'Teklif Formu', href: '/quote' },
         },
         {
           title: 'Kurulum Süresi',
-          description: 'Standart hatlar 7–10 gün içinde devreye alınır.',
+          description: 'Standart hatlar 7-10 gün içinde devreye alınır.',
         },
       ],
     };
@@ -90,7 +90,7 @@ function panelsFor(pathname: string): PagePanels {
       left: [
         {
           title: 'İletişim Saatleri',
-          description: 'Pazartesi–Cumartesi 09:00–18:00 arası destek.',
+          description: 'Pazartesi-Cumartesi 09:00-18:00 arası destek.',
         },
         {
           title: 'Teklif Süreci',
@@ -101,11 +101,11 @@ function panelsFor(pathname: string): PagePanels {
       right: [
         {
           title: 'Doğrudan İletişim',
-          description: '+90 536 831 67 87 · guohonglazerinfo@gmail.com',
+          description: '+90 536 831 67 87 - guohonglazerinfo@gmail.com',
         },
         {
           title: 'Adres',
-          description: 'Konya / Karatay · Fevziçakmak Mah.',
+          description: 'Konya / Karatay - Fevziçakmak Mah.',
         },
       ],
     };
@@ -191,7 +191,7 @@ function panelsFor(pathname: string): PagePanels {
         },
         {
           title: 'Ödeme',
-          description: 'Güvenli ödeme altyapısı hazırlanmaktadır.',
+          description: 'Güvenli ödeme altyapısı hazırlanıyor.',
         },
       ],
       right: [
@@ -254,7 +254,13 @@ function panelsFor(pathname: string): PagePanels {
     };
   }
 
-  if (pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/complete-profile')) {
+  if (
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/reset-password') ||
+    pathname.startsWith('/complete-profile')
+  ) {
     return {
       left: [
         {
@@ -321,10 +327,10 @@ export default function PageShell({ children }: PageShellProps) {
   return (
     <div className="relative z-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#10b981,_transparent_45%)] opacity-20 dark:opacity-40" />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.75),_rgba(226,232,240,0.4))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
-        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/15 blur-[160px] dark:bg-emerald-400/20" />
-        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[180px] dark:bg-emerald-400/12" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#10b981,_transparent_45%)] opacity-15 dark:opacity-30" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.85),_rgba(226,232,240,0.55))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.9),_rgba(15,23,42,0.9))]" />
+        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[160px] dark:bg-emerald-400/20" />
+        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/15 blur-[180px] dark:bg-emerald-400/12" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(15,23,42,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.04)_1px,_transparent_1px)] bg-[size:64px_64px] opacity-20 dark:bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] dark:opacity-25" />
       </div>
 
@@ -356,4 +362,3 @@ export default function PageShell({ children }: PageShellProps) {
     </div>
   );
 }
-
