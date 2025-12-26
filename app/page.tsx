@@ -105,17 +105,17 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className={`${manrope.className} relative z-0 min-h-screen bg-slate-50 text-slate-900`}>
+    <div className={`${manrope.className} relative z-0 min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white`}>
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-25" />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
-        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/15 blur-[160px]" />
-        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[180px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:64px_64px] opacity-20" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#10b981,_transparent_45%)] opacity-20 dark:opacity-40" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.75),_rgba(226,232,240,0.4))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
+        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/15 blur-[160px] dark:bg-emerald-400/20" />
+        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[180px] dark:bg-emerald-400/12" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(15,23,42,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.04)_1px,_transparent_1px)] bg-[size:64px_64px] opacity-20 dark:bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] dark:opacity-25" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr_320px]">
+      <div className="relative mx-auto max-w-[1440px] px-3 py-8 sm:px-6 lg:px-4">
+        <div className="grid gap-6 lg:grid-cols-[240px_1fr_280px]">
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
               <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
@@ -461,6 +461,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
