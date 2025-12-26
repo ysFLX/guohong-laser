@@ -442,7 +442,7 @@ export default function Home() {
                 </p>
                 <a
                   href="/images/katalog.pdf"
-                  download="LaserMarket-Katalog.pdf"
+                  download="katalog.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900"
