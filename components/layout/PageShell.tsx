@@ -8,11 +8,13 @@ type PageShellProps = {
   children: React.ReactNode;
 };
 
+type ListItem = string | { label: string; href: string };
+
 type Card = {
   title: string;
   description: string;
   cta?: { label: string; href: string };
-  list?: string[];
+  list?: ListItem[];
 };
 
 type PagePanels = {
@@ -283,7 +285,7 @@ function panelsFor(pathname: string): PagePanels {
       {
         title: 'Hızlı Menü',
         description: 'Sayfalara hızlı geçiş yapın.',
-        list: baseLinks.map((link) => link.label),
+        list: baseLinks,
       },
     ],
     right: [
@@ -303,12 +305,25 @@ function CardItem({ card }: { card: Card }) {
       <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">{card.description}</p>
       {card.list && (
         <ul className="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
-          {card.list.map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              {item}
-            </li>
-          ))}
+          {card.list.map((item) => {
+            if (typeof item === 'string') {
+              return (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  {item}
+                </li>
+              );
+            }
+
+            return (
+              <li key={item.href} className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <Link href={item.href} className="hover:text-emerald-600 dark:hover:text-emerald-300">
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
       {card.cta && (

@@ -1,4 +1,4 @@
-﻿﻿﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -124,7 +124,10 @@ export default function FavoritesPage() {
       <div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Favorilerim</h1>
+            <Link href="/profile" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+              ← Hesap Yönetimine Dön
+            </Link>
+            <h1 className="mt-3 text-2xl font-bold">Favorilerim</h1>
             <p className="mt-1 text-sm text-gray-600">Favorilediğin ürünleri burada yönetebilirsin.</p>
           </div>
           <Link href="/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
@@ -144,10 +147,7 @@ export default function FavoritesPage() {
         {!isLoading && !error && items.length > 0 && (
           <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
             {items.map((item) => (
-              <div
-                key={item.id}
-                className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
-              >
+              <div key={item.id} className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="relative">
                   <Link href={`/spare-parts/${item.sparePartId}`} className="block">
                     <div className="relative h-52 w-full">
@@ -218,6 +218,3 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
-
-
-

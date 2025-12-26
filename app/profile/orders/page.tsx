@@ -1,4 +1,4 @@
-﻿﻿﻿'use client';
+'use client';
 
 import Link from 'next/link';
 
@@ -10,7 +10,10 @@ export default function OrdersPage() {
       <div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Siparişlerim</h1>
+            <Link href="/profile" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+              ← Hesap Yönetimine Dön
+            </Link>
+            <h1 className="mt-3 text-2xl font-bold">Siparişlerim</h1>
             <p className="mt-1 text-sm text-gray-600">Tüm siparişlerin burada listelenecek.</p>
           </div>
           <Link href="/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
@@ -42,6 +45,3 @@ export default function OrdersPage() {
     </ProfileLayout>
   );
 }
-
-
-
