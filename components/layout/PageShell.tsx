@@ -29,7 +29,7 @@ export default function PageShell({ children }: PageShellProps) {
         <div className="grid gap-6 lg:grid-cols-[240px_1fr_280px]">
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+              <div className="card-surface p-5 text-slate-900 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Hızlı Menü
                 </p>
@@ -46,7 +46,7 @@ export default function PageShell({ children }: PageShellProps) {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+              <div className="card-surface p-5 text-slate-900 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Öncelikli Destek
                 </p>
@@ -65,14 +65,14 @@ export default function PageShell({ children }: PageShellProps) {
           </aside>
 
           <div className="min-w-0">
-            <div className="overflow-hidden rounded-[36px] border border-slate-200/70 bg-white/85 text-slate-900 shadow-2xl backdrop-blur dark:border-white/10 dark:bg-slate-950/60 dark:text-white">
-              <div className="p-6 sm:p-10">{children}</div>
+            <div className="card-surface overflow-hidden text-slate-900 backdrop-blur dark:text-white">
+              <div className="fade-up p-6 sm:p-10">{children}</div>
             </div>
           </div>
 
           <aside className="hidden lg:block">
             <div className="sticky top-6 space-y-6">
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+              <div className="card-surface p-5 text-slate-900 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   İletişim
                 </p>
@@ -92,7 +92,7 @@ export default function PageShell({ children }: PageShellProps) {
                 </Link>
               </div>
 
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+              <div className="card-surface p-5 text-slate-900 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Katalog / Doküman
                 </p>
@@ -107,7 +107,7 @@ export default function PageShell({ children }: PageShellProps) {
                 </Link>
               </div>
 
-              <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
+              <div className="card-surface p-5 text-slate-900 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
                   Referans Portföy
                 </p>

@@ -1,5 +1,5 @@
 ﻿import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Manrope } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -7,14 +7,15 @@ import Footer from "@/components/layout/Footer";
 import PageShell from "@/components/layout/PageShell";
 import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const geistMono = Geist_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const manrope = Manrope({
+  variable: "--font-sans",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -34,13 +35,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900">
+    <html lang="tr" className="h-full bg-slate-50 dark:bg-slate-950">
       <head>
         <link rel="icon" href="/images/logokoyu.png" />
         <link rel="apple-touch-icon" href="/images/logokoyu.png" />
         <link rel="shortcut icon" href="/images/logokoyu.png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`}>
+      <body className={`${manrope.variable} ${geistMono.variable} flex min-h-full flex-col`}>
         <Providers>
           <Header />
           <main className="flex-grow">

@@ -25,7 +25,7 @@ export default function Header() {
   const logoSrc = theme === "dark" ? "/images/logokoyu.png" : "/images/logoacik.png";
 
   return (
-    <header className="bg-white shadow-sm dark:bg-gray-900">
+    <header className="bg-white/90 shadow-sm backdrop-blur border-b border-slate-200/70 dark:bg-slate-950/80 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -40,27 +40,27 @@ export default function Header() {
                     onError={() => setLogoError(true)}
                   />
                 ) : (
-                  <span className="text-xl font-bold text-gray-900 dark:text-white">Guohong Lazer</span>
+                  <span className="text-xl font-bold text-slate-900 dark:text-white">Guohong Lazer</span>
                 )}
               </Link>
             </div>
             <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menu">
-              <Link href="/" aria-current="page" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/" aria-current="page" className="border-transparent text-slate-600 hover:border-emerald-400 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Ana Sayfa
               </Link>
-              <Link href="/products" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/products" className="border-transparent text-slate-600 hover:border-emerald-400 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Makineler
               </Link>
-              <Link href="/spare-parts" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/spare-parts" className="border-transparent text-slate-600 hover:border-emerald-400 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Yedek Parcalar
               </Link>
-              <Link href="/gallery" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/gallery" className="border-transparent text-slate-600 hover:border-emerald-400 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Galeri
               </Link>
-              <Link href="/about" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/about" className="border-transparent text-slate-600 hover:border-emerald-400 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Hakkimizda
               </Link>
-              <Link href="/contact" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/contact" className="border-transparent text-slate-600 hover:border-emerald-400 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Iletisim
               </Link>
             </nav>
@@ -69,7 +69,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="hidden sm:inline-flex relative items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              className="hidden sm:inline-flex relative items-center justify-center rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
               aria-label="Tema degistir"
             >
               {theme === 'dark' ? (
@@ -98,7 +98,7 @@ export default function Header() {
                 {isAdmin && (
                   <Link
                     href="/admin"
-                    className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                    className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
                     aria-label="Admin Panel"
                   >
                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -114,7 +114,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openNotifications}
-                  className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                  className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
                   aria-label="Bildirimleri ac"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,7 +135,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={toggleCart}
-                  className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                  className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
                   aria-label="Sepeti ac"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -152,7 +152,7 @@ export default function Header() {
 
             <button
               type="button"
-              className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-expanded={mobileMenuOpen}
               aria-label="Menuyu ac/kapat"
@@ -171,7 +171,7 @@ export default function Header() {
                 <div className="relative group">
                   <button
                     type="button"
-                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
+                    className="text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
                   >
                     Giris Yap / Kayit Ol
                   </button>
@@ -179,13 +179,13 @@ export default function Header() {
                     <div className="py-1">
                       <Link
                         href="/login"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                       >
                         Giris Yap
                       </Link>
                       <Link
                         href="/register"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                       >
                         Kayit Ol
                       </Link>
@@ -199,7 +199,7 @@ export default function Header() {
                   <button
                     type="button"
                     onClick={() => setProfileOpen(true)}
-                    className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                    className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
                     aria-label="Profili ac"
                   >
                     <span className="sr-only">Profil</span>
@@ -230,7 +230,7 @@ export default function Header() {
                   toggleTheme();
                   setMobileMenuOpen(false);
                 }}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Tema: {theme === 'dark' ? 'Koyu' : 'Acik'}
               </button>
@@ -238,42 +238,42 @@ export default function Header() {
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Ana Sayfa
               </Link>
               <Link
                 href="/products"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Makineler
               </Link>
               <Link
                 href="/spare-parts"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Yedek Parcalar
               </Link>
               <Link
                 href="/gallery"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Galeri
               </Link>
               <Link
                 href="/about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Hakkimizda
               </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
               >
                 Iletisim
               </Link>
@@ -285,7 +285,7 @@ export default function Header() {
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                    className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
                   >
                     Giris Yap
                   </Link>
@@ -304,14 +304,14 @@ export default function Header() {
                   <Link
                     href="/cart"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                    className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
                   >
                     Sepet
                   </Link>
                   <Link
                     href="/profile"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                    className="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
                   >
                     Profil
                   </Link>
@@ -321,7 +321,7 @@ export default function Header() {
                       setMobileMenuOpen(false);
                       signOut({ callbackUrl: '/' });
                     }}
-                    className="text-left px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                    className="text-left px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-md"
                   >
                     Cikis Yap
                   </button>
@@ -334,6 +334,7 @@ export default function Header() {
     </header>
   );
 }
+
 
 
 

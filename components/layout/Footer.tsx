@@ -2,8 +2,8 @@
 
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200/70 dark:border-slate-800">
+      <div className="max-w-[1440px] mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Guohong Lazer</h3>
