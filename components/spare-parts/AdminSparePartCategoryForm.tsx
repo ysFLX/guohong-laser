@@ -101,7 +101,7 @@ export default function AdminSparePartCategoryForm() {
               setIsSaving(false);
             }
           }}
-          className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-60"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-60"
         >
           {isSaving ? 'Kaydediliyor...' : 'Kategori Ekle'}
         </button>
@@ -109,4 +109,5 @@ export default function AdminSparePartCategoryForm() {
     </div>
   );
 }
+
 

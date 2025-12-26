@@ -336,7 +336,7 @@ export default function SparePartsPage() {
                         name={p.name}
                         priceCents={p.priceCents}
                         imageUrl={p.imageUrl}
-                        className="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
                       />
                       <Link
                         href={`/spare-parts/${p.id}`}
@@ -362,4 +362,5 @@ export default function SparePartsPage() {
     </div>
   );
 }
+
 

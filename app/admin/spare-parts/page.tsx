@@ -156,7 +156,7 @@ export default async function AdminSparePartsPage({
           <div className="md:col-span-3 flex items-center gap-2">
             <button
               type="submit"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
             >
               Filtrele
             </button>
@@ -212,7 +212,7 @@ export default async function AdminSparePartsPage({
                 <td className="px-4 py-3 text-right">
                   <Link
                     href={`/admin/spare-parts/${p.id}`}
-                    className="text-sm font-semibold text-teal-600 hover:underline"
+                    className="text-sm font-semibold text-emerald-600 hover:underline"
                   >
                     Duzenle
                   </Link>
@@ -258,4 +258,5 @@ export default async function AdminSparePartsPage({
     </div>
   );
 }
+
 

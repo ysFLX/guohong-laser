@@ -140,7 +140,7 @@ export default async function SparePartDetailPage({
                 imageUrl={p.imageUrl}
                 className={
                   p.stockOnHand > 0
-                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700'
+                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700'
                     : 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 cursor-not-allowed'
                 }
                 quantity={1}
@@ -158,4 +158,5 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
+
 

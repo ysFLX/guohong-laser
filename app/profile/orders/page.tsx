@@ -13,7 +13,7 @@ export default function OrdersPage() {
             <h1 className="text-2xl font-bold">SipariÅŸlerim</h1>
             <p className="mt-1 text-sm text-gray-600">TÃ¼m sipariÅŸlerin burada listelenecek.</p>
           </div>
-          <Link href="/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+          <Link href="/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
             Yeni Ã¼rÃ¼n keÅŸfet
           </Link>
         </div>
@@ -42,4 +42,5 @@ export default function OrdersPage() {
     </ProfileLayout>
   );
 }
+
 

@@ -127,7 +127,7 @@ export default function FavoritesPage() {
             <h1 className="text-2xl font-bold">Favorilerim</h1>
             <p className="mt-1 text-sm text-gray-600">FavorilediÄŸin Ã¼rÃ¼nleri burada yÃ¶netebilirsin.</p>
           </div>
-          <Link href="/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+          <Link href="/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
             Yedek ParÃ§alara Git
           </Link>
         </div>
@@ -192,7 +192,7 @@ export default function FavoritesPage() {
                       name={item.sparePart.name}
                       priceCents={item.sparePart.priceCents}
                       imageUrl={item.sparePart.imageUrl}
-                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
                     />
                     <Link
                       href={`/spare-parts/${item.sparePartId}`}
@@ -218,4 +218,5 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
+
 

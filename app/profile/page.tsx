@@ -243,7 +243,7 @@ export default function ProfilePage() {
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm text-gray-900 bg-white"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 bg-white"
                   />
                 </div>
                 <div>
@@ -253,7 +253,7 @@ export default function ProfilePage() {
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm text-gray-900 bg-white"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 bg-white"
                   />
                 </div>
                 <div>
@@ -273,7 +273,7 @@ export default function ProfilePage() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm text-gray-900 bg-white"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 bg-white"
                   />
                 </div>
               </div>
@@ -284,7 +284,7 @@ export default function ProfilePage() {
                   onClick={handleSave}
                   disabled={isSaving}
                   className={`px-4 py-2 rounded-md text-sm font-medium text-white ${
-                    isSaving ? 'bg-teal-400' : 'bg-teal-600 hover:bg-teal-700'
+                    isSaving ? 'bg-emerald-400' : 'bg-emerald-600 hover:bg-emerald-700'
                   }`}
                 >
                   {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri Kaydet'}
@@ -343,4 +343,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
 

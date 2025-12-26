@@ -74,7 +74,7 @@ export default function SparePartImageSlider({
               type="button"
               onClick={() => setIndex(i)}
               className={`relative h-16 w-20 shrink-0 overflow-hidden rounded-lg border ${
-                i === index ? 'border-teal-500' : 'border-gray-200 dark:border-gray-700'
+                i === index ? 'border-emerald-500' : 'border-gray-200 dark:border-gray-700'
               }`}
             >
               <Image
@@ -93,4 +93,5 @@ export default function SparePartImageSlider({
     </div>
   );
 }
+
 

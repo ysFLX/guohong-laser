@@ -31,7 +31,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-teal-800 to-teal-900 text-white overflow-hidden">
+      <div className="relative bg-gradient-to-br from-emerald-800 to-emerald-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-10"></div>
         <div className="relative max-w-7xl mx-auto py-28 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -39,7 +39,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-teal-100 bg-teal-700/30 rounded-full backdrop-blur-sm"
+              className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-emerald-100 bg-emerald-700/30 rounded-full backdrop-blur-sm"
             >
               HakkÄ±mÄ±zda
             </motion.span>
@@ -49,10 +49,10 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl"
             >
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-white to-teal-200">
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-white to-emerald-200">
                 Lazer Teknolojisinde
               </span>
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-teal-300 to-teal-400">
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 to-emerald-400">
                 GeleceÄŸi Åekillendiriyoruz
               </span>
             </motion.h1>
@@ -60,12 +60,12 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-8 max-w-3xl mx-auto text-xl text-teal-100 leading-relaxed space-y-4"
+              className="mt-8 max-w-3xl mx-auto text-xl text-emerald-100 leading-relaxed space-y-4"
             >
-              <p className="text-teal-50 font-medium">
+              <p className="text-emerald-50 font-medium">
                 SektÃ¶rdeki 10+ yÄ±llÄ±k deneyimimizle, en ileri teknoloji lazer Ã§Ã¶zÃ¼mleri sunuyoruz.
               </p>
-              <p className="text-teal-100/90">
+              <p className="text-emerald-100/90">
                 MÃ¼ÅŸteri odaklÄ± yaklaÅŸÄ±mÄ±mÄ±z ve yenilikÃ§i Ã§Ã¶zÃ¼mlerimizle, iÅŸletmenizin ihtiyaÃ§larÄ±na Ã¶zel Ã§Ã¶zÃ¼mler Ã¼retiyoruz.
               </p>
             </motion.div>
@@ -77,7 +77,7 @@ export default function AboutPage() {
             >
               <a
                 href="#iletisim"
-                className="px-8 py-4 bg-white text-teal-700 font-medium rounded-lg hover:bg-teal-50 transition-all duration-300 shadow-lg hover:shadow-xl text-center"
+                className="px-8 py-4 bg-white text-emerald-700 font-medium rounded-lg hover:bg-emerald-50 transition-all duration-300 shadow-lg hover:shadow-xl text-center"
               >
                 Hemen Teklif AlÄ±n
               </a>
@@ -90,7 +90,7 @@ export default function AboutPage() {
             </motion.div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-teal-900/80 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-emerald-900/80 to-transparent"></div>
       </div>
 
       {/* About Section */}
@@ -102,7 +102,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="text-base text-teal-600 dark:text-teal-400 font-semibold tracking-wide uppercase"
+              className="text-base text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide uppercase"
             >
               HakkÄ±mÄ±zda
             </motion.span>
@@ -163,16 +163,16 @@ export default function AboutPage() {
                 <div className="grid grid-cols-2 gap-4 mt-8">
                   <motion.div 
                     whileHover={{ y: -5 }}
-                    className="p-4 bg-teal-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
+                    className="p-4 bg-emerald-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
                   >
-                    <h4 className="text-lg font-semibold text-teal-600 dark:text-teal-400">10+</h4>
+                    <h4 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">10+</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-300">YÄ±llÄ±k Deneyim</p>
                   </motion.div>
                   <motion.div 
                     whileHover={{ y: -5 }}
-                    className="p-4 bg-teal-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
+                    className="p-4 bg-emerald-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
                   >
-                    <h4 className="text-lg font-semibold text-teal-600 dark:text-teal-400">500+</h4>
+                    <h4 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400">500+</h4>
                     <p className="text-sm text-gray-600 dark:text-gray-300">Mutlu MÃ¼ÅŸteri</p>
                   </motion.div>
                 </div>
@@ -193,8 +193,8 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
               </div>
@@ -277,9 +277,9 @@ export default function AboutPage() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{member.name}</h3>
-                  <p className="text-teal-600 dark:text-teal-400 text-sm mt-1">{member.role}</p>
+                  <p className="text-emerald-600 dark:text-emerald-400 text-sm mt-1">{member.role}</p>
                   <div className="flex justify-center space-x-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <a href="#" className="text-gray-400 hover:text-teal-500 transition-colors">
+                    <a href="#" className="text-gray-400 hover:text-emerald-500 transition-colors">
                       <span className="sr-only">LinkedIn</span>
                       <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -294,7 +294,7 @@ export default function AboutPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-teal-700 to-teal-600">
+      <div className="bg-gradient-to-r from-emerald-700 to-emerald-600">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -305,9 +305,9 @@ export default function AboutPage() {
           >
             <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
               <span className="block">HazÄ±r mÄ±sÄ±nÄ±z?</span>
-              <span className="block text-teal-100">Hemen teklif alÄ±n veya bizimle iletiÅŸime geÃ§in.</span>
+              <span className="block text-emerald-100">Hemen teklif alÄ±n veya bizimle iletiÅŸime geÃ§in.</span>
             </h2>
-            <p className="mt-3 max-w-3xl text-lg leading-6 text-teal-100">
+            <p className="mt-3 max-w-3xl text-lg leading-6 text-emerald-100">
               Uzman ekibimiz, ihtiyaÃ§larÄ±nÄ±za en uygun Ã§Ã¶zÃ¼mler iÃ§in size yardÄ±mcÄ± olmaktan mutluluk duyacaktÄ±r.
             </p>
           </motion.div>
@@ -321,7 +321,7 @@ export default function AboutPage() {
             <div className="inline-flex rounded-md shadow">
               <a
                 href="/contact"
-                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-teal-700 bg-white hover:bg-teal-50 transition-colors duration-300"
+                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-white hover:bg-emerald-50 transition-colors duration-300"
               >
                 Ä°letiÅŸime GeÃ§in
               </a>
@@ -329,7 +329,7 @@ export default function AboutPage() {
             <div className="ml-3 inline-flex rounded-md shadow">
               <a
                 href="/products"
-                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 bg-opacity-70 hover:bg-opacity-90 transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 bg-opacity-70 hover:bg-opacity-90 transition-all duration-300"
               >
                 ÃœrÃ¼nlerimiz
               </a>
@@ -340,3 +340,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

@@ -187,7 +187,7 @@ export default async function AdminHomePage() {
                 <div className="text-base font-semibold text-gray-900 dark:text-white">Guncel Stok</div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Son guncellenen 5 urun</div>
               </div>
-              <Link href="/admin/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+              <Link href="/admin/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
                 Tumunu gor
               </Link>
             </div>
@@ -215,7 +215,7 @@ export default async function AdminHomePage() {
                   </div>
                   <Link
                     href={`/admin/spare-parts/${p.id}`}
-                    className="text-sm font-semibold text-teal-600 hover:text-teal-700"
+                    className="text-sm font-semibold text-emerald-600 hover:text-emerald-700"
                   >
                     Duzenle
                   </Link>
@@ -243,7 +243,7 @@ export default async function AdminHomePage() {
                 >
                   <div className="text-sm font-semibold text-gray-900 dark:text-white">{link.title}</div>
                   <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">{link.description}</div>
-                  <div className="mt-3 text-sm font-semibold text-teal-600 hover:text-teal-700">{link.action}</div>
+                  <div className="mt-3 text-sm font-semibold text-emerald-600 hover:text-emerald-700">{link.action}</div>
                 </Link>
               ))}
             </div>
@@ -282,4 +282,5 @@ export default async function AdminHomePage() {
     </div>
   );
 }
+
 

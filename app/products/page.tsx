@@ -200,13 +200,13 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-700 to-teal-600 text-white">
+      <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white">
         <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
               Lazer Makineleri
             </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-teal-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="mt-3 max-w-md mx-auto text-base text-emerald-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
               En son teknoloji lazer makineleri ile Ã¼retim sÃ¼reÃ§lerinizi optimize edin.
             </p>
           </div>
@@ -229,7 +229,7 @@ export default function ProductsPage() {
                 <input
                   type="text"
                   id="search"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white dark:bg-gray-800 dark:border-gray-700 placeholder-gray-500 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white dark:bg-gray-800 dark:border-gray-700 placeholder-gray-500 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                   placeholder="ÃœrÃ¼n ara..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -243,7 +243,7 @@ export default function ProductsPage() {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     selectedCategory === category
-                      ? 'bg-teal-600 text-white'
+                      ? 'bg-emerald-600 text-white'
                       : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
                 >
@@ -272,7 +272,7 @@ export default function ProductsPage() {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-4 right-4 bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                <div className="absolute top-4 right-4 bg-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                   {product.category}
                 </div>
               </div>
@@ -329,13 +329,13 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             <span className="block">Fiyat teklifi mi almak istiyorsunuz?</span>
-            <span className="block text-teal-600 dark:text-teal-400">Uzman ekibimiz size yardÄ±mcÄ± olmaktan mutluluk duyar.</span>
+            <span className="block text-emerald-600 dark:text-emerald-400">Uzman ekibimiz size yardÄ±mcÄ± olmaktan mutluluk duyar.</span>
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">
               <a
                 href="/quote"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700"
+                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
               >
                 Fiyat Teklifi Al
               </a>
@@ -346,4 +346,5 @@ export default function ProductsPage() {
     </div>
   );
 }
+
 
