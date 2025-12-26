@@ -105,8 +105,8 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className={`${manrope.className} relative z-0 min-h-screen bg-slate-900 text-white`}>
-      <div className="pointer-events-none fixed inset-0 -z-10">
+    <div className={`${manrope.className} relative z-0 min-h-screen bg-slate-50 text-slate-900`}>
+      <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-25" />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
         <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/15 blur-[160px]" />
@@ -461,5 +461,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 
