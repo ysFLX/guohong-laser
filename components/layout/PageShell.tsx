@@ -16,7 +16,7 @@ const quickLinks = [
 
 export default function PageShell({ children }: PageShellProps) {
   return (
-    <div className="relative z-0">
+    <div className="relative z-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#10b981,_transparent_45%)] opacity-20 dark:opacity-40" />
         <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.75),_rgba(226,232,240,0.4))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.85),_rgba(15,23,42,0.85))]" />
