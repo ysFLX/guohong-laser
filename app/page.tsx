@@ -418,12 +418,12 @@ export default function Home() {
                   İletişim
                 </p>
                 <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
-                  24 saat içinde geri dönüş hedefi.
+                  Bizimle iletişime geçebileceğiniz bilgiler
                 </p>
                 <div className="mt-4 space-y-2 text-sm text-slate-700 dark:text-white/80">
-                  <p>?? +90 536 831 67 87</p>
-                  <p>?? info@guohonglaser.com</p>
-                  <p>?? İstanbul</p>
+                  <p>+90 536 831 67 87</p>
+                  <p>guohonglazerinfo@gmail.com</p>
+                  <p>Konya/Karatay</p>
                 </div>
                 <Link
                   href="/contact"
@@ -435,22 +435,25 @@ export default function Home() {
 
               <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Katalog / Doküman
+                  Katalog
                 </p>
                 <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
-                  Teknik detayları tek dosyada toparlayın.
+                  Ürünler hakkında daha detaylı bilgi almak için kataloğa göz atabilirsiniz.
                 </p>
-                <Link
-                  href="/downloads"
+                <a
+                  href="/images/katalog.pdf"
+                  download="LaserMarket-Katalog.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900"
                 >
-                  Dokümanlar
-                </Link>
+                  Kataloğu Görüntüle
+                </a>
               </div>
 
               <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Referans Portföy
+                  Görsel Galeri
                 </p>
                 <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
                   Son kurulumlarımız ve başarı hikayeleri için galeriye göz atın.
