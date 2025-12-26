@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -101,7 +101,7 @@ export default function AdminSparePartCategoryForm() {
               setIsSaving(false);
             }
           }}
-          className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-60"
         >
           {isSaving ? 'Kaydediliyor...' : 'Kategori Ekle'}
         </button>
@@ -109,3 +109,4 @@ export default function AdminSparePartCategoryForm() {
     </div>
   );
 }
+

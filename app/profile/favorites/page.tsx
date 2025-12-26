@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -72,12 +72,12 @@ export default function FavoritesPage() {
         const data = text ? JSON.parse(text) : {};
 
         if (!res.ok) {
-          throw new Error(data?.error || 'Favoriler yüklenemedi');
+          throw new Error(data?.error || 'Favoriler yÃ¼klenemedi');
         }
 
         setItems(Array.isArray(data?.items) ? data.items : []);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Favoriler yüklenemedi';
+        const message = e instanceof Error ? e.message : 'Favoriler yÃ¼klenemedi';
         setError(message);
       } finally {
         setIsLoading(false);
@@ -101,14 +101,14 @@ export default function FavoritesPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Favori güncellenemedi');
+        throw new Error(data?.error || 'Favori gÃ¼ncellenemedi');
       }
 
       if (data?.favorited === false) {
         setItems((prev) => prev.filter((item) => item.sparePartId !== sparePartId));
       }
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Favori güncellenemedi';
+      const message = e instanceof Error ? e.message : 'Favori gÃ¼ncellenemedi';
       setError(message);
     } finally {
       setToggling((prev) => {
@@ -125,19 +125,19 @@ export default function FavoritesPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold">Favorilerim</h1>
-            <p className="mt-1 text-sm text-gray-600">Favorilediğin ürünleri burada yönetebilirsin.</p>
+            <p className="mt-1 text-sm text-gray-600">FavorilediÄŸin Ã¼rÃ¼nleri burada yÃ¶netebilirsin.</p>
           </div>
-          <Link href="/spare-parts" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
-            Yedek Parçalara Git
+          <Link href="/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+            Yedek ParÃ§alara Git
           </Link>
         </div>
 
-        {isLoading && <div className="mt-6 text-sm text-gray-600">Yükleniyor...</div>}
+        {isLoading && <div className="mt-6 text-sm text-gray-600">YÃ¼kleniyor...</div>}
         {error && <div className="mt-6 text-sm text-red-600">{error}</div>}
 
         {!isLoading && !error && items.length === 0 && (
           <div className="mt-8 rounded-xl border border-dashed border-gray-200 p-6 text-sm text-gray-600">
-            Henüz favori ürün yok. Yedek parçalardan favori ekleyebilirsin.
+            HenÃ¼z favori Ã¼rÃ¼n yok. Yedek parÃ§alardan favori ekleyebilirsin.
           </div>
         )}
 
@@ -183,7 +183,7 @@ export default function FavoritesPage() {
 
                   <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-500">
                     <span>Stok: {item.sparePart.stockOnHand}</span>
-                    <span>Ölçü: {item.sparePart.dimensions || '-'}</span>
+                    <span>Ã–lÃ§Ã¼: {item.sparePart.dimensions || '-'}</span>
                   </div>
 
                   <div className="mt-5 flex flex-wrap gap-2">
@@ -192,7 +192,7 @@ export default function FavoritesPage() {
                       name={item.sparePart.name}
                       priceCents={item.sparePart.priceCents}
                       imageUrl={item.sparePart.imageUrl}
-                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
                     />
                     <Link
                       href={`/spare-parts/${item.sparePartId}`}
@@ -206,7 +206,7 @@ export default function FavoritesPage() {
                       disabled={toggling.has(item.sparePartId)}
                       className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold text-red-600 border border-red-100 hover:bg-red-50 disabled:text-gray-400"
                     >
-                      Favoriden kaldır
+                      Favoriden kaldÄ±r
                     </button>
                   </div>
                 </div>
@@ -218,3 +218,4 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
+

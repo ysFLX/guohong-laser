@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,7 +41,7 @@ export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
 
-  const [selectedCategory, setSelectedCategory] = useState('Tümü');
+  const [selectedCategory, setSelectedCategory] = useState('TÃ¼mÃ¼');
   const [searchQuery, setSearchQuery] = useState('');
 
   const [items, setItems] = useState<SparePart[]>([]);
@@ -58,10 +58,10 @@ export default function SparePartsPage() {
       try {
         const res = await fetch('/api/spare-parts');
         const data = await res.json();
-        if (!res.ok) throw new Error(data?.error || 'Yedek parçalar alınamadı');
+        if (!res.ok) throw new Error(data?.error || 'Yedek parÃ§alar alÄ±namadÄ±');
         setItems(Array.isArray(data?.items) ? data.items : []);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Yedek parçalar alınamadı';
+        const message = e instanceof Error ? e.message : 'Yedek parÃ§alar alÄ±namadÄ±';
         setLoadError(message);
       } finally {
         setIsLoading(false);
@@ -85,7 +85,7 @@ export default function SparePartsPage() {
         const data = text ? JSON.parse(text) : {};
 
         if (!res.ok) {
-          throw new Error(data?.error || 'Favoriler alınamadı');
+          throw new Error(data?.error || 'Favoriler alÄ±namadÄ±');
         }
 
         const ids = new Set<string>();
@@ -96,7 +96,7 @@ export default function SparePartsPage() {
         }
         setFavoriteIds(ids);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Favoriler alınamadı';
+        const message = e instanceof Error ? e.message : 'Favoriler alÄ±namadÄ±';
         setFavoriteError(message);
       }
     };
@@ -123,7 +123,7 @@ export default function SparePartsPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Favori güncellenemedi');
+        throw new Error(data?.error || 'Favori gÃ¼ncellenemedi');
       }
 
       setFavoriteIds((prev) => {
@@ -136,7 +136,7 @@ export default function SparePartsPage() {
         return next;
       });
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Favori güncellenemedi';
+      const message = e instanceof Error ? e.message : 'Favori gÃ¼ncellenemedi';
       setFavoriteError(message);
     } finally {
       setFavoriteLoading((prev) => {
@@ -150,14 +150,14 @@ export default function SparePartsPage() {
   const categories = useMemo(() => {
     const set = new Set<string>();
     for (const p of items) set.add(p.category.name);
-    return ['Tümü', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'tr'))];
+    return ['TÃ¼mÃ¼', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'tr'))];
   }, [items]);
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
 
     return items.filter((p) => {
-      const matchesCategory = selectedCategory === 'Tümü' || p.category.name === selectedCategory;
+      const matchesCategory = selectedCategory === 'TÃ¼mÃ¼' || p.category.name === selectedCategory;
       const matchesSearch =
         !q ||
         p.name.toLowerCase().includes(q) ||
@@ -172,9 +172,9 @@ export default function SparePartsPage() {
       <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
         <div className="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Yedek Parçalar</h1>
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Yedek ParÃ§alar</h1>
             <p className="mt-4 text-base text-gray-200 sm:text-lg">
-              Fiber lazer makineleri için sarf malzeme ve kritik yedek parçalar. Uyum ve stok bilgisi için bize ulaş.
+              Fiber lazer makineleri iÃ§in sarf malzeme ve kritik yedek parÃ§alar. Uyum ve stok bilgisi iÃ§in bize ulaÅŸ.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
@@ -187,7 +187,7 @@ export default function SparePartsPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-white/20 hover:bg-white/10"
               >
-                Uyum Danış
+                Uyum DanÄ±ÅŸ
               </Link>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function SparePartsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm"
-                  placeholder="Parça adı, açıklama veya uyumluluk ara..."
+                  placeholder="ParÃ§a adÄ±, aÃ§Ä±klama veya uyumluluk ara..."
                 />
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function SparePartsPage() {
           </div>
 
           <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-            {isLoading ? 'Yükleniyor...' : `${filtered.length} ürün listeleniyor`}
+            {isLoading ? 'YÃ¼kleniyor...' : `${filtered.length} Ã¼rÃ¼n listeleniyor`}
           </div>
           {favoriteError && <div className="mt-3 text-sm text-red-600">{favoriteError}</div>}
         </div>
@@ -298,7 +298,7 @@ export default function SparePartsPage() {
                           onClick={() => toggleFavorite(p.id)}
                           disabled={favoriteLoading.has(p.id)}
                           aria-pressed={isFavorited}
-                          aria-label={isFavorited ? 'Favoriden kaldır' : 'Favorilere ekle'}
+                          aria-label={isFavorited ? 'Favoriden kaldÄ±r' : 'Favorilere ekle'}
                           className={`h-9 w-9 rounded-full border flex items-center justify-center transition-colors ${
                             isFavorited
                               ? 'border-red-200 bg-red-50 text-red-600'
@@ -325,7 +325,7 @@ export default function SparePartsPage() {
                         <div className="mt-1">{p.stockOnHand}</div>
                       </div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">
-                        <span className="text-xs font-semibold text-gray-900 dark:text-white">Ölçü</span>
+                        <span className="text-xs font-semibold text-gray-900 dark:text-white">Ã–lÃ§Ã¼</span>
                         <div className="mt-1">{p.dimensions || '-'}</div>
                       </div>
                     </div>
@@ -336,7 +336,7 @@ export default function SparePartsPage() {
                         name={p.name}
                         priceCents={p.priceCents}
                         imageUrl={p.imageUrl}
-                        className="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
                       />
                       <Link
                         href={`/spare-parts/${p.id}`}
@@ -354,11 +354,12 @@ export default function SparePartsPage() {
 
         {!isLoading && !loadError && filtered.length === 0 && (
           <div className="text-center py-14">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Sonuç bulunamadı</h3>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">Filtreleri değiştirip tekrar deneyebilirsin.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">SonuÃ§ bulunamadÄ±</h3>
+            <p className="mt-2 text-gray-600 dark:text-gray-300">Filtreleri deÄŸiÅŸtirip tekrar deneyebilirsin.</p>
           </div>
         )}
       </div>
     </div>
   );
 }
+

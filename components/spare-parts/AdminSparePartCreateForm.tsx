@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -170,7 +170,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                 setIsSaving(false);
               }
             }}
-            className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+            className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-60"
           >
             {isSaving ? 'Kaydediliyor...' : 'Kaydet'}
           </button>
@@ -179,3 +179,4 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
     </div>
   );
 }
+

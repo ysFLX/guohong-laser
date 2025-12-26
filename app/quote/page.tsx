@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -140,7 +140,7 @@ export default function QuotePage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
@@ -156,7 +156,7 @@ export default function QuotePage() {
                     id="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
@@ -173,7 +173,7 @@ export default function QuotePage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   />
                 </div>
                 {emailError && (
@@ -193,7 +193,7 @@ export default function QuotePage() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
@@ -209,7 +209,7 @@ export default function QuotePage() {
                     required
                     value={formData.product}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   >
                     <option value="">Urun seciniz</option>
                     {products.map((product, index) => (
@@ -232,7 +232,7 @@ export default function QuotePage() {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                     placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
                   ></textarea>
                 </div>
@@ -257,7 +257,7 @@ export default function QuotePage() {
                       required
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
-                      className="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white tracking-widest text-center"
+                      className="py-3 px-4 block w-full shadow-sm focus:ring-teal-500 focus:border-teal-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white tracking-widest text-center"
                       placeholder="000000"
                       maxLength={6}
                     />
@@ -276,14 +276,14 @@ export default function QuotePage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
               >
                 Iptal
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve Gonder' : 'Gonder'}
               </button>
@@ -294,3 +294,4 @@ export default function QuotePage() {
     </div>
   );
 }
+

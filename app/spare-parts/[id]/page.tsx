@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { prisma } from '@/lib/prisma';
@@ -92,7 +92,7 @@ export default async function SparePartDetailPage({
       <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between">
           <Link href="/spare-parts" className="text-sm font-semibold text-gray-700 dark:text-gray-200 hover:underline">
-            ← Yedek Parçalara Dön
+            â† Yedek ParÃ§alara DÃ¶n
           </Link>
           {p.isFeatured && (
             <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-900 text-white">
@@ -126,7 +126,7 @@ export default async function SparePartDetailPage({
                 Stok: <span className="font-semibold">{p.stockOnHand}</span>
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">
-                Ölçü: <span className="font-semibold">{p.dimensions || '-'}</span>
+                Ã–lÃ§Ã¼: <span className="font-semibold">{p.dimensions || '-'}</span>
               </div>
             </div>
 
@@ -140,7 +140,7 @@ export default async function SparePartDetailPage({
                 imageUrl={p.imageUrl}
                 className={
                   p.stockOnHand > 0
-                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700'
+                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700'
                     : 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 cursor-not-allowed'
                 }
                 quantity={1}
@@ -149,7 +149,7 @@ export default async function SparePartDetailPage({
                 href="/contact"
                 className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
               >
-                Ürün Hakkında Sor
+                ÃœrÃ¼n HakkÄ±nda Sor
               </Link>
             </div>
           </div>
@@ -158,3 +158,4 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
+

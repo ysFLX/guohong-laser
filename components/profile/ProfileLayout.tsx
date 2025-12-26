@@ -48,7 +48,7 @@ export default function ProfileLayout({
                     <div className="text-sm font-semibold text-gray-900">Adres</div>
                     <div className="mt-1 text-sm text-gray-500">Adreslerini yonetmek icin tikla</div>
                     <div className="mt-4">
-                      <Link href="/profile/addresses" className="px-3 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                      <Link href="/profile/addresses" className="px-3 py-2 rounded-md text-sm font-medium text-white bg-teal-600 hover:bg-teal-700">
                         Adreslerim
                       </Link>
                     </div>
@@ -62,4 +62,5 @@ export default function ProfileLayout({
     </div>
   );
 }
+
 

@@ -1,28 +1,28 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-// Ekip üyeleri için geçici resim URL'leri
+// Ekip Ã¼yeleri iÃ§in geÃ§ici resim URL'leri
 const teamMembers = [
   {
     name: 'Fatih Turgut Polat',
-    role: 'Satış Müdürü',
+    role: 'SatÄ±ÅŸ MÃ¼dÃ¼rÃ¼',
     image: 'https://randomuser.me/api/portraits/men/1.jpg',
   },
   {
     name: 'Arafat Uygur',
-    role: 'Satış Müdürü',
+    role: 'SatÄ±ÅŸ MÃ¼dÃ¼rÃ¼',
     image: 'https://randomuser.me/api/portraits/men/2.jpg',
   },
   {
-    name: 'Yusuf Can Gördebil',
-    role: 'Satış Pazarlama',
+    name: 'Yusuf Can GÃ¶rdebil',
+    role: 'SatÄ±ÅŸ Pazarlama',
     image: 'https://randomuser.me/api/portraits/men/3.jpg',
   },
   {
-    name: 'Yusuf Küçüktongarlak',
-    role: 'Sosyal Medya Yöneticisi',
+    name: 'Yusuf KÃ¼Ã§Ã¼ktongarlak',
+    role: 'Sosyal Medya YÃ¶neticisi',
     image: 'https://randomuser.me/api/portraits/men/4.jpg',
   },
 ];
@@ -31,7 +31,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-800 to-blue-900 text-white overflow-hidden">
+      <div className="relative bg-gradient-to-br from-teal-800 to-teal-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-10"></div>
         <div className="relative max-w-7xl mx-auto py-28 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -39,9 +39,9 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-blue-100 bg-blue-700/30 rounded-full backdrop-blur-sm"
+              className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-teal-100 bg-teal-700/30 rounded-full backdrop-blur-sm"
             >
-              Hakkımızda
+              HakkÄ±mÄ±zda
             </motion.span>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -49,24 +49,24 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl"
             >
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-white to-teal-200">
                 Lazer Teknolojisinde
               </span>
-              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">
-                Geleceği Şekillendiriyoruz
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-teal-300 to-teal-400">
+                GeleceÄŸi Åekillendiriyoruz
               </span>
             </motion.h1>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-8 max-w-3xl mx-auto text-xl text-blue-100 leading-relaxed space-y-4"
+              className="mt-8 max-w-3xl mx-auto text-xl text-teal-100 leading-relaxed space-y-4"
             >
-              <p className="text-blue-50 font-medium">
-                Sektördeki 10+ yıllık deneyimimizle, en ileri teknoloji lazer çözümleri sunuyoruz.
+              <p className="text-teal-50 font-medium">
+                SektÃ¶rdeki 10+ yÄ±llÄ±k deneyimimizle, en ileri teknoloji lazer Ã§Ã¶zÃ¼mleri sunuyoruz.
               </p>
-              <p className="text-blue-100/90">
-                Müşteri odaklı yaklaşımımız ve yenilikçi çözümlerimizle, işletmenizin ihtiyaçlarına özel çözümler üretiyoruz.
+              <p className="text-teal-100/90">
+                MÃ¼ÅŸteri odaklÄ± yaklaÅŸÄ±mÄ±mÄ±z ve yenilikÃ§i Ã§Ã¶zÃ¼mlerimizle, iÅŸletmenizin ihtiyaÃ§larÄ±na Ã¶zel Ã§Ã¶zÃ¼mler Ã¼retiyoruz.
               </p>
             </motion.div>
             <motion.div
@@ -77,20 +77,20 @@ export default function AboutPage() {
             >
               <a
                 href="#iletisim"
-                className="px-8 py-4 bg-white text-blue-700 font-medium rounded-lg hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl text-center"
+                className="px-8 py-4 bg-white text-teal-700 font-medium rounded-lg hover:bg-teal-50 transition-all duration-300 shadow-lg hover:shadow-xl text-center"
               >
-                Hemen Teklif Alın
+                Hemen Teklif AlÄ±n
               </a>
               <a
                 href="#urunler"
                 className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300 text-center"
               >
-                Ürünleri Keşfedin
+                ÃœrÃ¼nleri KeÅŸfedin
               </a>
             </motion.div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-900/80 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-teal-900/80 to-transparent"></div>
       </div>
 
       {/* About Section */}
@@ -102,9 +102,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase"
+              className="text-base text-teal-600 dark:text-teal-400 font-semibold tracking-wide uppercase"
             >
-              Hakkımızda
+              HakkÄ±mÄ±zda
             </motion.span>
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
@@ -113,7 +113,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
             >
-              Guohong Lazer&apos;e Hoş Geldiniz
+              Guohong Lazer&apos;e HoÅŸ Geldiniz
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -122,7 +122,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto"
             >
-              Yüksek kaliteli lazer makineleri ve yedek parçaları ile sektörde öncüyüz.
+              YÃ¼ksek kaliteli lazer makineleri ve yedek parÃ§alarÄ± ile sektÃ¶rde Ã¶ncÃ¼yÃ¼z.
             </motion.p>
           </div>
 
@@ -153,27 +153,27 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Firmamız</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">FirmamÄ±z</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Guohong Lazer olarak, sektördeki 10 yılı aşkın deneyimimizle, en son teknoloji lazer makineleri ve yedek parçaları üretiyoruz. Müşteri memnuniyetini her zaman ön planda tutarak, kaliteli ve güvenilir ürünler sunuyoruz.
+                  Guohong Lazer olarak, sektÃ¶rdeki 10 yÄ±lÄ± aÅŸkÄ±n deneyimimizle, en son teknoloji lazer makineleri ve yedek parÃ§alarÄ± Ã¼retiyoruz. MÃ¼ÅŸteri memnuniyetini her zaman Ã¶n planda tutarak, kaliteli ve gÃ¼venilir Ã¼rÃ¼nler sunuyoruz.
                 </p>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Uzman ekibimiz, her bütçeye uygun çözümler sunarak müşterilerimizin ihtiyaçlarını en iyi şekilde karşılamak için çalışmaktadır.
+                  Uzman ekibimiz, her bÃ¼tÃ§eye uygun Ã§Ã¶zÃ¼mler sunarak mÃ¼ÅŸterilerimizin ihtiyaÃ§larÄ±nÄ± en iyi ÅŸekilde karÅŸÄ±lamak iÃ§in Ã§alÄ±ÅŸmaktadÄ±r.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mt-8">
                   <motion.div 
                     whileHover={{ y: -5 }}
-                    className="p-4 bg-blue-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
+                    className="p-4 bg-teal-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
                   >
-                    <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400">10+</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Yıllık Deneyim</p>
+                    <h4 className="text-lg font-semibold text-teal-600 dark:text-teal-400">10+</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">YÄ±llÄ±k Deneyim</p>
                   </motion.div>
                   <motion.div 
                     whileHover={{ y: -5 }}
-                    className="p-4 bg-blue-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
+                    className="p-4 bg-teal-50 dark:bg-gray-800 rounded-lg transition-all duration-300"
                   >
-                    <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400">500+</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Mutlu Müşteri</p>
+                    <h4 className="text-lg font-semibold text-teal-600 dark:text-teal-400">500+</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Mutlu MÃ¼ÅŸteri</p>
                   </motion.div>
                 </div>
               </motion.div>
@@ -193,14 +193,14 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
             >
-              <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Vizyonumuz</h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Lazer teknolojileri alanında dünya çapında tanınan, yenilikçi ve sürdürülebilir çözümler sunan öncü bir marka olmak. Endüstri 4.0&apos;a uyumlu, akıllı üretim çözümleriyle sektörde fark yaratmayı hedefliyoruz.
+                Lazer teknolojileri alanÄ±nda dÃ¼nya Ã§apÄ±nda tanÄ±nan, yenilikÃ§i ve sÃ¼rdÃ¼rÃ¼lebilir Ã§Ã¶zÃ¼mler sunan Ã¶ncÃ¼ bir marka olmak. EndÃ¼stri 4.0&apos;a uyumlu, akÄ±llÄ± Ã¼retim Ã§Ã¶zÃ¼mleriyle sektÃ¶rde fark yaratmayÄ± hedefliyoruz.
               </p>
             </motion.div>
 
@@ -218,7 +218,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Misyonumuz</h3>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Müşterilerimize en yüksek kalitede lazer makineleri ve yedek parçaları sunarak, iş süreçlerini optimize etmek ve verimliliklerini artırmak için çözümler üretmek. Sürekli AR-GE çalışmalarımızla yenilikçi ürünler geliştirerek sektöre yön veriyoruz.
+                MÃ¼ÅŸterilerimize en yÃ¼ksek kalitede lazer makineleri ve yedek parÃ§alarÄ± sunarak, iÅŸ sÃ¼reÃ§lerini optimize etmek ve verimliliklerini artÄ±rmak iÃ§in Ã§Ã¶zÃ¼mler Ã¼retmek. SÃ¼rekli AR-GE Ã§alÄ±ÅŸmalarÄ±mÄ±zla yenilikÃ§i Ã¼rÃ¼nler geliÅŸtirerek sektÃ¶re yÃ¶n veriyoruz.
               </p>
             </motion.div>
           </div>
@@ -245,7 +245,7 @@ export default function AboutPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 mx-auto"
             >
-              Deneyimli ve uzman kadromuzla yanınızdayız.
+              Deneyimli ve uzman kadromuzla yanÄ±nÄ±zdayÄ±z.
             </motion.p>
           </div>
 
@@ -277,9 +277,9 @@ export default function AboutPage() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{member.name}</h3>
-                  <p className="text-blue-600 dark:text-blue-400 text-sm mt-1">{member.role}</p>
+                  <p className="text-teal-600 dark:text-teal-400 text-sm mt-1">{member.role}</p>
                   <div className="flex justify-center space-x-3 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <a href="#" className="text-gray-400 hover:text-blue-500 transition-colors">
+                    <a href="#" className="text-gray-400 hover:text-teal-500 transition-colors">
                       <span className="sr-only">LinkedIn</span>
                       <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -294,7 +294,7 @@ export default function AboutPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-600">
+      <div className="bg-gradient-to-r from-teal-700 to-teal-600">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -304,11 +304,11 @@ export default function AboutPage() {
             className="lg:w-2/3"
           >
             <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              <span className="block">Hazır mısınız?</span>
-              <span className="block text-blue-100">Hemen teklif alın veya bizimle iletişime geçin.</span>
+              <span className="block">HazÄ±r mÄ±sÄ±nÄ±z?</span>
+              <span className="block text-teal-100">Hemen teklif alÄ±n veya bizimle iletiÅŸime geÃ§in.</span>
             </h2>
-            <p className="mt-3 max-w-3xl text-lg leading-6 text-blue-100">
-              Uzman ekibimiz, ihtiyaçlarınıza en uygun çözümler için size yardımcı olmaktan mutluluk duyacaktır.
+            <p className="mt-3 max-w-3xl text-lg leading-6 text-teal-100">
+              Uzman ekibimiz, ihtiyaÃ§larÄ±nÄ±za en uygun Ã§Ã¶zÃ¼mler iÃ§in size yardÄ±mcÄ± olmaktan mutluluk duyacaktÄ±r.
             </p>
           </motion.div>
           <motion.div 
@@ -321,17 +321,17 @@ export default function AboutPage() {
             <div className="inline-flex rounded-md shadow">
               <a
                 href="/contact"
-                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 transition-colors duration-300"
+                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-teal-700 bg-white hover:bg-teal-50 transition-colors duration-300"
               >
-                İletişime Geçin
+                Ä°letiÅŸime GeÃ§in
               </a>
             </div>
             <div className="ml-3 inline-flex rounded-md shadow">
               <a
                 href="/products"
-                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 bg-opacity-70 hover:bg-opacity-90 transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 bg-opacity-70 hover:bg-opacity-90 transition-all duration-300"
               >
-                Ürünlerimiz
+                ÃœrÃ¼nlerimiz
               </a>
             </div>
           </motion.div>

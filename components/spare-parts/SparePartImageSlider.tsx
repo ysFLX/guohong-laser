@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
@@ -52,7 +52,7 @@ export default function SparePartImageSlider({
               className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border border-white/40 text-white backdrop-blur hover:bg-white/10"
               aria-label="Onceki gorsel"
             >
-              ‹
+              â€¹
             </button>
             <button
               type="button"
@@ -60,7 +60,7 @@ export default function SparePartImageSlider({
               className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border border-white/40 text-white backdrop-blur hover:bg-white/10"
               aria-label="Sonraki gorsel"
             >
-              ›
+              â€º
             </button>
           </>
         )}
@@ -74,7 +74,7 @@ export default function SparePartImageSlider({
               type="button"
               onClick={() => setIndex(i)}
               className={`relative h-16 w-20 shrink-0 overflow-hidden rounded-lg border ${
-                i === index ? 'border-blue-500' : 'border-gray-200 dark:border-gray-700'
+                i === index ? 'border-teal-500' : 'border-gray-200 dark:border-gray-700'
               }`}
             >
               <Image
@@ -93,3 +93,4 @@ export default function SparePartImageSlider({
     </div>
   );
 }
+

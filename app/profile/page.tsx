@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -200,7 +200,7 @@ export default function ProfilePage() {
                   <h1 className="text-2xl font-bold text-gray-900">{userName || 'Hesabim'}</h1>
                   <div className="mt-1 text-sm text-gray-600">
                     {profile?.email ?? session.user.email ?? ''}
-                    {(session.user as SessionUserWithRole).role === 'ADMIN' ? ' · Admin' : ''}
+                    {(session.user as SessionUserWithRole).role === 'ADMIN' ? ' Â· Admin' : ''}
                   </div>
                 </div>
               </div>
@@ -243,7 +243,7 @@ export default function ProfilePage() {
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm text-gray-900 bg-white"
                   />
                 </div>
                 <div>
@@ -253,7 +253,7 @@ export default function ProfilePage() {
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm text-gray-900 bg-white"
                   />
                 </div>
                 <div>
@@ -273,7 +273,7 @@ export default function ProfilePage() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 bg-white"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm text-gray-900 bg-white"
                   />
                 </div>
               </div>
@@ -284,7 +284,7 @@ export default function ProfilePage() {
                   onClick={handleSave}
                   disabled={isSaving}
                   className={`px-4 py-2 rounded-md text-sm font-medium text-white ${
-                    isSaving ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                    isSaving ? 'bg-teal-400' : 'bg-teal-600 hover:bg-teal-700'
                   }`}
                 >
                   {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri Kaydet'}
@@ -343,3 +343,4 @@ export default function ProfilePage() {
     </div>
   );
 }
+
