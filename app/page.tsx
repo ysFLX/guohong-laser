@@ -128,22 +128,22 @@ export default function Home() {
     <div className={`${body.className} bg-slate-950 text-white`}>
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#2563eb,_transparent_45%)] opacity-70" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-60" />
           <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.98),_rgba(15,23,42,0.92))]" />
-          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-blue-500/20 blur-[140px]" />
-          <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-cyan-400/10 blur-[160px]" />
+          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-teal-400/20 blur-[140px]" />
+          <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[160px]" />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:52px_52px] opacity-40" />
         </div>
 
         <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-20 pt-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-28 lg:pt-28">
           <div>
             <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+              <span className="h-1.5 w-1.5 rounded-full bg-teal-300" />
               Guohong Laser
             </div>
             <h1 className={`${display.className} mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl`}>
               Lazer kesimde
-              <span className="block text-blue-300">yeni bir kalite standardı</span>
+              <span className="block text-teal-200">yeni bir kalite standardı</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate-200">
               Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı
@@ -153,7 +153,7 @@ export default function Home() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/spare-parts"
-                className="inline-flex items-center justify-center rounded-full bg-blue-500 px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-500/30 transition hover:-translate-y-0.5 hover:bg-blue-400"
+                className="inline-flex items-center justify-center rounded-full bg-teal-500 px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-teal-500/30 transition hover:-translate-y-0.5 hover:bg-teal-400"
               >
                 Ürünleri Keşfet
               </Link>
@@ -225,7 +225,7 @@ export default function Home() {
           <div className="rounded-[32px] border border-white/10 bg-slate-950/60 p-6 shadow-2xl">
             <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-blue-300">
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-200">
                   Video Galerisi
                 </p>
                 <h2 className={`${display.className} mt-2 text-2xl text-white sm:text-3xl`}>
@@ -248,7 +248,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-blue-600">
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-700">
                 Neden Guohong?
               </p>
               <h2 className={`${display.className} mt-3 text-3xl sm:text-4xl`}>
@@ -266,7 +266,7 @@ export default function Home() {
                   key={item.title}
                   className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-lg"
                 >
-                  <p className="text-xs uppercase tracking-[0.3em] text-blue-500">
+                  <p className="text-xs uppercase tracking-[0.3em] text-teal-700">
                     Özellik
                   </p>
                   <h3 className="mt-3 text-lg font-semibold text-slate-900">
@@ -285,7 +285,7 @@ export default function Home() {
       <section className="bg-slate-950 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-blue-300">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-200">
               Hizmetler
             </p>
             <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
@@ -301,13 +301,13 @@ export default function Home() {
               <Link
                 key={service.name}
                 href={service.href}
-                className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-blue-400"
+                className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-teal-300"
               >
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-white">
                     {service.name}
                   </h3>
-                  <span className="text-blue-300">›</span>
+                  <span className="text-teal-200">›</span>
                 </div>
                 <p className="mt-3 text-sm text-slate-300">
                   {service.description}
@@ -322,7 +322,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-blue-600">
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-700">
                 Süreç
               </p>
               <h2 className={`${display.className} mt-3 text-3xl sm:text-4xl`}>
@@ -339,7 +339,7 @@ export default function Home() {
                   className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-md"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-600 text-sm font-semibold text-white">
                       {String(index + 1).padStart(2, "0")}
                     </div>
                     <div>
@@ -361,7 +361,7 @@ export default function Home() {
       <section className="bg-slate-950 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-blue-300">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-200">
               Referanslar
             </p>
             <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
@@ -406,23 +406,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500">
+      <section className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-500">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:justify-between lg:px-8">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-blue-100">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-100">
               Hemen Başlayın
             </p>
             <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
               Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
             </h2>
-            <p className="mt-4 max-w-2xl text-lg text-blue-100">
+            <p className="mt-4 max-w-2xl text-lg text-teal-100">
               Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
             </p>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row lg:mt-0">
             <Link
               href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-blue-700 shadow-lg shadow-blue-900/20 transition hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-teal-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
             >
               Hemen Teklif Al
             </Link>
