@@ -453,7 +453,7 @@ export default function Home() {
 
               <div className="rounded-3xl border border-slate-200/80 bg-white/85 p-5 text-slate-900 shadow-2xl dark:border-white/10 dark:bg-white/5 dark:text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">
-                  Görsel Galeri
+                Galeri
                 </p>
                 <p className="mt-3 text-sm text-slate-700 dark:text-white/80">
                   Son kurulumlarımız ve başarı hikayeleri için galeriye göz atın.
