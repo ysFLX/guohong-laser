@@ -1,105 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Playfair_Display, Space_Grotesk } from "next/font/google";
 
 import VideoSlider from "@/components/home/VideoSlider";
 
-const highlights = [
-  {
-    title: "Mikron seviyesinde hassasiyet",
-    description: "SÃ¼rekli kalite kontrol ile tekrarlanabilir, pÃ¼rÃ¼zsÃ¼z kesimler.",
-    icon: "M5 13l4 4L19 7",
-  },
-  {
-    title: "Saha tecrÃ¼besi ve hÄ±zlÄ± kurulum",
-    description: "Kurulumdan eÄŸitime kadar tek ekip, tek sorumluluk.",
-    icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z",
-  },
-  {
-    title: "SatÄ±ÅŸ sonrasÄ± gÃ¼Ã§lÃ¼ destek",
-    description: "7/24 teknik destek ve yaygÄ±n yedek parÃ§a stoÄŸu.",
-    icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z",
-  },
-];
+const display = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
 
-const services = [
-  {
-    name: "Lazer Kesim Makineleri",
-    description: "Sac, boru ve demir kesim hatlarÄ±nda yÃ¼ksek hassasiyet.",
-    icon: "M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z",
-    href: "/products?category=Sac+Kesim",
-  },
-  {
-    name: "Teknik Servis",
-    description: "BakÄ±m, arÄ±za ve performans iyileÅŸtirme Ã§Ã¶zÃ¼mleri.",
-    icon: "M11 4a2 2 0 114 0v1h1.5a.5.5 0 01.5.5v2.6l-1.2 1.2a.5.5 0 01-.7 0l-1.2-1.2V4zM4.5 5.5a.5.5 0 00-.5.5v3a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-3a.5.5 0 00-.5-.5h-1zm13 0a.5.5 0 00-.5.5v3a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-3a.5.5 0 00-.5-.5h-1z",
-    href: "/contact?subject=Teknik+Servis",
-  },
-  {
-    name: "Yedek ParÃ§a",
-    description: "Orijinal yedek parÃ§a ve hÄ±zlÄ± temin aÄŸÄ±.",
-    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
-    href: "/products?category=Yedek+Par%C3%A7a",
-  },
-  {
-    name: "DanÄ±ÅŸmanlÄ±k",
-    description: "Ãœretim hattÄ±nÄ±za uygun teknik planlama ve proje danÄ±ÅŸmanlÄ±ÄŸÄ±.",
-    icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z",
-    href: "/contact?subject=Dan%C4%B1%C5%9Fmanl%C4%B1k",
-  },
-];
-
-const stats = [
-  { name: "YÄ±llÄ±k Deneyim", value: "10+" },
-  { name: "Mutlu MÃ¼ÅŸteri", value: "500+" },
-  { name: "Tamamlanan Proje", value: "1000+" },
-  { name: "Aktif Saha Ekibi", value: "50+" },
-];
-
-const process = [
-  {
-    title: "KeÅŸif ve ihtiyaÃ§ analizi",
-    description: "Ãœretim hedeflerinizi ve kapasitenizi netleÅŸtiriyoruz.",
-  },
-  {
-    title: "Teknik teklif ve planlama",
-    description: "Sahaya Ã¶zel konfigÃ¼rasyon ve yatÄ±rÄ±m planÄ± Ã§Ä±karÄ±yoruz.",
-  },
-  {
-    title: "Kurulum ve eÄŸitim",
-    description: "Kurulumdan operatÃ¶r eÄŸitimine kadar uÃ§tan uca teslim.",
-  },
-  {
-    title: "SÃ¼rekli destek",
-    description: "BakÄ±m, yedek parÃ§a ve optimizasyon desteÄŸi saÄŸlÄ±yoruz.",
-  },
-];
-
-const testimonials = [
-  {
-    name: "Ahmet YÄ±lmaz",
-    role: "Ãœretim MÃ¼dÃ¼rÃ¼",
-    company: "ABC Metal Sanayi",
-    content:
-      "Makine kalitesi kadar, sonrasÄ± destek sÃ¼reci de Ã§ok gÃ¼Ã§lÃ¼. DuruÅŸ sÃ¼releri minimuma indi.",
-    avatar: "/images/avatar1.jpg",
-  },
-  {
-    name: "AyÅŸe Kaya",
-    role: "Ä°ÅŸletme Sahibi",
-    company: "Kaya Metal",
-    content:
-      "Yedek parÃ§a temini hÄ±zlÄ±, teknik ekip her zaman ulaÅŸÄ±labilir. GÃ¼ven veren bir iÅŸ ortaÄŸÄ±.",
-    avatar: "/images/avatar2.jpg",
-  },
-  {
-    name: "Mehmet Demir",
-    role: "Teknik MÃ¼dÃ¼r",
-    company: "Demir Ã‡elik A.Å.",
-    content:
-      "Proje yÃ¶netimi profesyonel, kurulum sÃ¼reci planlandÄ±ÄŸÄ± gibi tamamlandÄ±. Tavsiye ederim.",
-    avatar: "/images/avatar3.jpg",
-  },
-];
+const body = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const heroVideos = [
   {
@@ -119,45 +32,139 @@ const heroVideos = [
   },
 ];
 
+const stats = [
+  { name: "Yıllık Deneyim", value: "10+" },
+  { name: "Mutlu Müşteri", value: "500+" },
+  { name: "Tamamlanan Proje", value: "1000+" },
+  { name: "Aktif Servis Noktası", value: "24" },
+];
+
+const signature = [
+  {
+    title: "Mikron hassasiyet",
+    description: "Kesim kalitesinde milimetrik değil, mikron seviyesinde netlik.",
+  },
+  {
+    title: "Tasarım + üretim gücü",
+    description: "Mühendislik yaklaşımıyla her hat için optimize edilmiş çözüm.",
+  },
+  {
+    title: "Sürekli destek",
+    description: "Kurulum sonrası eğitim, bakım ve hızlı yedek parça erişimi.",
+  },
+];
+
+const services = [
+  {
+    name: "Lazer Kesim Makineleri",
+    description: "Sac, boru ve demir kesim hatlarında yüksek performans.",
+    href: "/products?category=Sac+Kesim",
+  },
+  {
+    name: "Teknik Servis",
+    description: "Bakım, arıza ve performans iyileştirme çözümleri.",
+    href: "/contact?subject=Teknik+Servis",
+  },
+  {
+    name: "Yedek Parça",
+    description: "Orijinal yedek parça ve hızlı temin ağı.",
+    href: "/products?category=Yedek+Par%C3%A7a",
+  },
+  {
+    name: "Danışmanlık",
+    description: "Üretim hattınıza özel planlama ve teknoloji danışmanlığı.",
+    href: "/contact?subject=Dan%C4%B1%C5%9Fmanl%C4%B1k",
+  },
+];
+
+const process = [
+  {
+    title: "Keşif ve analiz",
+    description: "Üretim ihtiyaçlarınızı ve hedef kapasiteyi netleştiriyoruz.",
+  },
+  {
+    title: "Teknik teklif",
+    description: "Sahaya uygun makine konfigürasyonu ve yatırım planı.",
+  },
+  {
+    title: "Kurulum ve eğitim",
+    description: "Kurulum, test ve operatör eğitimini uçtan uca sağlıyoruz.",
+  },
+  {
+    title: "Sürekli destek",
+    description: "Bakım, yedek parça ve performans geliştirme takibi.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Ahmet Yılmaz",
+    role: "Üretim Müdürü",
+    company: "ABC Metal Sanayi",
+    content:
+      "Makine kalitesi kadar sonrası destek süreçleri de kusursuz. Duruş süreleri azaldı.",
+    avatar: "/images/avatar1.jpg",
+  },
+  {
+    name: "Ayşe Kaya",
+    role: "İşletme Sahibi",
+    company: "Kaya Metal",
+    content:
+      "Yedek parça hızı ve teknik ekip erişimi bizi ciddi anlamda rahatlatıyor.",
+    avatar: "/images/avatar2.jpg",
+  },
+  {
+    name: "Mehmet Demir",
+    role: "Teknik Müdür",
+    company: "Demir Çelik A.Ş.",
+    content:
+      "Kurulum süreci planlandığı gibi ilerledi, performans hedeflerimizi yakaladık.",
+    avatar: "/images/avatar3.jpg",
+  },
+];
+
 export default function Home() {
   return (
-    <div className="bg-white text-slate-900 dark:bg-slate-950 dark:text-white">
-      <section className="relative overflow-hidden bg-slate-950 text-white">
+    <div className={`${body.className} bg-slate-950 text-white`}>
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#1d4ed8,_transparent_55%)] opacity-40" />
-          <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.95),_rgba(15,23,42,0.6))]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#2563eb,_transparent_45%)] opacity-70" />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.98),_rgba(15,23,42,0.92))]" />
+          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-blue-500/20 blur-[140px]" />
+          <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-cyan-400/10 blur-[160px]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:52px_52px] opacity-40" />
         </div>
-        <div className="absolute -left-16 top-24 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="absolute bottom-0 right-10 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
 
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-16 pt-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-28 lg:pt-28">
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-20 pt-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-28 lg:pt-28">
           <div>
-            <span className="inline-flex items-center rounded-full border border-white/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
               Guohong Laser
-            </span>
-            <h1 className="mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-              Ãœretimde hÄ±z,{" "}
-              <span className="text-blue-400">kesimde mutlak hassasiyet</span>
+            </div>
+            <h1 className={`${display.className} mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl`}>
+              Lazer kesimde
+              <span className="block text-blue-300">yeni bir kalite standardı</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate-200">
-              Lazer kesim hatlarÄ±nÄ±zÄ± Ã¼st seviyeye taÅŸÄ±yan makine Ã§Ã¶zÃ¼mleri,
-              hÄ±zlÄ± servis ve sÃ¼rdÃ¼rÃ¼lebilir performans. Ãœretim sÃ¼reÃ§lerinizi
-              birlikte bÃ¼yÃ¼telim.
+              Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı
+              sürekli artıran lazer teknolojileri. Guohong Laser ile üretiminizi
+              geleceğe taşıyın.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/spare-parts"
-                className="inline-flex items-center justify-center rounded-full bg-blue-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500"
+                className="inline-flex items-center justify-center rounded-full bg-blue-500 px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-500/30 transition hover:-translate-y-0.5 hover:bg-blue-400"
               >
-                ÃœrÃ¼nleri KeÅŸfet
+                Ürünleri Keşfet
               </Link>
               <Link
                 href="/quote"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
               >
-                Ãœcretsiz Teklif Al
+                Ücretsiz Teklif Al
               </Link>
             </div>
+
             <div className="mt-10 grid gap-4 sm:grid-cols-3">
               {stats.map((stat) => (
                 <div
@@ -173,40 +180,61 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative hidden min-h-[420px] overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl lg:block">
-            <Image
-              src="/images/about-showcase.jpg"
-              alt="Guohong Laser Ã¼retim sahasÄ±"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 rounded-2xl bg-slate-950/70 p-4">
-              <p className="text-sm font-semibold">AkÄ±llÄ± Ã¼retim hattÄ±</p>
-              <p className="text-xs text-slate-300">
-                Kurulumdan destek sÃ¼reÃ§lerine kadar uÃ§tan uca Ã§Ã¶zÃ¼m.
+          <div className="relative hidden min-h-[520px] lg:block">
+            <div className="absolute right-10 top-6 w-64 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                Akıllı Üretim
               </p>
+              <p className="mt-2 text-sm text-white/80">
+                Sensör destekli hat yönetimi ve anlık performans takibi.
+              </p>
+            </div>
+            <div className="absolute bottom-16 left-0 w-64 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                Verimlilik
+              </p>
+              <p className="mt-2 text-sm text-white/80">
+                Üretimde %30'a varan hız artışı için optimize çözümler.
+              </p>
+            </div>
+            <div className="absolute inset-0">
+              <div className="absolute left-10 top-20 h-[420px] w-[320px] rotate-[-4deg] overflow-hidden rounded-[36px] border border-white/10 shadow-2xl">
+                <Image
+                  src="/images/about-showcase.jpg"
+                  alt="Guohong Laser üretim sahası"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="absolute bottom-0 right-0 h-[300px] w-[240px] rotate-[6deg] overflow-hidden rounded-[32px] border border-white/10 shadow-2xl">
+                <Image
+                  src="/images/3.jpg"
+                  alt="Lazer kesim uygulaması"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="relative -mt-10 bg-white pb-16 dark:bg-slate-950 sm:pb-24">
+      <section className="relative -mt-10 bg-slate-900 pb-16 sm:pb-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[32px] border border-slate-100 bg-white p-6 shadow-xl shadow-slate-200/40 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none">
-            <div className="mb-8 flex items-center justify-between gap-6">
+          <div className="rounded-[32px] border border-white/10 bg-slate-950/60 p-6 shadow-2xl">
+            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400">
+                <p className="text-xs uppercase tracking-[0.3em] text-blue-300">
                   Video Galerisi
                 </p>
-                <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white sm:text-3xl">
-                  Ãœretim hatlarÄ±nÄ± yakÄ±ndan inceleyin
+                <h2 className={`${display.className} mt-2 text-2xl text-white sm:text-3xl`}>
+                  Üretim hatlarını yakından inceleyin
                 </h2>
               </div>
               <Link
                 href="/gallery"
-                className="hidden rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-blue-500 hover:text-blue-600 dark:border-slate-700 dark:text-slate-300 dark:hover:text-blue-400 sm:inline-flex"
+                className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-white hover:text-white"
               >
                 Galeriye Git
               </Link>
@@ -216,46 +244,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 dark:bg-slate-900 sm:py-24">
+      <section className="bg-white py-16 text-slate-900 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400">
+              <p className="text-xs uppercase tracking-[0.3em] text-blue-600">
                 Neden Guohong?
               </p>
-              <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
-                Ãœretiminiz iÃ§in gÃ¼venilir teknoloji ortaÄŸÄ±
+              <h2 className={`${display.className} mt-3 text-3xl sm:text-4xl`}>
+                Teknoloji, hız ve tasarım tek bir ekosistemde
               </h2>
-              <p className="mt-5 text-lg text-slate-600 dark:text-slate-300">
-                Ä°htiyaÃ§larÄ±nÄ±za Ã¶zel konfigÃ¼rasyon, yÃ¼ksek verim ve hÄ±zlÄ± servis
-                yapÄ±mÄ±zla yatÄ±rÄ±mÄ±nÄ±zÄ± gÃ¼vence altÄ±na alÄ±yoruz.
+              <p className="mt-5 text-lg text-slate-600">
+                Her üretim hattı benzersizdir. Bu yüzden çözümlerimizi her
+                projede yeniden şekillendiriyor, performans ve güveni aynı anda
+                sunuyoruz.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
-              {highlights.map((item) => (
+              {signature.map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-2xl border border-white bg-white p-5 shadow-lg shadow-slate-200/40 transition hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-950 dark:shadow-none"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-lg"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300">
-                    <svg
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d={item.icon}
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+                  <p className="text-xs uppercase tracking-[0.3em] text-blue-500">
+                    Özellik
+                  </p>
+                  <h3 className="mt-3 text-lg font-semibold text-slate-900">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                  <p className="mt-2 text-sm text-slate-600">
                     {item.description}
                   </p>
                 </div>
@@ -265,18 +282,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 dark:bg-slate-950 sm:py-24">
+      <section className="bg-slate-950 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400">
+            <p className="text-xs uppercase tracking-[0.3em] text-blue-300">
               Hizmetler
             </p>
-            <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
-              UÃ§tan uca lazer Ã§Ã¶zÃ¼mleri
+            <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
+              Uçtan uca lazer çözümleri
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
-              ÃœrÃ¼n ve servislerimizle Ã¼retim hattÄ±nÄ±zÄ±n tÃ¼m ihtiyaÃ§larÄ±nÄ± tek Ã§atÄ±
-              altÄ±nda karÅŸÄ±lÄ±yoruz.
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
+              Makine, servis ve danışmanlıkta tek adres ile üretim gücünüzü büyütün.
             </p>
           </div>
 
@@ -285,81 +301,52 @@ export default function Home() {
               <Link
                 key={service.name}
                 href={service.href}
-                className="group rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-200/40 transition hover:-translate-y-1 hover:border-blue-200 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none"
+                className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-blue-400"
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-500/20 dark:text-blue-300 dark:group-hover:bg-blue-500">
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d={service.icon}
-                    />
-                  </svg>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-white">
+                    {service.name}
+                  </h3>
+                  <span className="text-blue-300">›</span>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
-                  {service.name}
-                </h3>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                <p className="mt-3 text-sm text-slate-300">
                   {service.description}
                 </p>
-                <span className="mt-4 inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400">
-                  DetaylarÄ± GÃ¶r
-                  <svg
-                    className="ml-2 h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 dark:bg-slate-900 sm:py-24">
+      <section className="bg-white py-16 text-slate-900 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400">
-                SÃ¼reÃ§
+              <p className="text-xs uppercase tracking-[0.3em] text-blue-600">
+                Süreç
               </p>
-              <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
-                Åeffaf ve kontrollÃ¼ proje yÃ¶netimi
+              <h2 className={`${display.className} mt-3 text-3xl sm:text-4xl`}>
+                Şeffaf ve kontrollü proje yönetimi
               </h2>
-              <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
-                Teklif aÅŸamasÄ±ndan satÄ±ÅŸ sonrasÄ± desteÄŸe kadar tÃ¼m adÄ±mlarÄ± planlÄ±
-                ve Ã¶lÃ§Ã¼mlenebilir ÅŸekilde yÃ¶netiyoruz.
+              <p className="mt-4 text-lg text-slate-600">
+                Teklif aşamasından satış sonrası desteğe kadar planlı ve ölçümlenebilir bir sistem.
               </p>
             </div>
             <div className="space-y-6">
               {process.map((step, index) => (
                 <div
                   key={step.title}
-                  className="rounded-2xl border border-slate-100 bg-white p-5 shadow-lg shadow-slate-200/40 dark:border-slate-800 dark:bg-slate-950 dark:shadow-none"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-md"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
                       {String(index + 1).padStart(2, "0")}
                     </div>
                     <div>
-                      <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+                      <h3 className="text-base font-semibold text-slate-900">
                         {step.title}
                       </h3>
-                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                      <p className="mt-1 text-sm text-slate-600">
                         {step.description}
                       </p>
                     </div>
@@ -371,18 +358,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 dark:bg-slate-950 sm:py-24">
+      <section className="bg-slate-950 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400">
+            <p className="text-xs uppercase tracking-[0.3em] text-blue-300">
               Referanslar
             </p>
-            <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white sm:text-4xl">
-              Ä°ÅŸ ortaklarÄ±mÄ±zÄ±n deneyimleri
+            <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
+              İş ortaklarımızın deneyimleri
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
-              GÃ¼ven veren iÅŸ birlikleri ile her yÄ±l daha fazla Ã¼retim hattÄ±
-              gÃ¼Ã§lendiriyoruz.
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
+              Güven veren iş birlikleri ile her yıl daha fazla üretim hattı güçleniyor.
             </p>
           </div>
 
@@ -390,10 +376,10 @@ export default function Home() {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.name}
-                className="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-200/40 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none"
+                className="rounded-2xl border border-white/10 bg-white/5 p-6"
               >
                 <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                  <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
                     <Image
                       src={testimonial.avatar}
                       alt={testimonial.name}
@@ -403,16 +389,16 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                    <p className="text-sm font-semibold text-white">
                       {testimonial.name}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      {testimonial.role} Â· {testimonial.company}
+                    <p className="text-xs text-slate-300">
+                      {testimonial.role} · {testimonial.company}
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-slate-600 dark:text-slate-300">
-                  â€œ{testimonial.content}â€
+                <p className="mt-4 text-sm text-slate-200">
+                  “{testimonial.content}”
                 </p>
               </div>
             ))}
@@ -420,18 +406,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700">
+      <section className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:justify-between lg:px-8">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-blue-100">
-              Hemen BaÅŸlayÄ±n
+              Hemen Başlayın
             </p>
-            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              Ãœretim hattÄ±nÄ±z iÃ§in doÄŸru Ã§Ã¶zÃ¼mÃ¼ birlikte seÃ§elim
+            <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
+              Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
             </h2>
             <p className="mt-4 max-w-2xl text-lg text-blue-100">
-              Formu doldurun, uzman ekibimiz ihtiyaÃ§larÄ±nÄ±za uygun Ã§Ã¶zÃ¼m ile hÄ±zlÄ±
-              bir teklif hazÄ±rlasÄ±n.
+              Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
             </p>
           </div>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row lg:mt-0">
@@ -443,9 +428,9 @@ export default function Home() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/40 px-7 py-3 text-sm font-semibold text-white transition hover:border-white"
+              className="inline-flex items-center justify-center rounded-full border border-white/50 px-7 py-3 text-sm font-semibold text-white transition hover:border-white"
             >
-              Ä°letiÅŸime GeÃ§in
+              İletişime Geçin
             </Link>
           </div>
         </div>
