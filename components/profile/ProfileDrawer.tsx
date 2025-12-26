@@ -2,13 +2,11 @@
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; close: () => void }) {
   const { data } = useSession();
   const user = data?.user;
-  const pathname = usePathname();
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -17,12 +15,6 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
       document.body.style.overflow = '';
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    if (isOpen) {
-      close();
-    }
-  }, [pathname, isOpen, close]);
 
   return (
     <div
@@ -42,25 +34,9 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex items-start justify-between gap-4 p-4 border-b border-slate-200/70 dark:border-slate-800">
-          <div>
-            <div className="text-lg font-bold text-slate-900 dark:text-white">Profil</div>
-            <div className="text-sm text-slate-500 dark:text-slate-400">Hesap ayarları ve oturum</div>
-          </div>
-          <button
-            type="button"
-            onClick={close}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-white"
-            aria-label="Profili kapat"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path
-                fillRule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+        <div className="p-4 border-b border-slate-200/70 dark:border-slate-800">
+          <div className="text-lg font-bold text-slate-900 dark:text-white">Profil</div>
+          <div className="text-sm text-slate-500 dark:text-slate-400">Hesap ayarları ve oturum</div>
         </div>
 
         <div className="flex-1 overflow-auto p-4 space-y-4">
@@ -134,5 +110,4 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
     </div>
   );
 }
-
 
