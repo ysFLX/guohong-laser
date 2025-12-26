@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import PageShell from "@/components/layout/PageShell";
 import Providers from "./providers";
 
 const geistSans = Geist({
@@ -42,7 +43,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`}>
         <Providers>
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow">
+            <PageShell>{children}</PageShell>
+          </main>
           <Footer />
         </Providers>
         <SpeedInsights />
