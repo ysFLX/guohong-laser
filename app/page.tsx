@@ -105,332 +105,359 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className={`${manrope.className} bg-slate-950 text-white`}>
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-60" />
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.98),_rgba(15,23,42,0.94))]" />
-          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[140px]" />
-          <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[160px]" />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:52px_52px] opacity-40" />
-        </div>
+    <div className={`${manrope.className} min-h-screen bg-slate-950 text-white`}>
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-40" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(2,6,23,0.98),_rgba(15,23,42,0.94))]" />
+        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[140px]" />
+        <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/10 blur-[160px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:52px_52px] opacity-30" />
+      </div>
 
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pb-20 pt-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-28 lg:pt-28">
-          <div>
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-              Guohong Laser
-            </div>
-            <h1 className="mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-              Lazer kesimde
-              <span className="block text-emerald-200">yeni bir kalite standardı</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-slate-200">
-              Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı
-              sürekli artıran lazer teknolojileri. Guohong Laser ile üretiminizi
-              geleceğe taşıyın.
-            </p>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/spare-parts"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
-              >
-                Ürünleri Keşfet
-              </Link>
-              <Link
-                href="/quote"
-                className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
-              >
-                Ücretsiz Teklif Al
-              </Link>
-            </div>
-
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              {stats.map((stat) => (
-                <div
-                  key={stat.name}
-                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4"
-                >
-                  <p className="text-2xl font-semibold text-white">{stat.value}</p>
-                  <p className="text-xs uppercase tracking-widest text-white/60">
-                    {stat.name}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative hidden min-h-[520px] lg:block">
-            <div className="absolute right-10 top-6 w-64 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                Akıllı Üretim
-              </p>
-              <p className="mt-2 text-sm text-white/80">
-                Sensör destekli hat yönetimi ve anlık performans takibi.
-              </p>
-            </div>
-            <div className="absolute bottom-16 left-0 w-64 rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                Verimlilik
-              </p>
-              <p className="mt-2 text-sm text-white/80">
-                Üretimde %30'a varan hız artışı için optimize çözümler.
-              </p>
-            </div>
-            <div className="absolute inset-0">
-              <div className="absolute left-10 top-20 h-[420px] w-[320px] rotate-[-4deg] overflow-hidden rounded-[36px] border border-white/10 shadow-2xl">
-                <Image
-                  src="/images/about-showcase.jpg"
-                  alt="Guohong Laser üretim sahası"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <div className="absolute bottom-0 right-0 h-[300px] w-[240px] rotate-[6deg] overflow-hidden rounded-[32px] border border-white/10 shadow-2xl">
-                <Image
-                  src="/images/3.jpg"
-                  alt="Lazer kesim uygulaması"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative -mt-10 bg-slate-900 pb-16 sm:pb-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[32px] border border-white/10 bg-slate-950/60 p-6 shadow-2xl">
-            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
-                  Video Galerisi
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-[280px_1fr_320px]">
+          <aside className="hidden lg:block">
+            <div className="sticky top-6 space-y-6">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                  Hızlı Menü
                 </p>
-                <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">
-                  Üretim hatlarını yakından inceleyin
-                </h2>
+                <div className="mt-4 space-y-2 text-sm">
+                  <Link className="block text-white/80 hover:text-white" href="#hero">
+                    Genel Bakış
+                  </Link>
+                  <Link className="block text-white/80 hover:text-white" href="#video">
+                    Video Galerisi
+                  </Link>
+                  <Link className="block text-white/80 hover:text-white" href="#hizmetler">
+                    Hizmetler
+                  </Link>
+                  <Link className="block text-white/80 hover:text-white" href="#surec">
+                    Süreç
+                  </Link>
+                  <Link className="block text-white/80 hover:text-white" href="#referanslar">
+                    Referanslar
+                  </Link>
+                </div>
               </div>
-              <Link
-                href="/gallery"
-                className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-white hover:text-white"
-              >
-                Galeriye Git
-              </Link>
-            </div>
-            <VideoSlider items={heroVideos} />
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-white py-16 text-slate-900 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
-                Neden Guohong?
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
-                Teknoloji, hız ve tasarım tek bir ekosistemde
-              </h2>
-              <p className="mt-5 text-lg text-slate-600">
-                Her üretim hattı benzersizdir. Bu yüzden çözümlerimizi her
-                projede yeniden şekillendiriyor, performans ve güveni aynı anda
-                sunuyoruz.
-              </p>
-            </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {[
-                {
-                  title: "Mikron hassasiyet",
-                  description:
-                    "Kesim kalitesinde milimetrik değil, mikron seviyesinde netlik.",
-                },
-                {
-                  title: "Tasarım + üretim gücü",
-                  description:
-                    "Mühendislik yaklaşımıyla her hat için optimize edilmiş çözüm.",
-                },
-                {
-                  title: "Sürekli destek",
-                  description:
-                    "Kurulum sonrası eğitim, bakım ve hızlı yedek parça erişimi.",
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-lg"
-                >
-                  <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
-                    Özellik
-                  </p>
-                  <h3 className="mt-3 text-lg font-semibold text-slate-900">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-600">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-950 py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
-              Hizmetler
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              Uçtan uca lazer çözümleri
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
-              Makine, servis ve danışmanlıkta tek adres ile üretim gücünüzü büyütün.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {services.map((service) => (
-              <Link
-                key={service.name}
-                href={service.href}
-                className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-emerald-300"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-white">
-                    {service.name}
-                  </h3>
-                  <span className="text-emerald-200">›</span>
-                </div>
-                <p className="mt-3 text-sm text-slate-300">
-                  {service.description}
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                  Öncelikli Destek
                 </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-16 text-slate-900 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
-                Süreç
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
-                Şeffaf ve kontrollü proje yönetimi
-              </h2>
-              <p className="mt-4 text-lg text-slate-600">
-                Teklif aşamasından satış sonrası desteğe kadar planlı ve ölçümlenebilir bir sistem.
-              </p>
-            </div>
-            <div className="space-y-6">
-              {process.map((step, index) => (
-                <div
-                  key={step.title}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-md"
+                <p className="mt-3 text-sm text-white/80">
+                  Sac, boru ve demir kesim hatları için en doğru konfigürasyonu seçelim.
+                </p>
+                <Link
+                  href="/quote"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-emerald-500/25 transition hover:-translate-y-0.5 hover:bg-emerald-400"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-sm font-semibold text-white">
-                      {String(index + 1).padStart(2, "0")}
+                  Teklif Al
+                </Link>
+              </div>
+            </div>
+          </aside>
+
+          <main>
+            <div className="overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/60 shadow-2xl backdrop-blur">
+              <section id="hero" className="border-b border-white/10 px-6 py-6 sm:px-10 sm:py-8">
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                  Guohong Laser
+                </div>
+                <h1 className="mt-5 text-3xl font-semibold leading-tight sm:text-4xl">
+                  Lazer kesimde <span className="text-emerald-200">yeni bir kalite standardı</span>
+                </h1>
+                <p className="mt-4 max-w-2xl text-base text-slate-200">
+                  Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı sürekli artıran
+                  lazer teknolojileri. Guohong Laser ile üretiminizi geleceğe taşıyın.
+                </p>
+
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/spare-parts"
+                    className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                  >
+                    Ürünleri Keşfet
+                  </Link>
+                  <Link
+                    href="/quote"
+                    className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
+                  >
+                    Ücretsiz Teklif Al
+                  </Link>
+                </div>
+              </section>
+
+              <div className="space-y-10 px-6 py-8 sm:px-10 sm:py-10">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {stats.map((stat) => (
+                    <div
+                      key={stat.name}
+                      className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4"
+                    >
+                      <p className="text-2xl font-semibold text-white">{stat.value}</p>
+                      <p className="text-xs uppercase tracking-widest text-white/60">
+                        {stat.name}
+                      </p>
                     </div>
+                  ))}
+                </div>
+
+                <section id="video" className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
+                  <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <h3 className="text-base font-semibold text-slate-900">
-                        {step.title}
-                      </h3>
-                      <p className="mt-1 text-sm text-slate-600">
-                        {step.description}
+                      <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                        Video Galerisi
+                      </p>
+                      <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">
+                        Üretim hatlarını yakından inceleyin
+                      </h2>
+                    </div>
+                    <Link
+                      href="/gallery"
+                      className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-white hover:text-white"
+                    >
+                      Galeriye Git
+                    </Link>
+                  </div>
+                  <VideoSlider items={heroVideos} />
+                </section>
+
+                <section id="hizmetler" className="space-y-5">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                      Hizmetler
+                    </p>
+                    <h2 className="mt-2 text-2xl font-semibold text-white">
+                      Uçtan uca lazer çözümleri
+                    </h2>
+                  </div>
+
+                  <div className="grid gap-5 md:grid-cols-2">
+                    {services.map((service) => (
+                      <Link
+                        key={service.name}
+                        href={service.href}
+                        className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-emerald-300"
+                      >
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-white">
+                            {service.name}
+                          </h3>
+                          <span className="text-emerald-200">›</span>
+                        </div>
+                        <p className="mt-3 text-sm text-slate-300">
+                          {service.description}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                      Sahadan Notlar
+                    </p>
+                    <h3 className="mt-3 text-xl font-semibold text-white">
+                      Akıllı üretim hattı entegrasyonu
+                    </h3>
+                    <p className="mt-3 text-sm text-slate-300">
+                      Sensör destekli hat yönetimi, gerçek zamanlı performans takibi ve enerji
+                      optimizasyonu ile süreçleri ölçülebilir hale getiriyoruz.
+                    </p>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      {[
+                        "Anlık performans raporu",
+                        "Fire oranı analizi",
+                        "Otomatik bakım takvimi",
+                        "Enerji tüketimi kontrolü",
+                      ].map((item) => (
+                        <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+                    <Image
+                      src="/images/about-showcase.jpg"
+                      alt="Guohong Laser üretim sahası"
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                    <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-slate-950/70 p-4">
+                      <p className="text-sm font-semibold">Üretimde kesintisiz performans</p>
+                      <p className="text-xs text-slate-300">
+                        Kurulum, eğitim ve destek süreçlerini tek ekiple yönetiyoruz.
                       </p>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+                </section>
 
-      <section className="bg-slate-950 py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
-              Referanslar
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              İş ortaklarımızın deneyimleri
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
-              Güven veren iş birlikleri ile her yıl daha fazla üretim hattı güçleniyor.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.name}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
-                    <Image
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      width={48}
-                      height={48}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
+                <section id="surec" className="space-y-5">
                   <div>
-                    <p className="text-sm font-semibold text-white">
-                      {testimonial.name}
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                      Süreç
                     </p>
-                    <p className="text-xs text-slate-300">
-                      {testimonial.role} · {testimonial.company}
-                    </p>
+                    <h2 className="mt-2 text-2xl font-semibold text-white">
+                      Şeffaf ve kontrollü proje yönetimi
+                    </h2>
                   </div>
-                </div>
-                <p className="mt-4 text-sm text-slate-200">
-                  “{testimonial.content}”
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:justify-between lg:px-8">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
-              Hemen Başlayın
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
-              Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
-            </h2>
-            <p className="mt-4 max-w-2xl text-lg text-emerald-100">
-              Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
-            </p>
-          </div>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row lg:mt-0">
-            <Link
-              href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
-            >
-              Hemen Teklif Al
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/50 px-7 py-3 text-sm font-semibold text-white transition hover:border-white"
-            >
-              İletişime Geçin
-            </Link>
-          </div>
+                  <div className="space-y-4">
+                    {process.map((step, index) => (
+                      <div
+                        key={step.title}
+                        className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-sm font-semibold text-white">
+                            {String(index + 1).padStart(2, "0")}
+                          </div>
+                          <div>
+                            <h3 className="text-base font-semibold text-white">
+                              {step.title}
+                            </h3>
+                            <p className="mt-1 text-sm text-slate-300">
+                              {step.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section id="referanslar" className="space-y-5">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
+                      Referanslar
+                    </p>
+                    <h2 className="mt-2 text-2xl font-semibold text-white">
+                      İş ortaklarımızın deneyimleri
+                    </h2>
+                  </div>
+
+                  <div className="grid gap-5 md:grid-cols-2">
+                    {testimonials.map((t) => (
+                      <div
+                        key={t.name}
+                        className="rounded-2xl border border-white/10 bg-white/5 p-6"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
+                            <Image
+                              src={t.avatar}
+                              alt={t.name}
+                              width={48}
+                              height={48}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-white">{t.name}</p>
+                            <p className="text-xs text-slate-300">
+                              {t.role} · {t.company}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="mt-4 text-sm text-slate-200">“{t.content}”</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="rounded-3xl border border-white/10 bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500 p-6">
+                  <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
+                        Hemen Başlayın
+                      </p>
+                      <h2 className="mt-3 text-2xl font-semibold text-white">
+                        Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
+                      </h2>
+                      <p className="mt-2 text-sm text-emerald-100">
+                        Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <Link
+                        href="/quote"
+                        className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
+                      >
+                        Hemen Teklif Al
+                      </Link>
+                      <Link
+                        href="/contact"
+                        className="inline-flex items-center justify-center rounded-full border border-white/50 px-7 py-3 text-sm font-semibold text-white transition hover:border-white"
+                      >
+                        İletişime Geçin
+                      </Link>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </main>
+
+          <aside className="hidden lg:block">
+            <div className="sticky top-6 space-y-6">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                  İletişim
+                </p>
+                <p className="mt-3 text-sm text-white/80">
+                  24 saat içinde geri dönüş hedefi.
+                </p>
+                <div className="mt-4 space-y-2 text-sm text-white/80">
+                  <p>?? +90 536 831 67 87</p>
+                  <p>?? info@guohonglaser.com</p>
+                  <p>?? İstanbul</p>
+                </div>
+                <Link
+                  href="/contact"
+                  className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
+                >
+                  İletişime Geç
+                </Link>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                  Katalog / Doküman
+                </p>
+                <p className="mt-3 text-sm text-white/80">
+                  Teknik detayları tek dosyada toparlayın.
+                </p>
+                <Link
+                  href="/downloads"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5"
+                >
+                  Dokümanlar
+                </Link>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                  Referans Portföy
+                </p>
+                <p className="mt-3 text-sm text-white/80">
+                  Son kurulumlarımız ve başarı hikayeleri için galeriye göz atın.
+                </p>
+                <Link
+                  href="/gallery"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60 hover:text-white"
+                >
+                  Galeriye Git
+                </Link>
+              </div>
+            </div>
+          </aside>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
