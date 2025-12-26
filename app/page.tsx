@@ -1,17 +1,12 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
-import { Playfair_Display, Space_Grotesk } from "next/font/google";
+import { Manrope } from "next/font/google";
 
 import VideoSlider from "@/components/home/VideoSlider";
 
-const display = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const body = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const manrope = Manrope({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const heroVideos = [
@@ -125,7 +120,7 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className={`${body.className} bg-slate-950 text-white`}>
+    <div className={`${manrope.className} bg-slate-950 text-white`}>
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#0ea5a4,_transparent_45%)] opacity-60" />
@@ -141,7 +136,7 @@ export default function Home() {
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
               Guohong Laser
             </div>
-            <h1 className={`${display.className} mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl`}>
+            <h1 className="mt-6 text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
               Lazer kesimde
               <span className="block text-emerald-200">yeni bir kalite standardı</span>
             </h1>
@@ -228,7 +223,7 @@ export default function Home() {
                 <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
                   Video Galerisi
                 </p>
-                <h2 className={`${display.className} mt-2 text-2xl text-white sm:text-3xl`}>
+                <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">
                   Üretim hatlarını yakından inceleyin
                 </h2>
               </div>
@@ -251,7 +246,7 @@ export default function Home() {
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
                 Neden Guohong?
               </p>
-              <h2 className={`${display.className} mt-3 text-3xl sm:text-4xl`}>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
                 Teknoloji, hız ve tasarım tek bir ekosistemde
               </h2>
               <p className="mt-5 text-lg text-slate-600">
@@ -288,7 +283,7 @@ export default function Home() {
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
               Hizmetler
             </p>
-            <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
+            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
               Uçtan uca lazer çözümleri
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
@@ -325,7 +320,7 @@ export default function Home() {
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
                 Süreç
               </p>
-              <h2 className={`${display.className} mt-3 text-3xl sm:text-4xl`}>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">
                 Şeffaf ve kontrollü proje yönetimi
               </h2>
               <p className="mt-4 text-lg text-slate-600">
@@ -364,7 +359,7 @@ export default function Home() {
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-200">
               Referanslar
             </p>
-            <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
+            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
               İş ortaklarımızın deneyimleri
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
@@ -412,7 +407,7 @@ export default function Home() {
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
               Hemen Başlayın
             </p>
-            <h2 className={`${display.className} mt-3 text-3xl text-white sm:text-4xl`}>
+            <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
               Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
             </h2>
             <p className="mt-4 max-w-2xl text-lg text-emerald-100">
