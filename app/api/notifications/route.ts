@@ -37,12 +37,8 @@ export async function GET() {
     return NextResponse.json({ items: [] });
   }
 
-  const retentionCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
   await prismaInquiry.inquiry.deleteMany({
-    where: {
-      respondedAt: { lt: retentionCutoff },
-      adminResponse: { not: null },
-    },
+    where: { userSeenAt: { not: null } },
   });
 
   if (session.user.role === 'ADMIN') {
