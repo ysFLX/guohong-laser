@@ -3,6 +3,7 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 
 export const authOptions: NextAuthOptions = {
@@ -31,7 +32,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           const user = await prisma.user.findFirst({
-            where: { email: { equals: email, mode: 'insensitive' } },
+            where: { email: { equals: email, mode: Prisma.QueryMode.insensitive } },
           });
 
           if (!user || !user.hashedPassword) {
@@ -74,7 +75,7 @@ export const authOptions: NextAuthOptions = {
           user ??
           (session.user.email
             ? await prisma.user.findFirst({
-                where: { email: { equals: session.user.email, mode: 'insensitive' } },
+                where: { email: { equals: session.user.email, mode: Prisma.QueryMode.insensitive } },
                 select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
               })
             : null);
