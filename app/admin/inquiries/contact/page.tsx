@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
 
@@ -27,13 +29,17 @@ const prismaInquiry = prisma as unknown as {
 export default async function AdminContactInquiriesPage() {
   const retentionCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  await prismaInquiry.inquiry.deleteMany({
-    where: {
-      type: 'CONTACT',
-      respondedAt: { lt: retentionCutoff },
-      adminResponse: { not: null },
-    },
-  });
+  try {
+    await prismaInquiry.inquiry.deleteMany({
+      where: {
+        type: 'CONTACT',
+        respondedAt: { lt: retentionCutoff },
+        adminResponse: { not: null },
+      },
+    });
+  } catch (error) {
+    console.error('Inquiry cleanup failed (CONTACT):', error);
+  }
 
   const items = await prismaInquiry.inquiry.findMany({
     where: {
