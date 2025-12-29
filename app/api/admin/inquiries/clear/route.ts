@@ -16,7 +16,7 @@ const prismaInquiry = prisma as unknown as {
   inquiry: InquiryDeleteDelegate;
 };
 
-export async function DELETE(req: Request) {
+async function handleClear(req: Request) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.id) {
@@ -34,7 +34,7 @@ export async function DELETE(req: Request) {
     payloadType = typeParam;
   }
 
-  if (!payloadType) {
+  if (!payloadType && req.method !== 'GET') {
     try {
       const body = (await req.json()) as Payload;
       if (body.type === 'CONTACT' || body.type === 'QUOTE') {
@@ -55,4 +55,16 @@ export async function DELETE(req: Request) {
   });
 
   return NextResponse.json({ ok: true, count: result.count });
+}
+
+export async function DELETE(req: Request) {
+  return handleClear(req);
+}
+
+export async function POST(req: Request) {
+  return handleClear(req);
+}
+
+export async function GET(req: Request) {
+  return handleClear(req);
 }
