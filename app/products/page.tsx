@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -16,182 +16,182 @@ type Product = {
 const products: Product[] = [
   {
     id: 1,
-    name: 'A��k �ift Tablal� Sac Kesim Makinas�',
+    name: 'Acik Cift Tablali Sac Kesim Makinesi',
     category: 'Sac Kesim',
     image: '/images/1.jpg',
-    description: 'Kesintisiz �retim i�in tasarlanm��, y�ksek verimli �ift tablal� sac kesim ��z�m�. Otomatik tabla de�i�imi ile verimlili�i maksimuma ��kar�r.',
+    description: 'Kesintisiz uretim icin tasarlanmis, yuksek verimli cift tablali sac kesim cozumu. Otomatik tabla degisimiyle verimlilik artar.',
     features: [
-      '�ift tablal� s�rekli �retim',
-      'Y�ksek hassasiyetli kesim',
-      'D���k enerji t�ketimi',
+      'Cift tablali surekli uretim',
+      'Yuksek hassasiyet',
+      'Dusuk enerji tuketimi',
       'Otomatik odaklama',
-      'Kullan�c� dostu aray�z'
+      'Kullanici dostu arayuz'
     ]
   },
   {
     id: 2,
-    name: 'A��r Tip Boru Kesim Makinas�',
+    name: 'Agir Tip Boru Kesim Makinesi',
     category: 'Boru Kesim',
     image: '/images/2.jpg',
-    description: 'A��r sanayi uygulamalar� i�in �zel olarak geli�tirilmi�, y�ksek dayan�ml� boru kesim ��z�m�.',
+    description: 'Agir sanayi uygulamalari icin gelistirilmis, yuksek dayanimli boru kesim cozumu.',
     features: [
-      'A��r hizmet tipi yap�',
-      'Geni� boru �ap aral���',
-      'Y�ksek hassasiyet',
-      'Uzun �m�rl� lazer kayna��',
-      'D���k bak�m maliyeti'
+      'Agir hizmet tipi yapi',
+      'Genis boru cap araligi',
+      'Yuksek hassasiyet',
+      'Uzun omurlu lazer kaynagi',
+      'Dusuk bakim maliyeti'
     ]
   },
   {
     id: 3,
-    name: 'Boru Sac �kisi Bir Arada Lazer Kesim Makinas�',
+    name: 'Boru ve Sac Ikisi Bir Arada Lazer Kesim Makinesi',
     category: 'Kombine Kesim',
     image: '/images/3.jpg',
-    description: 'Hem sac hem de boru kesim ihtiya�lar�n�z i�in tek ��z�m. �ki farkl� i�lemi tek makinede birle�tiren pratik tasar�m.',
+    description: 'Hem sac hem de boru kesimi icin tek cozum. Iki islemi tek makinede birlestirir.',
     features: [
-      '�ift ama�l� kullan�m',
-      'H�zl� i�lem de�i�imi',
-      'Y�ksek verimlilik',
-      'Tasarruflu enerji kullan�m�',
-      'Geni� �al��ma alan�'
+      'Cift amacli kullanim',
+      'Hizli islem degisimi',
+      'Yuksek verimlilik',
+      'Tasarruflu enerji kullanimi',
+      'Genis calisma alani'
     ]
   },
   {
     id: 4,
-    name: '�ift Tabla Sac Kesim Makinas�',
+    name: 'Cift Tabla Sac Kesim Makinesi',
     category: 'Sac Kesim',
     image: '/images/4.jpg',
-    description: 'Kesintisiz �retim i�in optimize edilmi�, y�ksek kapasiteli �ift tablal� lazer kesim sistemi.',
+    description: 'Kesintisiz uretim icin optimize edilmis, yuksek kapasiteli lazer kesim sistemi.',
     features: [
-      'Kesintisiz �retim',
-      'Otomatik tabla de�i�imi',
-      'Y�ksek hassasiyet',
-      'D���k i�letme maliyeti',
-      'Kolay bak�m'
+      'Kesintisiz uretim',
+      'Otomatik tabla degisimi',
+      'Yuksek hassasiyet',
+      'Dusuk isletme maliyeti',
+      'Kolay bakim'
     ]
   },
   {
     id: 5,
-    name: 'De�i�tirilebilir Ayna Boru Kesim Makinas�',
+    name: 'Degistirilebilir Ayna Boru Kesim Makinesi',
     category: 'Boru Kesim',
     image: '/images/5.jpg',
-    description: 'Farkl� boru �aplar� i�in h�zl� ayna de�i�imi yapabilme �zelli�ine sahip, esnek �retim ��z�m�.',
+    description: 'Farkli boru caplari icin hizli ayna degisimi yapabilen esnek uretim cozumu.',
     features: [
-      'H�zl� ayna de�i�imi',
-      'Geni� boru �ap aral���',
-      'Y�ksek hassasiyet',
-      'Kullan�c� dostu aray�z',
-      'D���k bak�m gereksinimi'
+      'Hizli ayna degisimi',
+      'Genis boru cap araligi',
+      'Yuksek hassasiyet',
+      'Kullanici dostu arayuz',
+      'Dusuk bakim gereksinimi'
     ]
   },
   {
     id: 6,
-    name: 'Demir Kesim Makinas�',
-    category: '�zel Kesim',
+    name: 'Demir Kesim Makinesi',
+    category: 'Ozel Kesim',
     image: '/images/6.jpg',
-    description: 'Sert metaller ve demir kesimi i�in �zel olarak tasarlanm��, y�ksek g��l� lazer kesim ��z�m�.',
+    description: 'Sert metaller ve demir kesimi icin tasarlanmis yuksek guclu lazer cozumu.',
     features: [
-      'Y�ksek g��l� lazer kayna��',
-      'Sert metallerde etkili kesim',
-      'Uzun �m�rl� optik sistem',
-      'D���k enerji t�ketimi',
-      'G�venli �al��ma'
+      'Yuksek guclu lazer kaynagi',
+      'Sert metalde etkili kesim',
+      'Uzun omurlu optik sistem',
+      'Dusuk enerji tuketimi',
+      'Guvenli calisma'
     ]
   },
   {
     id: 7,
-    name: 'Geni� Tabla Y�ksek KW Sac Kesim Makinas�',
+    name: 'Genis Tabla Yuksek KW Sac Kesim Makinesi',
     category: 'Sac Kesim',
     image: '/images/7.jpg',
-    description: 'B�y�k ebatl� sac levhalar i�in y�ksek g��l�, end�striyel lazer kesim ��z�m�.',
+    description: 'Buyuk ebatli saclar icin yuksek guclu, endustriyel lazer kesim cozumu.',
     features: [
-      'Geni� �al��ma alan�',
-      'Y�ksek g��l� lazer kayna��',
-      'End�striyel dayan�kl�l�k',
-      'Y�ksek kesim h�z�',
-      'Otomatik malzeme tan�ma'
+      'Genis calisma alani',
+      'Yuksek guclu lazer kaynagi',
+      'Endustriyel dayaniklilik',
+      'Yuksek kesim hizi',
+      'Otomatik malzeme tanima'
     ]
   },
   {
     id: 8,
-    name: 'K���k �apl� Tam Otomatik Y�kleme ve �ndirme Boru Kesim Makinas�',
+    name: 'Kucuk Capli Tam Otomatik Yukleme ve Indirme Boru Kesim Makinesi',
     category: 'Boru Kesim',
     image: '/images/8.jpg',
-    description: 'K���k �apl� borular i�in tam otomatik y�kleme ve bo�altma sistemine sahip, y�ksek verimli kesim ��z�m�.',
+    description: 'Kucuk capli borular icin tam otomatik yukleme/bosaltma sistemli cozum.',
     features: [
       'Tam otomatik sistem',
-      'Y�ksek �retim h�z�',
-      'D���k i��ilik maliyeti',
+      'Yuksek uretim hizi',
+      'Dusuk iscilik maliyeti',
       'Hassas kesim',
-      'Kullan�c� dostu aray�z'
+      'Kullanici dostu arayuz'
     ]
   },
   {
     id: 9,
-    name: 'Rayl� Sac Kesim Makinas�',
+    name: 'Rayli Sac Kesim Makinesi',
     category: 'Sac Kesim',
     image: '/images/9.jpg',
-    description: 'Uzun sac levhalar i�in �zel rayl� sistem tasar�m�na sahip, y�ksek hassasiyetli kesim ��z�m�.',
+    description: 'Uzun sac levhalar icin rayli sistem tasarimiyla yuksek hassasiyet.',
     features: [
-      'Rayl� ta��ma sistemi',
-      'Uzun saclarda y�ksek hassasiyet',
-      'D���k enerji t�ketimi',
-      'Kolay kullan�m',
-      'D���k bak�m maliyeti'
+      'Rayli tasima sistemi',
+      'Uzun saclarda yuksek hassasiyet',
+      'Dusuk enerji tuketimi',
+      'Kolay kullanim',
+      'Dusuk bakim maliyeti'
     ]
   },
   {
     id: 10,
-    name: 'Tek Tabla Sac Kesim Makinas�',
+    name: 'Tek Tabla Sac Kesim Makinesi',
     category: 'Sac Kesim',
     image: '/images/10.jpg',
-    description: 'K���k ve orta �l�ekli i�letmeler i�in ekonomik, y�ksek verimli tek tablal� lazer kesim ��z�m�.',
+    description: 'Kucuk ve orta olcekli isletmeler icin ekonomik, verimli tek tablali cozum.',
     features: [
-      'Ekonomik ��z�m',
-      'Y�ksek verimlilik',
-      'Kompakt tasar�m',
-      'Kolay kullan�m',
-      'D���k i�letme maliyeti'
+      'Ekonomik cozum',
+      'Yuksek verimlilik',
+      'Kompakt tasarim',
+      'Kolay kullanim',
+      'Dusuk isletme maliyeti'
     ]
   },
   {
     id: 11,
-    name: 'Yandan Y�klemeli Yar� Otomatik Boru Kesim Makinas�',
+    name: 'Yandan Yuklemeli Yari Otomatik Boru Kesim Makinesi',
     category: 'Boru Kesim',
     image: '/images/11.jpg',
-    description: 'Yandan y�kleme �zelli�i ile kolay kullan�m sunan, yar� otomatik boru kesim ��z�m�.',
+    description: 'Yandan yukleme ile kolay kullanim sunan yari otomatik boru kesim cozumu.',
     features: [
-      'Yandan y�kleme kolayl���',
-      'Yar� otomatik �al��ma',
-      'Y�ksek hassasiyet',
-      'D���k enerji t�ketimi',
-      'Kolay bak�m'
+      'Yandan yukleme kolayligi',
+      'Yari otomatik calisma',
+      'Yuksek hassasiyet',
+      'Dusuk enerji tuketimi',
+      'Kolay bakim'
     ]
   },
   {
     id: 12,
-    name: 'Yar� Otomatik Y�klemeli Boru Kesim Makinas�',
+    name: 'Yari Otomatik Yuklemeli Boru Kesim Makinesi',
     category: 'Boru Kesim',
     image: '/images/12.jpg',
-    description: 'Yar� otomatik y�kleme sistemi ile verimli boru kesim ��z�m�. ��letmeler i�in pratik ve ekonomik ��z�m.',
+    description: 'Yari otomatik yukleme sistemi ile pratik ve ekonomik boru kesim cozumu.',
     features: [
-      'Yar� otomatik y�kleme',
-      'Y�ksek verimlilik',
+      'Yari otomatik yukleme',
+      'Yuksek verimlilik',
       'Hassas kesim',
-      'Kullan�m kolayl���',
-      'D���k i�letme maliyeti'
+      'Kullanim kolayligi',
+      'Dusuk isletme maliyeti'
     ]
   }
 ];
 
-const categories = ['T�m�', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', '�zel Kesim'];
+const categories = ['Tumu', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Ozel Kesim'];
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('T�m�');
+  const [selectedCategory, setSelectedCategory] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'T�m�' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'Tumu' || product.category === selectedCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -207,7 +207,7 @@ export default function ProductsPage() {
               Lazer Makineleri
             </h1>
             <p className="mt-3 max-w-md mx-auto text-base text-emerald-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-              En son teknoloji lazer makineleri ile �retim s�re�lerinizi optimize edin.
+              En son teknoloji lazer makineleri ile uretim sureclerinizi optimize edin.
             </p>
           </div>
         </div>
@@ -230,7 +230,7 @@ export default function ProductsPage() {
                   type="text"
                   id="search"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white dark:bg-gray-800 dark:border-gray-700 placeholder-gray-500 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                  placeholder="�r�n ara..."
+                  placeholder="Urun ara..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -254,48 +254,43 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {/* Products List */}
+        <div className="space-y-6">
           {filteredProducts.map((product) => (
             <motion.div
               key={product.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              whileHover={{ y: -5 }}
-              className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              transition={{ duration: 0.25 }}
+              className="border-b border-gray-200/70 dark:border-gray-700/70 pb-6"
             >
-              <div className="relative h-48 w-full sm:h-52">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-4 right-4 bg-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  {product.category}
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+                <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-white lg:w-80">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-              </div>
-              <div className="p-5">
-                <div className="flex justify-between items-start">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{product.name}</h3>
-                </div>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">{product.description}</p>
-                <div className="mt-4">
-                  <h4 className="text-xs font-semibold uppercase tracking-wide text-gray-900 dark:text-white">Ozellikler</h4>
-                  <ul className="mt-2 space-y-1">
-                    {product.features.slice(0, 2).map((feature, index) => (
-                      <li key={index} className="flex items-center">
-                        <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{product.name}</h3>
+                    <span className="rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1">
+                      {product.category}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{product.description}</p>
+                  <ul className="mt-3 grid gap-2 sm:grid-cols-2 text-sm text-gray-600 dark:text-gray-300">
+                    {product.features.slice(0, 4).map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <svg className="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">{feature}</span>
+                        <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-                <div className="mt-6">
-                 
                 </div>
               </div>
             </motion.div>
@@ -318,9 +313,8 @@ export default function ProductsPage() {
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">�r�n bulunamad�</h3>
-            <p className="mt-1 text-gray-500 dark:text-gray-400">Arama kriterlerinize uygun �r�n bulunamad�.</p>
-          </div>
+            <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">Urun bulunamadi</h3>
+            <p className="mt-1 text-gray-500 dark:text-gray-400">Arama kriterlerinize uygun urun bulunamadi.</p>
         )}
       </div>
 
@@ -329,7 +323,9 @@ export default function ProductsPage() {
         <div className="max-w-none mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             <span className="block">Fiyat teklifi mi almak istiyorsunuz?</span>
-            <span className="block text-emerald-600 dark:text-emerald-400">Uzman ekibimiz size yard�mc� olmaktan mutluluk duyar.</span>
+            <span className="block text-emerald-600 dark:text-emerald-400">
+              Uzman ekibimiz size yardimci olmaktan mutluluk duyar.
+            </span>
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">
