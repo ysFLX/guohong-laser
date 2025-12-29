@@ -201,7 +201,7 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
+        <div className="max-w-none mx-auto px-4 py-24 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
               Lazer Makineleri
@@ -214,7 +214,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Products Section */}
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      <div className="max-w-none mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {/* Filters */}
         <div className="mb-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
@@ -326,7 +326,7 @@ export default function ProductsPage() {
 
       {/* CTA Section */}
       <div className="bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+        <div className="max-w-none mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             <span className="block">Fiyat teklifi mi almak istiyorsunuz?</span>
             <span className="block text-emerald-600 dark:text-emerald-400">Uzman ekibimiz size yard�mc� olmaktan mutluluk duyar.</span>
@@ -346,6 +346,7 @@ export default function ProductsPage() {
     </div>
   );
 }
+
 
 
 

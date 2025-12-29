@@ -170,7 +170,7 @@ export default function SparePartsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+        <div className="max-w-none mx-auto px-4 py-20 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Yedek Parçalar</h1>
             <p className="mt-4 text-base text-gray-200 sm:text-lg">
@@ -194,7 +194,7 @@ export default function SparePartsPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+      <div className="max-w-none mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="w-full lg:w-1/3">
@@ -362,6 +362,7 @@ export default function SparePartsPage() {
     </div>
   );
 }
+
 
 
 
