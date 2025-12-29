@@ -40,15 +40,11 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
     return NextResponse.json({ error: 'Talep bulunamadi' }, { status: 404 });
   }
 
-  if (!inquiry.userId) {
-    return NextResponse.json({ error: 'Kullanicinin uyeligi bulunmamaktadir' }, { status: 400 });
-  }
-
   let body: unknown;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
 
   const payload = body as Payload;
@@ -59,6 +55,9 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   };
 
   if (typeof payload.adminResponse === 'string') {
+    if (!inquiry.userId) {
+      return NextResponse.json({ error: 'Kullanicinin uyeligi bulunmamaktadir' }, { status: 400 });
+    }
     data.adminResponse = payload.adminResponse.trim() ? payload.adminResponse.trim() : null;
   }
 
