@@ -65,18 +65,19 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
-        token.id = user.id;
+        token.id = user.id ?? token.sub ?? token.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
+        const tokenId = token.id ?? token.sub;
         session.user.role = token.role;
-        session.user.id = token.id ?? session.user.id;
+        session.user.id = tokenId ?? session.user.id;
 
-        if (token.id) {
+        if (tokenId) {
           const dbUser = await prisma.user.findUnique({
-            where: { id: String(token.id) },
+            where: { id: String(tokenId) },
             select: { firstName: true, lastName: true, phone: true, image: true },
           });
 
