@@ -315,6 +315,7 @@ export default function ProductsPage() {
             </svg>
             <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">Urun bulunamadi</h3>
             <p className="mt-1 text-gray-500 dark:text-gray-400">Arama kriterlerinize uygun urun bulunamadi.</p>
+          </div>
         )}
       </div>
 
