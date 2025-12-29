@@ -81,20 +81,32 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role;
         session.user.id = tokenId ?? session.user.id;
 
+        let dbUser = null;
         if (tokenId) {
-          const dbUser = await prisma.user.findUnique({
+          dbUser = await prisma.user.findUnique({
             where: { id: String(tokenId) },
-            select: { firstName: true, lastName: true, phone: true, image: true },
+            select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
           });
-
-          session.user.firstName = dbUser?.firstName ?? null;
-          session.user.lastName = dbUser?.lastName ?? null;
-          session.user.phone = dbUser?.phone ?? null;
-          session.user.image = dbUser?.image ?? null;
-          session.user.profileComplete = Boolean(
-            dbUser?.firstName && dbUser?.lastName && dbUser?.phone
-          );
+        } else if (session.user.email) {
+          dbUser = await prisma.user.findUnique({
+            where: { email: session.user.email },
+            select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
+          });
+          if (dbUser?.id) {
+            session.user.id = dbUser.id;
+          }
+          if (dbUser?.role) {
+            session.user.role = dbUser.role;
+          }
         }
+
+        session.user.firstName = dbUser?.firstName ?? null;
+        session.user.lastName = dbUser?.lastName ?? null;
+        session.user.phone = dbUser?.phone ?? null;
+        session.user.image = dbUser?.image ?? null;
+        session.user.profileComplete = Boolean(
+          dbUser?.firstName && dbUser?.lastName && dbUser?.phone
+        );
       }
       return session;
     },
