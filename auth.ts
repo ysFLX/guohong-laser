@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Kullanici bulunamadi');
           }
 
-          if (!user.emailVerified) {
+          if (!user.emailVerified && user.role !== 'ADMIN') {
             throw new Error('E-posta dogrulamasi gerekli');
           }
 
