@@ -34,10 +34,11 @@ type Ctx = {
 const NotificationsContext = createContext<Ctx | null>(null);
 
 export function NotificationsProvider({ children }: { children: React.ReactNode }) {
-  const { status } = useSession();
+  const { status, data } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState<NotificationItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const isAdmin = data?.user?.role === 'ADMIN';
 
   const refresh = useCallback(async () => {
     try {
@@ -60,7 +61,16 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     refresh();
   }, [refresh]);
 
-  const close = useCallback(() => setIsOpen(false), []);
+  const close = useCallback(async () => {
+    setIsOpen(false);
+    if (status !== 'authenticated' || isAdmin) return;
+    try {
+      await fetch('/api/notifications/clear', { method: 'POST' });
+      await refresh();
+    } catch {
+      // sessiz
+    }
+  }, [status, isAdmin, refresh]);
   const toggle = useCallback(() => setIsOpen((v) => !v), []);
 
   const markSeen = useCallback(

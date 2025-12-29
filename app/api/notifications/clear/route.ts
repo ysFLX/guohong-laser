@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 
 type InquiryUpdateDelegate = {
   updateMany: (args: unknown) => Promise<{ count: number }>;
+  deleteMany: (args: unknown) => Promise<{ count: number }>;
 };
 
 const prismaInquiry = prisma as unknown as {
@@ -29,6 +30,12 @@ export async function POST() {
           where: { userId: session.user.id, respondedAt: { not: null }, adminResponse: { not: null }, userSeenAt: null },
           data: { userSeenAt: new Date() },
         });
+
+  if (session.user.role !== 'ADMIN') {
+    await prismaInquiry.inquiry.deleteMany({
+      where: { userId: session.user.id, userSeenAt: { not: null } },
+    });
+  }
 
   return NextResponse.json({ ok: true, count: result.count });
 }
