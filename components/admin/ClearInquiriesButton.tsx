@@ -1,12 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOTE' }) {
-  const router = useRouter();
   const [isClearing, setIsClearing] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   return (
     <div className="flex flex-col items-end">
@@ -18,6 +17,7 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
           if (!ok) return;
 
           setError('');
+          setSuccess('');
           setIsClearing(true);
           try {
             const res = await fetch(`/api/admin/inquiries/clear?type=${type}`, {
@@ -29,7 +29,11 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
             if (!res.ok) {
               throw new Error(data?.error || 'Temizleme basarisiz');
             }
-            router.refresh();
+
+            const count = typeof data?.count === 'number' ? data.count : 0;
+            setSuccess(count > 0 ? `${count} kayit kapatildi.` : 'Kayit bulunamadi.');
+
+            window.location.reload();
           } catch (e: unknown) {
             setError(e instanceof Error ? e.message : 'Temizleme basarisiz');
           } finally {
@@ -40,6 +44,7 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
       >
         {isClearing ? 'Temizleniyor...' : 'Temizle'}
       </button>
+      {success && <div className="mt-2 text-xs text-emerald-600">{success}</div>}
       {error && <div className="mt-2 text-xs text-red-600">{error}</div>}
     </div>
   );
