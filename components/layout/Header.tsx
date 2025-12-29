@@ -29,17 +29,14 @@ export default function Header() {
       <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center gap-4 h-16">
           <div className="flex items-center shrink-0">
-            <Link href="/" className="group inline-flex items-center gap-3">
-              <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300">
-                GL
-              </div>
+            <Link href="/" className="group inline-flex items-center">
               <div className="flex items-center">
                 {!logoError ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={logoSrc}
                     alt="Guohong Lazer"
-                    className="h-10 w-auto sm:h-11"
+                    className="h-12 w-auto sm:h-14"
                     onError={() => setLogoError(true)}
                   />
                 ) : (
