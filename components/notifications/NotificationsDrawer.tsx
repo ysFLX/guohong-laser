@@ -61,7 +61,7 @@ export default function NotificationsDrawer() {
           <div>
             <div className="text-lg font-bold text-gray-900 dark:text-white">{title}</div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {isAdmin ? 'Yeni talepler' : 'Yanýtlar'}
+              {isAdmin ? 'Yeni talepler' : 'Yanitlar'}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -94,8 +94,8 @@ export default function NotificationsDrawer() {
               <div className="text-gray-900 dark:text-white font-semibold">Bildirim yok</div>
               <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
                 {isAdmin
-                  ? 'Yeni iletiþim / teklif talebi geldiðinde burada görünür.'
-                  : 'Ýletiþim veya teklif formu gönderdiðinde yanýtlar burada görünür.'}
+                  ? 'Yeni iletisim / teklif talebi geldiginde burada gorunur.'
+                  : 'Iletisim veya teklif formu gonderdiginde yanitlar burada gorunur.'}
               </div>
             </div>
           )}
@@ -109,7 +109,7 @@ export default function NotificationsDrawer() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">
-                      {x.type === 'QUOTE' ? 'Fiyat Teklifi' : 'Ýletiþim'}
+                      {x.type === 'QUOTE' ? 'Fiyat Teklifi' : 'Iletisim'}
                       {x.product ? ` · ${x.product}` : ''}
                       {x.subject ? ` · ${x.subject}` : ''}
                     </div>
@@ -117,7 +117,7 @@ export default function NotificationsDrawer() {
                     {isAdmin ? (
                       <>
                         <div className="mt-2 text-sm font-semibold text-gray-900 dark:text-white">
-                          {x.name || 'Ýsimsiz'}
+                          {x.name || 'Isimsiz'}
                         </div>
                         <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">
                           {x.email || ''}{x.phone ? ` · ${x.phone}` : ''}
@@ -130,13 +130,13 @@ export default function NotificationsDrawer() {
                         </div>
                         <div className="mt-2 text-xs text-gray-500 dark:text-gray-400"><span suppressHydrationWarning>{formatDateTr(x.createdAt || null)}</span></div>
                         <div className="mt-3">
-                          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">Yanýtla</div>
+                          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">Yanitla</div>
                           <textarea
                             rows={3}
                             value={replyState.value}
                             onChange={(e) => setReplyState(x.id, { value: e.target.value })}
                             className="mt-2 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                            placeholder="Kýsa yanýt yaz..."
+                            placeholder="Kisa yanit yaz..."
                           />
                           {replyState.error && <div className="mt-2 text-xs text-red-600">{replyState.error}</div>}
                           {replyState.success && <div className="mt-2 text-xs text-emerald-600">{replyState.success}</div>}
@@ -154,20 +154,20 @@ export default function NotificationsDrawer() {
                                   });
                                   const data = await res.json().catch(() => ({}));
                                   if (!res.ok) {
-                                    throw new Error(data?.error || 'Yanýt gönderilemedi');
+                                    throw new Error(data?.error || 'Yanit gonderilemedi');
                                   }
-                                  setReplyState(x.id, { isSending: false, success: 'Yanýt gönderildi' });
+                                  setReplyState(x.id, { isSending: false, success: 'Yanit gonderildi' });
                                   await refresh();
                                 } catch (err: unknown) {
                                   setReplyState(x.id, {
                                     isSending: false,
-                                    error: err instanceof Error ? err.message : 'Yanýt gönderilemedi',
+                                    error: err instanceof Error ? err.message : 'Yanit gonderilemedi',
                                   });
                                 }
                               }}
                               className="rounded-lg bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-gray-800 disabled:opacity-60"
                             >
-                              {replyState.isSending ? 'Gönderiliyor...' : 'Yanýtý Gönder'}
+                              {replyState.isSending ? 'Gonderiliyor...' : 'Yaniti Gonder'}
                             </button>
                             <Link
                               href={adminLink}
@@ -202,7 +202,7 @@ export default function NotificationsDrawer() {
                       await markSeen(x.id);
                     }}
                   >
-                    Kaldýr
+                    Kaldir
                   </button>
                 </div>
               </div>
