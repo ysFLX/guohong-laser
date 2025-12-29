@@ -8,7 +8,7 @@ import { prisma } from '@/lib/prisma';
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: 'jwt',
+    strategy: 'database',
   },
   providers: [
     GoogleProvider({
@@ -38,10 +38,6 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Kullanici bulunamadi');
           }
 
-          if (!user.emailVerified && user.role !== 'ADMIN') {
-            throw new Error('E-posta dogrulamasi gerekli');
-          }
-
           const isCorrectPassword = await bcrypt.compare(
             password,
             user.hashedPassword
@@ -49,6 +45,13 @@ export const authOptions: NextAuthOptions = {
 
           if (!isCorrectPassword) {
             throw new Error('Gecersiz sifre');
+          }
+
+          if (!user.emailVerified) {
+            await prisma.user.update({
+              where: { id: user.id },
+              data: { emailVerified: new Date() },
+            });
           }
 
           return {
@@ -65,71 +68,30 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role;
-        token.id = user.id ?? token.sub ?? token.id;
-      }
-      if (!token.id && token.sub) {
-        token.id = token.sub;
-      }
-      if (!token.role) {
-        const lookupId = token.id ?? token.sub;
-        if (lookupId) {
-          const dbUser = await prisma.user.findUnique({
-            where: { id: String(lookupId) },
-            select: { role: true },
-          });
-          if (dbUser?.role) {
-            token.role = dbUser.role;
-          }
-        } else if (token.email) {
-          const dbUser = await prisma.user.findFirst({
-            where: { email: { equals: token.email, mode: 'insensitive' } },
-            select: { role: true, id: true },
-          });
-          if (dbUser?.role) {
-            token.role = dbUser.role;
-          }
-          if (dbUser?.id) {
-            token.id = dbUser.id;
-          }
-        }
-      }
-      return token;
-    },
-    async session({ session, token }) {
+    async session({ session, user }) {
       if (session?.user) {
-        const tokenId = token.id ?? token.sub;
-        session.user.role = token.role;
-        session.user.id = tokenId ?? session.user.id;
+        const dbUser =
+          user ??
+          (session.user.email
+            ? await prisma.user.findFirst({
+                where: { email: { equals: session.user.email, mode: 'insensitive' } },
+                select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
+              })
+            : null);
 
-        let dbUser = null;
-        if (tokenId) {
-          dbUser = await prisma.user.findUnique({
-            where: { id: String(tokenId) },
-            select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
-          });
-        } else if (session.user.email) {
-          dbUser = await prisma.user.findFirst({
-            where: { email: { equals: session.user.email, mode: 'insensitive' } },
-            select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
-          });
-          if (dbUser?.id) {
-            session.user.id = dbUser.id;
-          }
-          if (dbUser?.role) {
-            session.user.role = dbUser.role;
-          }
+        if (dbUser) {
+          session.user.id = dbUser.id;
+          session.user.role = (dbUser as { role?: string }).role;
+          session.user.firstName = (dbUser as { firstName?: string | null }).firstName ?? null;
+          session.user.lastName = (dbUser as { lastName?: string | null }).lastName ?? null;
+          session.user.phone = (dbUser as { phone?: string | null }).phone ?? null;
+          session.user.image = (dbUser as { image?: string | null }).image ?? null;
+          session.user.profileComplete = Boolean(
+            (dbUser as { firstName?: string | null }).firstName &&
+              (dbUser as { lastName?: string | null }).lastName &&
+              (dbUser as { phone?: string | null }).phone
+          );
         }
-
-        session.user.firstName = dbUser?.firstName ?? null;
-        session.user.lastName = dbUser?.lastName ?? null;
-        session.user.phone = dbUser?.phone ?? null;
-        session.user.image = dbUser?.image ?? null;
-        session.user.profileComplete = Boolean(
-          dbUser?.firstName && dbUser?.lastName && dbUser?.phone
-        );
       }
       return session;
     },

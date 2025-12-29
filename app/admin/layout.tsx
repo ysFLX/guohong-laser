@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { authOptions } from '@/auth';
+import { prisma } from '@/lib/prisma';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -11,7 +12,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect('/login');
   }
 
-  if (session.user.role !== 'ADMIN') {
+  const dbUser = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { id: session.user.id },
+        session.user.email ? { email: { equals: session.user.email, mode: 'insensitive' } } : undefined,
+      ].filter(Boolean),
+    },
+    select: { role: true },
+  });
+
+  if (!dbUser || dbUser.role !== 'ADMIN') {
     redirect('/');
   }
 
