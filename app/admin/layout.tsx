@@ -16,8 +16,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     where: {
       OR: [
         { id: session.user.id },
-        session.user.email ? { email: { equals: session.user.email, mode: 'insensitive' } } : undefined,
-      ].filter(Boolean),
+        ...(session.user.email
+          ? [{ email: { equals: session.user.email, mode: 'insensitive' } }]
+          : []),
+      ],
     },
     select: { role: true },
   });
