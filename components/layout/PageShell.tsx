@@ -96,7 +96,7 @@ function panelsFor(pathname: string): PagePanels {
         },
         {
           title: 'Teklif Süreci',
-          description: 'Formu doldurun, 24 saat içinde dönüş alırsınız.',
+          description: 'Formu doldurun, 24 saat içinde dönüş olacaktır.',
           cta: { label: 'Teklif Formu', href: '/quote' },
         },
       ],
@@ -107,7 +107,7 @@ function panelsFor(pathname: string): PagePanels {
         },
         {
           title: 'Adres',
-          description: 'Konya / Karatay - Fevziçakmak Mah.',
+          description: 'Fevziçakmak Mah. Aksaray Çevreyolu Caddesi Akasya Sitesi A Blok No:18T 42210',
         },
       ],
     };

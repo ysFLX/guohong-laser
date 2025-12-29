@@ -184,8 +184,8 @@ export default function ContactPage() {
                   >
                     <option value="Genel Soru">Genel Soru</option>
                     <option value="Teknik Destek">Teknik Destek</option>
-                    <option value="Satis Bilgisi">Satış Bilgisi</option>
-                    <option value="Diger">Diger</option>
+                    <option value="Satış Bilgisi">Satış Bilgisi</option>
+                    <option value="Diğer">Diger</option>
                   </select>
                 </div>
               </div>
@@ -260,7 +260,7 @@ export default function ContactPage() {
             <div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Adres</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Fevziçakmak Mahallesi <br /> Aksaray Çevreyolu Caddesi Akasya Sitesi <br/> A Blok No:18T 42210<br />
+                Fevziçakmak Mah. <br /> Aksaray Çevreyolu Caddesi Akasya Sitesi <br/> A Blok No:18T 42210<br />
                 Konya, Turkiye
               </p>
             </div>
