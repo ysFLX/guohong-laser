@@ -1,4 +1,4 @@
-﻿﻿﻿'use client';
+??'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -16,182 +16,182 @@ type Product = {
 const products: Product[] = [
   {
     id: 1,
-    name: 'Açık Çift Tablalı Sac Kesim Makinası',
+    name: 'A��k �ift Tablal� Sac Kesim Makinas�',
     category: 'Sac Kesim',
     image: '/images/1.jpg',
-    description: 'Kesintisiz üretim için tasarlanmış, yüksek verimli çift tablalı sac kesim çözümü. Otomatik tabla değişimi ile verimliliği maksimuma çıkarır.',
+    description: 'Kesintisiz �retim i�in tasarlanm��, y�ksek verimli �ift tablal� sac kesim ��z�m�. Otomatik tabla de�i�imi ile verimlili�i maksimuma ��kar�r.',
     features: [
-      'Çift tablalı sürekli üretim',
-      'Yüksek hassasiyetli kesim',
-      'Düşük enerji tüketimi',
+      '�ift tablal� s�rekli �retim',
+      'Y�ksek hassasiyetli kesim',
+      'D���k enerji t�ketimi',
       'Otomatik odaklama',
-      'Kullanıcı dostu arayüz'
+      'Kullan�c� dostu aray�z'
     ]
   },
   {
     id: 2,
-    name: 'Ağır Tip Boru Kesim Makinası',
+    name: 'A��r Tip Boru Kesim Makinas�',
     category: 'Boru Kesim',
     image: '/images/2.jpg',
-    description: 'Ağır sanayi uygulamaları için özel olarak geliştirilmiş, yüksek dayanımlı boru kesim çözümü.',
+    description: 'A��r sanayi uygulamalar� i�in �zel olarak geli�tirilmi�, y�ksek dayan�ml� boru kesim ��z�m�.',
     features: [
-      'Ağır hizmet tipi yapı',
-      'Geniş boru çap aralığı',
-      'Yüksek hassasiyet',
-      'Uzun ömürlü lazer kaynağı',
-      'Düşük bakım maliyeti'
+      'A��r hizmet tipi yap�',
+      'Geni� boru �ap aral���',
+      'Y�ksek hassasiyet',
+      'Uzun �m�rl� lazer kayna��',
+      'D���k bak�m maliyeti'
     ]
   },
   {
     id: 3,
-    name: 'Boru Sac İkisi Bir Arada Lazer Kesim Makinası',
+    name: 'Boru Sac �kisi Bir Arada Lazer Kesim Makinas�',
     category: 'Kombine Kesim',
     image: '/images/3.jpg',
-    description: 'Hem sac hem de boru kesim ihtiyaçlarınız için tek çözüm. İki farklı işlemi tek makinede birleştiren pratik tasarım.',
+    description: 'Hem sac hem de boru kesim ihtiya�lar�n�z i�in tek ��z�m. �ki farkl� i�lemi tek makinede birle�tiren pratik tasar�m.',
     features: [
-      'Çift amaçlı kullanım',
-      'Hızlı işlem değişimi',
-      'Yüksek verimlilik',
-      'Tasarruflu enerji kullanımı',
-      'Geniş çalışma alanı'
+      '�ift ama�l� kullan�m',
+      'H�zl� i�lem de�i�imi',
+      'Y�ksek verimlilik',
+      'Tasarruflu enerji kullan�m�',
+      'Geni� �al��ma alan�'
     ]
   },
   {
     id: 4,
-    name: 'Çift Tabla Sac Kesim Makinası',
+    name: '�ift Tabla Sac Kesim Makinas�',
     category: 'Sac Kesim',
     image: '/images/4.jpg',
-    description: 'Kesintisiz üretim için optimize edilmiş, yüksek kapasiteli çift tablalı lazer kesim sistemi.',
+    description: 'Kesintisiz �retim i�in optimize edilmi�, y�ksek kapasiteli �ift tablal� lazer kesim sistemi.',
     features: [
-      'Kesintisiz üretim',
-      'Otomatik tabla değişimi',
-      'Yüksek hassasiyet',
-      'Düşük işletme maliyeti',
-      'Kolay bakım'
+      'Kesintisiz �retim',
+      'Otomatik tabla de�i�imi',
+      'Y�ksek hassasiyet',
+      'D���k i�letme maliyeti',
+      'Kolay bak�m'
     ]
   },
   {
     id: 5,
-    name: 'Değiştirilebilir Ayna Boru Kesim Makinası',
+    name: 'De�i�tirilebilir Ayna Boru Kesim Makinas�',
     category: 'Boru Kesim',
     image: '/images/5.jpg',
-    description: 'Farklı boru çapları için hızlı ayna değişimi yapabilme özelliğine sahip, esnek üretim çözümü.',
+    description: 'Farkl� boru �aplar� i�in h�zl� ayna de�i�imi yapabilme �zelli�ine sahip, esnek �retim ��z�m�.',
     features: [
-      'Hızlı ayna değişimi',
-      'Geniş boru çap aralığı',
-      'Yüksek hassasiyet',
-      'Kullanıcı dostu arayüz',
-      'Düşük bakım gereksinimi'
+      'H�zl� ayna de�i�imi',
+      'Geni� boru �ap aral���',
+      'Y�ksek hassasiyet',
+      'Kullan�c� dostu aray�z',
+      'D���k bak�m gereksinimi'
     ]
   },
   {
     id: 6,
-    name: 'Demir Kesim Makinası',
-    category: 'Özel Kesim',
+    name: 'Demir Kesim Makinas�',
+    category: '�zel Kesim',
     image: '/images/6.jpg',
-    description: 'Sert metaller ve demir kesimi için özel olarak tasarlanmış, yüksek güçlü lazer kesim çözümü.',
+    description: 'Sert metaller ve demir kesimi i�in �zel olarak tasarlanm��, y�ksek g��l� lazer kesim ��z�m�.',
     features: [
-      'Yüksek güçlü lazer kaynağı',
+      'Y�ksek g��l� lazer kayna��',
       'Sert metallerde etkili kesim',
-      'Uzun ömürlü optik sistem',
-      'Düşük enerji tüketimi',
-      'Güvenli çalışma'
+      'Uzun �m�rl� optik sistem',
+      'D���k enerji t�ketimi',
+      'G�venli �al��ma'
     ]
   },
   {
     id: 7,
-    name: 'Geniş Tabla Yüksek KW Sac Kesim Makinası',
+    name: 'Geni� Tabla Y�ksek KW Sac Kesim Makinas�',
     category: 'Sac Kesim',
     image: '/images/7.jpg',
-    description: 'Büyük ebatlı sac levhalar için yüksek güçlü, endüstriyel lazer kesim çözümü.',
+    description: 'B�y�k ebatl� sac levhalar i�in y�ksek g��l�, end�striyel lazer kesim ��z�m�.',
     features: [
-      'Geniş çalışma alanı',
-      'Yüksek güçlü lazer kaynağı',
-      'Endüstriyel dayanıklılık',
-      'Yüksek kesim hızı',
-      'Otomatik malzeme tanıma'
+      'Geni� �al��ma alan�',
+      'Y�ksek g��l� lazer kayna��',
+      'End�striyel dayan�kl�l�k',
+      'Y�ksek kesim h�z�',
+      'Otomatik malzeme tan�ma'
     ]
   },
   {
     id: 8,
-    name: 'Küçük Çaplı Tam Otomatik Yükleme ve İndirme Boru Kesim Makinası',
+    name: 'K���k �apl� Tam Otomatik Y�kleme ve �ndirme Boru Kesim Makinas�',
     category: 'Boru Kesim',
     image: '/images/8.jpg',
-    description: 'Küçük çaplı borular için tam otomatik yükleme ve boşaltma sistemine sahip, yüksek verimli kesim çözümü.',
+    description: 'K���k �apl� borular i�in tam otomatik y�kleme ve bo�altma sistemine sahip, y�ksek verimli kesim ��z�m�.',
     features: [
       'Tam otomatik sistem',
-      'Yüksek üretim hızı',
-      'Düşük işçilik maliyeti',
+      'Y�ksek �retim h�z�',
+      'D���k i��ilik maliyeti',
       'Hassas kesim',
-      'Kullanıcı dostu arayüz'
+      'Kullan�c� dostu aray�z'
     ]
   },
   {
     id: 9,
-    name: 'Raylı Sac Kesim Makinası',
+    name: 'Rayl� Sac Kesim Makinas�',
     category: 'Sac Kesim',
     image: '/images/9.jpg',
-    description: 'Uzun sac levhalar için özel raylı sistem tasarımına sahip, yüksek hassasiyetli kesim çözümü.',
+    description: 'Uzun sac levhalar i�in �zel rayl� sistem tasar�m�na sahip, y�ksek hassasiyetli kesim ��z�m�.',
     features: [
-      'Raylı taşıma sistemi',
-      'Uzun saclarda yüksek hassasiyet',
-      'Düşük enerji tüketimi',
-      'Kolay kullanım',
-      'Düşük bakım maliyeti'
+      'Rayl� ta��ma sistemi',
+      'Uzun saclarda y�ksek hassasiyet',
+      'D���k enerji t�ketimi',
+      'Kolay kullan�m',
+      'D���k bak�m maliyeti'
     ]
   },
   {
     id: 10,
-    name: 'Tek Tabla Sac Kesim Makinası',
+    name: 'Tek Tabla Sac Kesim Makinas�',
     category: 'Sac Kesim',
     image: '/images/10.jpg',
-    description: 'Küçük ve orta ölçekli işletmeler için ekonomik, yüksek verimli tek tablalı lazer kesim çözümü.',
+    description: 'K���k ve orta �l�ekli i�letmeler i�in ekonomik, y�ksek verimli tek tablal� lazer kesim ��z�m�.',
     features: [
-      'Ekonomik çözüm',
-      'Yüksek verimlilik',
-      'Kompakt tasarım',
-      'Kolay kullanım',
-      'Düşük işletme maliyeti'
+      'Ekonomik ��z�m',
+      'Y�ksek verimlilik',
+      'Kompakt tasar�m',
+      'Kolay kullan�m',
+      'D���k i�letme maliyeti'
     ]
   },
   {
     id: 11,
-    name: 'Yandan Yüklemeli Yarı Otomatik Boru Kesim Makinası',
+    name: 'Yandan Y�klemeli Yar� Otomatik Boru Kesim Makinas�',
     category: 'Boru Kesim',
     image: '/images/11.jpg',
-    description: 'Yandan yükleme özelliği ile kolay kullanım sunan, yarı otomatik boru kesim çözümü.',
+    description: 'Yandan y�kleme �zelli�i ile kolay kullan�m sunan, yar� otomatik boru kesim ��z�m�.',
     features: [
-      'Yandan yükleme kolaylığı',
-      'Yarı otomatik çalışma',
-      'Yüksek hassasiyet',
-      'Düşük enerji tüketimi',
-      'Kolay bakım'
+      'Yandan y�kleme kolayl���',
+      'Yar� otomatik �al��ma',
+      'Y�ksek hassasiyet',
+      'D���k enerji t�ketimi',
+      'Kolay bak�m'
     ]
   },
   {
     id: 12,
-    name: 'Yarı Otomatik Yüklemeli Boru Kesim Makinası',
+    name: 'Yar� Otomatik Y�klemeli Boru Kesim Makinas�',
     category: 'Boru Kesim',
     image: '/images/12.jpg',
-    description: 'Yarı otomatik yükleme sistemi ile verimli boru kesim çözümü. İşletmeler için pratik ve ekonomik çözüm.',
+    description: 'Yar� otomatik y�kleme sistemi ile verimli boru kesim ��z�m�. ��letmeler i�in pratik ve ekonomik ��z�m.',
     features: [
-      'Yarı otomatik yükleme',
-      'Yüksek verimlilik',
+      'Yar� otomatik y�kleme',
+      'Y�ksek verimlilik',
       'Hassas kesim',
-      'Kullanım kolaylığı',
-      'Düşük işletme maliyeti'
+      'Kullan�m kolayl���',
+      'D���k i�letme maliyeti'
     ]
   }
 ];
 
-const categories = ['Tümü', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'];
+const categories = ['T�m�', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', '�zel Kesim'];
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('Tümü');
+  const [selectedCategory, setSelectedCategory] = useState('T�m�');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'Tümü' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'T�m�' || product.category === selectedCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -207,7 +207,7 @@ export default function ProductsPage() {
               Lazer Makineleri
             </h1>
             <p className="mt-3 max-w-md mx-auto text-base text-emerald-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-              En son teknoloji lazer makineleri ile üretim süreçlerinizi optimize edin.
+              En son teknoloji lazer makineleri ile �retim s�re�lerinizi optimize edin.
             </p>
           </div>
         </div>
@@ -230,7 +230,7 @@ export default function ProductsPage() {
                   type="text"
                   id="search"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white dark:bg-gray-800 dark:border-gray-700 placeholder-gray-500 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                  placeholder="Ürün ara..."
+                  placeholder="�r�n ara..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -265,7 +265,7 @@ export default function ProductsPage() {
               whileHover={{ y: -5 }}
               className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
-              <div className="relative h-64 w-full">
+              <div className="relative h-48 w-full sm:h-52">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -276,15 +276,15 @@ export default function ProductsPage() {
                   {product.category}
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-5">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{product.name}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{product.name}</h3>
                 </div>
-                <p className="mt-2 text-gray-600 dark:text-gray-300">{product.description}</p>
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">{product.description}</p>
                 <div className="mt-4">
-                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">Özellikler:</h4>
+                  <h4 className="text-xs font-semibold uppercase tracking-wide text-gray-900 dark:text-white">Ozellikler</h4>
                   <ul className="mt-2 space-y-1">
-                    {product.features.slice(0, 3).map((feature, index) => (
+                    {product.features.slice(0, 2).map((feature, index) => (
                       <li key={index} className="flex items-center">
                         <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -318,8 +318,8 @@ export default function ProductsPage() {
                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">Ürün bulunamadı</h3>
-            <p className="mt-1 text-gray-500 dark:text-gray-400">Arama kriterlerinize uygun ürün bulunamadı.</p>
+            <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">�r�n bulunamad�</h3>
+            <p className="mt-1 text-gray-500 dark:text-gray-400">Arama kriterlerinize uygun �r�n bulunamad�.</p>
           </div>
         )}
       </div>
@@ -329,7 +329,7 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             <span className="block">Fiyat teklifi mi almak istiyorsunuz?</span>
-            <span className="block text-emerald-600 dark:text-emerald-400">Uzman ekibimiz size yardımcı olmaktan mutluluk duyar.</span>
+            <span className="block text-emerald-600 dark:text-emerald-400">Uzman ekibimiz size yard�mc� olmaktan mutluluk duyar.</span>
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">
@@ -346,6 +346,10 @@ export default function ProductsPage() {
     </div>
   );
 }
+
+
+
+
 
 
 

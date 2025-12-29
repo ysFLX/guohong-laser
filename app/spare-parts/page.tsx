@@ -1,4 +1,4 @@
-﻿﻿﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -262,7 +262,7 @@ export default function SparePartsPage() {
                   className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow"
                 >
                   <Link href={`/spare-parts/${p.id}`} className="block">
-                    <div className="relative h-56 w-full">
+                    <div className="relative h-44 w-full">
                       <Image
                         src={p.imageUrl || '/images/1.jpg'}
                         alt={p.name}
@@ -280,9 +280,8 @@ export default function SparePartsPage() {
                           Vitrin
                         </div>
                       )}
-                    </div>
                   </Link>
-                  <div className="p-5">
+                  <div className="p-4">
                     <div className="flex items-start justify-between gap-3">
                       <Link href={`/spare-parts/${p.id}`} className="min-w-0">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white hover:underline line-clamp-2">
@@ -317,20 +316,20 @@ export default function SparePartsPage() {
                         </button>
                       </div>
                     </div>
-                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{p.description}</p>
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{p.description}</p>
 
-                    <div className="mt-4 grid grid-cols-2 gap-2">
-                      <div className="text-sm text-gray-600 dark:text-gray-300">
-                        <span className="text-xs font-semibold text-gray-900 dark:text-white">Stok</span>
-                        <div className="mt-1">{p.stockOnHand}</div>
+                    <div className="mt-4 flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
+                      <div>
+                        <span className="font-semibold text-gray-900 dark:text-white">Stok</span>
+                        <span className="ml-2">{p.stockOnHand}</span>
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-300">
-                        <span className="text-xs font-semibold text-gray-900 dark:text-white">Ölçü</span>
-                        <div className="mt-1">{p.dimensions || '-'}</div>
+                      <div>
+                        <span className="font-semibold text-gray-900 dark:text-white">Olcu</span>
+                        <span className="ml-2">{p.dimensions || '-'}</span>
                       </div>
                     </div>
 
-                    <div className="mt-6 flex gap-3">
+                    <div className="mt-4 flex gap-3">
                       <AddToCartButton
                         id={p.id}
                         name={p.name}
