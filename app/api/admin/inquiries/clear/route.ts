@@ -50,7 +50,7 @@ async function handleClear(req: Request) {
   }
 
   const result = await prismaInquiry.inquiry.updateMany({
-    where: { type: payloadType },
+    where: { type: payloadType, status: { not: 'CLOSED' } },
     data: { status: 'CLOSED' },
   });
 

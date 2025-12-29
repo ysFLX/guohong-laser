@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 type NotificationItem = {
   id: string;
@@ -33,6 +34,7 @@ type Ctx = {
 const NotificationsContext = createContext<Ctx | null>(null);
 
 export function NotificationsProvider({ children }: { children: React.ReactNode }) {
+  const { status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState<NotificationItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -49,19 +51,9 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   }, []);
 
   useEffect(() => {
-    const run = async () => {
-      try {
-        const res = await fetch('/api/notifications');
-        const data = await res.json();
-        setItems(Array.isArray(data?.items) ? data.items : []);
-        setUnreadCount(typeof data?.unreadCount === 'number' ? data.unreadCount : 0);
-      } catch {
-        // sessiz
-      }
-    };
-
-    run();
-  }, []);
+    if (status !== 'authenticated') return;
+    refresh();
+  }, [status, refresh]);
 
   const open = useCallback(() => {
     setIsOpen(true);
