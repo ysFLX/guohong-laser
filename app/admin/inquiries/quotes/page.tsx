@@ -20,13 +20,27 @@ type InquiryRow = Array<{
 
 const prismaInquiry = prisma as unknown as {
   inquiry: {
+    deleteMany: (args: unknown) => Promise<{ count: number }>;
     findMany: (args: unknown) => Promise<InquiryRow>;
   };
 };
 
 export default async function AdminQuoteInquiriesPage() {
+  const retentionCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  await prismaInquiry.inquiry.deleteMany({
+    where: {
+      type: 'QUOTE',
+      respondedAt: { lt: retentionCutoff },
+      adminResponse: { not: null },
+    },
+  });
+
   const items = await prismaInquiry.inquiry.findMany({
-    where: { type: 'QUOTE' },
+    where: {
+      type: 'QUOTE',
+      OR: [{ status: { not: 'CLOSED' } }, { respondedAt: { gte: retentionCutoff } }],
+    },
     orderBy: [{ createdAt: 'desc' }],
     take: 200,
   });

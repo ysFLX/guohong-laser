@@ -9,7 +9,7 @@ type Payload = {
 };
 
 type InquiryDeleteDelegate = {
-  deleteMany: (args: unknown) => Promise<{ count: number }>;
+  updateMany: (args: unknown) => Promise<{ count: number }>;
 };
 
 const prismaInquiry = prisma as unknown as {
@@ -39,8 +39,9 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: 'type gerekli (CONTACT|QUOTE)' }, { status: 400 });
   }
 
-  const result = await prismaInquiry.inquiry.deleteMany({
+  const result = await prismaInquiry.inquiry.updateMany({
     where: { type: payload.type },
+    data: { status: 'CLOSED' },
   });
 
   return NextResponse.json({ ok: true, count: result.count });

@@ -23,6 +23,7 @@ type NotificationRow = Array<{
 
 type InquiryDelegate = {
   findMany: (args: unknown) => Promise<NotificationRow>;
+  deleteMany: (args: unknown) => Promise<{ count: number }>;
 };
 
 const prismaInquiry = prisma as unknown as {
@@ -35,6 +36,14 @@ export async function GET() {
   if (!session?.user?.id) {
     return NextResponse.json({ items: [] });
   }
+
+  const retentionCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  await prismaInquiry.inquiry.deleteMany({
+    where: {
+      respondedAt: { lt: retentionCutoff },
+      adminResponse: { not: null },
+    },
+  });
 
   if (session.user.role === 'ADMIN') {
     const items = await prismaInquiry.inquiry.findMany({
