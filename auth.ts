@@ -23,12 +23,15 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          if (!credentials?.email || !credentials?.password) {
+          const email = credentials?.email?.trim().toLowerCase();
+          const password = credentials?.password;
+
+          if (!email || !password) {
             throw new Error('Lutfen e-posta ve sifre giriniz');
           }
 
           const user = await prisma.user.findUnique({
-            where: { email: credentials.email },
+            where: { email },
           });
 
           if (!user || !user.hashedPassword) {
@@ -40,7 +43,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           const isCorrectPassword = await bcrypt.compare(
-            credentials.password,
+            password,
             user.hashedPassword
           );
 
