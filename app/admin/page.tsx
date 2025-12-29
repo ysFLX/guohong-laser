@@ -12,13 +12,13 @@ const quickLinks = [
   {
     title: 'Teklifler',
     description: 'Fiyat teklifi taleplerini goruntule ve yanitla.',
-    href: '/admin/inquiries/quotes',
+    href: '/admin/inquiries#quotes',
     action: 'Goruntule',
   },
   {
     title: 'Iletisim',
     description: 'Iletisim mesajlarini takip et.',
-    href: '/admin/inquiries/contact',
+    href: '/admin/inquiries#contact',
     action: 'Goruntule',
   },
 ];
@@ -152,13 +152,13 @@ export default async function AdminHomePage() {
               Yedek Parca
             </Link>
             <Link
-              href="/admin/inquiries/quotes"
+              href="/admin/inquiries#quotes"
               className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               Teklifler
             </Link>
             <Link
-              href="/admin/inquiries/contact"
+              href="/admin/inquiries#contact"
               className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               Iletisim

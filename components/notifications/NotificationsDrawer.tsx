@@ -102,7 +102,7 @@ export default function NotificationsDrawer() {
 
           {items.map((x) => {
             const replyState = replyById[x.id] ?? { value: '', isSending: false, error: '', success: '' };
-            const adminLink = x.type === 'QUOTE' ? `/admin/inquiries/quotes#${x.id}` : `/admin/inquiries/contact#${x.id}`;
+            const adminLink = x.type === 'QUOTE' ? `/admin/inquiries#quote-${x.id}` : `/admin/inquiries#contact-${x.id}`;
 
             return (
               <div key={x.id} className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900">
