@@ -12,6 +12,7 @@ type Payload = {
 type InquiryUpdateDelegate = {
   update: (args: unknown) => Promise<{ id: string; adminResponse: string | null; respondedAt: Date | null }>;
   findUnique: (args: unknown) => Promise<{ id: string; userId: string | null } | null>;
+  deleteMany: (args: unknown) => Promise<{ count: number }>;
 };
 
 const prismaInquiry = prisma as unknown as {
