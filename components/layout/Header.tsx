@@ -26,7 +26,7 @@ export default function Header() {
 
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex items-center gap-4 h-16">
           <div className="flex items-center shrink-0">
             <Link href="/" className="group inline-flex items-center gap-3">
