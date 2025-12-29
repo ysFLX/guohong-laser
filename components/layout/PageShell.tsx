@@ -25,89 +25,38 @@ type PagePanels = {
 const baseLinks = [
   { label: 'Ana Sayfa', href: '/' },
   { label: 'Makineler', href: '/products' },
-  { label: 'Yedek Parçalar', href: '/spare-parts' },
+  { label: 'Yedek Parcalar', href: '/spare-parts' },
   { label: 'Galeri', href: '/gallery' },
-  { label: 'Hakkımızda', href: '/about' },
-  { label: 'İletişim', href: '/contact' },
+  { label: 'Hakkimizda', href: '/about' },
+  { label: 'Iletisim', href: '/contact' },
 ];
 
 function panelsFor(pathname: string): PagePanels {
-  if (pathname.startsWith('/products')) {
-    return {
-      left: [
-        {
-          title: 'Kategori İpuçları',
-          description: 'Sac, boru ve kombine kesim filtrelerini kullanarak doğru ürünü hızlıca bulun.',
-          list: ['Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'],
-        },
-        {
-          title: 'Teknik Danışman',
-          description: 'Model seçimi için 10 dakikalık ücretsiz danışmanlık alın.',
-          cta: { label: 'Danışmanlık Al', href: '/contact?subject=Urun+Secimi' },
-        },
-      ],
-      right: [
-        {
-          title: 'Teklif Talebi',
-          description: 'İhtiyaçlarınızı yazın, aynı gün içinde teklif hazırlayalım.',
-          cta: { label: 'Teklif Formu', href: '/quote' },
-        },
-        {
-          title: 'Kurulum Süresi',
-          description: 'Standart hatlar 7-10 gün içinde devreye alınır.',
-        },
-      ],
-    };
-  }
-
-  if (pathname.startsWith('/spare-parts')) {
-    return {
-      left: [
-        {
-          title: 'Uyumluluk Kontrolü',
-          description: 'Parça kodu veya makine modeliyle hızlı eşleştirme yapın.',
-          cta: { label: 'Destek Al', href: '/contact?subject=Yedek+Parca' },
-        },
-        {
-          title: 'Stok Avantajı',
-          description: 'Kritik parçalar aynı gün kargoya verilir.',
-        },
-      ],
-      right: [
-        {
-          title: 'Servis Ağı',
-          description: 'Türkiye geneli servis noktalarıyla hızlı çözüm.',
-        },
-        {
-          title: 'Katalog',
-          description: 'Yedek parça kataloğunu tek dosyada inceleyin.',
-          cta: { label: 'Dokümanlar', href: '/downloads' },
-        },
-      ],
-    };
+  if (pathname.startsWith('/products') || pathname.startsWith('/spare-parts')) {
+    return { left: [], right: [] };
   }
 
   if (pathname.startsWith('/contact')) {
     return {
       left: [
         {
-          title: 'İletişim Saatleri',
-          description: 'Pazartesi-Cumartesi 09:00-18:00 arası destek.',
+          title: 'Iletisim Saatleri',
+          description: 'Pazartesi-Cumartesi 09:00-18:00 arasinda destek.',
         },
         {
-          title: 'Teklif Süreci',
-          description: 'Formu doldurun, 24 saat içinde dönüş olacaktır.',
+          title: 'Teklif Sureci',
+          description: 'Formu doldurun, 24 saat icinde donus olur.',
           cta: { label: 'Teklif Formu', href: '/quote' },
         },
       ],
       right: [
         {
-          title: 'Doğrudan İletişim',
+          title: 'Dogruan Iletisim',
           description: '+90 536 831 67 87 - guohonglazerinfo@gmail.com',
         },
         {
           title: 'Adres',
-          description: 'Fevziçakmak Mah. Aksaray Çevreyolu Caddesi Akasya Sitesi A Blok No:18T 42210',
+          description: 'Fevzicakmak Mah. Aksaray Cevreyolu Caddesi Akasya Sitesi A Blok No:18T 42210',
         },
       ],
     };
@@ -117,19 +66,19 @@ function panelsFor(pathname: string): PagePanels {
     return {
       left: [
         {
-          title: 'Hızlı Bilgi',
-          description: 'Üretim kapasitesi ve malzeme türü teklif süresini kısaltır.',
+          title: 'Hizli Bilgi',
+          description: 'Uretim kapasitesi ve malzeme turu teklif suresini kisaltir.',
         },
         {
-          title: 'Dosya Gönder',
-          description: 'Teknik çizim varsa bizimle paylaşabilirsiniz.',
-          cta: { label: 'İletişime Geç', href: '/contact?subject=Teknik+Cizim' },
+          title: 'Dosya Gonder',
+          description: 'Teknik cizim varsa bizimle paylasabilirsiniz.',
+          cta: { label: 'Iletisime Gec', href: '/contact?subject=Teknik+Cizim' },
         },
       ],
       right: [
         {
-          title: 'Tahmini Süre',
-          description: 'Çoğu teklif 24 saat içinde hazırlanır.',
+          title: 'Tahmini Sure',
+          description: 'Cogu teklif 24 saat icinde hazirlanir.',
         },
       ],
     };
@@ -140,21 +89,21 @@ function panelsFor(pathname: string): PagePanels {
       left: [
         {
           title: 'Vizyon',
-          description: 'Akıllı üretim hatlarında lider çözüm ortağı olmak.',
+          description: 'Akilli uretim hatlarinda lider cozum ortagi olmak.',
         },
         {
           title: 'Misyon',
-          description: 'Yüksek kalite ve güvenilir servis anlayışı.',
+          description: 'Yuksek kalite ve guvenilir servis anlayisi.',
         },
       ],
       right: [
         {
           title: 'Kurumsal',
-          description: '10+ yıllık saha deneyimi ve güçlü mühendislik ekibi.',
+          description: '10+ yillik saha deneyimi ve guclu muhendislik ekibi.',
         },
         {
           title: 'Referanslar',
-          description: 'Saha kurulumlarını galeride inceleyin.',
+          description: 'Saha kurulumlarini galeride inceleyin.',
           cta: { label: 'Galeri', href: '/gallery' },
         },
       ],
@@ -165,20 +114,20 @@ function panelsFor(pathname: string): PagePanels {
     return {
       left: [
         {
-          title: 'Saha Görselleri',
-          description: 'Kurulum öncesi/sonrası gerçek projeler.',
+          title: 'Saha Gorselleri',
+          description: 'Kurulum oncesi/sonrasi gercek projeler.',
         },
         {
-          title: 'Video Arşivi',
-          description: 'Üretim hatlarını video galerisinde inceleyin.',
+          title: 'Video Arsivi',
+          description: 'Uretim hatlarini video galeride inceleyin.',
           cta: { label: 'Video Galerisi', href: '/' },
         },
       ],
       right: [
         {
           title: 'Teknik Bilgi',
-          description: 'Görsellerde yer alan modeller için bilgi alın.',
-          cta: { label: 'İletişime Geç', href: '/contact?subject=Galeri' },
+          description: 'Gorsellerde yer alan modeller icin bilgi alin.',
+          cta: { label: 'Iletisime Gec', href: '/contact?subject=Galeri' },
         },
       ],
     };
@@ -189,17 +138,17 @@ function panelsFor(pathname: string): PagePanels {
       left: [
         {
           title: 'Teslimat',
-          description: 'Stoklu ürünler aynı gün kargoya verilir.',
+          description: 'Stoklu urunler ayni gun kargoya verilir.',
         },
         {
-          title: 'Ödeme',
-          description: 'Güvenli ödeme altyapısı hazırlanıyor.',
+          title: 'Odeme',
+          description: 'Guvenli odeme altyapisi hazirlaniyor.',
         },
       ],
       right: [
         {
-          title: 'Sepet Desteği',
-          description: 'Sipariş öncesi teknik sorular için bize yazın.',
+          title: 'Sepet Destegi',
+          description: 'Siparis oncesi teknik sorular icin bize yazin.',
           cta: { label: 'Destek Al', href: '/contact?subject=Sepet' },
         },
       ],
@@ -210,25 +159,25 @@ function panelsFor(pathname: string): PagePanels {
     return {
       left: [
         {
-          title: 'Profil Kontrolü',
-          description: 'Bilgilerinizi güncel tutun, teklif süreci hızlansın.',
+          title: 'Profil Kontrolu',
+          description: 'Bilgilerinizi guncel tutun, teklif sureci hizlansin.',
         },
         {
-          title: 'Adres Yönetimi',
-          description: 'Teslimat adreslerinizi düzenleyin.',
+          title: 'Adres Yonetimi',
+          description: 'Teslimat adreslerinizi duzenleyin.',
           cta: { label: 'Adreslerim', href: '/profile/addresses' },
         },
       ],
       right: [
         {
           title: 'Favoriler',
-          description: 'Beğendiğiniz ürünlere hızlı erişin.',
+          description: 'Begenilen urunlere hizli erisin.',
           cta: { label: 'Favorilerim', href: '/profile/favorites' },
         },
         {
-          title: 'Siparişler',
-          description: 'Sipariş durumunu görüntüleyin.',
-          cta: { label: 'Siparişlerim', href: '/profile/orders' },
+          title: 'Siparisler',
+          description: 'Siparis durumunu goruntuleyin.',
+          cta: { label: 'Siparislerim', href: '/profile/orders' },
         },
       ],
     };
@@ -239,18 +188,18 @@ function panelsFor(pathname: string): PagePanels {
       left: [
         {
           title: 'Operasyon Notu',
-          description: 'Bildirimleri kontrol edip dönüşleri hızlandırın.',
+          description: 'Bildirimleri kontrol edip donusleri hizlandirin.',
         },
         {
-          title: 'Stok Yönetimi',
-          description: 'Yeni ürün ve kategori güncellemeleri.',
+          title: 'Stok Yonetimi',
+          description: 'Yeni urun ve kategori guncellemeleri.',
         },
       ],
       right: [
         {
-          title: 'Kısayollar',
-          description: 'Yedek parça ve başvuru panellerine geçiş.',
-          list: ['Yedek Parçalar', 'Kategoriler', 'Teklifler', 'İletişim'],
+          title: 'Kisayollar',
+          description: 'Yedek parca ve basvuru panellerine gecis.',
+          list: ['Yedek Parcalar', 'Kategoriler', 'Teklifler', 'Iletisim'],
         },
       ],
     };
@@ -266,15 +215,15 @@ function panelsFor(pathname: string): PagePanels {
     return {
       left: [
         {
-          title: 'Güvenli Giriş',
-          description: 'Hesabınızı güvenle yönetin.',
+          title: 'Guvenli Giris',
+          description: 'Hesabinizi guvenle yonetin.',
         },
       ],
       right: [
         {
-          title: 'Yardım',
-          description: 'Sorun yaşarsanız destek ekibine yazın.',
-          cta: { label: 'İletişim', href: '/contact?subject=Hesap' },
+          title: 'Yardim',
+          description: 'Sorun yasarsaniz destek ekibine yazin.',
+          cta: { label: 'Iletisim', href: '/contact?subject=Hesap' },
         },
       ],
     };
@@ -283,16 +232,16 @@ function panelsFor(pathname: string): PagePanels {
   return {
     left: [
       {
-        title: 'Hızlı Menü',
-        description: 'Sayfalara hızlı geçiş yapın.',
+        title: 'Hizli Menu',
+        description: 'Sayfalara hizli gecis yapin.',
         list: baseLinks,
       },
     ],
     right: [
       {
-        title: 'İletişim',
-        description: 'Sorular için bize ulaşın.',
-        cta: { label: 'İletişime Geç', href: '/contact' },
+        title: 'Iletisim',
+        description: 'Sorular icin bize ulasin.',
+        cta: { label: 'Iletisime Gec', href: '/contact' },
       },
     ],
   };
@@ -341,6 +290,10 @@ export default function PageShell({ children }: PageShellProps) {
 
   if (pathname.startsWith('/admin')) {
     return <div className="relative z-0">{children}</div>;
+  }
+
+  if (pathname.startsWith('/products') || pathname.startsWith('/spare-parts')) {
+    return <div className="relative z-0 overflow-x-hidden">{children}</div>;
   }
 
   return (
