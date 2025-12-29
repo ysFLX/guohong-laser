@@ -2,9 +2,7 @@ import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-import { Prisma } from '@prisma/client';
 import { authOptions } from '@/auth';
-import { prisma } from '@/lib/prisma';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -13,19 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect('/login');
   }
 
-  const dbUser = await prisma.user.findFirst({
-    where: {
-      OR: [
-        { id: session.user.id },
-        ...(session.user.email
-          ? [{ email: { equals: session.user.email, mode: Prisma.QueryMode.insensitive } }]
-          : []),
-      ],
-    },
-    select: { role: true },
-  });
-
-  if (!dbUser || dbUser.role !== 'ADMIN') {
+  if (session.user.role !== 'ADMIN') {
     redirect('/');
   }
 

@@ -9,7 +9,7 @@ import { prisma } from '@/lib/prisma';
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: 'database',
+    strategy: 'jwt',
   },
   providers: [
     GoogleProvider({
@@ -60,6 +60,10 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             name: user.name,
             role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phone: user.phone,
+            image: user.image,
           };
         } catch (error) {
           console.error('Authorization error:', error);
@@ -69,41 +73,62 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token, user }) {
+      const tokenAny = token as typeof token & {
+        id?: string;
+        role?: string;
+        firstName?: string | null;
+        lastName?: string | null;
+        phone?: string | null;
+        image?: string | null;
+      };
+
+      if (user) {
+        const userAny = user as {
+          id?: string;
+          email?: string | null;
+          name?: string | null;
+          role?: string;
+          firstName?: string | null;
+          lastName?: string | null;
+          phone?: string | null;
+          image?: string | null;
+        };
+
+        tokenAny.id = userAny.id ?? token.sub ?? tokenAny.id;
+        tokenAny.role = userAny.role ?? tokenAny.role;
+        tokenAny.firstName = userAny.firstName ?? null;
+        tokenAny.lastName = userAny.lastName ?? null;
+        tokenAny.phone = userAny.phone ?? null;
+        tokenAny.image = userAny.image ?? null;
+      }
+
+      if (!tokenAny.id && token.sub) {
+        tokenAny.id = token.sub;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
       if (session?.user) {
-        if (user) {
-          session.user.id = user.id;
-          session.user.role = (user as { role?: string }).role;
-          session.user.firstName = (user as { firstName?: string | null }).firstName ?? null;
-          session.user.lastName = (user as { lastName?: string | null }).lastName ?? null;
-          session.user.phone = (user as { phone?: string | null }).phone ?? null;
-          session.user.image = (user as { image?: string | null }).image ?? null;
-          session.user.profileComplete = Boolean(
-            (user as { firstName?: string | null }).firstName &&
-              (user as { lastName?: string | null }).lastName &&
-              (user as { phone?: string | null }).phone
-          );
-        } else if (session.user.email) {
-          try {
-            const dbUser = await prisma.user.findFirst({
-              where: { email: { equals: session.user.email, mode: Prisma.QueryMode.insensitive } },
-              select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
-            });
-            if (dbUser) {
-              session.user.id = dbUser.id;
-              session.user.role = dbUser.role;
-              session.user.firstName = dbUser.firstName ?? null;
-              session.user.lastName = dbUser.lastName ?? null;
-              session.user.phone = dbUser.phone ?? null;
-              session.user.image = dbUser.image ?? null;
-              session.user.profileComplete = Boolean(
-                dbUser.firstName && dbUser.lastName && dbUser.phone
-              );
-            }
-          } catch (error) {
-            console.error('Session user lookup failed:', error);
-          }
-        }
+        const tokenAny = token as typeof token & {
+          id?: string;
+          role?: string;
+          firstName?: string | null;
+          lastName?: string | null;
+          phone?: string | null;
+          image?: string | null;
+        };
+
+        session.user.id = tokenAny.id ?? session.user.id;
+        session.user.role = tokenAny.role ?? session.user.role;
+        session.user.firstName = tokenAny.firstName ?? null;
+        session.user.lastName = tokenAny.lastName ?? null;
+        session.user.phone = tokenAny.phone ?? null;
+        session.user.image = tokenAny.image ?? null;
+        session.user.profileComplete = Boolean(
+          tokenAny.firstName && tokenAny.lastName && tokenAny.phone
+        );
       }
       return session;
     },
