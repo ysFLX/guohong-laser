@@ -43,10 +43,10 @@ export async function POST(request: Request) {
 
     const existingUser = await prisma.user.findUnique({
       where: { email: safeEmail },
-      select: { id: true, hashedPassword: true },
+      select: { id: true },
     });
 
-    if (!existingUser || !existingUser.hashedPassword) {
+    if (!existingUser) {
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
