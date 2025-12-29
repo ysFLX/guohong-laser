@@ -339,6 +339,10 @@ export default function PageShell({ children }: PageShellProps) {
   const pathname = usePathname();
   const panels = panelsFor(pathname);
 
+  if (pathname.startsWith('/admin')) {
+    return <div className="relative z-0">{children}</div>;
+  }
+
   return (
     <div className="relative z-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
