@@ -254,44 +254,42 @@ export default function ProductsPage() {
           </div>
         </div>
 
-                {/* Products List */}
-        <div className="space-y-6">
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filteredProducts.map((product) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25 }}
-              className="border-b border-gray-200/70 dark:border-gray-700/70 pb-6"
+              className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/70 dark:border-gray-700/70 overflow-hidden"
             >
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-                <div className="relative h-48 w-full overflow-hidden rounded-2xl bg-white lg:w-80">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                  />
+              <div className="relative h-44 w-full overflow-hidden bg-white">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{product.name}</h3>
+                  <span className="rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1">
+                    {product.category}
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{product.name}</h3>
-                    <span className="rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1">
-                      {product.category}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{product.description}</p>
-                  <ul className="mt-3 grid gap-2 sm:grid-cols-2 text-sm text-gray-600 dark:text-gray-300">
-                    {product.features.slice(0, 4).map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <svg className="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">{product.description}</p>
+                <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  {product.features.slice(0, 3).map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <svg className="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
           ))}
