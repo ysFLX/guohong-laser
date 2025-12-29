@@ -36,7 +36,7 @@ export default function Header() {
                   <img
                     src={logoSrc}
                     alt="Guohong Lazer"
-                    className="h-12 w-auto sm:h-14"
+                    className="h-14 w-auto sm:h-16"
                     onError={() => setLogoError(true)}
                   />
                 ) : (

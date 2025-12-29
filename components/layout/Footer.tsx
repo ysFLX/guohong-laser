@@ -3,52 +3,37 @@
 export default function Footer() {
   return (
     <footer className="bg-white dark:bg-gray-900 border-t border-gray-200/70 dark:border-gray-700/70">
-      <div className="max-w-screen-2xl mx-auto py-8 px-3 sm:px-4 lg:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase">Guohong Lazer</h3>
-            <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
-              Lazer makineleri ve yedek parcalarda kaliteli cozumler.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase">Hizli Linkler</h3>
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <Link href="/about" className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                Hakkimizda
-              </Link>
-              <Link href="/products" className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                Urunlerimiz
-              </Link>
-              <Link href="/spare-parts" className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                Yedek Parcalar
-              </Link>
-              <Link href="/contact" className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                Iletisim
-              </Link>
+      <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-6">
+        <div className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/logoacik.png" alt="Guohong Lazer" className="h-9 w-auto block dark:hidden" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-9 w-auto hidden dark:block" />
             </div>
+            <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
+              Guohong Lazer
+            </span>
           </div>
 
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 tracking-[0.2em] uppercase">Iletisim</h3>
-            <div className="mt-3 space-y-2 text-sm text-gray-500 dark:text-gray-400">
-              <p>
-                Adres: Fevzicakmak Mahallesi Aksaray Cevreyolu Caddesi Akasya Sanayi Sitesi A Blok No 18T
-                Konya/Karatay 42210
-              </p>
-              <p>Telefon: +90 536 831 67 87</p>
-              <p>E-posta: guohonglazerinfo@gmail.com</p>
-            </div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
+            <Link href="/about" className="hover:text-gray-900 dark:hover:text-white">
+              Hakkimizda
+            </Link>
+            <Link href="/products" className="hover:text-gray-900 dark:hover:text-white">
+              Urunlerimiz
+            </Link>
+            <Link href="/spare-parts" className="hover:text-gray-900 dark:hover:text-white">
+              Yedek Parcalar
+            </Link>
+            <Link href="/contact" className="hover:text-gray-900 dark:hover:text-white">
+              Iletisim
+            </Link>
           </div>
-        </div>
 
-        <div className="mt-6 border-t border-gray-200/70 dark:border-gray-700/70 pt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-gray-400">
-            &copy; {new Date().getFullYear()} Guohong Lazer. Tum haklari saklidir.
-          </p>
-          <div className="flex items-center gap-4">
-            <a href="https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR" className="text-gray-400 hover:text-gray-500">
+          <div className="flex items-center gap-4 text-gray-400">
+            <a href="https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR" className="hover:text-gray-500">
               <span className="sr-only">Facebook</span>
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -58,7 +43,7 @@ export default function Footer() {
                 />
               </svg>
             </a>
-            <a href="https://www.instagram.com/gu0honglaser/" className="text-gray-400 hover:text-gray-500">
+            <a href="https://www.instagram.com/gu0honglaser/" className="hover:text-gray-500">
               <span className="sr-only">Instagram</span>
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -68,13 +53,19 @@ export default function Footer() {
                 />
               </svg>
             </a>
-            <a href="https://wa.me/905368316787" className="text-gray-400 hover:text-gray-500">
+            <a href="https://wa.me/905368316787" className="hover:text-gray-500">
               <span className="sr-only">WhatsApp</span>
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20.52 3.48A11.94 11.94 0 0012.06 0C5.4 0 .07 5.33.07 12c0 2.11.55 4.18 1.6 6.02L0 24l6.17-1.62A11.95 11.95 0 0012.06 24h.01c6.66 0 12.09-5.33 12.09-11.99 0-3.2-1.25-6.2-3.64-8.53zm-8.46 18.5a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.65.96.98-3.56-.24-.37a9.93 9.93 0 01-1.57-5.31c0-5.51 4.48-9.99 10-9.99a9.95 9.95 0 017.09 2.93 9.9 9.9 0 012.94 7.06c0 5.51-4.48 9.99-9.99 9.99zm5.47-7.46c-.3-.15-1.77-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.18-.17.2-.35.23-.65.08-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.8-1.67-2.1-.18-.3-.02-.46.13-.6.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.53.08-.8.38-.27.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z" />
               </svg>
             </a>
           </div>
+        </div>
+
+        <div className="border-t border-gray-200/70 dark:border-gray-700/70 py-3">
+          <p className="text-xs text-gray-400">
+            &copy; {new Date().getFullYear()} Guohong Lazer. Tum haklari saklidir.
+          </p>
         </div>
       </div>
     </footer>
