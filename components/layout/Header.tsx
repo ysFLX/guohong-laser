@@ -29,47 +29,54 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4 h-16">
           <div className="flex items-center shrink-0">
-            <div className="shrink-0 flex items-center">
-              <Link href="/" className="inline-flex items-start">
+            <Link href="/" className="group inline-flex items-center gap-3">
+              <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300">
+                GL
+              </div>
+              <div className="flex items-center">
                 {!logoError ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={logoSrc}
                     alt="Guohong Lazer"
-                  className="h-30 w-auto sm:h-32"
+                    className="h-10 w-auto sm:h-11"
                     onError={() => setLogoError(true)}
                   />
                 ) : (
-                  <span className="text-xl font-bold text-gray-900 dark:text-white">Guohong Lazer</span>
+                  <span className="text-lg font-semibold text-gray-900 dark:text-white">Guohong Lazer</span>
                 )}
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
-          <nav className="hidden sm:flex flex-1 justify-center sm:space-x-6" aria-label="Ana menu">
-              <Link href="/" aria-current="page" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+
+          <nav className="hidden sm:flex flex-1 justify-center" aria-label="Ana menu">
+            <div className="inline-flex items-center gap-1 rounded-full border border-gray-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-gray-600 shadow-sm shadow-emerald-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200">
+              <Link href="/" aria-current="page" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
                 Ana Sayfa
               </Link>
-              <Link href="/products" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/products" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
                 Makineler
               </Link>
-              <Link href="/spare-parts" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/spare-parts" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
                 Yedek Parcalar
               </Link>
-              <Link href="/gallery" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/gallery" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
                 Galeri
               </Link>
-              <Link href="/about" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/about" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
                 Hakkimizda
               </Link>
-              <Link href="/contact" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/contact" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
                 Iletisim
               </Link>
-            </nav>
+            </div>
+          </nav>
+
           <div className="flex items-center gap-2 ml-auto">
             <button
               type="button"
               onClick={toggleTheme}
-              className="hidden sm:inline-flex relative items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-gray-200 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
               aria-label="Tema degistir"
             >
               {theme === 'dark' ? (
