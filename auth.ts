@@ -30,8 +30,8 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Lutfen e-posta ve sifre giriniz');
           }
 
-          const user = await prisma.user.findUnique({
-            where: { email },
+          const user = await prisma.user.findFirst({
+            where: { email: { equals: email, mode: 'insensitive' } },
           });
 
           if (!user || !user.hashedPassword) {
@@ -84,8 +84,8 @@ export const authOptions: NextAuthOptions = {
             token.role = dbUser.role;
           }
         } else if (token.email) {
-          const dbUser = await prisma.user.findUnique({
-            where: { email: token.email },
+          const dbUser = await prisma.user.findFirst({
+            where: { email: { equals: token.email, mode: 'insensitive' } },
             select: { role: true, id: true },
           });
           if (dbUser?.role) {
@@ -111,8 +111,8 @@ export const authOptions: NextAuthOptions = {
             select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
           });
         } else if (session.user.email) {
-          dbUser = await prisma.user.findUnique({
-            where: { email: session.user.email },
+          dbUser = await prisma.user.findFirst({
+            where: { email: { equals: session.user.email, mode: 'insensitive' } },
             select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
           });
           if (dbUser?.id) {
