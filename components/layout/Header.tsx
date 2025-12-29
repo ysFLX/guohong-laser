@@ -27,8 +27,8 @@ export default function Header() {
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
+        <div className="flex items-center gap-4 h-16">
+          <div className="flex items-center shrink-0">
             <div className="shrink-0 flex items-center">
               <Link href="/" className="inline-flex items-start">
                 {!logoError ? (
@@ -44,7 +44,8 @@ export default function Header() {
                 )}
               </Link>
             </div>
-            <nav className="hidden sm:ml-6 sm:flex sm:space-x-8" aria-label="Ana menu">
+          </div>
+          <nav className="hidden sm:flex flex-1 justify-center sm:space-x-6" aria-label="Ana menu">
               <Link href="/" aria-current="page" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Ana Sayfa
               </Link>
@@ -64,8 +65,7 @@ export default function Header() {
                 Iletisim
               </Link>
             </nav>
-          </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ml-auto">
             <button
               type="button"
               onClick={toggleTheme}
@@ -166,7 +166,7 @@ export default function Header() {
               </svg>
             </button>
 
-            <div className="hidden sm:flex sm:items-center space-x-4 ml-auto">
+            <div className="hidden sm:flex sm:items-center space-x-3">
               {!isAuthed && (
                 <div className="relative group">
                   <button
