@@ -280,6 +280,7 @@ export default function SparePartsPage() {
                           Vitrin
                         </div>
                       )}
+                    </div>
                   </Link>
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-3">
