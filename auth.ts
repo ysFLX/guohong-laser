@@ -71,27 +71,38 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, user }) {
       if (session?.user) {
-        const dbUser =
-          user ??
-          (session.user.email
-            ? await prisma.user.findFirst({
-                where: { email: { equals: session.user.email, mode: Prisma.QueryMode.insensitive } },
-                select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
-              })
-            : null);
-
-        if (dbUser) {
-          session.user.id = dbUser.id;
-          session.user.role = (dbUser as { role?: string }).role;
-          session.user.firstName = (dbUser as { firstName?: string | null }).firstName ?? null;
-          session.user.lastName = (dbUser as { lastName?: string | null }).lastName ?? null;
-          session.user.phone = (dbUser as { phone?: string | null }).phone ?? null;
-          session.user.image = (dbUser as { image?: string | null }).image ?? null;
+        if (user) {
+          session.user.id = user.id;
+          session.user.role = (user as { role?: string }).role;
+          session.user.firstName = (user as { firstName?: string | null }).firstName ?? null;
+          session.user.lastName = (user as { lastName?: string | null }).lastName ?? null;
+          session.user.phone = (user as { phone?: string | null }).phone ?? null;
+          session.user.image = (user as { image?: string | null }).image ?? null;
           session.user.profileComplete = Boolean(
-            (dbUser as { firstName?: string | null }).firstName &&
-              (dbUser as { lastName?: string | null }).lastName &&
-              (dbUser as { phone?: string | null }).phone
+            (user as { firstName?: string | null }).firstName &&
+              (user as { lastName?: string | null }).lastName &&
+              (user as { phone?: string | null }).phone
           );
+        } else if (session.user.email) {
+          try {
+            const dbUser = await prisma.user.findFirst({
+              where: { email: { equals: session.user.email, mode: Prisma.QueryMode.insensitive } },
+              select: { id: true, role: true, firstName: true, lastName: true, phone: true, image: true },
+            });
+            if (dbUser) {
+              session.user.id = dbUser.id;
+              session.user.role = dbUser.role;
+              session.user.firstName = dbUser.firstName ?? null;
+              session.user.lastName = dbUser.lastName ?? null;
+              session.user.phone = dbUser.phone ?? null;
+              session.user.image = dbUser.image ?? null;
+              session.user.profileComplete = Boolean(
+                dbUser.firstName && dbUser.lastName && dbUser.phone
+              );
+            }
+          } catch (error) {
+            console.error('Session user lookup failed:', error);
+          }
         }
       }
       return session;
