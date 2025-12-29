@@ -8,9 +8,9 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <div className="flex items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logoacik.png" alt="Guohong Lazer" className="h-9 w-auto block dark:hidden" />
+              <img src="/images/logoacik.png" alt="Guohong Lazer" className="h-12 w-auto block dark:hidden" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-9 w-auto hidden dark:block" />
+              <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-12 w-auto hidden dark:block" />
             </div>
             <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
               Guohong Lazer
