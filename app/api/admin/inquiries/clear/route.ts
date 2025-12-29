@@ -27,20 +27,30 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
   }
 
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
+  let payloadType: Payload['type'] | null = null;
+  const url = new URL(req.url);
+  const typeParam = url.searchParams.get('type');
+  if (typeParam === 'CONTACT' || typeParam === 'QUOTE') {
+    payloadType = typeParam;
   }
 
-  const payload = body as Payload;
-  if (payload.type !== 'CONTACT' && payload.type !== 'QUOTE') {
+  if (!payloadType) {
+    try {
+      const body = (await req.json()) as Payload;
+      if (body.type === 'CONTACT' || body.type === 'QUOTE') {
+        payloadType = body.type;
+      }
+    } catch {
+      return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    }
+  }
+
+  if (payloadType !== 'CONTACT' && payloadType !== 'QUOTE') {
     return NextResponse.json({ error: 'type gerekli (CONTACT|QUOTE)' }, { status: 400 });
   }
 
   const result = await prismaInquiry.inquiry.updateMany({
-    where: { type: payload.type },
+    where: { type: payloadType },
     data: { status: 'CLOSED' },
   });
 
