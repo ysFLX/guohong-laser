@@ -85,8 +85,8 @@ export default async function AdminInquiriesPage() {
     take: 400,
   });
 
-  const contacts = items.filter((item) => item.type === 'CONTACT');
-  const quotes = items.filter((item) => item.type === 'QUOTE');
+  const contacts = items.filter((item) => item.type === 'CONTACT' && item.status !== 'CLOSED');
+  const quotes = items.filter((item) => item.type === 'QUOTE' && item.status !== 'CLOSED');
 
   const renderCards = (list: InquiryRow, typeLabel: 'CONTACT' | 'QUOTE') => (
     <div className="space-y-4">
@@ -140,36 +140,19 @@ export default async function AdminInquiriesPage() {
     </div>
   );
 
-  const activeContacts = contacts.filter((item) => item.status !== 'CLOSED');
-  const activeQuotes = quotes.filter((item) => item.status !== 'CLOSED');
-  const closedContacts = contacts.filter((item) => item.status === 'CLOSED');
-  const closedQuotes = quotes.filter((item) => item.status === 'CLOSED');
-
   return (
     <div className="space-y-10">
       <section id="contact">
         <SectionHeader title="Iletisim Mesajlari" count={contacts.length} type="CONTACT" />
         <div className="mt-6 space-y-6">
-          {renderCards(activeContacts, 'CONTACT')}
-          {closedContacts.length > 0 && (
-            <div>
-              <div className="text-sm font-semibold text-gray-500">Inceleme Arsivi</div>
-              <div className="mt-3">{renderCards(closedContacts, 'CONTACT')}</div>
-            </div>
-          )}
+          {renderCards(contacts, 'CONTACT')}
         </div>
       </section>
 
       <section id="quotes">
         <SectionHeader title="Teklif Talepleri" count={quotes.length} type="QUOTE" />
         <div className="mt-6 space-y-6">
-          {renderCards(activeQuotes, 'QUOTE')}
-          {closedQuotes.length > 0 && (
-            <div>
-              <div className="text-sm font-semibold text-gray-500">Inceleme Arsivi</div>
-              <div className="mt-3">{renderCards(closedQuotes, 'QUOTE')}</div>
-            </div>
-          )}
+          {renderCards(quotes, 'QUOTE')}
         </div>
       </section>
     </div>

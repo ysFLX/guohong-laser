@@ -66,6 +66,16 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   }
 
   try {
+    if (payload.status === 'CLOSED') {
+      await prismaInquiry.inquiry.update({
+        where: { id },
+        data,
+        select: { id: true },
+      });
+      await prismaInquiry.inquiry.deleteMany({ where: { id } });
+      return NextResponse.json({ item: { id, status: 'CLOSED' } });
+    }
+
     const updated = await prismaInquiry.inquiry.update({
       where: { id },
       data,

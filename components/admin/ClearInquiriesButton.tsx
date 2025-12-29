@@ -31,7 +31,7 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
             }
 
             const count = typeof data?.count === 'number' ? data.count : 0;
-            setSuccess(count > 0 ? `${count} kayit kapatildi.` : 'Acik kayit yok.');
+            setSuccess(count > 0 ? `${count} kayit silindi.` : 'Kayit bulunamadi.');
 
             window.location.reload();
           } catch (e: unknown) {
