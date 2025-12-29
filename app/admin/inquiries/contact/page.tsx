@@ -44,7 +44,7 @@ export default async function AdminContactInquiriesPage() {
   const items = await prismaInquiry.inquiry.findMany({
     where: {
       type: 'CONTACT',
-      OR: [{ status: { not: 'CLOSED' } }, { respondedAt: { gte: retentionCutoff } }],
+      status: { not: 'CLOSED' },
     },
     orderBy: [{ createdAt: 'desc' }],
     take: 200,

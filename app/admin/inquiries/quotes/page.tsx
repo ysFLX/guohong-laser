@@ -45,7 +45,7 @@ export default async function AdminQuoteInquiriesPage() {
   const items = await prismaInquiry.inquiry.findMany({
     where: {
       type: 'QUOTE',
-      OR: [{ status: { not: 'CLOSED' } }, { respondedAt: { gte: retentionCutoff } }],
+      status: { not: 'CLOSED' },
     },
     orderBy: [{ createdAt: 'desc' }],
     take: 200,
