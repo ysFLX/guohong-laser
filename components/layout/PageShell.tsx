@@ -249,8 +249,8 @@ function panelsFor(pathname: string): PagePanels {
 
 function CardItem({ card }: { card: Card }) {
   return (
-    <div className="card-surface p-5 text-slate-900 dark:text-white">
-      <p className="eyebrow">{card.title}</p>
+    <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 text-slate-900 shadow-lg shadow-slate-900/5 dark:border-white/10 dark:bg-white/5 dark:text-white">
+      <p className="eyebrow text-slate-500 dark:text-white/60">{card.title}</p>
       <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">{card.description}</p>
       {card.list && (
         <ul className="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
@@ -299,11 +299,11 @@ export default function PageShell({ children }: PageShellProps) {
   return (
     <div className="relative z-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#10b981,_transparent_45%)] opacity-15 dark:opacity-30" />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.85),_rgba(226,232,240,0.55))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.9),_rgba(15,23,42,0.9))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.2),_transparent_45%)] opacity-20 dark:opacity-35" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(248,250,252,0.95),_rgba(226,232,240,0.7))] dark:bg-[linear-gradient(135deg,_rgba(2,6,23,0.95),_rgba(15,23,42,0.9))]" />
         <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[160px] dark:bg-emerald-400/20" />
         <div className="absolute bottom-0 right-16 h-80 w-80 rounded-full bg-emerald-400/15 blur-[180px] dark:bg-emerald-400/12" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(15,23,42,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.04)_1px,_transparent_1px)] bg-[size:64px_64px] opacity-20 dark:bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] dark:opacity-25" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(15,23,42,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.04)_1px,_transparent_1px)] bg-[size:80px_80px] opacity-15 dark:bg-[linear-gradient(90deg,_rgba(255,255,255,0.05)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.05)_1px,_transparent_1px)] dark:opacity-20" />
       </div>
 
       {pathname === '/' ? (
@@ -322,7 +322,7 @@ export default function PageShell({ children }: PageShellProps) {
             </aside>
 
             <div className="min-w-0">
-              <div className="card-surface overflow-hidden text-slate-900 backdrop-blur dark:text-white">
+              <div className="overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/90 text-slate-900 shadow-2xl shadow-slate-900/10 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white">
                 <div className="fade-up p-6 sm:p-10">{children}</div>
               </div>
             </div>
