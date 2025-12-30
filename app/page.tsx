@@ -104,6 +104,61 @@ const testimonials = [
   },
 ];
 
+const industries = [
+  {
+    title: "Otomotiv ve yan sanayi",
+    description: "Hassas sac kesim, prototipleme ve seri uretim hatlari.",
+    image: "/images/1.jpg",
+  },
+  {
+    title: "Makine imalat",
+    description: "Yuksek dayanima uygun lazer kesim ve bilesen uretimi.",
+    image: "/images/2.jpg",
+  },
+  {
+    title: "Metal yapi",
+    description: "Buyuk ebatli sac ve profil kesim ihtiyaclari.",
+    image: "/images/about-showcase.jpg",
+  },
+];
+
+const faqs = [
+  {
+    question: "Kurulum suresi ne kadar?",
+    answer: "Proje kapsaminda 5-12 gun araliginda kurulumu tamamliyoruz.",
+  },
+  {
+    question: "Teknik servis kim tarafindan veriliyor?",
+    answer: "Guohong Laser ekipleri sahada kurulum ve surekli destek sagliyor.",
+  },
+  {
+    question: "Yedek parca stoklari hazir mi?",
+    answer: "Kritik parcalar icin hizli temin ve stoklu teslimat sunuyoruz.",
+  },
+  {
+    question: "Uretim hattima uygun makine secimi nasil yapilir?",
+    answer: "Ucretsiz kesif ve analiz ile ihtiyaca uygun konfigurasyon belirliyoruz.",
+  },
+];
+
+const highlights = [
+  {
+    label: "Enerji verimliligi",
+    value: "%22 tasarruf",
+    description: "Akilli hat yönetimi ve optimizasyon",
+  },
+  {
+    label: "Hizli devreye alma",
+    value: "7-12 gun",
+    description: "Planli kurulum, test ve egitim",
+  },
+  {
+    label: "Saha kapsami",
+    value: "24/7",
+    description: "Teknik ekip ve uzaktan izleme",
+  },
+];
+
 export default function Home() {
   return (
     <div className={`${manrope.className} space-y-10`}>
@@ -412,6 +467,131 @@ export default function Home() {
               Iletisime gecin
             </Link>
           </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="space-y-5">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+              Kullanildigi alanlar
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+              Farkli sektorlerde guvenilir performans
+            </h2>
+          </div>
+          <Link
+            href="/products"
+            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/80 dark:hover:border-white dark:hover:text-white"
+          >
+            Tum urunler
+          </Link>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {industries.map((item, index) => (
+            <Reveal key={item.title} as="div" delay={120 + index * 90}>
+              <div className="group overflow-hidden rounded-3xl border border-slate-200/70 bg-white/80 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
+                <div className="relative h-44 w-full overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <div className="space-y-3 p-5">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+            Performans ozeti
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+            Uretim hattiniza net katki saglayan metrikler
+          </h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            Uretim akisini hizlandiran, maliyetleri dusuren ve kaliteyi yukseltan
+            olculebilir etkileri sunuyoruz.
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {highlights.map((item, index) => (
+              <Reveal
+                key={item.label}
+                as="div"
+                delay={120 + index * 80}
+                className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5"
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
+                  {item.value}
+                </p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                  {item.description}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+        <Reveal as="div" delay={160} className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+            Neden Guohong?
+          </p>
+          <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
+            Uretimde sureklilik icin tasarlanmis hizmet modeli
+          </h3>
+          <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <div className="flex items-start gap-3 rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+              <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+              Tek ekip, tek plan: kurulumdan bakima kadar tek noktadan yonetim.
+            </div>
+            <div className="flex items-start gap-3 rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+              <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+              Gercek zamanli raporlama ve uzaktan izleme altyapisi.
+            </div>
+            <div className="flex items-start gap-3 rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+              <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+              Kritik parcalar icin hizli stok ve lojistik destegi.
+            </div>
+          </div>
+        </Reveal>
+      </Reveal>
+
+      <Reveal as="section" className="space-y-5">
+        <div>
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+            Sikca sorulan sorular
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+            Karar surecini hizlandiran net cevaplar
+          </h2>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          {faqs.map((item, index) => (
+            <Reveal key={item.question} as="div" delay={120 + index * 80}>
+              <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-5 dark:border-white/10 dark:bg-white/5">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                  {item.question}
+                </p>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                  {item.answer}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </Reveal>
     </div>
