@@ -100,6 +100,68 @@ const facility = [
   'Uzaktan destek ve saha servis',
 ];
 
+const services = [
+  {
+    title: 'Makine secimi ve hat analizi',
+    description: 'Uretim hedeflerine gore uygun lazer sistemi ve hat dizilimi belirlenir.',
+  },
+  {
+    title: 'Kurulum ve egitim',
+    description: 'Saha kurulumlari tamamlanir, operator ve bakim ekibi egitilir.',
+  },
+  {
+    title: 'Sarf ve yedek parca',
+    description: 'Kritik sarf kalemleri ve yedek parca tedarigi planli sekilde yonetilir.',
+  },
+  {
+    title: 'Periyodik bakim',
+    description: 'Duruşlari azaltan bakim takvimiyle hat performansi korunur.',
+  },
+  {
+    title: 'Uzaktan izleme',
+    description: 'Hiz, enerji ve fire verileri raporlanir, iyilestirme planlari cikarilir.',
+  },
+  {
+    title: '7/24 saha destegi',
+    description: 'Kritik durumlarda hizli yonlendirme ile servis sureci baslatilir.',
+  },
+];
+
+const sectors = [
+  'Metal isleme ve sac sekillendirme',
+  'Otomotiv yan sanayi',
+  'Boru profil uretimi',
+  'Makine imalat ve fason kesim',
+  'Reklam ve dekoratif metal',
+  'Endustriyel mutfak ekipmanlari',
+];
+
+const timeline = [
+  { title: 'Analiz ve planlama', detail: 'Ihtiyaclar netlestirilir, teklif ve plan cikartilir.' },
+  { title: 'Uretim ve lojistik', detail: 'Sistem hazirlanir, saha teslim takvimi belirlenir.' },
+  { title: 'Kurulum ve test', detail: 'Kurulum yapilir, ornek kesimlerle performans dogrulanir.' },
+  { title: 'Egitim ve devralma', detail: 'Operator egitimi ve teslim tutanaklari tamamlanir.' },
+];
+
+const faqs = [
+  {
+    q: 'Kurulum ne kadar surer?',
+    a: 'Ortalama 7-10 gun icinde kurulum ve devreye alma tamamlanir.',
+  },
+  {
+    q: 'Yedek parca temini nasil?',
+    a: 'Kritik parcalar icin hizli stok ve kargo sistemi uygulanir.',
+  },
+  {
+    q: 'Egitim veriliyor mu?',
+    a: 'Ekipleriniz icin operator ve bakim egitimi saglaniyor.',
+  },
+  {
+    q: 'Servis cagri sureci nasil ilerler?',
+    a: 'Kayit alinip uzaktan destek verilir, gerekirse saha ekibi yonlendirilir.',
+  },
+];
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen space-y-16">
@@ -186,6 +248,39 @@ export default function AboutPage() {
       </section>
 
       <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="lg:max-w-xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Neler yapiyoruz</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+              Uretim hatlarinizi uctan uca destekliyoruz
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Planlama, kurulum, servis ve performans takibini tek ekipte topluyoruz.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <span className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-700">
+              Tek ekip
+            </span>
+            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
+              Hizli devreye alma
+            </span>
+            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
+              Olculen performans
+            </span>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((item) => (
+            <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
           <div className="lg:w-1/2">
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Yol haritasi</p>
@@ -204,6 +299,45 @@ export default function AboutPage() {
                   <div>
                     <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
                     <p className="text-xs text-slate-600 dark:text-slate-300">{item.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Sektorler</p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+            Cozum sundugumuz alanlar
+          </h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            Farkli uretim disiplinlerinde lazer kesim ihtiyaclarina uygun sistemler gelistiriyoruz.
+          </p>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            {sectors.map((item) => (
+              <li key={item} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Is akisi</p>
+          <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">4 adimda teslim</h3>
+          <div className="mt-4 space-y-3">
+            {timeline.map((step, index) => (
+              <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-700">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
+                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{step.detail}</p>
                   </div>
                 </div>
               </div>
@@ -273,6 +407,26 @@ export default function AboutPage() {
                   {member.role}
                 </p>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Sik sorulanlar</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Saha ekiplerinden gelen sorular</h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Kurulum, servis ve yedek parca sureclerinde merak edilenleri netlestiriyoruz.
+            </p>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {faqs.map((item) => (
+            <div key={item.q} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.q}</p>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.a}</p>
             </div>
           ))}
         </div>
