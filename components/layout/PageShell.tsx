@@ -306,31 +306,37 @@ export default function PageShell({ children }: PageShellProps) {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(15,23,42,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.04)_1px,_transparent_1px)] bg-[size:64px_64px] opacity-20 dark:bg-[linear-gradient(90deg,_rgba(255,255,255,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] dark:opacity-25" />
       </div>
 
-      <div className="relative mx-auto max-w-[1440px] px-3 py-8 sm:px-6 lg:px-4">
-        <div className="grid gap-6 lg:grid-cols-[240px_1fr_280px]">
-          <aside className="hidden lg:block">
-            <div className="sticky top-6 space-y-6">
-              {panels.left.map((card) => (
-                <CardItem key={card.title} card={card} />
-              ))}
-            </div>
-          </aside>
-
-          <div className="min-w-0">
-            <div className="card-surface overflow-hidden text-slate-900 backdrop-blur dark:text-white">
-              <div className="fade-up p-6 sm:p-10">{children}</div>
-            </div>
-          </div>
-
-          <aside className="hidden lg:block">
-            <div className="sticky top-6 space-y-6">
-              {panels.right.map((card) => (
-                <CardItem key={card.title} card={card} />
-              ))}
-            </div>
-          </aside>
+      {pathname === '/' ? (
+        <div className="relative mx-auto max-w-[1440px] px-3 py-8 sm:px-6 lg:px-4">
+          {children}
         </div>
-      </div>
+      ) : (
+        <div className="relative mx-auto max-w-[1440px] px-3 py-8 sm:px-6 lg:px-4">
+          <div className="grid gap-6 lg:grid-cols-[240px_1fr_280px]">
+            <aside className="hidden lg:block">
+              <div className="sticky top-6 space-y-6">
+                {panels.left.map((card) => (
+                  <CardItem key={card.title} card={card} />
+                ))}
+              </div>
+            </aside>
+
+            <div className="min-w-0">
+              <div className="card-surface overflow-hidden text-slate-900 backdrop-blur dark:text-white">
+                <div className="fade-up p-6 sm:p-10">{children}</div>
+              </div>
+            </div>
+
+            <aside className="hidden lg:block">
+              <div className="sticky top-6 space-y-6">
+                {panels.right.map((card) => (
+                  <CardItem key={card.title} card={card} />
+                ))}
+              </div>
+            </aside>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
