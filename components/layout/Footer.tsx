@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -51,9 +51,8 @@ export default function Footer() {
 
           <div className="grid gap-6 text-sm text-gray-500 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">Kurumsal</div>
               <p className="mt-3 text-sm text-gray-500">
-                Lazer makineleri, yedek parca ve teknik destek ihtiyaclariniz icin tek noktadan cozum sunuyoruz.
+                Guohong Laser Group, Ar-Ge, üretim ve satış süreçlerini entegre eden bir metal lazer kesim makinesi üreticisidir. Büyük ölçekli ekipman üretimi ve imalatında 10 yılı aşkın deneyime sahiptir.
               </p>
             </div>
 
@@ -89,14 +88,13 @@ export default function Footer() {
               <div className="mt-3 space-y-2 text-sm">
                 <div>Pazartesi - Cumartesi</div>
                 <div>09:00 - 18:00</div>
-                <div>Acil destek icin WhatsApp</div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="border-t border-gray-200/70 dark:border-gray-700/70 py-4">
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-center text-gray-400">
             &copy; {new Date().getFullYear()} Guohong Lazer. Tum haklari saklidir.
           </p>
         </div>
