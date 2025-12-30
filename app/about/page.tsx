@@ -51,6 +51,55 @@ const stats = [
   { label: 'Servis noktasi', value: '24' },
 ];
 
+const milestones = [
+  {
+    year: '2014',
+    title: 'Ilk saha kurulumlari',
+    description: 'Yerli uretim hatlariyla ilk anahtar teslim projeler tamamlandi.',
+  },
+  {
+    year: '2017',
+    title: 'Servis agi genisledi',
+    description: 'Teknik servis ve yedek parca operasyonlari tek merkezde birlestirildi.',
+  },
+  {
+    year: '2020',
+    title: 'Akilli hat entegrasyonu',
+    description: 'Veri izleme ve performans raporlama sistemleri sahaya alindi.',
+  },
+  {
+    year: '2024',
+    title: 'Global tedarik gucu',
+    description: 'Kritik parca tedarigi icin uluslararasi lojistik altyapi kuruldu.',
+  },
+];
+
+const capabilities = [
+  {
+    title: 'Kesim hatlari planlama',
+    description: 'Uretim hedeflerine gore hat kapasitesi ve malzeme akisi tasarimlari.',
+  },
+  {
+    title: 'Kurulum ve devreye alma',
+    description: 'Saha hazirligi, kurulum, test ve operator egitimi tek ekip tarafindan yapilir.',
+  },
+  {
+    title: 'Sarf ve yedek parca',
+    description: 'Kritik yedek parca ve sarf malzeme stoklari hizli temin edilir.',
+  },
+  {
+    title: 'Performans takibi',
+    description: 'Hiz, fire ve enerji takibiyle verimlilik raporlari hazirlanir.',
+  },
+];
+
+const facility = [
+  'Uretim planlama ve kesim simulasyonu',
+  'Kritik parca stok yonetimi',
+  'Kalibrasyon ve kalite kontrol',
+  'Uzaktan destek ve saha servis',
+];
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen space-y-16">
@@ -133,6 +182,67 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
+          <div className="lg:w-1/2">
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Yol haritasi</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Buyume adimlarimiz</h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Saha tecrubesini her yil guclendiren sureclerle ilerliyoruz.
+            </p>
+          </div>
+          <div className="lg:w-1/2 space-y-4">
+            {milestones.map((item) => (
+              <div key={item.year} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+                <div className="flex items-center gap-4">
+                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    {item.year}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-300">{item.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Yetkinlikler</p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+            Uretim ve servis sureclerini tek noktada toparliyoruz
+          </h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {capabilities.map((item) => (
+              <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Tesis ve operasyon</p>
+          <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
+            Sahadan merkeze entegre operasyon
+          </h3>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            Kurulumdan bakima kadar tum akislar tek merkezden takip edilir.
+          </p>
+          <ul className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            {facility.map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

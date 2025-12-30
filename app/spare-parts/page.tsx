@@ -257,7 +257,10 @@ export default function SparePartsPage() {
           {filtered.map((p) => {
             const isFavorited = favoriteIds.has(p.id);
             return (
-              <div key={p.id} className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
+              <div
+                key={p.id}
+                className="perf-card overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+              >
                 <Link href={`/spare-parts/${p.id}`} className="block">
                   <div className="relative h-44 w-full overflow-hidden bg-white">
                     <Image

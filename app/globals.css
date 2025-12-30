@@ -195,6 +195,11 @@ body {
   animation: float-soft 6s ease-in-out infinite;
 }
 
+.perf-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 320px 420px;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
