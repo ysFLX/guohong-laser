@@ -167,10 +167,10 @@ body {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
+  opacity: 1;
+  transform: translateY(16px);
   transition: opacity 700ms ease, transform 700ms ease;
-  will-change: opacity, transform;
+  will-change: transform;
 }
 
 .reveal.is-visible {
