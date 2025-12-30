@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
+import Reveal from '@/components/home/Reveal';
 
 type SparePart = {
   id: string;
@@ -168,99 +169,97 @@ export default function SparePartsPage() {
   }, [items, selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="max-w-none mx-auto px-4 py-20 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Yedek Parcalar</h1>
-            <p className="mt-4 text-base text-gray-200 sm:text-lg">
-              Fiber lazer makineleri icin sarf malzeme ve kritik yedek parcalar. Uyum ve stok bilgisi icin bize ulas.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/quote"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-white text-gray-900 hover:bg-gray-100"
-              >
-                Fiyat Teklifi Al
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-white/20 hover:bg-white/10"
-              >
-                Uyum Danis
-              </Link>
-            </div>
+    <div className="min-h-screen space-y-16">
+      <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
+        <div className="relative space-y-4">
+          <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+            Yedek Parcalar
+          </p>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Sarf ve kritik parcalar</h1>
+          <p className="max-w-2xl text-base text-white/70">
+            Fiber lazer makineleri icin kritik yedek parcayi hizli temin edin.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/quote"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300"
+            >
+              Fiyat teklifi al
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
+            >
+              Uyum danis
+            </Link>
           </div>
         </div>
-      </div>
+      </Reveal>
 
-      <div className="max-w-none mx-auto px-4 py-10 sm:px-6 lg:px-8">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="w-full lg:w-1/3">
-              <label htmlFor="spSearch" className="sr-only">
-                Ara
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path
-                      fillRule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <input
-                  id="spSearch"
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm"
-                  placeholder="Parca adi, aciklama veya uyumluluk ara..."
-                />
+      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="w-full lg:w-1/3">
+            <label htmlFor="spSearch" className="sr-only">
+              Ara
+            </label>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg className="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path
+                    fillRule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {categories.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setSelectedCategory(c)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    selectedCategory === c
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
+              <input
+                id="spSearch"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                placeholder="Parca adi, aciklama veya uyumluluk ara..."
+              />
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-            {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setSelectedCategory(c)}
+                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
+                  selectedCategory === c
+                    ? 'bg-emerald-500 text-slate-900'
+                    : 'bg-white text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                {c}
+              </button>
+            ))}
           </div>
-          {favoriteError && <div className="mt-3 text-sm text-red-600">{favoriteError}</div>}
         </div>
 
-        {loadError && (
-          <div className="mt-8 bg-red-50 border border-red-100 text-red-700 rounded-xl p-4">
-            {loadError}
-          </div>
-        )}
+        <div className="mt-4 text-sm text-slate-500">
+          {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
+        </div>
+        {favoriteError && <div className="mt-3 text-sm text-red-600">{favoriteError}</div>}
+      </Reveal>
 
-        {!loadError && (
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((p) => {
-              const isFavorited = favoriteIds.has(p.id);
-              return (
-                <div
-                  key={p.id}
-                  className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/70 dark:border-gray-700/70 overflow-hidden"
-                >
+      {loadError && (
+        <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-red-700">{loadError}</div>
+      )}
+
+      {!loadError && (
+        <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((p, index) => {
+            const isFavorited = favoriteIds.has(p.id);
+            return (
+              <Reveal key={p.id} as="div" delay={120 + index * 60}>
+                <div className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
                   <Link href={`/spare-parts/${p.id}`} className="block">
                     <div className="relative h-44 w-full overflow-hidden bg-white">
                       <Image
@@ -272,48 +271,48 @@ export default function SparePartsPage() {
                         loading="lazy"
                         unoptimized
                       />
-                      <div className="absolute top-4 right-4 bg-white/90 text-gray-900 text-xs font-semibold px-3 py-1 rounded-full">
+                      <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
                         {p.category.name}
                       </div>
                       {p.isFeatured && (
-                        <div className="absolute top-4 left-4 bg-gray-900/90 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                        <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white">
                           Vitrin
                         </div>
                       )}
                     </div>
                   </Link>
 
-                  <div className="p-4">
+                  <div className="space-y-3 p-4">
                     <div className="flex items-start justify-between gap-2">
                       <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white hover:underline line-clamp-2">
+                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 hover:underline">
                           {p.name}
                         </h3>
                       </Link>
-                      <div className="text-sm font-bold text-gray-900 dark:text-white whitespace-nowrap">
+                      <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
                         {formatPriceTry(p.priceCents)}
                       </div>
                     </div>
-                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{p.description}</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
 
-                    <div className="mt-3 flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
                       <div>
-                        <span className="font-semibold text-gray-900 dark:text-white">Stok</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">Stok</span>
                         <span className="ml-2">{p.stockOnHand}</span>
                       </div>
                       <div>
-                        <span className="font-semibold text-gray-900 dark:text-white">Olcu</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
                         <span className="ml-2">{p.dimensions || '-'}</span>
                       </div>
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2">
+                    <div className="flex items-center gap-2">
                       <AddToCartButton
                         id={p.id}
                         name={p.name}
                         priceCents={p.priceCents}
                         imageUrl={p.imageUrl}
-                        className="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
+                        className="flex-1 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
                       />
                       <button
                         type="button"
@@ -321,10 +320,10 @@ export default function SparePartsPage() {
                         disabled={favoriteLoading.has(p.id)}
                         aria-pressed={isFavorited}
                         aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-                        className={`h-10 w-10 rounded-full border flex items-center justify-center transition-colors ${
+                        className={`h-10 w-10 rounded-full border transition-colors ${
                           isFavorited
                             ? 'border-red-200 bg-red-50 text-red-600'
-                            : 'border-gray-200 bg-white text-gray-500 hover:text-red-600'
+                            : 'border-slate-200 bg-white text-slate-500 hover:text-red-600'
                         } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
                       >
                         <svg
@@ -340,18 +339,15 @@ export default function SparePartsPage() {
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </Reveal>
+            );
+          })}
+        </Reveal>
+      )}
 
-        {!isLoading && !loadError && filtered.length === 0 && (
-          <div className="text-center py-14">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Sonuc bulunamadi</h3>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">Filtreleri degistirip tekrar deneyebilirsin.</p>
-          </div>
-        )}
-      </div>
+      {!isLoading && !loadError && filtered.length === 0 && (
+        <div className="text-center py-14 text-slate-600">Sonuc bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.</div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -72,12 +72,12 @@ export default function FavoritesPage() {
         const data = text ? JSON.parse(text) : {};
 
         if (!res.ok) {
-          throw new Error(data?.error || 'Favoriler yüklenemedi');
+          throw new Error(data?.error || 'Favoriler yuklenemedi');
         }
 
         setItems(Array.isArray(data?.items) ? data.items : []);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Favoriler yüklenemedi';
+        const message = e instanceof Error ? e.message : 'Favoriler yuklenemedi';
         setError(message);
       } finally {
         setIsLoading(false);
@@ -101,14 +101,14 @@ export default function FavoritesPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Favori güncellenemedi');
+        throw new Error(data?.error || 'Favori guncellenemedi');
       }
 
       if (data?.favorited === false) {
         setItems((prev) => prev.filter((item) => item.sparePartId !== sparePartId));
       }
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Favori güncellenemedi';
+      const message = e instanceof Error ? e.message : 'Favori guncellenemedi';
       setError(message);
     } finally {
       setToggling((prev) => {
@@ -125,78 +125,76 @@ export default function FavoritesPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link href="/profile" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
-              ← Hesap Yönetimine Dön
+              Hesap yonetimine don
             </Link>
-            <h1 className="mt-3 text-2xl font-bold">Favorilerim</h1>
-            <p className="mt-1 text-sm text-gray-600">Favorilediğin ürünleri burada yönetebilirsin.</p>
+            <h1 className="mt-3 text-2xl font-semibold text-slate-900">Favorilerim</h1>
+            <p className="mt-1 text-sm text-slate-600">Favoriledigin urunleri burada yonetebilirsin.</p>
           </div>
           <Link href="/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
-            Yedek Parçalara Git
+            Yedek parcalara git
           </Link>
         </div>
 
-        {isLoading && <div className="mt-6 text-sm text-gray-600">Yükleniyor...</div>}
+        {isLoading && <div className="mt-6 text-sm text-slate-600">Yukleniyor...</div>}
         {error && <div className="mt-6 text-sm text-red-600">{error}</div>}
 
         {!isLoading && !error && items.length === 0 && (
-          <div className="mt-8 rounded-xl border border-dashed border-gray-200 p-6 text-sm text-gray-600">
-            Henüz favori ürün yok. Yedek parçalardan favori ekleyebilirsin.
+          <div className="mt-8 rounded-xl border border-dashed border-slate-200 p-6 text-sm text-slate-600">
+            Henuz favori urun yok. Yedek parcalardan favori ekleyebilirsin.
           </div>
         )}
 
         {!isLoading && !error && items.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
             {items.map((item) => (
-              <div key={item.id} className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                <div className="relative">
-                  <Link href={`/spare-parts/${item.sparePartId}`} className="block">
-                    <div className="relative h-52 w-full">
-                      <Image
-                        src={item.sparePart.imageUrl || '/images/1.jpg'}
-                        alt={item.sparePart.name}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover group-hover:scale-[1.02] transition-transform"
-                        loading="lazy"
-                        unoptimized
-                      />
-                      <div className="absolute top-3 right-3 bg-white/90 text-gray-900 text-xs font-semibold px-2 py-1 rounded-full">
-                        {item.sparePart.category.name}
-                      </div>
+              <div key={item.id} className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white/90 shadow-sm">
+                <Link href={`/spare-parts/${item.sparePartId}`} className="block">
+                  <div className="relative h-52 w-full">
+                    <Image
+                      src={item.sparePart.imageUrl || '/images/1.jpg'}
+                      alt={item.sparePart.name}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-transform group-hover:scale-[1.02]"
+                      loading="lazy"
+                      unoptimized
+                    />
+                    <div className="absolute top-3 right-3 rounded-full bg-white/90 px-2 py-1 text-xs font-semibold text-slate-900">
+                      {item.sparePart.category.name}
                     </div>
-                  </Link>
-                </div>
+                  </div>
+                </Link>
 
-                <div className="p-4">
+                <div className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <Link href={`/spare-parts/${item.sparePartId}`} className="min-w-0">
-                      <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 hover:underline">
+                      <h3 className="text-lg font-semibold text-slate-900 line-clamp-2 hover:underline">
                         {item.sparePart.name}
                       </h3>
                     </Link>
-                    <div className="text-sm font-bold text-gray-900 whitespace-nowrap">
+                    <div className="text-sm font-bold text-slate-900 whitespace-nowrap">
                       {formatPriceTry(item.sparePart.priceCents)}
                     </div>
                   </div>
 
-                  <p className="mt-2 text-sm text-gray-600 line-clamp-2">{item.sparePart.description}</p>
+                  <p className="text-sm text-slate-600 line-clamp-2">{item.sparePart.description}</p>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
                     <span>Stok: {item.sparePart.stockOnHand}</span>
-                    <span>Ölçü: {item.sparePart.dimensions || '-'}</span>
+                    <span>Olcu: {item.sparePart.dimensions || '-'}</span>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <AddToCartButton
                       id={item.sparePart.id}
                       name={item.sparePart.name}
                       priceCents={item.sparePart.priceCents}
                       imageUrl={item.sparePart.imageUrl}
-                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
+                      className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
                     />
                     <Link
                       href={`/spare-parts/${item.sparePartId}`}
-                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 text-gray-900 hover:bg-gray-50"
+                      className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
                     >
                       Detaylar
                     </Link>
@@ -204,9 +202,9 @@ export default function FavoritesPage() {
                       type="button"
                       onClick={() => toggleFavorite(item.sparePartId)}
                       disabled={toggling.has(item.sparePartId)}
-                      className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold text-red-600 border border-red-100 hover:bg-red-50 disabled:text-gray-400"
+                      className="rounded-xl border border-red-100 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:text-slate-400"
                     >
-                      Favoriden kaldır
+                      Favoriden kaldir
                     </button>
                   </div>
                 </div>

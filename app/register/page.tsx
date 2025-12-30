@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
@@ -108,202 +108,201 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
-          <div className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-xl bg-gray-900 text-white flex items-center justify-center font-semibold">
-              GL
+    <div className="min-h-screen bg-slate-950 px-4 py-12 text-white">
+      <div className="mx-auto max-w-md">
+        <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur sm:p-8">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
+          <div className="relative">
+            <div className="text-center">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-emerald-400 text-slate-900 flex items-center justify-center font-semibold">
+                GL
+              </div>
+              <h2 className="mt-4 text-3xl font-semibold">Yeni hesap olustur</h2>
+              <p className="mt-2 text-sm text-white/70">Bilgilerini gir, hesabini olustur</p>
             </div>
-            <h2 className="mt-4 text-3xl font-extrabold text-gray-900">Yeni Hesap Olustur</h2>
-            <p className="mt-2 text-sm text-gray-600">Bilgilerini gir ve hesabini olustur</p>
-          </div>
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 rounded-xl shadow-sm text-sm font-semibold text-gray-900 bg-white hover:bg-gray-50"
-            >
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700">
-                G
-              </span>
-              Google ile kayit ol
-            </button>
-          </div>
 
-          <div className="mt-6 flex items-center gap-4 text-xs uppercase tracking-widest text-gray-400">
-            <span className="h-px flex-1 bg-gray-200" />
-            veya
-            <span className="h-px flex-1 bg-gray-200" />
-          </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            {step === 'details' && (
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                    Ad
-                  </label>
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                    placeholder="Adiniz"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                    Soyad
-                  </label>
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                    placeholder="Soyadiniz"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    E-posta
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                    placeholder="ornek@email.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Telefon
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    autoComplete="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                    placeholder="05xx xxx xx xx"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                    Sifre
-                  </label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                    placeholder="********"
-                    minLength={6}
-                  />
-                </div>
-              </div>
-            )}
-
-            {step === 'verify' && (
-              <div className="space-y-4">
-                <div className="text-center text-base font-semibold text-gray-900">
-                  E-posta dogrulama
-                </div>
-                <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
-                  Dogrulama kodunu <span className="font-semibold">{email}</span> adresine gonderdik.
-                </div>
-                <div>
-                  <label htmlFor="verificationCode" className="block text-sm font-medium text-gray-700">
-                    Dogrulama Kodu
-                  </label>
-                  <input
-                    id="verificationCode"
-                    name="verificationCode"
-                    type="text"
-                    inputMode="numeric"
-                    required
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white tracking-widest text-center"
-                    placeholder="000000"
-                    maxLength={6}
-                  />
-                </div>
-              </div>
-            )}
-
-            {info && (
-              <div className="text-green-700 text-sm text-center p-3 bg-green-50 rounded-lg border border-green-100">
-                {info}
-              </div>
-            )}
-
-            {error && (
-              <div className="text-red-700 text-sm text-center p-3 bg-red-50 rounded-lg border border-red-100">
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-3">
+            <div className="mt-6">
               <button
-                type="submit"
-                disabled={step === 'details' ? isSendingCode : isVerifying}
-                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white ${
-                  step === 'details'
-                    ? isSendingCode
-                      ? 'bg-gray-400'
-                      : 'bg-gray-900 hover:bg-gray-800'
-                    : isVerifying
-                      ? 'bg-gray-400'
-                      : 'bg-gray-900 hover:bg-gray-800'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900/30`}
+                type="button"
+                onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
+                className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
-                {step === 'details'
-                  ? isSendingCode
-                    ? 'Gonderiliyor...'
-                    : 'Kayit Ol'
-                  : isVerifying
-                    ? 'Kontrol ediliyor...'
-                    : 'Kaydi Tamamla'}
+                Google ile kayit ol
               </button>
+            </div>
+
+            <div className="mt-6 flex items-center gap-4 text-xs uppercase tracking-widest text-white/40">
+              <span className="h-px flex-1 bg-white/10" />
+              veya
+              <span className="h-px flex-1 bg-white/10" />
+            </div>
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+              {step === 'details' && (
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-white/80">
+                      Ad
+                    </label>
+                    <input
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      placeholder="Adiniz"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="lastName" className="block text-sm font-medium text-white/80">
+                      Soyad
+                    </label>
+                    <input
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      required
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      placeholder="Soyadiniz"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-white/80">
+                      E-posta
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      placeholder="ornek@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-white/80">
+                      Telefon
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      autoComplete="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      placeholder="05xx xxx xx xx"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="password" className="block text-sm font-medium text-white/80">
+                      Sifre
+                    </label>
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="new-password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      placeholder="********"
+                      minLength={6}
+                    />
+                  </div>
+                </div>
+              )}
 
               {step === 'verify' && (
-                <button
-                  type="button"
-                  onClick={sendVerificationCode}
-                  disabled={isSendingCode}
-                  className="w-full flex justify-center py-3 px-4 border border-gray-200 rounded-xl shadow-sm text-sm font-semibold text-gray-900 bg-white hover:bg-gray-50 disabled:opacity-60"
-                >
-                  {isSendingCode ? 'Tekrar gonderiliyor...' : 'Kodu Tekrar Gonder'}
-                </button>
+                <div className="space-y-4">
+                  <div className="text-center text-base font-semibold text-white">E-posta dogrulama</div>
+                  <div className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70">
+                    Dogrulama kodunu <span className="font-semibold">{email}</span> adresine gonderdik.
+                  </div>
+                  <div>
+                    <label htmlFor="verificationCode" className="block text-sm font-medium text-white/80">
+                      Dogrulama Kodu
+                    </label>
+                    <input
+                      id="verificationCode"
+                      name="verificationCode"
+                      type="text"
+                      inputMode="numeric"
+                      required
+                      value={verificationCode}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                      placeholder="000000"
+                      maxLength={6}
+                    />
+                  </div>
+                </div>
               )}
+
+              {info && (
+                <div className="rounded-xl border border-emerald-200/30 bg-emerald-400/10 p-3 text-sm text-emerald-100">
+                  {info}
+                </div>
+              )}
+
+              {error && (
+                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-3">
+                <button
+                  type="submit"
+                  disabled={step === 'details' ? isSendingCode : isVerifying}
+                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition ${
+                    step === 'details'
+                      ? isSendingCode
+                        ? 'bg-emerald-200'
+                        : 'bg-emerald-400 hover:bg-emerald-300'
+                      : isVerifying
+                        ? 'bg-emerald-200'
+                        : 'bg-emerald-400 hover:bg-emerald-300'
+                  }`}
+                >
+                  {step === 'details'
+                    ? isSendingCode
+                      ? 'Gonderiliyor...'
+                      : 'Kayit ol'
+                    : isVerifying
+                      ? 'Kontrol ediliyor...'
+                      : 'Kaydi tamamla'}
+                </button>
+
+                {step === 'verify' && (
+                  <button
+                    type="button"
+                    onClick={sendVerificationCode}
+                    disabled={isSendingCode}
+                    className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
+                  >
+                    {isSendingCode ? 'Tekrar gonderiliyor...' : 'Kodu tekrar gonder'}
+                  </button>
+                )}
+              </div>
+            </form>
+            <div className="mt-6 text-center">
+              <Link href="/login" className="text-sm font-medium text-emerald-200 hover:text-emerald-100">
+                Zaten hesabin var mi? <span className="underline">Giris yap</span>
+              </Link>
             </div>
-          </form>
-          <div className="mt-6 text-center">
-            <Link href="/login" className="text-sm font-medium text-gray-900 hover:text-gray-700">
-              Zaten hesabin var mi? <span className="underline">Giris yap</span>
-            </Link>
           </div>
         </div>
       </div>

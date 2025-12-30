@@ -16,52 +16,54 @@ export default function ProfileLayout({
   const { data: session } = useSession();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-gray-900 text-white flex items-center justify-center font-semibold">
-                  {(session?.user?.name?.[0] || (session?.user?.email ?? 'U')[0]).toUpperCase()}
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Hesabim</h1>
-                  <div className="mt-1 text-sm text-gray-600">
-                    {session?.user?.email ?? ''}
-                    {session?.user?.role === 'ADMIN' ? ' - Admin' : ''}
-                  </div>
-                </div>
+    <div className="min-h-screen space-y-12">
+      <div className="rounded-[32px] bg-slate-950 px-6 py-10 text-white shadow-2xl sm:px-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-emerald-400 text-slate-900 flex items-center justify-center font-semibold">
+              {(session?.user?.name?.[0] || (session?.user?.email ?? 'U')[0]).toUpperCase()}
+            </div>
+            <div>
+              <h1 className="text-2xl font-semibold">Hesabim</h1>
+              <div className="mt-1 text-sm text-white/70">
+                {session?.user?.email ?? ''}
+                {session?.user?.role === 'ADMIN' ? ' - Admin' : ''}
               </div>
             </div>
           </div>
+          <Link
+            href="/profile"
+            className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
+          >
+            Profil sayfasi
+          </Link>
+        </div>
+      </div>
 
-          <div className={`grid grid-cols-1 ${showSide ? 'lg:grid-cols-3' : ''} gap-6`}>
-            <div className={`${showSide ? 'lg:col-span-2' : ''} bg-white rounded-xl shadow-sm border border-gray-100 p-6`}>
-              {children}
-            </div>
+      <div className={`grid grid-cols-1 ${showSide ? 'lg:grid-cols-[1fr_320px]' : ''} gap-6`}>
+        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          {children}
+        </div>
 
-            {showSide && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                {side ?? (
-                  <>
-                    <div className="text-sm font-semibold text-gray-900">Adres</div>
-                    <div className="mt-1 text-sm text-gray-500">Adreslerini yonetmek icin tikla</div>
-                    <div className="mt-4">
-                      <Link href="/profile/addresses" className="px-3 py-2 rounded-md text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700">
-                        Adreslerim
-                      </Link>
-                    </div>
-                  </>
-                )}
-              </div>
+        {showSide && (
+          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+            {side ?? (
+              <>
+                <div className="text-sm font-semibold text-slate-900">Adres</div>
+                <div className="mt-1 text-sm text-slate-600">Adreslerini yonetmek icin tikla</div>
+                <div className="mt-4">
+                  <Link
+                    href="/profile/addresses"
+                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-emerald-500"
+                  >
+                    Adreslerim
+                  </Link>
+                </div>
+              </>
             )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
 }
-
-
-

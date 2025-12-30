@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import Reveal from '@/components/home/Reveal';
+
 const products = [
   'Acik Cift Tablali Sac Kesim Makinasi',
   'Agir Tip Boru Kesim Makinasi',
@@ -15,7 +17,7 @@ const products = [
   'Rayli Sac Kesim Makinasi',
   'Tek Tabla Sac Kesim Makinasi',
   'Yandan Yuklemeli Yari Otomatik Boru Kesim Makinasi',
-  'Yari Otomatik Yuklemeli Boru Kesim Makinasi'
+  'Yari Otomatik Yuklemeli Boru Kesim Makinasi',
 ];
 
 export default function QuotePage() {
@@ -26,10 +28,10 @@ export default function QuotePage() {
     email: '',
     phone: '',
     product: '',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{success: boolean; message: string} | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
   const [emailError, setEmailError] = useState('');
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'details' | 'verify'>('details');
@@ -39,7 +41,7 @@ export default function QuotePage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (name === 'email' && emailError) {
       setEmailError('');
     }
@@ -68,14 +70,7 @@ export default function QuotePage() {
           ...formData,
           otp: step === 'verify' ? otp : undefined,
           subject: `Fiyat Teklifi Talebi - ${formData.product}`,
-          message: `Fiyat Teklifi Talep Formu:
-            -------------------------
-            Ad Soyad: ${formData.name}
-            Firma: ${formData.company}
-            E-posta: ${formData.email}
-            Telefon: ${formData.phone}
-            Urun: ${formData.product}
-            Mesaj: ${formData.message}`,
+          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nUrun: ${formData.product}\nMesaj: ${formData.message}`,
         }),
       });
 
@@ -85,14 +80,17 @@ export default function QuotePage() {
         setStep('verify');
         setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
       } else if (response.ok) {
-        setSubmitStatus({ success: true, message: 'Talebiniz alindi. En kisa surede sizinle iletisime gecilecektir.' });
+        setSubmitStatus({
+          success: true,
+          message: 'Talebiniz alindi. En kisa surede sizinle iletisime gecilecektir.',
+        });
         setFormData({
           name: '',
           company: '',
           email: '',
           phone: '',
           product: '',
-          message: ''
+          message: '',
         });
         setOtp('');
         setStep('details');
@@ -108,191 +106,196 @@ export default function QuotePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-            Fiyat Teklifi Talebi
-          </h1>
-          <p className="mt-3 text-xl text-gray-500 dark:text-gray-300">
-            Lutfen asagidaki formu doldurarak urunlerimiz hakkinda fiyat teklifi alabilirsiniz.
+    <div className="min-h-screen space-y-16">
+      <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
+        <div className="relative space-y-4">
+          <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+            Fiyat Teklifi
+          </p>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Hizli teklif formu</h1>
+          <p className="max-w-2xl text-base text-white/70">
+            Ilgilendiginiz urunu secin, detaylari gonderin. Ekibimiz en uygun teklifi hazirlasin.
           </p>
         </div>
+      </Reveal>
 
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 sm:p-8">
-          {submitStatus && (
-            <div className={`mb-6 p-4 rounded-md ${submitStatus.success ? 'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-200'}`}>
-              {submitStatus.message}
+      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        {submitStatus && (
+          <div
+            className={`mb-6 rounded-xl border p-4 text-sm ${
+              submitStatus.success
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                : 'border-red-200 bg-red-50 text-red-700'
+            }`}
+          >
+            {submitStatus.message}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Ad Soyad <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Firma Adi
+              </label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  name="company"
+                  id="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                E-posta <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                />
+              </div>
+              {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Telefon <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-1">
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                />
+              </div>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="product" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Ilgilendiginiz urun <span className="text-red-500">*</span>
+              </label>
+              <div className="mt-1">
+                <select
+                  id="product"
+                  name="product"
+                  required
+                  value={formData.product}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                >
+                  <option value="">Urun seciniz</option>
+                  {products.map((product, index) => (
+                    <option key={index} value={product}>
+                      {product}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Ek bilgiler
+              </label>
+              <div className="mt-1">
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                  placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          {step === 'verify' && (
+            <div className="space-y-3">
+              <div className="text-sm text-slate-600 dark:text-slate-300">
+                Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+              </div>
+              <div>
+                <label htmlFor="otp" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  Dogrulama Kodu
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="otp"
+                    name="otp"
+                    type="text"
+                    inputMode="numeric"
+                    required
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    placeholder="000000"
+                    maxLength={6}
+                  />
+                </div>
+              </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Ad Soyad <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Firma Adi
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="text"
-                    name="company"
-                    id="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  E-posta Adresi <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-                {emailError && (
-                  <div className="mt-2 text-sm text-red-600">{emailError}</div>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Telefon Numarasi <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1">
-                  <input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="product" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Ilgilendiginiz Urun <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1">
-                  <select
-                    id="product"
-                    name="product"
-                    required
-                    value={formData.product}
-                    onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                  >
-                    <option value="">Urun seciniz</option>
-                    {products.map((product, index) => (
-                      <option key={index} value={product}>
-                        {product}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Ek Bilgiler
-                </label>
-                <div className="mt-1">
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                    placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
-                  ></textarea>
-                </div>
-              </div>
+          {info && (
+            <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-3 text-center text-sm text-emerald-700">
+              {info}
             </div>
+          )}
 
-            {step === 'verify' && (
-              <div className="space-y-3">
-                <div className="text-sm text-gray-600 dark:text-gray-300">
-                  Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
-                </div>
-                <div>
-                  <label htmlFor="otp" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Dogrulama Kodu
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="otp"
-                      name="otp"
-                      type="text"
-                      inputMode="numeric"
-                      required
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white tracking-widest text-center"
-                      placeholder="000000"
-                      maxLength={6}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {info && (
-              <div className="text-green-700 text-sm text-center p-3 bg-green-50 rounded-lg border border-green-100">
-                {info}
-              </div>
-            )}
-
-            <div className="flex items-center justify-end gap-x-3">
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-              >
-                Iptal
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve Gonder' : 'Gonder'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+          <div className="flex items-center justify-end gap-x-3">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              Iptal
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex items-center rounded-xl bg-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-500 disabled:opacity-60"
+            >
+              {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
+            </button>
+          </div>
+        </form>
+      </Reveal>
     </div>
   );
 }
-
-

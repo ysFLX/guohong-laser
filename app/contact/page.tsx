@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 
+import Reveal from '@/components/home/Reveal';
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     subject: 'Genel Soru',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
@@ -21,9 +23,9 @@ export default function ContactPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     if (name === 'email' && emailError) {
       setEmailError('');
@@ -38,7 +40,7 @@ export default function ContactPage() {
     setInfo('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
+      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
@@ -59,18 +61,18 @@ export default function ContactPage() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
+        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
       } else if (data.success) {
         setSubmitStatus({
           success: true,
-          message: 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapılacaktır.'
+          message: 'Mesajiniz alindi. En kisa surede size geri donecegiz.',
         });
         setFormData({
           name: '',
           email: '',
           phone: '',
           subject: 'Genel Soru',
-          message: ''
+          message: '',
         });
         setOtp('');
         setStep('details');
@@ -78,8 +80,7 @@ export default function ContactPage() {
         throw new Error(data.error || data.message || 'Form gonderilemedi');
       }
     } catch (error) {
-      console.error('Form gonderilirken hata olustu:', error);
-      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
+      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
       setSubmitStatus({
         success: false,
         message,
@@ -90,34 +91,39 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-            İletişime Geçin
-          </h1>
-          <p className="mt-3 text-xl text-gray-500 dark:text-gray-300">
-            Sorularınız veya görüşleriniz için bize ulaşın. Size en kısa sürede dönüş yapacağız.
+    <div className="min-h-screen space-y-16">
+      <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
+        <div className="relative space-y-4">
+          <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+            Iletisim
+          </p>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Sorulariniz icin buradayiz</h1>
+          <p className="max-w-2xl text-base text-white/70">
+            Teklif, servis veya urun detaylari icin formu doldurun. Ekibimiz size hizla geri donsun.
           </p>
         </div>
+      </Reveal>
 
-        {submitStatus && (
-          <div
-            className={`p-4 mb-6 rounded-md ${
-              submitStatus.success
-                ? 'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-200'
-                : 'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-200'
-            }`}
-          >
-            {submitStatus.message}
-          </div>
-        )}
+      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          {submitStatus && (
+            <div
+              className={`mb-6 rounded-xl border p-4 text-sm ${
+                submitStatus.success
+                  ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                  : 'border-red-200 bg-red-50 text-red-700'
+              }`}
+            >
+              {submitStatus.message}
+            </div>
+          )}
 
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
                   Ad Soyad <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-1">
@@ -128,14 +134,14 @@ export default function ContactPage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  E-posta Adresi <span className="text-red-500">*</span>
+                <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  E-posta <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-1">
                   <input
@@ -145,17 +151,15 @@ export default function ContactPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
                   />
                 </div>
-                {emailError && (
-                  <div className="mt-2 text-sm text-red-600">{emailError}</div>
-                )}
+                {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Telefon Numarası
+                <label htmlFor="phone" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  Telefon
                 </label>
                 <div className="mt-1">
                   <input
@@ -164,13 +168,13 @@ export default function ContactPage() {
                     id="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="subject" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
                   Konu <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-1">
@@ -180,19 +184,19 @@ export default function ContactPage() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
                   >
                     <option value="Genel Soru">Genel Soru</option>
                     <option value="Teknik Destek">Teknik Destek</option>
-                    <option value="Satış Bilgisi">Satış Bilgisi</option>
-                    <option value="Diğer">Diger</option>
+                    <option value="Satis Bilgisi">Satis Bilgisi</option>
+                    <option value="Diger">Diger</option>
                   </select>
                 </div>
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Mesajınız <span className="text-red-500">*</span>
+                <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  Mesajiniz <span className="text-red-500">*</span>
                 </label>
                 <div className="mt-1">
                   <textarea
@@ -202,8 +206,8 @@ export default function ContactPage() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
-                    placeholder="Mesajınızı buraya yazın..."
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    placeholder="Mesajinizi buraya yazin..."
                   ></textarea>
                 </div>
               </div>
@@ -211,12 +215,12 @@ export default function ContactPage() {
 
             {step === 'verify' && (
               <div className="space-y-3">
-                <div className="text-sm text-gray-600 dark:text-gray-300">
-                  Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
+                <div className="text-sm text-slate-600 dark:text-slate-300">
+                  Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
                 </div>
                 <div>
-                  <label htmlFor="otp" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Doğrulama Kodu
+                  <label htmlFor="otp" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                    Dogrulama Kodu
                   </label>
                   <div className="mt-1">
                     <input
@@ -227,7 +231,7 @@ export default function ContactPage() {
                       required
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
-                      className="py-3 px-4 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white tracking-widest text-center"
+                      className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
                       placeholder="000000"
                       maxLength={6}
                     />
@@ -237,7 +241,7 @@ export default function ContactPage() {
             )}
 
             {info && (
-              <div className="text-green-700 text-sm text-center p-3 bg-green-50 rounded-lg border border-green-100">
+              <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-3 text-center text-sm text-emerald-700">
                 {info}
               </div>
             )}
@@ -246,52 +250,45 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-500 disabled:opacity-60"
               >
-                {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve Gönder' : 'Gönder'}
+                {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
               </button>
             </div>
           </form>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 bg-white dark:bg-gray-800 shadow rounded-lg p-6 sm:p-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">İletişim Bilgilerimiz</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Adres</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Fevziçakmak Mah. <br /> Aksaray Çevreyolu Caddesi Akasya Sitesi <br/> A Blok No:18T 42210<br />
-                Konya, Turkiye
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">İletişim</h3>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-gray-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                guohonglazerinfo@gmail.com
-                </li>
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-gray-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  +90 536 831 67 87
-                </li>
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-gray-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Pazartesi - Cuma: 09:00 - 17:30
-                </li>
-              </ul>
+        <Reveal as="section" delay={150} className="space-y-4">
+          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Iletisim bilgilerimiz</h2>
+            <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+              <div>
+                <p className="font-semibold text-slate-900 dark:text-white">Adres</p>
+                <p>Fevzicakmak Mah. Aksaray Cevreyolu Caddesi Akasya Sitesi</p>
+                <p>A Blok No:18T 42210 Konya, Turkiye</p>
+              </div>
+              <div>
+                <p className="font-semibold text-slate-900 dark:text-white">E-posta</p>
+                <p>guohonglazerinfo@gmail.com</p>
+              </div>
+              <div>
+                <p className="font-semibold text-slate-900 dark:text-white">Telefon</p>
+                <p>+90 536 831 67 87</p>
+              </div>
+              <div>
+                <p className="font-semibold text-slate-900 dark:text-white">Calisma saatleri</p>
+                <p>Pazartesi - Cuma: 09:00 - 17:30</p>
+              </div>
             </div>
           </div>
-        </div>
+          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+            <h3 className="text-sm uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Hizli not</h3>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              Teknik sorular ve kurulum talepleri icin formu doldururken konu secimini net belirtin.
+            </p>
+          </div>
+        </Reveal>
       </div>
     </div>
   );
 }
-
-

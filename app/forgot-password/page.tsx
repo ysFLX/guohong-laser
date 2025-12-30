@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -39,64 +39,67 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
-          <div className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-xl bg-gray-900 text-white flex items-center justify-center font-semibold">
-              GL
-            </div>
-            <h2 className="mt-4 text-3xl font-extrabold text-gray-900">Parola Sifirla</h2>
-            <p className="mt-2 text-sm text-gray-600">E-posta adresini gir, sifirlama linki gonderelim.</p>
-          </div>
-
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                E-posta
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                placeholder="ornek@email.com"
-              />
-            </div>
-
-            {success && (
-              <div className="text-green-700 text-sm text-center p-3 bg-green-50 rounded-lg border border-green-100">
-                {success}
+    <div className="min-h-screen bg-slate-950 px-4 py-12 text-white">
+      <div className="mx-auto max-w-md">
+        <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur sm:p-8">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
+          <div className="relative">
+            <div className="text-center">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-emerald-400 text-slate-900 flex items-center justify-center font-semibold">
+                GL
               </div>
-            )}
-
-            {error && (
-              <div className="text-red-700 text-sm text-center p-3 bg-red-50 rounded-lg border border-red-100">
-                {error}
-              </div>
-            )}
-
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white ${
-                  isLoading ? 'bg-gray-400' : 'bg-gray-900 hover:bg-gray-800'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900/30`}
-              >
-                {isLoading ? 'Gonderiliyor...' : 'Sifirlama Linki Gonder'}
-              </button>
+              <h2 className="mt-4 text-3xl font-semibold">Parola sifirla</h2>
+              <p className="mt-2 text-sm text-white/70">E-posta adresini gir, sifirlama linki gonderelim.</p>
             </div>
-          </form>
 
-          <div className="mt-6 text-center">
-            <Link href="/login" className="text-sm font-medium text-gray-900 hover:text-gray-700">
-              Giris ekranina don
-            </Link>
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-white/80">
+                  E-posta
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                  placeholder="ornek@email.com"
+                />
+              </div>
+
+              {success && (
+                <div className="rounded-xl border border-emerald-200/30 bg-emerald-400/10 p-3 text-sm text-emerald-100">
+                  {success}
+                </div>
+              )}
+
+              {error && (
+                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition ${
+                    isLoading ? 'bg-emerald-200' : 'bg-emerald-400 hover:bg-emerald-300'
+                  }`}
+                >
+                  {isLoading ? 'Gonderiliyor...' : 'Sifirlama linki gonder'}
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-6 text-center">
+              <Link href="/login" className="text-sm font-medium text-emerald-200 hover:text-emerald-100">
+                Giris ekranina don
+              </Link>
+            </div>
           </div>
         </div>
       </div>

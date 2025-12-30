@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
@@ -42,110 +42,110 @@ export default function LoginClient() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
-          <div className="text-center">
-            <div className="mx-auto h-12 w-12 rounded-xl bg-gray-900 text-white flex items-center justify-center font-semibold">
-              GL
-            </div>
-            <h2 className="mt-4 text-3xl font-extrabold text-gray-900">Giris Yap</h2>
-            <p className="mt-2 text-sm text-gray-600">Hesabina giris yaparak devam et</p>
-          </div>
-
-          {registered && (
-            <div className="mt-6 text-green-700 text-sm text-center p-3 bg-green-50 rounded-lg border border-green-100">
-              Kayit basarili. Simdi giris yapabilirsiniz.
-            </div>
-          )}
-          {resetDone && (
-            <div className="mt-4 text-green-700 text-sm text-center p-3 bg-green-50 rounded-lg border border-green-100">
-              Parola guncellendi. Simdi giris yapabilirsiniz.
-            </div>
-          )}
-
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-200 rounded-xl shadow-sm text-sm font-semibold text-gray-900 bg-white hover:bg-gray-50"
-            >
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white border border-gray-200 text-xs font-bold text-gray-700">
-                G
-              </span>
-              Google ile giris yap
-            </button>
-          </div>
-
-          <div className="mt-6 flex items-center gap-4 text-xs uppercase tracking-widest text-gray-400">
-            <span className="h-px flex-1 bg-gray-200" />
-            veya
-            <span className="h-px flex-1 bg-gray-200" />
-          </div>
-
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  E-posta
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                  placeholder="ornek@email.com"
-                />
+    <div className="min-h-screen bg-slate-950 px-4 py-12 text-white">
+      <div className="mx-auto max-w-md">
+        <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur sm:p-8">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
+          <div className="relative">
+            <div className="text-center">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-emerald-400 text-slate-900 flex items-center justify-center font-semibold">
+                GL
               </div>
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Sifre
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-1 block w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 sm:text-sm text-gray-900 bg-white"
-                  placeholder="********"
-                />
-              </div>
+              <h2 className="mt-4 text-3xl font-semibold">Giris yap</h2>
+              <p className="mt-2 text-sm text-white/70">Hesabiniza giris yaparak devam edin.</p>
             </div>
 
-            {error && (
-              <div className="text-red-700 text-sm text-center p-3 bg-red-50 rounded-lg border border-red-100">
-                {error}
+            {registered && (
+              <div className="mt-6 rounded-xl border border-emerald-200/40 bg-emerald-400/10 p-3 text-sm text-emerald-100">
+                Kayit basarili. Simdi giris yapabilirsiniz.
+              </div>
+            )}
+            {resetDone && (
+              <div className="mt-4 rounded-xl border border-emerald-200/40 bg-emerald-400/10 p-3 text-sm text-emerald-100">
+                Parola guncellendi. Simdi giris yapabilirsiniz.
               </div>
             )}
 
-            <div>
+            <div className="mt-6">
               <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white ${
-                  isLoading ? 'bg-gray-400' : 'bg-gray-900 hover:bg-gray-800'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900/30`}
+                type="button"
+                onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
+                className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
-                {isLoading ? 'Giris yapiliyor...' : 'Giris Yap'}
+                Google ile giris yap
               </button>
             </div>
-          </form>
-          <div className="mt-4 text-center">
-            <Link href="/forgot-password" className="text-sm font-medium text-gray-900 hover:text-gray-700">
-              Parolami unuttum
-            </Link>
-          </div>
-          <div className="mt-6 text-center">
-            <Link href="/register" className="text-sm font-medium text-gray-900 hover:text-gray-700">
-              Hesabin yok mu? <span className="underline">Kayit ol</span>
-            </Link>
+
+            <div className="mt-6 flex items-center gap-4 text-xs uppercase tracking-widest text-white/40">
+              <span className="h-px flex-1 bg-white/10" />
+              veya
+              <span className="h-px flex-1 bg-white/10" />
+            </div>
+
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-white/80">
+                    E-posta
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                    placeholder="ornek@email.com"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-white/80">
+                    Sifre
+                  </label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
+                    placeholder="********"
+                  />
+                </div>
+              </div>
+
+              {error && (
+                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition ${
+                    isLoading ? 'bg-emerald-200' : 'bg-emerald-400 hover:bg-emerald-300'
+                  }`}
+                >
+                  {isLoading ? 'Giris yapiliyor...' : 'Giris yap'}
+                </button>
+              </div>
+            </form>
+            <div className="mt-4 text-center">
+              <Link href="/forgot-password" className="text-sm font-medium text-emerald-200 hover:text-emerald-100">
+                Parolami unuttum
+              </Link>
+            </div>
+            <div className="mt-6 text-center">
+              <Link href="/register" className="text-sm font-medium text-emerald-200 hover:text-emerald-100">
+                Hesabin yok mu? <span className="underline">Kayit ol</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

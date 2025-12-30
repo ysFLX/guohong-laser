@@ -10,11 +10,15 @@ export default function AddressesPage() {
     <ProfileLayout showSide={false}>
       <div>
         <Link href="/profile" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
-          ← Hesap Yönetimine Dön
+          Hesap yonetimine don
         </Link>
-        <h1 className="text-2xl text-black font-bold mb-4">Adreslerim</h1>
-        <p className="text-sm text-gray-600 mb-6">Adreslerini burada yonetebilirsin. Hem profil sayfasindan hem buradan erisilebilir.</p>
-        <AddressesManager />
+        <h1 className="mt-3 text-2xl font-semibold text-slate-900">Adreslerim</h1>
+        <p className="mt-2 text-sm text-slate-600">
+          Adreslerini burada yonetebilirsin. Profil sayfasindan da erisebilirsin.
+        </p>
+        <div className="mt-6">
+          <AddressesManager />
+        </div>
       </div>
     </ProfileLayout>
   );
