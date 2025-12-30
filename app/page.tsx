@@ -28,77 +28,77 @@ const heroVideos = [
 ];
 
 const stats = [
-  { name: "Yıllık Deneyim", value: "10+" },
-  { name: "Mutlu Müşteri", value: "500+" },
-  { name: "Tamamlanan Proje", value: "1000+" },
-  { name: "Aktif Servis Noktası", value: "24" },
+  { name: "Yillik deneyim", value: "10+" },
+  { name: "Mutlu musteri", value: "500+" },
+  { name: "Tamamlanan proje", value: "1000+" },
+  { name: "Servis noktasi", value: "24" },
 ];
 
 const services = [
   {
-    name: "Lazer Kesim Makineleri",
-    description: "Sac, boru ve demir kesim hatlarında yüksek performans.",
+    name: "Lazer kesim makineleri",
+    description: "Sac, boru ve demir kesim hatlarinda yuksek performans.",
     href: "/products?category=Sac+Kesim",
   },
   {
-    name: "Teknik Servis",
-    description: "Bakım, arıza ve performans iyileştirme çözümleri.",
+    name: "Teknik servis",
+    description: "Bakim, ariza ve performans iyilestirme cozumleri.",
     href: "/contact?subject=Teknik+Servis",
   },
   {
-    name: "Yedek Parça",
-    description: "Orijinal yedek parça ve hızlı temin ağı.",
+    name: "Yedek parca",
+    description: "Orijinal yedek parca ve hizli temin akisi.",
     href: "/products?category=Yedek+Par%C3%A7a",
   },
   {
-    name: "Danışmanlık",
-    description: "Üretim hattınıza özel planlama ve teknoloji danışmanlığı.",
+    name: "Danismanlik",
+    description: "Uretim hatlariniza ozel planlama ve teknoloji danismanligi.",
     href: "/contact?subject=Dan%C4%B1%C5%9Fmanl%C4%B1k",
   },
 ];
 
 const process = [
   {
-    title: "Keşif ve analiz",
-    description: "Üretim ihtiyaçlarınızı ve hedef kapasiteyi netleştiriyoruz.",
+    title: "Kesif ve analiz",
+    description: "Uretim ihtiyacinizi ve hedef kapasiteyi netlestiriyoruz.",
   },
   {
     title: "Teknik teklif",
-    description: "Sahaya uygun makine konfigürasyonu ve yatırım planı.",
+    description: "Sahaya uygun makine konfigurasyonu ve yatirim plani.",
   },
   {
-    title: "Kurulum ve eğitim",
-    description: "Kurulum, test ve operatör eğitimini uçtan uca sağlıyoruz.",
+    title: "Kurulum ve egitim",
+    description: "Kurulum, test ve operator egitimini uctan uca yapiyoruz.",
   },
   {
-    title: "Sürekli destek",
-    description: "Bakım, yedek parça ve performans geliştirme takibi.",
+    title: "Surekli destek",
+    description: "Bakim, yedek parca ve performans gelistirme takibi.",
   },
 ];
 
 const testimonials = [
   {
-    name: "Ahmet Yılmaz",
-    role: "Üretim Müdürü",
+    name: "Ahmet Yilmaz",
+    role: "Uretim muduru",
     company: "ABC Metal Sanayi",
     content:
-      "Makine kalitesi kadar sonrası destek süreçleri de kusursuz. Duruş süreleri azaldı.",
+      "Makine kalitesi kadar sonrasindaki destek surecleri de kusursuz. Durus sureleri azaldi.",
     avatar: "/images/avatar1.jpg",
   },
   {
-    name: "Ayşe Kaya",
-    role: "İşletme Sahibi",
+    name: "Ayse Kaya",
+    role: "Isletme sahibi",
     company: "Kaya Metal",
     content:
-      "Yedek parça hızı ve teknik ekip erişimi bizi ciddi anlamda rahatlatıyor.",
+      "Yedek parca hizi ve teknik ekip erisimi bizi ciddi anlamda rahatlatiyor.",
     avatar: "/images/avatar2.jpg",
   },
   {
     name: "Mehmet Demir",
-    role: "Teknik Müdür",
-    company: "Demir Çelik A.Ş.",
+    role: "Teknik mudur",
+    company: "Demir Celik A.S.",
     content:
-      "Kurulum süreci planlandığı gibi ilerledi, performans hedeflerimizi yakaladık.",
+      "Kurulum sureci planlandigi gibi ilerledi, performans hedeflerimizi yakaladik.",
     avatar: "/images/avatar3.jpg",
   },
 ];
@@ -115,12 +115,12 @@ export default function Home() {
           <h1 className="text-3xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-4xl">
             Lazer kesimde
             <span className="block text-emerald-600 dark:text-emerald-200">
-              yeni bir kalite standardı
+              yeni bir kalite standardi
             </span>
           </h1>
           <p className="max-w-2xl text-base text-slate-600 dark:text-slate-200">
-            Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı sürekli artıran
-            lazer teknolojileri. Guohong Laser ile üretiminizi geleceğe taşıyın.
+            Uretim hatlarinizi hizlandiran, fire oranini dusuren ve performansi surekli artiran
+            lazer teknolojileri. Guohong Laser ile uretiminizi gelecege tasiyin.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -128,100 +128,128 @@ export default function Home() {
             href="/spare-parts"
             className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
           >
-            Ürünleri Keşfet
+            Urunleri kesfet
           </Link>
           <Link
             href="/quote"
             className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/90 dark:hover:border-white/60 dark:hover:text-white"
           >
-            Ücretsiz Teklif Al
+            Ucretsiz teklif al
           </Link>
         </div>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.name}
-            className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 text-slate-900 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white"
-          >
-            <p className="text-2xl font-semibold">{stat.value}</p>
-            <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-white/60">
-              {stat.name}
-            </p>
-          </div>
-        ))}
+      <section className="rounded-3xl border border-slate-200/70 bg-white/80 px-6 py-5 text-slate-900 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          {stats.map((stat, index) => (
+            <div key={stat.name} className="flex items-center gap-4">
+              <div>
+                <p className="text-2xl font-semibold">{stat.value}</p>
+                <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-white/60">
+                  {stat.name}
+                </p>
+              </div>
+              {index < stats.length - 1 && (
+                <span className="hidden h-8 w-px bg-slate-200/80 dark:bg-white/15 sm:block" />
+              )}
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section id="video" className="rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <section
+        id="video"
+        className="rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow-xl dark:border-white/10 dark:bg-white/5"
+      >
         <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
               Video Galerisi
             </p>
             <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
-              Üretim hatlarını yakından inceleyin
+              Uretim hatlarini yakindan inceleyin
             </h2>
           </div>
           <Link
             href="/gallery"
             className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/80 dark:hover:border-white dark:hover:text-white"
           >
-            Galeriye Git
+            Galeriye git
           </Link>
         </div>
         <VideoSlider items={heroVideos} />
       </section>
 
       <section id="hizmetler" className="space-y-5">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Hizmetler
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-            Uçtan uca lazer çözümleri
-          </h2>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          {services.map((service) => (
-            <Link
-              key={service.name}
-              href={service.href}
-              className="group rounded-2xl border border-slate-200/70 bg-white/80 p-6 transition hover:-translate-y-1 hover:border-emerald-300 dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                  {service.name}
-                </h3>
-                <span className="text-emerald-600 dark:text-emerald-200">›</span>
-              </div>
-              <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-                {service.description}
-              </p>
-            </Link>
-          ))}
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+              Hizmetler
+            </p>
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+              Uctan uca lazer cozumleri
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300">
+              Her is akisi icin ozel planlama, kurulum ve destek paketleri sunuyoruz.
+            </p>
+          </div>
+          <div className="space-y-3">
+            {services.map((service) => (
+              <Link
+                key={service.name}
+                href={service.href}
+                className="group flex items-start justify-between gap-6 rounded-2xl border border-slate-200/70 bg-white/80 px-5 py-4 transition hover:-translate-y-0.5 hover:border-emerald-300 dark:border-white/10 dark:bg-white/5"
+              >
+                <div>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+                    {service.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                    {service.description}
+                  </p>
+                </div>
+                <span className="text-emerald-600 transition group-hover:translate-x-1 dark:text-emerald-200">
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="relative min-h-[320px] overflow-hidden rounded-3xl border border-slate-200/70 bg-white/80 dark:border-white/10 dark:bg-white/5">
+          <Image
+            src="/images/about-showcase.jpg"
+            alt="Guohong Laser uretim sahasi"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/75 via-slate-900/10 to-transparent" />
+          <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-slate-950/70 p-4">
+            <p className="text-sm font-semibold text-white">Uretimde kesintisiz performans</p>
+            <p className="text-xs text-slate-300">
+              Kurulum, egitim ve destek sureclerini tek ekiple yonetiyoruz.
+            </p>
+          </div>
+        </div>
         <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5">
           <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Sahadan Notlar
+            Sahadan notlar
           </p>
           <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
-            Akıllı üretim hattı entegrasyonu
+            Akilli uretim hatti entegrasyonu
           </h3>
           <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            Sensör destekli hat yönetimi, gerçek zamanlı performans takibi ve enerji
-            optimizasyonu ile süreçleri ölçülebilir hale getiriyoruz.
+            Sensor destekli hat yonetimi, gercek zamanli performans takibi ve enerji
+            optimizasyonu ile surecleri olculebilir hale getiriyoruz.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {[
-              "Anlık performans raporu",
-              "Fire oranı analizi",
-              "Otomatik bakım takvimi",
-              "Enerji tüketimi kontrolü",
+              "Anlik performans raporu",
+              "Fire orani analizi",
+              "Otomatik bakim takvimi",
+              "Enerji tuketimi kontrolu",
             ].map((item) => (
               <div
                 key={item}
@@ -232,30 +260,15 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/80 dark:border-white/10 dark:bg-white/5">
-          <Image
-            src="/images/about-showcase.jpg"
-            alt="Guohong Laser üretim sahası"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-          <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-slate-950/70 p-4">
-            <p className="text-sm font-semibold text-white">Üretimde kesintisiz performans</p>
-            <p className="text-xs text-slate-300">
-              Kurulum, eğitim ve destek süreçlerini tek ekiple yönetiyoruz.
-            </p>
-          </div>
-        </div>
       </section>
 
       <section id="surec" className="space-y-5">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Süreç
+            Surec
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-            Şeffaf ve kontrollü proje yönetimi
+            Seffaf ve kontrollu proje yonetimi
           </h2>
         </div>
 
@@ -289,17 +302,17 @@ export default function Home() {
             Referanslar
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-            İş ortaklarımızın deneyimleri
+            Is ortaklarimizin deneyimleri
           </h2>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="space-y-4">
           {testimonials.map((t) => (
             <div
               key={t.name}
               className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5"
             >
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
                   <Image
                     src={t.avatar}
@@ -314,11 +327,11 @@ export default function Home() {
                     {t.name}
                   </p>
                   <p className="text-xs text-slate-600 dark:text-slate-300">
-                    {t.role} · {t.company}
+                    {t.role} - {t.company}
                   </p>
                 </div>
               </div>
-              <p className="mt-4 text-sm text-slate-600 dark:text-slate-200">“{t.content}”</p>
+              <p className="mt-4 text-sm text-slate-600 dark:text-slate-200">"{t.content}"</p>
             </div>
           ))}
         </div>
@@ -327,14 +340,12 @@ export default function Home() {
       <section className="rounded-3xl border border-white/10 bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500 p-6 text-white">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
-              Hemen Başlayın
-            </p>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">Hemen baslayin</p>
             <h2 className="mt-3 text-2xl font-semibold">
-              Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
+              Uretiminizi guclendirecek dogru cozumu birlikte secelim
             </h2>
             <p className="mt-2 text-sm text-emerald-100">
-              Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
+              Uzman ekibimiz ihtiyaciniza uygun yapilandirmayi hizla hazirlasin.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -342,13 +353,13 @@ export default function Home() {
               href="/quote"
               className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
             >
-              Hemen Teklif Al
+              Hemen teklif al
             </Link>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center rounded-full border border-white/70 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:border-white"
             >
-              İletişime Geçin
+              Iletisime gecin
             </Link>
           </div>
         </div>
@@ -356,4 +367,3 @@ export default function Home() {
     </div>
   );
 }
-
