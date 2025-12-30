@@ -25,6 +25,16 @@ type SparePart = {
   };
 };
 
+const machineModels = [
+  { id: 'Tumu', label: 'Tum modeller', categories: ['Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Ozel Kesim'] },
+  { id: 'GL-3015', label: 'GL-3015 (Sac Kesim)', categories: ['Sac Kesim'] },
+  { id: 'GL-6020', label: 'GL-6020 (Sac Kesim)', categories: ['Sac Kesim'] },
+  { id: 'GT-6020', label: 'GT-6020 (Boru Kesim)', categories: ['Boru Kesim'] },
+  { id: 'GT-12030', label: 'GT-12030 (Boru Kesim)', categories: ['Boru Kesim'] },
+  { id: 'GL-COMB-1500', label: 'GL-Comb 1500 (Kombine)', categories: ['Kombine Kesim'] },
+  { id: 'GL-9000', label: 'GL-9000 (Ozel Kesim)', categories: ['Ozel Kesim'] },
+];
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -42,6 +52,7 @@ export default function SparePartsPage() {
   const { status } = useSession();
 
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
+  const [selectedModel, setSelectedModel] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
 
   const [items, setItems] = useState<SparePart[]>([]);
@@ -155,17 +166,32 @@ export default function SparePartsPage() {
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
+    const modelInfo = machineModels.find((model) => model.id === selectedModel);
+    const modelCategories = modelInfo?.categories ?? [];
 
     return items.filter((p) => {
       const matchesCategory = selectedCategory === 'Tumu' || p.category.name === selectedCategory;
+      const matchesModel = selectedModel === 'Tumu' || modelCategories.includes(p.category.name);
       const matchesSearch =
         !q ||
         p.name.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
         (p.dimensions ?? '').toLowerCase().includes(q);
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesModel && matchesSearch;
     });
-  }, [items, selectedCategory, searchQuery]);
+  }, [items, selectedCategory, selectedModel, searchQuery]);
+
+  const selectedModelInfo = useMemo(
+    () => machineModels.find((model) => model.id === selectedModel),
+    [selectedModel],
+  );
+
+  const crossSell = useMemo(() => {
+    if (!items.length) return [];
+    const featured = items.filter((item) => item.isFeatured);
+    const merged = [...featured, ...items.filter((item) => !item.isFeatured)];
+    return merged.slice(0, 3);
+  }, [items]);
 
   return (
     <div className="min-h-screen space-y-16">
@@ -242,6 +268,36 @@ export default function SparePartsPage() {
           </div>
         </div>
 
+        <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <label htmlFor="modelSelect" className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Uyumluluk kontrolu
+            </label>
+            <select
+              id="modelSelect"
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+            >
+              {machineModels.map((model) => (
+                <option key={model.id} value={model.id}>
+                  {model.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="rounded-2xl border border-emerald-100 bg-emerald-50/70 px-4 py-4 text-sm text-emerald-900">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+              Uyum sonucu
+            </p>
+            <p className="mt-2">
+              {selectedModel === 'Tumu'
+                ? 'Model secerek uyumluluk filtresi uygulayabilirsin.'
+                : `${selectedModelInfo?.label} icin uyumlu parcalar listeleniyor.`}
+            </p>
+          </div>
+        </div>
+
         <div className="mt-4 text-sm text-slate-500">
           {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
         </div>
@@ -256,6 +312,7 @@ export default function SparePartsPage() {
         <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
           {filtered.map((p) => {
             const isFavorited = favoriteIds.has(p.id);
+            const inStock = p.stockOnHand > 0;
             return (
               <div
                 key={p.id}
@@ -280,6 +337,14 @@ export default function SparePartsPage() {
                         Vitrin
                       </div>
                     )}
+                    <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
+                      <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-emerald-500 text-slate-900' : 'bg-amber-200 text-amber-900'}`}>
+                        {inStock ? 'Stokta' : 'Siparisle'}
+                      </span>
+                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700">
+                        {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                      </span>
+                    </div>
                   </div>
                 </Link>
 
@@ -305,6 +370,12 @@ export default function SparePartsPage() {
                       <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
                       <span className="ml-2">{p.dimensions || '-'}</span>
                     </div>
+                  </div>
+
+                  <div className="text-xs text-emerald-700">
+                    {selectedModel === 'Tumu'
+                      ? 'Uyumluluk icin model sec'
+                      : `${selectedModelInfo?.label} ile uyumlu`}
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -347,6 +418,45 @@ export default function SparePartsPage() {
 
       {!isLoading && !loadError && filtered.length === 0 && (
         <div className="text-center py-14 text-slate-600">Sonuc bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.</div>
+      )}
+
+      {crossSell.length > 0 && (
+        <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+                Satin alanlar bunlari da aldi
+              </p>
+              <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
+                Tamamlayici parcalar
+              </h2>
+            </div>
+            <Link
+              href="/spare-parts"
+              className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+            >
+              Tum yedek parcalar
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {crossSell.map((item) => (
+              <Link
+                key={item.id}
+                href={`/spare-parts/${item.id}`}
+                className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
+                  <Image src={item.imageUrl || '/images/1.jpg'} alt={item.name} fill className="object-cover" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-slate-900 line-clamp-1">{item.name}</p>
+                  <p className="mt-1 text-xs text-slate-500">{formatPriceTry(item.priceCents)}</p>
+                </div>
+                <span className="ml-auto text-emerald-600 transition group-hover:translate-x-1">-&gt;</span>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
     </div>
   );

@@ -159,6 +159,29 @@ const highlights = [
   },
 ];
 
+const supportCards = [
+  {
+    title: "Acil teknik destek",
+    description: "Ariza bildirimi icin hizli aksiyon ve saha yonlendirme.",
+    action: { label: "Destek kaydi ac", href: "/contact?subject=Teknik+Destek" },
+  },
+  {
+    title: "Bakim planlama",
+    description: "Periyodik bakim takvimi ve performans kontrolu.",
+    action: { label: "Bakim planla", href: "/quote?type=Servis" },
+  },
+  {
+    title: "Yedek parca talebi",
+    description: "Kritik parcalar icin hizli tedarik ve stok kontrolu.",
+    action: { label: "Parca ara", href: "/spare-parts" },
+  },
+  {
+    title: "Uzaktan destek",
+    description: "Uzaktan baglanti ile hizli teshis ve cozum.",
+    action: { label: "Uzaktan destek", href: "/contact?subject=Uzaktan+Destek" },
+  },
+];
+
 export default function Home() {
   return (
     <div className={`${manrope.className} space-y-16`}>
@@ -334,6 +357,43 @@ export default function Home() {
                 </span>
               </Link>
             </Reveal>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
+              Teknik destek merkezi
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+              Ariza, bakim ve yedek parca icin hizli panel
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Destek kaydi, bakim planlama ve yedek parca taleplerini tek ekrandan yonet.
+            </p>
+          </div>
+          <Link
+            href="/contact"
+            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+          >
+            Destek al
+          </Link>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+          {supportCards.map((card) => (
+            <div key={card.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-5 py-4">
+              <p className="text-sm font-semibold text-slate-900">{card.title}</p>
+              <p className="mt-2 text-sm text-slate-600">{card.description}</p>
+              <Link
+                href={card.action.href}
+                className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"
+              >
+                {card.action.label}
+                <span>-&gt;</span>
+              </Link>
+            </div>
           ))}
         </div>
       </Reveal>
