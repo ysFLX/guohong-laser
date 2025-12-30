@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
-import Reveal from '@/components/home/Reveal';
 
 type SparePart = {
   id: string;
@@ -170,7 +169,7 @@ export default function SparePartsPage() {
 
   return (
     <div className="min-h-screen space-y-16">
-      <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
+      <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
         <div className="relative space-y-4">
@@ -196,9 +195,9 @@ export default function SparePartsPage() {
             </Link>
           </div>
         </div>
-      </Reveal>
+      </section>
 
-      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full lg:w-1/3">
             <label htmlFor="spSearch" className="sr-only">
@@ -247,102 +246,100 @@ export default function SparePartsPage() {
           {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
         </div>
         {favoriteError && <div className="mt-3 text-sm text-red-600">{favoriteError}</div>}
-      </Reveal>
+      </section>
 
       {loadError && (
         <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-red-700">{loadError}</div>
       )}
 
       {!loadError && (
-        <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
-          {filtered.map((p, index) => {
+        <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+          {filtered.map((p) => {
             const isFavorited = favoriteIds.has(p.id);
             return (
-              <Reveal key={p.id} as="div" delay={120 + index * 60}>
-                <div className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
-                  <Link href={`/spare-parts/${p.id}`} className="block">
-                    <div className="relative h-44 w-full overflow-hidden bg-white">
-                      <Image
-                        src={p.imageUrl || '/images/1.jpg'}
-                        alt={p.name}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover"
-                        loading="lazy"
-                        unoptimized
-                      />
-                      <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
-                        {p.category.name}
-                      </div>
-                      {p.isFeatured && (
-                        <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white">
-                          Vitrin
-                        </div>
-                      )}
+              <div key={p.id} className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
+                <Link href={`/spare-parts/${p.id}`} className="block">
+                  <div className="relative h-44 w-full overflow-hidden bg-white">
+                    <Image
+                      src={p.imageUrl || '/images/1.jpg'}
+                      alt={p.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+                      className="object-cover"
+                      loading="lazy"
+                      unoptimized
+                    />
+                    <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
+                      {p.category.name}
                     </div>
-                  </Link>
-
-                  <div className="space-y-3 p-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 hover:underline">
-                          {p.name}
-                        </h3>
-                      </Link>
-                      <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                        {formatPriceTry(p.priceCents)}
+                    {p.isFeatured && (
+                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white">
+                        Vitrin
                       </div>
-                    </div>
-                    <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+                    )}
+                  </div>
+                </Link>
 
-                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
-                      <div>
-                        <span className="font-semibold text-slate-900 dark:text-white">Stok</span>
-                        <span className="ml-2">{p.stockOnHand}</span>
-                      </div>
-                      <div>
-                        <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
-                        <span className="ml-2">{p.dimensions || '-'}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <AddToCartButton
-                        id={p.id}
-                        name={p.name}
-                        priceCents={p.priceCents}
-                        imageUrl={p.imageUrl}
-                        className="flex-1 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => toggleFavorite(p.id)}
-                        disabled={favoriteLoading.has(p.id)}
-                        aria-pressed={isFavorited}
-                        aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-                        className={`h-10 w-10 rounded-full border transition-colors ${
-                          isFavorited
-                            ? 'border-red-200 bg-red-50 text-red-600'
-                            : 'border-slate-200 bg-white text-slate-500 hover:text-red-600'
-                        } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="h-5 w-5"
-                          fill={isFavorited ? 'currentColor' : 'none'}
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
-                        </svg>
-                      </button>
+                <div className="space-y-3 p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <Link href={`/spare-parts/${p.id}`} className="min-w-0">
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 hover:underline">
+                        {p.name}
+                      </h3>
+                    </Link>
+                    <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                      {formatPriceTry(p.priceCents)}
                     </div>
                   </div>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+
+                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
+                    <div>
+                      <span className="font-semibold text-slate-900 dark:text-white">Stok</span>
+                      <span className="ml-2">{p.stockOnHand}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
+                      <span className="ml-2">{p.dimensions || '-'}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <AddToCartButton
+                      id={p.id}
+                      name={p.name}
+                      priceCents={p.priceCents}
+                      imageUrl={p.imageUrl}
+                      className="flex-1 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(p.id)}
+                      disabled={favoriteLoading.has(p.id)}
+                      aria-pressed={isFavorited}
+                      aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
+                      className={`h-10 w-10 rounded-full border transition-colors ${
+                        isFavorited
+                          ? 'border-red-200 bg-red-50 text-red-600'
+                          : 'border-slate-200 bg-white text-slate-500 hover:text-red-600'
+                      } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-5 w-5"
+                        fill={isFavorited ? 'currentColor' : 'none'}
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </Reveal>
+              </div>
             );
           })}
-        </Reveal>
+        </section>
       )}
 
       {!isLoading && !loadError && filtered.length === 0 && (
