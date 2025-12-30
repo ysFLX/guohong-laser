@@ -146,7 +146,7 @@ export default function AboutPage() {
             Sahada birlikte calisan uzman kadro
           </h2>
         </div>
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-2">
           {teamMembers.map((member, index) => (
             <Reveal key={member.name} as="div" delay={120 + index * 90}>
               <div className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">

@@ -355,7 +355,7 @@ export default function Home() {
             Tum urunler
           </Link>
         </div>
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-5 lg:grid-cols-2">
           {industries.map((item, index) => (
             <Reveal key={item.title} as="div" delay={120 + index * 90}>
               <div className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
@@ -481,7 +481,7 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-5 lg:grid-cols-2">
           {testimonials.map((t, index) => (
             <Reveal key={t.name} as="div" delay={120 + index * 90}>
               <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">

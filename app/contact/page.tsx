@@ -106,7 +106,7 @@ export default function ContactPage() {
         </div>
       </Reveal>
 
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="space-y-6">
         <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
           {submitStatus && (
             <div

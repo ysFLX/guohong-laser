@@ -254,7 +254,7 @@ export default function SparePartsPage() {
       )}
 
       {!loadError && (
-        <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
           {filtered.map((p, index) => {
             const isFavorited = favoriteIds.has(p.id);
             return (

@@ -120,7 +120,7 @@ export default function GalleryPage() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Reveal as="section" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
         {galleryImages.map((item, index) => (
           <Reveal key={item.src} as="div" delay={120 + index * 40}>
             <button

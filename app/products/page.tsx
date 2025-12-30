@@ -188,7 +188,7 @@ export default function ProductsPage() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
         {filteredProducts.map((product, index) => (
           <Reveal key={product.id} as="div" delay={120 + index * 60}>
             <div className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">

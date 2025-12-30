@@ -48,7 +48,7 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="lg:col-span-2 space-y-4">
               {items.map((x) => (
                 <div
