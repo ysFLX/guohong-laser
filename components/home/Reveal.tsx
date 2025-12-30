@@ -3,14 +3,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 type RevealProps = React.HTMLAttributes<HTMLElement> & {
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
   delay?: number;
 };
 
 export default function Reveal({ as, className, delay = 0, children, ...rest }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const Tag = (as ?? 'div') as keyof JSX.IntrinsicElements;
+  const Tag = (as ?? 'div') as React.ElementType;
 
   useEffect(() => {
     const node = ref.current;
