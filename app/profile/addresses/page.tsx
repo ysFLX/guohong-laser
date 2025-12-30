@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 
@@ -9,7 +9,7 @@ export default function AddressesPage() {
   return (
     <ProfileLayout showSide={false}>
       <div>
-        <Link href="/profile" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+        <Link href="/profile" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
           Hesap yonetimine don
         </Link>
         <h1 className="mt-3 text-2xl font-semibold text-slate-900">Adreslerim</h1>
@@ -23,3 +23,4 @@ export default function AddressesPage() {
     </ProfileLayout>
   );
 }
+

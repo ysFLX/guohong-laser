@@ -1,4 +1,4 @@
-ï»¿ï»¿ï»¿'use client';
+??'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,13 +38,13 @@ export default function CartPage() {
 
         {items.length === 0 ? (
           <div className="mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center">
-            <div className="text-gray-900 dark:text-white font-semibold">Sepet boÅŸ</div>
-            <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">Yedek parÃ§alara gidip Ã¼rÃ¼n ekleyebilirsin.</div>
+            <div className="text-gray-900 dark:text-white font-semibold">Sepet boþ</div>
+            <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">Yedek parçalara gidip ürün ekleyebilirsin.</div>
             <Link
               href="/spare-parts"
               className="mt-6 inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
             >
-              Yedek ParÃ§alar
+              Yedek Parçalar
             </Link>
           </div>
         ) : (
@@ -113,7 +113,7 @@ export default function CartPage() {
             </div>
 
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 h-fit">
-              <div className="text-lg font-bold text-gray-900 dark:text-white">Ã–zet</div>
+              <div className="text-lg font-bold text-gray-900 dark:text-white">Özet</div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="text-sm text-gray-600 dark:text-gray-300">Ara Toplam</div>
                 <div className="text-base font-bold text-gray-900 dark:text-white">{formatPriceTry(subtotalCents)}</div>
@@ -122,18 +122,18 @@ export default function CartPage() {
               <div className="mt-6">
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
+                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700"
                   onClick={() => {
-                    // Checkout sonraki adÄ±m
-                    window.alert('Ã–deme akÄ±ÅŸÄ±nÄ± sonraki adÄ±mda baÄŸlayacaÄŸÄ±z.');
+                    // Checkout sonraki adým
+                    window.alert('Ödeme akýþýný sonraki adýmda baðlayacaðýz.');
                   }}
                 >
-                  SatÄ±n Almaya Devam Et
+                  Satýn Almaya Devam Et
                 </button>
               </div>
 
               <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                Bu ekran MVP. Ã–deme, sipariÅŸ ve stok dÃ¼ÅŸÃ¼mÃ¼ sonraki adÄ±m.
+                Bu ekran MVP. Ödeme, sipariþ ve stok düþümü sonraki adým.
               </div>
             </div>
           </div>
@@ -142,6 +142,7 @@ export default function CartPage() {
     </div>
   );
 }
+
 
 
 

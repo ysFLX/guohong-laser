@@ -1,4 +1,4 @@
-ï»¿'use client';
+'use client';
 
 import React from 'react';
 
@@ -29,20 +29,20 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
       <div className="flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-indigo-600 text-white flex items-center justify-center font-medium">{(address.label || 'A').slice(0,1)}</div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-600 to-orange-600 text-white flex items-center justify-center font-medium">{(address.label || 'A').slice(0,1)}</div>
             <div>
               <div className="text-base font-semibold text-gray-900 dark:text-white">{address.label || 'Adres'}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">{address.fullName}</div>
             </div>
             {address.isDefault && (
-              <span className="ml-2 inline-block text-xs font-medium bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">VarsayÄ±lan</span>
+              <span className="ml-2 inline-block text-xs font-medium bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">Varsayýlan</span>
             )}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <button
-            title="DÃ¼zenle"
+            title="Düzenle"
             className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => onEdit(address.id)}
           >
@@ -53,7 +53,7 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
           </button>
 
           <button
-            title="VarsayÄ±lan Yap"
+            title="Varsayýlan Yap"
             className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => onMakeDefault(address.id)}
           >
@@ -83,6 +83,8 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
     </article>
   );
 }
+
+
 
 
 

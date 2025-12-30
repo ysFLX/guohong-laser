@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -187,7 +187,7 @@ export default function ProfilePage() {
       <div className="rounded-[32px] bg-slate-950 px-6 py-8 text-white shadow-2xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <div className="h-14 w-14 rounded-full bg-emerald-400 text-slate-900 flex items-center justify-center font-semibold text-lg overflow-hidden">
+            <div className="h-14 w-14 rounded-full bg-orange-400 text-slate-900 flex items-center justify-center font-semibold text-lg overflow-hidden">
               {avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={avatarUrl} alt="Profil fotografi" className="h-full w-full object-cover" />
@@ -206,7 +206,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-2">
             <span
               className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                profileComplete ? 'bg-emerald-400/20 text-emerald-200' : 'bg-yellow-400/20 text-yellow-100'
+                profileComplete ? 'bg-orange-400/20 text-orange-200' : 'bg-yellow-400/20 text-yellow-100'
               }`}
             >
               {profileComplete ? 'Profil tamam' : 'Profil eksik'}
@@ -240,7 +240,7 @@ export default function ProfilePage() {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
               />
             </div>
             <div>
@@ -252,7 +252,7 @@ export default function ProfilePage() {
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
               />
             </div>
             <div>
@@ -276,7 +276,7 @@ export default function ProfilePage() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
               />
             </div>
           </div>
@@ -287,7 +287,7 @@ export default function ProfilePage() {
               onClick={handleSave}
               disabled={isSaving}
               className={`rounded-xl px-4 py-2 text-sm font-semibold text-white ${
-                isSaving ? 'bg-emerald-300' : 'bg-emerald-600 hover:bg-emerald-500'
+                isSaving ? 'bg-orange-300' : 'bg-orange-600 hover:bg-orange-500'
               }`}
             >
               {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri kaydet'}
@@ -328,10 +328,11 @@ export default function ProfilePage() {
 
       {saveError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{saveError}</div>}
       {saveSuccess && (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+        <div className="rounded-xl border border-orange-200 bg-orange-50 p-3 text-sm text-orange-700">
           {saveSuccess}
         </div>
       )}
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -115,7 +115,7 @@ const services = [
   },
   {
     title: 'Periyodik bakim',
-    description: 'Duruşlari azaltan bakim takvimiyle hat performansi korunur.',
+    description: 'Duru�lari azaltan bakim takvimiyle hat performansi korunur.',
   },
   {
     title: 'Uzaktan izleme',
@@ -175,7 +175,7 @@ export default function AboutPage() {
             </p>
             <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
               Lazer teknolojisinde
-              <span className="block text-emerald-300">guclu deneyim, net cozum</span>
+              <span className="block text-orange-300">guclu deneyim, net cozum</span>
             </h1>
             <p className="text-base text-white/70">
               10+ yillik saha deneyimimizle uretim hatlarinin ihtiyacina uygun lazer cozumleri sunuyoruz.
@@ -184,7 +184,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-300"
+                className="inline-flex items-center justify-center rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-orange-500/30 transition hover:-translate-y-0.5 hover:bg-orange-300"
               >
                 Teklif al
               </Link>
@@ -212,7 +212,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Biz kimiz</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Biz kimiz</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
             Uretim hattina uygun cozum tasarlayan ekip
           </h2>
@@ -235,7 +235,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Degerler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Degerler</p>
           <div className="mt-4 space-y-4">
             {values.map((item) => (
               <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
@@ -250,7 +250,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="lg:max-w-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Neler yapiyoruz</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Neler yapiyoruz</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
               Uretim hatlarinizi uctan uca destekliyoruz
             </h2>
@@ -259,7 +259,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <span className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-700">
+            <span className="rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-xs font-semibold text-orange-700">
               Tek ekip
             </span>
             <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
@@ -283,7 +283,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
           <div className="lg:w-1/2">
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Yol haritasi</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Yol haritasi</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Buyume adimlarimiz</h2>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
               Saha tecrubesini her yil guclendiren sureclerle ilerliyoruz.
@@ -293,7 +293,7 @@ export default function AboutPage() {
             {milestones.map((item) => (
               <div key={item.year} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
                 <div className="flex items-center gap-4">
-                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                  <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
                     {item.year}
                   </span>
                   <div>
@@ -309,7 +309,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Sektorler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Sektorler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
             Cozum sundugumuz alanlar
           </h2>
@@ -319,20 +319,20 @@ export default function AboutPage() {
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {sectors.map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="mt-1 h-2 w-2 rounded-full bg-orange-500" />
                 {item}
               </li>
             ))}
           </ul>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Is akisi</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Is akisi</p>
           <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">4 adimda teslim</h3>
           <div className="mt-4 space-y-3">
             {timeline.map((step, index) => (
               <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-700">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-xs font-semibold text-orange-700">
                     {index + 1}
                   </span>
                   <div>
@@ -348,7 +348,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Yetkinlikler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Yetkinlikler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
             Uretim ve servis sureclerini tek noktada toparliyoruz
           </h2>
@@ -362,7 +362,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Tesis ve operasyon</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Tesis ve operasyon</p>
           <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
             Sahadan merkeze entegre operasyon
           </h3>
@@ -372,7 +372,7 @@ export default function AboutPage() {
           <ul className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
             {facility.map((item) => (
               <li key={item} className="flex items-start gap-2">
-                <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="mt-1 h-2 w-2 rounded-full bg-orange-500" />
                 {item}
               </li>
             ))}
@@ -382,7 +382,7 @@ export default function AboutPage() {
 
       <section className="space-y-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Ekip</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Ekip</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
             Sahada birlikte calisan uzman kadro
           </h2>
@@ -403,7 +403,7 @@ export default function AboutPage() {
               </div>
               <div className="p-4 text-center">
                 <p className="text-base font-semibold text-slate-900 dark:text-white">{member.name}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-200">
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-orange-600 dark:text-orange-200">
                   {member.role}
                 </p>
               </div>
@@ -415,7 +415,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Sik sorulanlar</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Sik sorulanlar</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Saha ekiplerinden gelen sorular</h2>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
               Kurulum, servis ve yedek parca sureclerinde merak edilenleri netlestiriyoruz.
@@ -432,18 +432,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-orange-700 via-orange-600 to-orange-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">Birlikte calisalim</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-100">Birlikte calisalim</p>
           <h2 className="mt-3 text-2xl font-semibold">Uretiminizi guclendirecek cozumleri birlikte planlayalim</h2>
-          <p className="mt-2 text-sm text-emerald-100">
+          <p className="mt-2 text-sm text-orange-100">
             Kurulum ve servis sureclerini hizli planlamak icin bizimle iletisime gecin.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
           <Link
             href="/quote"
-            className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-orange-700 shadow-lg shadow-orange-900/20 transition hover:-translate-y-0.5"
           >
             Teklif iste
           </Link>
@@ -458,3 +458,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

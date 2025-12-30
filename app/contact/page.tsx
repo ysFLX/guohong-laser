@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 
@@ -112,7 +112,7 @@ export default function ContactPage() {
             <div
               className={`mb-6 rounded-xl border p-4 text-sm ${
                 submitStatus.success
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                  ? 'border-orange-200 bg-orange-50 text-orange-800'
                   : 'border-red-200 bg-red-50 text-red-700'
               }`}
             >
@@ -134,7 +134,7 @@ export default function ContactPage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                   />
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function ContactPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                   />
                 </div>
                 {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
@@ -168,7 +168,7 @@ export default function ContactPage() {
                     id="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function ContactPage() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                   >
                     <option value="Genel Soru">Genel Soru</option>
                     <option value="Teknik Destek">Teknik Destek</option>
@@ -206,7 +206,7 @@ export default function ContactPage() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                     placeholder="Mesajinizi buraya yazin..."
                   ></textarea>
                 </div>
@@ -231,7 +231,7 @@ export default function ContactPage() {
                       required
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                      className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                       placeholder="000000"
                       maxLength={6}
                     />
@@ -241,7 +241,7 @@ export default function ContactPage() {
             )}
 
             {info && (
-              <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-3 text-center text-sm text-emerald-700">
+              <div className="rounded-xl border border-orange-100 bg-orange-50 p-3 text-center text-sm text-orange-700">
                 {info}
               </div>
             )}
@@ -250,7 +250,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-500 disabled:opacity-60"
+                className="w-full rounded-xl bg-orange-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:bg-orange-500 disabled:opacity-60"
               >
                 {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
               </button>
@@ -282,7 +282,7 @@ export default function ContactPage() {
             </div>
           </div>
           <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-            <h3 className="text-sm uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">Hizli not</h3>
+            <h3 className="text-sm uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">Hizli not</h3>
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
               Teknik sorular ve kurulum talepleri icin formu doldururken konu secimini net belirtin.
             </p>
@@ -292,3 +292,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

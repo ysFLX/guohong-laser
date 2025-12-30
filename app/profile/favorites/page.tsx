@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -124,13 +124,13 @@ export default function FavoritesPage() {
       <div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Link href="/profile" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+            <Link href="/profile" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
               Hesap yonetimine don
             </Link>
             <h1 className="mt-3 text-2xl font-semibold text-slate-900">Favorilerim</h1>
             <p className="mt-1 text-sm text-slate-600">Favoriledigin urunleri burada yonetebilirsin.</p>
           </div>
-          <Link href="/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+          <Link href="/spare-parts" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
             Yedek parcalara git
           </Link>
         </div>
@@ -190,7 +190,7 @@ export default function FavoritesPage() {
                       name={item.sparePart.name}
                       priceCents={item.sparePart.priceCents}
                       imageUrl={item.sparePart.imageUrl}
-                      className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+                      className="rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
                     />
                     <Link
                       href={`/spare-parts/${item.sparePartId}`}
@@ -216,3 +216,4 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
+

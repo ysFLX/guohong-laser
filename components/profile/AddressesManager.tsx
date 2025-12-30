@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 
@@ -290,7 +290,7 @@ export default function AddressesManager() {
         <button
           type="button"
           onClick={openCreate}
-          className="inline-flex items-center px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700"
+          className="inline-flex items-center px-4 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-700"
         >
           + Yeni Adres
         </button>
@@ -312,7 +312,7 @@ export default function AddressesManager() {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-semibold text-gray-900">{a.label || "Adres"}</h3>
                 {a.isDefault && (
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-indigo-50 text-indigo-700">
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-orange-50 text-orange-700">
                     Varsayilan
                   </span>
                 )}
@@ -344,7 +344,7 @@ export default function AddressesManager() {
                 <button
                   type="button"
                   onClick={() => makeDefault(a.id)}
-                  className="font-medium text-indigo-600 hover:text-indigo-800"
+                  className="font-medium text-orange-600 hover:text-orange-800"
                 >
                   Varsayilan Yap
                 </button>
@@ -517,7 +517,7 @@ export default function AddressesManager() {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white disabled:opacity-50"
+              className="px-4 py-2 text-sm rounded-md bg-orange-600 text-white disabled:opacity-50"
             >
               {loading ? "Kaydediliyor..." : "Kaydet"}
             </button>
@@ -537,4 +537,5 @@ export default function AddressesManager() {
     </div>
   );
 }
+
 

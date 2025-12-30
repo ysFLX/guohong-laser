@@ -150,7 +150,7 @@ export default function Home() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-full bg-blue-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/40 transition hover:-translate-y-0.5 hover:bg-blue-400"
+                className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/40 transition hover:-translate-y-0.5 hover:bg-orange-400"
               >
                 Makineleri gor
               </Link>
@@ -193,7 +193,7 @@ export default function Home() {
                 <div className="text-sm font-semibold">Gunluk kesim raporu + uzaktan izleme</div>
               </div>
             </div>
-            <div className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-blue-500/40 blur-[80px]" />
+            <div className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-orange-500/40 blur-[80px]" />
           </div>
         </div>
       </Reveal>
@@ -207,7 +207,7 @@ export default function Home() {
           >
             <h3 className="text-lg font-semibold text-slate-900">{tile.title}</h3>
             <p className="mt-2 text-sm text-slate-600">{tile.description}</p>
-            <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
+            <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
               Incele
               <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
             </span>
@@ -217,7 +217,7 @@ export default function Home() {
 
       <Reveal as="section" className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">Urun spotlight</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Urun spotlight</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">{spotlight.title}</h2>
           <p className="mt-3 text-sm text-slate-600">{spotlight.description}</p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -252,7 +252,7 @@ export default function Home() {
       <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">Destek merkezi</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Destek merkezi</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900">E-ticaret + teknik destek tek sayfada</h2>
           </div>
           <Link
@@ -271,7 +271,7 @@ export default function Home() {
             >
               <p className="text-sm font-semibold text-slate-900">{item.title}</p>
               <p className="mt-2 text-sm text-slate-600">{item.description}</p>
-              <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600">
+              <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
                 Ac
                 <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
               </span>
@@ -282,7 +282,7 @@ export default function Home() {
 
       <Reveal as="section" className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">Is akisi</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Is akisi</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">4 adimda devreye alma</h2>
           <div className="mt-6 space-y-4">
             {process.map((step, index) => (
@@ -342,7 +342,7 @@ export default function Home() {
       <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">SSS</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600">SSS</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900">Karar surecini hizlandiran cevaplar</h2>
           </div>
           <Link
@@ -375,7 +375,7 @@ export default function Home() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-blue-500 px-6 py-2.5 text-sm font-semibold text-white"
+              className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-2.5 text-sm font-semibold text-white"
             >
               Hemen teklif al
             </Link>
@@ -391,3 +391,4 @@ export default function Home() {
     </div>
   );
 }
+
