@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 import ProfileDrawer from '@/components/profile/ProfileDrawer';
 
@@ -14,6 +15,7 @@ export default function Header() {
   const { status, data } = useSession();
   const isAuthed = status === 'authenticated';
   const isAdmin = data?.user?.role === 'ADMIN';
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toggleCart, itemCount } = useCart();
   const { open: openNotifications, unreadCount } = useNotifications();
@@ -22,7 +24,19 @@ export default function Header() {
   const avatarUrl = data?.user?.image;
   const [logoError, setLogoError] = useState(false);
 
-  const logoSrc = theme === "dark" ? "/images/logokoyu.png" : "/images/logoacik.png";
+  const logoSrc = theme === 'dark' ? '/images/logokoyu.png' : '/images/logoacik.png';
+
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname?.startsWith(href);
+  };
+
+  const navClass = (href: string) =>
+    `rounded-full px-3 py-1.5 transition ${
+      isActive(href)
+        ? 'bg-emerald-100 text-emerald-700'
+        : 'hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200'
+    }`;
 
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
@@ -48,22 +62,26 @@ export default function Header() {
 
           <nav className="hidden sm:flex flex-1 justify-center" aria-label="Ana menu">
             <div className="inline-flex items-center gap-1 rounded-full border border-gray-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-gray-600 shadow-sm shadow-emerald-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200">
-              <Link href="/" aria-current="page" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
+              <Link href="/" aria-current={isActive('/') ? 'page' : undefined} className={navClass('/')}>
                 Ana Sayfa
               </Link>
-              <Link href="/products" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
+              <Link href="/products" aria-current={isActive('/products') ? 'page' : undefined} className={navClass('/products')}>
                 Makineler
               </Link>
-              <Link href="/spare-parts" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
+              <Link
+                href="/spare-parts"
+                aria-current={isActive('/spare-parts') ? 'page' : undefined}
+                className={navClass('/spare-parts')}
+              >
                 Yedek Parcalar
               </Link>
-              <Link href="/gallery" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
+              <Link href="/gallery" aria-current={isActive('/gallery') ? 'page' : undefined} className={navClass('/gallery')}>
                 Galeri
               </Link>
-              <Link href="/about" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
+              <Link href="/about" aria-current={isActive('/about') ? 'page' : undefined} className={navClass('/about')}>
                 Hakkimizda
               </Link>
-              <Link href="/contact" className="rounded-full px-3 py-1.5 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-200">
+              <Link href="/contact" aria-current={isActive('/contact') ? 'page' : undefined} className={navClass('/contact')}>
                 Iletisim
               </Link>
             </div>
@@ -242,42 +260,54 @@ export default function Header() {
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className={`px-3 py-2 text-sm font-medium rounded-md ${
+                  isActive('/') ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
               >
                 Ana Sayfa
               </Link>
               <Link
                 href="/products"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className={`px-3 py-2 text-sm font-medium rounded-md ${
+                  isActive('/products') ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
               >
                 Makineler
               </Link>
               <Link
                 href="/spare-parts"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className={`px-3 py-2 text-sm font-medium rounded-md ${
+                  isActive('/spare-parts') ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
               >
                 Yedek Parcalar
               </Link>
               <Link
                 href="/gallery"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className={`px-3 py-2 text-sm font-medium rounded-md ${
+                  isActive('/gallery') ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
               >
                 Galeri
               </Link>
               <Link
                 href="/about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className={`px-3 py-2 text-sm font-medium rounded-md ${
+                  isActive('/about') ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
               >
                 Hakkimizda
               </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className={`px-3 py-2 text-sm font-medium rounded-md ${
+                  isActive('/contact') ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
               >
                 Iletisim
               </Link>
