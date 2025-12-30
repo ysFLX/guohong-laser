@@ -167,15 +167,15 @@ body {
 }
 
 .reveal {
-  animation: fade-up 700ms ease both;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms ease, transform 700ms ease;
+  will-change: opacity, transform;
 }
 
-.reveal-delay-1 {
-  animation-delay: 120ms;
-}
-
-.reveal-delay-2 {
-  animation-delay: 240ms;
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .pulse-ring {
@@ -203,6 +203,19 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .pulse-ring::before,
+  .float-soft {
+    animation: none;
   }
 }
 
