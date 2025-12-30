@@ -1,8 +1,9 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer className="bg-white dark:bg-gray-900 border-t border-gray-200/70 dark:border-gray-700/70">
+      <div className="h-1 w-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-transparent" />
       <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex flex-col gap-6 py-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -51,9 +52,18 @@ export default function Footer() {
 
           <div className="grid gap-6 text-sm text-gray-500 sm:grid-cols-2 lg:grid-cols-4">
             <div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">Kurumsal</div>
               <p className="mt-3 text-sm text-gray-500">
-                Guohong Laser Group, Ar-Ge, üretim ve satış süreçlerini entegre eden bir metal lazer kesim makinesi üreticisidir. Büyük ölçekli ekipman üretimi ve imalatında 10 yılı aşkın deneyime sahiptir.
+                Lazer makineleri ve yedek parca alaninda, uretim ve satis sureclerini tek cati altinda yoneten guvenilir cozum ortaginiz.
               </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link href="/quote" className="inline-flex items-center justify-center rounded-full border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-50">
+                  Teklif Al
+                </Link>
+                <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-600 hover:bg-gray-50">
+                  Iletisime Gec
+                </Link>
+              </div>
             </div>
 
             <div>
@@ -88,6 +98,7 @@ export default function Footer() {
               <div className="mt-3 space-y-2 text-sm">
                 <div>Pazartesi - Cumartesi</div>
                 <div>09:00 - 18:00</div>
+                <div>Acil destek icin WhatsApp</div>
               </div>
             </div>
           </div>
