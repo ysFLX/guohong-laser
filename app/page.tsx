@@ -1,359 +1,491 @@
-﻿import Image from "next/image";
+﻿'use client';
+
+import Image from "next/image";
 import Link from "next/link";
 import { Manrope } from "next/font/google";
-
-import VideoSlider from "@/components/home/VideoSlider";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 const manrope = Manrope({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const heroVideos = [
-  {
-    src: "https://res.cloudinary.com/dar9ughwx/video/upload/v1766584806/borukesim_dd8a5f.mp4",
-    poster: "/images/about-showcase.jpg",
-    title: "Lazer Boru Kesimi",
-  },
-  {
-    src: "https://res.cloudinary.com/dar9ughwx/video/upload/v1766584816/sackesim_m6icrx.mp4",
-    poster: "/images/1.jpg",
-    title: "Lazer Sac Kesimi",
-  },
-  {
-    src: "https://res.cloudinary.com/dar9ughwx/video/upload/v1766584837/demirkesim_kbwzy2.mp4",
-    poster: "/images/2.jpg",
-    title: "Lazer Demir Kesimi",
-  },
-];
-
-const stats = [
-  { name: "Yıllık Deneyim", value: "10+" },
-  { name: "Mutlu Müşteri", value: "500+" },
-  { name: "Tamamlanan Proje", value: "1000+" },
-  { name: "Aktif Servis Noktası", value: "24" },
-];
-
 const services = [
   {
-    name: "Lazer Kesim Makineleri",
-    description: "Sac, boru ve demir kesim hatlarında yüksek performans.",
-    href: "/products?category=Sac+Kesim",
+    title: "Lazer Kesim",
+    description: "Sac, boru ve profil hatlari icin yuksek hassasiyetli kesim.",
+    image: "/images/1.jpg",
+    accent: true,
   },
   {
-    name: "Teknik Servis",
-    description: "Bakım, arıza ve performans iyileştirme çözümleri.",
-    href: "/contact?subject=Teknik+Servis",
+    title: "CNC Isleme",
+    description: "Kompleks parcalar icin hizli ve stabil isleme akislar.",
+    badge: "CNC",
   },
   {
-    name: "Yedek Parça",
-    description: "Orijinal yedek parça ve hızlı temin ağı.",
-    href: "/products?category=Yedek+Par%C3%A7a",
+    title: "Metal Imalat",
+    description: "Ozel projeler icin mukemmel montaj ve yuzey bitirme.",
+    badge: "FAB",
   },
   {
-    name: "Danışmanlık",
-    description: "Üretim hattınıza özel planlama ve teknoloji danışmanlığı.",
-    href: "/contact?subject=Dan%C4%B1%C5%9Fmanl%C4%B1k",
+    title: "Teknik Servis",
+    description: "Kurulum, egitim ve surekli performans destegi.",
+    badge: "CARE",
   },
 ];
 
-const process = [
+const reasons = [
   {
-    title: "Keşif ve analiz",
-    description: "Üretim ihtiyaçlarınızı ve hedef kapasiteyi netleştiriyoruz.",
+    title: "Hizli Termin",
+    text: "Teklif, kurulum ve devreye alma sureci ivedi planlanir.",
   },
   {
-    title: "Teknik teklif",
-    description: "Sahaya uygun makine konfigürasyonu ve yatırım planı.",
+    title: "Dogru Cozum",
+    text: "Uretim hattina uygun makine ve otomasyon belirlenir.",
   },
   {
-    title: "Kurulum ve eğitim",
-    description: "Kurulum, test ve operatör eğitimini uçtan uca sağlıyoruz.",
+    title: "Kalite Guvence",
+    text: "Her teslimat oncesi detayli performans testleri.",
   },
   {
-    title: "Sürekli destek",
-    description: "Bakım, yedek parça ve performans geliştirme takibi.",
+    title: "Saha Destegi",
+    text: "Servis agi ve yedek parca tedarigi ile tam destek.",
   },
 ];
 
-const testimonials = [
+const pricing = [
   {
-    name: "Ahmet Yılmaz",
-    role: "Üretim Müdürü",
-    company: "ABC Metal Sanayi",
-    content:
-      "Makine kalitesi kadar sonrası destek süreçleri de kusursuz. Duruş süreleri azaldı.",
-    avatar: "/images/avatar1.jpg",
+    name: "Basic",
+    price: "69",
+    desc: "Baslangic projeleri icin",
+    features: ["Lazer kesim", "Teknik destek", "Standart termin"],
   },
   {
-    name: "Ayşe Kaya",
-    role: "İşletme Sahibi",
-    company: "Kaya Metal",
-    content:
-      "Yedek parça hızı ve teknik ekip erişimi bizi ciddi anlamda rahatlatıyor.",
-    avatar: "/images/avatar2.jpg",
+    name: "Standard",
+    price: "149",
+    desc: "En cok tercih edilen",
+    features: ["Lazer + CNC", "Oncelikli servis", "Hizli termin"],
+    featured: true,
   },
   {
-    name: "Mehmet Demir",
-    role: "Teknik Müdür",
-    company: "Demir Çelik A.Ş.",
-    content:
-      "Kurulum süreci planlandığı gibi ilerledi, performans hedeflerimizi yakaladık.",
-    avatar: "/images/avatar3.jpg",
+    name: "Advance",
+    price: "279",
+    desc: "Yuksek kapasite",
+    features: ["Ozel hatt", "Otomasyon", "Raporlama"],
+  },
+  {
+    name: "Enterprise",
+    price: "899",
+    desc: "Kurumsal cozum",
+    features: ["Tasarim ekibi", "Saha kurulumu", "24/7 destek"],
   },
 ];
+
+const faqs = [
+  {
+    q: "Teklif sureci ne kadar surer?",
+    a: "Talep ve teknik bilgiye gore ayni gun icinde on teklif iletilir.",
+  },
+  {
+    q: "Kurulum ve egitim sagliyor musunuz?",
+    a: "Evet, kurulum ve operator egitimi tek paket halinde sunulur.",
+  },
+  {
+    q: "Yedek parca tedarigi nasil?",
+    a: "Stoklu parcalar ayni gun kargoya verilir.",
+  },
+  {
+    q: "Teknik servis bolgenizde var mi?",
+    a: "Turkiye genelinde servis agi ve uzaktan destek veriyoruz.",
+  },
+];
+
+const blogs = [
+  {
+    category: "Teknoloji",
+    date: "16 Feb",
+    title: "Lazer kesimde hiz ve hassasiyet nasil artar?",
+    desc: "Uretim verimliligini artiran uc kritik iyilestirme.",
+    image: "/images/2.jpg",
+  },
+  {
+    category: "Otomasyon",
+    date: "22 Feb",
+    title: "CNC ve lazer hatlarini entegre etmek",
+    desc: "Is akisini hizlandiran otomasyon yaklasimi.",
+    image: "/images/3.jpg",
+  },
+  {
+    category: "Servis",
+    date: "28 Feb",
+    title: "Bakim planlamasi ile duruslari azaltin",
+    desc: "Maliyeti dusuren proaktif servis stratejisi.",
+    image: "/images/4.jpg",
+  },
+];
+
+const counters = [
+  { label: "Yil Deneyim", value: 10 },
+  { label: "Proje", value: 5467 },
+  { label: "Memnuniyet", value: 98 },
+  { label: "Servis Noktasi", value: 24 },
+];
+
+const logos = ["LOGO", "LOGO", "LOGO", "LOGO", "LOGO"];
+
+function useCountUp(target: number, duration = 1200) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || startedRef.current) return;
+        startedRef.current = true;
+        const start = performance.now();
+
+        const step = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const next = Math.round(target * progress);
+          setValue(next);
+          if (progress < 1) requestAnimationFrame(step);
+        };
+
+        requestAnimationFrame(step);
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [duration, target]);
+
+  return { value, ref };
+}
+
+const reveal = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const stagger = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+function Section({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.section
+      className={className}
+      variants={reveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+    >
+      {children}
+    </motion.section>
+  );
+}
 
 export default function Home() {
   return (
-    <div className={`${manrope.className} space-y-10`}>
-      <section className="space-y-6">
-        <div className="inline-flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-xs uppercase tracking-[0.4em] text-slate-600 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-300" />
-          Guohong Laser
-        </div>
-        <div className="space-y-4">
-          <h1 className="text-3xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-4xl">
-            Lazer kesimde
-            <span className="block text-emerald-600 dark:text-emerald-200">
-              yeni bir kalite standardı
-            </span>
-          </h1>
-          <p className="max-w-2xl text-base text-slate-600 dark:text-slate-200">
-            Üretim hattınızı hızlandıran, fire oranını düşüren ve performansı sürekli artıran
-            lazer teknolojileri. Guohong Laser ile üretiminizi geleceğe taşıyın.
-          </p>
-        </div>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/spare-parts"
-            className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
-          >
-            Ürünleri Keşfet
-          </Link>
-          <Link
-            href="/quote"
-            className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/90 dark:hover:border-white/60 dark:hover:text-white"
-          >
-            Ücretsiz Teklif Al
-          </Link>
-        </div>
-      </section>
-
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.name}
-            className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 text-slate-900 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white"
-          >
-            <p className="text-2xl font-semibold">{stat.value}</p>
-            <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-white/60">
-              {stat.name}
-            </p>
-          </div>
-        ))}
-      </section>
-
-      <section id="video" className="rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow-xl dark:border-white/10 dark:bg-white/5">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-              Video Galerisi
-            </p>
-            <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
-              Üretim hatlarını yakından inceleyin
-            </h2>
-          </div>
-          <Link
-            href="/gallery"
-            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-white/20 dark:text-white/80 dark:hover:border-white dark:hover:text-white"
-          >
-            Galeriye Git
-          </Link>
-        </div>
-        <VideoSlider items={heroVideos} />
-      </section>
-
-      <section id="hizmetler" className="space-y-5">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Hizmetler
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-            Uçtan uca lazer çözümleri
-          </h2>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          {services.map((service) => (
-            <Link
-              key={service.name}
-              href={service.href}
-              className="group rounded-2xl border border-slate-200/70 bg-white/80 p-6 transition hover:-translate-y-1 hover:border-emerald-300 dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                  {service.name}
-                </h3>
-                <span className="text-emerald-600 dark:text-emerald-200">›</span>
+    <div className={`${manrope.className} space-y-0`}>
+      <Section className="relative overflow-hidden bg-gradient-to-b from-[var(--navy-950)] via-[var(--navy-900)] to-[var(--navy-850)] text-white">
+        <div className="topo-bg absolute inset-0 opacity-30" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative max-w-screen-2xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+          <motion.div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]" variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <motion.div variants={reveal}>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/70">
+                Industrial Laser Solutions
               </div>
-              <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-                {service.description}
+              <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+                Precision <span className="text-[var(--brand-yellow)]">Laser</span> Cutting
+                <span className="block">Engineering for Every Industry</span>
+              </h1>
+              <p className="mt-4 max-w-xl text-base text-white/70 sm:text-lg">
+                Hizli teklif, guvenilir uretim ve saha destegi ile uretim hattinizi yeni seviyeye tasiyin.
               </p>
-            </Link>
-          ))}
-        </div>
-      </section>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/quote"
+                  className="inline-flex items-center justify-center rounded-full bg-[var(--brand-blue)] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:brightness-110"
+                >
+                  Teklif Al
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white/80 transition hover:-translate-y-0.5 hover:border-white"
+                >
+                  Iletisime Gec
+                </Link>
+              </div>
+            </motion.div>
 
-      <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Sahadan Notlar
-          </p>
-          <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
-            Akıllı üretim hattı entegrasyonu
-          </h3>
-          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            Sensör destekli hat yönetimi, gerçek zamanlı performans takibi ve enerji
-            optimizasyonu ile süreçleri ölçülebilir hale getiriyoruz.
-          </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {[
-              "Anlık performans raporu",
-              "Fire oranı analizi",
-              "Otomatik bakım takvimi",
-              "Enerji tüketimi kontrolü",
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3 text-sm text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80"
+            <motion.div variants={reveal} className="flex flex-col gap-6">
+              <div className="flex items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur">
+                <button className="group relative flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
+                  <span className="absolute inset-0 rounded-full border border-white/40 opacity-70 group-hover:animate-ping" />
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[var(--navy-950)]">
+                    ?
+                  </span>
+                </button>
+                <div>
+                  <div className="text-3xl font-semibold">98%</div>
+                  <div className="text-sm text-white/70">Satisfying Clients</div>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                <div className="text-xs uppercase tracking-[0.3em] text-white/60">KPI</div>
+                <div className="mt-3 grid grid-cols-2 gap-4 text-sm text-white/80">
+                  <div>
+                    <div className="text-xl font-semibold text-white">24h</div>
+                    <div>Teklif sureci</div>
+                  </div>
+                  <div>
+                    <div className="text-xl font-semibold text-white">500+</div>
+                    <div>Mutlu musteri</div>
+                  </div>
+                  <div>
+                    <div className="text-xl font-semibold text-white">10+</div>
+                    <div>Yil deneyim</div>
+                  </div>
+                  <div>
+                    <div className="text-xl font-semibold text-white">7/24</div>
+                    <div>Destek</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </Section>
+
+      <Section className="bg-slate-50 text-slate-900">
+        <div className="max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex rounded-full border border-slate-200 px-4 py-1 text-xs uppercase tracking-[0.3em] text-slate-500">What We Do</div>
+              <h2 className="mt-4 text-3xl font-bold sm:text-4xl">
+                Accurate <span className="text-[var(--brand-yellow)]">Laser</span> Cutting Services
+                <span className="block">Tailored To Your Needs</span>
+              </h2>
+            </div>
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center rounded-full bg-[var(--brand-blue)] px-5 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+            >
+              Tum Hizmetler 
+            </Link>
+          </div>
+
+          <motion.div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4" variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            {services.map((item) => (
+              <motion.div
+                key={item.title}
+                variants={reveal}
+                className={`group relative overflow-hidden rounded-[28px] p-6 shadow-[0_12px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 ${
+                  item.accent ? "bg-slate-900 text-white" : "bg-slate-100"
+                }`}
               >
-                {item}
+                {item.image && (
+                  <div className="relative h-44 overflow-hidden rounded-2xl">
+                    <Image src={item.image} alt={item.title} fill className="object-cover transition group-hover:scale-[1.03]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent" />
+                    <div className="absolute bottom-4 left-4 text-sm font-semibold">{item.title}</div>
+                  </div>
+                )}
+                {!item.image && (
+                  <div className="absolute right-5 top-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-yellow)] text-slate-900 font-semibold">
+                    {item.badge}
+                  </div>
+                )}
+                <div className="mt-6 space-y-2">
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+                  <p className={`text-sm ${item.accent ? "text-white/70" : "text-slate-600"}`}>{item.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </Section>
+
+      <Section className="relative bg-[var(--navy-900)] text-white">
+        <div className="topo-bg absolute inset-0 opacity-25" />
+        <div className="relative max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr]">
+            <div className="relative overflow-hidden rounded-[32px]">
+              <Image src="/images/about-showcase.jpg" alt="Factory" width={720} height={520} className="h-full w-full object-cover" />
+            </div>
+            <div>
+              <div className="inline-flex rounded-full border border-white/20 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/70">Why Choose Us</div>
+              <h2 className="mt-4 text-3xl font-bold sm:text-4xl">
+                We give precision <span className="text-[var(--brand-yellow)]">efficiency</span> and excellence.
+              </h2>
+              <div className="mt-6 rounded-[28px] border border-white/10 bg-white/5 p-6">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {reasons.map((reason) => (
+                    <div key={reason.title} className="flex gap-3">
+                      <span className="mt-1 text-[var(--brand-yellow)]">?</span>
+                      <div>
+                        <div className="text-sm font-semibold text-white">{reason.title}</div>
+                        <div className="text-xs text-white/70">{reason.text}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-6 flex flex-wrap items-center gap-6 text-white/60">
+                {logos.map((logo) => (
+                  <div key={logo} className="text-xs uppercase tracking-[0.3em]">{logo}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-slate-50 text-slate-900">
+        <div className="max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-flex rounded-full border border-slate-200 px-4 py-1 text-xs uppercase tracking-[0.3em] text-slate-500">Transparent Package</div>
+            <h2 className="mt-4 text-3xl font-bold sm:text-4xl">
+              Affordable & <span className="text-[var(--brand-yellow)]">Transparent</span> Pricing
+            </h2>
+            <p className="mt-2 text-sm text-slate-600">Ihtiyaca gore esnek paketler.</p>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {pricing.map((plan) => (
+              <div
+                key={plan.name}
+                className={`relative overflow-hidden rounded-[28px] border p-6 shadow-[0_14px_45px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 ${
+                  plan.featured
+                    ? "border-slate-900 bg-[var(--navy-900)] text-white"
+                    : "border-slate-200 bg-white"
+                }`}
+              >
+                {plan.featured && (
+                  <span className="absolute right-6 top-6 rounded-full bg-[var(--brand-yellow)] px-3 py-1 text-xs font-semibold text-slate-900">Popular</span>
+                )}
+                <div className="text-lg font-semibold">{plan.name}</div>
+                <div className="mt-2 text-sm opacity-80">{plan.desc}</div>
+                <div className="mt-5 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xl font-semibold">
+                  ${plan.price}
+                  <span className="ml-2 text-xs opacity-70">/ work</span>
+                </div>
+                <ul className="mt-5 space-y-2 text-sm">
+                  {plan.features.map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="text-[var(--brand-yellow)]">?</span>
+                      <span className="opacity-90">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/80 dark:border-white/10 dark:bg-white/5">
-          <Image
-            src="/images/about-showcase.jpg"
-            alt="Guohong Laser üretim sahası"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-          <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-slate-950/70 p-4">
-            <p className="text-sm font-semibold text-white">Üretimde kesintisiz performans</p>
-            <p className="text-xs text-slate-300">
-              Kurulum, eğitim ve destek süreçlerini tek ekiple yönetiyoruz.
-            </p>
+      </Section>
+
+      <Section className="relative bg-[var(--navy-950)] text-white">
+        <div className="topo-bg absolute inset-0 opacity-25" />
+        <div className="relative max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="rounded-[36px] border border-white/10 bg-white/5 p-6">
+            <div className="relative h-72 overflow-hidden rounded-[28px]">
+              <Image src="/images/5.jpg" alt="Video" fill className="object-cover" />
+              <div className="absolute inset-0 bg-black/40" />
+              <button className="group absolute inset-0 flex items-center justify-center">
+                <span className="absolute h-20 w-20 rounded-full border border-white/50 group-hover:animate-ping" />
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-[var(--navy-950)] text-2xl">?</span>
+              </button>
+            </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      <section id="surec" className="space-y-5">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Süreç
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-            Şeffaf ve kontrollü proje yönetimi
-          </h2>
-        </div>
-
-        <div className="space-y-4">
-          {process.map((step, index) => (
-            <div
-              key={step.title}
-              className="rounded-2xl border border-slate-200/70 bg-white/80 p-5 dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-sm font-semibold text-white">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="referanslar" className="space-y-5">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600 dark:text-emerald-200">
-            Referanslar
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-            İş ortaklarımızın deneyimleri
-          </h2>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          {testimonials.map((t) => (
-            <div
-              key={t.name}
-              className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
-                  <Image
-                    src={t.avatar}
-                    alt={t.name}
-                    width={48}
-                    height={48}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                    {t.name}
-                  </p>
-                  <p className="text-xs text-slate-600 dark:text-slate-300">
-                    {t.role} · {t.company}
-                  </p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm text-slate-600 dark:text-slate-200">“{t.content}”</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-3xl border border-white/10 bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500 p-6 text-white">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
-              Hemen Başlayın
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold">
-              Üretiminizi güçlendirecek doğru çözümü birlikte seçelim
+      <Section className="bg-slate-50 text-slate-900">
+        <div className="max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-flex rounded-full border border-slate-200 px-4 py-1 text-xs uppercase tracking-[0.3em] text-slate-500">Usually Asked</div>
+            <h2 className="mt-4 text-3xl font-bold sm:text-4xl">
+              Discover Our <span className="text-[var(--brand-yellow)]">FAQ</span>
             </h2>
-            <p className="mt-2 text-sm text-emerald-100">
-              Uzman ekibimiz ihtiyacınıza uygun yapılandırmayı hızla hazırlasın.
-            </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 shadow-lg shadow-emerald-900/20 transition hover:-translate-y-0.5"
-            >
-              Hemen Teklif Al
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/70 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:border-white"
-            >
-              İletişime Geçin
-            </Link>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {faqs.map((item) => (
+              <details key={item.q} className="group rounded-[24px] border border-slate-200 bg-white p-5">
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">
+                  {item.q}
+                </summary>
+                <p className="mt-3 text-sm text-slate-600">{item.a}</p>
+              </details>
+            ))}
           </div>
         </div>
-      </section>
+      </Section>
+
+      <Section className="bg-[var(--navy-950)] text-white">
+        <div className="topo-bg absolute inset-0 opacity-25" />
+        <div className="relative max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <h2 className="text-3xl font-bold">Numbers that prove impact</h2>
+            <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 hover:border-white">
+              Proje Baslat
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {counters.map((item) => {
+              const { value, ref } = useCountUp(item.value);
+              return (
+                <div key={item.label} ref={ref} className="rounded-[24px] border border-white/10 bg-white/5 p-5">
+                  <div className="text-3xl font-semibold text-[var(--brand-yellow)]">{value}+</div>
+                  <div className="text-xs uppercase tracking-[0.3em] text-white/60">{item.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </Section>
+
+      <Section className="bg-slate-50 text-slate-900">
+        <div className="max-w-screen-2xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex rounded-full border border-slate-200 px-4 py-1 text-xs uppercase tracking-[0.3em] text-slate-500">Our Blog</div>
+              <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Latest insights and updates</h2>
+            </div>
+            <Link href="/" className="inline-flex items-center justify-center rounded-full bg-[var(--brand-blue)] px-5 py-2 text-sm font-semibold text-white">
+              See All 
+            </Link>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {blogs.map((post) => (
+              <div key={post.title} className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1">
+                <div className="relative h-44">
+                  <Image src={post.image} alt={post.title} fill className="object-cover transition group-hover:scale-[1.03]" />
+                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-600">{post.category}</div>
+                  <div className="absolute left-4 bottom-4 rounded-xl bg-[var(--brand-yellow)] px-3 py-1 text-xs font-semibold text-slate-900">{post.date}</div>
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold">{post.title}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{post.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
     </div>
   );
 }
-
