@@ -164,7 +164,7 @@ export default function Home() {
               type="button"
               className="pulse-ring absolute left-6 top-6 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-900 shadow-lg"
             >
-              >
+              &gt;
             </button>
             <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-2xl bg-slate-950/70 px-4 py-3 text-white">
               <div>
@@ -253,7 +253,7 @@ export default function Home() {
                     </p>
                   </div>
                   <span className="text-emerald-600 transition group-hover:translate-x-1 dark:text-emerald-200">
-                    ->
+                    -&gt;
                   </span>
                 </Link>
               </Reveal>
