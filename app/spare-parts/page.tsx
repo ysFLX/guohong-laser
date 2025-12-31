@@ -2,10 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { memo, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 
@@ -48,138 +47,47 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-function useElementWidth<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
-  const [width, setWidth] = useState(0);
+/**
+ * Preload all images once so scrolling doesn't trigger new network fetches.
+ * Uses limited concurrency and runs during idle time to avoid jank.
+ */
+async function preloadImages(urls: string[], concurrency = 6) {
+  if (typeof window === 'undefined') return;
+  if (!urls.length) return;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+  let i = 0;
+  let active = 0;
 
-    const ro = new ResizeObserver((entries) => {
-      const w = entries[0]?.contentRect?.width ?? 0;
-      setWidth(Math.floor(w));
-    });
+  return new Promise<void>((resolve) => {
+    const next = () => {
+      if (i >= urls.length && active === 0) {
+        resolve();
+        return;
+      }
 
-    ro.observe(el);
-    setWidth(Math.floor(el.getBoundingClientRect().width));
-    return () => ro.disconnect();
-  }, []);
+      while (active < concurrency && i < urls.length) {
+        const url = urls[i++];
+        active++;
 
-  return { ref, width } as const;
+        const img = new window.Image();
+        img.decoding = 'async';
+        // eager = browser tries to fetch immediately (but we already schedule this in idle time)
+        img.loading = 'eager';
+        img.src = url;
+
+        const done = () => {
+          active--;
+          next();
+        };
+
+        img.onload = done;
+        img.onerror = done;
+      }
+    };
+
+    next();
+  });
 }
-
-const SparePartCard = memo(function SparePartCard({
-  p,
-  isFavorited,
-  isFavoriteLoading,
-  onToggleFavorite,
-  selectedModel,
-  selectedModelLabel,
-}: {
-  p: SparePart;
-  isFavorited: boolean;
-  isFavoriteLoading: boolean;
-  onToggleFavorite: (id: string) => void;
-  selectedModel: string;
-  selectedModelLabel?: string;
-}) {
-  const inStock = p.stockOnHand > 0;
-
-  return (
-    <div className="perf-card group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-orange-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-orange-400/50">
-      <Link href={`/spare-parts/${p.id}`} className="block">
-        <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-          <Image
-            src={p.imageUrl || '/images/1.jpg'}
-            alt={p.name}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
-            loading="lazy"
-            // IMPORTANT: unoptimized kaldırıldı → Next Image optimize edecek
-          />
-          <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
-            {p.category.name}
-          </div>
-          {p.isFeatured && (
-            <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white dark:bg-orange-500/90 dark:text-slate-950">
-              Vitrin
-            </div>
-          )}
-          <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
-            <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'}`}>
-              {inStock ? 'Stokta' : 'Siparisle'}
-            </span>
-            <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
-              {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
-            </span>
-          </div>
-        </div>
-      </Link>
-
-      <div className="space-y-3 p-4">
-        <div className="flex items-start justify-between gap-2">
-          <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">{p.name}</h3>
-          </Link>
-          <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-            {formatPriceTry(p.priceCents)}
-          </div>
-        </div>
-
-        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
-
-        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
-          <div>
-            <span className="font-semibold text-slate-900 dark:text-white">Stok</span>
-            <span className="ml-2">{p.stockOnHand}</span>
-          </div>
-          <div>
-            <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
-            <span className="ml-2">{p.dimensions || '-'}</span>
-          </div>
-        </div>
-
-        <div className="text-xs text-orange-700 dark:text-orange-300">
-          {selectedModel === 'Tumu' ? 'Uyumluluk icin model sec' : `${selectedModelLabel ?? selectedModel} ile uyumlu`}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <AddToCartButton
-            id={p.id}
-            name={p.name}
-            priceCents={p.priceCents}
-            imageUrl={p.imageUrl}
-            className="flex-1 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
-          />
-          <button
-            type="button"
-            onClick={() => onToggleFavorite(p.id)}
-            disabled={isFavoriteLoading}
-            aria-pressed={isFavorited}
-            aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-            className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
-              isFavorited
-                ? 'border-red-200 bg-red-50 text-red-600'
-                : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
-            } ${isFavoriteLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="h-5 w-5"
-              fill={isFavorited ? 'currentColor' : 'none'}
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-});
 
 export default function SparePartsPage() {
   const router = useRouter();
@@ -189,8 +97,6 @@ export default function SparePartsPage() {
   const [selectedModel, setSelectedModel] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const deferredQuery = useDeferredValue(searchQuery);
-
   const [items, setItems] = useState<SparePart[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
   const [favoriteLoading, setFavoriteLoading] = useState<Set<string>>(new Set());
@@ -198,6 +104,7 @@ export default function SparePartsPage() {
   const [loadError, setLoadError] = useState('');
   const [favoriteError, setFavoriteError] = useState('');
 
+  // Load products
   useEffect(() => {
     const load = async () => {
       setIsLoading(true);
@@ -214,9 +121,11 @@ export default function SparePartsPage() {
         setIsLoading(false);
       }
     };
+
     load();
   }, []);
 
+  // Load favorites
   useEffect(() => {
     const loadFavorites = async () => {
       if (status !== 'authenticated') {
@@ -230,7 +139,9 @@ export default function SparePartsPage() {
         const text = await res.text();
         const data = text ? JSON.parse(text) : {};
 
-        if (!res.ok) throw new Error(data?.error || 'Favoriler alinamadi');
+        if (!res.ok) {
+          throw new Error(data?.error || 'Favoriler alinamadi');
+        }
 
         const ids = new Set<string>();
         if (Array.isArray(data?.items)) {
@@ -248,51 +159,73 @@ export default function SparePartsPage() {
     loadFavorites();
   }, [status]);
 
-  const toggleFavorite = useCallback(
-    async (sparePartId: string) => {
-      if (status !== 'authenticated') {
-        router.push('/login');
-        return;
+  // Preload images ONCE after items arrive
+  useEffect(() => {
+    if (!items.length) return;
+
+    // Unique urls only
+    const urls = Array.from(
+      new Set(
+        items
+          .map((x) => x.imageUrl || '/images/1.jpg')
+          .filter((u): u is string => typeof u === 'string' && u.length > 0),
+      ),
+    );
+
+    const run = () => {
+      preloadImages(urls, 6).catch(() => {});
+    };
+
+    // idle scheduling to avoid blocking scroll/paint
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      setTimeout(run, 250);
+    }
+  }, [items]);
+
+  const toggleFavorite = async (sparePartId: string) => {
+    if (status !== 'authenticated') {
+      router.push('/login');
+      return;
+    }
+
+    if (favoriteLoading.has(sparePartId)) return;
+    setFavoriteLoading((prev) => new Set(prev).add(sparePartId));
+
+    try {
+      const res = await fetch('/api/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sparePartId }),
+      });
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'Favori guncellenemedi');
       }
 
-      // prevent double click
-      setFavoriteLoading((prev) => {
-        if (prev.has(sparePartId)) return prev;
+      setFavoriteIds((prev) => {
         const next = new Set(prev);
-        next.add(sparePartId);
+        if (data?.favorited) {
+          next.add(sparePartId);
+        } else {
+          next.delete(sparePartId);
+        }
         return next;
       });
-
-      try {
-        const res = await fetch('/api/favorites', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sparePartId }),
-        });
-        const text = await res.text();
-        const data = text ? JSON.parse(text) : {};
-
-        if (!res.ok) throw new Error(data?.error || 'Favori guncellenemedi');
-
-        setFavoriteIds((prev) => {
-          const next = new Set(prev);
-          if (data?.favorited) next.add(sparePartId);
-          else next.delete(sparePartId);
-          return next;
-        });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Favori guncellenemedi';
-        setFavoriteError(message);
-      } finally {
-        setFavoriteLoading((prev) => {
-          const next = new Set(prev);
-          next.delete(sparePartId);
-          return next;
-        });
-      }
-    },
-    [router, status],
-  );
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Favori guncellenemedi';
+      setFavoriteError(message);
+    } finally {
+      setFavoriteLoading((prev) => {
+        const next = new Set(prev);
+        next.delete(sparePartId);
+        return next;
+      });
+    }
+  };
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -300,13 +233,8 @@ export default function SparePartsPage() {
     return ['Tumu', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'tr'))];
   }, [items]);
 
-  const selectedModelInfo = useMemo(
-    () => machineModels.find((model) => model.id === selectedModel),
-    [selectedModel],
-  );
-
   const filtered = useMemo(() => {
-    const q = deferredQuery.trim().toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
     const modelInfo = machineModels.find((model) => model.id === selectedModel);
     const modelCategories = modelInfo?.categories ?? [];
 
@@ -320,7 +248,12 @@ export default function SparePartsPage() {
         (p.dimensions ?? '').toLowerCase().includes(q);
       return matchesCategory && matchesModel && matchesSearch;
     });
-  }, [items, selectedCategory, selectedModel, deferredQuery]);
+  }, [items, selectedCategory, selectedModel, searchQuery]);
+
+  const selectedModelInfo = useMemo(
+    () => machineModels.find((model) => model.id === selectedModel),
+    [selectedModel],
+  );
 
   const crossSell = useMemo(() => {
     if (!items.length) return [];
@@ -329,35 +262,8 @@ export default function SparePartsPage() {
     return merged.slice(0, 3);
   }, [items]);
 
-  // --- Virtual Grid Setup ---
-  const { ref: gridWrapRef, width: gridWidth } = useElementWidth<HTMLDivElement>();
-
-  // kart genişliği hedefi (tailwind grid gibi düşün)
-  const CARD_MIN_W = 320;
-  const GAP = 24; // gap-6 ~ 24px
-  const colCount = useMemo(() => {
-    if (!gridWidth) return 1;
-    // kaba hesap: her kart + gap
-    const cols = Math.max(1, Math.floor((gridWidth + GAP) / (CARD_MIN_W + GAP)));
-    return Math.min(cols, 4); // senin tasarım max 4 gibi
-  }, [gridWidth]);
-
-  // kart yüksekliği: senin kart yaklaşık ~ 520-560 arası (resim 208px + padding vs)
-  const ROW_H = 560;
-
-  const rowCount = Math.ceil(filtered.length / colCount);
-
-  const parentRef = useRef<HTMLDivElement | null>(null);
-  const rowVirtualizer = useVirtualizer({
-    count: rowCount,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => ROW_H,
-    overscan: 4,
-  });
-
   return (
     <div className="min-h-screen space-y-16">
-      {/* HERO */}
       <section className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-14 text-white shadow-2xl sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(251,146,60,0.22),_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,_rgba(148,163,184,0.18),_transparent_55%)]" />
@@ -406,7 +312,6 @@ export default function SparePartsPage() {
         </div>
       </section>
 
-      {/* FILTERS */}
       <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full lg:w-1/3">
@@ -454,7 +359,10 @@ export default function SparePartsPage() {
 
         <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr]">
           <div>
-            <label htmlFor="modelSelect" className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+            <label
+              htmlFor="modelSelect"
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+            >
               Uyumluluk kontrolu
             </label>
             <select
@@ -492,59 +400,114 @@ export default function SparePartsPage() {
         <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-red-700">{loadError}</div>
       )}
 
-      {/* VIRTUALIZED GRID */}
       {!loadError && (
-        <div ref={gridWrapRef}>
-          {/* scroll container */}
-          <div ref={parentRef} className="relative">
-            <div
-              className="relative w-full"
-              style={{ height: rowVirtualizer.getTotalSize() }}
-            >
-              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                const rowIndex = virtualRow.index;
-                const start = rowIndex * colCount;
-                const end = Math.min(start + colCount, filtered.length);
-                const rowItems = filtered.slice(start, end);
+        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filtered.map((p) => {
+            const isFavorited = favoriteIds.has(p.id);
+            const inStock = p.stockOnHand > 0;
 
-                return (
-                  <div
-                    key={virtualRow.key}
-                    className="absolute left-0 w-full"
-                    style={{
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                  >
-                    <section
-                      className="grid gap-6"
-                      style={{
-                        gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
-                      }}
-                    >
-                      {rowItems.map((p) => (
-                        <SparePartCard
-                          key={p.id}
-                          p={p}
-                          isFavorited={favoriteIds.has(p.id)}
-                          isFavoriteLoading={favoriteLoading.has(p.id)}
-                          onToggleFavorite={toggleFavorite}
-                          selectedModel={selectedModel}
-                          selectedModelLabel={selectedModelInfo?.label}
-                        />
-                      ))}
-
-                      {/* satır kısa kalırsa grid hizasını korumak için boşluk */}
-                      {end - start < colCount &&
-                        Array.from({ length: colCount - (end - start) }).map((_, i) => (
-                          <div key={`spacer-${rowIndex}-${i}`} />
-                        ))}
-                    </section>
+            return (
+              <div
+                key={p.id}
+                className="perf-card group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-orange-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-orange-400/50"
+              >
+                <Link href={`/spare-parts/${p.id}`} className="block">
+                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                    <Image
+                      src={p.imageUrl || '/images/1.jpg'}
+                      alt={p.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
+                      {p.category.name}
+                    </div>
+                    {p.isFeatured && (
+                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white dark:bg-orange-500/90 dark:text-slate-950">
+                        Vitrin
+                      </div>
+                    )}
+                    <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
+                      <span
+                        className={`rounded-full px-3 py-1 ${inStock ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'}`}
+                      >
+                        {inStock ? 'Stokta' : 'Siparisle'}
+                      </span>
+                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
+                        {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                      </span>
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+                </Link>
+
+                <div className="space-y-3 p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <Link href={`/spare-parts/${p.id}`} className="min-w-0">
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
+                        {p.name}
+                      </h3>
+                    </Link>
+                    <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                      {formatPriceTry(p.priceCents)}
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+
+                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
+                    <div>
+                      <span className="font-semibold text-slate-900 dark:text-white">Stok</span>
+                      <span className="ml-2">{p.stockOnHand}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
+                      <span className="ml-2">{p.dimensions || '-'}</span>
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-orange-700 dark:text-orange-300">
+                    {selectedModel === 'Tumu'
+                      ? 'Uyumluluk icin model sec'
+                      : `${selectedModelInfo?.label} ile uyumlu`}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <AddToCartButton
+                      id={p.id}
+                      name={p.name}
+                      priceCents={p.priceCents}
+                      imageUrl={p.imageUrl}
+                      className="flex-1 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(p.id)}
+                      disabled={favoriteLoading.has(p.id)}
+                      aria-pressed={isFavorited}
+                      aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
+                      className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
+                        isFavorited
+                          ? 'border-red-200 bg-red-50 text-red-600'
+                          : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                      } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-5 w-5"
+                        fill={isFavorited ? 'currentColor' : 'none'}
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </section>
       )}
 
       {!isLoading && !loadError && filtered.length === 0 && (
