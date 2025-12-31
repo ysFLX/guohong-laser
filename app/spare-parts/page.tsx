@@ -195,30 +195,50 @@ export default function SparePartsPage() {
 
   return (
     <div className="min-h-screen space-y-16">
-      <section className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.25),_transparent_55%)]" />
-        <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(120deg,rgba(148,163,184,0.18),transparent)]" />
-        <div className="relative space-y-4">
-          <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-            Yedek Parcalar
-          </p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Sarf ve kritik parcalar</h1>
-          <p className="max-w-2xl text-base text-white/70">
-            Fiber lazer makineleri icin kritik yedek parcayi hizli temin edin.
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-orange-500/30 transition hover:-translate-y-0.5 hover:bg-orange-300"
-            >
-              Fiyat teklifi al
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
-            >
-              Uyum danis
-            </Link>
+      <section className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-14 text-white shadow-2xl sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(251,146,60,0.22),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,_rgba(148,163,184,0.18),_transparent_55%)]" />
+        <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(120deg,rgba(148,163,184,0.16),transparent)]" />
+        <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="space-y-4">
+            <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+              Yedek Parcalar
+            </p>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Sarf ve kritik parcalar</h1>
+            <p className="max-w-2xl text-base text-white/70">
+              Fiber lazer makineleri icin kritik yedek parcayi hizli temin edin.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/quote"
+                className="inline-flex items-center justify-center rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-orange-500/30 transition hover:-translate-y-0.5 hover:bg-orange-300"
+              >
+                Fiyat teklifi al
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
+              >
+                Uyum danis
+              </Link>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              { title: 'Hizli teslim', detail: 'Stokta 2-3 gun, ozel sipariste 7-10 gun.' },
+              { title: 'Uyum kontrolu', detail: 'Model secerek sadece uyumlu parcalari gorun.' },
+              { title: 'Kurumsal destek', detail: 'Teknik ekipten dogrudan teyit ve destek.' },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80 backdrop-blur"
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300">
+                  {item.title}
+                </p>
+                <p className="mt-2 text-sm text-white/75">{item.detail}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -309,23 +329,23 @@ export default function SparePartsPage() {
       )}
 
       {!loadError && (
-        <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((p) => {
             const isFavorited = favoriteIds.has(p.id);
             const inStock = p.stockOnHand > 0;
             return (
               <div
                 key={p.id}
-                className="perf-card overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-orange-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-orange-400/50"
+                className="perf-card group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-orange-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-orange-400/50"
               >
                 <Link href={`/spare-parts/${p.id}`} className="block">
-                  <div className="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                     <Image
                       src={p.imageUrl || '/images/1.jpg'}
                       alt={p.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-                      className="object-cover"
+                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
                       loading="lazy"
                       unoptimized
                     />
@@ -351,7 +371,7 @@ export default function SparePartsPage() {
                 <div className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-2">
                     <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 hover:underline">
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
                         {p.name}
                       </h3>
                     </Link>
