@@ -46,6 +46,7 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -64,6 +65,10 @@ export default function OrdersPage() {
     };
 
     load();
+  }, []);
+
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   const hasOrders = orders.length > 0;
@@ -137,7 +142,9 @@ export default function OrdersPage() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>
-                    <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
+                    <div className="mt-1 text-xs text-slate-500">
+                      {mounted ? formatDate(order.createdAt) : '...'}
+                    </div>
                   </div>
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
                     {statusLabel[order.status as keyof typeof statusLabel] || order.status}
@@ -150,11 +157,11 @@ export default function OrdersPage() {
                       <div className="min-w-0">
                         <div className="font-semibold text-slate-900 line-clamp-1">{item.name}</div>
                         <div className="text-xs text-slate-500">
-                          {item.quantity} adet · {formatPriceTry(item.priceCents)}
+                          {item.quantity} adet · {mounted ? formatPriceTry(item.priceCents) : '...'}
                         </div>
                       </div>
                       <div className="text-sm font-semibold text-slate-900">
-                        {formatPriceTry(item.priceCents * item.quantity)}
+                        {mounted ? formatPriceTry(item.priceCents * item.quantity) : '...'}
                       </div>
                     </div>
                   ))}
@@ -162,7 +169,9 @@ export default function OrdersPage() {
 
                 <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
                   <span className="text-slate-600">Toplam</span>
-                  <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
+                  <span className="font-semibold text-slate-900">
+                    {mounted ? formatPriceTry(order.totalCents) : '...'}
+                  </span>
                 </div>
               </div>
             ))}
