@@ -115,7 +115,7 @@ const services = [
   },
   {
     title: 'Periyodik bakim',
-    description: 'Duruþlari azaltan bakim takvimiyle hat performansi korunur.',
+    description: 'Duruslari azaltan bakim takvimiyle hat performansi korunur.',
   },
   {
     title: 'Uzaktan izleme',
