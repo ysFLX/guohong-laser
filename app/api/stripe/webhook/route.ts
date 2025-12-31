@@ -82,7 +82,10 @@ export async function POST(req: Request) {
           item.price?.unit_amount ??
           (item.amount_total ? Math.round(item.amount_total / quantity) : 0);
         const product = typeof item.price?.product === 'object' ? item.price?.product : null;
-        const imageUrl = Array.isArray(product?.images) ? product?.images?.[0] : null;
+        const imageUrl =
+          product && 'images' in product && Array.isArray(product.images)
+            ? product.images[0] || null
+            : null;
         return {
           id: '',
           name: item.description || product?.name || 'Urun',
