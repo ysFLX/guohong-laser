@@ -6,6 +6,11 @@ const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 const BUCKET = 'spare-parts';
 
 type AnySupabaseClient = SupabaseClient;
+type StorageListItem = {
+  name: string;
+  id?: string | null;
+  metadata?: { size?: number | null } | null;
+};
 
 async function listAll(supabase: AnySupabaseClient, prefix = '') {
   const all: { name: string }[] = [];
@@ -25,8 +30,16 @@ async function listAll(supabase: AnySupabaseClient, prefix = '') {
     }
     if (!data?.length) break;
 
-    for (const item of data) {
-      if (item.name) all.push({ name: prefix ? `${prefix}/${item.name}` : item.name });
+    for (const item of data as StorageListItem[]) {
+      if (!item?.name) continue;
+      const path = prefix ? `${prefix}/${item.name}` : item.name;
+      const isFolder = !item.id && !item.metadata;
+      if (isFolder) {
+        const nested = await listAll(supabase, path);
+        if (nested.length) all.push(...nested);
+      } else {
+        all.push({ name: path });
+      }
     }
 
     if (data.length < limit) break;
