@@ -71,7 +71,7 @@ export default async function OrdersPage() {
 
   return (
     <div className="min-h-screen space-y-12">
-      <div className="rounded-[32px] bg-slate-950 px-6 py-10 text-white shadow-2xl sm:px-10">
+      <div className="rounded-32 bg-slate-950 px-6 py-10 text-white shadow-2xl sm:px-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 rounded-full bg-orange-400 text-slate-900 flex items-center justify-center font-semibold">
@@ -110,7 +110,7 @@ export default async function OrdersPage() {
           </div>
 
           {!hasOrders && (
-            <div className="mt-8 rounded-[24px] border border-dashed border-slate-200 bg-white/90 p-6">
+            <div className="mt-8 rounded-24 border border-dashed border-slate-200 bg-white/90 p-6">
               <div className="text-sm font-semibold text-slate-900">Henuz siparis yok</div>
               <p className="mt-2 text-sm text-slate-600">
                 Sepetine urun ekleyip siparisini tamamladiginda burada gorebilirsin.
@@ -135,7 +135,7 @@ export default async function OrdersPage() {
           {hasOrders && (
             <div className="mt-8 space-y-4">
               {orders.map((order) => (
-                <div key={order.id} className="rounded-[24px] border border-slate-200 bg-white/90 p-6">
+                <div key={order.id} className="rounded-24 border border-slate-200 bg-white/90 p-6">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>

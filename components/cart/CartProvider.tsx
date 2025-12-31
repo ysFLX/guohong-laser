@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 type CartItem = {
   id: string;
@@ -31,7 +32,7 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-const STORAGE_KEY = 'laser-market:cart:v1';
+const STORAGE_KEY_PREFIX = 'laser-market:cart';
 
 function clampQuantity(q: number) {
   if (!Number.isFinite(q)) return 1;
@@ -59,20 +60,29 @@ function safeParseCart(value: string | null): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const { data: session } = useSession();
+  const userId = session?.user?.id ?? null;
+  const storageKey = useMemo(
+    () => `${STORAGE_KEY_PREFIX}:${userId ?? 'guest'}`,
+    [userId],
+  );
   const [state, setState] = useState<CartState>({ items: [], isOpen: false });
   const [hydrated, setHydrated] = useState(false);
+  const [activeKey, setActiveKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const items = safeParseCart(window.localStorage.getItem(STORAGE_KEY));
-    setState((s) => ({ ...s, items }));
+    const items = safeParseCart(window.localStorage.getItem(storageKey));
+    setState({ items, isOpen: false });
+    setActiveKey(storageKey);
     setHydrated(true);
-  }, []);
+  }, [storageKey]);
 
   useEffect(() => {
     if (!hydrated || typeof window === 'undefined') return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
-  }, [state.items, hydrated]);
+    if (activeKey !== storageKey) return;
+    window.localStorage.setItem(storageKey, JSON.stringify(state.items));
+  }, [state.items, hydrated, storageKey, activeKey]);
 
   const openCart = useCallback(() => setState((s) => ({ ...s, isOpen: true })), []);
   const closeCart = useCallback(() => setState((s) => ({ ...s, isOpen: false })), []);
