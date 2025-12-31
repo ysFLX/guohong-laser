@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ProfileLayout from '@/components/profile/ProfileLayout';
 
@@ -71,43 +71,15 @@ export default function OrdersPage() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return (
-      <ProfileLayout showSide={false}>
-        <div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <Link href="/profile" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
-                Hesap yonetimine don
-              </Link>
-              <h1 className="mt-3 text-2xl font-semibold text-slate-900">Siparislerim</h1>
-              <p className="mt-1 text-sm text-slate-600">Tum siparislerin burada listelenir.</p>
-            </div>
-            <Link href="/spare-parts" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
-              Yeni urun kesfet
-            </Link>
-          </div>
-
-          <div className="mt-8 rounded-[24px] border border-slate-200 bg-white/90 p-6 text-sm text-slate-600">
-            Yukleniyor...
-          </div>
-        </div>
-      </ProfileLayout>
-    );
-  }
-
   const hasOrders = orders.length > 0;
   const emptyState = !isLoading && !error && !hasOrders;
 
-  const statusLabel = useMemo(
-    () => ({
-      PAID: 'Odeme alindi',
-      PENDING: 'Beklemede',
-      FAILED: 'Basarisiz',
-      CANCELED: 'Iptal',
-    }),
-    [],
-  );
+  const statusLabel: Record<string, string> = {
+    PAID: 'Odeme alindi',
+    PENDING: 'Beklemede',
+    FAILED: 'Basarisiz',
+    CANCELED: 'Iptal',
+  };
 
   return (
     <ProfileLayout showSide={false}>
@@ -125,7 +97,7 @@ export default function OrdersPage() {
           </Link>
         </div>
 
-        {isLoading && (
+        {(isLoading || !mounted) && (
           <div className="mt-8 rounded-[24px] border border-slate-200 bg-white/90 p-6 text-sm text-slate-600">
             Yukleniyor...
           </div>
@@ -167,7 +139,9 @@ export default function OrdersPage() {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>
-                    <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
+                    <div className="mt-1 text-xs text-slate-500" suppressHydrationWarning>
+                      {mounted ? formatDate(order.createdAt) : '...'}
+                    </div>
                   </div>
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
                     {statusLabel[order.status as keyof typeof statusLabel] || order.status}
@@ -179,12 +153,12 @@ export default function OrdersPage() {
                     <div key={item.id} className="flex items-center justify-between text-sm text-slate-700">
                       <div className="min-w-0">
                         <div className="font-semibold text-slate-900 line-clamp-1">{item.name}</div>
-                        <div className="text-xs text-slate-500">
-                          {item.quantity} adet · {formatPriceTry(item.priceCents)}
+                        <div className="text-xs text-slate-500" suppressHydrationWarning>
+                          {item.quantity} adet - {mounted ? formatPriceTry(item.priceCents) : '...'}
                         </div>
                       </div>
-                      <div className="text-sm font-semibold text-slate-900">
-                        {formatPriceTry(item.priceCents * item.quantity)}
+                      <div className="text-sm font-semibold text-slate-900" suppressHydrationWarning>
+                        {mounted ? formatPriceTry(item.priceCents * item.quantity) : '...'}
                       </div>
                     </div>
                   ))}
@@ -192,7 +166,9 @@ export default function OrdersPage() {
 
                 <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
                   <span className="text-slate-600">Toplam</span>
-                  <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
+                  <span className="font-semibold text-slate-900" suppressHydrationWarning>
+                    {mounted ? formatPriceTry(order.totalCents) : '...'}
+                  </span>
                 </div>
               </div>
             ))}
