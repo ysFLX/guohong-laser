@@ -5,20 +5,16 @@ import { getStripe } from '@/lib/stripe';
 
 export const runtime = 'nodejs';
 
-type OrderItemInput = {
-  id: string;
-  name: string;
-  priceCents: number;
-  quantity: number;
-  imageUrl?: string | null;
-};
-
 type OrderCreateResult = { id: string };
+type UserLookupResult = { id: string };
 
 const prismaOrders = prisma as unknown as {
   order: {
     findUnique: (args: unknown) => Promise<OrderCreateResult | null>;
     create: (args: unknown) => Promise<OrderCreateResult>;
+  };
+  user: {
+    findUnique: (args: unknown) => Promise<UserLookupResult | null>;
   };
 };
 
@@ -48,6 +44,9 @@ export async function POST(req: Request) {
       currency?: string | null;
       payment_intent?: string | null;
       metadata?: Record<string, string> | null;
+      client_reference_id?: string | null;
+      customer_email?: string | null;
+      customer_details?: { email?: string | null } | null;
     };
 
     const existing = await prismaOrders.order.findUnique({
@@ -56,19 +55,61 @@ export async function POST(req: Request) {
     });
 
     if (!existing) {
+      const stripe = getStripe();
       const cartRaw = session.metadata?.cart || '[]';
-      let items: OrderItemInput[] = [];
+      let cartItems: Array<{
+        id: string;
+        name: string;
+        priceCents: number;
+        quantity: number;
+        imageUrl?: string | null;
+      }> = [];
+
       try {
-        items = JSON.parse(cartRaw) as OrderItemInput[];
+        cartItems = JSON.parse(cartRaw) as typeof cartItems;
       } catch {
-        items = [];
+        cartItems = [];
       }
 
-      const total = typeof session.amount_total === 'number'
-        ? session.amount_total
-        : items.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+      const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+        expand: ['line_items.data.price.product'],
+      });
 
-      const userId = session.metadata?.userId;
+      const lineItems = fullSession.line_items?.data ?? [];
+      const fallbackItems = lineItems.map((item) => {
+        const quantity = item.quantity ?? 1;
+        const unitAmount =
+          item.price?.unit_amount ??
+          (item.amount_total ? Math.round(item.amount_total / quantity) : 0);
+        const product = typeof item.price?.product === 'object' ? item.price?.product : null;
+        const imageUrl = Array.isArray(product?.images) ? product?.images?.[0] : null;
+        return {
+          id: '',
+          name: item.description || product?.name || 'Urun',
+          priceCents: unitAmount,
+          quantity,
+          imageUrl,
+        };
+      });
+
+      const itemsToCreate = cartItems.length > 0 ? cartItems : fallbackItems;
+      const total =
+        typeof session.amount_total === 'number'
+          ? session.amount_total
+          : itemsToCreate.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+
+      let userId = session.metadata?.userId || session.client_reference_id || '';
+      if (!userId) {
+        const email = session.customer_details?.email || session.customer_email || '';
+        if (email) {
+          const user = await prismaOrders.user.findUnique({
+            where: { email },
+            select: { id: true },
+          });
+          if (user?.id) userId = user.id;
+        }
+      }
+
       if (!userId) {
         return NextResponse.json({ received: true });
       }
@@ -82,7 +123,7 @@ export async function POST(req: Request) {
           stripeSessionId: session.id,
           stripePaymentIntentId: session.payment_intent || null,
           items: {
-            create: items.map((item) => ({
+            create: itemsToCreate.map((item) => ({
               sparePartId: item.id || null,
               name: item.name,
               imageUrl: item.imageUrl || null,
