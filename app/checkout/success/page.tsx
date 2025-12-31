@@ -7,6 +7,8 @@ import { useSession } from 'next-auth/react';
 
 import { useCart } from '@/components/cart/CartProvider';
 
+export const dynamic = 'force-dynamic';
+
 export default function CheckoutSuccessPage() {
   const { clear } = useCart();
   const searchParams = useSearchParams();
