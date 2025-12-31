@@ -47,51 +47,6 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-// requestIdleCallback and related types are provided by the TypeScript DOM lib (lib.dom.d.ts),
-// so custom redeclarations were removed to avoid conflicting declarations.
-
-/**
- * Preload all images once so scrolling doesn't trigger new network fetches.
- * Uses limited concurrency and runs during idle time to avoid jank.
- */
-async function preloadImages(urls: string[], concurrency = 6) {
-  if (typeof window === 'undefined') return;
-  if (!urls.length) return;
-
-  let i = 0;
-  let active = 0;
-
-  return new Promise<void>((resolve) => {
-    const next = () => {
-      if (i >= urls.length && active === 0) {
-        resolve();
-        return;
-      }
-
-      while (active < concurrency && i < urls.length) {
-        const url = urls[i++];
-        active++;
-
-        const img = new window.Image();
-        img.decoding = 'async';
-        // eager = browser tries to fetch immediately (but we already schedule this in idle time)
-        img.loading = 'eager';
-        img.src = url;
-
-        const done = () => {
-          active--;
-          next();
-        };
-
-        img.onload = done;
-        img.onerror = done;
-      }
-    };
-
-    next();
-  });
-}
-
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
@@ -161,31 +116,6 @@ export default function SparePartsPage() {
 
     loadFavorites();
   }, [status]);
-
-  // Preload images ONCE after items arrive
-  useEffect(() => {
-    if (!items.length) return;
-
-    // Unique urls only
-    const urls = Array.from(
-      new Set(
-        items
-          .map((x) => x.imageUrl || '/images/1.jpg')
-          .filter((u): u is string => typeof u === 'string' && u.length > 0),
-      ),
-    );
-
-    const run = () => {
-      preloadImages(urls, 6).catch(() => {});
-    };
-
-    // idle scheduling to avoid blocking scroll/paint (no any)
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => run(), { timeout: 1500 });
-    } else {
-      setTimeout(run, 250);
-    }
-  }, [items]);
 
   const toggleFavorite = async (sparePartId: string) => {
     if (status !== 'authenticated') {
@@ -424,6 +354,7 @@ export default function SparePartsPage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition duration-500 group-hover:scale-[1.03]"
                       loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
                       {p.category.name}
@@ -548,7 +479,14 @@ export default function SparePartsPage() {
                 className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
-                  <Image src={item.imageUrl || '/images/1.jpg'} alt={item.name} fill className="object-cover" />
+                  <Image
+                    src={item.imageUrl || '/images/1.jpg'}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
