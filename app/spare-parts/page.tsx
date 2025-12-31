@@ -195,9 +195,9 @@ export default function SparePartsPage() {
 
   return (
     <div className="min-h-screen space-y-16">
-      <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
+      <section className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.25),_transparent_55%)]" />
+        <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(120deg,rgba(148,163,184,0.18),transparent)]" />
         <div className="relative space-y-4">
           <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
             Yedek Parcalar
@@ -223,7 +223,7 @@ export default function SparePartsPage() {
         </div>
       </section>
 
-      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full lg:w-1/3">
             <label htmlFor="spSearch" className="sr-only">
@@ -244,7 +244,7 @@ export default function SparePartsPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-orange-400 dark:focus:ring-orange-500/30"
                 placeholder="Parca adi, aciklama veya uyumluluk ara..."
               />
             </div>
@@ -259,7 +259,7 @@ export default function SparePartsPage() {
                 className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
                   selectedCategory === c
                     ? 'bg-orange-500 text-slate-900'
-                    : 'bg-white text-slate-600 hover:bg-slate-100'
+                    : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
                 }`}
               >
                 {c}
@@ -270,14 +270,14 @@ export default function SparePartsPage() {
 
         <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr]">
           <div>
-            <label htmlFor="modelSelect" className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            <label htmlFor="modelSelect" className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
               Uyumluluk kontrolu
             </label>
             <select
               id="modelSelect"
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+              className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-orange-400 dark:focus:ring-orange-500/30"
             >
               {machineModels.map((model) => (
                 <option key={model.id} value={model.id}>
@@ -286,8 +286,8 @@ export default function SparePartsPage() {
               ))}
             </select>
           </div>
-          <div className="rounded-2xl border border-orange-100 bg-orange-50/70 px-4 py-4 text-sm text-orange-900">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">
+          <div className="rounded-2xl border border-orange-100 bg-orange-50/70 px-4 py-4 text-sm text-orange-900 dark:border-orange-400/40 dark:bg-slate-900/70 dark:text-orange-200">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300">
               Uyum sonucu
             </p>
             <p className="mt-2">
@@ -298,7 +298,7 @@ export default function SparePartsPage() {
           </div>
         </div>
 
-        <div className="mt-4 text-sm text-slate-500">
+        <div className="mt-4 text-sm text-slate-500 dark:text-slate-300">
           {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
         </div>
         {favoriteError && <div className="mt-3 text-sm text-red-600">{favoriteError}</div>}
@@ -316,10 +316,10 @@ export default function SparePartsPage() {
             return (
               <div
                 key={p.id}
-                className="perf-card overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+                className="perf-card overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-orange-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-orange-400/50"
               >
                 <Link href={`/spare-parts/${p.id}`} className="block">
-                  <div className="relative h-44 w-full overflow-hidden bg-white">
+                  <div className="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                     <Image
                       src={p.imageUrl || '/images/1.jpg'}
                       alt={p.name}
@@ -329,11 +329,11 @@ export default function SparePartsPage() {
                       loading="lazy"
                       unoptimized
                     />
-                    <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900">
+                    <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
                       {p.category.name}
                     </div>
                     {p.isFeatured && (
-                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white">
+                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white dark:bg-orange-500/90 dark:text-slate-950">
                         Vitrin
                       </div>
                     )}
@@ -341,7 +341,7 @@ export default function SparePartsPage() {
                       <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'}`}>
                         {inStock ? 'Stokta' : 'Siparisle'}
                       </span>
-                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700">
+                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
                         {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
                       </span>
                     </div>
@@ -372,7 +372,7 @@ export default function SparePartsPage() {
                     </div>
                   </div>
 
-                  <div className="text-xs text-orange-700">
+                  <div className="text-xs text-orange-700 dark:text-orange-300">
                     {selectedModel === 'Tumu'
                       ? 'Uyumluluk icin model sec'
                       : `${selectedModelInfo?.label} ile uyumlu`}
@@ -395,7 +395,7 @@ export default function SparePartsPage() {
                       className={`h-10 w-10 rounded-full border transition-colors ${
                         isFavorited
                           ? 'border-red-200 bg-red-50 text-red-600'
-                          : 'border-slate-200 bg-white text-slate-500 hover:text-red-600'
+                          : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
                       } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
                     >
                       <svg
@@ -417,14 +417,16 @@ export default function SparePartsPage() {
       )}
 
       {!isLoading && !loadError && filtered.length === 0 && (
-        <div className="text-center py-14 text-slate-600">Sonuc bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.</div>
+        <div className="text-center py-14 text-slate-600 dark:text-slate-300">
+          Sonuc bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.
+        </div>
       )}
 
       {crossSell.length > 0 && (
-        <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">
+              <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300">
                 Satin alanlar bunlari da aldi
               </p>
               <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
@@ -433,7 +435,7 @@ export default function SparePartsPage() {
             </div>
             <Link
               href="/spare-parts"
-              className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+              className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
             >
               Tum yedek parcalar
             </Link>
@@ -443,16 +445,16 @@ export default function SparePartsPage() {
               <Link
                 key={item.id}
                 href={`/spare-parts/${item.id}`}
-                className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:shadow-lg"
+                className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
                   <Image src={item.imageUrl || '/images/1.jpg'} alt={item.name} fill className="object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-slate-900 line-clamp-1">{item.name}</p>
-                  <p className="mt-1 text-xs text-slate-500">{formatPriceTry(item.priceCents)}</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{formatPriceTry(item.priceCents)}</p>
                 </div>
-                <span className="ml-auto text-orange-600 transition group-hover:translate-x-1">-&gt;</span>
+                <span className="ml-auto text-orange-600 dark:text-orange-300">-&gt;</span>
               </Link>
             ))}
           </div>
