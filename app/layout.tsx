@@ -34,13 +34,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900">
+    <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/images/logokoyu.png" />
         <link rel="apple-touch-icon" href="/images/logokoyu.png" />
         <link rel="shortcut icon" href="/images/logokoyu.png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`} suppressHydrationWarning>
         <Providers>
           <Header />
           <main className="flex-grow">
