@@ -117,7 +117,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clear = useCallback(() => {
     setState((s) => ({ ...s, items: [] }));
-  }, []);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(storageKey, JSON.stringify([]));
+    }
+  }, [storageKey]);
 
   const itemCount = useMemo(() => state.items.reduce((sum, x) => sum + x.quantity, 0), [state.items]);
   const subtotalCents = useMemo(() => state.items.reduce((sum, x) => sum + x.quantity * x.priceCents, 0), [state.items]);

@@ -2,15 +2,26 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import { useCart } from '@/components/cart/CartProvider';
 
 export default function CheckoutSuccessPage() {
   const { clear } = useCart();
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get('session_id');
+  const { status } = useSession();
 
   useEffect(() => {
+    if (status === 'loading') return;
     clear();
-  }, [clear]);
+  }, [status, clear]);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    fetch(`/api/orders/sync?session_id=${encodeURIComponent(sessionId)}`, { method: 'POST' }).catch(() => {});
+  }, [sessionId]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
