@@ -19,7 +19,10 @@ async function listAll(supabase: AnySupabaseClient, prefix = '') {
       sortBy: { column: 'name', order: 'asc' },
     });
 
-    if (error) throw error;
+    if (error) {
+      console.log('List hata:', prefix || '(root)', JSON.stringify(error));
+      throw error;
+    }
     if (!data?.length) break;
 
     for (const item of data) {
@@ -64,7 +67,7 @@ async function main() {
       // indir
       const { data: file, error: dlErr } = await supabase.storage.from(BUCKET).download(path);
       if (dlErr) {
-        console.log('Download hata:', path, dlErr.message);
+        console.log('Download hata:', path, JSON.stringify(dlErr));
         continue;
       }
 
@@ -76,7 +79,7 @@ async function main() {
       });
 
       if (upErr) {
-        console.log('Upload hata:', path, upErr.message);
+        console.log('Upload hata:', path, JSON.stringify(upErr));
         continue;
       }
 
