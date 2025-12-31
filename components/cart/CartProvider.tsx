@@ -59,15 +59,20 @@ function safeParseCart(value: string | null): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<CartState>(() => {
-    if (typeof window === 'undefined') return { items: [], isOpen: false };
-    const items = safeParseCart(window.localStorage.getItem(STORAGE_KEY));
-    return { items, isOpen: false };
-  });
+  const [state, setState] = useState<CartState>({ items: [], isOpen: false });
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const items = safeParseCart(window.localStorage.getItem(STORAGE_KEY));
+    setState((s) => ({ ...s, items }));
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated || typeof window === 'undefined') return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items));
-  }, [state.items]);
+  }, [state.items, hydrated]);
 
   const openCart = useCallback(() => setState((s) => ({ ...s, isOpen: true })), []);
   const closeCart = useCallback(() => setState((s) => ({ ...s, isOpen: false })), []);
