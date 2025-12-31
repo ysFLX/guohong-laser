@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { useCart } from '@/components/cart/CartProvider';
 
@@ -18,7 +20,48 @@ function formatPriceTry(priceCents: number) {
 }
 
 export default function CartPage() {
+  const router = useRouter();
   const { items, subtotalCents, removeItem, setQuantity, clear } = useCart();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+
+  const handleCheckout = async () => {
+    if (!items.length || isCheckingOut) return;
+    setIsCheckingOut(true);
+    setCheckoutError('');
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map((x) => ({
+            id: x.id,
+            name: x.name,
+            priceCents: x.priceCents,
+            quantity: x.quantity,
+            imageUrl: x.imageUrl,
+          })),
+        }),
+      });
+
+      if (res.status === 401) {
+        router.push('/login');
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.url) {
+        throw new Error(data?.error || 'Odeme baslatilamadi');
+      }
+
+      window.location.href = data.url as string;
+    } catch (err: unknown) {
+      setCheckoutError(err instanceof Error ? err.message : 'Odeme baslatilamadi');
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -130,19 +173,17 @@ export default function CartPage() {
               <div className="mt-6">
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700"
-                  onClick={() => {
-                    // Checkout sonraki adim
-                    window.alert('Odeme akisina sonraki adimda baslayacagiz.');
-                  }}
+                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-70"
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut}
                 >
-                  Satin Almaya Devam Et
+                  {isCheckingOut ? 'Yonlendiriliyor...' : 'Satin Almaya Devam Et'}
                 </button>
               </div>
 
-              <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                Bu ekran MVP. Odeme, siparis ve stok dusumu sonraki adim.
-              </div>
+              {checkoutError && (
+                <div className="mt-3 text-xs text-red-600">{checkoutError}</div>
+              )}
             </div>
           </div>
         )}
