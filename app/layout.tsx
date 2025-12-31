@@ -46,8 +46,8 @@ export default function RootLayout({
           <main className="flex-grow">
             <PageShell>{children}</PageShell>
           </main>
-          <Footer />
         </Providers>
+        <Footer />
         <SpeedInsights />
       </body>
     </html>
