@@ -1,3 +1,4 @@
+import { createClient } from '@supabase/supabase-js';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -46,11 +47,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
   }
 
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    process.env.SUPABASE_URL ||
-    '';
-
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
   if (!supabaseUrl || !serviceRoleKey) {
@@ -66,39 +63,28 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const file = form.get('file');
 
   if (!(file instanceof File)) {
-    return NextResponse.json({ error: 'file alanı gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'file alani gerekli' }, { status: 400 });
   }
 
   if (!file.type.startsWith('image/')) {
-    return NextResponse.json({ error: 'Sadece resim dosyası yüklenebilir' }, { status: 400 });
+    return NextResponse.json({ error: 'Sadece resim dosyasi yuklenebilir' }, { status: 400 });
   }
 
   const ext = safeFileExt(file);
   const objectPath = `${id}/${Date.now()}.${ext}`;
 
-  const bytes = new Uint8Array(await file.arrayBuffer());
-
-  const uploadUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/${BUCKET}/${objectPath}`;
-  const uploadRes = await fetch(uploadUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${serviceRoleKey}`,
-      apikey: serviceRoleKey,
-      'Content-Type': file.type,
-      'x-upsert': 'true',
-    },
-    body: bytes,
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  const { error: uploadError } = await supabase.storage.from(BUCKET).upload(objectPath, file, {
+    upsert: true,
+    contentType: file.type,
+    cacheControl: '31536000',
   });
 
-  if (!uploadRes.ok) {
-    const txt = await uploadRes.text().catch(() => '');
-    return NextResponse.json(
-      { error: `Upload başarısız: ${uploadRes.status} ${txt || '(boş yanıt)'}` },
-      { status: 500 },
-    );
+  if (uploadError) {
+    return NextResponse.json({ error: `Upload basarisiz: ${uploadError.message}` }, { status: 500 });
   }
 
-  const publicUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/public/${BUCKET}/${objectPath}`;
+  const publicUrl = supabase.storage.from(BUCKET).getPublicUrl(objectPath).data.publicUrl;
 
   const created = await prismaSpareParts.sparePartImage.create({
     data: {
