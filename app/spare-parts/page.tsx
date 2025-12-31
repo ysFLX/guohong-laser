@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -47,13 +47,61 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
+// requestIdleCallback and related types are provided by the TypeScript DOM lib (lib.dom.d.ts),
+// so custom redeclarations were removed to avoid conflicting declarations.
+
+/**
+ * Preload all images once so scrolling doesn't trigger new network fetches.
+ * Uses limited concurrency and runs during idle time to avoid jank.
+ */
+async function preloadImages(urls: string[], concurrency = 6) {
+  if (typeof window === 'undefined') return;
+  if (!urls.length) return;
+
+  let i = 0;
+  let active = 0;
+
+  return new Promise<void>((resolve) => {
+    const next = () => {
+      if (i >= urls.length && active === 0) {
+        resolve();
+        return;
+      }
+
+      while (active < concurrency && i < urls.length) {
+        const url = urls[i++];
+        active++;
+
+        const img = new window.Image();
+        img.decoding = 'async';
+        // eager = browser tries to fetch immediately (but we already schedule this in idle time)
+        img.loading = 'eager';
+        img.src = url;
+
+        const done = () => {
+          active--;
+          next();
+        };
+
+        img.onload = done;
+        img.onerror = done;
+      }
+    };
+
+    next();
+  });
+}
+
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
 
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
   const [selectedModel, setSelectedModel] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(24);
 
   const [items, setItems] = useState<SparePart[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -182,6 +230,59 @@ export default function SparePartsPage() {
       return matchesCategory && matchesModel && matchesSearch;
     });
   }, [items, selectedCategory, selectedModel, searchQuery]);
+
+  const visibleItems = useMemo(
+    () => filtered.slice(0, Math.min(visibleCount, filtered.length)),
+    [filtered, visibleCount],
+  );
+
+  useEffect(() => {
+    setVisibleCount(24);
+  }, [selectedCategory, selectedModel, searchQuery]);
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting) return;
+        setVisibleCount((prev) => {
+          if (prev >= filtered.length) return prev;
+          return Math.min(prev + 24, filtered.length);
+        });
+      },
+      { rootMargin: '200px' },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [filtered.length]);
+
+  // Preload only the currently visible images to avoid overwhelming the main thread.
+  useEffect(() => {
+    if (!visibleItems.length) return;
+
+    // Unique urls only
+    const urls = Array.from(
+      new Set(
+        visibleItems
+          .map((x) => x.imageUrl || '/images/1.jpg')
+          .filter((u): u is string => typeof u === 'string' && u.length > 0),
+      ),
+    );
+
+    const run = () => {
+      preloadImages(urls, 6).catch(() => {});
+    };
+
+    // idle scheduling to avoid blocking scroll/paint (no any)
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => run(), { timeout: 1500 });
+    } else {
+      setTimeout(run, 250);
+    }
+  }, [visibleItems]);
 
   const selectedModelInfo = useMemo(
     () => machineModels.find((model) => model.id === selectedModel),
@@ -336,7 +437,7 @@ export default function SparePartsPage() {
 
       {!loadError && (
         <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((p) => {
+          {visibleItems.map((p) => {
             const isFavorited = favoriteIds.has(p.id);
             const inStock = p.stockOnHand > 0;
 
@@ -354,7 +455,6 @@ export default function SparePartsPage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition duration-500 group-hover:scale-[1.03]"
                       loading="lazy"
-                      decoding="async"
                     />
                     <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
                       {p.category.name}
@@ -453,6 +553,10 @@ export default function SparePartsPage() {
         </div>
       )}
 
+      {!isLoading && !loadError && filtered.length > 0 && (
+        <div ref={loadMoreRef} aria-hidden className="h-1" />
+      )}
+
       {crossSell.length > 0 && (
         <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -479,14 +583,7 @@ export default function SparePartsPage() {
                 className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
-                  <Image
-                    src={item.imageUrl || '/images/1.jpg'}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <Image src={item.imageUrl || '/images/1.jpg'} alt={item.name} fill className="object-cover" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
