@@ -47,6 +47,9 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
+// requestIdleCallback and related types are provided by the TypeScript DOM lib (lib.dom.d.ts),
+// so custom redeclarations were removed to avoid conflicting declarations.
+
 /**
  * Preload all images once so scrolling doesn't trigger new network fetches.
  * Uses limited concurrency and runs during idle time to avoid jank.
@@ -176,9 +179,9 @@ export default function SparePartsPage() {
       preloadImages(urls, 6).catch(() => {});
     };
 
-    // idle scheduling to avoid blocking scroll/paint
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(run, { timeout: 1500 });
+    // idle scheduling to avoid blocking scroll/paint (no any)
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => run(), { timeout: 1500 });
     } else {
       setTimeout(run, 250);
     }
@@ -264,10 +267,10 @@ export default function SparePartsPage() {
 
   return (
     <div className="min-h-screen space-y-16">
-      <section className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-14 text-white shadow-2xl sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(251,146,60,0.22),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,_rgba(148,163,184,0.18),_transparent_55%)]" />
-        <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(120deg,rgba(148,163,184,0.16),transparent)]" />
+      <section className="relative overflow-hidden rounded-[40px] bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-14 text-white shadow-2xl sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(251,146,60,0.22),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(148,163,184,0.18),transparent_55%)]" />
+        <div className="absolute inset-0 opacity-60 bg-[linear-gradient(120deg,rgba(148,163,184,0.16),transparent)]" />
         <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-4">
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
@@ -292,6 +295,7 @@ export default function SparePartsPage() {
               </Link>
             </div>
           </div>
+
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             {[
               { title: 'Hizli teslim', detail: 'Stokta 2-3 gun, ozel sipariste 7-10 gun.' },
@@ -431,7 +435,9 @@ export default function SparePartsPage() {
                     )}
                     <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
                       <span
-                        className={`rounded-full px-3 py-1 ${inStock ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'}`}
+                        className={`rounded-full px-3 py-1 ${
+                          inStock ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'
+                        }`}
                       >
                         {inStock ? 'Stokta' : 'Siparisle'}
                       </span>
