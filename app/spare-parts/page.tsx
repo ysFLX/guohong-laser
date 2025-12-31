@@ -47,6 +47,30 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+
+function getImageUrl(url: string | null, width = 800, height = 520) {
+  if (!url) return '/images/1.jpg';
+  if (!SUPABASE_URL) return url;
+
+  const base = SUPABASE_URL.replace(/\/$/, '');
+  const publicPrefix = `${base}/storage/v1/object/public/`;
+  const renderPrefix = `${base}/storage/v1/render/image/public/`;
+
+  if (!url.startsWith(publicPrefix)) return url;
+
+  const path = url.slice(publicPrefix.length);
+  const params = new URLSearchParams({
+    width: String(width),
+    height: String(height),
+    quality: '80',
+    format: 'webp',
+    resize: 'cover',
+  });
+
+  return `${renderPrefix}${path}?${params.toString()}`;
+}
+
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
@@ -378,7 +402,7 @@ export default function SparePartsPage() {
                 <Link href={`/spare-parts/${p.id}`} className="block">
                   <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                     <Image
-                      src={p.imageUrl || '/images/1.jpg'}
+                      src={getImageUrl(p.imageUrl)}
                       alt={p.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -513,7 +537,14 @@ export default function SparePartsPage() {
                 className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
-                  <Image src={item.imageUrl || '/images/1.jpg'} alt={item.name} fill className="object-cover" />
+                  <Image
+                    src={getImageUrl(item.imageUrl, 160, 160)}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
