@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
-import { stripe } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 
 type CheckoutItem = {
   id: string;
@@ -46,6 +46,7 @@ export async function POST(req: Request) {
     process.env.NEXT_PUBLIC_SITE_URL ||
     'http://localhost:3000';
 
+  const stripe = getStripe();
   const sessionData = await stripe.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
