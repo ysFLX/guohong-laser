@@ -1,11 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
+﻿import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import 'dotenv/config';
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 const BUCKET = 'spare-parts';
 
-async function listAll(supabase: ReturnType<typeof createClient>, prefix = '') {
+type AnySupabaseClient = SupabaseClient<any, any, any, any, any>;
+
+async function listAll(supabase: AnySupabaseClient, prefix = '') {
   const all: { name: string }[] = [];
   let offset = 0;
   const limit = 1000;
@@ -38,7 +40,7 @@ async function main() {
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE);
 
-  // root'taki dosyaları listele
+  // root'taki dosyalari listele
   const items = await listAll(supabase, '');
 
   if (!items.length) {
@@ -56,7 +58,7 @@ async function main() {
       const current = items[idx++];
       const path = current.name;
 
-      // klasör gelirse atla (bazı listelerde "folders" name ile döner)
+      // klasor gelirse atla (bazi listelerde "folders" name ile doner)
       if (!path || path.endsWith('/')) continue;
 
       // indir
@@ -69,7 +71,7 @@ async function main() {
       // tekrar upload (upsert) + cacheControl
       const { error: upErr } = await supabase.storage.from(BUCKET).upload(path, file, {
         upsert: true,
-        cacheControl: '31536000', // 1 yıl
+        cacheControl: '31536000', // 1 yil
         contentType: file.type || undefined,
       });
 
@@ -84,7 +86,7 @@ async function main() {
 
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
 
-  console.log('Bitti ✅');
+  console.log('Bitti.');
 }
 
 main().catch((e) => {
