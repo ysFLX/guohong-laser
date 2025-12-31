@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -14,6 +14,18 @@ export default function ProfileLayout({
   showSide?: boolean;
 }) {
   const { data: session } = useSession();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const initial = mounted
+    ? (session?.user?.name?.[0] || session?.user?.email?.[0] || 'U').toUpperCase()
+    : 'U';
+  const emailLine = mounted
+    ? `${session?.user?.email ?? ''}${session?.user?.role === 'ADMIN' ? ' - Admin' : ''}`
+    : '';
 
   return (
     <div className="min-h-screen space-y-12">
@@ -21,13 +33,12 @@ export default function ProfileLayout({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 rounded-full bg-orange-400 text-slate-900 flex items-center justify-center font-semibold">
-              {(session?.user?.name?.[0] || (session?.user?.email ?? 'U')[0]).toUpperCase()}
+              {initial}
             </div>
             <div>
               <h1 className="text-2xl font-semibold">Hesabim</h1>
-              <div className="mt-1 text-sm text-white/70">
-                {session?.user?.email ?? ''}
-                {session?.user?.role === 'ADMIN' ? ' - Admin' : ''}
+              <div className="mt-1 text-sm text-white/70" suppressHydrationWarning>
+                {emailLine}
               </div>
             </div>
           </div>
