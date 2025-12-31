@@ -1,6 +1,3 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
 import React from 'react';
 
 type PageShellProps = {
@@ -8,12 +5,6 @@ type PageShellProps = {
 };
 
 export default function PageShell({ children }: PageShellProps) {
-  const pathname = usePathname();
-
-  if (pathname.startsWith('/admin')) {
-    return <div className="relative z-0">{children}</div>;
-  }
-
   return (
     <div className="relative z-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
