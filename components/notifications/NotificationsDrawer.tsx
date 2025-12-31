@@ -110,8 +110,8 @@ export default function NotificationsDrawer() {
                   <div className="min-w-0">
                     <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">
                       {x.type === 'QUOTE' ? 'Fiyat Teklifi' : 'Iletisim'}
-                      {x.product ? ` · ${x.product}` : ''}
-                      {x.subject ? ` · ${x.subject}` : ''}
+                      {x.product ? ` - ${x.product}` : ''}
+                      {x.subject ? ` - ${x.subject}` : ''}
                     </div>
 
                     {isAdmin ? (
@@ -120,7 +120,7 @@ export default function NotificationsDrawer() {
                           {x.name || 'Isimsiz'}
                         </div>
                         <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">
-                          {x.email || ''}{x.phone ? ` · ${x.phone}` : ''}
+                          {x.email || ''}{x.phone ? ` - ${x.phone}` : ''}
                         </div>
                         {x.company && (
                           <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">Firma: {x.company}</div>
