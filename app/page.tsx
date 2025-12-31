@@ -198,16 +198,16 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="grid gap-4 rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5 md:grid-cols-3">
+      <Reveal as="section" className="grid gap-4 rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60 md:grid-cols-3">
         {commerceTiles.map((tile) => (
           <Link
             key={tile.title}
             href={tile.href}
-            className="group rounded-[24px] border border-slate-200/70 bg-white/80 px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl"
+            className="group rounded-[24px] border border-slate-200/70 bg-white/80 px-5 py-5 transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:bg-slate-900"
           >
-            <h3 className="text-lg font-semibold text-slate-900">{tile.title}</h3>
-            <p className="mt-2 text-sm text-slate-600">{tile.description}</p>
-            <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{tile.title}</h3>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{tile.description}</p>
+            <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-300">
               Incele
               <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
             </span>
@@ -216,48 +216,48 @@ export default function Home() {
       </Reveal>
 
       <Reveal as="section" className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Urun spotlight</p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-900">{spotlight.title}</h2>
-          <p className="mt-3 text-sm text-slate-600">{spotlight.description}</p>
+        <div className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60">
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300">Urun spotlight</p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">{spotlight.title}</h2>
+          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{spotlight.description}</p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {spotlight.specs.map((spec) => (
-              <div key={spec.label} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{spec.label}</p>
-                <p className="mt-2 text-base font-semibold text-slate-900">{spec.value}</p>
+              <div key={spec.label} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-3 dark:border-slate-800/60 dark:bg-slate-900/70">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">{spec.label}</p>
+                <p className="mt-2 text-base font-semibold text-slate-900 dark:text-white">{spec.value}</p>
               </div>
             ))}
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/products"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white dark:bg-orange-500 dark:text-slate-950"
             >
               Detaylari gor
             </Link>
             <Link
               href="/quote"
-              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-600"
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-600 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
             >
               Teklif iste
             </Link>
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/90 shadow-xl">
+        <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/90 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60">
           <Image src={spotlight.image} alt={spotlight.title} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/70 via-transparent to-transparent" />
         </div>
       </Reveal>
 
-      <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
+      <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Destek merkezi</p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900">E-ticaret + teknik destek tek sayfada</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300">Destek merkezi</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">E-ticaret + teknik destek tek sayfada</h2>
           </div>
           <Link
             href="/contact"
-            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600"
+            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
           >
             Destek al
           </Link>
@@ -267,11 +267,11 @@ export default function Home() {
             <Link
               key={item.title}
               href={item.href}
-              className="group rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 transition hover:-translate-y-1 hover:shadow-lg"
+              className="group rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:bg-slate-900"
             >
-              <p className="text-sm font-semibold text-slate-900">{item.title}</p>
-              <p className="mt-2 text-sm text-slate-600">{item.description}</p>
-              <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+              <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-300">
                 Ac
                 <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
               </span>
@@ -281,19 +281,19 @@ export default function Home() {
       </Reveal>
 
       <Reveal as="section" className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Is akisi</p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">4 adimda devreye alma</h2>
+        <div className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60">
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300">Is akisi</p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">4 adimda devreye alma</h2>
           <div className="mt-6 space-y-4">
             {process.map((step, index) => (
-              <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4">
+              <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-slate-800/60 dark:bg-slate-900/70">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white dark:bg-orange-500 dark:text-slate-950">
                     {index + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{step.title}</p>
-                    <p className="mt-1 text-sm text-slate-600">{step.description}</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{step.description}</p>
                   </div>
                 </div>
               </div>
@@ -301,7 +301,7 @@ export default function Home() {
           </div>
         </div>
         <div className="rounded-[32px] border border-slate-200/70 bg-slate-950 p-6 text-white shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Uyumluluk ve guven</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-orange-300">Uyumluluk ve guven</p>
           <h2 className="mt-2 text-2xl font-semibold">Model - parca uyumu tek ekranda</h2>
           <p className="mt-3 text-sm text-white/70">
             Makine modeline gore uyumlu yedek parcalari aninda goster, stok ve teslim bilgisiyle karar ver.
@@ -315,7 +315,7 @@ export default function Home() {
           </div>
           <Link
             href="/spare-parts"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
           >
             Yedek parca arat
           </Link>
@@ -324,39 +324,39 @@ export default function Home() {
 
       <Reveal as="section" className="grid gap-5 lg:grid-cols-2">
         {testimonials.map((item) => (
-          <div key={item.name} className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
+          <div key={item.name} className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60">
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 overflow-hidden rounded-full bg-white/10">
                 <Image src={item.image} alt={item.name} width={48} height={48} className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-900">{item.name}</p>
-                <p className="text-xs text-slate-500">{item.role}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{item.role}</p>
               </div>
             </div>
-            <p className="mt-4 text-sm text-slate-600">"{item.quote}"</p>
+            <p className="mt-4 text-sm text-slate-600 dark:text-slate-300">"{item.quote}"</p>
           </div>
         ))}
       </Reveal>
 
-      <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
+      <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/60">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-orange-600">SSS</p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900">Karar surecini hizlandiran cevaplar</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300">SSS</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">Karar surecini hizlandiran cevaplar</h2>
           </div>
           <Link
             href="/contact"
-            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600"
+            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
           >
             Sorunuz mu var?
           </Link>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {faq.map((item) => (
-            <div key={item.q} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4">
-              <p className="text-sm font-semibold text-slate-900">{item.q}</p>
-              <p className="mt-2 text-sm text-slate-600">{item.a}</p>
+            <div key={item.q} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-slate-800/60 dark:bg-slate-900/70">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.q}</p>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.a}</p>
             </div>
           ))}
         </div>
