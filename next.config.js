@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,6 +15,8 @@ const nextConfig = {
         hostname: '**.supabase.co',
       },
     ],
+    minimumCacheTTL: 86400,
+    formats: ['image/avif', 'image/webp'],
   },
 };
 

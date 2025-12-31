@@ -47,64 +47,6 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-
-function getImageUrl(url: string | null, width = 800, height = 520) {
-  if (!url) return '/images/1.jpg';
-  if (!SUPABASE_URL) return url;
-
-  const base = SUPABASE_URL.replace(/\/$/, '');
-  const publicPrefix = `${base}/storage/v1/object/public/`;
-  const renderPrefix = `${base}/storage/v1/render/image/public/`;
-
-  if (!url.startsWith(publicPrefix)) return url;
-
-  const path = url.slice(publicPrefix.length);
-  const params = new URLSearchParams({
-    width: String(width),
-    height: String(height),
-    quality: '80',
-    format: 'webp',
-    resize: 'cover',
-  });
-
-  return `${renderPrefix}${path}?${params.toString()}`;
-}
-
-type OptimizedImageProps = {
-  url: string | null;
-  alt: string;
-  sizes: string;
-  className?: string;
-  width: number;
-  height: number;
-};
-
-function OptimizedImage({ url, alt, sizes, className, width, height }: OptimizedImageProps) {
-  const fallback = url || '/images/1.jpg';
-  const transformed = getImageUrl(url, width, height);
-  const [src, setSrc] = useState(transformed);
-
-  useEffect(() => {
-    setSrc(transformed);
-  }, [transformed]);
-
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      sizes={sizes}
-      className={className}
-      loading="lazy"
-      decoding="async"
-      onError={() => {
-        if (src !== fallback) setSrc(fallback);
-      }}
-    />
-  );
-}
-
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
@@ -435,13 +377,15 @@ export default function SparePartsPage() {
               >
                 <Link href={`/spare-parts/${p.id}`} className="block">
                   <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                    <OptimizedImage
-                      url={p.imageUrl}
+                    <Image
+                      src={p.imageUrl || '/images/1.jpg'}
                       alt={p.name}
+                      fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                      width={800}
-                      height={520}
+                      quality={70}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
                       {p.category.name}
@@ -570,13 +514,14 @@ export default function SparePartsPage() {
                 className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
-                  <OptimizedImage
-                    url={item.imageUrl}
+                  <Image
+                    src={item.imageUrl || '/images/1.jpg'}
                     alt={item.name}
-                    sizes="64px"
+                    fill
                     className="object-cover"
-                    width={160}
-                    height={160}
+                    quality={70}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="min-w-0">
