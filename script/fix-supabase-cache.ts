@@ -5,7 +5,7 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 const BUCKET = 'spare-parts';
 
-type AnySupabaseClient = SupabaseClient<any, any, any, any, any>;
+type AnySupabaseClient = SupabaseClient;
 
 async function listAll(supabase: AnySupabaseClient, prefix = '') {
   const all: { name: string }[] = [];
