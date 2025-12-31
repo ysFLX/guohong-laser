@@ -412,7 +412,7 @@ export default function SparePartsPage() {
                       disabled={favoriteLoading.has(p.id)}
                       aria-pressed={isFavorited}
                       aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-                      className={`h-10 w-10 rounded-full border transition-colors ${
+                      className={`h-11 w-11 shrink-0 self-center rounded-full border transition-colors ${
                         isFavorited
                           ? 'border-red-200 bg-red-50 text-red-600'
                           : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
