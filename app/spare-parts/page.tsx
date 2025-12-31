@@ -71,6 +71,40 @@ function getImageUrl(url: string | null, width = 800, height = 520) {
   return `${renderPrefix}${path}?${params.toString()}`;
 }
 
+type OptimizedImageProps = {
+  url: string | null;
+  alt: string;
+  sizes: string;
+  className?: string;
+  width: number;
+  height: number;
+};
+
+function OptimizedImage({ url, alt, sizes, className, width, height }: OptimizedImageProps) {
+  const fallback = url || '/images/1.jpg';
+  const transformed = getImageUrl(url, width, height);
+  const [src, setSrc] = useState(transformed);
+
+  useEffect(() => {
+    setSrc(transformed);
+  }, [transformed]);
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={sizes}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        if (src !== fallback) setSrc(fallback);
+      }}
+    />
+  );
+}
+
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
@@ -401,14 +435,13 @@ export default function SparePartsPage() {
               >
                 <Link href={`/spare-parts/${p.id}`} className="block">
                   <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                    <Image
-                      src={getImageUrl(p.imageUrl)}
+                    <OptimizedImage
+                      url={p.imageUrl}
                       alt={p.name}
-                      fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                      loading="lazy"
-                      decoding="async"
+                      width={800}
+                      height={520}
                     />
                     <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
                       {p.category.name}
@@ -537,13 +570,13 @@ export default function SparePartsPage() {
                 className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
-                  <Image
-                    src={getImageUrl(item.imageUrl, 160, 160)}
+                  <OptimizedImage
+                    url={item.imageUrl}
                     alt={item.name}
-                    fill
+                    sizes="64px"
                     className="object-cover"
-                    loading="lazy"
-                    decoding="async"
+                    width={160}
+                    height={160}
                   />
                 </div>
                 <div className="min-w-0">
