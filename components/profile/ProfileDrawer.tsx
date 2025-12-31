@@ -20,7 +20,7 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
       >
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
           <div className="text-lg font-bold text-gray-900 dark:text-white">Profil</div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">Hesap ayarları ve oturum</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">Hesap ayarlari ve oturum</div>
         </div>
 
         <div className="flex-1 overflow-auto p-4 space-y-4">
@@ -36,7 +36,7 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
               )}
             </div>
             <div>
-              <div className="text-sm font-semibold text-gray-900 dark:text-white">{user?.name || 'Kullanıcı'}</div>
+              <div className="text-sm font-semibold text-gray-900 dark:text-white">{user?.name || 'Kullanici'}</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">{user?.email || ''}</div>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
               onClick={close}
               className="block px-4 py-2 rounded-xl text-sm font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
             >
-              Hesap Ayarları
+              Hesap Ayarlari
             </Link>
 
             <Link
@@ -55,7 +55,7 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
               onClick={close}
               className="block px-4 py-2 rounded-xl text-sm font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
             >
-              Siparişlerim
+              Siparislerim
             </Link>
 
             <Link
@@ -79,7 +79,7 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
               onClick={() => signOut({ callbackUrl: '/' })}
               className="w-full text-left px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
             >
-              Çıkış Yap
+              Cikis Yap
             </button>
           </div>
         </div>

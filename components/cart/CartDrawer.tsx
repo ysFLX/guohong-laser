@@ -37,7 +37,7 @@ export default function CartDrawer() {
         <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <div>
             <div className="text-lg font-bold text-gray-900 dark:text-white">Sepet</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">{itemCount} ürün</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{itemCount} Urun</div>
           </div>
           <button
             type="button"
@@ -54,14 +54,14 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-auto p-4 space-y-4">
           {items.length === 0 && (
             <div className="text-center py-10">
-              <div className="text-gray-900 dark:text-white font-semibold">Sepet boş</div>
-              <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">Ürün ekleyince burada görünecek.</div>
+              <div className="text-gray-900 dark:text-white font-semibold">Sepet bos</div>
+              <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">Urun ekleyince burada gorunecek.</div>
               <Link
                 href="/spare-parts"
                 onClick={closeCart}
                 className="mt-6 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
               >
-                Ürünlere Git
+                Urunlere Git
               </Link>
             </div>
           )}
@@ -111,7 +111,7 @@ export default function CartDrawer() {
                       type="button"
                       className="px-3 py-1 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-r-lg"
                       onClick={() => setQuantity(x.id, x.quantity + 1)}
-                      aria-label="Arttır"
+                      aria-label="Arttir"
                     >
                       +
                     </button>
@@ -150,7 +150,7 @@ export default function CartDrawer() {
           </div>
 
           <div className="text-xs text-gray-500 dark:text-gray-400">
-            Ödeme akışını sonraki adımda bağlayacağız.
+            Odeme akisinin sonraki adimda baslayacagiz.
           </div>
         </div>
       </aside>
