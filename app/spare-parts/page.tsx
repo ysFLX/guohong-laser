@@ -214,8 +214,8 @@ export default function SparePartsPage() {
   const rowCount = Math.ceil(filtered.length / columns);
   const rowVirtualizer = useWindowVirtualizer({
     count: rowCount,
-    estimateSize: () => 560,
-    overscan: 8,
+    estimateSize: () => 520,
+    overscan: 4,
   });
 
   return (
@@ -370,11 +370,7 @@ export default function SparePartsPage() {
                   className="absolute left-0 right-0"
                   style={{ transform: `translateY(${virtualRow.start}px)` }}
                 >
-                  <div
-                    ref={rowVirtualizer.measureElement}
-                    data-index={virtualRow.index}
-                    className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                  >
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {rowItems.map((p) => {
                       const isFavorited = favoriteIds.has(p.id);
                       const inStock = p.stockOnHand > 0;
