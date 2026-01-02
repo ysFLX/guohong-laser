@@ -86,6 +86,21 @@ export default async function OrdersPage() {
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
 
+  const progressSteps = [
+    { key: 'RECEIVED', label: 'Siparisiniz alindi' },
+    { key: 'IN_TRANSIT', label: 'Siparisiniz hazirlaniyor' },
+    { key: 'SHIPPED', label: 'Kargoya verildi' },
+    { key: 'DELIVERED', label: 'Teslim edildi' },
+  ];
+  const statusToStep: Record<string, number> = {
+    RECEIVED: 0,
+    IN_TRANSIT: 1,
+    SHIPPED: 2,
+    DELIVERED: 3,
+    PAID: 0,
+    PENDING: 0,
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="relative overflow-hidden">
@@ -210,7 +225,34 @@ export default async function OrdersPage() {
                     </div>
                   </div>
 
-                      <div className="mt-4 grid gap-4">
+                  {typeof statusToStep[order.status] === 'number' && (
+                    <div className="mt-5">
+                      <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-slate-400">
+                        <span>Durum akisi</span>
+                        <span>{progressSteps[statusToStep[order.status]].label}</span>
+                      </div>
+                      <div className="mt-3 flex items-center gap-2">
+                        {progressSteps.map((step, index) => {
+                          const isActive = index <= statusToStep[order.status];
+                          const isCurrent = index === statusToStep[order.status];
+                          return (
+                            <div key={step.key} className="flex flex-1 items-center gap-2">
+                              <div
+                                className={`h-3 w-3 rounded-full border ${
+                                  isActive ? 'border-orange-500 bg-orange-500' : 'border-slate-200 bg-white'
+                                } ${isCurrent ? 'ring-4 ring-orange-100' : ''}`}
+                              />
+                              {index < progressSteps.length - 1 && (
+                                <div className={`h-0.5 w-full ${isActive ? 'bg-orange-400' : 'bg-slate-200'}`} />
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="mt-4 grid gap-4">
                         {order.items.map((item) => (
                           <div key={item.id} className="flex items-center justify-between gap-3 text-sm text-slate-700">
                             <div className="flex min-w-0 items-center gap-3">

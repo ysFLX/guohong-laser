@@ -170,6 +170,21 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
 
+  const progressSteps = [
+    { key: 'RECEIVED', label: 'Siparisiniz alindi' },
+    { key: 'IN_TRANSIT', label: 'Siparisiniz hazirlaniyor' },
+    { key: 'SHIPPED', label: 'Kargoya verildi' },
+    { key: 'DELIVERED', label: 'Teslim edildi' },
+  ];
+  const statusToStep: Record<string, number> = {
+    RECEIVED: 0,
+    IN_TRANSIT: 1,
+    SHIPPED: 2,
+    DELIVERED: 3,
+    PAID: 0,
+    PENDING: 0,
+  };
+
   const shippingView = formatAddress(safeOrder.shippingAddress);
   const billingView = formatAddress(safeOrder.billingAddress);
   const billingSame =
@@ -190,15 +205,49 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="mt-1 text-sm text-slate-600">{formatDate(safeOrder.createdAt)}</div>
           </div>
           <div
-          className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-            statusTone[safeOrder.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-          }`}
-        >
-          {statusLabel[safeOrder.status as keyof typeof statusLabel] || safeOrder.status}
+            className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+              statusTone[safeOrder.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+            }`}
+          >
+            {statusLabel[safeOrder.status as keyof typeof statusLabel] || safeOrder.status}
+          </div>
         </div>
-      </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
+        {typeof statusToStep[safeOrder.status] === 'number' && (
+          <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
+              <span>Durum akisi</span>
+              <span>{progressSteps[statusToStep[safeOrder.status]].label}</span>
+            </div>
+            <div className="mt-4 flex items-center gap-2">
+              {progressSteps.map((step, index) => {
+                const isActive = index <= statusToStep[safeOrder.status];
+                const isCurrent = index === statusToStep[safeOrder.status];
+                return (
+                  <div key={step.key} className="flex flex-1 items-center gap-2">
+                    <div
+                      className={`h-3.5 w-3.5 rounded-full border ${
+                        isActive ? 'border-orange-500 bg-orange-500' : 'border-slate-200 bg-white'
+                      } ${isCurrent ? 'ring-4 ring-orange-100' : ''}`}
+                    />
+                    {index < progressSteps.length - 1 && (
+                      <div className={`h-0.5 w-full ${isActive ? 'bg-orange-400' : 'bg-slate-200'}`} />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
+              {progressSteps.map((step) => (
+                <span key={`${step.key}-label`} className="w-full text-center">
+                  {step.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg">
             <div className="text-lg font-semibold text-slate-900">Siparis detaylari</div>
             <div className="mt-6 space-y-4">
