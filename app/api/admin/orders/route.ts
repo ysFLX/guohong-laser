@@ -22,6 +22,9 @@ type AdminOrder = {
   totalCents: number;
   currency: string;
   createdAt: Date;
+  shippingCarrier: string | null;
+  trackingNumber: string | null;
+  trackingUrl: string | null;
   items: AdminOrderItem[];
   user: AdminOrderUser | null;
 };
@@ -56,6 +59,9 @@ export async function GET() {
       totalCents: order.totalCents,
       currency: order.currency,
       createdAt: order.createdAt,
+      shippingCarrier: order.shippingCarrier ?? null,
+      trackingNumber: order.trackingNumber ?? null,
+      trackingUrl: order.trackingUrl ?? null,
       user: order.user,
       items: order.items.map((item) => ({
         id: item.id,

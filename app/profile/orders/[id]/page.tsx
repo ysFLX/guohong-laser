@@ -30,6 +30,9 @@ type Order = {
   shippingAddressId: string | null;
   billingAddressId: string | null;
   stripeSessionId: string | null;
+  shippingCarrier: string | null;
+  trackingNumber: string | null;
+  trackingUrl: string | null;
 };
 
 type Address = {
@@ -204,6 +207,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     safeOrder.billingAddressId &&
     safeOrder.shippingAddressId &&
     safeOrder.billingAddressId === safeOrder.shippingAddressId;
+  const hasTracking = Boolean(
+    safeOrder.shippingCarrier || safeOrder.trackingNumber || safeOrder.trackingUrl,
+  );
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -339,6 +345,38 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 </div>
               ) : (
                 <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+              )}
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Kargo takibi
+              </div>
+              {hasTracking ? (
+                <div className="mt-2 space-y-2 text-slate-700">
+                  {safeOrder.trackingCarrier && (
+                    <div>
+                      <span className="text-slate-500">Firma:</span> {safeOrder.trackingCarrier}
+                    </div>
+                  )}
+                  {safeOrder.trackingNumber && (
+                    <div>
+                      <span className="text-slate-500">Takip no:</span> {safeOrder.trackingNumber}
+                    </div>
+                  )}
+                  {safeOrder.trackingUrl && (
+                    <a
+                      href={safeOrder.trackingUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      Kargo takip sayfasina git
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <div className="mt-2 text-slate-600">Takip bilgisi henuz girilmedi.</div>
               )}
             </div>
 

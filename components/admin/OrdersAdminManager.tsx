@@ -20,6 +20,9 @@ type AdminOrder = {
   totalCents: number;
   currency: string;
   createdAt: string;
+  shippingCarrier: string | null;
+  trackingNumber: string | null;
+  trackingUrl: string | null;
   user: OrderUser | null;
   items: OrderItem[];
 };
@@ -66,6 +69,9 @@ export default function OrdersAdminManager() {
   const [error, setError] = useState('');
   const [savingId, setSavingId] = useState<string | null>(null);
   const [draftStatus, setDraftStatus] = useState<Record<string, string>>({});
+  const [draftTracking, setDraftTracking] = useState<Record<string, { carrier: string; number: string; url: string }>>(
+    {},
+  );
 
   const totalOrders = useMemo(() => orders.length, [orders.length]);
 
@@ -88,6 +94,16 @@ export default function OrdersAdminManager() {
           return acc;
         }, {}),
       );
+      setDraftTracking(
+        list.reduce<Record<string, { carrier: string; number: string; url: string }>>((acc, item) => {
+          acc[item.id] = {
+            carrier: item.shippingCarrier || '',
+            number: item.trackingNumber || '',
+            url: item.trackingUrl || '',
+          };
+          return acc;
+        }, {}),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Siparisler yuklenemedi');
     } finally {
@@ -101,15 +117,31 @@ export default function OrdersAdminManager() {
     setSavingId(orderId);
     setError('');
     try {
+      const tracking = draftTracking[orderId] || { carrier: '', number: '', url: '' };
       const res = await fetch(`/api/admin/orders/${orderId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: nextStatus }),
+        body: JSON.stringify({
+          status: nextStatus,
+          shippingCarrier: tracking.carrier,
+          trackingNumber: tracking.number,
+          trackingUrl: tracking.url,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Durum guncellenemedi');
       setOrders((prev) =>
-        prev.map((order) => (order.id === orderId ? { ...order, status: nextStatus } : order)),
+        prev.map((order) =>
+          order.id === orderId
+            ? {
+                ...order,
+                status: nextStatus,
+                shippingCarrier: tracking.carrier || null,
+                trackingNumber: tracking.number || null,
+                trackingUrl: tracking.url || null,
+              }
+            : order,
+        ),
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Durum guncellenemedi');
@@ -217,6 +249,63 @@ export default function OrdersAdminManager() {
                     <div className="mt-2 text-xs text-slate-500">
                       Mevcut: {statusLabel[order.status] || order.status}
                     </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo firmasi</div>
+                    <input
+                      className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                      placeholder="Orn: Yurtiçi Kargo"
+                      value={draftTracking[order.id]?.carrier || ''}
+                      onChange={(e) =>
+                        setDraftTracking((prev) => ({
+                          ...prev,
+                          [order.id]: {
+                            carrier: e.target.value,
+                            number: prev[order.id]?.number || '',
+                            url: prev[order.id]?.url || '',
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Takip no</div>
+                    <input
+                      className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                      placeholder="Orn: 1234567890"
+                      value={draftTracking[order.id]?.number || ''}
+                      onChange={(e) =>
+                        setDraftTracking((prev) => ({
+                          ...prev,
+                          [order.id]: {
+                            carrier: prev[order.id]?.carrier || '',
+                            number: e.target.value,
+                            url: prev[order.id]?.url || '',
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Takip linki</div>
+                    <input
+                      className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                      placeholder="https://..."
+                      value={draftTracking[order.id]?.url || ''}
+                      onChange={(e) =>
+                        setDraftTracking((prev) => ({
+                          ...prev,
+                          [order.id]: {
+                            carrier: prev[order.id]?.carrier || '',
+                            number: prev[order.id]?.number || '',
+                            url: e.target.value,
+                          },
+                        }))
+                      }
+                    />
                   </div>
                 </div>
               </div>

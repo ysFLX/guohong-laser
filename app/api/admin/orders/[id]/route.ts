@@ -6,6 +6,9 @@ import { prisma } from '@/lib/prisma';
 
 type UpdatePayload = {
   status?: string;
+  shippingCarrier?: string | null;
+  trackingNumber?: string | null;
+  trackingUrl?: string | null;
 };
 
 const allowedStatuses = new Set([
@@ -47,10 +50,19 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
     return NextResponse.json({ error: 'Durum gecersiz' }, { status: 400 });
   }
 
+  const shippingCarrier = typeof body.shippingCarrier === 'string' ? body.shippingCarrier.trim() : null;
+  const trackingNumber = typeof body.trackingNumber === 'string' ? body.trackingNumber.trim() : null;
+  const trackingUrl = typeof body.trackingUrl === 'string' ? body.trackingUrl.trim() : null;
+
   try {
     const updated = await prismaOrders.order.update({
       where: { id },
-      data: { status },
+      data: {
+        status,
+        shippingCarrier: shippingCarrier || null,
+        trackingNumber: trackingNumber || null,
+        trackingUrl: trackingUrl || null,
+      },
       select: { id: true, status: true },
     });
     return NextResponse.json({ item: updated });
