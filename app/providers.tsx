@@ -9,6 +9,7 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import NotificationsDrawer from '@/components/notifications/NotificationsDrawer';
 import { NotificationsProvider } from '@/components/notifications/NotificationsProvider';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
+import { ToastProvider } from '@/components/ui/ToastProvider';
 
 const ALLOWED_INCOMPLETE_ROUTES = new Set(['/complete-profile', '/login', '/register']);
 
@@ -35,10 +36,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <NotificationsProvider>
         <CartProvider>
           <ThemeProvider>
-            <ProfileCompletionGate />
-            {children}
-            <CartDrawer />
-            <NotificationsDrawer />
+            <ToastProvider>
+              <ProfileCompletionGate />
+              {children}
+              <CartDrawer />
+              <NotificationsDrawer />
+            </ToastProvider>
           </ThemeProvider>
         </CartProvider>
       </NotificationsProvider>

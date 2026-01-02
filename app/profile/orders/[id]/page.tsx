@@ -176,6 +176,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     { key: 'SHIPPED', label: 'Kargoya verildi' },
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
+  const stepDotColors = [
+    'border-amber-400 bg-amber-400',
+    'border-orange-400 bg-orange-400',
+    'border-emerald-400 bg-emerald-400',
+    'border-emerald-500 bg-emerald-500',
+  ];
+  const stepLineColors = ['bg-orange-400', 'bg-emerald-400', 'bg-emerald-500'];
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
     IN_TRANSIT: 1,
@@ -223,15 +230,18 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               {progressSteps.map((step, index) => {
                 const isActive = index <= statusToStep[safeOrder.status];
                 const isCurrent = index === statusToStep[safeOrder.status];
+                const lineColor = stepLineColors[index] || 'bg-slate-200';
                 return (
                   <div key={step.key} className="flex flex-1 items-center gap-2">
                     <div
                       className={`h-3.5 w-3.5 rounded-full border ${
-                        isActive ? 'border-orange-500 bg-orange-500' : 'border-slate-200 bg-white'
+                        isActive
+                          ? stepDotColors[index] || 'border-orange-500 bg-orange-500'
+                          : 'border-slate-200 bg-white'
                       } ${isCurrent ? 'ring-4 ring-orange-100' : ''}`}
                     />
                     {index < progressSteps.length - 1 && (
-                      <div className={`h-0.5 w-full ${isActive ? 'bg-orange-400' : 'bg-slate-200'}`} />
+                      <div className={`h-0.5 w-full ${isActive ? lineColor : 'bg-slate-200'}`} />
                     )}
                   </div>
                 );

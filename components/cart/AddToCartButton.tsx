@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { useCart } from './CartProvider';
+import { useToast } from '@/components/ui/ToastProvider';
 
 type Props = {
   id: string;
@@ -24,6 +25,7 @@ export default function AddToCartButton({
   quantity = 1,
 }: Props) {
   const { addItem } = useCart();
+  const { show, dismiss } = useToast();
   const [isAdding, setIsAdding] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -47,6 +49,22 @@ export default function AddToCartButton({
         }
         setIsAdding(true);
         addItem({ id, name, priceCents, imageUrl }, quantity);
+        let toastId = '';
+        toastId = show('Sepetinize eklendi', [
+          {
+            label: 'Sepete git',
+            onClick: () => {
+              dismiss(toastId);
+              router.push('/cart');
+            },
+          },
+          {
+            label: 'Alisverise devam et',
+            onClick: () => {
+              dismiss(toastId);
+            },
+          },
+        ]);
         window.setTimeout(() => setIsAdding(false), 350);
       }}
       disabled={isAdding || status === 'loading'}

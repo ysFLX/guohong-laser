@@ -97,7 +97,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           ? s.items.map((x) => (x.id === item.id ? { ...x, quantity: clampQuantity(x.quantity + q) } : x))
           : [...s.items, { ...item, quantity: q }];
 
-        return { items, isOpen: true };
+        return { items, isOpen: s.isOpen };
       });
     },
     [],
