@@ -232,14 +232,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <span>Durum akisi</span>
               <span>{progressSteps[statusToStep[safeOrder.status]].label}</span>
             </div>
-            <div className="mt-4 space-y-3">
-              <div className="relative">
+            <div className="mt-4">
+              <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
                 <div
-                  className="absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200"
+                  className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200"
                   style={{ left: `${lineLeftPercent}%`, width: `${lineWidthPercent}%` }}
                 />
                 <div
-                  className={`absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
+                  className={`absolute top-3 h-0.5 -translate-y-1/2 rounded-full ${
                     (statusAccent[safeOrder.status] || statusAccent.RECEIVED).line
                   }`}
                   style={{
@@ -247,27 +247,21 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                     width: `${(statusToStep[safeOrder.status] / (progressSteps.length - 1)) * lineWidthPercent}%`,
                   }}
                 />
-                <div className="relative z-10 grid grid-cols-4 text-center">
-                  {progressSteps.map((step, index) => {
-                    const isActive = index <= statusToStep[safeOrder.status];
-                    const isCurrent = index === statusToStep[safeOrder.status];
-                    const accent = statusAccent[safeOrder.status] || statusAccent.RECEIVED;
-                    return (
-                      <div key={step.key} className="flex items-center justify-center">
-                        <div
-                          className={`h-3.5 w-3.5 rounded-full ${
-                            isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
-                          } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="grid grid-cols-4 text-center text-xs text-slate-500">
-                {progressSteps.map((step) => (
-                  <span key={`${step.key}-label`}>{step.label}</span>
-                ))}
+                {progressSteps.map((step, index) => {
+                  const isActive = index <= statusToStep[safeOrder.status];
+                  const isCurrent = index === statusToStep[safeOrder.status];
+                  const accent = statusAccent[safeOrder.status] || statusAccent.RECEIVED;
+                  return (
+                    <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
+                      <div
+                        className={`h-3.5 w-3.5 rounded-full ${
+                          isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
+                        } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
+                      />
+                      <span className="text-xs text-slate-500">{step.label}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
