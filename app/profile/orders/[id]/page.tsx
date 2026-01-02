@@ -354,9 +354,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               {hasTracking ? (
                 <div className="mt-2 space-y-2 text-slate-700">
-                  {safeOrder.trackingCarrier && (
+                  {safeOrder.shippingCarrier && (
                     <div>
-                      <span className="text-slate-500">Firma:</span> {safeOrder.trackingCarrier}
+                      <span className="text-slate-500">Firma:</span> {safeOrder.shippingCarrier}
                     </div>
                   )}
                   {safeOrder.trackingNumber && (
