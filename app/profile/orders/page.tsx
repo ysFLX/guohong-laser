@@ -239,21 +239,27 @@ export default async function OrdersPage() {
                         <span>Durum akisi</span>
                         <span>{progressSteps[statusToStep[order.status]].label}</span>
                       </div>
-                      <div className="mt-3 flex items-center gap-2">
+                      <div className="relative mt-3">
+                        <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200" />
+                        <div
+                          className={`absolute left-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
+                            (statusAccent[order.status] || statusAccent.RECEIVED).line
+                          }`}
+                          style={{
+                            width: `${(statusToStep[order.status] / (progressSteps.length - 1)) * 100}%`,
+                          }}
+                        />
                         {progressSteps.map((step, index) => {
                           const isActive = index <= statusToStep[order.status];
                           const isCurrent = index === statusToStep[order.status];
                           const accent = statusAccent[order.status] || statusAccent.RECEIVED;
                           return (
-                            <div key={step.key} className="flex flex-1 items-center gap-2">
+                            <div key={step.key} className="relative z-10 flex flex-1 items-center justify-center">
                               <div
                                 className={`h-3 w-3 rounded-full ${
                                   isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
                                 } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
                               />
-                              {index < progressSteps.length - 1 && (
-                                <div className={`h-0.5 w-full ${isActive ? accent.line : 'bg-slate-200'}`} />
-                              )}
                             </div>
                           );
                         })}
