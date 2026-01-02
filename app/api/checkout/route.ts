@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 
 type CheckoutItem = {
@@ -18,14 +19,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
 
-  let payload: { items?: CheckoutItem[] };
+  let payload: { items?: CheckoutItem[]; addressId?: string };
   try {
-    payload = (await req.json()) as { items?: CheckoutItem[] };
+    payload = (await req.json()) as { items?: CheckoutItem[]; addressId?: string };
   } catch {
     return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
 
   const items = Array.isArray(payload.items) ? payload.items : [];
+  const addressId = typeof payload.addressId === 'string' ? payload.addressId.trim() : '';
   const cleanItems = items
     .filter((x) => x && typeof x.name === 'string' && typeof x.priceCents === 'number' && typeof x.quantity === 'number')
     .map((x) => ({
@@ -39,6 +41,19 @@ export async function POST(req: Request) {
 
   if (!cleanItems.length) {
     return NextResponse.json({ error: 'Sepet bos' }, { status: 400 });
+  }
+
+  if (!addressId) {
+    return NextResponse.json({ error: 'Adres secilmedi' }, { status: 400 });
+  }
+
+  const address = await prisma.address.findFirst({
+    where: { id: addressId, userId: session.user.id },
+    select: { id: true },
+  });
+
+  if (!address) {
+    return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
   }
 
   const appUrl =
@@ -68,6 +83,7 @@ export async function POST(req: Request) {
     customer_email: session.user.email || undefined,
     metadata: {
       userId: session.user.id,
+      addressId,
       cart: JSON.stringify(
         cleanItems.map((item) => ({
           id: item.id,

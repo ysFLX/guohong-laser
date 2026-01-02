@@ -22,45 +22,12 @@ function formatPriceTry(priceCents: number) {
 export default function CartPage() {
   const router = useRouter();
   const { items, subtotalCents, removeItem, setQuantity, clear } = useCart();
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
 
-  const handleCheckout = async () => {
-    if (!items.length || isCheckingOut) return;
-    setIsCheckingOut(true);
+  const handleCheckout = () => {
+    if (!items.length) return;
     setCheckoutError('');
-
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map((x) => ({
-            id: x.id,
-            name: x.name,
-            priceCents: x.priceCents,
-            quantity: x.quantity,
-            imageUrl: x.imageUrl,
-          })),
-        }),
-      });
-
-      if (res.status === 401) {
-        router.push('/login');
-        return;
-      }
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.url) {
-        throw new Error(data?.error || 'Odeme baslatilamadi');
-      }
-
-      window.location.href = data.url as string;
-    } catch (err: unknown) {
-      setCheckoutError(err instanceof Error ? err.message : 'Odeme baslatilamadi');
-    } finally {
-      setIsCheckingOut(false);
-    }
+    router.push('/checkout/address');
   };
 
   return (
@@ -175,9 +142,9 @@ export default function CartPage() {
                   type="button"
                   className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-70"
                   onClick={handleCheckout}
-                  disabled={isCheckingOut}
+                  disabled={!items.length}
                 >
-                  {isCheckingOut ? 'Yonlendiriliyor...' : 'Satin Almaya Devam Et'}
+                  Satin Almaya Devam Et
                 </button>
               </div>
 
