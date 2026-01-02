@@ -4,21 +4,32 @@ export default function ShippingPage() {
       <div className="mx-auto max-w-3xl px-4 py-12">
         <h1 className="text-2xl font-semibold text-slate-900">Kargo ve Teslimat</h1>
         <p className="mt-4 text-sm text-slate-600">
-          Siparis hazirlanma suresi, kargo firmasi ve teslimat araliklari burada yer alir.
-          Teslimat adresi ve fatura adresi bilgileri siparis oncesi guncellenebilir.
+          Siparis hazirlanma suresi, kargo teslimati ve takip bilgileri burada paylasilir.
+          Detaylar urun tipine ve stok durumuna gore degisebilir.
         </p>
-        <div className="mt-6 space-y-4 text-sm text-slate-600">
+        <div className="mt-6 space-y-6 text-sm text-slate-600">
           <div>
             <div className="font-semibold text-slate-900">Hazirlama suresi</div>
-            <p className="mt-1">Stoklu urunler ayni gun, digerleri planlanan tarihte kargoya verilir.</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>Stoklu urunler genellikle ayni gun veya ertesi is gunu kargoya verilir.</li>
+              <li>Stoksuz urunlerde tedarik suresi, teklif veya siparis onayinda bildirilir.</li>
+              <li>Ozel uretim urunlerde planlanan termin tarihi esas alinir.</li>
+            </ul>
           </div>
           <div>
             <div className="font-semibold text-slate-900">Teslimat bolgeleri</div>
-            <p className="mt-1">Turkiye geneli teslimat yapilir. Yurtdisi icin destekle gorusebilirsiniz.</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>Turkiye geneli teslimat yapilir.</li>
+              <li>Yurtdisi sevkiyatlar icin lojistik planlama destegi verilir.</li>
+              <li>Agir ve hacimli urunlerde ozel tasima kosullari uygulanabilir.</li>
+            </ul>
           </div>
           <div>
             <div className="font-semibold text-slate-900">Kargo takibi</div>
-            <p className="mt-1">Siparis durumundan takip numarasina erisim saglanir.</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5">
+              <li>Kargo takip numarasi siparis durumunda paylasilir.</li>
+              <li>Gecikme veya hasar durumunda destek ekibimize hemen ulasin.</li>
+            </ul>
           </div>
         </div>
       </div>

@@ -5,8 +5,9 @@ export default function CompanyPage() {
         <h1 className="text-2xl font-semibold text-slate-900">Firma Bilgileri</h1>
         <p className="mt-4 text-sm text-slate-600">
           Guohong Lazer resmi firma bilgileri ve iletisim detaylari burada yer alir.
+          Teklif, teknik destek ve servis talepleri icin bu kanallari kullanabilirsiniz.
         </p>
-        <div className="mt-6 space-y-4 text-sm text-slate-600">
+        <div className="mt-6 space-y-6 text-sm text-slate-600">
           <div>
             <div className="font-semibold text-slate-900">Unvan</div>
             <p className="mt-1">Guohong Lazer</p>
@@ -23,6 +24,12 @@ export default function CompanyPage() {
           <div>
             <div className="font-semibold text-slate-900">Calisma saatleri</div>
             <p className="mt-1">Pazartesi - Cumartesi 09:00 - 18:00</p>
+          </div>
+          <div>
+            <div className="font-semibold text-slate-900">Hizmet kapsamı</div>
+            <p className="mt-1">
+              Lazer makineleri, yedek parca tedariği, kurulum, egitim ve teknik servis.
+            </p>
           </div>
         </div>
       </div>
