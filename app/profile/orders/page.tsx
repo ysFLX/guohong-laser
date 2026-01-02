@@ -93,12 +93,12 @@ export default async function OrdersPage() {
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
   const statusAccent: Record<string, { dot: string; line: string; ring: string }> = {
-    RECEIVED: { dot: 'border-amber-500 bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
-    IN_TRANSIT: { dot: 'border-orange-500 bg-orange-500', line: 'bg-orange-400', ring: 'ring-orange-100' },
-    SHIPPED: { dot: 'border-sky-500 bg-sky-500', line: 'bg-sky-400', ring: 'ring-sky-100' },
-    DELIVERED: { dot: 'border-emerald-500 bg-emerald-500', line: 'bg-emerald-500', ring: 'ring-emerald-100' },
-    PAID: { dot: 'border-amber-500 bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
-    PENDING: { dot: 'border-amber-500 bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+    RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+    IN_TRANSIT: { dot: 'bg-orange-500', line: 'bg-orange-400', ring: 'ring-orange-100' },
+    SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', ring: 'ring-sky-100' },
+    DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', ring: 'ring-emerald-100' },
+    PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+    PENDING: { dot: 'bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
@@ -247,8 +247,8 @@ export default async function OrdersPage() {
                           return (
                             <div key={step.key} className="flex flex-1 items-center gap-2">
                               <div
-                                className={`h-3 w-3 rounded-full border ${
-                                  isActive ? accent.dot : 'border-slate-200 bg-white'
+                                className={`h-3 w-3 rounded-full ${
+                                  isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
                                 } ${isCurrent ? `ring-4 ${accent.ring}` : ''}`}
                               />
                               {index < progressSteps.length - 1 && (
