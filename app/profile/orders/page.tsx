@@ -21,6 +21,9 @@ type Order = {
   currency: string;
   createdAt: Date;
   items: OrderItem[];
+  shippingCarrier: string | null;
+  trackingNumber: string | null;
+  trackingUrl: string | null;
 };
 
 const prismaOrders = prisma as unknown as {
@@ -308,6 +311,36 @@ export default async function OrdersPage() {
                           </div>
                         ))}
                       </div>
+
+                  {(order.shippingCarrier || order.trackingNumber || order.trackingUrl) && (
+                    <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-3 text-xs text-slate-600">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                        Kargo takibi
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center gap-3">
+                        {order.shippingCarrier && (
+                          <span>
+                            <span className="text-slate-500">Firma:</span> {order.shippingCarrier}
+                          </span>
+                        )}
+                        {order.trackingNumber && (
+                          <span>
+                            <span className="text-slate-500">Takip no:</span> {order.trackingNumber}
+                          </span>
+                        )}
+                        {order.trackingUrl && (
+                          <a
+                            href={order.trackingUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded-full border border-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-600 hover:bg-white"
+                          >
+                            Takip linki
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
                     <span className="text-slate-600">Toplam</span>
