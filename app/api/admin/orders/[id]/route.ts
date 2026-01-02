@@ -113,23 +113,60 @@ async function sendStatusEmail(params: {
 
 async function sendWhatsappNotification(params: { to?: string | null; message: string }) {
   const apiUrl = process.env.WHATSAPP_API_URL;
+  const accountSid = process.env.WHATSAPP_ACCOUNT_SID;
+  const authToken = process.env.WHATSAPP_AUTH_TOKEN;
+  const provider = process.env.WHATSAPP_PROVIDER;
   const token = process.env.WHATSAPP_TOKEN;
   const from = process.env.WHATSAPP_FROM;
   const to = params.to ? params.to.trim() : '';
 
-  if (!apiUrl || !from || !to) {
+  const resolvedApiUrl =
+    apiUrl || (accountSid ? `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json` : '');
+  if (!resolvedApiUrl || !from || !to) {
     return;
   }
 
-  await fetch(apiUrl, {
+  const isTwilio = provider === 'TWILIO' || resolvedApiUrl.includes('twilio.com');
+  const normalizedFrom = from.startsWith('whatsapp:') ? from : `whatsapp:${from}`;
+  const normalizedTo = to.startsWith('whatsapp:') ? to : `whatsapp:${to}`;
+
+  let authHeader = '';
+  if (accountSid && authToken) {
+    authHeader = `Basic ${Buffer.from(`${accountSid}:${authToken}`).toString('base64')}`;
+  } else if (token) {
+    if (token.includes(':')) {
+      authHeader = `Basic ${Buffer.from(token).toString('base64')}`;
+    } else {
+      authHeader = `Bearer ${token}`;
+    }
+  }
+
+  if (isTwilio) {
+    const form = new URLSearchParams({
+      To: normalizedTo,
+      From: normalizedFrom,
+      Body: params.message,
+    });
+    await fetch(resolvedApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      },
+      body: form.toString(),
+    });
+    return;
+  }
+
+  await fetch(resolvedApiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(authHeader ? { Authorization: authHeader } : {}),
     },
     body: JSON.stringify({
-      from,
-      to,
+      from: normalizedFrom,
+      to: normalizedTo,
       message: params.message,
     }),
   });
