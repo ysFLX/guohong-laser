@@ -25,7 +25,8 @@ const prismaOrders = prisma as unknown as {
   };
 };
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
@@ -48,7 +49,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
   try {
     const updated = await prismaOrders.order.update({
-      where: { id: params.id },
+      where: { id },
       data: { status },
       select: { id: true, status: true },
     });
