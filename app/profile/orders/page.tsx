@@ -249,6 +249,13 @@ export default async function OrdersPage() {
                           );
                         })}
                       </div>
+                      <div className="mt-3 flex items-center justify-between text-[11px] font-medium text-slate-500">
+                        {progressSteps.map((step) => (
+                          <span key={`${order.id}-${step.key}`} className="w-full text-center">
+                            {step.label}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
 
