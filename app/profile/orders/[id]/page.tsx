@@ -186,24 +186,24 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
         <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</h1>
-            <div className="mt-1 text-sm text-slate-600">{formatDate(order.createdAt)}</div>
+            <h1 className="text-2xl font-semibold text-slate-900">Siparis #{safeOrder.id.slice(0, 8)}</h1>
+            <div className="mt-1 text-sm text-slate-600">{formatDate(safeOrder.createdAt)}</div>
           </div>
           <div
-            className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-              statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-            }`}
-          >
-            {statusLabel[order.status as keyof typeof statusLabel] || order.status}
-          </div>
+          className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+            statusTone[safeOrder.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+          }`}
+        >
+          {statusLabel[safeOrder.status as keyof typeof statusLabel] || safeOrder.status}
         </div>
+      </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg">
+      <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg">
             <div className="text-lg font-semibold text-slate-900">Siparis detaylari</div>
             <div className="mt-6 space-y-4">
-              {order.items.map((item) => (
-                <div key={item.id} className="flex items-center justify-between gap-4">
+            {safeOrder.items.map((item) => (
+              <div key={item.id} className="flex items-center justify-between gap-4">
                   <div className="flex min-w-0 items-center gap-4">
                     <div className="h-16 w-16 overflow-hidden rounded-2xl bg-slate-100">
                       {item.imageUrl ? (
@@ -239,7 +239,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="text-lg font-semibold text-slate-900">Ozet</div>
             <div className="mt-4 flex items-center justify-between text-sm">
               <span className="text-slate-600">Toplam</span>
-              <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
+            <span className="font-semibold text-slate-900">{formatPriceTry(safeOrder.totalCents)}</span>
             </div>
             <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -248,10 +248,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <div className="mt-2">
                 <span
                   className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                    statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                    statusTone[safeOrder.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
                   }`}
                 >
-                  {statusLabel[order.status as keyof typeof statusLabel] || order.status}
+                  {statusLabel[safeOrder.status as keyof typeof statusLabel] || safeOrder.status}
                 </span>
               </div>
             </div>
