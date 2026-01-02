@@ -152,7 +152,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     PAID: 'Odeme alindi',
     RECEIVED: 'Siparis alindi',
     SHIPPED: 'Kargoya verildi',
-    IN_TRANSIT: 'Yola cikti',
+    IN_TRANSIT: 'Siparis hazirlaniyor',
     DELIVERED: 'Teslim edildi',
     PENDING: 'Beklemede',
     FAILED: 'Basarisiz',

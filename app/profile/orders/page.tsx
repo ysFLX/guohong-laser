@@ -68,7 +68,7 @@ export default async function OrdersPage() {
     PAID: 'Odeme alindi',
     RECEIVED: 'Siparis alindi',
     SHIPPED: 'Kargoya verildi',
-    IN_TRANSIT: 'Yola cikti',
+    IN_TRANSIT: 'Siparis hazirlaniyor',
     DELIVERED: 'Teslim edildi',
     PENDING: 'Beklemede',
     FAILED: 'Basarisiz',
