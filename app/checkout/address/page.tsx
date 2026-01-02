@@ -56,10 +56,13 @@ export default function CheckoutAddressPage() {
   const { items, subtotalCents } = useCart();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedBillingId, setSelectedBillingId] = useState<string | null>(null);
+  const [useBillingSame, setUseBillingSame] = useState(true);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [formTarget, setFormTarget] = useState<'shipping' | 'billing'>('shipping');
   const [form, setForm] = useState({ ...emptyForm });
   const [cities, setCities] = useState<City[]>([]);
   const [districts, setDistricts] = useState<string[]>([]);
@@ -98,6 +101,9 @@ export default function CheckoutAddressPage() {
       setAddresses(list);
       const def = list.find((a) => a.isDefault) ?? list[0] ?? null;
       setSelectedId(def?.id ?? null);
+      setSelectedBillingId(def?.id ?? null);
+      setUseBillingSame(true);
+      setFormTarget('shipping');
       setShowForm(list.length === 0);
     } catch {
       setCheckoutError('Adresler yuklenemedi');
@@ -178,7 +184,13 @@ export default function CheckoutAddressPage() {
 
       const updated = (data.addresses || []) as Address[];
       setAddresses(updated);
-      setSelectedId(data.address?.id ?? updated[0]?.id ?? null);
+      const createdId = (data.address?.id as string | undefined) ?? updated[0]?.id ?? null;
+      if (formTarget === 'shipping') {
+        setSelectedId(createdId);
+      } else {
+        setSelectedBillingId(createdId);
+        setUseBillingSame(false);
+      }
       setShowForm(false);
       setForm({ ...emptyForm });
     } catch (err) {
@@ -192,6 +204,10 @@ export default function CheckoutAddressPage() {
       setCheckoutError('Adres secmelisin');
       return;
     }
+    if (!useBillingSame && !selectedBillingId) {
+      setCheckoutError('Fatura adresi secmelisin');
+      return;
+    }
     setLoadingCheckout(true);
     setCheckoutError('');
 
@@ -201,6 +217,7 @@ export default function CheckoutAddressPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           addressId: selectedId,
+          billingAddressId: useBillingSame ? selectedId : selectedBillingId,
           items: items.map((x) => ({
             id: x.id,
             name: x.name,
@@ -274,15 +291,20 @@ export default function CheckoutAddressPage() {
           <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">Adres sec</h2>
-              {addresses.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setShowForm((prev) => !prev)}
-                  className="text-sm font-semibold text-orange-600 hover:text-orange-700"
-                >
-                  {showForm ? 'Vazgec' : 'Yeni adres ekle'}
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => {
+                  if (showForm && formTarget === 'shipping') {
+                    setShowForm(false);
+                    return;
+                  }
+                  setFormTarget('shipping');
+                  setShowForm(true);
+                }}
+                className="text-sm font-semibold text-orange-600 hover:text-orange-700"
+              >
+                {showForm && formTarget === 'shipping' ? 'Vazgec' : 'Yeni adres ekle'}
+              </button>
             </div>
 
             {loadingAddresses && <div className="mt-6 text-sm text-gray-500">Adresler yukleniyor...</div>}
@@ -300,12 +322,17 @@ export default function CheckoutAddressPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="font-semibold text-gray-900">{address.label || 'Adres'}</div>
-                      <input
-                        type="radio"
-                        name="address"
-                        checked={selectedId === address.id}
-                        onChange={() => setSelectedId(address.id)}
-                      />
+                          <input
+                            type="radio"
+                            name="address"
+                            checked={selectedId === address.id}
+                            onChange={() => {
+                              setSelectedId(address.id);
+                              if (useBillingSame) {
+                                setSelectedBillingId(address.id);
+                              }
+                            }}
+                          />
                     </div>
                     <div className="text-gray-700">{address.fullName || '-'}</div>
                     <div className="text-gray-500">
@@ -328,7 +355,7 @@ export default function CheckoutAddressPage() {
               </div>
             )}
 
-            {showForm && (
+            {showForm && formTarget === 'shipping' && (
               <form onSubmit={submitAddress} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Etiket</div>
@@ -475,6 +502,236 @@ export default function CheckoutAddressPage() {
                   </button>
                 </div>
               </form>
+            )}
+
+            <div className="mt-8 border-t border-gray-200 pt-6">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+                <input
+                  type="checkbox"
+                  checked={useBillingSame}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setUseBillingSame(checked);
+                    if (checked) {
+                      setSelectedBillingId(selectedId);
+                      setShowForm(false);
+                    }
+                  }}
+                />
+                Fatura adresi teslimat adresi ile ayni
+              </label>
+            </div>
+
+            {!useBillingSame && (
+              <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-semibold text-gray-900">Fatura adresi</h3>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (showForm && formTarget === 'billing') {
+                        setShowForm(false);
+                        return;
+                      }
+                      setFormTarget('billing');
+                      setShowForm(true);
+                    }}
+                    className="text-sm font-semibold text-orange-600 hover:text-orange-700"
+                  >
+                    {showForm && formTarget === 'billing' ? 'Vazgec' : 'Yeni adres ekle'}
+                  </button>
+                </div>
+
+                {addresses.length > 0 && (
+                  <div className="mt-4 space-y-3">
+                    {addresses.map((address) => (
+                      <label
+                        key={`billing-${address.id}`}
+                        className={`flex cursor-pointer flex-col gap-2 rounded-2xl border px-4 py-4 text-sm transition ${
+                          selectedBillingId === address.id
+                            ? 'border-orange-500 bg-orange-50'
+                            : 'border-gray-200 bg-white hover:border-orange-300'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="font-semibold text-gray-900">{address.label || 'Adres'}</div>
+                          <input
+                            type="radio"
+                            name="billingAddress"
+                            checked={selectedBillingId === address.id}
+                            onChange={() => setSelectedBillingId(address.id)}
+                          />
+                        </div>
+                        <div className="text-gray-700">{address.fullName || '-'}</div>
+                        <div className="text-gray-500">
+                          {address.line1 || '-'}
+                          {address.line2 ? `, ${address.line2}` : ''}
+                          <br />
+                          {address.city || '-'}
+                          {address.state ? ` / ${address.state}` : ''} {address.postalCode || ''}{' '}
+                          {address.country || ''}
+                        </div>
+                        <div className="text-gray-500">{address.phone || '-'}</div>
+                      </label>
+                    ))}
+                  </div>
+                )}
+
+                {addresses.length === 0 && (
+                  <div className="mt-4 rounded-2xl border border-dashed border-gray-200 p-4 text-sm text-gray-600">
+                    Fatura adresi icin once yeni adres ekle.
+                  </div>
+                )}
+
+                {showForm && formTarget === 'billing' && (
+                  <form onSubmit={submitAddress} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Etiket</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Etiket (Ev, Is)"
+                        value={form.label}
+                        onChange={(e) => setForm({ ...form, label: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Ad</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Ad"
+                        value={form.firstName}
+                        onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Soyad</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Soyad"
+                        value={form.lastName}
+                        onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Telefon</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Telefon"
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Adres</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Adres"
+                        value={form.line1}
+                        onChange={(e) => setForm({ ...form, line1: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
+                      <select
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
+                        value={form.cityCode}
+                        onChange={(e) => {
+                          const cityCode = e.target.value;
+                          const selected = cities.find((city) => city.code === cityCode);
+                          setForm({
+                            ...form,
+                            cityCode,
+                            cityName: selected?.name ?? '',
+                            district: '',
+                          });
+                        }}
+                        disabled={loadingCities}
+                      >
+                        <option value="" disabled>
+                          Il sec
+                        </option>
+                        {cities.map((city) => (
+                          <option key={city.code} value={city.code}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </select>
+                      {loadingCities && <div className="text-xs text-gray-500">Iller yukleniyor...</div>}
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
+                      <select
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
+                        value={form.district}
+                        onChange={(e) => setForm({ ...form, district: e.target.value })}
+                        disabled={!form.cityCode || loadingDistricts}
+                      >
+                        <option value="" disabled>
+                          Ilce sec
+                        </option>
+                        {districts.map((district) => (
+                          <option key={district} value={district}>
+                            {district}
+                          </option>
+                        ))}
+                      </select>
+                      {loadingDistricts && <div className="text-xs text-gray-500">Ilceler yukleniyor...</div>}
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Posta Kodu</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Posta Kodu"
+                        value={form.postalCode}
+                        onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Daire / Not</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Daire / Not (opsiyonel)"
+                        value={form.line2}
+                        onChange={(e) => setForm({ ...form, line2: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <div className="text-sm font-semibold text-gray-700">Ulke</div>
+                      <input
+                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        placeholder="Ulke"
+                        value={form.country}
+                        onChange={(e) => setForm({ ...form, country: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="md:col-span-2 flex flex-wrap justify-end gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setShowForm(false)}
+                        className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700"
+                      >
+                        Iptal
+                      </button>
+                      <button
+                        type="submit"
+                        className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                      >
+                        Adresi kaydet
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
             )}
           </div>
 

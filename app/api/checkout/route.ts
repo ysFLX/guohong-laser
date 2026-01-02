@@ -19,15 +19,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
 
-  let payload: { items?: CheckoutItem[]; addressId?: string };
+  let payload: { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
   try {
-    payload = (await req.json()) as { items?: CheckoutItem[]; addressId?: string };
+    payload = (await req.json()) as { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
   } catch {
     return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
 
   const items = Array.isArray(payload.items) ? payload.items : [];
   const addressId = typeof payload.addressId === 'string' ? payload.addressId.trim() : '';
+  const billingAddressId =
+    typeof payload.billingAddressId === 'string' ? payload.billingAddressId.trim() : '';
   const cleanItems = items
     .filter((x) => x && typeof x.name === 'string' && typeof x.priceCents === 'number' && typeof x.quantity === 'number')
     .map((x) => ({
@@ -54,6 +56,17 @@ export async function POST(req: Request) {
 
   if (!address) {
     return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
+  }
+
+  if (billingAddressId) {
+    const billingAddress = await prisma.address.findFirst({
+      where: { id: billingAddressId, userId: session.user.id },
+      select: { id: true },
+    });
+
+    if (!billingAddress) {
+      return NextResponse.json({ error: 'Fatura adresi bulunamadi' }, { status: 400 });
+    }
   }
 
   const appUrl =
@@ -84,6 +97,7 @@ export async function POST(req: Request) {
     metadata: {
       userId: session.user.id,
       addressId,
+      billingAddressId: billingAddressId || addressId,
       cart: JSON.stringify(
         cleanItems.map((item) => ({
           id: item.id,

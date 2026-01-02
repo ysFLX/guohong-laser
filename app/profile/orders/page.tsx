@@ -179,13 +179,17 @@ export default async function OrdersPage() {
 
               {hasOrders && (
                 <div className="mt-8 space-y-4">
-                  {orders.map((order) => (
-                    <div key={order.id} className="rounded-24 border border-slate-200 bg-white/90 p-6">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                          <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>
-                          <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
-                        </div>
+              {orders.map((order) => (
+                <Link
+                  key={order.id}
+                  href={`/profile/orders/${order.id}`}
+                  className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-lg"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>
+                      <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
+                    </div>
                         <div
                           className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
                             statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
@@ -228,14 +232,14 @@ export default async function OrdersPage() {
                         ))}
                       </div>
 
-                      <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
-                        <span className="text-slate-600">Toplam</span>
-                        <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                  <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
+                    <span className="text-slate-600">Toplam</span>
+                    <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
             </div>
           </div>
         </div>
