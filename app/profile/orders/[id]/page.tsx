@@ -227,17 +227,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <span>Durum akisi</span>
               <span>{progressSteps[statusToStep[safeOrder.status]].label}</span>
             </div>
-            <div className="relative mt-4">
-              <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200" />
+            <div className="relative mt-4 h-6 px-2">
+              <div className="absolute left-2 right-2 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200" />
               <div
-                className={`absolute left-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
+                className={`absolute left-2 top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
                   (statusAccent[safeOrder.status] || statusAccent.RECEIVED).line
                 }`}
                 style={{
                   width: `${(statusToStep[safeOrder.status] / (progressSteps.length - 1)) * 100}%`,
                 }}
               />
-              <div className="relative z-10 grid grid-cols-4 items-center">
+              <div className="relative z-10 grid h-full grid-cols-4 items-center">
                 {progressSteps.map((step, index) => {
                   const isActive = index <= statusToStep[safeOrder.status];
                   const isCurrent = index === statusToStep[safeOrder.status];
