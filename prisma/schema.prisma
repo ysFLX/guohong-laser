@@ -216,6 +216,10 @@ enum InquiryStatus {
 enum OrderStatus {
   PENDING
   PAID
+  RECEIVED
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
   FAILED
   CANCELED
 }

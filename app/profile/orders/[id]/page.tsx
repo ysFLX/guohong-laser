@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { getStripe } from '@/lib/stripe';
 
 type OrderItem = {
   id: string;
@@ -25,6 +26,7 @@ type Order = {
   billingAddress: Address | null;
   shippingAddressId: string | null;
   billingAddressId: string | null;
+  stripeSessionId: string | null;
 };
 
 type Address = {
@@ -43,6 +45,10 @@ type Address = {
 const prismaOrders = prisma as unknown as {
   order: {
     findFirst: (args: unknown) => Promise<Order | null>;
+    update: (args: unknown) => Promise<{ id: string }>;
+  };
+  address: {
+    findFirst: (args: unknown) => Promise<{ id: string } | null>;
   };
 };
 
@@ -86,7 +92,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     redirect('/login');
   }
 
-  const order = await prismaOrders.order.findFirst({
+  let order = await prismaOrders.order.findFirst({
     where: { id: params.id, userId: session.user.id },
     include: { items: true, shippingAddress: true, billingAddress: true },
   });
@@ -95,8 +101,57 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     notFound();
   }
 
+  if (!order.shippingAddressId && order.stripeSessionId) {
+    try {
+      const stripe = getStripe();
+      const checkout = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
+      const addressId =
+        typeof checkout.metadata?.addressId === 'string' ? checkout.metadata.addressId : '';
+      const billingId =
+        typeof checkout.metadata?.billingAddressId === 'string' ? checkout.metadata.billingAddressId : '';
+
+      if (addressId) {
+        const shipping = await prismaOrders.address.findFirst({
+          where: { id: addressId, userId: session.user.id },
+          select: { id: true },
+        });
+
+        const billing =
+          billingId && billingId !== addressId
+            ? await prismaOrders.address.findFirst({
+                where: { id: billingId, userId: session.user.id },
+                select: { id: true },
+              })
+            : null;
+
+        if (shipping) {
+          await prismaOrders.order.update({
+            where: { id: order.id },
+            data: {
+              shippingAddressId: shipping.id,
+              billingAddressId: billing?.id ?? shipping.id,
+            },
+          });
+
+          order = await prismaOrders.order.findFirst({
+            where: { id: params.id, userId: session.user.id },
+            include: { items: true, shippingAddress: true, billingAddress: true },
+          });
+
+          if (!order) {
+            notFound();
+          }
+        }
+      }
+    } catch {}
+  }
+
   const statusLabel: Record<string, string> = {
     PAID: 'Odeme alindi',
+    RECEIVED: 'Siparis alindi',
+    SHIPPED: 'Kargoya verildi',
+    IN_TRANSIT: 'Yola cikti',
+    DELIVERED: 'Teslim edildi',
     PENDING: 'Beklemede',
     FAILED: 'Basarisiz',
     CANCELED: 'Iptal',
@@ -104,6 +159,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   const statusTone: Record<string, string> = {
     PAID: 'bg-emerald-500/15 text-emerald-700',
+    RECEIVED: 'bg-sky-500/15 text-sky-700',
+    SHIPPED: 'bg-amber-500/15 text-amber-700',
+    IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
+    DELIVERED: 'bg-emerald-500/15 text-emerald-700',
     PENDING: 'bg-amber-500/15 text-amber-700',
     FAILED: 'bg-rose-500/15 text-rose-700',
     CANCELED: 'bg-slate-500/15 text-slate-700',

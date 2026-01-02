@@ -130,7 +130,7 @@ export async function POST(req: Request) {
       await prismaOrders.order.create({
         data: {
           userId,
-          status: 'PAID',
+          status: 'RECEIVED',
           totalCents: total,
           currency: (session.currency || 'try').toUpperCase(),
           stripeSessionId: session.id,

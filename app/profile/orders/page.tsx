@@ -66,6 +66,10 @@ export default async function OrdersPage() {
 
   const statusLabel: Record<string, string> = {
     PAID: 'Odeme alindi',
+    RECEIVED: 'Siparis alindi',
+    SHIPPED: 'Kargoya verildi',
+    IN_TRANSIT: 'Yola cikti',
+    DELIVERED: 'Teslim edildi',
     PENDING: 'Beklemede',
     FAILED: 'Basarisiz',
     CANCELED: 'Iptal',
@@ -73,6 +77,10 @@ export default async function OrdersPage() {
 
   const statusTone: Record<string, string> = {
     PAID: 'bg-emerald-500/15 text-emerald-700',
+    RECEIVED: 'bg-sky-500/15 text-sky-700',
+    SHIPPED: 'bg-amber-500/15 text-amber-700',
+    IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
+    DELIVERED: 'bg-emerald-500/15 text-emerald-700',
     PENDING: 'bg-amber-500/15 text-amber-700',
     FAILED: 'bg-rose-500/15 text-rose-700',
     CANCELED: 'bg-slate-500/15 text-slate-700',
