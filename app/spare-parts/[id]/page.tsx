@@ -59,6 +59,32 @@ const compatibilityByCategory: Record<string, string[]> = {
   'Ozel Kesim': ['GL-9000'],
 };
 
+const usageVideosByCategory: Record<string, string> = {
+  'Sac Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
+  'Boru Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
+  'Kombine Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
+  'Ozel Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
+};
+
+const faqItems = [
+  {
+    q: 'Bu parca hangi modellere uyumludur?',
+    a: 'Uyumluluk listesi urun kartinda yer alir. Net teyit icin model bilgisini paylasabilirsiniz.',
+  },
+  {
+    q: 'Teslimat suresi nedir?',
+    a: 'Stoklu urunler genellikle 2-3 is gunu, ozel siparisler 7-10 gun icinde sevk edilir.',
+  },
+  {
+    q: 'Montaj destegi sagliyor musunuz?',
+    a: 'Teknik ekip uzaktan destek verir. Yerinde servis icin planlama yapilabilir.',
+  },
+  {
+    q: 'Garanti kapsamı nedir?',
+    a: 'Garanti suresi urun tipine gore degisir. Fatura ve seri numarasi ile destek alabilirsiniz.',
+  },
+];
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -123,6 +149,7 @@ export default async function SparePartDetailPage({
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;
+  const usageVideoUrl = usageVideosByCategory[p.category.name] || 'https://www.youtube.com/embed/ysz5S6PUM-U';
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -179,12 +206,51 @@ export default async function SparePartDetailPage({
             <p className="mt-6 text-gray-700 dark:text-gray-200 leading-relaxed">{p.description}</p>
 
             <div className="mt-6 rounded-xl border border-orange-100 bg-orange-50/70 px-4 py-4 text-sm text-orange-900">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">Uyumluluk</p>
-              <p className="mt-2">
-                {compatibility.length > 0
-                  ? `Uyumlu modeller: ${compatibility.join(', ')}`
-                  : 'Uyumluluk icin teknik ekiple iletisime gec.'}
-              </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">Uyumluluk listesi</p>
+              {compatibility.length > 0 ? (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {compatibility.map((model) => (
+                    <span key={model} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-orange-700">
+                      {model}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-2">Uyumluluk icin teknik ekiple iletisime gec.</p>
+              )}
+            </div>
+
+            <div className="mt-6 rounded-xl border border-gray-100 bg-white/90 px-4 py-4 text-sm text-gray-700">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">Teknik dokuman</p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                <a
+                  href="/docs/teknik-dokuman.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-gray-900 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-800"
+                >
+                  Teknik PDF indir
+                </a>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                >
+                  Dokuman talep et
+                </Link>
+              </div>
+            </div>
+
+            <div className="mt-6 rounded-2xl border border-gray-100 bg-white/90 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">Kullanim videosu</p>
+              <div className="mt-3 overflow-hidden rounded-xl border border-gray-100 bg-black">
+                <iframe
+                  className="h-56 w-full sm:h-72"
+                  src={usageVideoUrl}
+                  title="Kullanim videosu"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </div>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -244,6 +310,23 @@ export default async function SparePartDetailPage({
             </div>
           </div>
         )}
+
+        <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-orange-600">SSS</p>
+              <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Sik sorulan sorular</h2>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {faqItems.map((item) => (
+              <div key={item.q} className="rounded-2xl border border-gray-100 bg-white/80 p-4">
+                <div className="text-sm font-semibold text-gray-900">{item.q}</div>
+                <p className="mt-2 text-sm text-gray-600">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
