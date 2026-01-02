@@ -92,6 +92,8 @@ export default async function OrdersPage() {
     { key: 'SHIPPED', label: 'Kargoya verildi' },
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
+  const lineLeftPercent = 100 / (progressSteps.length * 2);
+  const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
     RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
     IN_TRANSIT: { dot: 'bg-orange-500', line: 'bg-orange-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
@@ -241,13 +243,17 @@ export default async function OrdersPage() {
                       </div>
                       <div className="mt-3 space-y-3">
                         <div className="relative">
-                          <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200" />
                           <div
-                            className={`absolute left-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
+                            className="absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200"
+                            style={{ left: `${lineLeftPercent}%`, width: `${lineWidthPercent}%` }}
+                          />
+                          <div
+                            className={`absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
                               (statusAccent[order.status] || statusAccent.RECEIVED).line
                             }`}
                             style={{
-                              width: `${(statusToStep[order.status] / (progressSteps.length - 1)) * 100}%`,
+                              left: `${lineLeftPercent}%`,
+                              width: `${(statusToStep[order.status] / (progressSteps.length - 1)) * lineWidthPercent}%`,
                             }}
                           />
                           <div className="relative z-10 grid grid-cols-4 text-center">
