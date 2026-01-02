@@ -7,6 +7,9 @@ import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type OrderItem = {
   id: string;
   name: string;
@@ -227,32 +230,35 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <span>Durum akisi</span>
               <span>{progressSteps[statusToStep[safeOrder.status]].label}</span>
             </div>
-            <div className="relative mt-4 h-6 px-2">
-              <div className="absolute left-2 right-2 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200" />
+            <div className="relative mt-4 h-6">
+              <div className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-slate-200" />
               <div
-                className={`absolute left-2 top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
+                className={`absolute left-0 top-1/2 h-0.5 -translate-y-1/2 rounded-full ${
                   (statusAccent[safeOrder.status] || statusAccent.RECEIVED).line
                 }`}
                 style={{
                   width: `${(statusToStep[safeOrder.status] / (progressSteps.length - 1)) * 100}%`,
                 }}
               />
-              <div className="relative z-10 grid h-full grid-cols-4 items-center">
-                {progressSteps.map((step, index) => {
-                  const isActive = index <= statusToStep[safeOrder.status];
-                  const isCurrent = index === statusToStep[safeOrder.status];
-                  const accent = statusAccent[safeOrder.status] || statusAccent.RECEIVED;
-                  return (
-                    <div key={step.key} className="flex items-center justify-center">
-                      <div
-                        className={`h-3.5 w-3.5 rounded-full ${
-                          isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
-                        } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+              {progressSteps.map((step, index) => {
+                const isActive = index <= statusToStep[safeOrder.status];
+                const isCurrent = index === statusToStep[safeOrder.status];
+                const accent = statusAccent[safeOrder.status] || statusAccent.RECEIVED;
+                const position = (index / (progressSteps.length - 1)) * 100;
+                return (
+                  <div
+                    key={step.key}
+                    className="absolute top-1/2 -translate-y-1/2"
+                    style={{ left: `${position}%`, transform: 'translate(-50%, -50%)' }}
+                  >
+                    <div
+                      className={`h-3.5 w-3.5 rounded-full ${
+                        isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
+                      } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
+                    />
+                  </div>
+                );
+              })}
             </div>
             <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
               {progressSteps.map((step) => (
