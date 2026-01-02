@@ -146,6 +146,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     } catch {}
   }
 
+  const safeOrder = order!;
+
   const statusLabel: Record<string, string> = {
     PAID: 'Odeme alindi',
     RECEIVED: 'Siparis alindi',
@@ -168,12 +170,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
 
-  const shippingView = formatAddress(order.shippingAddress);
-  const billingView = formatAddress(order.billingAddress);
+  const shippingView = formatAddress(safeOrder.shippingAddress);
+  const billingView = formatAddress(safeOrder.billingAddress);
   const billingSame =
-    order.billingAddressId &&
-    order.shippingAddressId &&
-    order.billingAddressId === order.shippingAddressId;
+    safeOrder.billingAddressId &&
+    safeOrder.shippingAddressId &&
+    safeOrder.billingAddressId === safeOrder.shippingAddressId;
 
   return (
     <div className="min-h-screen bg-slate-50">
