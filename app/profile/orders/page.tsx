@@ -270,7 +270,7 @@ export default async function OrdersPage() {
                                     isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
                                   } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
                                 />
-                                <span className="text-xs text-slate-500">{step.label}</span>
+                                <span className="text-center text-xs text-slate-500">{step.label}</span>
                               </div>
                             );
                           })}
