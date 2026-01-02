@@ -51,9 +51,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="pointer-events-auto rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
+            className="toast-enter pointer-events-auto rounded-2xl border border-emerald-200/70 bg-gradient-to-br from-emerald-500/95 via-emerald-500/90 to-emerald-600/90 p-4 text-white shadow-2xl"
           >
-            <div className="text-sm font-semibold text-slate-900">{toast.message}</div>
+            <div className="flex items-start gap-3">
+              <div className="mt-1 h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)]" />
+              <div className="text-sm font-semibold">{toast.message}</div>
+            </div>
             {toast.actions && toast.actions.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {toast.actions.map((action) => (
@@ -61,7 +64,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                     key={action.label}
                     type="button"
                     onClick={action.onClick}
-                    className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    className="rounded-lg border border-white/30 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20"
                   >
                     {action.label}
                   </button>

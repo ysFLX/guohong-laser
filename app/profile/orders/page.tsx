@@ -92,13 +92,14 @@ export default async function OrdersPage() {
     { key: 'SHIPPED', label: 'Kargoya verildi' },
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
-  const stepDotColors = [
-    'border-amber-400 bg-amber-400',
-    'border-orange-400 bg-orange-400',
-    'border-emerald-400 bg-emerald-400',
-    'border-emerald-500 bg-emerald-500',
-  ];
-  const stepLineColors = ['bg-orange-400', 'bg-emerald-400', 'bg-emerald-500'];
+  const statusAccent: Record<string, { dot: string; line: string; ring: string }> = {
+    RECEIVED: { dot: 'border-amber-500 bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+    IN_TRANSIT: { dot: 'border-orange-500 bg-orange-500', line: 'bg-orange-400', ring: 'ring-orange-100' },
+    SHIPPED: { dot: 'border-sky-500 bg-sky-500', line: 'bg-sky-400', ring: 'ring-sky-100' },
+    DELIVERED: { dot: 'border-emerald-500 bg-emerald-500', line: 'bg-emerald-500', ring: 'ring-emerald-100' },
+    PAID: { dot: 'border-amber-500 bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+    PENDING: { dot: 'border-amber-500 bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+  };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
     IN_TRANSIT: 1,
@@ -242,18 +243,16 @@ export default async function OrdersPage() {
                         {progressSteps.map((step, index) => {
                           const isActive = index <= statusToStep[order.status];
                           const isCurrent = index === statusToStep[order.status];
-                          const lineColor = stepLineColors[index] || 'bg-slate-200';
+                          const accent = statusAccent[order.status] || statusAccent.RECEIVED;
                           return (
                             <div key={step.key} className="flex flex-1 items-center gap-2">
                               <div
                                 className={`h-3 w-3 rounded-full border ${
-                                  isActive
-                                    ? stepDotColors[index] || 'border-orange-500 bg-orange-500'
-                                    : 'border-slate-200 bg-white'
-                                } ${isCurrent ? 'ring-4 ring-orange-100' : ''}`}
+                                  isActive ? accent.dot : 'border-slate-200 bg-white'
+                                } ${isCurrent ? `ring-4 ${accent.ring}` : ''}`}
                               />
                               {index < progressSteps.length - 1 && (
-                                <div className={`h-0.5 w-full ${isActive ? lineColor : 'bg-slate-200'}`} />
+                                <div className={`h-0.5 w-full ${isActive ? accent.line : 'bg-slate-200'}`} />
                               )}
                             </div>
                           );
