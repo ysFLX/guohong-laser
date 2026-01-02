@@ -135,7 +135,7 @@ export async function generateMetadata({
       title,
       description,
       url,
-      type: 'product',
+      type: 'website',
       images: images.length ? images : undefined,
     },
     twitter: {
