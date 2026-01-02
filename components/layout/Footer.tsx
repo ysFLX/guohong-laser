@@ -106,7 +106,10 @@ export default function Footer() {
             <div>&copy; {new Date().getFullYear()} Guohong Lazer. Tum haklari saklidir.</div>
             <div className="flex flex-wrap gap-3">
               <Link href="/privacy" className="hover:text-orange-600">Gizlilik</Link>
-              <Link href="/terms" className="hover:text-orange-600">Kullanim</Link>
+              <Link href="/returns" className="hover:text-orange-600">Iade & Garanti</Link>
+              <Link href="/shipping" className="hover:text-orange-600">Kargo & Teslimat</Link>
+              <Link href="/payment-security" className="hover:text-orange-600">Odeme Guvenligi</Link>
+              <Link href="/company" className="hover:text-orange-600">Firma Bilgileri</Link>
               <Link href="/contact" className="hover:text-orange-600">Destek</Link>
             </div>
           </div>
