@@ -176,13 +176,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     { key: 'SHIPPED', label: 'Kargoya verildi' },
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
-  const statusAccent: Record<string, { dot: string; line: string; ring: string }> = {
-    RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
-    IN_TRANSIT: { dot: 'bg-orange-500', line: 'bg-orange-400', ring: 'ring-orange-100' },
-    SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', ring: 'ring-sky-100' },
-    DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', ring: 'ring-emerald-100' },
-    PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
-    PENDING: { dot: 'bg-amber-500', line: 'bg-amber-400', ring: 'ring-amber-100' },
+  const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
+    RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
+    IN_TRANSIT: { dot: 'bg-orange-500', line: 'bg-orange-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
+    SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
+    DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
+    PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
+    PENDING: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
@@ -237,7 +237,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                     <div
                       className={`h-3.5 w-3.5 rounded-full ${
                         isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
-                      } ${isCurrent ? `ring-4 ${accent.ring}` : ''}`}
+                      } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
                     />
                     {index < progressSteps.length - 1 && (
                       <div className={`h-0.5 w-full ${isActive ? accent.line : 'bg-slate-200'}`} />
