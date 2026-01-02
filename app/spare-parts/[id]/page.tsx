@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { prisma } from '@/lib/prisma';
@@ -85,6 +86,73 @@ const faqItems = [
   },
 ];
 
+const getBaseUrl = () => process.env.NEXTAUTH_URL || 'http://localhost:3000';
+
+const truncate = (value: string, max = 160) =>
+  value.length > max ? `${value.slice(0, max - 3)}...` : value;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const part = await prismaSpareParts.sparePart.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      imageUrl: true,
+      images: { select: { url: true } },
+      category: { select: { name: true } },
+      priceCents: true,
+      currency: true,
+      stockOnHand: true,
+    },
+  });
+
+  if (!part) {
+    return {
+      title: 'Urun bulunamadi',
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/spare-parts/${part.id}`;
+  const title = `${part.name} | Guohong Lazer`;
+  const description = truncate(part.description || `${part.name} yedek parca detaylari.`);
+  const images = (part.images?.length ? part.images.map((img) => img.url) : [part.imageUrl]).filter(
+    Boolean,
+  ) as string[];
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'product',
+      images: images.length ? images : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: images.length ? images : undefined,
+    },
+    other: {
+      'product:brand': 'Guohong Lazer',
+      'product:availability': part.stockOnHand > 0 ? 'in stock' : 'out of stock',
+      'product:price:amount': String((part.priceCents / 100).toFixed(2)),
+      'product:price:currency': part.currency || 'TRY',
+    },
+  };
+}
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -150,9 +218,33 @@ export default async function SparePartDetailPage({
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;
   const usageVideoUrl = usageVideosByCategory[p.category.name] || 'https://www.youtube.com/embed/ysz5S6PUM-U';
+  const baseUrl = getBaseUrl();
+  const imageUrls = (p.images?.length ? p.images.map((img) => img.url) : [p.imageUrl]).filter(
+    Boolean,
+  ) as string[];
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.name,
+    description: p.description,
+    category: p.category.name,
+    image: imageUrls,
+    brand: {
+      '@type': 'Organization',
+      name: 'Guohong Lazer',
+    },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: p.currency || 'TRY',
+      price: (p.priceCents / 100).toFixed(2),
+      availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      url: `${baseUrl}/spare-parts/${p.id}`,
+    },
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between">
           <Link href="/spare-parts" className="text-sm font-semibold text-gray-700 dark:text-gray-200 hover:underline">
