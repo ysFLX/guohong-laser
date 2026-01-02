@@ -100,28 +100,35 @@ export async function POST(req: Request) {
       ? checkout.amount_total
       : itemsToCreate.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
 
-  await prismaOrders.order.create({
-    data: {
-      userId,
-      status: 'RECEIVED',
-      totalCents: total,
-      currency: (checkout.currency || 'try').toUpperCase(),
-      stripeSessionId: checkout.id,
-      stripePaymentIntentId: checkout.payment_intent ? String(checkout.payment_intent) : null,
-      shippingAddressId,
-      billingAddressId: billingAddressId || shippingAddressId,
-      items: {
-        create: itemsToCreate.map((item) => ({
-          sparePartId: item.id || null,
-          name: item.name,
-          imageUrl: item.imageUrl || null,
-          quantity: item.quantity,
-          priceCents: item.priceCents,
-        })),
-      },
+  const createPayload = {
+    userId,
+    status: 'RECEIVED',
+    totalCents: total,
+    currency: (checkout.currency || 'try').toUpperCase(),
+    stripeSessionId: checkout.id,
+    stripePaymentIntentId: checkout.payment_intent ? String(checkout.payment_intent) : null,
+    shippingAddressId,
+    billingAddressId: billingAddressId || shippingAddressId,
+    items: {
+      create: itemsToCreate.map((item) => ({
+        sparePartId: item.id || null,
+        name: item.name,
+        imageUrl: item.imageUrl || null,
+        quantity: item.quantity,
+        priceCents: item.priceCents,
+      })),
     },
-    select: { id: true },
-  });
+  };
+
+  try {
+    await prismaOrders.order.create({ data: createPayload, select: { id: true } });
+  } catch (error) {
+    console.error('[orders/sync] create failed, retrying with PAID:', error);
+    await prismaOrders.order.create({
+      data: { ...createPayload, status: 'PAID' },
+      select: { id: true },
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }
