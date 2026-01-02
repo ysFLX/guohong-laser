@@ -41,6 +41,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               Yedek Parcalar
             </Link>
             <Link
+              href="/admin/orders"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800 hover:text-white"
+            >
+              <span className="h-2.5 w-2.5 rounded-full bg-orange-400" />
+              Siparisler
+            </Link>
+            <Link
               href="/admin/inquiries#quotes"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800 hover:text-white"
             >
@@ -82,6 +89,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                 >
                   Yedek Parcalar
+                </Link>
+                <Link
+                  href="/admin/orders"
+                  className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                >
+                  Siparisler
                 </Link>
                 <Link
                   href="/admin/inquiries#quotes"
