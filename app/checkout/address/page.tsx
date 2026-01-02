@@ -333,7 +333,7 @@ export default function CheckoutAddressPage() {
                 <div className="space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Etiket</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Etiket (Ev, Is)"
                     value={form.label}
                     onChange={(e) => setForm({ ...form, label: e.target.value })}
@@ -343,7 +343,7 @@ export default function CheckoutAddressPage() {
                 <div className="space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Ad</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Ad"
                     value={form.firstName}
                     onChange={(e) => setForm({ ...form, firstName: e.target.value })}
@@ -353,7 +353,7 @@ export default function CheckoutAddressPage() {
                 <div className="space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Soyad</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Soyad"
                     value={form.lastName}
                     onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -363,7 +363,7 @@ export default function CheckoutAddressPage() {
                 <div className="space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Telefon</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Telefon"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -373,7 +373,7 @@ export default function CheckoutAddressPage() {
                 <div className="md:col-span-2 space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Adres</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Adres"
                     value={form.line1}
                     onChange={(e) => setForm({ ...form, line1: e.target.value })}
@@ -383,7 +383,7 @@ export default function CheckoutAddressPage() {
                 <div className="md:col-span-2 space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
                   <select
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
                     value={form.cityCode}
                     onChange={(e) => {
                       const cityCode = e.target.value;
@@ -412,7 +412,7 @@ export default function CheckoutAddressPage() {
                 <div className="md:col-span-2 space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
                   <select
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
                     value={form.district}
                     onChange={(e) => setForm({ ...form, district: e.target.value })}
                     disabled={!form.cityCode || loadingDistricts}
@@ -432,7 +432,7 @@ export default function CheckoutAddressPage() {
                 <div className="space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Posta Kodu</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Posta Kodu"
                     value={form.postalCode}
                     onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
@@ -442,7 +442,7 @@ export default function CheckoutAddressPage() {
                 <div className="md:col-span-2 space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Daire / Not</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Daire / Not (opsiyonel)"
                     value={form.line2}
                     onChange={(e) => setForm({ ...form, line2: e.target.value })}
@@ -452,7 +452,7 @@ export default function CheckoutAddressPage() {
                 <div className="md:col-span-2 space-y-2">
                   <div className="text-sm font-semibold text-gray-700">Ulke</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
                     placeholder="Ulke"
                     value={form.country}
                     onChange={(e) => setForm({ ...form, country: e.target.value })}
