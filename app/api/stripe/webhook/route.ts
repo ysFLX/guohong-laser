@@ -57,6 +57,12 @@ export async function POST(req: Request) {
     if (!existing) {
       const stripe = getStripe();
       const cartRaw = session.metadata?.cart || '[]';
+      const shippingAddressId =
+        typeof session.metadata?.addressId === 'string' ? session.metadata.addressId : null;
+      const billingAddressId =
+        typeof session.metadata?.billingAddressId === 'string'
+          ? session.metadata.billingAddressId
+          : null;
       let cartItems: Array<{
         id: string;
         name: string;
@@ -129,6 +135,8 @@ export async function POST(req: Request) {
           currency: (session.currency || 'try').toUpperCase(),
           stripeSessionId: session.id,
           stripePaymentIntentId: session.payment_intent || null,
+          shippingAddressId,
+          billingAddressId: billingAddressId || shippingAddressId,
           items: {
             create: itemsToCreate.map((item) => ({
               sparePartId: item.id || null,

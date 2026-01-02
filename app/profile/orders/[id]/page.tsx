@@ -21,6 +21,23 @@ type Order = {
   currency: string;
   createdAt: Date;
   items: OrderItem[];
+  shippingAddress: Address | null;
+  billingAddress: Address | null;
+  shippingAddressId: string | null;
+  billingAddressId: string | null;
+};
+
+type Address = {
+  id: string;
+  label: string | null;
+  fullName: string | null;
+  phone: string | null;
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
 };
 
 const prismaOrders = prisma as unknown as {
@@ -49,6 +66,20 @@ function formatDate(value: Date) {
   }
 }
 
+function formatAddress(address: Address | null) {
+  if (!address) return null;
+  const line2 = address.line2 ? `, ${address.line2}` : '';
+  const cityLine = `${address.city || '-'}${address.state ? ` / ${address.state}` : ''} ${address.postalCode || ''}`.trim();
+  const country = address.country || '';
+  return {
+    title: address.label || 'Adres',
+    fullName: address.fullName || '-',
+    line1: `${address.line1 || '-'}${line2}`,
+    city: `${cityLine} ${country}`.trim(),
+    phone: address.phone || '-',
+  };
+}
+
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -57,7 +88,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   const order = await prismaOrders.order.findFirst({
     where: { id: params.id, userId: session.user.id },
-    include: { items: true },
+    include: { items: true, shippingAddress: true, billingAddress: true },
   });
 
   if (!order) {
@@ -77,6 +108,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     FAILED: 'bg-rose-500/15 text-rose-700',
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
+
+  const shippingView = formatAddress(order.shippingAddress);
+  const billingView = formatAddress(order.billingAddress);
+  const billingSame =
+    order.billingAddressId &&
+    order.shippingAddressId &&
+    order.billingAddressId === order.shippingAddressId;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -141,6 +179,56 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="mt-4 flex items-center justify-between text-sm">
               <span className="text-slate-600">Toplam</span>
               <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
+            </div>
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Siparis durumu
+              </div>
+              <div className="mt-2">
+                <span
+                  className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                    statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  {statusLabel[order.status as keyof typeof statusLabel] || order.status}
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Teslimat adresi
+              </div>
+              {shippingView ? (
+                <div className="mt-2 space-y-1 text-slate-700">
+                  <div className="font-semibold text-slate-900">{shippingView.title}</div>
+                  <div>{shippingView.fullName}</div>
+                  <div>{shippingView.line1}</div>
+                  <div>{shippingView.city}</div>
+                  <div>{shippingView.phone}</div>
+                </div>
+              ) : (
+                <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+              )}
+            </div>
+
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Fatura adresi
+              </div>
+              {billingSame && shippingView ? (
+                <div className="mt-2 text-slate-700">Teslimat adresi ile ayni.</div>
+              ) : billingView ? (
+                <div className="mt-2 space-y-1 text-slate-700">
+                  <div className="font-semibold text-slate-900">{billingView.title}</div>
+                  <div>{billingView.fullName}</div>
+                  <div>{billingView.line1}</div>
+                  <div>{billingView.city}</div>
+                  <div>{billingView.phone}</div>
+                </div>
+              ) : (
+                <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+              )}
             </div>
             <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
               Siparis durumunuz guncellendikce burada gorunur.

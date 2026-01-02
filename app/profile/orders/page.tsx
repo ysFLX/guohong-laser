@@ -185,19 +185,22 @@ export default async function OrdersPage() {
                   href={`/profile/orders/${order.id}`}
                   className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-lg"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <span>Durum</span>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                        statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                      }`}
+                    >
+                      {statusLabel[order.status as keyof typeof statusLabel] || order.status}
+                    </span>
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>
                       <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                     </div>
-                        <div
-                          className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                            statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-                          }`}
-                        >
-                          {statusLabel[order.status as keyof typeof statusLabel] || order.status}
-                        </div>
-                      </div>
+                  </div>
 
                       <div className="mt-4 grid gap-4">
                         {order.items.map((item) => (

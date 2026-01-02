@@ -52,6 +52,10 @@ export async function POST(req: Request) {
   }
 
   const cartRaw = checkout.metadata?.cart || '[]';
+  const shippingAddressId =
+    typeof checkout.metadata?.addressId === 'string' ? checkout.metadata.addressId : null;
+  const billingAddressId =
+    typeof checkout.metadata?.billingAddressId === 'string' ? checkout.metadata.billingAddressId : null;
   let cartItems: Array<{
     id: string;
     name: string;
@@ -104,6 +108,8 @@ export async function POST(req: Request) {
       currency: (checkout.currency || 'try').toUpperCase(),
       stripeSessionId: checkout.id,
       stripePaymentIntentId: checkout.payment_intent ? String(checkout.payment_intent) : null,
+      shippingAddressId,
+      billingAddressId: billingAddressId || shippingAddressId,
       items: {
         create: itemsToCreate.map((item) => ({
           sparePartId: item.id || null,
