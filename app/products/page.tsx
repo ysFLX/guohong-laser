@@ -205,13 +205,38 @@ const servicePackages = [
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
+  const [stockFilter, setStockFilter] = useState<'Tumu' | 'Stokta' | 'Siparisle'>('Tumu');
+  const [automationFilter, setAutomationFilter] = useState<'Tumu' | 'Otomatik' | 'Yari otomatik' | 'Manuel'>('Tumu');
+  const [powerFilter, setPowerFilter] = useState<'Tumu' | '3-6 kW' | '6-12 kW' | '12+ kW'>('Tumu');
+
+  const parsePowerRange = (value: string) => {
+    const matches = value.match(/\d+/g)?.map((n) => Number(n)).filter((n) => Number.isFinite(n)) ?? [];
+    if (matches.length === 0) return null;
+    const min = Math.min(...matches);
+    const max = Math.max(...matches);
+    return { min, max };
+  };
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory = selectedCategory === 'Tumu' || product.category === selectedCategory;
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const matchesStock = stockFilter === 'Tumu' || product.stockLabel === stockFilter;
+    const automationValue = product.automation.toLowerCase();
+    const matchesAutomation =
+      automationFilter === 'Tumu' ||
+      (automationFilter === 'Otomatik' && automationValue.includes('otomatik') && !automationValue.includes('yari')) ||
+      (automationFilter === 'Yari otomatik' && automationValue.includes('yari')) ||
+      (automationFilter === 'Manuel' && automationValue.includes('manuel'));
+    const powerRange = parsePowerRange(product.power);
+    const matchesPower =
+      powerFilter === 'Tumu' ||
+      (powerFilter === '3-6 kW' && powerRange && powerRange.min >= 3 && powerRange.max <= 6) ||
+      (powerFilter === '6-12 kW' && powerRange && powerRange.min <= 6 && powerRange.max >= 12) ||
+      (powerFilter === '12+ kW' && powerRange && powerRange.max >= 12);
+
+    return matchesCategory && matchesSearch && matchesStock && matchesAutomation && matchesPower;
   });
 
   return (
@@ -270,6 +295,81 @@ export default function ProductsPage() {
                 {category}
               </button>
             ))}
+          </div>
+        </div>
+
+        <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Stok</label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(['Tumu', 'Stokta', 'Siparisle'] as const).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setStockFilter(value)}
+                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
+                    stockFilter === value
+                      ? 'bg-teal-500 text-slate-900'
+                      : 'bg-white text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Otomasyon</label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(['Tumu', 'Otomatik', 'Yari otomatik', 'Manuel'] as const).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setAutomationFilter(value)}
+                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
+                    automationFilter === value
+                      ? 'bg-teal-500 text-slate-900'
+                      : 'bg-white text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Guc</label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {(['Tumu', '3-6 kW', '6-12 kW', '12+ kW'] as const).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setPowerFilter(value)}
+                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
+                    powerFilter === value
+                      ? 'bg-teal-500 text-slate-900'
+                      : 'bg-white text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex items-end">
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCategory('Tumu');
+                setSearchQuery('');
+                setStockFilter('Tumu');
+                setAutomationFilter('Tumu');
+                setPowerFilter('Tumu');
+              }}
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:bg-slate-50"
+            >
+              Filtreleri sifirla
+            </button>
           </div>
         </div>
       </Reveal>
