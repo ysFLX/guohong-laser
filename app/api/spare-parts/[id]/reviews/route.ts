@@ -60,10 +60,10 @@ const buildSummary = (ratings: number[]): ReviewSummary => {
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const sparePartId = params.id;
+    const { id: sparePartId } = await params;
 
     const reviews = await prisma.sparePartReview.findMany({
       where: { sparePartId, isApproved: true },
@@ -108,7 +108,7 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -116,7 +116,7 @@ export async function POST(
       return NextResponse.json({ error: 'Giris yapmalisin.' }, { status: 401 });
     }
 
-    const sparePartId = params.id;
+    const { id: sparePartId } = await params;
     const body = await req.json();
     const rating = Number(body?.rating);
     const title = typeof body?.title === 'string' ? body.title.trim() : '';
