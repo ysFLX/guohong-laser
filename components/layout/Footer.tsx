@@ -1,16 +1,34 @@
+'use client';
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === '/';
+
+  const accent = {
+    glow: isHome ? 'bg-amber-200/70' : 'bg-orange-200/70',
+    glowMuted: isHome ? 'bg-amber-200/60' : 'bg-orange-200/60',
+    border: isHome ? 'border-amber-300/50' : 'border-orange-300/50',
+    primaryBtn: isHome ? 'bg-teal-600 hover:bg-teal-700' : 'bg-orange-600 hover:bg-orange-700',
+    outlineBtn: isHome
+      ? 'border-teal-200 text-teal-700 hover:bg-teal-50'
+      : 'border-orange-200 text-orange-700 hover:bg-orange-50',
+    linkHover: isHome ? 'hover:text-amber-600' : 'hover:text-orange-600',
+    iconHover: isHome ? 'hover:text-amber-600' : 'hover:text-orange-600',
+  };
+
   return (
     <footer className="relative overflow-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 right-10 h-56 w-56 rounded-full bg-orange-200/70 blur-3xl dark:bg-orange-500/20" />
-        <div className="absolute -bottom-24 left-10 h-64 w-64 rounded-full bg-orange-200/60 blur-3xl dark:bg-orange-500/10" />
+        <div className={`absolute -top-24 right-10 h-56 w-56 rounded-full ${accent.glow} blur-3xl dark:bg-orange-500/20`} />
+        <div className={`absolute -bottom-24 left-10 h-64 w-64 rounded-full ${accent.glowMuted} blur-3xl dark:bg-orange-500/10`} />
         <div className="absolute inset-0 opacity-30 dark:opacity-20 bg-[linear-gradient(90deg,_rgba(15,23,42,0.08)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.08)_1px,_transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
       <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="border-t border-orange-300/50 dark:border-orange-500/20" />
+        <div className={`border-t ${accent.border} dark:border-orange-500/20`} />
 
         <div className="grid gap-8 py-12 lg:grid-cols-[1.2fr_1fr]">
           <div className="space-y-6">
@@ -31,13 +49,13 @@ export default function Footer() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700">
+              <Link href="/quote" className={`inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white ${accent.primaryBtn}`}>
                 Teklif Al
               </Link>
               <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
                 Iletisime Gec
               </Link>
-              <a href="https://wa.me/905368316787" className="inline-flex items-center justify-center rounded-full border border-orange-200 px-4 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50 dark:border-orange-400/30 dark:text-orange-300 dark:hover:bg-orange-400/10">
+              <a href="https://wa.me/905368316787" className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold ${accent.outlineBtn} dark:border-orange-400/30 dark:text-orange-300 dark:hover:bg-orange-400/10`}>
                 WhatsApp Hatti
               </a>
             </div>
@@ -53,11 +71,11 @@ export default function Footer() {
             <div className="rounded-2xl border border-slate-200/70 bg-white/70 p-5 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/60">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hizli Linkler</div>
               <div className="mt-4 space-y-2 text-sm">
-                <Link href="/about" className="block text-slate-700 hover:text-orange-600 dark:text-slate-200">Hakkimizda</Link>
-                <Link href="/products" className="block text-slate-700 hover:text-orange-600 dark:text-slate-200">Makineler</Link>
-                <Link href="/spare-parts" className="block text-slate-700 hover:text-orange-600 dark:text-slate-200">Yedek Parcalar</Link>
-                <Link href="/gallery" className="block text-slate-700 hover:text-orange-600 dark:text-slate-200">Galeri</Link>
-                <Link href="/contact" className="block text-slate-700 hover:text-orange-600 dark:text-slate-200">Iletisim</Link>
+                <Link href="/about" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Hakkimizda</Link>
+                <Link href="/products" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Makineler</Link>
+                <Link href="/spare-parts" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yedek Parcalar</Link>
+                <Link href="/gallery" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Galeri</Link>
+                <Link href="/contact" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Iletisim</Link>
               </div>
             </div>
 
@@ -70,7 +88,7 @@ export default function Footer() {
                 <div>Pazartesi - Cumartesi 09:00 - 18:00</div>
               </div>
               <div className="mt-4 flex items-center gap-3 text-slate-400">
-                <a href="https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR" className="hover:text-orange-600">
+                <a href="https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR" className={accent.iconHover}>
                   <span className="sr-only">Facebook</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
@@ -80,7 +98,7 @@ export default function Footer() {
                     />
                   </svg>
                 </a>
-                <a href="https://www.instagram.com/gu0honglaser/" className="hover:text-orange-600">
+                <a href="https://www.instagram.com/gu0honglaser/" className={accent.iconHover}>
                   <span className="sr-only">Instagram</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
@@ -90,7 +108,7 @@ export default function Footer() {
                     />
                   </svg>
                 </a>
-                <a href="https://wa.me/905368316787" className="hover:text-orange-600">
+                <a href="https://wa.me/905368316787" className={accent.iconHover}>
                   <span className="sr-only">WhatsApp</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.52 3.48A11.94 11.94 0 0012.06 0C5.4 0 .07 5.33.07 12c0 2.11.55 4.18 1.6 6.02L0 24l6.17-1.62A11.95 11.95 0 0012.06 24h.01c6.66 0 12.09-5.33 12.09-11.99 0-3.2-1.25-6.2-3.64-8.53zm-8.46 18.5a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.65.96.98-3.56-.24-.37a9.93 9.93 0 01-1.57-5.31c0-5.51 4.48-9.99 10-9.99a9.95 9.95 0 017.09 2.93 9.9 9.9 0 012.94 7.06c0 5.51-4.48 9.99-9.99 9.99zm5.47-7.46c-.3-.15-1.77-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.18-.17.2-.35.23-.65.08-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.8-1.67-2.1-.18-.3-.02-.46.13-.6.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.53.08-.8.38-.27.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.20-.57-.35z" />
@@ -105,12 +123,12 @@ export default function Footer() {
           <div className="flex flex-col gap-3 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
             <div>&copy; {new Date().getFullYear()} Guohong Lazer. Tum haklari saklidir.</div>
             <div className="flex flex-wrap gap-3">
-              <Link href="/privacy" className="hover:text-orange-600">Gizlilik</Link>
-              <Link href="/returns" className="hover:text-orange-600">Iade & Garanti</Link>
-              <Link href="/shipping" className="hover:text-orange-600">Kargo & Teslimat</Link>
-              <Link href="/payment-security" className="hover:text-orange-600">Odeme Guvenligi</Link>
-              <Link href="/company" className="hover:text-orange-600">Firma Bilgileri</Link>
-              <Link href="/contact" className="hover:text-orange-600">Destek</Link>
+              <Link href="/privacy" className={accent.linkHover}>Gizlilik</Link>
+              <Link href="/returns" className={accent.linkHover}>Iade & Garanti</Link>
+              <Link href="/shipping" className={accent.linkHover}>Kargo & Teslimat</Link>
+              <Link href="/payment-security" className={accent.linkHover}>Odeme Guvenligi</Link>
+              <Link href="/company" className={accent.linkHover}>Firma Bilgileri</Link>
+              <Link href="/contact" className={accent.linkHover}>Destek</Link>
             </div>
           </div>
         </div>

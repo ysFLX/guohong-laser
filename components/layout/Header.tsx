@@ -17,6 +17,7 @@ export default function Header() {
   const isAuthed = mounted && status === 'authenticated';
   const isAdmin = mounted && data?.user?.role === 'ADMIN';
   const pathname = usePathname();
+  const isHome = pathname === '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toggleCart, itemCount } = useCart();
   const { open: openNotifications, unreadCount } = useNotifications();
@@ -36,12 +37,17 @@ export default function Header() {
     return pathname?.startsWith(href);
   };
 
-  const navClass = (href: string) =>
-    `rounded-full px-3 py-1.5 transition ${
-      isActive(href)
-        ? 'bg-orange-100 text-orange-700'
-        : 'hover:bg-orange-50 hover:text-orange-700 dark:hover:bg-orange-400/10 dark:hover:text-orange-200'
-    }`;
+  const navClass = (href: string) => {
+    const active = isHome ? 'bg-teal-100 text-teal-700' : 'bg-orange-100 text-orange-700';
+    const hover = isHome
+      ? 'hover:bg-teal-50 hover:text-teal-700 dark:hover:bg-teal-400/10 dark:hover:text-teal-200'
+      : 'hover:bg-orange-50 hover:text-orange-700 dark:hover:bg-orange-400/10 dark:hover:text-orange-200';
+    return `rounded-full px-3 py-1.5 transition ${isActive(href) ? active : hover}`;
+  };
+
+  const navShellClass = isHome
+    ? 'inline-flex items-center gap-1 rounded-full border border-slate-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-slate-600 shadow-sm shadow-teal-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200'
+    : 'inline-flex items-center gap-1 rounded-full border border-gray-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-gray-600 shadow-sm shadow-orange-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200';
 
   return (
     <header className="bg-white shadow-sm dark:bg-gray-900">
@@ -66,7 +72,7 @@ export default function Header() {
           </div>
 
           <nav className="hidden sm:flex flex-1 justify-center" aria-label="Ana menu">
-            <div className="inline-flex items-center gap-1 rounded-full border border-gray-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-gray-600 shadow-sm shadow-orange-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200">
+            <div className={navShellClass}>
               <Link href="/" aria-current={isActive('/') ? 'page' : undefined} className={navClass('/')}>
                 Ana Sayfa
               </Link>
@@ -153,7 +159,11 @@ export default function Header() {
                     />
                   </svg>
                   {mounted && unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-orange-600 text-white text-xs font-bold flex items-center justify-center">
+                    <span
+                      className={`absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-white text-xs font-bold flex items-center justify-center ${
+                        isHome ? 'bg-teal-600' : 'bg-orange-600'
+                      }`}
+                    >
                       {unreadCount}
                     </span>
                   )}
@@ -169,7 +179,11 @@ export default function Header() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                   {mounted && itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-orange-600 text-white text-xs font-bold flex items-center justify-center">
+                    <span
+                      className={`absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-white text-xs font-bold flex items-center justify-center ${
+                        isHome ? 'bg-teal-600' : 'bg-orange-600'
+                      }`}
+                    >
                       {itemCount}
                     </span>
                   )}
@@ -266,7 +280,11 @@ export default function Header() {
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  isActive('/') ? 'bg-orange-50 text-orange-700' : 'text-gray-700 hover:bg-gray-100'
+                  isActive('/')
+                    ? isHome
+                      ? 'bg-teal-50 text-teal-700'
+                      : 'bg-orange-50 text-orange-700'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Ana Sayfa
@@ -275,7 +293,11 @@ export default function Header() {
                 href="/products"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  isActive('/products') ? 'bg-orange-50 text-orange-700' : 'text-gray-700 hover:bg-gray-100'
+                  isActive('/products')
+                    ? isHome
+                      ? 'bg-teal-50 text-teal-700'
+                      : 'bg-orange-50 text-orange-700'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Makineler
@@ -284,7 +306,11 @@ export default function Header() {
                 href="/spare-parts"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  isActive('/spare-parts') ? 'bg-orange-50 text-orange-700' : 'text-gray-700 hover:bg-gray-100'
+                  isActive('/spare-parts')
+                    ? isHome
+                      ? 'bg-teal-50 text-teal-700'
+                      : 'bg-orange-50 text-orange-700'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Yedek Parcalar
@@ -293,7 +319,11 @@ export default function Header() {
                 href="/gallery"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  isActive('/gallery') ? 'bg-orange-50 text-orange-700' : 'text-gray-700 hover:bg-gray-100'
+                  isActive('/gallery')
+                    ? isHome
+                      ? 'bg-teal-50 text-teal-700'
+                      : 'bg-orange-50 text-orange-700'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Galeri
@@ -302,7 +332,11 @@ export default function Header() {
                 href="/about"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  isActive('/about') ? 'bg-orange-50 text-orange-700' : 'text-gray-700 hover:bg-gray-100'
+                  isActive('/about')
+                    ? isHome
+                      ? 'bg-teal-50 text-teal-700'
+                      : 'bg-orange-50 text-orange-700'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Hakkimizda
@@ -311,7 +345,11 @@ export default function Header() {
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
-                  isActive('/contact') ? 'bg-orange-50 text-orange-700' : 'text-gray-700 hover:bg-gray-100'
+                  isActive('/contact')
+                    ? isHome
+                      ? 'bg-teal-50 text-teal-700'
+                      : 'bg-orange-50 text-orange-700'
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Iletisim
@@ -331,7 +369,9 @@ export default function Header() {
                   <Link
                     href="/register"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-2 text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-md"
+                    className={`px-3 py-2 text-sm font-medium text-white rounded-md ${
+                      isHome ? 'bg-teal-600 hover:bg-teal-700' : 'bg-orange-600 hover:bg-orange-700'
+                    }`}
                   >
                     Kayit Ol
                   </Link>
