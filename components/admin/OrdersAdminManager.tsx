@@ -210,136 +210,138 @@ export default function OrdersAdminManager() {
         {!loading && orders.length > 0 && (
           <div className="mt-6 space-y-4">
             {orders.map((order) => (
-              <div
-                key={order.id}
-                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-4">
+              <div key={order.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-slate-50 px-5 py-4">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">
-                      Siparis #{order.id.slice(0, 8)}
-                    </div>
-                    <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
+                    <div className="mt-1 text-sm font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
+                    <div className="text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                   </div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    {formatPriceTry(order.totalCents)}
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-teal-700">
+                      {statusLabel[order.status] || order.status}
+                    </span>
+                    <div className="text-sm font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
                   </div>
                 </div>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr_0.8fr]">
-                  <div className="text-sm text-slate-700">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
-                    <div className="mt-1 font-semibold">
-                      {order.user?.name || order.user?.email || 'Misafir'}
+                <div className="grid gap-5 px-5 py-5 lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="space-y-4">
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                      <div className="mt-1 text-sm font-semibold text-slate-900">
+                        {order.user?.name || order.user?.email || 'Misafir'}
+                      </div>
+                      <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
                     </div>
-                    <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
-                  </div>
 
-                  <div className="text-sm text-slate-700">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
-                    <div className="mt-1">
-                      {order.items.map((item) => (
-                        <div key={item.id} className="flex items-center justify-between text-xs">
-                          <span className="truncate">{item.name}</span>
-                          <span className="text-slate-500">{item.quantity}x</span>
-                        </div>
-                      ))}
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
+                      <div className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                        {formatAddress(order.shippingAddress)}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="text-sm text-slate-700">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
-                    <div className="mt-1 text-xs text-slate-600">{formatAddress(order.shippingAddress)}</div>
-                  </div>
-
-                  <div className="text-sm text-slate-700">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum</div>
-                    <div className="mt-2 flex items-center gap-2">
-                      <select
-                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
-                        value={draftStatus[order.id] || order.status}
-                        onChange={(e) =>
-                          setDraftStatus((prev) => ({
-                            ...prev,
-                            [order.id]: e.target.value,
-                          }))
-                        }
-                      >
-                        {statusOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
+                      <div className="mt-2 space-y-2">
+                        {order.items.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs"
+                          >
+                            <span className="truncate text-slate-700">{item.name}</span>
+                            <span className="text-slate-500">{item.quantity}x</span>
+                          </div>
                         ))}
-                      </select>
-                      <button
-                        type="button"
-                        onClick={() => saveStatus(order.id)}
-                        disabled={savingId === order.id}
-                        className="rounded-lg bg-teal-600 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
-                      >
-                        {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
-                      </button>
-                    </div>
-                    <div className="mt-2 text-xs text-slate-500">
-                      Mevcut: {statusLabel[order.status] || order.status}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo firmasi</div>
-                    <input
-                      className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                      placeholder="Orn: Yurtici Kargo"
-                      value={draftTracking[order.id]?.carrier || ''}
-                      onChange={(e) =>
-                        setDraftTracking((prev) => ({
-                          ...prev,
-                          [order.id]: {
-                            carrier: e.target.value,
-                            number: prev[order.id]?.number || '',
-                            url: prev[order.id]?.url || '',
-                          },
-                        }))
-                      }
-                    />
-                  </div>
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Takip no</div>
-                    <input
-                      className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                      placeholder="Orn: 1234567890"
-                      value={draftTracking[order.id]?.number || ''}
-                      onChange={(e) =>
-                        setDraftTracking((prev) => ({
-                          ...prev,
-                          [order.id]: {
-                            carrier: prev[order.id]?.carrier || '',
-                            number: e.target.value,
-                            url: prev[order.id]?.url || '',
-                          },
-                        }))
-                      }
-                    />
-                  </div>
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Takip linki</div>
-                    <input
-                      className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                      placeholder="https://..."
-                      value={draftTracking[order.id]?.url || ''}
-                      onChange={(e) =>
-                        setDraftTracking((prev) => ({
-                          ...prev,
-                          [order.id]: {
-                            carrier: prev[order.id]?.carrier || '',
-                            number: prev[order.id]?.number || '',
-                            url: e.target.value,
-                          },
-                        }))
-                      }
-                    />
+                  <div className="space-y-4">
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                      <div className="mt-2 flex items-center gap-2">
+                        <select
+                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                          value={draftStatus[order.id] || order.status}
+                          onChange={(e) =>
+                            setDraftStatus((prev) => ({
+                              ...prev,
+                              [order.id]: e.target.value,
+                            }))
+                          }
+                        >
+                          {statusOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          type="button"
+                          onClick={() => saveStatus(order.id)}
+                          disabled={savingId === order.id}
+                          className="rounded-lg bg-teal-600 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
+                        >
+                          {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
+                        </button>
+                      </div>
+                      <div className="mt-2 text-xs text-slate-500">
+                        Mevcut: {statusLabel[order.status] || order.status}
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
+                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
+                      <div className="mt-3 space-y-2">
+                        <input
+                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                          placeholder="Orn: Yurtici Kargo"
+                          value={draftTracking[order.id]?.carrier || ''}
+                          onChange={(e) =>
+                            setDraftTracking((prev) => ({
+                              ...prev,
+                              [order.id]: {
+                                carrier: e.target.value,
+                                number: prev[order.id]?.number || '',
+                                url: prev[order.id]?.url || '',
+                              },
+                            }))
+                          }
+                        />
+                        <input
+                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                          placeholder="Takip no"
+                          value={draftTracking[order.id]?.number || ''}
+                          onChange={(e) =>
+                            setDraftTracking((prev) => ({
+                              ...prev,
+                              [order.id]: {
+                                carrier: prev[order.id]?.carrier || '',
+                                number: e.target.value,
+                                url: prev[order.id]?.url || '',
+                              },
+                            }))
+                          }
+                        />
+                        <input
+                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                          placeholder="Takip linki"
+                          value={draftTracking[order.id]?.url || ''}
+                          onChange={(e) =>
+                            setDraftTracking((prev) => ({
+                              ...prev,
+                              [order.id]: {
+                                carrier: prev[order.id]?.carrier || '',
+                                number: prev[order.id]?.number || '',
+                                url: e.target.value,
+                              },
+                            }))
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
