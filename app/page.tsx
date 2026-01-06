@@ -232,7 +232,7 @@ export default function Home() {
               Galeriye git
             </Link>
           </div>
-          <VideoSlider items={heroVideos} autoAdvanceMs={8000} />
+          <VideoSlider items={heroVideos} />
         </div>
       </Reveal>
 
