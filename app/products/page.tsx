@@ -256,120 +256,128 @@ export default function ProductsPage() {
       </Reveal>
 
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="w-full lg:w-1/3">
-            <label htmlFor="search" className="sr-only">
-              Ara
-            </label>
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg className="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path
-                    fillRule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clipRule="evenodd"
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+          <div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="w-full sm:max-w-md">
+                <label htmlFor="search" className="sr-only">
+                  Ara
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <svg className="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        fillRule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    id="search"
+                    className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                    placeholder="Urun ara..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                </svg>
+                </div>
               </div>
-              <input
-                type="text"
-                id="search"
-                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
-                placeholder="Urun ara..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                  selectedCategory === category
-                    ? 'bg-teal-500 text-slate-900'
-                    : 'bg-white text-slate-600 hover:bg-slate-100'
-                }`}
+                type="button"
+                onClick={() => {
+                  setSelectedCategory('Tumu');
+                  setSearchQuery('');
+                  setStockFilter('Tumu');
+                  setAutomationFilter('Tumu');
+                  setPowerFilter('Tumu');
+                }}
+                className="rounded-xl border border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:bg-slate-50"
               >
-                {category}
+                Filtreleri sifirla
               </button>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Stok</label>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {(['Tumu', 'Stokta', 'Siparisle'] as const).map((value) => (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {categories.map((category) => (
                 <button
-                  key={value}
-                  type="button"
-                  onClick={() => setStockFilter(value)}
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
                   className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                    stockFilter === value
+                    selectedCategory === category
                       ? 'bg-teal-500 text-slate-900'
                       : 'bg-white text-slate-600 hover:bg-slate-100'
                   }`}
                 >
-                  {value}
+                  {category}
                 </button>
               ))}
             </div>
           </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Otomasyon</label>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {(['Tumu', 'Otomatik', 'Yari otomatik', 'Manuel'] as const).map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => setAutomationFilter(value)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                    automationFilter === value
-                      ? 'bg-teal-500 text-slate-900'
-                      : 'bg-white text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  {value}
-                </button>
-              ))}
+
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hizli filtre</div>
+            <div className="mt-4 space-y-4">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Stok</div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(['Tumu', 'Stokta', 'Siparisle'] as const).map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setStockFilter(value)}
+                      className={`rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
+                        stockFilter === value
+                          ? 'bg-teal-500 text-slate-900'
+                          : 'bg-white text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Otomasyon</div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(['Tumu', 'Otomatik', 'Yari otomatik', 'Manuel'] as const).map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setAutomationFilter(value)}
+                      className={`rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
+                        automationFilter === value
+                          ? 'bg-teal-500 text-slate-900'
+                          : 'bg-white text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Guc</div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(['Tumu', '3-6 kW', '6-12 kW', '12+ kW'] as const).map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setPowerFilter(value)}
+                      className={`rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
+                        powerFilter === value
+                          ? 'bg-teal-500 text-slate-900'
+                          : 'bg-white text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Guc</label>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {(['Tumu', '3-6 kW', '6-12 kW', '12+ kW'] as const).map((value) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => setPowerFilter(value)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                    powerFilter === value
-                      ? 'bg-teal-500 text-slate-900'
-                      : 'bg-white text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  {value}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex items-end">
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedCategory('Tumu');
-                setSearchQuery('');
-                setStockFilter('Tumu');
-                setAutomationFilter('Tumu');
-                setPowerFilter('Tumu');
-              }}
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:bg-slate-50"
-            >
-              Filtreleri sifirla
-            </button>
           </div>
         </div>
       </Reveal>
