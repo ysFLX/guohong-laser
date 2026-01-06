@@ -175,6 +175,12 @@ export default function AdminSidebar() {
         </div>
         <div className="mt-3 flex flex-col gap-2 text-xs">
           <Link
+            href="/"
+            className="rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-slate-200 hover:bg-slate-800"
+          >
+            Siteye don
+          </Link>
+          <Link
             href="/admin/orders"
             className="rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-slate-200 hover:bg-slate-800"
           >
