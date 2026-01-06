@@ -136,7 +136,7 @@ export default function AdminSidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 px-4 py-4 space-y-5 overflow-y-auto">
+      <nav className="flex-1 px-4 py-4 space-y-5">
         {navSections.map((section) => (
           <div key={section.title} className="space-y-2">
             <div className="px-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-500">

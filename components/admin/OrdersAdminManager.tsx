@@ -78,18 +78,17 @@ function formatDate(value: string) {
 }
 
 function formatAddress(address: OrderAddress | null) {
-  if (!address) return 'Adres bilgisi yok';
+  if (!address) return null;
   const line2 = address.line2 ? `, ${address.line2}` : '';
   const cityLine = `${address.city || '-'}${address.state ? ` / ${address.state}` : ''} ${address.postalCode || ''}`.trim();
   const country = address.country || '';
-  const parts = [
-    address.label,
-    address.fullName,
-    address.line1 ? `${address.line1}${line2}` : null,
-    `${cityLine} ${country}`.trim(),
-    address.phone,
-  ].filter(Boolean);
-  return parts.join(' | ');
+  return {
+    title: address.label || 'Adres',
+    fullName: address.fullName || '-',
+    line1: `${address.line1 || '-'}${line2}`,
+    city: `${cityLine} ${country}`.trim(),
+    phone: address.phone || '-',
+  };
 }
 
 export default function OrdersAdminManager() {
@@ -237,9 +236,21 @@ export default function OrdersAdminManager() {
 
                     <div>
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
-                      <div className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                        {formatAddress(order.shippingAddress)}
-                      </div>
+                      {(() => {
+                        const view = formatAddress(order.shippingAddress);
+                        if (!view) {
+                          return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
+                        }
+                        return (
+                          <div className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                            <div className="font-semibold text-slate-900">{view.title}</div>
+                            <div>{view.fullName}</div>
+                            <div>{view.line1}</div>
+                            <div>{view.city}</div>
+                            <div>{view.phone}</div>
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     <div>
