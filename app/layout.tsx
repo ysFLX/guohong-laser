@@ -2,9 +2,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import PageShell from "@/components/layout/PageShell";
+import RootChrome from "@/components/layout/RootChrome";
 import Providers from "./providers";
 
 const geistSans = Geist({
@@ -42,12 +40,8 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`} suppressHydrationWarning>
         <Providers>
-          <Header />
-          <main className="flex-grow">
-            <PageShell>{children}</PageShell>
-          </main>
+          <RootChrome>{children}</RootChrome>
         </Providers>
-        <Footer />
         <SpeedInsights />
       </body>
     </html>

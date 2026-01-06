@@ -1,0 +1,26 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import PageShell from '@/components/layout/PageShell';
+
+export default function RootChrome({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith('/admin');
+
+  if (isAdmin) {
+    return <main className="flex-grow">{children}</main>;
+  }
+
+  return (
+    <>
+      <Header />
+      <main className="flex-grow">
+        <PageShell>{children}</PageShell>
+      </main>
+      <Footer />
+    </>
+  );
+}
