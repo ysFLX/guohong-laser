@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import type { ReactNode } from 'react';
 
 type NavItem = {
@@ -124,7 +125,7 @@ export default function AdminSidebar() {
         <p className="mt-2 text-xs text-slate-400">Operasyon, stok ve talepler</p>
       </div>
 
-      <div className="px-4 py-4">
+      <div className="px-4 py-4 space-y-3">
         <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-500 text-sm font-semibold text-slate-900">
             A
@@ -133,6 +134,21 @@ export default function AdminSidebar() {
             <div className="text-sm font-semibold">Admin</div>
             <div className="text-xs text-slate-400">Sistem</div>
           </div>
+        </div>
+        <div className="flex gap-2">
+          <Link
+            href="/"
+            className="flex-1 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-center text-xs font-semibold text-slate-200 hover:bg-slate-800"
+          >
+            Siteye don
+          </Link>
+          <button
+            type="button"
+            onClick={() => signOut({ callbackUrl: '/' })}
+            className="flex-1 rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-800"
+          >
+            Cikis yap
+          </button>
         </div>
       </div>
 
@@ -174,12 +190,6 @@ export default function AdminSidebar() {
           Admin girisi aktif. Islem kayitlarini guncel tut.
         </div>
         <div className="mt-3 flex flex-col gap-2 text-xs">
-          <Link
-            href="/"
-            className="rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-slate-200 hover:bg-slate-800"
-          >
-            Siteye don
-          </Link>
           <Link
             href="/admin/orders"
             className="rounded-lg border border-slate-800 bg-slate-900/60 px-3 py-2 text-slate-200 hover:bg-slate-800"
