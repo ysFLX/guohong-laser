@@ -194,17 +194,18 @@ export default function Home() {
       </div>
 
       <Reveal as="section" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-4 rounded-[32px] border border-slate-200 bg-white/90 p-6 shadow-xl md:grid-cols-3">
+        <div className="grid gap-4 rounded-[36px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3">
           {commerceTiles.map((tile) => (
             <Link
               key={tile.title}
               href={tile.href}
-              className="group relative overflow-hidden rounded-[26px] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 px-5 py-6 transition hover:-translate-y-1 hover:shadow-xl"
+              className="group relative overflow-hidden rounded-[26px] border border-teal-100/70 bg-white/90 px-5 py-6 transition hover:-translate-y-1 hover:border-teal-200 hover:bg-white hover:shadow-xl"
             >
-              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-amber-100" />
+              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-amber-100/80" />
+              <div className="mb-4 h-1 w-10 rounded-full bg-teal-500/70" />
               <h3 className="text-lg font-semibold text-slate-900">{tile.title}</h3>
               <p className="mt-2 text-sm text-slate-600">{tile.description}</p>
-              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
+              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600">
                 Incele
                 <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
               </span>
@@ -215,13 +216,13 @@ export default function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-600">Urun spotlight</p>
+          <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Urun spotlight</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">{spotlight.title}</h2>
             <p className="mt-3 text-sm text-slate-600">{spotlight.description}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {spotlight.specs.map((spec) => (
-                <div key={spec.label} className="rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                <div key={spec.label} className="rounded-2xl border border-teal-100/70 bg-white px-4 py-3">
                   <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">{spec.label}</p>
                   <p className="mt-2 text-base font-semibold text-slate-900">{spec.value}</p>
                 </div>
@@ -230,19 +231,19 @@ export default function Home() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white"
+                className="inline-flex items-center justify-center rounded-full bg-teal-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"
               >
                 Detaylari gor
               </Link>
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-600 hover:border-slate-300"
+                className="inline-flex items-center justify-center rounded-full border border-teal-200 px-6 py-2.5 text-sm font-semibold text-teal-700 hover:border-teal-300"
               >
                 Teklif iste
               </Link>
             </div>
           </div>
-          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-xl">
+          <div className="relative overflow-hidden rounded-[32px] border border-teal-100/70 bg-white shadow-xl">
             <Image src={spotlight.image} alt={spotlight.title} fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-transparent" />
           </div>
@@ -250,15 +251,15 @@ export default function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
+        <div className="rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-teal-50/50 p-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-600">Destek merkezi</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Destek merkezi</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900">E-ticaret + teknik destek tek sayfada</h2>
             </div>
             <Link
               href="/contact"
-              className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
+              className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300"
             >
               Destek al
             </Link>
@@ -268,11 +269,11 @@ export default function Home() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:-translate-y-1 hover:shadow-lg"
+                className="group rounded-2xl border border-teal-100/70 bg-white px-4 py-4 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg"
               >
                 <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                 <p className="mt-2 text-sm text-slate-600">{item.description}</p>
-                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
+                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600">
                   Ac
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
@@ -283,14 +284,14 @@ export default function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber-600">Is akisi</p>
+        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Is akisi</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">4 adimda devreye alma</h2>
           <div className="mt-6 space-y-4">
             {process.map((step, index) => (
-              <div key={step.title} className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+              <div key={step.title} className="rounded-2xl border border-teal-100/70 bg-white px-4 py-4">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-600 text-xs font-semibold text-white">
                     {index + 1}
                   </span>
                   <div>
@@ -302,7 +303,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-6 text-white shadow-xl">
+        <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-900 via-teal-900/60 to-slate-900 p-6 text-white shadow-xl">
           <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Uyumluluk ve guven</p>
           <h2 className="mt-2 text-2xl font-semibold">Model - parca uyumu tek ekranda</h2>
           <p className="mt-3 text-sm text-white/70">
@@ -326,7 +327,7 @@ export default function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         {testimonials.map((item) => (
-          <div key={item.name} className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
+          <div key={item.name} className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl">
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 overflow-hidden rounded-full bg-slate-100">
                 <Image src={item.image} alt={item.name} width={48} height={48} className="h-full w-full object-cover" />
@@ -342,22 +343,22 @@ export default function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
+        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-600">SSS</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600">SSS</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900">Karar surecini hizlandiran cevaplar</h2>
             </div>
             <Link
               href="/contact"
-              className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
+              className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300"
             >
               Sorunuz mu var?
             </Link>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {faq.map((item) => (
-              <div key={item.q} className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+              <div key={item.q} className="rounded-2xl border border-teal-100/70 bg-white px-4 py-4">
                 <p className="text-sm font-semibold text-slate-900">{item.q}</p>
                 <p className="mt-2 text-sm text-slate-600">{item.a}</p>
               </div>
@@ -367,7 +368,7 @@ export default function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="grid gap-6 rounded-[36px] border border-white/10 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 p-8 text-white shadow-2xl">
+        <div className="grid gap-6 rounded-[36px] border border-white/10 bg-gradient-to-r from-slate-900 via-teal-900/60 to-slate-900 p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi baslayalim</p>
@@ -377,7 +378,7 @@ export default function Home() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-teal-500 px-6 py-2.5 text-sm font-semibold text-white"
+                className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
               >
                 Hemen teklif al
               </Link>
