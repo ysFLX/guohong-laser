@@ -300,64 +300,42 @@ export default function ProductsPage() {
 
         <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr]">
           <div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Stok</label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(['Tumu', 'Stokta', 'Siparisle'] as const).map((value) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => setStockFilter(value)}
-                      className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                        stockFilter === value
-                          ? 'bg-teal-500 text-slate-900'
-                          : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      {value}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Otomasyon</label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(['Tumu', 'Otomatik', 'Yari otomatik', 'Manuel'] as const).map((value) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => setAutomationFilter(value)}
-                      className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                        automationFilter === value
-                          ? 'bg-teal-500 text-slate-900'
-                          : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      {value}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Guc</label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(['Tumu', '3-6 kW', '6-12 kW', '12+ kW'] as const).map((value) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => setPowerFilter(value)}
-                      className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                        powerFilter === value
-                          ? 'bg-teal-500 text-slate-900'
-                          : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      {value}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+              Filtreler
+            </label>
+            <div className="mt-2 grid gap-3 sm:grid-cols-3">
+              <select
+                value={stockFilter}
+                onChange={(e) => setStockFilter(e.target.value as typeof stockFilter)}
+                aria-label="Stok filtresi"
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
+              >
+                <option value="Tumu">Stok: Tumu</option>
+                <option value="Stokta">Stokta</option>
+                <option value="Siparisle">Siparisle</option>
+              </select>
+              <select
+                value={automationFilter}
+                onChange={(e) => setAutomationFilter(e.target.value as typeof automationFilter)}
+                aria-label="Otomasyon filtresi"
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
+              >
+                <option value="Tumu">Otomasyon: Tumu</option>
+                <option value="Otomatik">Otomatik</option>
+                <option value="Yari otomatik">Yari otomatik</option>
+                <option value="Manuel">Manuel</option>
+              </select>
+              <select
+                value={powerFilter}
+                onChange={(e) => setPowerFilter(e.target.value as typeof powerFilter)}
+                aria-label="Guc filtresi"
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
+              >
+                <option value="Tumu">Guc: Tumu</option>
+                <option value="3-6 kW">3-6 kW</option>
+                <option value="6-12 kW">6-12 kW</option>
+                <option value="12+ kW">12+ kW</option>
+              </select>
             </div>
           </div>
           <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-sm text-teal-900 dark:border-teal-400/40 dark:bg-slate-900/70 dark:text-teal-200">
