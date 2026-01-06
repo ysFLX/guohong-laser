@@ -36,6 +36,7 @@ export default function AdminSparePartEditForm({
   const [isActive, setIsActive] = useState(initial.isActive);
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -192,6 +193,31 @@ export default function AdminSparePartEditForm({
             className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-60"
           >
             {isSaving ? 'Kaydediliyor...' : 'Kaydet'}
+          </button>
+          <button
+            type="button"
+            disabled={isDeleting}
+            onClick={async () => {
+              const ok = window.confirm('Urunu silmek istiyor musun? Bu islem geri alinamaz.');
+              if (!ok) return;
+              setIsDeleting(true);
+              setError('');
+              setSuccess('');
+              try {
+                const res = await fetch(`/api/spare-parts/${initial.id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data?.error || 'Silinemedi');
+                router.push('/admin/spare-parts');
+                router.refresh();
+              } catch (e: unknown) {
+                setError(e instanceof Error ? e.message : 'Silinemedi');
+              } finally {
+                setIsDeleting(false);
+              }
+            }}
+            className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-60"
+          >
+            {isDeleting ? 'Siliniyor...' : 'Urunu sil'}
           </button>
         </div>
       </div>

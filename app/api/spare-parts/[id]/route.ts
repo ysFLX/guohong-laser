@@ -19,6 +19,7 @@ type UpdatePayload = {
 type SparePartUpdateDelegate = {
   findUnique: (args: unknown) => Promise<{ id: string; stockOnHand: number } | null>;
   update: (args: unknown) => Promise<{ id: string; imageUrl: string | null; isFeatured: boolean; isActive: boolean }>;
+  delete: (args: unknown) => Promise<{ id: string }>;
 };
 
 type StockMovementCreateDelegate = {
@@ -97,6 +98,34 @@ export async function PATCH(
     }
 
     return NextResponse.json({ item: updated });
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : 'Bilinmeyen hata';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  _req: Request,
+  ctx: { params: Promise<{ id: string }> },
+) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+  }
+
+  if (session.user.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
+  }
+
+  const { id } = await ctx.params;
+
+  try {
+    const deleted = await prismaSpareParts.sparePart.delete({
+      where: { id },
+      select: { id: true },
+    });
+    return NextResponse.json({ item: deleted });
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : 'Bilinmeyen hata';
     return NextResponse.json({ error: message }, { status: 500 });
