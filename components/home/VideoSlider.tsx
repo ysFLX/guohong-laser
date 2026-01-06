@@ -17,6 +17,7 @@ export default function VideoSlider({
 }) {
   const [index, setIndex] = useState(0);
   const [playBlocked, setPlayBlocked] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
 
   const goTo = (next: number) => {
@@ -42,6 +43,7 @@ export default function VideoSlider({
         video.pause();
       }
     });
+    setIsPlaying(false);
   }, [index]);
 
   const handleUserPlay = () => {
@@ -50,9 +52,31 @@ export default function VideoSlider({
     video.play().catch(() => setPlayBlocked(true));
   };
 
+  const handleToggle = () => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    if (video.paused) {
+      video.play().then(() => setIsPlaying(true)).catch(() => setPlayBlocked(true));
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
+
   return (
     <div className="relative">
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-2xl">
+      <div
+        className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-2xl"
+        role="button"
+        tabIndex={0}
+        onClick={handleToggle}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleToggle();
+          }
+        }}
+      >
         {items.map((item, i) => (
           <div
             key={item.src}
@@ -68,14 +92,34 @@ export default function VideoSlider({
               poster={item.poster}
               className="h-full w-full object-cover"
               muted={false}
-              controls
               playsInline
-              preload="none"
-              onEnded={undefined}
+              preload="metadata"
+              onLoadedMetadata={() => {
+                const video = videoRefs.current[i];
+                if (!video) return;
+                if (i === index) {
+                  try {
+                    video.currentTime = 0.1;
+                  } catch {
+                    // ignore if the browser blocks seeking
+                  }
+                }
+              }}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={() => setIsPlaying(false)}
             />
           </div>
         ))}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/40 pointer-events-none" />
+
+        {!isPlaying && (
+          <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white shadow-lg backdrop-blur">
+              ▶
+            </div>
+          </div>
+        )}
 
         <div className="absolute top-5 left-5 right-5 z-20 flex items-start justify-between gap-4">
           <div>
