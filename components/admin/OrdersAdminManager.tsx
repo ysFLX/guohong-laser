@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 type OrderItem = {
   id: string;
   name: string;
+  imageUrl: string | null;
   quantity: number;
   priceCents: number;
 };
@@ -259,9 +260,21 @@ export default function OrdersAdminManager() {
                         {order.items.map((item) => (
                           <div
                             key={item.id}
-                            className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs"
+                            className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs"
                           >
-                            <span className="truncate text-slate-700">{item.name}</span>
+                            <div className="flex min-w-0 items-center gap-2">
+                              <div className="h-8 w-8 overflow-hidden rounded-lg bg-slate-100">
+                                {item.imageUrl ? (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
+                                ) : (
+                                  <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
+                                    Urun
+                                  </div>
+                                )}
+                              </div>
+                              <span className="truncate text-slate-700">{item.name}</span>
+                            </div>
                             <span className="text-slate-500">{item.quantity}x</span>
                           </div>
                         ))}

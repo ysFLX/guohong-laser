@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma';
 type AdminOrderItem = {
   id: string;
   name: string;
+  imageUrl: string | null;
   quantity: number;
   priceCents: number;
 };
@@ -84,6 +85,7 @@ export async function GET() {
       items: order.items.map((item) => ({
         id: item.id,
         name: item.name,
+        imageUrl: item.imageUrl ?? null,
         quantity: item.quantity,
         priceCents: item.priceCents,
       })),
