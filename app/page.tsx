@@ -19,17 +19,14 @@ const heroStats = [
 const heroVideos = [
   {
     src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584816/sackesim_m6icrx.mp4',
-    poster: '/images/1.jpg',
     title: 'Lazer Sac Kesimi',
   },
   {
     src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584806/borukesim_dd8a5f.mp4',
-    poster: '/images/about-showcase.jpg',
     title: 'Lazer Boru Kesimi',
   },
   {
     src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584837/demirkesim_kbwzy2.mp4',
-    poster: '/images/2.jpg',
     title: 'Lazer Demir Kesimi',
   },
 ];
