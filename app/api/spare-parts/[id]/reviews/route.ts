@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
 import { prisma } from '@/lib/prisma';
+import { OrderStatus } from '@prisma/client';
 import { authOptions } from '@/auth';
 
-const allowedStatuses = ['PAID', 'RECEIVED', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED'] as const;
+const allowedStatuses: OrderStatus[] = [
+  OrderStatus.PAID,
+  OrderStatus.RECEIVED,
+  OrderStatus.SHIPPED,
+  OrderStatus.IN_TRANSIT,
+  OrderStatus.DELIVERED,
+];
 
 type ReviewSummary = {
   count: number;
@@ -30,7 +37,7 @@ const canUserReview = async (userId: string, sparePartId: string) => {
       sparePartId,
       order: {
         userId,
-        status: { in: allowedStatuses as unknown as string[] },
+        status: { in: allowedStatuses },
       },
     },
     select: { id: true },
