@@ -21,13 +21,29 @@ type NotificationRow = Array<{
   status?: string;
 }>;
 
+type UserNotificationRow = Array<{
+  id: string;
+  type: string;
+  title: string | null;
+  message: string;
+  orderId: string | null;
+  status: string | null;
+  createdAt: Date;
+  seenAt: Date | null;
+}>;
+
 type InquiryDelegate = {
   findMany: (args: unknown) => Promise<NotificationRow>;
   deleteMany: (args: unknown) => Promise<{ count: number }>;
 };
 
+type UserNotificationDelegate = {
+  findMany: (args: unknown) => Promise<UserNotificationRow>;
+};
+
 const prismaInquiry = prisma as unknown as {
   inquiry: InquiryDelegate;
+  userNotification: UserNotificationDelegate;
 };
 
 export async function GET() {
@@ -71,7 +87,7 @@ export async function GET() {
     });
   }
 
-  const items = await prismaInquiry.inquiry.findMany({
+  const inquiryItems = await prismaInquiry.inquiry.findMany({
     where: {
       userId: session.user.id,
       adminResponse: { not: null },
@@ -90,6 +106,44 @@ export async function GET() {
       userSeenAt: true,
       createdAt: true,
     },
+  });
+
+  const orderItems = await prismaInquiry.userNotification.findMany({
+    where: { userId: session.user.id, seenAt: null },
+    orderBy: [{ createdAt: 'desc' }],
+    take: 20,
+    select: {
+      id: true,
+      type: true,
+      title: true,
+      message: true,
+      orderId: true,
+      status: true,
+      createdAt: true,
+      seenAt: true,
+    },
+  });
+
+  const items = [
+    ...orderItems.map((item) => ({
+      id: item.id,
+      type: item.type,
+      subject: null,
+      product: null,
+      adminResponse: null,
+      respondedAt: null,
+      userSeenAt: item.seenAt,
+      createdAt: item.createdAt,
+      status: item.status ?? undefined,
+      title: item.title,
+      message: item.message,
+      orderId: item.orderId,
+    })),
+    ...inquiryItems,
+  ].sort((a, b) => {
+    const aTime = (a.respondedAt || a.createdAt || new Date(0)).getTime();
+    const bTime = (b.respondedAt || b.createdAt || new Date(0)).getTime();
+    return bTime - aTime;
   });
 
   const unreadCount = items.length;

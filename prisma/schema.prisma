@@ -29,6 +29,7 @@ model User {
   stockMovementsCreated StockMovement[] @relation("StockMovementCreatedBy")
   inquiries       Inquiry[] @relation("InquiryCreatedBy")
   inquiriesResponded Inquiry[] @relation("InquiryRespondedBy")
+  notifications  UserNotification[]
 }
 
 model EmailVerification {
@@ -277,11 +278,31 @@ model Order {
   shippingAddress Address? @relation("OrderShippingAddress", fields: [shippingAddressId], references: [id], onDelete: SetNull)
   billingAddress  Address? @relation("OrderBillingAddress", fields: [billingAddressId], references: [id], onDelete: SetNull)
   items OrderItem[]
+  notifications UserNotification[]
 
   @@index([userId])
   @@index([createdAt])
   @@index([shippingAddressId])
   @@index([billingAddressId])
+}
+
+model UserNotification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String?
+  message   String
+  orderId   String?
+  status    String?
+  createdAt DateTime @default(now())
+  seenAt    DateTime?
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([seenAt])
 }
 
 model OrderItem {

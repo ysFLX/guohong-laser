@@ -18,6 +18,8 @@ type NotificationItem = {
   userSeenAt: string | null;
   createdAt?: string;
   status?: string;
+  title?: string | null;
+  orderId?: string | null;
 };
 
 type Ctx = {
@@ -55,6 +57,14 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     if (status !== 'authenticated') return;
     refresh();
   }, [status, refresh]);
+
+  useEffect(() => {
+    if (status !== 'authenticated' || isAdmin) return;
+    const interval = window.setInterval(() => {
+      refresh();
+    }, 30000);
+    return () => window.clearInterval(interval);
+  }, [status, isAdmin, refresh]);
 
   const open = useCallback(() => {
     setIsOpen(true);

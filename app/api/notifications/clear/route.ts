@@ -9,8 +9,14 @@ type InquiryUpdateDelegate = {
   deleteMany: (args: unknown) => Promise<{ count: number }>;
 };
 
+type UserNotificationDelegate = {
+  updateMany: (args: unknown) => Promise<{ count: number }>;
+  deleteMany: (args: unknown) => Promise<{ count: number }>;
+};
+
 const prismaInquiry = prisma as unknown as {
   inquiry: InquiryUpdateDelegate;
+  userNotification: UserNotificationDelegate;
 };
 
 export async function POST() {
@@ -32,8 +38,17 @@ export async function POST() {
         });
 
   if (session.user.role !== 'ADMIN') {
+    await prismaInquiry.userNotification.updateMany({
+      where: { userId: session.user.id, seenAt: null },
+      data: { seenAt: new Date() },
+    });
+
     await prismaInquiry.inquiry.deleteMany({
       where: { userId: session.user.id, userSeenAt: { not: null } },
+    });
+
+    await prismaInquiry.userNotification.deleteMany({
+      where: { userId: session.user.id, seenAt: { not: null } },
     });
   }
 

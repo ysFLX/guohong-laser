@@ -8,6 +8,7 @@ import CartDrawer from '@/components/cart/CartDrawer';
 import { CartProvider } from '@/components/cart/CartProvider';
 import NotificationsDrawer from '@/components/notifications/NotificationsDrawer';
 import { NotificationsProvider } from '@/components/notifications/NotificationsProvider';
+import OrderStatusToast from '@/components/notifications/OrderStatusToast';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { ToastProvider } from '@/components/ui/ToastProvider';
 
@@ -41,6 +42,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               {children}
               <CartDrawer />
               <NotificationsDrawer />
+              <OrderStatusToast />
             </ToastProvider>
           </ThemeProvider>
         </CartProvider>

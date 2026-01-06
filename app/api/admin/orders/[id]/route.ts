@@ -44,6 +44,12 @@ const prismaOrders = prisma as unknown as {
   };
 };
 
+const prismaNotifications = prisma as unknown as {
+  userNotification: {
+    create: (args: unknown) => Promise<unknown>;
+  };
+};
+
 async function sendStatusEmail(params: {
   to: string;
   orderId: string;
@@ -143,6 +149,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       select: {
         id: true,
         status: true,
+        userId: true,
         user: {
           select: {
             email: true,
@@ -168,6 +175,21 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
     });
 
     if (existing.status !== status) {
+      try {
+        await prismaNotifications.userNotification.create({
+          data: {
+            userId: existing.userId,
+            type: 'ORDER_STATUS',
+            title: 'Siparis durumu guncellendi',
+            message: `Siparis durumunuz guncellendi: ${formatStatusLabel(status)}`,
+            orderId: updated.id,
+            status,
+          },
+        });
+      } catch (error) {
+        console.error('Siparis durum bildirimi kaydedilemedi:', error);
+      }
+
       try {
         if (existing.user?.email) {
           await sendStatusEmail({
