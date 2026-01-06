@@ -128,22 +128,6 @@ export default function Header() {
 
             {isAuthed && (
               <>
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-                    aria-label="Admin Panel"
-                  >
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4l7 4v4c0 4.418-3.582 8-8 8s-8-3.582-8-8V8l9-4z"
-                      />
-                    </svg>
-                  </Link>
-                )}
                 <button
                   type="button"
                   onClick={openNotifications}

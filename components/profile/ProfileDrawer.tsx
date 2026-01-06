@@ -50,6 +50,16 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
               Hesap Ayarlari
             </Link>
 
+            {user?.role === 'ADMIN' && (
+              <Link
+                href="/admin"
+                onClick={close}
+                className="block px-4 py-2 rounded-xl text-sm font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
+              >
+                Admin Panel
+              </Link>
+            )}
+
             <Link
               href="/profile/orders"
               onClick={close}
