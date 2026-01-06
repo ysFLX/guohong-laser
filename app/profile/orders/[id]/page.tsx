@@ -92,14 +92,19 @@ function formatAddress(address: Address | null) {
   };
 }
 
-export default async function OrderDetailPage({ params }: { params: { id: string } }) {
+export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     redirect('/login');
   }
 
+  const { id } = await params;
+  if (!id) {
+    notFound();
+  }
+
   let order = await prismaOrders.order.findFirst({
-    where: { id: params.id, userId: session.user.id },
+    where: { id, userId: session.user.id },
     include: { items: true, shippingAddress: true, billingAddress: true },
   });
 
@@ -140,7 +145,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           });
 
           order = await prismaOrders.order.findFirst({
-            where: { id: params.id, userId: session.user.id },
+            where: { id, userId: session.user.id },
             include: { items: true, shippingAddress: true, billingAddress: true },
           });
 
