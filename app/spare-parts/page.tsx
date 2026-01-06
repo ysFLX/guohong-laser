@@ -480,7 +480,7 @@ export default function SparePartsPage() {
 
       {!isLoading && !loadError && filtered.length === 0 && (
         <div className="text-center py-14 text-slate-600 dark:text-slate-300">
-          Sonuc bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.
+          Sonuç bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.
         </div>
       )}
 
