@@ -167,6 +167,7 @@ model SparePartReview {
   rating      Int
   title       String?
   body        String?
+  isAnonymous Boolean  @default(false)
   isApproved  Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

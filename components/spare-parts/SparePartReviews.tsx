@@ -13,6 +13,7 @@ type ReviewItem = {
   body: string | null;
   createdAt: string;
   user: { id: string; name: string; image: string | null };
+  isAnonymous?: boolean;
 };
 
 type ReviewSummary = {
@@ -50,6 +51,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
   const [rating, setRating] = useState(0);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -92,7 +94,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
       const res = await fetch(`/api/spare-parts/${sparePartId}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rating, title, body }),
+        body: JSON.stringify({ rating, title, body, isAnonymous }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Yorum kaydedilemedi.');
@@ -100,6 +102,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
       setRating(0);
       setTitle('');
       setBody('');
+      setIsAnonymous(false);
       await fetchReviews();
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Yorum kaydedilemedi.');
@@ -131,7 +134,12 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
               const percent = summary.count ? Math.round((count / summary.count) * 100) : 0;
               return (
                 <div key={value} className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="w-10">{value}?</span>
+                  <span className="flex w-12 items-center gap-1">
+                    <span>{value}</span>
+                    <svg viewBox="0 0 20 20" className="h-4 w-4 text-amber-400" fill="currentColor" aria-hidden="true">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+                    </svg>
+                  </span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
                     <div className="h-full rounded-full bg-teal-500" style={{ width: `${percent}%` }} />
                   </div>
@@ -203,10 +211,24 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                           : 'bg-white text-teal-700 hover:bg-white/80'
                       }`}
                     >
-                      {value}?
+                      <span className="flex items-center gap-1">
+                        <span>{value}</span>
+                        <svg viewBox="0 0 20 20" className="h-4 w-4 text-amber-400" fill="currentColor" aria-hidden="true">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+                        </svg>
+                      </span>
                     </button>
                   ))}
                 </div>
+                <label className="flex items-center gap-2 text-xs text-teal-800">
+                  <input
+                    type="checkbox"
+                    checked={isAnonymous}
+                    onChange={(event) => setIsAnonymous(event.target.checked)}
+                    className="h-4 w-4 rounded border-teal-200 text-teal-600 focus:ring-teal-200"
+                  />
+                  Ismimi gizle
+                </label>
                 <input
                   type="text"
                   value={title}

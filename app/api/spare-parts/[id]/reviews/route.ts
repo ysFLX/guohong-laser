@@ -25,6 +25,11 @@ const getDisplayName = (user: { name: string | null; firstName: string | null; l
   return composed || 'Musteri';
 };
 
+const getReviewName = (review: { isAnonymous: boolean; user: { name: string | null; firstName: string | null; lastName: string | null } }) => {
+  if (review.isAnonymous) return 'Gizli Musteri';
+  return getDisplayName(review.user);
+};
+
 const canUserReview = async (userId: string, sparePartId: string) => {
   const existing = await prisma.sparePartReview.findUnique({
     where: { userId_sparePartId: { userId, sparePartId } },
@@ -99,9 +104,10 @@ export async function GET(
         createdAt: review.createdAt,
         user: {
           id: review.user.id,
-          name: getDisplayName(review.user),
-          image: review.user.image,
+          name: getReviewName(review),
+          image: review.isAnonymous ? null : review.user.image,
         },
+        isAnonymous: review.isAnonymous,
       })),
       summary,
       canReview: reviewStatus.canReview,
@@ -128,6 +134,7 @@ export async function POST(
     const rating = Number(body?.rating);
     const title = typeof body?.title === 'string' ? body.title.trim() : '';
     const reviewBody = typeof body?.body === 'string' ? body.body.trim() : '';
+    const isAnonymous = Boolean(body?.isAnonymous);
 
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       return NextResponse.json({ error: 'Puan 1 ile 5 arasinda olmali.' }, { status: 400 });
@@ -148,6 +155,7 @@ export async function POST(
         rating,
         title: title || null,
         body: reviewBody || null,
+        isAnonymous,
         isApproved: true,
       },
       include: {
@@ -166,9 +174,10 @@ export async function POST(
         createdAt: created.createdAt,
         user: {
           id: created.user.id,
-          name: getDisplayName(created.user),
-          image: created.user.image,
+          name: getReviewName(created),
+          image: created.isAnonymous ? null : created.user.image,
         },
+        isAnonymous: created.isAnonymous,
       },
     });
   } catch (error) {
