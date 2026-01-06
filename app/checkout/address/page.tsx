@@ -255,7 +255,7 @@ export default function CheckoutAddressPage() {
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/spare-parts"
-              className="inline-flex items-center justify-center rounded-xl bg-orange-600 px-5 py-3 text-sm font-semibold text-white hover:bg-orange-700"
+              className="inline-flex items-center justify-center rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white hover:bg-teal-700"
             >
               Urunlere git
             </Link>
@@ -276,7 +276,7 @@ export default function CheckoutAddressPage() {
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Link href="/cart" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
+            <Link href="/cart" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
               Sepete geri don
             </Link>
             <h1 className="mt-3 text-2xl font-semibold text-gray-900">Teslimat adresi</h1>
@@ -301,7 +301,7 @@ export default function CheckoutAddressPage() {
                   setFormTarget('shipping');
                   setShowForm(true);
                 }}
-                className="text-sm font-semibold text-orange-600 hover:text-orange-700"
+                className="text-sm font-semibold text-teal-600 hover:text-teal-700"
               >
                 {showForm && formTarget === 'shipping' ? 'Vazgec' : 'Yeni adres ekle'}
               </button>
@@ -316,8 +316,8 @@ export default function CheckoutAddressPage() {
                     key={address.id}
                     className={`flex cursor-pointer flex-col gap-2 rounded-2xl border px-4 py-4 text-sm transition ${
                       selectedId === address.id
-                        ? 'border-orange-500 bg-orange-50'
-                        : 'border-gray-200 bg-white hover:border-orange-300'
+                        ? 'border-teal-500 bg-teal-50'
+                        : 'border-gray-200 bg-white hover:border-teal-300'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -496,7 +496,7 @@ export default function CheckoutAddressPage() {
                   </button>
                   <button
                     type="submit"
-                    className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                    className="rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
                   >
                     Adresi kaydet
                   </button>
@@ -536,7 +536,7 @@ export default function CheckoutAddressPage() {
                       setFormTarget('billing');
                       setShowForm(true);
                     }}
-                    className="text-sm font-semibold text-orange-600 hover:text-orange-700"
+                    className="text-sm font-semibold text-teal-600 hover:text-teal-700"
                   >
                     {showForm && formTarget === 'billing' ? 'Vazgec' : 'Yeni adres ekle'}
                   </button>
@@ -549,8 +549,8 @@ export default function CheckoutAddressPage() {
                         key={`billing-${address.id}`}
                         className={`flex cursor-pointer flex-col gap-2 rounded-2xl border px-4 py-4 text-sm transition ${
                           selectedBillingId === address.id
-                            ? 'border-orange-500 bg-orange-50'
-                            : 'border-gray-200 bg-white hover:border-orange-300'
+                            ? 'border-teal-500 bg-teal-50'
+                            : 'border-gray-200 bg-white hover:border-teal-300'
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -724,7 +724,7 @@ export default function CheckoutAddressPage() {
                       </button>
                       <button
                         type="submit"
-                        className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                        className="rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
                       >
                         Adresi kaydet
                       </button>
@@ -760,7 +760,7 @@ export default function CheckoutAddressPage() {
               type="button"
               onClick={handleCheckout}
               disabled={loadingCheckout || loadingAddresses}
-              className="mt-6 w-full rounded-xl bg-orange-600 px-5 py-3 text-sm font-semibold text-white hover:bg-orange-700 disabled:opacity-70"
+              className="mt-6 w-full rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-70"
             >
               {loadingCheckout ? 'Yonlendiriliyor...' : 'Odemeye devam et'}
             </button>
@@ -772,3 +772,4 @@ export default function CheckoutAddressPage() {
     </div>
   );
 }
+

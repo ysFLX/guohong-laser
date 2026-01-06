@@ -29,7 +29,7 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
       <div className="flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-600 to-orange-600 text-white flex items-center justify-center font-medium">{(address.label || 'A').slice(0,1)}</div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-600 to-teal-600 text-white flex items-center justify-center font-medium">{(address.label || 'A').slice(0,1)}</div>
             <div>
               <div className="text-base font-semibold text-gray-900 dark:text-white">{address.label || 'Adres'}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">{address.fullName}</div>
@@ -83,6 +83,7 @@ export default function AddressCard({ address, onEdit, onDelete, onMakeDefault }
     </article>
   );
 }
+
 
 
 

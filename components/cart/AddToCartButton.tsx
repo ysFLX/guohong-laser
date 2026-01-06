@@ -70,13 +70,14 @@ export default function AddToCartButton({
       disabled={isAdding || status === 'loading'}
       className={
         className ||
-        'inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-60'
+        'inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-60'
       }
     >
       {isAdding ? 'Ekleniyor...' : 'Sepete Ekle'}
     </button>
   );
 }
+
 
 
 

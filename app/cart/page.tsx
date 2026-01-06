@@ -140,7 +140,7 @@ export default function CartPage() {
               <div className="mt-6">
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700 disabled:opacity-70"
+                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-70"
                   onClick={handleCheckout}
                   disabled={!items.length}
                 >
@@ -158,3 +158,4 @@ export default function CartPage() {
     </div>
   );
 }
+

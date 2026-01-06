@@ -191,7 +191,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
     RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    IN_TRANSIT: { dot: 'bg-orange-500', line: 'bg-orange-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
+    IN_TRANSIT: { dot: 'bg-teal-500', line: 'bg-teal-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
     SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
     DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
     PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
@@ -219,7 +219,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-        <Link href="/profile/orders" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
+        <Link href="/profile/orders" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
           Siparislerime don
         </Link>
 
@@ -412,3 +412,4 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     </div>
   );
 }
+

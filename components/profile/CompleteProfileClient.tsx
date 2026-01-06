@@ -88,7 +88,7 @@ export default function CompleteProfileClient() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
           <div className="relative">
             <div className="text-center">
-              <div className="mx-auto h-12 w-12 rounded-xl bg-orange-400 text-slate-900 flex items-center justify-center font-semibold">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-teal-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Profili tamamla</h2>
@@ -110,7 +110,7 @@ export default function CompleteProfileClient() {
                     required
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                     placeholder="Adiniz"
                   />
                 </div>
@@ -126,7 +126,7 @@ export default function CompleteProfileClient() {
                     required
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                     placeholder="Soyadiniz"
                   />
                 </div>
@@ -142,7 +142,7 @@ export default function CompleteProfileClient() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                     placeholder="05xx xxx xx xx"
                   />
                 </div>
@@ -158,8 +158,8 @@ export default function CompleteProfileClient() {
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-orange-500/30 transition ${
-                    isSaving ? 'bg-orange-200' : 'bg-orange-400 hover:bg-orange-300'
+                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition ${
+                    isSaving ? 'bg-teal-200' : 'bg-teal-400 hover:bg-teal-300'
                   }`}
                 >
                   {isSaving ? 'Kaydediliyor...' : 'Profili kaydet'}
@@ -172,4 +172,5 @@ export default function CompleteProfileClient() {
     </div>
   );
 }
+
 

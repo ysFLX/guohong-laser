@@ -126,7 +126,7 @@ export default function QuotePage() {
           <div
             className={`mb-6 rounded-xl border p-4 text-sm ${
               submitStatus.success
-                ? 'border-orange-200 bg-orange-50 text-orange-800'
+                ? 'border-teal-200 bg-teal-50 text-teal-800'
                 : 'border-red-200 bg-red-50 text-red-700'
             }`}
           >
@@ -148,7 +148,7 @@ export default function QuotePage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 />
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function QuotePage() {
                   id="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function QuotePage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 />
               </div>
               {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
@@ -199,7 +199,7 @@ export default function QuotePage() {
                   required
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 />
               </div>
             </div>
@@ -215,7 +215,7 @@ export default function QuotePage() {
                   required
                   value={formData.product}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 >
                   <option value="">Urun seciniz</option>
                   {products.map((product, index) => (
@@ -238,7 +238,7 @@ export default function QuotePage() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                   placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
                 ></textarea>
               </div>
@@ -263,7 +263,7 @@ export default function QuotePage() {
                     required
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                     placeholder="000000"
                     maxLength={6}
                   />
@@ -273,7 +273,7 @@ export default function QuotePage() {
           )}
 
           {info && (
-            <div className="rounded-xl border border-orange-100 bg-orange-50 p-3 text-center text-sm text-orange-700">
+            <div className="rounded-xl border border-teal-100 bg-teal-50 p-3 text-center text-sm text-teal-700">
               {info}
             </div>
           )}
@@ -289,7 +289,7 @@ export default function QuotePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center rounded-xl bg-orange-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:bg-orange-500 disabled:opacity-60"
+              className="inline-flex items-center rounded-xl bg-teal-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-teal-500/30 transition hover:bg-teal-500 disabled:opacity-60"
             >
               {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
             </button>
@@ -299,4 +299,5 @@ export default function QuotePage() {
     </div>
   );
 }
+
 

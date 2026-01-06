@@ -278,7 +278,7 @@ export default async function SparePartDetailPage({
               <div className="text-xl font-bold text-gray-900 dark:text-white">
                 {formatPriceTry(p.priceCents)}
               </div>
-              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-orange-100 text-orange-700' : 'bg-amber-100 text-amber-700'}`}>
+              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
               <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
@@ -297,12 +297,12 @@ export default async function SparePartDetailPage({
 
             <p className="mt-6 text-gray-700 dark:text-gray-200 leading-relaxed">{p.description}</p>
 
-            <div className="mt-6 rounded-xl border border-orange-100 bg-orange-50/70 px-4 py-4 text-sm text-orange-900">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700">Uyumluluk listesi</p>
+            <div className="mt-6 rounded-xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-sm text-teal-900">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700">Uyumluluk listesi</p>
               {compatibility.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {compatibility.map((model) => (
-                    <span key={model} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-orange-700">
+                    <span key={model} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-teal-700">
                       {model}
                     </span>
                   ))}
@@ -353,7 +353,7 @@ export default async function SparePartDetailPage({
                 imageUrl={p.imageUrl}
                 className={
                   inStock
-                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-orange-600 text-white hover:bg-orange-700'
+                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700'
                     : 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 cursor-not-allowed'
                 }
                 quantity={1}
@@ -372,7 +372,7 @@ export default async function SparePartDetailPage({
           <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Satin alanlar bunlari da aldi</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Satin alanlar bunlari da aldi</p>
                 <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Tamamlayici parcalar</h2>
               </div>
               <Link
@@ -396,7 +396,7 @@ export default async function SparePartDetailPage({
                     <p className="text-sm font-semibold text-gray-900 line-clamp-1">{item.name}</p>
                     <p className="mt-1 text-xs text-gray-500">{item.category.name}</p>
                   </div>
-                  <span className="ml-auto text-orange-600 transition group-hover:translate-x-1">-&gt;</span>
+                  <span className="ml-auto text-teal-600 transition group-hover:translate-x-1">-&gt;</span>
                 </Link>
               ))}
             </div>
@@ -406,7 +406,7 @@ export default async function SparePartDetailPage({
         <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-orange-600">SSS</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600">SSS</p>
               <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Sik sorulan sorular</h2>
             </div>
           </div>
@@ -423,4 +423,5 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
+
 

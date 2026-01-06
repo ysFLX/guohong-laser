@@ -44,7 +44,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               href="/admin/orders"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800 hover:text-white"
             >
-              <span className="h-2.5 w-2.5 rounded-full bg-orange-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-teal-400" />
               Siparisler
             </Link>
             <Link
@@ -118,3 +118,4 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     </div>
   );
 }
+

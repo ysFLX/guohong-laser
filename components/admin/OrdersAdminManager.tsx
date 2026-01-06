@@ -241,7 +241,7 @@ export default function OrdersAdminManager() {
                         type="button"
                         onClick={() => saveStatus(order.id)}
                         disabled={savingId === order.id}
-                        className="rounded-lg bg-orange-600 px-3 py-2 text-xs font-semibold text-white hover:bg-orange-700 disabled:opacity-60"
+                        className="rounded-lg bg-teal-600 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
                       >
                         {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
                       </button>
@@ -316,3 +316,4 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
+

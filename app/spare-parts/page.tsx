@@ -243,7 +243,7 @@ export default function SparePartsPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-orange-500/30 transition hover:-translate-y-0.5 hover:bg-orange-300"
+                className="inline-flex items-center justify-center rounded-full bg-teal-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition hover:-translate-y-0.5 hover:bg-teal-300"
               >
                 Fiyat teklifi al
               </Link>
@@ -266,7 +266,7 @@ export default function SparePartsPage() {
                 key={item.title}
                 className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80 backdrop-blur"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-300">
                   {item.title}
                 </p>
                 <p className="mt-2 text-sm text-white/75">{item.detail}</p>
@@ -297,7 +297,7 @@ export default function SparePartsPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-orange-400 dark:focus:ring-orange-500/30"
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
                 placeholder="Parca adi, aciklama veya uyumluluk ara..."
               />
             </div>
@@ -311,7 +311,7 @@ export default function SparePartsPage() {
                 onClick={() => setSelectedCategory(c)}
                 className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
                   selectedCategory === c
-                    ? 'bg-orange-500 text-slate-900'
+                    ? 'bg-teal-500 text-slate-900'
                     : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
                 }`}
               >
@@ -333,7 +333,7 @@ export default function SparePartsPage() {
               id="modelSelect"
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-orange-400 dark:focus:ring-orange-500/30"
+              className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
             >
               {machineModels.map((model) => (
                 <option key={model.id} value={model.id}>
@@ -342,8 +342,8 @@ export default function SparePartsPage() {
               ))}
             </select>
           </div>
-          <div className="rounded-2xl border border-orange-100 bg-orange-50/70 px-4 py-4 text-sm text-orange-900 dark:border-orange-400/40 dark:bg-slate-900/70 dark:text-orange-200">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300">
+          <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-sm text-teal-900 dark:border-teal-400/40 dark:bg-slate-900/70 dark:text-teal-200">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 dark:text-teal-300">
               Uyum sonucu
             </p>
             <p className="mt-2">
@@ -373,7 +373,7 @@ export default function SparePartsPage() {
             return (
               <div
                 key={p.id}
-                className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-orange-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-orange-400/50"
+                className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-teal-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-teal-400/50"
               >
                 <Link href={`/spare-parts/${p.id}`} className="block">
                   <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -391,14 +391,14 @@ export default function SparePartsPage() {
                       {p.category.name}
                     </div>
                     {p.isFeatured && (
-                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white dark:bg-orange-500/90 dark:text-slate-950">
+                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white dark:bg-teal-500/90 dark:text-slate-950">
                         Vitrin
                       </div>
                     )}
                     <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
                       <span
                         className={`rounded-full px-3 py-1 ${
-                          inStock ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'
+                          inStock ? 'bg-teal-500 text-slate-900' : 'bg-amber-200 text-amber-900'
                         }`}
                       >
                         {inStock ? 'Stokta' : 'Siparisle'}
@@ -434,7 +434,7 @@ export default function SparePartsPage() {
                     </div>
                   </div>
 
-                  <div className="text-xs text-orange-700 dark:text-orange-300">
+                  <div className="text-xs text-teal-700 dark:text-teal-300">
                     {selectedModel === 'Tumu'
                       ? 'Uyumluluk icin model sec'
                       : `${selectedModelInfo?.label} ile uyumlu`}
@@ -446,7 +446,7 @@ export default function SparePartsPage() {
                       name={p.name}
                       priceCents={p.priceCents}
                       imageUrl={p.imageUrl}
-                      className="flex-1 rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                      className="flex-1 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
                     />
                     <button
                       type="button"
@@ -492,7 +492,7 @@ export default function SparePartsPage() {
         <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-300">
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">
                 Satin alanlar bunlari da aldi
               </p>
               <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
@@ -511,7 +511,7 @@ export default function SparePartsPage() {
               <Link
                 key={item.id}
                 href={`/spare-parts/${item.id}`}
-                className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-orange-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-orange-400/50"
+                className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-teal-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-teal-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
                   <Image
@@ -528,7 +528,7 @@ export default function SparePartsPage() {
                   <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
                   <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{formatPriceTry(item.priceCents)}</p>
                 </div>
-                <span className="ml-auto text-orange-600 dark:text-orange-300">-&gt;</span>
+                <span className="ml-auto text-teal-600 dark:text-teal-300">-&gt;</span>
               </Link>
             ))}
           </div>
@@ -537,3 +537,4 @@ export default function SparePartsPage() {
     </div>
   );
 }
+

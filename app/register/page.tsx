@@ -114,7 +114,7 @@ export default function RegisterPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
           <div className="relative">
             <div className="text-center">
-              <div className="mx-auto h-12 w-12 rounded-xl bg-orange-400 text-slate-900 flex items-center justify-center font-semibold">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-teal-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Yeni hesap olustur</h2>
@@ -150,7 +150,7 @@ export default function RegisterPage() {
                       required
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                       placeholder="Adiniz"
                     />
                   </div>
@@ -166,7 +166,7 @@ export default function RegisterPage() {
                       required
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                       placeholder="Soyadiniz"
                     />
                   </div>
@@ -183,7 +183,7 @@ export default function RegisterPage() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                       placeholder="ornek@email.com"
                     />
                   </div>
@@ -200,7 +200,7 @@ export default function RegisterPage() {
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                       placeholder="05xx xxx xx xx"
                     />
                   </div>
@@ -217,7 +217,7 @@ export default function RegisterPage() {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                       placeholder="********"
                       minLength={6}
                     />
@@ -243,7 +243,7 @@ export default function RegisterPage() {
                       required
                       value={verificationCode}
                       onChange={(e) => setVerificationCode(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-orange-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
                       placeholder="000000"
                       maxLength={6}
                     />
@@ -252,7 +252,7 @@ export default function RegisterPage() {
               )}
 
               {info && (
-                <div className="rounded-xl border border-orange-200/30 bg-orange-400/10 p-3 text-sm text-orange-100">
+                <div className="rounded-xl border border-teal-200/30 bg-teal-400/10 p-3 text-sm text-teal-100">
                   {info}
                 </div>
               )}
@@ -267,14 +267,14 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={step === 'details' ? isSendingCode : isVerifying}
-                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-orange-500/30 transition ${
+                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition ${
                     step === 'details'
                       ? isSendingCode
-                        ? 'bg-orange-200'
-                        : 'bg-orange-400 hover:bg-orange-300'
+                        ? 'bg-teal-200'
+                        : 'bg-teal-400 hover:bg-teal-300'
                       : isVerifying
-                        ? 'bg-orange-200'
-                        : 'bg-orange-400 hover:bg-orange-300'
+                        ? 'bg-teal-200'
+                        : 'bg-teal-400 hover:bg-teal-300'
                   }`}
                 >
                   {step === 'details'
@@ -299,7 +299,7 @@ export default function RegisterPage() {
               </div>
             </form>
             <div className="mt-6 text-center">
-              <Link href="/login" className="text-sm font-medium text-orange-200 hover:text-orange-100">
+              <Link href="/login" className="text-sm font-medium text-teal-200 hover:text-teal-100">
                 Zaten hesabin var mi? <span className="underline">Giris yap</span>
               </Link>
             </div>
@@ -309,4 +309,5 @@ export default function RegisterPage() {
     </div>
   );
 }
+
 

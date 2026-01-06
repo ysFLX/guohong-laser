@@ -249,7 +249,7 @@ export default function ProductsPage() {
               <input
                 type="text"
                 id="search"
-                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 placeholder="Urun ara..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -263,7 +263,7 @@ export default function ProductsPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
                   selectedCategory === category
-                    ? 'bg-orange-500 text-slate-900'
+                    ? 'bg-teal-500 text-slate-900'
                     : 'bg-white text-slate-600 hover:bg-slate-100'
                 }`}
               >
@@ -283,7 +283,7 @@ export default function ProductsPage() {
                 <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
                   <span
                     className={`rounded-full px-3 py-1 ${
-                      product.stockLabel === 'Stokta' ? 'bg-orange-500 text-slate-900' : 'bg-amber-200 text-amber-900'
+                      product.stockLabel === 'Stokta' ? 'bg-teal-500 text-slate-900' : 'bg-amber-200 text-amber-900'
                     }`}
                   >
                     {product.stockLabel}
@@ -294,7 +294,7 @@ export default function ProductsPage() {
                 </div>
               </div>
               <div className="space-y-3 p-5">
-                <span className="inline-flex rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
+                <span className="inline-flex rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
                   {product.category}
                 </span>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{product.name}</h3>
@@ -316,7 +316,7 @@ export default function ProductsPage() {
                 <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-300">
                   {product.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-orange-500" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
                       {feature}
                     </li>
                   ))}
@@ -334,7 +334,7 @@ export default function ProductsPage() {
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
               Urun karsilastirma
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
@@ -377,7 +377,7 @@ export default function ProductsPage() {
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-orange-600 dark:text-orange-200">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
               Servis paketleri
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
@@ -396,7 +396,7 @@ export default function ProductsPage() {
             <div key={pkg.name} className="rounded-2xl border border-slate-200/70 bg-white/80 px-5 py-4">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-semibold text-slate-900">{pkg.name}</p>
-                <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-700">
+                <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
                   {pkg.badge}
                 </span>
               </div>
@@ -408,4 +408,5 @@ export default function ProductsPage() {
     </div>
   );
 }
+
 

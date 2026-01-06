@@ -99,7 +99,7 @@ export default async function OrdersPage() {
   const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
     RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    IN_TRANSIT: { dot: 'bg-orange-500', line: 'bg-orange-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
+    IN_TRANSIT: { dot: 'bg-teal-500', line: 'bg-teal-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
     SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
     DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
     PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
@@ -117,14 +117,14 @@ export default async function OrdersPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-orange-200/40 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl" />
         <div className="pointer-events-none absolute -left-32 top-48 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl" />
 
         <div className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
           <div className="rounded-32 bg-slate-950 px-6 py-8 text-white shadow-2xl sm:px-10 sm:py-10">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-400 text-slate-900 font-semibold">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-400 text-slate-900 font-semibold">
                   {(session.user.name?.[0] || session.user.email?.[0] || 'U').toUpperCase()}
                 </div>
                 <div>
@@ -162,7 +162,7 @@ export default async function OrdersPage() {
                 <div className="mt-3 flex flex-col gap-2">
                   <Link
                     href="/spare-parts"
-                    className="inline-flex items-center justify-center rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                    className="inline-flex items-center justify-center rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
                   >
                     Yeni urun kesfet
                   </Link>
@@ -179,13 +179,13 @@ export default async function OrdersPage() {
             <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <Link href="/profile" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
+                  <Link href="/profile" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
                     Hesap yonetimine don
                   </Link>
                   <h2 className="mt-3 text-2xl font-semibold text-slate-900">Siparislerim</h2>
                   <p className="mt-1 text-sm text-slate-600">Tum siparislerin burada listelenir.</p>
                 </div>
-                <Link href="/spare-parts" className="text-sm font-semibold text-orange-600 hover:text-orange-700">
+                <Link href="/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
                   Yeni urun kesfet
                 </Link>
               </div>
@@ -199,7 +199,7 @@ export default async function OrdersPage() {
                   <div className="mt-4 flex flex-wrap gap-2">
                     <Link
                       href="/spare-parts"
-                      className="inline-flex items-center justify-center rounded-xl bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                      className="inline-flex items-center justify-center rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
                     >
                       Yedek parcalar
                     </Link>
@@ -219,7 +219,7 @@ export default async function OrdersPage() {
                 <Link
                   key={order.id}
                   href={`/profile/orders/${order.id}`}
-                  className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-lg"
+                  className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg"
                 >
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
                     <span>Durum</span>
@@ -357,3 +357,4 @@ export default async function OrdersPage() {
     </div>
   );
 }
+
