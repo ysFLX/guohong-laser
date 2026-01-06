@@ -14,6 +14,18 @@ type OrderUser = {
   email: string | null;
 };
 
+type OrderAddress = {
+  label: string | null;
+  fullName: string | null;
+  phone: string | null;
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+};
+
 type AdminOrder = {
   id: string;
   status: string;
@@ -24,6 +36,8 @@ type AdminOrder = {
   trackingNumber: string | null;
   trackingUrl: string | null;
   user: OrderUser | null;
+  shippingAddress: OrderAddress | null;
+  billingAddress: OrderAddress | null;
   items: OrderItem[];
 };
 
@@ -61,6 +75,21 @@ function formatDate(value: string) {
   } catch {
     return value;
   }
+}
+
+function formatAddress(address: OrderAddress | null) {
+  if (!address) return 'Adres bilgisi yok';
+  const line2 = address.line2 ? `, ${address.line2}` : '';
+  const cityLine = `${address.city || '-'}${address.state ? ` / ${address.state}` : ''} ${address.postalCode || ''}`.trim();
+  const country = address.country || '';
+  const parts = [
+    address.label,
+    address.fullName,
+    address.line1 ? `${address.line1}${line2}` : null,
+    `${cityLine} ${country}`.trim(),
+    address.phone,
+  ].filter(Boolean);
+  return parts.join(' | ');
 }
 
 export default function OrdersAdminManager() {
@@ -197,7 +226,7 @@ export default function OrdersAdminManager() {
                   </div>
                 </div>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_0.8fr]">
+                <div className="mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr_0.8fr]">
                   <div className="text-sm text-slate-700 dark:text-slate-200">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
                     <div className="mt-1 font-semibold">
@@ -216,6 +245,11 @@ export default function OrdersAdminManager() {
                         </div>
                       ))}
                     </div>
+                  </div>
+
+                  <div className="text-sm text-slate-700 dark:text-slate-200">
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
+                    <div className="mt-1 text-xs text-slate-600">{formatAddress(order.shippingAddress)}</div>
                   </div>
 
                   <div className="text-sm text-slate-700 dark:text-slate-200">

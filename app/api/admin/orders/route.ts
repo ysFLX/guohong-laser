@@ -16,6 +16,18 @@ type AdminOrderUser = {
   email: string | null;
 };
 
+type AdminOrderAddress = {
+  label: string | null;
+  fullName: string | null;
+  phone: string | null;
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+};
+
 type AdminOrder = {
   id: string;
   status: string;
@@ -27,6 +39,8 @@ type AdminOrder = {
   trackingUrl: string | null;
   items: AdminOrderItem[];
   user: AdminOrderUser | null;
+  shippingAddress: AdminOrderAddress | null;
+  billingAddress: AdminOrderAddress | null;
 };
 
 const prismaOrders = prisma as unknown as {
@@ -49,6 +63,8 @@ export async function GET() {
     include: {
       user: { select: { name: true, email: true } },
       items: true,
+      shippingAddress: true,
+      billingAddress: true,
     },
   });
 
@@ -63,6 +79,8 @@ export async function GET() {
       trackingNumber: order.trackingNumber ?? null,
       trackingUrl: order.trackingUrl ?? null,
       user: order.user,
+      shippingAddress: order.shippingAddress ?? null,
+      billingAddress: order.billingAddress ?? null,
       items: order.items.map((item) => ({
         id: item.id,
         name: item.name,
