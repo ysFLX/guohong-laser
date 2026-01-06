@@ -128,8 +128,8 @@ export default function Home() {
   return (
     <div className={`${space.className} bg-slate-50 text-slate-900`}>
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-orange-200/60 blur-[120px]" />
-        <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-sky-200/50 blur-[140px]" />
+        <div className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px]" />
+        <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-200/50 blur-[140px]" />
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px]" />
 
         <Reveal as="section" className="relative mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8">
@@ -140,7 +140,7 @@ export default function Home() {
               </div>
               <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
                 Lazer uretiminde
-                <span className="block text-orange-600">yeni standart seti</span>
+                <span className="block text-teal-600">yeni standart seti</span>
               </h1>
               <p className="max-w-2xl text-base text-slate-600">
                 Makine, yedek parca ve teknik destek tek sistemde. Hat verimliligi, servis hizi ve kaliteyi
@@ -201,10 +201,10 @@ export default function Home() {
               href={tile.href}
               className="group relative overflow-hidden rounded-[26px] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 px-5 py-6 transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-orange-100" />
+              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-amber-100" />
               <h3 className="text-lg font-semibold text-slate-900">{tile.title}</h3>
               <p className="mt-2 text-sm text-slate-600">{tile.description}</p>
-              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
+              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
                 Incele
                 <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
               </span>
@@ -216,7 +216,7 @@ export default function Home() {
       <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Urun spotlight</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-600">Urun spotlight</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">{spotlight.title}</h2>
             <p className="mt-3 text-sm text-slate-600">{spotlight.description}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -253,7 +253,7 @@ export default function Home() {
         <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Destek merkezi</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-600">Destek merkezi</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900">E-ticaret + teknik destek tek sayfada</h2>
             </div>
             <Link
@@ -272,7 +272,7 @@ export default function Home() {
               >
                 <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                 <p className="mt-2 text-sm text-slate-600">{item.description}</p>
-                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
+                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
                   Ac
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
@@ -284,7 +284,7 @@ export default function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-orange-600">Is akisi</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-600">Is akisi</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">4 adimda devreye alma</h2>
           <div className="mt-6 space-y-4">
             {process.map((step, index) => (
@@ -303,7 +303,7 @@ export default function Home() {
           </div>
         </div>
         <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-6 text-white shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-orange-200">Uyumluluk ve guven</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Uyumluluk ve guven</p>
           <h2 className="mt-2 text-2xl font-semibold">Model - parca uyumu tek ekranda</h2>
           <p className="mt-3 text-sm text-white/70">
             Makine modeline gore uyumlu yedek parcalari aninda goster, stok ve teslim bilgisiyle karar ver.
@@ -317,7 +317,7 @@ export default function Home() {
           </div>
           <Link
             href="/spare-parts"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-orange-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-teal-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
           >
             Yedek parca arat
           </Link>
@@ -345,7 +345,7 @@ export default function Home() {
         <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-orange-600">SSS</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-600">SSS</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900">Karar surecini hizlandiran cevaplar</h2>
             </div>
             <Link
@@ -377,7 +377,7 @@ export default function Home() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-orange-500 px-6 py-2.5 text-sm font-semibold text-white"
+                className="inline-flex items-center justify-center rounded-full bg-teal-500 px-6 py-2.5 text-sm font-semibold text-white"
               >
                 Hemen teklif al
               </Link>
