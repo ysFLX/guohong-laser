@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
 
 import Reveal from '@/components/home/Reveal';
+import VideoSlider from '@/components/home/VideoSlider';
 
 const space = Space_Grotesk({
   subsets: ['latin'],
@@ -13,6 +14,24 @@ const heroStats = [
   { label: 'Hat verimliligi', value: '%98' },
   { label: 'Kurulum suresi', value: '7-12 gun' },
   { label: 'Servis noktasi', value: '24' },
+];
+
+const heroVideos = [
+  {
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584816/sackesim_m6icrx.mp4',
+    poster: '/images/1.jpg',
+    title: 'Lazer Sac Kesimi',
+  },
+  {
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584806/borukesim_dd8a5f.mp4',
+    poster: '/images/about-showcase.jpg',
+    title: 'Lazer Boru Kesimi',
+  },
+  {
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584837/demirkesim_kbwzy2.mp4',
+    poster: '/images/2.jpg',
+    title: 'Lazer Demir Kesimi',
+  },
 ];
 
 const commerceTiles = [
@@ -199,6 +218,26 @@ export default function Home() {
           </div>
         </Reveal>
       </div>
+
+      <Reveal as="section" className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Video galerisi</p>
+              <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+                Sac, boru ve demir kesim hatlari
+              </h2>
+            </div>
+            <Link
+              href="/gallery"
+              className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+            >
+              Galeriye git
+            </Link>
+          </div>
+          <VideoSlider items={heroVideos} autoAdvanceMs={8000} />
+        </div>
+      </Reveal>
 
       <Reveal as="section" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-4 rounded-[36px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3 dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
