@@ -30,6 +30,7 @@ model User {
   inquiries       Inquiry[] @relation("InquiryCreatedBy")
   inquiriesResponded Inquiry[] @relation("InquiryRespondedBy")
   notifications  UserNotification[]
+  sparePartReviews SparePartReview[]
 }
 
 model EmailVerification {
@@ -152,10 +153,30 @@ model SparePart {
   stockMovements StockMovement[]
   favorites     Favorite[]
   orderItems    OrderItem[]
+  reviews       SparePartReview[]
 
   @@index([categoryId])
   @@index([isFeatured])
   @@index([isActive])
+}
+
+model SparePartReview {
+  id          String   @id @default(cuid())
+  sparePartId String
+  userId      String
+  rating      Int
+  title       String?
+  body        String?
+  isApproved  Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sparePart SparePart @relation(fields: [sparePartId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sparePartId])
+  @@index([sparePartId, createdAt])
+  @@index([userId])
 }
 
 model SparePartImage {

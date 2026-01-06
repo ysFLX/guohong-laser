@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import SparePartImageSlider from '@/components/spare-parts/SparePartImageSlider';
+import SparePartReviews from '@/components/spare-parts/SparePartReviews';
 
 type SparePartDetail = {
   id: string;
@@ -402,6 +403,10 @@ export default async function SparePartDetailPage({
             </div>
           </div>
         )}
+
+        <div className="mt-12">
+          <SparePartReviews sparePartId={p.id} />
+        </div>
 
         <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
           <div className="flex flex-wrap items-center justify-between gap-4">
