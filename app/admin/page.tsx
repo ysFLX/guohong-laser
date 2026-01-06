@@ -129,37 +129,37 @@ export default async function AdminHomePage() {
   const statusBadge = (status: 'NEW' | 'READ' | 'CLOSED') => {
     if (status === 'NEW') return 'bg-green-100 text-green-800';
     if (status === 'READ') return 'bg-yellow-100 text-yellow-800';
-    return 'bg-gray-200 text-gray-700';
+    return 'bg-slate-200 text-slate-700';
   };
 
   const typeLabel = (type: 'CONTACT' | 'QUOTE') => (type === 'QUOTE' ? 'Teklif' : 'Iletisim');
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
+    <div className="space-y-6">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-lg font-bold text-gray-900 dark:text-white">Admin Dashboard</div>
-            <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            <div className="text-lg font-bold text-slate-900">Admin Dashboard</div>
+            <div className="mt-1 text-sm text-slate-600">
               Yedek parca, stok ve iletisim taleplerini tek ekrandan takip et.
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
               href="/admin/spare-parts"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800"
             >
               Yedek Parca
             </Link>
             <Link
               href="/admin/inquiries#quotes"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 text-slate-900 hover:bg-slate-50"
             >
               Teklifler
             </Link>
             <Link
               href="/admin/inquiries#contact"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 text-slate-900 hover:bg-slate-50"
             >
               Iletisim
             </Link>
@@ -170,10 +170,13 @@ export default async function AdminHomePage() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4"
+              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
             >
-              <div className="text-sm text-gray-600 dark:text-gray-300">{stat.label}</div>
-              <div className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+              <div className="flex items-center justify-between text-sm text-slate-500">
+                <span>{stat.label}</span>
+                <span className="h-2 w-2 rounded-full bg-teal-500" />
+              </div>
+              <div className="mt-2 text-2xl font-bold text-slate-900">{stat.value}</div>
             </div>
           ))}
         </div>
@@ -181,57 +184,57 @@ export default async function AdminHomePage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-gray-900 dark:text-white">Guncel Stok</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">Son guncellenen 5 urun</div>
+                <div className="text-base font-semibold text-slate-900">Guncel Stok</div>
+                <div className="text-sm text-slate-600">Son guncellenen 5 urun</div>
               </div>
-              <Link href="/admin/spare-parts" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">
+              <Link href="/admin/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
                 Tumunu gor
               </Link>
             </div>
 
-            <div className="mt-4 divide-y divide-gray-100 dark:divide-gray-700">
+            <div className="mt-4 divide-y divide-slate-100">
               {latestParts.map((p) => (
                 <div key={p.id} className="py-3 flex items-center justify-between gap-3">
                   <div>
-                    <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <div className="text-sm font-semibold text-slate-900">
                       {p.name}{' '}
                       {!p.isActive && (
-                        <span className="ml-1 rounded-full bg-gray-200 text-gray-700 px-2 py-0.5 text-[11px] font-semibold">
+                        <span className="ml-1 rounded-full bg-slate-200 text-slate-700 px-2 py-0.5 text-[11px] font-semibold">
                           Pasif
                         </span>
                       )}
                       {p.isFeatured && (
-                        <span className="ml-1 rounded-full bg-gray-900 text-white px-2 py-0.5 text-[11px] font-semibold">
+                        <span className="ml-1 rounded-full bg-slate-900 text-white px-2 py-0.5 text-[11px] font-semibold">
                           Vitrin
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-gray-600 dark:text-gray-300">
+                    <div className="text-xs text-slate-600">
                       {p.category.name} · Stok: {p.stockOnHand} · {formatPriceTry(p.priceCents)}
                     </div>
                   </div>
                   <Link
                     href={`/admin/spare-parts/${p.id}`}
-                    className="text-sm font-semibold text-emerald-600 hover:text-emerald-700"
+                    className="text-sm font-semibold text-teal-600 hover:text-teal-700"
                   >
                     Duzenle
                   </Link>
                 </div>
               ))}
               {latestParts.length === 0 && (
-                <div className="py-6 text-sm text-gray-600 dark:text-gray-300">Henuz urun yok.</div>
+                <div className="py-6 text-sm text-slate-600">Henuz urun yok.</div>
               )}
             </div>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-gray-900 dark:text-white">Hizli Islemler</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">Sik kullanilan sayfalara kisa yollar</div>
+                <div className="text-base font-semibold text-slate-900">Hizli Islemler</div>
+                <div className="text-sm text-slate-600">Sik kullanilan sayfalara kisa yollar</div>
               </div>
             </div>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -239,11 +242,11 @@ export default async function AdminHomePage() {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4 hover:border-gray-300 dark:hover:border-gray-600 transition"
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-slate-300 transition"
                 >
-                  <div className="text-sm font-semibold text-gray-900 dark:text-white">{link.title}</div>
-                  <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">{link.description}</div>
-                  <div className="mt-3 text-sm font-semibold text-emerald-600 hover:text-emerald-700">{link.action}</div>
+                  <div className="text-sm font-semibold text-slate-900">{link.title}</div>
+                  <div className="mt-1 text-xs text-slate-600">{link.description}</div>
+                  <div className="mt-3 text-sm font-semibold text-teal-600 hover:text-teal-700">{link.action}</div>
                 </Link>
               ))}
             </div>
@@ -251,27 +254,27 @@ export default async function AdminHomePage() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-            <div className="text-base font-semibold text-gray-900 dark:text-white">Son Talepler</div>
-            <div className="text-sm text-gray-600 dark:text-gray-300">Son 5 teklif/iletisim talebi</div>
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="text-base font-semibold text-slate-900">Son Talepler</div>
+            <div className="text-sm text-slate-600">Son 5 teklif/iletisim talebi</div>
 
             <div className="mt-4 space-y-3">
               {recentInquiries.map((inq) => (
-                <div key={inq.id} className="rounded-xl border border-gray-100 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-900/40">
+                <div key={inq.id} className="rounded-xl border border-slate-200 p-3 bg-slate-50">
                   <div className="flex items-center justify-between gap-2">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <div className="text-sm font-semibold text-slate-900">
                       {inq.name || 'Isim yok'} · {inq.email}
                     </div>
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusBadge(inq.status)}`}>
                       {typeLabel(inq.type)} · {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapali'}
                     </span>
                   </div>
-                  <div className="mt-1 text-xs text-gray-500 dark:text-gray-300">{formatDateTime(inq.createdAt)}</div>
-                  <div className="mt-2 text-sm text-gray-700 dark:text-gray-200 line-clamp-2">{inq.message}</div>
+                  <div className="mt-1 text-xs text-slate-500">{formatDateTime(inq.createdAt)}</div>
+                  <div className="mt-2 text-sm text-slate-700 line-clamp-2">{inq.message}</div>
                 </div>
               ))}
               {recentInquiries.length === 0 && (
-                <div className="rounded-xl border border-dashed border-gray-200 dark:border-gray-700 p-4 text-sm text-gray-600 dark:text-gray-300">
+                <div className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-600">
                   Henuz talep yok.
                 </div>
               )}
@@ -282,6 +285,9 @@ export default async function AdminHomePage() {
     </div>
   );
 }
+
+
+
 
 
 

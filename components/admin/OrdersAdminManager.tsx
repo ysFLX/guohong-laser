@@ -181,18 +181,18 @@ export default function OrdersAdminManager() {
 
   return (
     <div className="space-y-5">
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="rounded-xl border border-slate-200 border-l-4 border-l-teal-500 bg-white p-4 shadow-sm">
         <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
-        <div className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">{totalOrders}</div>
+        <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Siparis listesi</h3>
+          <h3 className="text-lg font-semibold text-slate-900">Siparis listesi</h3>
           <button
             type="button"
             onClick={loadOrders}
-            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
           >
             Yenile
           </button>
@@ -202,7 +202,7 @@ export default function OrdersAdminManager() {
         {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
 
         {!loading && orders.length === 0 && (
-          <div className="mt-6 rounded-2xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+          <div className="mt-6 rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
             Henuz siparis yok.
           </div>
         )}
@@ -212,22 +212,22 @@ export default function OrdersAdminManager() {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-950/60"
+                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
               >
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900 dark:text-white">
+                    <div className="text-sm font-semibold text-slate-900">
                       Siparis #{order.id.slice(0, 8)}
                     </div>
                     <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                   </div>
-                  <div className="text-sm font-semibold text-slate-900 dark:text-white">
+                  <div className="text-sm font-semibold text-slate-900">
                     {formatPriceTry(order.totalCents)}
                   </div>
                 </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr_0.8fr]">
-                  <div className="text-sm text-slate-700 dark:text-slate-200">
+                  <div className="text-sm text-slate-700">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
                     <div className="mt-1 font-semibold">
                       {order.user?.name || order.user?.email || 'Misafir'}
@@ -235,7 +235,7 @@ export default function OrdersAdminManager() {
                     <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
                   </div>
 
-                  <div className="text-sm text-slate-700 dark:text-slate-200">
+                  <div className="text-sm text-slate-700">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
                     <div className="mt-1">
                       {order.items.map((item) => (
@@ -247,16 +247,16 @@ export default function OrdersAdminManager() {
                     </div>
                   </div>
 
-                  <div className="text-sm text-slate-700 dark:text-slate-200">
+                  <div className="text-sm text-slate-700">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
                     <div className="mt-1 text-xs text-slate-600">{formatAddress(order.shippingAddress)}</div>
                   </div>
 
-                  <div className="text-sm text-slate-700 dark:text-slate-200">
+                  <div className="text-sm text-slate-700">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum</div>
                     <div className="mt-2 flex items-center gap-2">
                       <select
-                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
                         value={draftStatus[order.id] || order.status}
                         onChange={(e) =>
                           setDraftStatus((prev) => ({
@@ -291,7 +291,7 @@ export default function OrdersAdminManager() {
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo firmasi</div>
                     <input
                       className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                      placeholder="Orn: Yurtiçi Kargo"
+                      placeholder="Orn: Yurtici Kargo"
                       value={draftTracking[order.id]?.carrier || ''}
                       onChange={(e) =>
                         setDraftTracking((prev) => ({
@@ -350,4 +350,5 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
+
 
