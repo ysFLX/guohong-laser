@@ -104,6 +104,7 @@ export default function OrdersAdminManager() {
   const [cancelDialogId, setCancelDialogId] = useState<string | null>(null);
   const [cancelReasonDraft, setCancelReasonDraft] = useState<Record<string, string>>({});
   const [cancelReasonError, setCancelReasonError] = useState<Record<string, string>>({});
+  const [cancelPrevStatus, setCancelPrevStatus] = useState<Record<string, string>>({});
 
   const totalOrders = useMemo(() => orders.length, [orders.length]);
 
@@ -200,6 +201,19 @@ export default function OrdersAdminManager() {
     }
     saveStatus(orderId, reason);
   };
+
+  const closeCancelDialog = (orderId: string) => {
+    setCancelDialogId(null);
+    setCancelReasonError((prev) => ({ ...prev, [orderId]: '' }));
+    if (cancelPrevStatus[orderId]) {
+      setDraftStatus((prev) => ({
+        ...prev,
+        [orderId]: cancelPrevStatus[orderId],
+      }));
+    }
+  };
+
+  const cancelOrder = orders.find((order) => order.id === cancelDialogId) || null;
 
   return (
     <div className="space-y-5">
@@ -316,6 +330,13 @@ export default function OrdersAdminManager() {
                             if (value !== 'CANCELED' && cancelDialogId === order.id) {
                               setCancelDialogId(null);
                             }
+                            if (value === 'CANCELED') {
+                              setCancelPrevStatus((prev) => ({
+                                ...prev,
+                                [order.id]: draftStatus[order.id] || order.status,
+                              }));
+                              openCancelDialog(order.id);
+                            }
                             setDraftStatus((prev) => ({
                               ...prev,
                               [order.id]: value,
@@ -330,58 +351,13 @@ export default function OrdersAdminManager() {
                         </select>
                         <button
                           type="button"
-                          onClick={() => {
-                            if ((draftStatus[order.id] || order.status) === 'CANCELED') {
-                              openCancelDialog(order.id);
-                              return;
-                            }
-                            saveStatus(order.id);
-                          }}
+                          onClick={() => saveStatus(order.id)}
                           disabled={savingId === order.id}
                           className="rounded-lg bg-teal-600 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
                         >
                           {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
                         </button>
                       </div>
-                      {cancelDialogId === order.id && (
-                        <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-900">
-                          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-500">
-                            Iptal nedeni
-                          </div>
-                          <textarea
-                            rows={3}
-                            value={cancelReasonDraft[order.id] || ''}
-                            onChange={(e) =>
-                              setCancelReasonDraft((prev) => ({
-                                ...prev,
-                                [order.id]: e.target.value,
-                              }))
-                            }
-                            className="mt-2 w-full rounded-lg border border-rose-200 bg-white px-3 py-2 text-xs text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                            placeholder="Musteriye gidecek iptal nedeni..."
-                          />
-                          {cancelReasonError[order.id] && (
-                            <div className="mt-2 text-[11px] text-rose-600">{cancelReasonError[order.id]}</div>
-                          )}
-                          <div className="mt-3 flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => confirmCancel(order.id)}
-                              disabled={savingId === order.id}
-                              className="rounded-lg bg-rose-600 px-3 py-2 text-[11px] font-semibold text-white hover:bg-rose-700 disabled:opacity-60"
-                            >
-                              Iptali onayla
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setCancelDialogId(null)}
-                              className="rounded-lg border border-rose-200 px-3 py-2 text-[11px] font-semibold text-rose-700 hover:bg-rose-100"
-                            >
-                              Vazgec
-                            </button>
-                          </div>
-                        </div>
-                      )}
                       <div className="mt-2 text-xs text-slate-500">
                         Mevcut: {statusLabel[order.status] || order.status}
                       </div>
@@ -444,6 +420,62 @@ export default function OrdersAdminManager() {
           </div>
         )}
       </div>
+
+      {cancelDialogId && cancelOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-sm" />
+          <div className="relative w-full max-w-lg rounded-2xl border border-rose-200 bg-white p-5 shadow-2xl">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-rose-500">
+              Siparis iptali
+            </div>
+            <div className="mt-2 text-base font-semibold text-slate-900">
+              #{cancelOrder.id.slice(0, 8)} siparisini iptal et
+            </div>
+            <p className="mt-1 text-sm text-slate-600">
+              Iptal islemi icin musteriye gidecek nedeni yazman gerekiyor.
+            </p>
+
+            <div className="mt-4">
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                Iptal nedeni
+              </label>
+              <textarea
+                rows={4}
+                value={cancelReasonDraft[cancelDialogId] || ''}
+                onChange={(e) =>
+                  setCancelReasonDraft((prev) => ({
+                    ...prev,
+                    [cancelDialogId]: e.target.value,
+                  }))
+                }
+                className="mt-2 w-full rounded-xl border border-rose-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                placeholder="Orn: Uretim stok sorunu nedeniyle iptal edildi."
+              />
+              {cancelReasonError[cancelDialogId] && (
+                <div className="mt-2 text-xs text-rose-600">{cancelReasonError[cancelDialogId]}</div>
+              )}
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => closeCancelDialog(cancelDialogId)}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100"
+              >
+                Vazgec
+              </button>
+              <button
+                type="button"
+                onClick={() => confirmCancel(cancelDialogId)}
+                disabled={savingId === cancelDialogId}
+                className="rounded-lg bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-700 disabled:opacity-60"
+              >
+                Iptali onayla
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
