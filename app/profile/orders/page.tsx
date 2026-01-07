@@ -52,6 +52,13 @@ function formatDate(value: Date) {
   }
 }
 
+function normalizeStatus(value: string) {
+  if (value === 'PAID' || value === 'PENDING' || value === 'FAILED') {
+    return 'RECEIVED';
+  }
+  return value;
+}
+
 export default async function OrdersPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -68,24 +75,18 @@ export default async function OrdersPage() {
   const latestOrder = hasOrders ? orders[0] : null;
 
   const statusLabel: Record<string, string> = {
-    PAID: 'Odeme alindi',
     RECEIVED: 'Siparis alindi',
     SHIPPED: 'Kargoya verildi',
     IN_TRANSIT: 'Siparis hazirlaniyor',
     DELIVERED: 'Teslim edildi',
-    PENDING: 'Beklemede',
-    FAILED: 'Basarisiz',
     CANCELED: 'Iptal',
   };
 
   const statusTone: Record<string, string> = {
-    PAID: 'bg-emerald-500/15 text-emerald-700',
     RECEIVED: 'bg-sky-500/15 text-sky-700',
     SHIPPED: 'bg-amber-500/15 text-amber-700',
     IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
     DELIVERED: 'bg-emerald-500/15 text-emerald-700',
-    PENDING: 'bg-amber-500/15 text-amber-700',
-    FAILED: 'bg-rose-500/15 text-rose-700',
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
 
@@ -102,16 +103,12 @@ export default async function OrdersPage() {
     IN_TRANSIT: { dot: 'bg-teal-500', line: 'bg-teal-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
     SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
     DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
-    PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    PENDING: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
     IN_TRANSIT: 1,
     SHIPPED: 2,
     DELIVERED: 3,
-    PAID: 0,
-    PENDING: 0,
   };
 
   return (
@@ -215,20 +212,22 @@ export default async function OrdersPage() {
 
               {hasOrders && (
                 <div className="mt-8 space-y-4">
-              {orders.map((order) => (
-                <Link
-                  key={order.id}
-                  href={`/profile/orders/${order.id}`}
-                  className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg"
-                >
+              {orders.map((order) => {
+                const displayStatus = normalizeStatus(order.status);
+                return (
+                  <Link
+                    key={order.id}
+                    href={`/profile/orders/${order.id}`}
+                    className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg"
+                  >
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
                     <span>Durum</span>
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                        statusTone[order.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                        statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
                       }`}
                     >
-                      {statusLabel[order.status as keyof typeof statusLabel] || order.status}
+                      {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
                     </span>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
@@ -238,11 +237,11 @@ export default async function OrdersPage() {
                     </div>
                   </div>
 
-                  {typeof statusToStep[order.status] === 'number' && (
+                  {typeof statusToStep[displayStatus] === 'number' && (
                     <div className="mt-5">
                       <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-slate-400">
                         <span>Durum akisi</span>
-                        <span>{progressSteps[statusToStep[order.status]].label}</span>
+                        <span>{progressSteps[statusToStep[displayStatus]].label}</span>
                       </div>
                       <div className="mt-3">
                         <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
@@ -252,17 +251,17 @@ export default async function OrdersPage() {
                           />
                           <div
                             className={`absolute top-3 h-0.5 -translate-y-1/2 rounded-full ${
-                              (statusAccent[order.status] || statusAccent.RECEIVED).line
+                              (statusAccent[displayStatus] || statusAccent.RECEIVED).line
                             }`}
                             style={{
                               left: `${lineLeftPercent}%`,
-                              width: `${(statusToStep[order.status] / (progressSteps.length - 1)) * lineWidthPercent}%`,
+                              width: `${(statusToStep[displayStatus] / (progressSteps.length - 1)) * lineWidthPercent}%`,
                             }}
                           />
                           {progressSteps.map((step, index) => {
-                            const isActive = index <= statusToStep[order.status];
-                            const isCurrent = index === statusToStep[order.status];
-                            const accent = statusAccent[order.status] || statusAccent.RECEIVED;
+                            const isActive = index <= statusToStep[displayStatus];
+                            const isCurrent = index === statusToStep[displayStatus];
+                            const accent = statusAccent[displayStatus] || statusAccent.RECEIVED;
                             return (
                               <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
                                 <div
@@ -346,8 +345,9 @@ export default async function OrdersPage() {
                     <span className="text-slate-600">Toplam</span>
                     <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
                   </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           )}
             </div>

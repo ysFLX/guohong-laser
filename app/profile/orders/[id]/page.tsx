@@ -78,6 +78,13 @@ function formatDate(value: Date) {
   }
 }
 
+function normalizeStatus(value: string) {
+  if (value === 'PAID' || value === 'PENDING' || value === 'FAILED') {
+    return 'RECEIVED';
+  }
+  return value;
+}
+
 function formatAddress(address: Address | null) {
   if (!address) return null;
   const line2 = address.line2 ? `, ${address.line2}` : '';
@@ -160,24 +167,18 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const safeOrder = order!;
 
   const statusLabel: Record<string, string> = {
-    PAID: 'Odeme alindi',
     RECEIVED: 'Siparis alindi',
     SHIPPED: 'Kargoya verildi',
     IN_TRANSIT: 'Siparis hazirlaniyor',
     DELIVERED: 'Teslim edildi',
-    PENDING: 'Beklemede',
-    FAILED: 'Basarisiz',
     CANCELED: 'Iptal',
   };
 
   const statusTone: Record<string, string> = {
-    PAID: 'bg-emerald-500/15 text-emerald-700',
     RECEIVED: 'bg-sky-500/15 text-sky-700',
     SHIPPED: 'bg-amber-500/15 text-amber-700',
     IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
     DELIVERED: 'bg-emerald-500/15 text-emerald-700',
-    PENDING: 'bg-amber-500/15 text-amber-700',
-    FAILED: 'bg-rose-500/15 text-rose-700',
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
 
@@ -194,18 +195,15 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     IN_TRANSIT: { dot: 'bg-teal-500', line: 'bg-teal-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
     SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
     DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
-    PAID: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    PENDING: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
     IN_TRANSIT: 1,
     SHIPPED: 2,
     DELIVERED: 3,
-    PAID: 0,
-    PENDING: 0,
   };
 
+  const displayStatus = normalizeStatus(safeOrder.status);
   const shippingView = formatAddress(safeOrder.shippingAddress);
   const billingView = formatAddress(safeOrder.billingAddress);
   const billingSame =
@@ -230,18 +228,18 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           </div>
           <div
             className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-              statusTone[safeOrder.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+              statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
             }`}
           >
-            {statusLabel[safeOrder.status as keyof typeof statusLabel] || safeOrder.status}
+            {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
           </div>
         </div>
 
-        {typeof statusToStep[safeOrder.status] === 'number' && (
+        {typeof statusToStep[displayStatus] === 'number' && (
           <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
               <span>Durum akisi</span>
-              <span>{progressSteps[statusToStep[safeOrder.status]].label}</span>
+              <span>{progressSteps[statusToStep[displayStatus]].label}</span>
             </div>
             <div className="mt-4">
               <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
@@ -251,17 +249,17 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 />
                 <div
                   className={`absolute top-3 h-0.5 -translate-y-1/2 rounded-full ${
-                    (statusAccent[safeOrder.status] || statusAccent.RECEIVED).line
+                    (statusAccent[displayStatus] || statusAccent.RECEIVED).line
                   }`}
                   style={{
                     left: `${lineLeftPercent}%`,
-                    width: `${(statusToStep[safeOrder.status] / (progressSteps.length - 1)) * lineWidthPercent}%`,
+                    width: `${(statusToStep[displayStatus] / (progressSteps.length - 1)) * lineWidthPercent}%`,
                   }}
                 />
                 {progressSteps.map((step, index) => {
-                  const isActive = index <= statusToStep[safeOrder.status];
-                  const isCurrent = index === statusToStep[safeOrder.status];
-                  const accent = statusAccent[safeOrder.status] || statusAccent.RECEIVED;
+                  const isActive = index <= statusToStep[displayStatus];
+                  const isCurrent = index === statusToStep[displayStatus];
+                  const accent = statusAccent[displayStatus] || statusAccent.RECEIVED;
                   return (
                     <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
                       <div
@@ -328,10 +326,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               <div className="mt-2">
                 <span
                   className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                    statusTone[safeOrder.status as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                    statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
                   }`}
                 >
-                  {statusLabel[safeOrder.status as keyof typeof statusLabel] || safeOrder.status}
+                  {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
                 </span>
               </div>
             </div>

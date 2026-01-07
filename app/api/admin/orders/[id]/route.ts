@@ -31,9 +31,9 @@ const statusLabel: Record<string, string> = {
   IN_TRANSIT: 'Siparisiniz hazirlaniyor',
   SHIPPED: 'Kargoya verildi',
   DELIVERED: 'Teslim edildi',
-  PENDING: 'Beklemede',
-  PAID: 'Odeme alindi',
-  FAILED: 'Basarisiz',
+  PENDING: 'Siparisiniz alindi',
+  PAID: 'Siparisiniz alindi',
+  FAILED: 'Siparisiniz alindi',
   CANCELED: 'Iptal edildi',
 };
 

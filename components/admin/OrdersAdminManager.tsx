@@ -47,9 +47,6 @@ const statusOptions = [
   { value: 'IN_TRANSIT', label: 'Siparis hazirlaniyor' },
   { value: 'SHIPPED', label: 'Kargoya verildi' },
   { value: 'DELIVERED', label: 'Teslim edildi' },
-  { value: 'PENDING', label: 'Beklemede' },
-  { value: 'PAID', label: 'Odeme alindi' },
-  { value: 'FAILED', label: 'Basarisiz' },
   { value: 'CANCELED', label: 'Iptal' },
 ];
 
@@ -57,6 +54,13 @@ const statusLabel = statusOptions.reduce<Record<string, string>>((acc, item) => 
   acc[item.value] = item.label;
   return acc;
 }, {});
+
+const normalizeStatus = (value: string) => {
+  if (value === 'PAID' || value === 'PENDING' || value === 'FAILED') {
+    return 'RECEIVED';
+  }
+  return value;
+};
 
 const statusTone = (value: string) => {
   switch (value) {
@@ -66,10 +70,6 @@ const statusTone = (value: string) => {
       return 'bg-blue-500/10 text-blue-700 ring-1 ring-blue-500/30';
     case 'IN_TRANSIT':
       return 'bg-amber-500/10 text-amber-700 ring-1 ring-amber-500/30';
-    case 'PAID':
-      return 'bg-teal-500/10 text-teal-700 ring-1 ring-teal-500/30';
-    case 'FAILED':
-      return 'bg-rose-500/10 text-rose-700 ring-1 ring-rose-500/30';
     case 'CANCELED':
       return 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30';
     default:
@@ -85,10 +85,6 @@ const statusAccent = (value: string) => {
       return 'border-l-blue-500';
     case 'IN_TRANSIT':
       return 'border-l-amber-500';
-    case 'PAID':
-      return 'border-l-teal-500';
-    case 'FAILED':
-      return 'border-l-rose-500';
     case 'CANCELED':
       return 'border-l-slate-400';
     default:
@@ -154,7 +150,8 @@ export default function OrdersAdminManager() {
   }, [orders]);
   const statusCounts = useMemo(() => {
     return orders.reduce<Record<string, number>>((acc, order) => {
-      acc[order.status] = (acc[order.status] || 0) + 1;
+      const normalized = normalizeStatus(order.status);
+      acc[normalized] = (acc[normalized] || 0) + 1;
       return acc;
     }, {});
   }, [orders]);
@@ -175,7 +172,7 @@ export default function OrdersAdminManager() {
       setExpandedIds(new Set(list.length ? [list[0].id] : []));
       setDraftStatus(
         list.reduce<Record<string, string>>((acc, item) => {
-          acc[item.id] = item.status;
+          acc[item.id] = normalizeStatus(item.status);
           return acc;
         }, {}),
       );
@@ -308,14 +305,12 @@ export default function OrdersAdminManager() {
             <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Bekleyen</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.PENDING || 0}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Alindi</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.RECEIVED || 0}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazirlaniyor</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">
-              {(statusCounts.IN_TRANSIT || 0) + (statusCounts.RECEIVED || 0)}
-            </div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.IN_TRANSIT || 0}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Iptal</div>
@@ -342,11 +337,13 @@ export default function OrdersAdminManager() {
 
         {!loading && orders.length > 0 && (
           <div className="space-y-8">
-            {orders.map((order) => (
+            {orders.map((order) => {
+              const displayStatus = normalizeStatus(order.status);
+              return (
               <div
                 key={order.id}
                 className={`relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_50px_-40px_rgba(15,23,42,0.35)] ring-1 ring-slate-100/80 ${statusAccent(
-                  order.status,
+                  displayStatus,
                 )} border-l-4`}
               >
                 <button
@@ -361,10 +358,10 @@ export default function OrdersAdminManager() {
                       <div className="text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
                       <span
                         className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(
-                          order.status,
+                          displayStatus,
                         )}`}
                       >
-                        {statusLabel[order.status] || order.status}
+                        {statusLabel[displayStatus] || displayStatus}
                       </span>
                     </div>
                     <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
@@ -486,9 +483,9 @@ export default function OrdersAdminManager() {
                           </button>
                         </div>
                         <div className="mt-2 text-xs text-slate-500">
-                          Mevcut: {statusLabel[order.status] || order.status}
-                        </div>
+                        Mevcut: {statusLabel[displayStatus] || displayStatus}
                       </div>
+                    </div>
 
                       <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                         <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
@@ -544,7 +541,7 @@ export default function OrdersAdminManager() {
                   </div>
                 )}
               </div>
-            ))}
+            )})}
           </div>
         )}
 
