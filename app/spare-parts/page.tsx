@@ -88,8 +88,6 @@ export default function SparePartsPage() {
   const { status } = useSession();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-  const filtersRef = useRef<HTMLDivElement | null>(null);
-  const listRef = useRef<HTMLElement | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
   const [selectedModel, setSelectedModel] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
@@ -101,7 +99,6 @@ export default function SparePartsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [favoriteError, setFavoriteError] = useState('');
-  const [filterMode, setFilterMode] = useState<'static' | 'fixed' | 'bottom'>('static');
 
   // Load products
   useEffect(() => {
@@ -252,40 +249,6 @@ export default function SparePartsPage() {
     return () => observer.disconnect();
   }, [filtered.length]);
 
-  useEffect(() => {
-    const updatePosition = () => {
-      const section = listRef.current;
-      const filters = filtersRef.current;
-      if (!section || !filters) return;
-
-      const topOffset = 96;
-      const scrollTop = window.scrollY;
-      const sectionTop = section.offsetTop;
-      const sectionBottom = sectionTop + section.offsetHeight;
-      const filtersHeight = filters.offsetHeight;
-      const currentTop = scrollTop + topOffset;
-
-      if (currentTop < sectionTop) {
-        setFilterMode('static');
-        return;
-      }
-
-      if (currentTop + filtersHeight >= sectionBottom) {
-        setFilterMode('bottom');
-        return;
-      }
-
-      setFilterMode('fixed');
-    };
-
-    updatePosition();
-    window.addEventListener('scroll', updatePosition, { passive: true });
-    window.addEventListener('resize', updatePosition);
-    return () => {
-      window.removeEventListener('scroll', updatePosition);
-      window.removeEventListener('resize', updatePosition);
-    };
-  }, []);
 
   const selectedModelInfo = useMemo(
     () => machineModels.find((model) => model.id === selectedModel),
@@ -350,22 +313,9 @@ export default function SparePartsPage() {
         </div>
       </section>
 
-      <section
-        ref={listRef}
-        className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start lg:relative"
-      >
-        <div className="relative">
-          <aside
-            ref={filtersRef}
-            className={`z-10 h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60 lg:w-[280px] lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1 ${
-              filterMode === 'fixed'
-                ? 'lg:fixed lg:top-24 lg:left-[calc((100vw-1440px)/2+16px)]'
-                : filterMode === 'bottom'
-                  ? 'lg:absolute lg:bottom-0 lg:left-0'
-                  : 'lg:static'
-            }`}
-          >
-            <div className="space-y-5">
+      <section className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
+        <aside className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
+          <div className="space-y-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
                   Filtreler
@@ -448,9 +398,8 @@ export default function SparePartsPage() {
                 {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
               </div>
               {favoriteError && <div className="text-xs text-red-600">{favoriteError}</div>}
-            </div>
-          </aside>
-        </div>
+          </div>
+        </aside>
 
         <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
           {loadError && (
