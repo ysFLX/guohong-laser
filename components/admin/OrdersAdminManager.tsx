@@ -386,65 +386,110 @@ export default function OrdersAdminManager() {
 
                 {expandedIds.has(order.id) && (
                   <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
-                    <div className="space-y-5">
-                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
-                        <div className="mt-2 text-sm font-semibold text-slate-900">
-                          {order.user?.name || order.user?.email || 'Misafir'}
-                        </div>
-                        <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
-                      </div>
-
-                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
-                        {(() => {
-                          const view = formatAddress(order.shippingAddress);
-                          if (!view) {
-                            return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
-                          }
-                          return (
-                            <div className="mt-2 text-xs text-slate-600">
-                              <div className="font-semibold text-slate-900">{view.title}</div>
-                              <div>{view.fullName}</div>
-                              <div>{view.line1}</div>
-                              <div>{view.city}</div>
-                              <div>{view.phone}</div>
+                    <div className="relative space-y-5 pl-6">
+                      <div className="absolute left-2 top-4 h-[calc(100%-16px)] w-px bg-slate-200" />
+                      <div className="relative">
+                        <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
+                        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                          <div className="flex items-start gap-3">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M20 21a8 8 0 10-16 0" />
+                                <circle cx="12" cy="7" r="4" />
+                              </svg>
                             </div>
-                          );
-                        })()}
-                      </div>
-
-                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
-                        <div className="mt-3 space-y-2">
-                          {order.items.map((item) => (
-                            <div
-                              key={item.id}
-                              className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs"
-                            >
-                              <div className="flex min-w-0 items-center gap-2">
-                                <div className="h-9 w-9 overflow-hidden rounded-lg bg-white">
-                                  {item.imageUrl ? (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
-                                  ) : (
-                                    <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
-                                      Urun
-                                    </div>
-                                  )}
-                                </div>
-                                <span className="truncate text-slate-700">{item.name}</span>
+                            <div>
+                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                              <div className="mt-2 text-sm font-semibold text-slate-900">
+                                {order.user?.name || order.user?.email || 'Misafir'}
                               </div>
-                              <span className="text-slate-500">{item.quantity}x</span>
+                              <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
                             </div>
-                          ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
+                        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                          <div className="flex items-start gap-3">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M12 21s7-4.35 7-10a7 7 0 10-14 0c0 5.65 7 10 7 10z" />
+                                <circle cx="12" cy="11" r="2.5" />
+                              </svg>
+                            </div>
+                            <div>
+                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
+                              {(() => {
+                                const view = formatAddress(order.shippingAddress);
+                                if (!view) {
+                                  return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
+                                }
+                                return (
+                                  <div className="mt-2 text-xs text-slate-600">
+                                    <div className="font-semibold text-slate-900">{view.title}</div>
+                                    <div>{view.fullName}</div>
+                                    <div>{view.line1}</div>
+                                    <div>{view.city}</div>
+                                    <div>{view.phone}</div>
+                                  </div>
+                                );
+                              })()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
+                        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                          <div className="flex items-start gap-3">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M20 7h-3V4H7v3H4v13h16V7z" />
+                                <path d="M7 4h10" />
+                              </svg>
+                            </div>
+                            <div className="flex-1">
+                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
+                              <div className="mt-3 space-y-2">
+                                {order.items.map((item) => (
+                                  <div
+                                    key={item.id}
+                                    className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs"
+                                  >
+                                    <div className="flex min-w-0 items-center gap-2">
+                                      <div className="h-9 w-9 overflow-hidden rounded-lg bg-white">
+                                        {item.imageUrl ? (
+                                          // eslint-disable-next-line @next/next/no-img-element
+                                          <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
+                                        ) : (
+                                          <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
+                                            Urun
+                                          </div>
+                                        )}
+                                      </div>
+                                      <span className="truncate text-slate-700">{item.name}</span>
+                                    </div>
+                                    <span className="text-slate-500">{item.quantity}x</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     <div className="space-y-5">
                       <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] ${statusTone(displayStatus)}`}>
+                            {statusLabel[displayStatus] || displayStatus}
+                          </span>
+                        </div>
                         <div className="mt-3 flex items-center gap-2">
                           <select
                             className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
@@ -483,12 +528,24 @@ export default function OrdersAdminManager() {
                           </button>
                         </div>
                         <div className="mt-2 text-xs text-slate-500">
-                        Mevcut: {statusLabel[displayStatus] || displayStatus}
+                          Mevcut: {statusLabel[displayStatus] || displayStatus}
+                        </div>
                       </div>
-                    </div>
 
                       <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M3 7h13l3 4v6H3z" />
+                              <circle cx="7.5" cy="17" r="2" />
+                              <circle cx="16.5" cy="17" r="2" />
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
+                            <div className="text-xs text-slate-500">Tasima detaylarini tamamla.</div>
+                          </div>
+                        </div>
                         <div className="mt-3 space-y-2">
                           <input
                             className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
