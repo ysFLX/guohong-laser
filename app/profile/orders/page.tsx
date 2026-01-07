@@ -8,6 +8,7 @@ import { prisma } from '@/lib/prisma';
 
 type OrderItem = {
   id: string;
+  sparePartId: string | null;
   name: string;
   imageUrl: string | null;
   quantity: number;
@@ -215,9 +216,8 @@ export default async function OrdersPage() {
               {orders.map((order) => {
                 const displayStatus = normalizeStatus(order.status);
                 return (
-                  <Link
+                  <div
                     key={order.id}
-                    href={`/profile/orders/${order.id}`}
                     className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg"
                   >
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
@@ -232,7 +232,12 @@ export default async function OrdersPage() {
                   </div>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <div className="text-sm font-semibold text-slate-900">Siparis #{order.id.slice(0, 8)}</div>
+                      <Link
+                        href={`/profile/orders/${order.id}`}
+                        className="text-sm font-semibold text-slate-900 hover:text-teal-600"
+                      >
+                        Siparis #{order.id.slice(0, 8)}
+                      </Link>
                       <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                     </div>
                   </div>
@@ -279,9 +284,10 @@ export default async function OrdersPage() {
                   )}
 
                   <div className="mt-4 grid gap-4">
-                        {order.items.map((item) => (
-                          <div key={item.id} className="flex items-center justify-between gap-3 text-sm text-slate-700">
-                            <div className="flex min-w-0 items-center gap-3">
+                        {order.items.map((item) => {
+                          const productHref = item.sparePartId ? `/spare-parts/${item.sparePartId}` : null;
+                          const content = (
+                            <>
                               <div className="h-12 w-12 overflow-hidden rounded-2xl bg-slate-100">
                                 {item.imageUrl ? (
                                   <Image
@@ -303,12 +309,25 @@ export default async function OrdersPage() {
                                   {item.quantity} adet - {formatPriceTry(item.priceCents)}
                                 </div>
                               </div>
+                            </>
+                          );
+                          return (
+                            <div key={item.id} className="flex items-center justify-between gap-3 text-sm text-slate-700">
+                              <div className="flex min-w-0 items-center gap-3">
+                                {productHref ? (
+                                  <Link href={productHref} className="flex items-center gap-3 hover:text-teal-600">
+                                    {content}
+                                  </Link>
+                                ) : (
+                                  <div className="flex items-center gap-3">{content}</div>
+                                )}
+                              </div>
+                              <div className="text-sm font-semibold text-slate-900">
+                                {formatPriceTry(item.priceCents * item.quantity)}
+                              </div>
                             </div>
-                            <div className="text-sm font-semibold text-slate-900">
-                              {formatPriceTry(item.priceCents * item.quantity)}
-                            </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
 
                   {(order.shippingCarrier || order.trackingNumber || order.trackingUrl) && (
@@ -345,7 +364,7 @@ export default async function OrdersPage() {
                     <span className="text-slate-600">Toplam</span>
                     <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
                   </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>
