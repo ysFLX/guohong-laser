@@ -93,7 +93,7 @@ export async function GET(
     const { id: sparePartId } = await params;
 
     const reviews = await prisma.sparePartReview.findMany({
-      where: { sparePartId, isApproved: true },
+      where: { sparePartId },
       orderBy: { createdAt: 'desc' },
       include: {
         user: {
