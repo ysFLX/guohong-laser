@@ -313,89 +313,94 @@ export default function SparePartsPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
-        <aside className="sticky top-24 z-10 h-fit self-start rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1">
-          <div className="space-y-5">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
-                Filtreler
-              </p>
-            </div>
-            <div>
-              <label htmlFor="spSearch" className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                Arama
-              </label>
-              <div className="relative mt-2">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <svg className="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+        <div className="relative">
+          <aside className="z-10 h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60 lg:fixed lg:top-24 lg:left-[calc((100vw-1440px)/2+16px)] lg:w-[280px] lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1">
+            <div className="space-y-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
+                  Filtreler
+                </p>
+              </div>
+              <div>
+                <label
+                  htmlFor="spSearch"
+                  className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+                >
+                  Arama
+                </label>
+                <div className="relative mt-2">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <svg className="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        fillRule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    id="spSearch"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
+                    placeholder="Parca ara..."
+                  />
                 </div>
-                <input
-                  id="spSearch"
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
-                  placeholder="Parca ara..."
-                />
               </div>
-            </div>
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                Kategori
-              </label>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {categories.map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setSelectedCategory(c)}
-                    className={`rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
-                      selectedCategory === c
-                        ? 'bg-teal-500 text-slate-900'
-                        : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
-                    }`}
-                  >
-                    {c}
-                  </button>
-                ))}
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                  Kategori
+                </label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {categories.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setSelectedCategory(c)}
+                      className={`rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
+                        selectedCategory === c
+                          ? 'bg-teal-500 text-slate-900'
+                          : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
               </div>
+              <div>
+                <label
+                  htmlFor="modelSelect"
+                  className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+                >
+                  Model uyumu
+                </label>
+                <select
+                  id="modelSelect"
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
+                >
+                  {machineModels.map((model) => (
+                    <option key={model.id} value={model.id}>
+                      {model.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                  {selectedModel === 'Tumu'
+                    ? 'Model secerek uyumlu parcalari listele.'
+                    : `${selectedModelInfo?.label} icin filtreleniyor.`}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-xs text-teal-900 dark:border-teal-400/40 dark:bg-slate-900/70 dark:text-teal-200">
+                {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
+              </div>
+              {favoriteError && <div className="text-xs text-red-600">{favoriteError}</div>}
             </div>
-            <div>
-              <label
-                htmlFor="modelSelect"
-                className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
-              >
-                Model uyumu
-              </label>
-              <select
-                id="modelSelect"
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
-                className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
-              >
-                {machineModels.map((model) => (
-                  <option key={model.id} value={model.id}>
-                    {model.label}
-                  </option>
-                ))}
-              </select>
-              <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                {selectedModel === 'Tumu'
-                  ? 'Model secerek uyumlu parcalari listele.'
-                  : `${selectedModelInfo?.label} icin filtreleniyor.`}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-xs text-teal-900 dark:border-teal-400/40 dark:bg-slate-900/70 dark:text-teal-200">
-              {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
-            </div>
-            {favoriteError && <div className="text-xs text-red-600">{favoriteError}</div>}
-          </div>
-        </aside>
+          </aside>
+        </div>
 
         <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
           {loadError && (
