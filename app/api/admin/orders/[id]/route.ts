@@ -12,6 +12,7 @@ type UpdatePayload = {
   shippingCarrier?: string | null;
   trackingNumber?: string | null;
   trackingUrl?: string | null;
+  cancelReason?: string | null;
 };
 
 const allowedStatuses = new Set([
@@ -55,6 +56,7 @@ async function sendStatusEmail(params: {
   orderId: string;
   status: string;
   tracking: { carrier?: string | null; number?: string | null; url?: string | null };
+  cancelReason?: string | null;
 }) {
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
@@ -67,10 +69,13 @@ async function sendStatusEmail(params: {
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
   const statusText = formatStatusLabel(params.status);
 
+  const cancelLine =
+    params.status === 'CANCELED' && params.cancelReason ? `Iptal nedeni: ${params.cancelReason}` : '';
   const trackingLines = [
     params.tracking.carrier ? `Kargo firmasi: ${params.tracking.carrier}` : '',
     params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
     params.tracking.url ? `Takip linki: ${params.tracking.url}` : '',
+    cancelLine,
   ]
     .filter(Boolean)
     .join('\n');
@@ -138,6 +143,11 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   if (!status || !allowedStatuses.has(status)) {
     return NextResponse.json({ error: 'Durum gecersiz' }, { status: 400 });
   }
+  const cancelReason =
+    typeof body.cancelReason === 'string' && body.cancelReason.trim() ? body.cancelReason.trim() : null;
+  if (status === 'CANCELED' && !cancelReason) {
+    return NextResponse.json({ error: 'Iptal nedeni gerekli' }, { status: 400 });
+  }
 
   const shippingCarrier = typeof body.shippingCarrier === 'string' ? body.shippingCarrier.trim() : null;
   const trackingNumber = typeof body.trackingNumber === 'string' ? body.trackingNumber.trim() : null;
@@ -175,13 +185,17 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
     });
 
     if (existing.status !== status) {
+      const reasonSuffix =
+        status === 'CANCELED' && cancelReason ? `Iptal nedeni: ${cancelReason}` : '';
       try {
         await prismaNotifications.userNotification.create({
           data: {
             userId: existing.userId,
             type: 'ORDER_STATUS',
             title: 'Siparis durumu guncellendi',
-            message: `Siparis durumunuz guncellendi: ${formatStatusLabel(status)}`,
+            message: `Siparis durumunuz guncellendi: ${formatStatusLabel(status)}${
+              reasonSuffix ? `. ${reasonSuffix}` : ''
+            }`,
             orderId: updated.id,
             status,
           },
@@ -201,6 +215,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
               number: trackingNumber,
               url: trackingUrl,
             },
+            cancelReason,
           });
         }
       } catch (error) {

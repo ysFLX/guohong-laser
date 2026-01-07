@@ -101,6 +101,9 @@ export default function OrdersAdminManager() {
   const [draftTracking, setDraftTracking] = useState<Record<string, { carrier: string; number: string; url: string }>>(
     {},
   );
+  const [cancelDialogId, setCancelDialogId] = useState<string | null>(null);
+  const [cancelReasonDraft, setCancelReasonDraft] = useState<Record<string, string>>({});
+  const [cancelReasonError, setCancelReasonError] = useState<Record<string, string>>({});
 
   const totalOrders = useMemo(() => orders.length, [orders.length]);
 
@@ -140,7 +143,7 @@ export default function OrdersAdminManager() {
     }
   }
 
-  async function saveStatus(orderId: string) {
+  async function saveStatus(orderId: string, cancelReason?: string) {
     const nextStatus = draftStatus[orderId];
     if (!nextStatus) return;
     setSavingId(orderId);
@@ -155,6 +158,7 @@ export default function OrdersAdminManager() {
           shippingCarrier: tracking.carrier,
           trackingNumber: tracking.number,
           trackingUrl: tracking.url,
+          cancelReason: cancelReason || null,
         }),
       });
       const data = await res.json();
@@ -172,12 +176,30 @@ export default function OrdersAdminManager() {
             : order,
         ),
       );
+      setCancelDialogId(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Durum guncellenemedi');
     } finally {
       setSavingId(null);
     }
   }
+
+  const openCancelDialog = (orderId: string) => {
+    setCancelDialogId(orderId);
+    setCancelReasonError((prev) => ({ ...prev, [orderId]: '' }));
+  };
+
+  const confirmCancel = (orderId: string) => {
+    const reason = cancelReasonDraft[orderId]?.trim();
+    if (!reason) {
+      setCancelReasonError((prev) => ({
+        ...prev,
+        [orderId]: 'Iptal nedeni yazilmasi gerekiyor.',
+      }));
+      return;
+    }
+    saveStatus(orderId, reason);
+  };
 
   return (
     <div className="space-y-5">
@@ -289,12 +311,16 @@ export default function OrdersAdminManager() {
                         <select
                           className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
                           value={draftStatus[order.id] || order.status}
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value !== 'CANCELED' && cancelDialogId === order.id) {
+                              setCancelDialogId(null);
+                            }
                             setDraftStatus((prev) => ({
                               ...prev,
-                              [order.id]: e.target.value,
-                            }))
-                          }
+                              [order.id]: value,
+                            }));
+                          }}
                         >
                           {statusOptions.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -304,13 +330,58 @@ export default function OrdersAdminManager() {
                         </select>
                         <button
                           type="button"
-                          onClick={() => saveStatus(order.id)}
+                          onClick={() => {
+                            if ((draftStatus[order.id] || order.status) === 'CANCELED') {
+                              openCancelDialog(order.id);
+                              return;
+                            }
+                            saveStatus(order.id);
+                          }}
                           disabled={savingId === order.id}
                           className="rounded-lg bg-teal-600 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
                         >
                           {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
                         </button>
                       </div>
+                      {cancelDialogId === order.id && (
+                        <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-900">
+                          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-500">
+                            Iptal nedeni
+                          </div>
+                          <textarea
+                            rows={3}
+                            value={cancelReasonDraft[order.id] || ''}
+                            onChange={(e) =>
+                              setCancelReasonDraft((prev) => ({
+                                ...prev,
+                                [order.id]: e.target.value,
+                              }))
+                            }
+                            className="mt-2 w-full rounded-lg border border-rose-200 bg-white px-3 py-2 text-xs text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200"
+                            placeholder="Musteriye gidecek iptal nedeni..."
+                          />
+                          {cancelReasonError[order.id] && (
+                            <div className="mt-2 text-[11px] text-rose-600">{cancelReasonError[order.id]}</div>
+                          )}
+                          <div className="mt-3 flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => confirmCancel(order.id)}
+                              disabled={savingId === order.id}
+                              className="rounded-lg bg-rose-600 px-3 py-2 text-[11px] font-semibold text-white hover:bg-rose-700 disabled:opacity-60"
+                            >
+                              Iptali onayla
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setCancelDialogId(null)}
+                              className="rounded-lg border border-rose-200 px-3 py-2 text-[11px] font-semibold text-rose-700 hover:bg-rose-100"
+                            >
+                              Vazgec
+                            </button>
+                          </div>
+                        </div>
+                      )}
                       <div className="mt-2 text-xs text-slate-500">
                         Mevcut: {statusLabel[order.status] || order.status}
                       </div>
