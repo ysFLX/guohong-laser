@@ -268,14 +268,6 @@ export default async function SparePartDetailPage({
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
             </div>
-            <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Urun notlari</p>
-              <ul className="mt-3 space-y-2">
-                <li>Model uyumlulugu ve teknik destek dahil.</li>
-                <li>Fatura ve garanti belgesi otomatik olusur.</li>
-                <li>Stoklu urunlerde hizli sevkiyat.</li>
-              </ul>
-            </div>
           </div>
 
           <div className="space-y-6">
@@ -326,6 +318,15 @@ export default async function SparePartDetailPage({
               ) : (
                 <p className="mt-2">Uyumluluk icin teknik ekiple iletisime gec.</p>
               )}
+            </div>
+
+            <div className="rounded-2xl border border-gray-100 bg-white/90 p-5 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Urun notlari</p>
+              <ul className="mt-3 space-y-2">
+                <li>Model uyumlulugu ve teknik destek dahil.</li>
+                <li>Fatura ve garanti belgesi otomatik olusur.</li>
+                <li>Stoklu urunlerde hizli sevkiyat.</li>
+              </ul>
             </div>
 
             <div className="rounded-2xl border border-gray-100 bg-white/90 p-5 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
