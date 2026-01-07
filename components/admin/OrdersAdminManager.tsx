@@ -423,55 +423,70 @@ export default function OrdersAdminManager() {
 
       {cancelDialogId && cancelOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-sm" />
-          <div className="relative w-full max-w-lg rounded-2xl border border-rose-200 bg-white p-5 shadow-2xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-rose-500">
-              Siparis iptali
-            </div>
-            <div className="mt-2 text-base font-semibold text-slate-900">
-              #{cancelOrder.id.slice(0, 8)} siparisini iptal et
-            </div>
-            <p className="mt-1 text-sm text-slate-600">
-              Iptal islemi icin musteriye gidecek nedeni yazman gerekiyor.
-            </p>
+          <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" />
+          <div className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.18),_transparent_55%),linear-gradient(160deg,_rgba(15,23,42,0.96),_rgba(2,6,23,0.98))] p-6 text-white shadow-[0_30px_80px_-40px_rgba(15,23,42,0.9)]">
+            <div className="absolute -right-16 top-10 h-32 w-32 rounded-full bg-rose-500/20 blur-[80px]" />
+            <div className="absolute -left-10 bottom-10 h-32 w-32 rounded-full bg-teal-400/10 blur-[90px]" />
+            <div className="relative">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-rose-400/30 bg-rose-500/15 text-rose-200">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 9v4m0 4h.01" />
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-rose-300">
+                    Siparis iptali
+                  </div>
+                  <div className="mt-1 text-lg font-semibold">
+                    #{cancelOrder.id.slice(0, 8)} siparisini iptal et
+                  </div>
+                </div>
+              </div>
 
-            <div className="mt-4">
-              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                Iptal nedeni
-              </label>
-              <textarea
-                rows={4}
-                value={cancelReasonDraft[cancelDialogId] || ''}
-                onChange={(e) =>
-                  setCancelReasonDraft((prev) => ({
-                    ...prev,
-                    [cancelDialogId]: e.target.value,
-                  }))
-                }
-                className="mt-2 w-full rounded-xl border border-rose-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                placeholder="Orn: Uretim stok sorunu nedeniyle iptal edildi."
-              />
-              {cancelReasonError[cancelDialogId] && (
-                <div className="mt-2 text-xs text-rose-600">{cancelReasonError[cancelDialogId]}</div>
-              )}
-            </div>
+              <p className="mt-3 text-sm text-slate-300">
+                Iptal islemi icin musteriye gidecek nedeni yazman gerekiyor.
+              </p>
 
-            <div className="mt-5 flex flex-wrap items-center justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => closeCancelDialog(cancelDialogId)}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100"
-              >
-                Vazgec
-              </button>
-              <button
-                type="button"
-                onClick={() => confirmCancel(cancelDialogId)}
-                disabled={savingId === cancelDialogId}
-                className="rounded-lg bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-700 disabled:opacity-60"
-              >
-                Iptali onayla
-              </button>
+              <div className="mt-5">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Iptal nedeni
+                </label>
+                <textarea
+                  rows={4}
+                  value={cancelReasonDraft[cancelDialogId] || ''}
+                  onChange={(e) =>
+                    setCancelReasonDraft((prev) => ({
+                      ...prev,
+                      [cancelDialogId]: e.target.value,
+                    }))
+                  }
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-rose-400/60 focus:outline-none focus:ring-2 focus:ring-rose-400/30"
+                  placeholder="Orn: Uretim stok sorunu nedeniyle iptal edildi."
+                />
+                {cancelReasonError[cancelDialogId] && (
+                  <div className="mt-2 text-xs text-rose-300">{cancelReasonError[cancelDialogId]}</div>
+                )}
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => closeCancelDialog(cancelDialogId)}
+                  className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:border-white/30 hover:text-white"
+                >
+                  Vazgec
+                </button>
+                <button
+                  type="button"
+                  onClick={() => confirmCancel(cancelDialogId)}
+                  disabled={savingId === cancelDialogId}
+                  className="rounded-full bg-rose-500 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400 disabled:opacity-60"
+                >
+                  Iptali onayla
+                </button>
+              </div>
             </div>
           </div>
         </div>
