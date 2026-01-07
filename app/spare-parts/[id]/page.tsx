@@ -269,11 +269,11 @@ export default async function SparePartDetailPage({
               </span>
             </div>
             <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">One cikanlar</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Urun notlari</p>
               <ul className="mt-3 space-y-2">
-                <li>Uyum kontrolu ve teknik destek dahil.</li>
-                <li>Kurulum sonrasi hizli servis destegi.</li>
-                <li>Guvenli odeme ve fatura kesimi.</li>
+                <li>Model uyumlulugu ve teknik destek dahil.</li>
+                <li>Fatura ve garanti belgesi otomatik olusur.</li>
+                <li>Stoklu urunlerde hizli sevkiyat.</li>
               </ul>
             </div>
           </div>
@@ -292,7 +292,7 @@ export default async function SparePartDetailPage({
             </div>
 
             <div className="rounded-2xl border border-gray-100 bg-white/90 p-5 dark:border-gray-700 dark:bg-gray-800">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Urun bilgisi</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Urun ozellikleri</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-900">
                   <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Teslim</p>
@@ -347,9 +347,18 @@ export default async function SparePartDetailPage({
                 </Link>
               </div>
             </div>
+
+            <div className="rounded-2xl border border-gray-100 bg-white/90 p-5 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Satin alma bilgisi</p>
+              <ul className="mt-3 space-y-2">
+                <li>Guvenli odeme altyapisi ve SSL korumasi.</li>
+                <li>Fatura ve garanti belgeleri siparisle birlikte gonderilir.</li>
+                <li>Teknik ekip hizli destek icin ulasabilir.</li>
+              </ul>
+            </div>
           </div>
 
-          <aside className="h-fit rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+          <aside className="h-fit rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 lg:sticky lg:top-24">
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatPriceTry(p.priceCents)}</div>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-xs font-semibold">
               <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -358,6 +367,20 @@ export default async function SparePartDetailPage({
               <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-900 dark:text-gray-200">
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
+            </div>
+            <div className="mt-4 rounded-xl border border-gray-100 bg-white/90 p-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+              <div className="flex items-center justify-between">
+                <span>Gonderen</span>
+                <span className="font-semibold text-gray-900 dark:text-white">Guohong Lazer</span>
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <span>Garanti</span>
+                <span className="font-semibold text-gray-900 dark:text-white">Resmi servis</span>
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <span>Iade</span>
+                <span className="font-semibold text-gray-900 dark:text-white">14 gun</span>
+              </div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
               <AddToCartButton
@@ -372,6 +395,12 @@ export default async function SparePartDetailPage({
                 }
                 quantity={1}
               />
+              <Link
+                href="/cart"
+                className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-gray-200 text-gray-800 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
+              >
+                Sepete git
+              </Link>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
