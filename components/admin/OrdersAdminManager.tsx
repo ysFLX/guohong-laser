@@ -143,6 +143,7 @@ export default function OrdersAdminManager() {
   const [cancelReasonDraft, setCancelReasonDraft] = useState<Record<string, string>>({});
   const [cancelReasonError, setCancelReasonError] = useState<Record<string, string>>({});
   const [cancelPrevStatus, setCancelPrevStatus] = useState<Record<string, string>>({});
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
   const totalOrders = useMemo(() => orders.length, [orders.length]);
   const latestOrder = useMemo(() => {
@@ -171,6 +172,7 @@ export default function OrdersAdminManager() {
       if (!res.ok) throw new Error(data?.error || 'Siparisler yuklenemedi');
       const list = (data.items || []) as AdminOrder[];
       setOrders(list);
+      setExpandedIds(new Set(list.length ? [list[0].id] : []));
       setDraftStatus(
         list.reduce<Record<string, string>>((acc, item) => {
           acc[item.id] = item.status;
@@ -264,6 +266,17 @@ export default function OrdersAdminManager() {
   };
 
   const cancelOrder = orders.find((order) => order.id === cancelDialogId) || null;
+  const toggleExpanded = (orderId: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(orderId)) {
+        next.delete(orderId);
+      } else {
+        next.add(orderId);
+      }
+      return next;
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -336,7 +349,12 @@ export default function OrdersAdminManager() {
                   order.status,
                 )} border-l-4`}
               >
-                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-white px-6 py-5">
+                <button
+                  type="button"
+                  onClick={() => toggleExpanded(order.id)}
+                  aria-expanded={expandedIds.has(order.id)}
+                  className="flex w-full flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-white px-6 py-5 text-left transition hover:bg-slate-50/80"
+                >
                   <div>
                     <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">Siparis</div>
                     <div className="mt-2 flex items-center gap-3">
@@ -354,163 +372,177 @@ export default function OrdersAdminManager() {
                   <div className="text-right">
                     <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Tutar</div>
                     <div className="mt-1 text-xl font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
+                    <div className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-slate-500">
+                      Detay
+                      <svg
+                        viewBox="0 0 20 20"
+                        className={`h-4 w-4 transition-transform ${expandedIds.has(order.id) ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M6 8l4 4 4-4" />
+                      </svg>
+                    </div>
                   </div>
-                </div>
+                </button>
 
-                <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
-                  <div className="space-y-5">
-                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
-                      <div className="mt-2 text-sm font-semibold text-slate-900">
-                        {order.user?.name || order.user?.email || 'Misafir'}
+                {expandedIds.has(order.id) && (
+                  <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
+                    <div className="space-y-5">
+                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                        <div className="mt-2 text-sm font-semibold text-slate-900">
+                          {order.user?.name || order.user?.email || 'Misafir'}
+                        </div>
+                        <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
                       </div>
-                      <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
-                    </div>
 
-                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
-                      {(() => {
-                        const view = formatAddress(order.shippingAddress);
-                        if (!view) {
-                          return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
-                        }
-                        return (
-                          <div className="mt-2 text-xs text-slate-600">
-                            <div className="font-semibold text-slate-900">{view.title}</div>
-                            <div>{view.fullName}</div>
-                            <div>{view.line1}</div>
-                            <div>{view.city}</div>
-                            <div>{view.phone}</div>
-                          </div>
-                        );
-                      })()}
-                    </div>
-
-                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
-                      <div className="mt-3 space-y-2">
-                        {order.items.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs"
-                          >
-                            <div className="flex min-w-0 items-center gap-2">
-                              <div className="h-9 w-9 overflow-hidden rounded-lg bg-white">
-                                {item.imageUrl ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
-                                ) : (
-                                  <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
-                                    Urun
-                                  </div>
-                                )}
-                              </div>
-                              <span className="truncate text-slate-700">{item.name}</span>
+                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
+                        {(() => {
+                          const view = formatAddress(order.shippingAddress);
+                          if (!view) {
+                            return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
+                          }
+                          return (
+                            <div className="mt-2 text-xs text-slate-600">
+                              <div className="font-semibold text-slate-900">{view.title}</div>
+                              <div>{view.fullName}</div>
+                              <div>{view.line1}</div>
+                              <div>{view.city}</div>
+                              <div>{view.phone}</div>
                             </div>
-                            <span className="text-slate-500">{item.quantity}x</span>
-                          </div>
-                        ))}
+                          );
+                        })()}
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="space-y-5">
-                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
-                      <div className="mt-3 flex items-center gap-2">
-                        <select
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
-                          value={draftStatus[order.id] || order.status}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (value !== 'CANCELED' && cancelDialogId === order.id) {
-                              setCancelDialogId(null);
-                            }
-                            if (value === 'CANCELED') {
-                              setCancelPrevStatus((prev) => ({
-                                ...prev,
-                                [order.id]: draftStatus[order.id] || order.status,
-                              }));
-                              openCancelDialog(order.id);
-                            }
-                            setDraftStatus((prev) => ({
-                              ...prev,
-                              [order.id]: value,
-                            }));
-                          }}
-                        >
-                          {statusOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
+                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
+                        <div className="mt-3 space-y-2">
+                          {order.items.map((item) => (
+                            <div
+                              key={item.id}
+                              className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs"
+                            >
+                              <div className="flex min-w-0 items-center gap-2">
+                                <div className="h-9 w-9 overflow-hidden rounded-lg bg-white">
+                                  {item.imageUrl ? (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
+                                  ) : (
+                                    <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
+                                      Urun
+                                    </div>
+                                  )}
+                                </div>
+                                <span className="truncate text-slate-700">{item.name}</span>
+                              </div>
+                              <span className="text-slate-500">{item.quantity}x</span>
+                            </div>
                           ))}
-                        </select>
-                        <button
-                          type="button"
-                          onClick={() => saveStatus(order.id)}
-                          disabled={savingId === order.id}
-                          className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
-                        >
-                          {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
-                        </button>
-                      </div>
-                      <div className="mt-2 text-xs text-slate-500">
-                        Mevcut: {statusLabel[order.status] || order.status}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
-                      <div className="mt-3 space-y-2">
-                        <input
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                          placeholder="Orn: Yurtici Kargo"
-                          value={draftTracking[order.id]?.carrier || ''}
-                          onChange={(e) =>
-                            setDraftTracking((prev) => ({
-                              ...prev,
-                              [order.id]: {
-                                carrier: e.target.value,
-                                number: prev[order.id]?.number || '',
-                                url: prev[order.id]?.url || '',
-                              },
-                            }))
-                          }
-                        />
-                        <input
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                          placeholder="Takip no"
-                          value={draftTracking[order.id]?.number || ''}
-                          onChange={(e) =>
-                            setDraftTracking((prev) => ({
-                              ...prev,
-                              [order.id]: {
-                                carrier: prev[order.id]?.carrier || '',
-                                number: e.target.value,
-                                url: prev[order.id]?.url || '',
-                              },
-                            }))
-                          }
-                        />
-                        <input
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                          placeholder="Takip linki"
-                          value={draftTracking[order.id]?.url || ''}
-                          onChange={(e) =>
-                            setDraftTracking((prev) => ({
-                              ...prev,
-                              [order.id]: {
-                                carrier: prev[order.id]?.carrier || '',
-                                number: prev[order.id]?.number || '',
-                                url: e.target.value,
-                              },
-                            }))
-                          }
-                        />
+                    <div className="space-y-5">
+                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                        <div className="mt-3 flex items-center gap-2">
+                          <select
+                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                            value={draftStatus[order.id] || order.status}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value !== 'CANCELED' && cancelDialogId === order.id) {
+                                setCancelDialogId(null);
+                              }
+                              if (value === 'CANCELED') {
+                                setCancelPrevStatus((prev) => ({
+                                  ...prev,
+                                  [order.id]: draftStatus[order.id] || order.status,
+                                }));
+                                openCancelDialog(order.id);
+                              }
+                              setDraftStatus((prev) => ({
+                                ...prev,
+                                [order.id]: value,
+                              }));
+                            }}
+                          >
+                            {statusOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <button
+                            type="button"
+                            onClick={() => saveStatus(order.id)}
+                            disabled={savingId === order.id}
+                            className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+                          >
+                            {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
+                          </button>
+                        </div>
+                        <div className="mt-2 text-xs text-slate-500">
+                          Mevcut: {statusLabel[order.status] || order.status}
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
+                        <div className="mt-3 space-y-2">
+                          <input
+                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                            placeholder="Orn: Yurtici Kargo"
+                            value={draftTracking[order.id]?.carrier || ''}
+                            onChange={(e) =>
+                              setDraftTracking((prev) => ({
+                                ...prev,
+                                [order.id]: {
+                                  carrier: e.target.value,
+                                  number: prev[order.id]?.number || '',
+                                  url: prev[order.id]?.url || '',
+                                },
+                              }))
+                            }
+                          />
+                          <input
+                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                            placeholder="Takip no"
+                            value={draftTracking[order.id]?.number || ''}
+                            onChange={(e) =>
+                              setDraftTracking((prev) => ({
+                                ...prev,
+                                [order.id]: {
+                                  carrier: prev[order.id]?.carrier || '',
+                                  number: e.target.value,
+                                  url: prev[order.id]?.url || '',
+                                },
+                              }))
+                            }
+                          />
+                          <input
+                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                            placeholder="Takip linki"
+                            value={draftTracking[order.id]?.url || ''}
+                            onChange={(e) =>
+                              setDraftTracking((prev) => ({
+                                ...prev,
+                                [order.id]: {
+                                  carrier: prev[order.id]?.carrier || '',
+                                  number: prev[order.id]?.number || '',
+                                  url: e.target.value,
+                                },
+                              }))
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             ))}
           </div>
