@@ -77,6 +77,25 @@ const statusTone = (value: string) => {
   }
 };
 
+const statusAccent = (value: string) => {
+  switch (value) {
+    case 'DELIVERED':
+      return 'border-l-emerald-500';
+    case 'SHIPPED':
+      return 'border-l-blue-500';
+    case 'IN_TRANSIT':
+      return 'border-l-amber-500';
+    case 'PAID':
+      return 'border-l-teal-500';
+    case 'FAILED':
+      return 'border-l-rose-500';
+    case 'CANCELED':
+      return 'border-l-slate-400';
+    default:
+      return 'border-l-slate-300';
+  }
+};
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -309,15 +328,24 @@ export default function OrdersAdminManager() {
         )}
 
         {!loading && orders.length > 0 && (
-          <div className="space-y-6">
+          <div className="space-y-8">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-3xl border border-slate-200 bg-white shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-slate-50/80 px-6 py-5">
+              <div
+                key={order.id}
+                className={`relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_50px_-40px_rgba(15,23,42,0.35)] ring-1 ring-slate-100/80 ${statusAccent(
+                  order.status,
+                )} border-l-4`}
+              >
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-white px-6 py-5">
                   <div>
                     <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">Siparis</div>
                     <div className="mt-2 flex items-center gap-3">
                       <div className="text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
-                      <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(order.status)}`}>
+                      <span
+                        className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(
+                          order.status,
+                        )}`}
+                      >
                         {statusLabel[order.status] || order.status}
                       </span>
                     </div>
