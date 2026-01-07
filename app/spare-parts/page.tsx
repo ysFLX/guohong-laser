@@ -409,74 +409,77 @@ export default function SparePartsPage() {
             return (
               <div
                 key={p.id}
-                className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition-colors hover:border-teal-200 dark:border-slate-800/70 dark:bg-slate-900/60 dark:hover:border-teal-400/50"
+                className="group relative overflow-hidden rounded-[30px] border border-slate-200/70 bg-white/95 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.6)] transition hover:-translate-y-1 hover:border-teal-200 dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-teal-400/50"
               >
                 <Link href={`/spare-parts/${p.id}`} className="block">
-                  <div className="relative h-52 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                  <div className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                     <Image
                       src={p.imageUrl || '/images/1.jpg'}
                       alt={p.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
                       quality={70}
                       loading="lazy"
                       decoding="async"
                     />
-                    <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-900 dark:bg-slate-900/80 dark:text-white">
-                      {p.category.name}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80" />
+                    <div className="absolute top-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
+                      {p.isFeatured && (
+                        <span className="rounded-full bg-teal-500/90 px-3 py-1 text-slate-900">
+                          Vitrin
+                        </span>
+                      )}
+                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-900 dark:bg-slate-900/80 dark:text-white">
+                        {p.category.name}
+                      </span>
                     </div>
-                    {p.isFeatured && (
-                      <div className="absolute top-4 left-4 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white dark:bg-teal-500/90 dark:text-slate-950">
-                        Vitrin
-                      </div>
-                    )}
                     <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
                       <span
                         className={`rounded-full px-3 py-1 ${
-                          inStock ? 'bg-teal-500 text-slate-900' : 'bg-amber-200 text-amber-900'
+                          inStock ? 'bg-teal-400 text-slate-900' : 'bg-amber-200 text-amber-900'
                         }`}
                       >
                         {inStock ? 'Stokta' : 'Siparisle'}
                       </span>
-                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
+                      <span className="rounded-full bg-slate-900/80 px-3 py-1 text-white">
                         {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
                       </span>
                     </div>
                   </div>
                 </Link>
 
-                <div className="space-y-3 p-4">
-                <div className="flex items-start justify-between gap-2">
-                  <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
-                      {p.name}
-                    </h3>
-                  </Link>
-                  <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                    {formatPriceTry(p.priceCents)}
+                <div className="space-y-4 px-5 pb-5 pt-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <Link href={`/spare-parts/${p.id}`} className="min-w-0">
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
+                        {p.name}
+                      </h3>
+                    </Link>
+                    <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                      {formatPriceTry(p.priceCents)}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
-                  <div className="flex items-center gap-1">
-                    {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
+                  <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+                    <div className="flex items-center gap-1">
+                      {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
+                    </div>
+                    {p.ratingCount > 0 && (
+                      <span>
+                        {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+                      </span>
+                    )}
                   </div>
-                  {p.ratingCount > 0 && (
-                    <span>
-                      {p.ratingAverage.toFixed(1)} ({p.ratingCount})
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
 
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
+                  <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
                     <div>
-                      <span className="font-semibold text-slate-900 dark:text-white">Stok</span>
-                      <span className="ml-2">{p.stockOnHand}</span>
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Stok</div>
+                      <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
                     </div>
                     <div>
-                      <span className="font-semibold text-slate-900 dark:text-white">Olcu</span>
-                      <span className="ml-2">{p.dimensions || '-'}</span>
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Olcu</div>
+                      <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.dimensions || '-'}</div>
                     </div>
                   </div>
 
