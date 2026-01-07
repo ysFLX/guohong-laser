@@ -259,17 +259,18 @@ export default function SparePartsPage() {
       if (!section || !filters) return;
 
       const topOffset = 96;
-      const sectionRect = section.getBoundingClientRect();
+      const scrollTop = window.scrollY;
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + section.offsetHeight;
       const filtersHeight = filters.offsetHeight;
-      const reachedTop = sectionRect.top <= topOffset;
-      const reachedBottom = sectionRect.bottom - topOffset <= filtersHeight;
+      const currentTop = scrollTop + topOffset;
 
-      if (!reachedTop) {
+      if (currentTop < sectionTop) {
         setFilterMode('static');
         return;
       }
 
-      if (reachedBottom) {
+      if (currentTop + filtersHeight >= sectionBottom) {
         setFilterMode('bottom');
         return;
       }
@@ -364,11 +365,11 @@ export default function SparePartsPage() {
                   : 'lg:static'
             }`}
           >
-          <div className="space-y-5">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
-                Filtreler
-              </p>
+            <div className="space-y-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
+                  Filtreler
+                </p>
               </div>
               <div>
                 <label
