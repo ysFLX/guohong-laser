@@ -61,13 +61,6 @@ const compatibilityByCategory: Record<string, string[]> = {
   'Ozel Kesim': ['GL-9000'],
 };
 
-const usageVideosByCategory: Record<string, string> = {
-  'Sac Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
-  'Boru Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
-  'Kombine Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
-  'Ozel Kesim': 'https://www.youtube.com/embed/ysz5S6PUM-U',
-};
-
 const faqItems = [
   {
     q: 'Bu parca hangi modellere uyumludur?',
@@ -218,7 +211,6 @@ export default async function SparePartDetailPage({
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;
-  const usageVideoUrl = usageVideosByCategory[p.category.name] || 'https://www.youtube.com/embed/ysz5S6PUM-U';
   const baseUrl = getBaseUrl();
   const imageUrls = (p.images?.length ? p.images.map((img) => img.url) : [p.imageUrl]).filter(
     Boolean,
@@ -258,47 +250,70 @@ export default async function SparePartDetailPage({
           )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_1.2fr_0.7fr]">
+          <div className="space-y-4">
             <SparePartImageSlider
               images={p.images}
               fallbackUrl={p.imageUrl || '/images/1.jpg'}
               name={p.name}
             />
-            <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/90 text-gray-900 border border-gray-100 dark:border-gray-700">
-              {p.category.name}
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-              {p.name}
-            </h1>
-
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <div className="text-xl font-bold text-gray-900 dark:text-white">
-                {formatPriceTry(p.priceCents)}
-              </div>
-              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-200">
+              <span className="rounded-full border border-gray-200 bg-white/90 px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                {p.category.name}
+              </span>
+              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
+              <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-800 dark:text-gray-200">
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
             </div>
+            <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">One cikanlar</p>
+              <ul className="mt-3 space-y-2">
+                <li>Uyum kontrolu ve teknik destek dahil.</li>
+                <li>Kurulum sonrasi hizli servis destegi.</li>
+                <li>Guvenli odeme ve fatura kesimi.</li>
+              </ul>
+            </div>
+          </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-300">
-              <div>
-                Stok: <span className="font-semibold">{p.stockOnHand}</span>
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                {p.name}
+              </h1>
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+                <span>Kategori: {p.category.name}</span>
+                <span>Stok: {p.stockOnHand}</span>
+                <span>Olcu: {p.dimensions || '-'}</span>
               </div>
-              <div>
-                Olcu: <span className="font-semibold">{p.dimensions || '-'}</span>
+              <p className="mt-4 text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{p.description}</p>
+            </div>
+
+            <div className="rounded-2xl border border-gray-100 bg-white/90 p-5 dark:border-gray-700 dark:bg-gray-800">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Urun bilgisi</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-900">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Teslim</p>
+                  <p className="mt-1 font-semibold text-gray-900 dark:text-white">{inStock ? '2-3 gun' : '7-10 gun'}</p>
+                </div>
+                <div className="rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-900">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Durum</p>
+                  <p className="mt-1 font-semibold text-gray-900 dark:text-white">{inStock ? 'Stokta' : 'Siparisle'}</p>
+                </div>
+                <div className="rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-900">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Olcu</p>
+                  <p className="mt-1 font-semibold text-gray-900 dark:text-white">{p.dimensions || '-'}</p>
+                </div>
+                <div className="rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-900">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Kategori</p>
+                  <p className="mt-1 font-semibold text-gray-900 dark:text-white">{p.category.name}</p>
+                </div>
               </div>
             </div>
 
-            <p className="mt-6 text-gray-700 dark:text-gray-200 leading-relaxed">{p.description}</p>
-
-            <div className="mt-6 rounded-xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-sm text-teal-900">
+            <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-sm text-teal-900">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700">Uyumluluk listesi</p>
               {compatibility.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -313,8 +328,8 @@ export default async function SparePartDetailPage({
               )}
             </div>
 
-            <div className="mt-6 rounded-xl border border-gray-100 bg-white/90 px-4 py-4 text-sm text-gray-700">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">Teknik dokuman</p>
+            <div className="rounded-xl border border-gray-100 bg-white/90 px-4 py-4 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-gray-400">Teknik dokuman</p>
               <div className="mt-3 flex flex-wrap gap-3">
                 <a
                   href="/docs/teknik-dokuman.pdf"
@@ -326,27 +341,25 @@ export default async function SparePartDetailPage({
                 </a>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                  className="inline-flex items-center justify-center rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
                   Dokuman talep et
                 </Link>
               </div>
             </div>
+          </div>
 
-            <div className="mt-6 rounded-2xl border border-gray-100 bg-white/90 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-600">Kullanim videosu</p>
-              <div className="mt-3 overflow-hidden rounded-xl border border-gray-100 bg-black">
-                <iframe
-                  className="h-56 w-full sm:h-72"
-                  src={usageVideoUrl}
-                  title="Kullanim videosu"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
+          <aside className="h-fit rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatPriceTry(p.priceCents)}</div>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
+                {inStock ? 'Stokta' : 'Siparisle'}
+              </span>
+              <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-900 dark:text-gray-200">
+                {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+              </span>
             </div>
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-4 flex flex-col gap-3">
               <AddToCartButton
                 id={p.id}
                 name={p.name}
@@ -366,7 +379,14 @@ export default async function SparePartDetailPage({
                 Urun hakkinda sor
               </Link>
             </div>
-          </div>
+            <div className="mt-5 border-t border-gray-100 pt-4 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-300">
+              <ul className="space-y-2">
+                <li>Guvenli odeme altyapisi</li>
+                <li>Fatura ve garanti destegi</li>
+                <li>Teknik ekipten hizli destek</li>
+              </ul>
+            </div>
+          </aside>
         </div>
 
         {related.length > 0 && (
@@ -404,7 +424,7 @@ export default async function SparePartDetailPage({
           </div>
         )}
 
-        <div className="mt-12">
+        <div className="mt-12" id="reviews">
           <SparePartReviews sparePartId={p.id} />
         </div>
 
