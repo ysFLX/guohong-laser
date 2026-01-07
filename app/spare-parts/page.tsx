@@ -313,7 +313,7 @@ export default function SparePartsPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
-        <aside className="z-10 h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1">
+        <aside className="sticky top-24 z-10 h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1">
           <div className="space-y-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
