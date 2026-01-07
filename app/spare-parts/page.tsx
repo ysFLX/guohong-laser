@@ -52,8 +52,8 @@ function formatPriceTry(priceCents: number) {
 const renderStars = (average: number) =>
   Array.from({ length: 5 }, (_, index) => {
     const value = average - index;
-    const isFull = value >= 0.75;
-    const isHalf = value >= 0.25 && value < 0.75;
+    const isFull = value >= 0.9;
+    const isHalf = value >= 0.1 && value < 0.9;
 
     if (isHalf) {
       return (
