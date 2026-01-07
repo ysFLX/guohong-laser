@@ -442,15 +442,13 @@ export default function SparePartsPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
-                  {p.ratingCount > 0 ? (
-                    <>
-                      <div className="flex items-center gap-1">{renderStars(p.ratingAverage)}</div>
-                      <span>
-                        {p.ratingAverage.toFixed(1)} ({p.ratingCount})
-                      </span>
-                    </>
-                  ) : (
-                    <span>Henuz puan yok</span>
+                  <div className="flex items-center gap-1">
+                    {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
+                  </div>
+                  {p.ratingCount > 0 && (
+                    <span>
+                      {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+                    </span>
                   )}
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
