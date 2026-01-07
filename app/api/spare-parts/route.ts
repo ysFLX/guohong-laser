@@ -14,6 +14,8 @@ type ApiSparePart = {
   imageUrl: string | null;
   stockOnHand: number;
   isFeatured: boolean;
+  ratingAverage: number;
+  ratingCount: number;
   category: { id: string; name: string; slug: string };
 };
 
@@ -39,6 +41,23 @@ const prismaSpareParts = prisma as unknown as {
 
 export async function GET() {
   try {
+    const ratingRows = await prisma.sparePartReview.groupBy({
+      by: ['sparePartId'],
+      where: { isApproved: true },
+      _avg: { rating: true },
+      _count: { rating: true },
+    });
+
+    const ratingMap = new Map(
+      ratingRows.map((row) => [
+        row.sparePartId,
+        {
+          average: Number(row._avg.rating ?? 0),
+          count: row._count.rating,
+        },
+      ]),
+    );
+
     const items = await prismaSpareParts.sparePart.findMany({
       where: { isActive: true },
       orderBy: [{ isFeatured: 'desc' }, { createdAt: 'desc' }],
@@ -46,22 +65,27 @@ export async function GET() {
     });
 
     return NextResponse.json({
-      items: items.map((p): ApiSparePart => ({
-        id: p.id,
-        name: p.name,
-        description: p.description,
-        dimensions: p.dimensions,
-        priceCents: p.priceCents,
-        currency: p.currency,
-        imageUrl: p.imageUrl,
-        stockOnHand: p.stockOnHand,
-        isFeatured: p.isFeatured,
-        category: {
-          id: p.category.id,
-          name: p.category.name,
-          slug: p.category.slug,
-        },
-      })),
+      items: items.map((p): ApiSparePart => {
+        const rating = ratingMap.get(p.id) ?? { average: 0, count: 0 };
+        return {
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          dimensions: p.dimensions,
+          priceCents: p.priceCents,
+          currency: p.currency,
+          imageUrl: p.imageUrl,
+          stockOnHand: p.stockOnHand,
+          isFeatured: p.isFeatured,
+          ratingAverage: rating.average,
+          ratingCount: rating.count,
+          category: {
+            id: p.category.id,
+            name: p.category.name,
+            slug: p.category.slug,
+          },
+        };
+      }),
     });
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : 'Bilinmeyen hata';

@@ -18,6 +18,8 @@ type SparePart = {
   imageUrl: string | null;
   stockOnHand: number;
   isFeatured: boolean;
+  ratingAverage: number;
+  ratingCount: number;
   category: {
     id: string;
     name: string;
@@ -46,6 +48,24 @@ function formatPriceTry(priceCents: number) {
     return `${(priceCents / 100).toFixed(2)} TL`;
   }
 }
+
+const renderStars = (average: number) => {
+  const filled = Math.round(average);
+  return Array.from({ length: 5 }, (_, index) => {
+    const isActive = index < filled;
+    return (
+      <svg
+        key={`star-${index}`}
+        viewBox="0 0 20 20"
+        className={`h-4 w-4 ${isActive ? 'text-amber-400' : 'text-slate-300'}`}
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+      </svg>
+    );
+  });
+};
 
 export default function SparePartsPage() {
   const router = useRouter();
@@ -411,17 +431,29 @@ export default function SparePartsPage() {
                 </Link>
 
                 <div className="space-y-3 p-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
-                        {p.name}
-                      </h3>
-                    </Link>
-                    <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                      {formatPriceTry(p.priceCents)}
-                    </div>
+                <div className="flex items-start justify-between gap-2">
+                  <Link href={`/spare-parts/${p.id}`} className="min-w-0">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
+                      {p.name}
+                    </h3>
+                  </Link>
+                  <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                    {formatPriceTry(p.priceCents)}
                   </div>
-                  <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+                  {p.ratingCount > 0 ? (
+                    <>
+                      <div className="flex items-center gap-1">{renderStars(p.ratingAverage)}</div>
+                      <span>
+                        {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+                      </span>
+                    </>
+                  ) : (
+                    <span>Henuz puan yok</span>
+                  )}
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
 
                   <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-300">
                     <div>
