@@ -58,6 +58,25 @@ const statusLabel = statusOptions.reduce<Record<string, string>>((acc, item) => 
   return acc;
 }, {});
 
+const statusTone = (value: string) => {
+  switch (value) {
+    case 'DELIVERED':
+      return 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/30';
+    case 'SHIPPED':
+      return 'bg-blue-500/10 text-blue-700 ring-1 ring-blue-500/30';
+    case 'IN_TRANSIT':
+      return 'bg-amber-500/10 text-amber-700 ring-1 ring-amber-500/30';
+    case 'PAID':
+      return 'bg-teal-500/10 text-teal-700 ring-1 ring-teal-500/30';
+    case 'FAILED':
+      return 'bg-rose-500/10 text-rose-700 ring-1 ring-rose-500/30';
+    case 'CANCELED':
+      return 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30';
+    default:
+      return 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30';
+  }
+};
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -107,6 +126,18 @@ export default function OrdersAdminManager() {
   const [cancelPrevStatus, setCancelPrevStatus] = useState<Record<string, string>>({});
 
   const totalOrders = useMemo(() => orders.length, [orders.length]);
+  const latestOrder = useMemo(() => {
+    if (!orders.length) return null;
+    return orders.reduce((latest, order) =>
+      new Date(order.createdAt).getTime() > new Date(latest.createdAt).getTime() ? order : latest,
+    );
+  }, [orders]);
+  const statusCounts = useMemo(() => {
+    return orders.reduce<Record<string, number>>((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    }, {});
+  }, [orders]);
 
   useEffect(() => {
     loadOrders();
@@ -216,24 +247,58 @@ export default function OrdersAdminManager() {
   const cancelOrder = orders.find((order) => order.id === cancelDialogId) || null;
 
   return (
-    <div className="space-y-5">
-      <div className="rounded-xl border border-slate-200 border-l-4 border-l-teal-500 bg-white p-4 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
-        <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Siparis yonetimi</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900">Operasyon merkezi</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Tum siparisleri tek ekrandan takip et ve aksiyon al.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={loadOrders}
+              className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+            >
+              Yenile
+            </button>
+            <div className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
+              {totalOrders} siparis
+            </div>
+          </div>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Bekleyen</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.PENDING || 0}</div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazirlaniyor</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">
+              {(statusCounts.IN_TRANSIT || 0) + (statusCounts.RECEIVED || 0)}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Iptal</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.CANCELED || 0}</div>
+          </div>
+        </div>
+        {latestOrder && (
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xs text-slate-600">
+            Son siparis: <span className="font-semibold text-slate-900">#{latestOrder.id.slice(0, 8)}</span> -{' '}
+            {formatDate(latestOrder.createdAt)}
+          </div>
+        )}
       </div>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-slate-900">Siparis listesi</h3>
-          <button
-            type="button"
-            onClick={loadOrders}
-            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-          >
-            Yenile
-          </button>
-        </div>
-
+      <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm">
         {loading && <div className="mt-6 text-sm text-slate-500">Yukleniyor...</div>}
         {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
 
@@ -244,34 +309,37 @@ export default function OrdersAdminManager() {
         )}
 
         {!loading && orders.length > 0 && (
-          <div className="mt-6 space-y-4">
+          <div className="space-y-6">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-slate-50 px-5 py-4">
+              <div key={order.id} className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-slate-50/80 px-6 py-5">
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
-                    <div className="mt-1 text-sm font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
-                    <div className="text-xs text-slate-500">{formatDate(order.createdAt)}</div>
+                    <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">Siparis</div>
+                    <div className="mt-2 flex items-center gap-3">
+                      <div className="text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
+                      <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(order.status)}`}>
+                        {statusLabel[order.status] || order.status}
+                      </span>
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-teal-700">
-                      {statusLabel[order.status] || order.status}
-                    </span>
-                    <div className="text-sm font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
+                  <div className="text-right">
+                    <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Tutar</div>
+                    <div className="mt-1 text-xl font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
                   </div>
                 </div>
 
-                <div className="grid gap-5 px-5 py-5 lg:grid-cols-[1.1fr_0.9fr]">
-                  <div className="space-y-4">
-                    <div>
+                <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="space-y-5">
+                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
-                      <div className="mt-1 text-sm font-semibold text-slate-900">
+                      <div className="mt-2 text-sm font-semibold text-slate-900">
                         {order.user?.name || order.user?.email || 'Misafir'}
                       </div>
                       <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
                     </div>
 
-                    <div>
+                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
                       {(() => {
                         const view = formatAddress(order.shippingAddress);
@@ -279,7 +347,7 @@ export default function OrdersAdminManager() {
                           return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
                         }
                         return (
-                          <div className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                          <div className="mt-2 text-xs text-slate-600">
                             <div className="font-semibold text-slate-900">{view.title}</div>
                             <div>{view.fullName}</div>
                             <div>{view.line1}</div>
@@ -290,16 +358,16 @@ export default function OrdersAdminManager() {
                       })()}
                     </div>
 
-                    <div>
+                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
-                      <div className="mt-2 space-y-2">
+                      <div className="mt-3 space-y-2">
                         {order.items.map((item) => (
                           <div
                             key={item.id}
-                            className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs"
+                            className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs"
                           >
                             <div className="flex min-w-0 items-center gap-2">
-                              <div className="h-8 w-8 overflow-hidden rounded-lg bg-slate-100">
+                              <div className="h-9 w-9 overflow-hidden rounded-lg bg-white">
                                 {item.imageUrl ? (
                                   // eslint-disable-next-line @next/next/no-img-element
                                   <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
@@ -318,12 +386,12 @@ export default function OrdersAdminManager() {
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <div>
+                  <div className="space-y-5">
+                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
-                      <div className="mt-2 flex items-center gap-2">
+                      <div className="mt-3 flex items-center gap-2">
                         <select
-                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
                           value={draftStatus[order.id] || order.status}
                           onChange={(e) => {
                             const value = e.target.value;
@@ -353,7 +421,7 @@ export default function OrdersAdminManager() {
                           type="button"
                           onClick={() => saveStatus(order.id)}
                           disabled={savingId === order.id}
-                          className="rounded-lg bg-teal-600 px-3 py-2 text-xs font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
+                          className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
                         >
                           {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
                         </button>
@@ -363,11 +431,11 @@ export default function OrdersAdminManager() {
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
+                    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
                       <div className="mt-3 space-y-2">
                         <input
-                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
                           placeholder="Orn: Yurtici Kargo"
                           value={draftTracking[order.id]?.carrier || ''}
                           onChange={(e) =>
@@ -382,7 +450,7 @@ export default function OrdersAdminManager() {
                           }
                         />
                         <input
-                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
                           placeholder="Takip no"
                           value={draftTracking[order.id]?.number || ''}
                           onChange={(e) =>
@@ -397,7 +465,7 @@ export default function OrdersAdminManager() {
                           }
                         />
                         <input
-                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                          className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
                           placeholder="Takip linki"
                           value={draftTracking[order.id]?.url || ''}
                           onChange={(e) =>
@@ -419,6 +487,7 @@ export default function OrdersAdminManager() {
             ))}
           </div>
         )}
+
       </div>
 
       {cancelDialogId && cancelOrder && (
@@ -494,5 +563,6 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
+
 
 
