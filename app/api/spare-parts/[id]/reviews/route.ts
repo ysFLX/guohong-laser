@@ -25,9 +25,24 @@ const getDisplayName = (user: { name: string | null; firstName: string | null; l
   return composed || 'Musteri';
 };
 
+const maskName = (value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === 'Musteri') return 'Gizli Musteri';
+  const parts = trimmed.split(/\s+/).filter(Boolean);
+  const masked = parts
+    .map((part) => {
+      if (!part.length) return '';
+      const stars = '*'.repeat(Math.max(part.length - 1, 1));
+      return `${part[0]}${stars}`;
+    })
+    .join(' ');
+  return masked || 'Gizli Musteri';
+};
+
 const getReviewName = (review: { isAnonymous: boolean; user: { name: string | null; firstName: string | null; lastName: string | null } }) => {
-  if (review.isAnonymous) return 'Gizli Musteri';
-  return getDisplayName(review.user);
+  const displayName = getDisplayName(review.user);
+  if (review.isAnonymous) return maskName(displayName);
+  return displayName;
 };
 
 const canUserReview = async (userId: string, sparePartId: string) => {
