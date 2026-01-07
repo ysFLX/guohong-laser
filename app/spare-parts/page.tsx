@@ -49,15 +49,32 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-const renderStars = (average: number) => {
-  const filled = Math.round(average);
-  return Array.from({ length: 5 }, (_, index) => {
-    const isActive = index < filled;
+const renderStars = (average: number) =>
+  Array.from({ length: 5 }, (_, index) => {
+    const value = average - index;
+    const isFull = value >= 0.75;
+    const isHalf = value >= 0.25 && value < 0.75;
+
+    if (isHalf) {
+      return (
+        <span key={`star-${index}`} className="relative inline-flex h-4 w-4">
+          <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-300" fill="currentColor" aria-hidden="true">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+          </svg>
+          <span className="absolute left-0 top-0 h-4 w-2 overflow-hidden">
+            <svg viewBox="0 0 20 20" className="h-4 w-4 text-amber-400" fill="currentColor" aria-hidden="true">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+            </svg>
+          </span>
+        </span>
+      );
+    }
+
     return (
       <svg
         key={`star-${index}`}
         viewBox="0 0 20 20"
-        className={`h-4 w-4 ${isActive ? 'text-amber-400' : 'text-slate-300'}`}
+        className={`h-4 w-4 ${isFull ? 'text-amber-400' : 'text-slate-300'}`}
         fill="currentColor"
         aria-hidden="true"
       >
@@ -65,7 +82,6 @@ const renderStars = (average: number) => {
       </svg>
     );
   });
-};
 
 export default function SparePartsPage() {
   const router = useRouter();
