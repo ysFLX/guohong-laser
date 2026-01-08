@@ -5,6 +5,48 @@ import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+
+const OTP_TTL_MINUTES = 10;
+
+const hashOtp = (value: string, secret: string) =>
+  crypto.createHash('sha256').update(`${secret}:${value}`).digest('hex');
+
+const sendOtpEmail = async (email: string, code: string) => {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpUser || !smtpPass) {
+    throw new Error('2FA_SEND_FAILED');
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `Guohong Lazer <${smtpUser}>`,
+    to: email,
+    subject: 'Giris dogrulama kodun',
+    text: `Giris yapmak icin dogrulama kodun: ${code}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
+        <h2 style="margin-top: 0; color: #111827;">Giris dogrulama kodu</h2>
+        <p>Guvenli giris icin dogrulama kodun:</p>
+        <div style="margin: 16px 0; font-size: 20px; font-weight: 700; letter-spacing: 6px; color: #111827;">${code}</div>
+        <p style="font-size: 12px; color: #6b7280;">Kod ${OTP_TTL_MINUTES} dakika boyunca gecerlidir.</p>
+      </div>
+      `,
+  });
+};
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -21,11 +63,13 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        otp: { label: 'OTP', type: 'text' },
       },
       async authorize(credentials) {
         try {
           const email = credentials?.email?.trim().toLowerCase();
           const password = credentials?.password;
+          const otp = credentials?.otp?.trim();
 
           if (!email || !password) {
             throw new Error('Lutfen e-posta ve sifre giriniz');
@@ -46,6 +90,65 @@ export const authOptions: NextAuthOptions = {
 
           if (!isCorrectPassword) {
             throw new Error('Gecersiz sifre');
+          }
+
+          if (user.twoFactorEnabled) {
+            const secret = process.env.NEXTAUTH_SECRET ?? '';
+            if (!secret) {
+              throw new Error('2FA_SEND_FAILED');
+            }
+
+            if (!otp) {
+              const code = `${crypto.randomInt(100000, 1000000)}`;
+              const codeHash = hashOtp(code, secret);
+              const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
+
+              await prisma.twoFactorToken.upsert({
+                where: { userId: user.id },
+                create: {
+                  userId: user.id,
+                  codeHash,
+                  expiresAt,
+                },
+                update: {
+                  codeHash,
+                  expiresAt,
+                },
+              });
+
+              try {
+                await sendOtpEmail(user.email ?? email, code);
+              } catch (error) {
+                console.error('2FA e-posta gonderilemedi:', error);
+                throw new Error('2FA_SEND_FAILED');
+              }
+
+              throw new Error('2FA_REQUIRED');
+            }
+
+            const token = await prisma.twoFactorToken.findUnique({
+              where: { userId: user.id },
+            });
+            const otpHash = hashOtp(otp, secret);
+
+            if (!token) {
+              throw new Error('2FA_INVALID');
+            }
+
+            if (token.expiresAt.getTime() < Date.now()) {
+              await prisma.twoFactorToken.delete({
+                where: { userId: user.id },
+              });
+              throw new Error('2FA_EXPIRED');
+            }
+
+            if (token.codeHash !== otpHash) {
+              throw new Error('2FA_INVALID');
+            }
+
+            await prisma.twoFactorToken.delete({
+              where: { userId: user.id },
+            });
           }
 
           if (!user.emailVerified) {

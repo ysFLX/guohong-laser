@@ -8,8 +8,11 @@ import Link from 'next/link';
 export default function LoginClient() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
+  const [info, setInfo] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState<'credentials' | 'otp'>('credentials');
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get('registered') === 'true';
@@ -18,6 +21,50 @@ export default function LoginClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setInfo('');
+    setIsLoading(true);
+
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+        otp: step === 'otp' ? otp : undefined,
+      });
+
+      if (result?.error) {
+        if (result.error === '2FA_REQUIRED') {
+          setStep('otp');
+          setInfo('E-postana dogrulama kodu gonderdik. Kodun 10 dakika gecerlidir.');
+        } else if (result.error === '2FA_INVALID') {
+          setError('Dogrulama kodu hatali. Tekrar dene.');
+        } else if (result.error === '2FA_EXPIRED') {
+          setError('Kodun suresi doldu. Yeniden kod gonder.');
+        } else if (result.error === '2FA_SEND_FAILED') {
+          setError('Kod gonderilemedi. Lutfen e-posta ayarlarini kontrol et.');
+        } else {
+          setError('Gecersiz e-posta veya sifre');
+        }
+      } else {
+        router.push('/');
+        router.refresh();
+      }
+    } catch (error) {
+      console.error('Giris hatasi:', error);
+      setError('Giris sirasinda bir hata olustu');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (!email || !password) {
+      setError('E-posta ve sifre girmen gerekiyor');
+      return;
+    }
+
+    setError('');
+    setInfo('');
     setIsLoading(true);
 
     try {
@@ -27,15 +74,14 @@ export default function LoginClient() {
         password,
       });
 
-      if (result?.error) {
-        setError('Gecersiz e-posta veya sifre');
-      } else {
-        router.push('/');
-        router.refresh();
+      if (result?.error === '2FA_REQUIRED') {
+        setInfo('Yeni kodu e-postana gonderdik.');
+      } else if (result?.error) {
+        setError('Kod gonderilemedi. Tekrar dene.');
       }
     } catch (error) {
-      console.error('Giris hatasi:', error);
-      setError('Giris sirasinda bir hata olustu');
+      console.error('Kod gonderme hatasi:', error);
+      setError('Kod gonderilemedi');
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +142,8 @@ export default function LoginClient() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
+                    disabled={step === 'otp'}
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40 disabled:opacity-60"
                     placeholder="ornek@email.com"
                   />
                 </div>
@@ -112,12 +159,55 @@ export default function LoginClient() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
+                    disabled={step === 'otp'}
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40 disabled:opacity-60"
                     placeholder="********"
                   />
                 </div>
+                {step === 'otp' && (
+                  <div>
+                    <label htmlFor="otp" className="block text-sm font-medium text-white/80">
+                      Dogrulama kodu
+                    </label>
+                    <input
+                      id="otp"
+                      name="otp"
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
+                      placeholder="6 haneli kod"
+                    />
+                    <div className="mt-2 flex items-center justify-between text-xs text-white/60">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStep('credentials');
+                          setOtp('');
+                        }}
+                        className="hover:text-white"
+                      >
+                        Geri don
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleResend}
+                        className="font-semibold text-teal-200 hover:text-teal-100"
+                      >
+                        Kodu tekrar gonder
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
+              {info && (
+                <div className="rounded-xl border border-teal-200/30 bg-teal-500/10 p-3 text-sm text-teal-100">
+                  {info}
+                </div>
+              )}
               {error && (
                 <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
                   {error}
@@ -132,7 +222,11 @@ export default function LoginClient() {
                     isLoading ? 'bg-teal-200' : 'bg-teal-400 hover:bg-teal-300'
                   }`}
                 >
-                  {isLoading ? 'Giris yapiliyor...' : 'Giris yap'}
+                  {isLoading
+                    ? 'Giris yapiliyor...'
+                    : step === 'otp'
+                      ? 'Kodu dogrula'
+                      : 'Giris yap'}
                 </button>
               </div>
             </form>

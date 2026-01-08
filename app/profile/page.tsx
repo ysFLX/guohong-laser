@@ -37,6 +37,7 @@ type ProfileUser = {
   phone: string | null;
   image: string | null;
   role: string;
+  twoFactorEnabled: boolean;
   addresses: Address[];
 };
 
@@ -71,9 +72,11 @@ export default function ProfilePage() {
     emailNotify: true,
     inAppNotify: true,
     promoNotify: false,
-    twoFactor: false,
     language: 'TR',
   });
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [twoFactorSaving, setTwoFactorSaving] = useState(false);
+  const [twoFactorError, setTwoFactorError] = useState('');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -119,6 +122,7 @@ export default function ProfilePage() {
           setFirstName(user.firstName ?? '');
           setLastName(user.lastName ?? '');
           setPhone(user.phone ?? '');
+          setTwoFactorEnabled(Boolean(user.twoFactorEnabled));
 
           const def = user.addresses?.find((a) => a.isDefault) ?? user.addresses?.[0];
           setAddressLine1(def?.line1 ?? '');
@@ -187,6 +191,34 @@ export default function ProfilePage() {
       setSaveError(getErrorMessage(e) || 'Profil guncellenemedi');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleTwoFactorToggle = async () => {
+    if (twoFactorSaving) return;
+    setTwoFactorError('');
+    setTwoFactorSaving(true);
+    const next = !twoFactorEnabled;
+
+    try {
+      const res = await fetch('/api/profile/two-factor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled: next }),
+      });
+
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Iki adimli dogrulama guncellenemedi');
+      }
+
+      setTwoFactorEnabled(next);
+    } catch (e: unknown) {
+      setTwoFactorError(getErrorMessage(e) || 'Iki adimli dogrulama guncellenemedi');
+    } finally {
+      setTwoFactorSaving(false);
     }
   };
 
@@ -460,14 +492,15 @@ export default function ProfilePage() {
           <div className="mt-4 space-y-2 text-xs text-slate-600">
             <button
               type="button"
-              onClick={() => setPrefs((prev) => ({ ...prev, twoFactor: !prev.twoFactor }))}
+              onClick={handleTwoFactorToggle}
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.twoFactor}</span>
-              <span className={`font-semibold ${prefs.twoFactor ? 'text-teal-700' : 'text-slate-500'}`}>
-                {prefs.twoFactor ? copy.on : copy.off}
+              <span className={`font-semibold ${twoFactorEnabled ? 'text-teal-700' : 'text-slate-500'}`}>
+                {twoFactorSaving ? '...' : twoFactorEnabled ? copy.on : copy.off}
               </span>
             </button>
+            {twoFactorError && <div className="text-xs text-red-600">{twoFactorError}</div>}
             <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
               <span>{copy.sessionTracking}</span>
               <span className="font-semibold text-slate-700">{copy.on}</span>
