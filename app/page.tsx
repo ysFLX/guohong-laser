@@ -85,6 +85,33 @@ const supportGrid = [
   },
 ];
 
+const quickShowcase = [
+  {
+    title: 'FSCUT',
+    description: 'Kesim hattiniz icin kontrol yazilimi. Hizli kurulum.',
+    price: '₺1.900,90',
+    tag: 'Yazilim',
+    href: '/spare-parts',
+    image: '/images/1.jpg',
+  },
+  {
+    title: 'Seramik Conta (Halka)',
+    description: 'Yuksek dayanimli yedek parca. Stoktan teslim.',
+    price: '₺199,99',
+    tag: 'Conta',
+    href: '/spare-parts',
+    image: '/images/2.jpg',
+  },
+  {
+    title: 'WSX NC30E',
+    description: 'Lazer kafa parcalari icin hizli tedarik.',
+    price: '₺1.199,99',
+    tag: 'Lazer Kafasi',
+    href: '/spare-parts',
+    image: '/images/3.jpg',
+  },
+];
+
 const process = [
   {
     title: 'Kesif ve analiz',
@@ -254,6 +281,77 @@ export default function Home() {
               </span>
             </Link>
           ))}
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Kisa urun vitrini</p>
+                <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+                  Hemen teslim yedek parcalar
+                </h2>
+              </div>
+              <Link
+                href="/spare-parts"
+                className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+              >
+                Tumunu gor
+              </Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {quickShowcase.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="group relative overflow-hidden rounded-2xl border border-teal-100/70 bg-white px-4 pb-4 pt-3 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-teal-400/60"
+                >
+                  <div className="relative h-32 w-full overflow-hidden rounded-xl">
+                    <Image src={item.image} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
+                    <span className="absolute left-3 top-3 rounded-full bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                      {item.tag}
+                    </span>
+                  </div>
+                  <div className="mt-4 flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
+                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{item.description}</p>
+                    </div>
+                    <span className="text-sm font-semibold text-teal-600 dark:text-teal-300">{item.price}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-900 via-teal-900/60 to-slate-900 p-6 text-white shadow-xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Hizli teklif</p>
+            <h3 className="mt-3 text-2xl font-semibold">Teklifini 30 dakika icinde olusturalim</h3>
+            <p className="mt-3 text-sm text-white/70">
+              Uretim hedefini, parca modelini ve teslim aciliyetini ilet. Net fiyat ve plan ayni gun geri donsun.
+            </p>
+            <div className="mt-5 space-y-3 text-sm text-white/80">
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">1. Model / parca bilgisi</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">2. Adet ve teslim tarihi</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">3. Iletisim e-posta adresi</div>
+            </div>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/quote"
+                className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
+              >
+                Teklif al
+              </Link>
+              <Link
+                href="/contact?subject=Hizli+Teklif"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80"
+              >
+                E-posta gonder
+              </Link>
+            </div>
+          </div>
         </div>
       </Reveal>
 
