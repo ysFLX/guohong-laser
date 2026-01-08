@@ -67,6 +67,30 @@ export default function ProfilePage() {
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('Turkiye');
   const [showAddress, setShowAddress] = useState(false);
+  const [prefs, setPrefs] = useState({
+    emailNotify: true,
+    inAppNotify: true,
+    promoNotify: false,
+    twoFactor: false,
+    language: 'TR',
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const raw = window.localStorage.getItem('profilePrefs');
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw) as Partial<typeof prefs>;
+      setPrefs((prev) => ({ ...prev, ...parsed }));
+    } catch {
+      // ignore malformed local storage
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('profilePrefs', JSON.stringify(prefs));
+  }, [prefs]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -373,26 +397,85 @@ export default function ProfilePage() {
           <p className="mt-2 text-sm text-slate-600">
             Sifreni duzenli degistir, taninmayan cihazlarda oturum acma.
           </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">Sifre gucu</span>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">Oturum takibi</span>
+          <div className="mt-4 space-y-2 text-xs text-slate-600">
+            <button
+              type="button"
+              onClick={() => setPrefs((prev) => ({ ...prev, twoFactor: !prev.twoFactor }))}
+              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
+            >
+              <span>Iki adimli dogrulama</span>
+              <span className={`font-semibold ${prefs.twoFactor ? 'text-teal-700' : 'text-slate-500'}`}>
+                {prefs.twoFactor ? 'Acik' : 'Kapali'}
+              </span>
+            </button>
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+              <span>Oturum takibi</span>
+              <span className="font-semibold text-slate-700">Aktif</span>
+            </div>
           </div>
+          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">Otomatik kaydedilir</div>
         </div>
         <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
           <div className="text-sm font-semibold text-slate-900">Bildirim tercihleri</div>
           <p className="mt-2 text-sm text-slate-600">
             Siparis durumlari ve kampanyalar icin bildirim ayarlarini duzenle.
           </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            <span className="rounded-full bg-teal-50 px-3 py-1 text-teal-700">E-posta</span>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">Site ici</span>
+          <div className="mt-4 space-y-2 text-xs text-slate-600">
+            <button
+              type="button"
+              onClick={() => setPrefs((prev) => ({ ...prev, emailNotify: !prev.emailNotify }))}
+              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
+            >
+              <span>E-posta</span>
+              <span className={`font-semibold ${prefs.emailNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+                {prefs.emailNotify ? 'Acik' : 'Kapali'}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPrefs((prev) => ({ ...prev, inAppNotify: !prev.inAppNotify }))}
+              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
+            >
+              <span>Site ici</span>
+              <span className={`font-semibold ${prefs.inAppNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+                {prefs.inAppNotify ? 'Acik' : 'Kapali'}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPrefs((prev) => ({ ...prev, promoNotify: !prev.promoNotify }))}
+              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
+            >
+              <span>Kampanya bildirimi</span>
+              <span className={`font-semibold ${prefs.promoNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+                {prefs.promoNotify ? 'Acik' : 'Kapali'}
+              </span>
+            </button>
           </div>
+          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">Otomatik kaydedilir</div>
         </div>
         <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
-          <div className="text-sm font-semibold text-slate-900">Yardim ve destek</div>
+          <div className="text-sm font-semibold text-slate-900">Tercihler</div>
           <p className="mt-2 text-sm text-slate-600">
-            Teknik destek, teklif ve kurulum sorularin icin hizli erisim.
+            Dil, gorunum ve hesap senkronu ayarlari.
           </p>
+          <div className="mt-4 space-y-2 text-xs text-slate-600">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+              <span>Varsayilan dil</span>
+              <select
+                value={prefs.language}
+                onChange={(e) => setPrefs((prev) => ({ ...prev, language: e.target.value }))}
+                className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700"
+              >
+                <option value="TR">TR</option>
+                <option value="EN">EN</option>
+              </select>
+            </div>
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+              <span>Hesap senkronu</span>
+              <span className="font-semibold text-slate-700">Aktif</span>
+            </div>
+          </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             <Link href="/contact" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
               Destek al
