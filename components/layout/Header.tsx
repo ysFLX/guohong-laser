@@ -38,20 +38,14 @@ export default function Header() {
   };
 
   const navClass = (href: string) => {
-    const active = isHome ? 'bg-teal-100 text-teal-700' : 'bg-teal-100 text-teal-700';
-    const hover = isHome
-      ? 'hover:bg-teal-50 hover:text-teal-700 dark:hover:bg-teal-400/10 dark:hover:text-teal-200'
-      : 'hover:bg-teal-50 hover:text-teal-700 dark:hover:bg-teal-400/10 dark:hover:text-teal-200';
-    return `rounded-full px-3 py-1.5 transition ${isActive(href) ? active : hover}`;
+    const active = 'text-slate-900 dark:text-white border-teal-500';
+    const idle = 'text-slate-500 dark:text-slate-300 border-transparent hover:text-slate-900 dark:hover:text-white';
+    return `relative px-1 pb-2 text-sm font-semibold uppercase tracking-[0.14em] border-b-2 transition ${isActive(href) ? active : idle}`;
   };
 
-  const navShellClass = isHome
-    ? 'inline-flex items-center gap-1 rounded-full border border-slate-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-slate-600 shadow-sm shadow-teal-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200'
-    : 'inline-flex items-center gap-1 rounded-full border border-gray-200/70 bg-white/80 px-2 py-1 text-sm font-medium text-gray-600 shadow-sm shadow-teal-100/40 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-200';
-
   return (
-    <header className="bg-white shadow-sm dark:bg-gray-900">
-      <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-6">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6">
         <div className="flex items-center gap-4 h-16">
           <div className="flex items-center shrink-0">
             <Link href="/" className="group inline-flex items-center">
@@ -61,7 +55,7 @@ export default function Header() {
                   <img
                     src={logoSrc}
                     alt="Guohong Lazer"
-                    className="h-32 w-auto sm:h-32"
+                    className="h-10 w-auto sm:h-12"
                     onError={() => setLogoError(true)}
                   />
                 ) : (
@@ -71,8 +65,8 @@ export default function Header() {
             </Link>
           </div>
 
-          <nav className="hidden sm:flex flex-1 justify-center" aria-label="Ana menu">
-            <div className={navShellClass}>
+          <nav className="hidden lg:flex flex-1 justify-center" aria-label="Ana menu">
+            <div className="flex items-center gap-8">
               <Link href="/" aria-current={isActive('/') ? 'page' : undefined} className={navClass('/')}>
                 Ana Sayfa
               </Link>
@@ -99,10 +93,16 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2 ml-auto">
+            <Link
+              href="/quote"
+              className="hidden sm:inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 shadow-sm transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200"
+            >
+              Teklif al
+            </Link>
             <button
               type="button"
               onClick={toggleTheme}
-              className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-gray-200 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+              className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
               aria-label="Tema degistir"
             >
               {theme === 'dark' ? (
@@ -131,7 +131,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openNotifications}
-                  className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                  className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-400 hover:text-slate-600 hover:bg-white dark:hover:bg-slate-800"
                   aria-label="Bildirimleri ac"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -156,7 +156,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={toggleCart}
-                  className="relative inline-flex items-center justify-center rounded-full p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                  className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-400 hover:text-slate-600 hover:bg-white dark:hover:bg-slate-800"
                   aria-label="Sepeti ac"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -177,7 +177,7 @@ export default function Header() {
 
             <button
               type="button"
-              className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              className="lg:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-500 hover:text-slate-700 hover:bg-white"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-expanded={mobileMenuOpen}
               aria-label="Menuyu ac/kapat"
@@ -196,7 +196,7 @@ export default function Header() {
                 <div className="relative group">
                   <button
                     type="button"
-                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white px-3 py-2 text-sm font-medium rounded-md"
+                    className="text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white px-3 py-2 text-sm font-semibold rounded-md"
                   >
                     Giris Yap / Kayit Ol
                   </button>
@@ -247,7 +247,7 @@ export default function Header() {
         <ProfileDrawer isOpen={profileOpen} close={() => setProfileOpen(false)} />
 
         {mobileMenuOpen && (
-          <div className="sm:hidden border-t border-gray-200 py-2">
+          <div className="lg:hidden border-t border-gray-200 py-2">
             <div className="flex flex-col gap-1">
               <button
                 type="button"
