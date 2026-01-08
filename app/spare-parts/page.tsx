@@ -455,7 +455,7 @@ export default function SparePartsPage() {
           )}
 
           {!loadError && (
-            <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <section className="space-y-5">
               {visibleItems.map((p) => {
                 const isFavorited = favoriteIds.has(p.id);
                 const inStock = p.stockOnHand > 0;
@@ -465,8 +465,8 @@ export default function SparePartsPage() {
                     key={p.id}
                     className="group relative overflow-hidden rounded-[30px] border border-slate-200/70 bg-white/95 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.6)] transition hover:-translate-y-1 hover:border-teal-200 dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-teal-400/50"
                   >
-                    <div className="space-y-4 p-5">
-                      <Link href={`/spare-parts/${p.id}`} className="relative h-52 w-full overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800">
+                    <div className="grid gap-4 p-5 sm:grid-cols-[200px_1fr]">
+                      <Link href={`/spare-parts/${p.id}`} className="relative h-44 overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800 sm:h-full">
                         <Image
                           src={p.imageUrl || '/images/1.jpg'}
                           alt={p.name}
@@ -490,80 +490,86 @@ export default function SparePartsPage() {
                         </div>
                       </Link>
 
-                      <div className="flex items-start justify-between gap-3">
-                        <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                          <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
-                            {p.name}
-                          </h3>
-                        </Link>
-                        <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                          {formatPriceTry(p.priceCents)}
+                      <div className="flex flex-col gap-4">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <Link href={`/spare-parts/${p.id}`}>
+                              <h3 className="text-xl font-semibold text-slate-900 dark:text-white line-clamp-1">
+                                {p.name}
+                              </h3>
+                            </Link>
+                            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+                          </div>
+                          <div className="text-base font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                            {formatPriceTry(p.priceCents)}
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
-                        <div className="flex items-center gap-1">
-                          {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
-                        </div>
-                        {p.ratingCount > 0 && (
-                          <span>
-                            {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-300">
+                          <div className="flex items-center gap-1">
+                            {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
+                          </div>
+                          {p.ratingCount > 0 && (
+                            <span>
+                              {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+                            </span>
+                          )}
+                          <span className="rounded-full border border-slate-200 bg-white px-3 py-1 font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                            {inStock ? 'Stokta' : 'Siparisle'}
                           </span>
-                        )}
-                        <span className="rounded-full border border-slate-200 bg-white px-3 py-1 font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
-                          {inStock ? 'Stokta' : 'Siparisle'}
-                        </span>
-                      </div>
-
-                      <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
-
-                      <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
-                        <div>
-                          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Stok</div>
-                          <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
+                          <span className="rounded-full bg-slate-900/80 px-3 py-1 font-semibold text-white">
+                            {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                          </span>
                         </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Olcu</div>
-                          <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.dimensions || '-'}</div>
+
+                        <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Stok</div>
+                            <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Olcu</div>
+                            <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.dimensions || '-'}</div>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="text-xs text-teal-700 dark:text-teal-300">
-                        {selectedModel === 'Tumu'
-                          ? 'Uyumluluk icin model sec'
-                          : `${selectedModelInfo?.label} ile uyumlu`}
-                      </div>
+                        <div className="text-xs text-teal-700 dark:text-teal-300">
+                          {selectedModel === 'Tumu'
+                            ? 'Uyumluluk icin model sec'
+                            : `${selectedModelInfo?.label} ile uyumlu`}
+                        </div>
 
-                      <div className="flex items-center gap-2">
-                        <AddToCartButton
-                          id={p.id}
-                          name={p.name}
-                          priceCents={p.priceCents}
-                          imageUrl={p.imageUrl}
-                          className="flex-1 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => toggleFavorite(p.id)}
-                          disabled={favoriteLoading.has(p.id)}
-                          aria-pressed={isFavorited}
-                          aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-                          className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
-                            isFavorited
-                              ? 'border-red-200 bg-red-50 text-red-600'
-                              : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
-                          } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
-                        >
-                          <svg
-                            viewBox="0 0 24 24"
-                            className="h-5 w-5"
-                            fill={isFavorited ? 'currentColor' : 'none'}
-                            stroke="currentColor"
-                            strokeWidth={2}
+                        <div className="flex items-center gap-2">
+                          <AddToCartButton
+                            id={p.id}
+                            name={p.name}
+                            priceCents={p.priceCents}
+                            imageUrl={p.imageUrl}
+                            className="flex-1 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => toggleFavorite(p.id)}
+                            disabled={favoriteLoading.has(p.id)}
+                            aria-pressed={isFavorited}
+                            aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
+                            className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
+                              isFavorited
+                                ? 'border-red-200 bg-red-50 text-red-600'
+                                : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                            } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
                           >
-                            <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
-                          </svg>
-                        </button>
+                            <svg
+                              viewBox="0 0 24 24"
+                              className="h-5 w-5"
+                              fill={isFavorited ? 'currentColor' : 'none'}
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            >
+                              <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
