@@ -8,15 +8,15 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
   const user = data?.user;
 
   return (
-    <div className={`fixed inset-0 z-50 ${isOpen ? '' : 'pointer-events-none'}`}>
+    <div className={`fixed inset-0 z-[70] ${isOpen ? '' : 'pointer-events-none'}`}>
       <div
-        className={`absolute inset-0 bg-black/50 transition-opacity duration-200 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={close}
         aria-hidden="true"
       />
 
       <aside
-        className={`fixed right-0 top-0 h-full w-full max-w-sm bg-white dark:bg-gray-900 shadow-xl border-l border-gray-200 dark:border-gray-800 flex flex-col transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed right-0 top-0 h-full w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl border-l border-gray-200 dark:border-gray-800 flex flex-col transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
           <div className="text-lg font-bold text-gray-900 dark:text-white">Profil</div>
