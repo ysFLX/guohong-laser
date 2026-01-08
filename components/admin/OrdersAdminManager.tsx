@@ -393,23 +393,41 @@ export default function OrdersAdminManager() {
                       <div className="absolute left-2 top-4 h-[calc(100%-16px)] w-px bg-slate-200" />
                       <div className="relative">
                         <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
-                        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                          <div className="flex items-start gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
-                              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M20 21a8 8 0 10-16 0" />
-                                <circle cx="12" cy="7" r="4" />
-                              </svg>
+                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
+                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M20 21a8 8 0 10-16 0" />
+                              <circle cx="12" cy="7" r="4" />
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                            <div className="mt-2 text-sm font-semibold text-slate-900">
+                              {order.user?.name || order.user?.email || 'Misafir'}
                             </div>
-                            <div>
-                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
-                              <div className="mt-2 text-sm font-semibold text-slate-900">
-                                {order.user?.name || order.user?.email || 'Misafir'}
-                              </div>
-                              <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
+                            <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
+                            <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+                              {order.user?.email && (
+                                <a
+                                  href={`mailto:${order.user.email}`}
+                                  className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                                >
+                                  E-posta gonder
+                                </a>
+                              )}
+                              {order.shippingAddress?.phone && (
+                                <a
+                                  href={`tel:${order.shippingAddress.phone}`}
+                                  className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                                >
+                                  Ara
+                                </a>
+                              )}
                             </div>
                           </div>
                         </div>
+                      </div>
                       </div>
 
                       <div className="relative">
@@ -591,22 +609,46 @@ export default function OrdersAdminManager() {
                             <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                               Takip linki
                             </label>
-                          <input
-                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
-                            value={draftTracking[order.id]?.url || ''}
-                            onChange={(e) =>
-                              setDraftTracking((prev) => ({
-                                ...prev,
-                                [order.id]: {
-                                  carrier: prev[order.id]?.carrier || '',
-                                  number: prev[order.id]?.number || '',
-                                  url: e.target.value,
-                                },
-                              }))
-                            }
-                          />
+                            <input
+                              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                              value={draftTracking[order.id]?.url || ''}
+                              onChange={(e) =>
+                                setDraftTracking((prev) => ({
+                                  ...prev,
+                                  [order.id]: {
+                                    carrier: prev[order.id]?.carrier || '',
+                                    number: prev[order.id]?.number || '',
+                                    url: e.target.value,
+                                  },
+                                }))
+                              }
+                            />
                           </div>
                         </div>
+                        {(draftTracking[order.id]?.carrier ||
+                          draftTracking[order.id]?.number ||
+                          draftTracking[order.id]?.url) && (
+                          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-600">
+                            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                              Kargo ozeti
+                            </div>
+                            <div className="mt-2 space-y-1">
+                              {draftTracking[order.id]?.carrier && <div>Firma: {draftTracking[order.id].carrier}</div>}
+                              {draftTracking[order.id]?.number && <div>Takip no: {draftTracking[order.id].number}</div>}
+                              {draftTracking[order.id]?.url && (
+                                <a
+                                  href={draftTracking[order.id].url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center gap-1 text-teal-700 hover:text-teal-800"
+                                >
+                                  Takip linkini ac
+                                  <span>-&gt;</span>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
