@@ -557,7 +557,7 @@ export default function SparePartsPage() {
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{p.description}</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">{p.description}</p>
 
                       <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
                         <div>
@@ -565,16 +565,16 @@ export default function SparePartsPage() {
                           <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
                         </div>
                         <div>
-                          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Olcu</div>
-                          <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.dimensions || '-'}</div>
+                          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Kategori</div>
+                          <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.category.name}</div>
                         </div>
                       </div>
 
-                      <div className="text-xs text-teal-700 dark:text-teal-300">
-                        {selectedModel === 'Tumu'
-                          ? 'Uyumluluk icin model sec'
-                          : `${selectedModelInfo?.label} ile uyumlu`}
-                      </div>
+                      {selectedModel !== 'Tumu' && (
+                        <div className="text-xs text-teal-700 dark:text-teal-300">
+                          {selectedModelInfo?.label} ile uyumlu
+                        </div>
+                      )}
 
                       <div className="flex items-center gap-2">
                         <AddToCartButton
