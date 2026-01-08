@@ -195,6 +195,10 @@ body {
   animation: float-soft 6s ease-in-out infinite;
 }
 
+.glow-drift {
+  animation: glow-drift 10s ease-in-out infinite;
+}
+
 .perf-card {
   content-visibility: auto;
   contain-intrinsic-size: 320px 420px;
@@ -219,7 +223,8 @@ body {
   }
 
   .pulse-ring::before,
-  .float-soft {
+  .float-soft,
+  .glow-drift {
     animation: none;
   }
 }
@@ -242,6 +247,16 @@ body {
   }
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes glow-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(18px, -12px, 0);
   }
 }
 

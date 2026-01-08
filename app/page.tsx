@@ -171,8 +171,14 @@ export default function Home() {
   return (
     <div className={`${space.className} bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-teal-500/15" />
-        <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-200/50 blur-[140px] dark:bg-sky-500/15" />
+        <div
+          className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-teal-500/15 glow-drift"
+          style={{ animationDelay: '0ms' }}
+        />
+        <div
+          className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-200/50 blur-[140px] dark:bg-sky-500/15 glow-drift"
+          style={{ animationDelay: '200ms' }}
+        />
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px] dark:opacity-20 dark:[background-image:linear-gradient(120deg,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.12)_1px,transparent_1px)]" />
 
         <Reveal as="section" className="relative mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8">
@@ -198,16 +204,17 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/quote"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-7 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-900 dark:border-white/10 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-white/30"
+                  className="relative inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-7 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-900 dark:border-white/10 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-white/30 pulse-ring"
                 >
                   Teklif al
                 </Link>
               </div>
               <div className="flex flex-wrap gap-3">
-                {heroStats.map((stat) => (
+                {heroStats.map((stat, index) => (
                   <div
                     key={stat.label}
-                    className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 shadow-sm dark:border-white/10 dark:bg-slate-900/80"
+                    className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 shadow-sm dark:border-white/10 dark:bg-slate-900/80 float-soft"
+                    style={{ animationDelay: `${index * 140}ms` }}
                   >
                     <p className="text-lg font-semibold text-slate-900 dark:text-white">{stat.value}</p>
                     <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
@@ -218,7 +225,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative">
-              <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60">
+              <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60 float-soft">
                 <Image src="/images/about-showcase.jpg" alt="Guohong lazer hat" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-white/20 dark:to-slate-900/20" />
                 <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-200">
@@ -234,7 +241,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="absolute -bottom-6 -left-6 hidden rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80">
+              <div
+                className="absolute -bottom-6 -left-6 hidden rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80 float-soft"
+                style={{ animationDelay: '320ms' }}
+              >
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
               </div>
