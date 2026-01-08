@@ -576,6 +576,21 @@ export default function SparePartsPage() {
                         </div>
                       )}
 
+                      <div className="flex items-center gap-2 text-xs opacity-0 transition group-hover:opacity-100">
+                        <Link
+                          href={`/spare-parts/${p.id}`}
+                          className="rounded-full border border-slate-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200"
+                        >
+                          Detay gor
+                        </Link>
+                        <Link
+                          href="/quote"
+                          className="rounded-full border border-teal-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-400/40 dark:text-teal-200"
+                        >
+                          Teklif iste
+                        </Link>
+                      </div>
+
                       <div className="flex items-center gap-2">
                         <AddToCartButton
                           id={p.id}
