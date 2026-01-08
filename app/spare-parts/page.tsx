@@ -283,6 +283,15 @@ export default function SparePartsPage() {
     [selectedModel],
   );
 
+  const activeFiltersCount =
+    (searchQuery.trim() ? 1 : 0) + (selectedCategory !== 'Tumu' ? 1 : 0) + (selectedModel !== 'Tumu' ? 1 : 0);
+
+  const resetFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('Tumu');
+    setSelectedModel('Tumu');
+  };
+
   const crossSell = useMemo(() => {
     if (!items.length) return [];
     const featured = items.filter((item) => item.isFeatured);
@@ -344,10 +353,24 @@ export default function SparePartsPage() {
       <section className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
         <aside className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
           <div className="space-y-5">
-              <div>
+              <div className="flex items-center justify-between gap-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
                   Filtreler
                 </p>
+                <div className="flex items-center gap-2">
+                  {activeFiltersCount > 0 && (
+                    <span className="rounded-full border border-teal-200 bg-teal-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-200">
+                      {activeFiltersCount} filtre
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                  >
+                    Temizle
+                  </button>
+                </div>
               </div>
               <div>
                 <label
@@ -418,8 +441,8 @@ export default function SparePartsPage() {
                 </select>
                 <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                   {selectedModel === 'Tumu'
-                    ? 'Model secerek uyumlu parcalari listele.'
-                    : `${selectedModelInfo?.label} icin filtreleniyor.`}
+                    ? 'Model secerek uyumluluk listele.'
+                    : `${selectedModelInfo?.label} filtreleniyor.`}
                 </p>
               </div>
               <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-xs text-teal-900 dark:border-teal-400/40 dark:bg-slate-900/70 dark:text-teal-200">
