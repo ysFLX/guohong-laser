@@ -181,7 +181,7 @@ export default function Home() {
         />
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px] dark:opacity-20 dark:[background-image:linear-gradient(120deg,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.12)_1px,transparent_1px)]" />
 
-        <Reveal as="section" className="relative mx-auto max-w-7xl px-4 pb-10 pt-12 sm:px-6 lg:px-8">
+        <Reveal as="section" className="relative mx-auto w-full px-0 pb-10 pt-12">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] uppercase tracking-[0.4em] text-slate-500 shadow-sm dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300">
@@ -253,7 +253,7 @@ export default function Home() {
         </Reveal>
       </div>
 
-      <Reveal as="section" className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-12 w-full px-0">
         <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -273,7 +273,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto w-full px-0">
         <div className="grid gap-4 rounded-[36px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3 dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
           {commerceTiles.map((tile) => (
             <Link
@@ -294,7 +294,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
@@ -365,7 +365,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
             <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Urun spotlight</p>
@@ -406,7 +406,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-teal-50/50 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -441,7 +441,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 grid w-full gap-6 px-0 lg:grid-cols-2">
         <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
           <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Is akisi</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">4 adimda devreye alma</h2>
@@ -486,7 +486,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 grid w-full gap-5 px-0 lg:grid-cols-2">
         {testimonials.map((item) => (
           <div key={item.name} className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
             <div className="flex items-center gap-4">
@@ -503,7 +503,7 @@ export default function Home() {
         ))}
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -533,7 +533,7 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0 pb-16">
         <div className="grid gap-6 rounded-[36px] border border-white/10 bg-gradient-to-r from-slate-900 via-teal-900/60 to-slate-900 p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
