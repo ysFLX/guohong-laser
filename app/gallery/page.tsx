@@ -1,15 +1,18 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Reveal from '@/components/home/Reveal';
 
 type GalleryImage = {
   src: string;
   alt: string;
+  tag: string;
 };
 
 export default function GalleryPage() {
+  const tagPool = ['Kurulum', 'Uretim', 'Detay', 'Makine'];
+
   const galleryImages = [
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/1.jpg',
@@ -99,10 +102,48 @@ export default function GalleryPage() {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/22.jpg',
       alt: 'Calisma alani',
     },
-  ] as GalleryImage[];
+  ].map((item, index) => ({ ...item, tag: tagPool[index % tagPool.length] })) as GalleryImage[];
 
+  const [activeTag, setActiveTag] = useState('Tumu');
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const activeImage = activeIndex !== null ? galleryImages[activeIndex] : null;
+
+  const filteredImages = useMemo(
+    () => (activeTag === 'Tumu' ? galleryImages : galleryImages.filter((item) => item.tag === activeTag)),
+    [activeTag, galleryImages],
+  );
+
+  const activeImage = activeIndex !== null ? filteredImages[activeIndex] : null;
+
+  useEffect(() => {
+    setActiveIndex(null);
+  }, [activeTag]);
+
+  const goPrev = () => {
+    if (activeIndex === null || filteredImages.length === 0) return;
+    setActiveIndex((prev) => (prev === null ? prev : (prev - 1 + filteredImages.length) % filteredImages.length));
+  };
+
+  const goNext = () => {
+    if (activeIndex === null || filteredImages.length === 0) return;
+    setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % filteredImages.length));
+  };
+
+  const getSpanClass = (index: number) => {
+    switch (index % 6) {
+      case 0:
+        return 'md:col-span-6 lg:col-span-6 row-span-2';
+      case 1:
+        return 'md:col-span-3 lg:col-span-3 row-span-2';
+      case 2:
+        return 'md:col-span-3 lg:col-span-3 row-span-1';
+      case 3:
+        return 'md:col-span-4 lg:col-span-4 row-span-2';
+      case 4:
+        return 'md:col-span-4 lg:col-span-4 row-span-1';
+      default:
+        return 'md:col-span-4 lg:col-span-4 row-span-1';
+    }
+  };
 
   return (
     <div className="min-h-screen space-y-16">
@@ -117,29 +158,59 @@ export default function GalleryPage() {
           <p className="max-w-2xl text-base text-white/70">
             Lazer kesim hatlarindan gercek kurulum fotograflari ve calisma sahalarindan kareler.
           </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {['22+ saha cekimi', 'Canli kurulum goruntuleri', 'Makine detaylari'].map((item) => (
+              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       </Reveal>
 
-      <Reveal as="section" className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {galleryImages.map((item, index) => (
-          <Reveal key={item.src} as="div" delay={120 + index * 40}>
+      <Reveal as="section" className="space-y-6">
+        <div className="flex flex-wrap items-center gap-3">
+          {['Tumu', ...tagPool].map((tag) => (
             <button
+              key={tag}
               type="button"
-              onClick={() => setActiveIndex(index)}
-              className="group relative overflow-hidden rounded-[24px] border border-slate-200/70 bg-white/90 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              onClick={() => setActiveTag(tag)}
+              className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                activeTag === tag
+                  ? 'bg-teal-500 text-slate-900'
+                  : 'border border-slate-200 bg-white/80 text-slate-600 hover:border-slate-300 hover:text-slate-900'
+              }`}
             >
-              <div className="rounded-[18px] border border-slate-100 bg-white p-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  loading="lazy"
-                  className="h-64 w-full rounded-[14px] object-cover transition duration-500 group-hover:scale-[1.04]"
-                />
-              </div>
+              {tag}
             </button>
-          </Reveal>
-        ))}
+          ))}
+        </div>
+
+        <div className="grid auto-rows-[180px] grid-cols-2 gap-5 sm:auto-rows-[200px] md:auto-rows-[220px] md:grid-cols-6 lg:auto-rows-[240px] lg:grid-cols-12">
+          {filteredImages.map((item, index) => (
+            <Reveal key={item.src} as="div" delay={120 + index * 40} className={`col-span-2 ${getSpanClass(index)}`}>
+              <button
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                className="group relative h-full w-full overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="relative h-full w-full rounded-[20px] border border-slate-100 bg-white p-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    className="h-full w-full rounded-[14px] object-cover transition duration-500 group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-2 rounded-[14px] bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+                    {item.tag}
+                  </div>
+                </div>
+              </button>
+            </Reveal>
+          ))}
+        </div>
       </Reveal>
 
       {activeImage && (
@@ -161,6 +232,28 @@ export default function GalleryPage() {
             <div className="rounded-[28px] bg-white p-3 shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={activeImage.src} alt={activeImage.alt} className="max-h-[75vh] w-full object-contain" />
+            </div>
+            <div className="mt-4 flex items-center justify-between text-xs uppercase tracking-[0.2em] text-white/70">
+              <span>{activeImage.tag}</span>
+              <span>
+                {(activeIndex ?? 0) + 1} / {filteredImages.length}
+              </span>
+            </div>
+            <div className="mt-4 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/50"
+              >
+                Onceki
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/50"
+              >
+                Sonraki
+              </button>
             </div>
           </div>
         </div>
