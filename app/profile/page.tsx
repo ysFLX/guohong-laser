@@ -275,6 +275,23 @@ export default function ProfilePage() {
               </Link>
             </div>
           </div>
+          <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+            <div className="text-sm font-semibold text-slate-900">Durum ozeti</div>
+            <div className="mt-3 grid gap-3 text-xs text-slate-600">
+              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+                <span>Profil tamamlama</span>
+                <span className="font-semibold text-slate-900">{profileComplete ? 'Hazir' : 'Eksik'}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+                <span>Adres durumu</span>
+                <span className="font-semibold text-slate-900">{hasAddress ? 'Kayitli' : 'Yok'}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+                <span>Uyeligi</span>
+                <span className="font-semibold text-slate-900">{roleLabel}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
@@ -348,6 +365,43 @@ export default function ProfilePage() {
           </div>
         </div>
 
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+          <div className="text-sm font-semibold text-slate-900">Hesap guvenligi</div>
+          <p className="mt-2 text-sm text-slate-600">
+            Sifreni duzenli degistir, taninmayan cihazlarda oturum acma.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2 text-xs">
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">Sifre gucu</span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">Oturum takibi</span>
+          </div>
+        </div>
+        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+          <div className="text-sm font-semibold text-slate-900">Bildirim tercihleri</div>
+          <p className="mt-2 text-sm text-slate-600">
+            Siparis durumlari ve kampanyalar icin bildirim ayarlarini duzenle.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2 text-xs">
+            <span className="rounded-full bg-teal-50 px-3 py-1 text-teal-700">E-posta</span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">Site ici</span>
+          </div>
+        </div>
+        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+          <div className="text-sm font-semibold text-slate-900">Yardim ve destek</div>
+          <p className="mt-2 text-sm text-slate-600">
+            Teknik destek, teklif ve kurulum sorularin icin hizli erisim.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2 text-xs">
+            <Link href="/contact" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
+              Destek al
+            </Link>
+            <Link href="/quote" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
+              Teklif iste
+            </Link>
+          </div>
+        </div>
       </div>
 
       {saveError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{saveError}</div>}
