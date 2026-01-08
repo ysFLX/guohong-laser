@@ -205,7 +205,69 @@ export default function ProfilePage() {
   const userName = `${profile?.firstName ?? ''} ${profile?.lastName ?? ''}`.trim();
   const profileComplete = (session.user as SessionUserWithRole).profileComplete;
   const avatarUrl = profile?.image ?? session.user.image ?? null;
-  const roleLabel = (session.user as SessionUserWithRole).role === 'ADMIN' ? 'Admin' : 'Musteri';
+  const copy =
+    prefs.language === 'EN'
+      ? {
+          summaryTitle: 'Account summary',
+          profileStatus: 'Profile status',
+          addressStatus: 'Address status',
+          membership: 'Membership',
+          statusReady: 'Ready',
+          statusMissing: 'Missing',
+          addressReady: 'Saved',
+          addressMissing: 'None',
+          securityTitle: 'Security',
+          securityBody: 'Change your password regularly, avoid unknown devices.',
+          twoFactor: 'Two-factor auth',
+          sessionTracking: 'Session tracking',
+          notifyTitle: 'Notifications',
+          notifyBody: 'Manage order updates and campaign alerts.',
+          emailNotify: 'Email',
+          inAppNotify: 'In-app',
+          promoNotify: 'Promotions',
+          prefsTitle: 'Preferences',
+          prefsBody: 'Language and account sync settings.',
+          language: 'Default language',
+          sync: 'Account sync',
+          on: 'On',
+          off: 'Off',
+          savedNote: 'Saved on this device',
+          support: 'Support',
+          quote: 'Request quote',
+        }
+      : {
+          summaryTitle: 'Durum ozeti',
+          profileStatus: 'Profil tamamlama',
+          addressStatus: 'Adres durumu',
+          membership: 'Uyeligi',
+          statusReady: 'Hazir',
+          statusMissing: 'Eksik',
+          addressReady: 'Kayitli',
+          addressMissing: 'Yok',
+          securityTitle: 'Hesap guvenligi',
+          securityBody: 'Sifreni duzenli degistir, taninmayan cihazlarda oturum acma.',
+          twoFactor: 'Iki adimli dogrulama',
+          sessionTracking: 'Oturum takibi',
+          notifyTitle: 'Bildirim tercihleri',
+          notifyBody: 'Siparis durumlari ve kampanyalar icin bildirim ayarlarini duzenle.',
+          emailNotify: 'E-posta',
+          inAppNotify: 'Site ici',
+          promoNotify: 'Kampanya bildirimi',
+          prefsTitle: 'Tercihler',
+          prefsBody: 'Dil, gorunum ve hesap senkronu ayarlari.',
+          language: 'Varsayilan dil',
+          sync: 'Hesap senkronu',
+          on: 'Acik',
+          off: 'Kapali',
+          savedNote: 'Bu cihazda kaydedilir',
+          support: 'Destek al',
+          quote: 'Teklif iste',
+        };
+  const roleLabel = (session.user as SessionUserWithRole).role === 'ADMIN'
+    ? 'Admin'
+    : prefs.language === 'EN'
+      ? 'Customer'
+      : 'Musteri';
   const hasAddress = showAddress;
 
   return (
@@ -300,18 +362,18 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
-            <div className="text-sm font-semibold text-slate-900">Durum ozeti</div>
+            <div className="text-sm font-semibold text-slate-900">{copy.summaryTitle}</div>
             <div className="mt-3 grid gap-3 text-xs text-slate-600">
               <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <span>Profil tamamlama</span>
-                <span className="font-semibold text-slate-900">{profileComplete ? 'Hazir' : 'Eksik'}</span>
+                <span>{copy.profileStatus}</span>
+                <span className="font-semibold text-slate-900">{profileComplete ? copy.statusReady : copy.statusMissing}</span>
               </div>
               <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <span>Adres durumu</span>
-                <span className="font-semibold text-slate-900">{hasAddress ? 'Kayitli' : 'Yok'}</span>
+                <span>{copy.addressStatus}</span>
+                <span className="font-semibold text-slate-900">{hasAddress ? copy.addressReady : copy.addressMissing}</span>
               </div>
               <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <span>Uyeligi</span>
+                <span>{copy.membership}</span>
                 <span className="font-semibold text-slate-900">{roleLabel}</span>
               </div>
             </div>
@@ -393,42 +455,38 @@ export default function ProfilePage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
-          <div className="text-sm font-semibold text-slate-900">Hesap guvenligi</div>
-          <p className="mt-2 text-sm text-slate-600">
-            Sifreni duzenli degistir, taninmayan cihazlarda oturum acma.
-          </p>
+          <div className="text-sm font-semibold text-slate-900">{copy.securityTitle}</div>
+          <p className="mt-2 text-sm text-slate-600">{copy.securityBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
             <button
               type="button"
               onClick={() => setPrefs((prev) => ({ ...prev, twoFactor: !prev.twoFactor }))}
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
-              <span>Iki adimli dogrulama</span>
+              <span>{copy.twoFactor}</span>
               <span className={`font-semibold ${prefs.twoFactor ? 'text-teal-700' : 'text-slate-500'}`}>
-                {prefs.twoFactor ? 'Acik' : 'Kapali'}
+                {prefs.twoFactor ? copy.on : copy.off}
               </span>
             </button>
             <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>Oturum takibi</span>
-              <span className="font-semibold text-slate-700">Aktif</span>
+              <span>{copy.sessionTracking}</span>
+              <span className="font-semibold text-slate-700">{copy.on}</span>
             </div>
           </div>
-          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">Otomatik kaydedilir</div>
+          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
         </div>
         <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
-          <div className="text-sm font-semibold text-slate-900">Bildirim tercihleri</div>
-          <p className="mt-2 text-sm text-slate-600">
-            Siparis durumlari ve kampanyalar icin bildirim ayarlarini duzenle.
-          </p>
+          <div className="text-sm font-semibold text-slate-900">{copy.notifyTitle}</div>
+          <p className="mt-2 text-sm text-slate-600">{copy.notifyBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
             <button
               type="button"
               onClick={() => setPrefs((prev) => ({ ...prev, emailNotify: !prev.emailNotify }))}
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
-              <span>E-posta</span>
+              <span>{copy.emailNotify}</span>
               <span className={`font-semibold ${prefs.emailNotify ? 'text-teal-700' : 'text-slate-500'}`}>
-                {prefs.emailNotify ? 'Acik' : 'Kapali'}
+                {prefs.emailNotify ? copy.on : copy.off}
               </span>
             </button>
             <button
@@ -436,9 +494,9 @@ export default function ProfilePage() {
               onClick={() => setPrefs((prev) => ({ ...prev, inAppNotify: !prev.inAppNotify }))}
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
-              <span>Site ici</span>
+              <span>{copy.inAppNotify}</span>
               <span className={`font-semibold ${prefs.inAppNotify ? 'text-teal-700' : 'text-slate-500'}`}>
-                {prefs.inAppNotify ? 'Acik' : 'Kapali'}
+                {prefs.inAppNotify ? copy.on : copy.off}
               </span>
             </button>
             <button
@@ -446,22 +504,20 @@ export default function ProfilePage() {
               onClick={() => setPrefs((prev) => ({ ...prev, promoNotify: !prev.promoNotify }))}
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
-              <span>Kampanya bildirimi</span>
+              <span>{copy.promoNotify}</span>
               <span className={`font-semibold ${prefs.promoNotify ? 'text-teal-700' : 'text-slate-500'}`}>
-                {prefs.promoNotify ? 'Acik' : 'Kapali'}
+                {prefs.promoNotify ? copy.on : copy.off}
               </span>
             </button>
           </div>
-          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">Otomatik kaydedilir</div>
+          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
         </div>
         <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
-          <div className="text-sm font-semibold text-slate-900">Tercihler</div>
-          <p className="mt-2 text-sm text-slate-600">
-            Dil, gorunum ve hesap senkronu ayarlari.
-          </p>
+          <div className="text-sm font-semibold text-slate-900">{copy.prefsTitle}</div>
+          <p className="mt-2 text-sm text-slate-600">{copy.prefsBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
             <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>Varsayilan dil</span>
+              <span>{copy.language}</span>
               <select
                 value={prefs.language}
                 onChange={(e) => setPrefs((prev) => ({ ...prev, language: e.target.value }))}
@@ -472,16 +528,16 @@ export default function ProfilePage() {
               </select>
             </div>
             <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>Hesap senkronu</span>
-              <span className="font-semibold text-slate-700">Aktif</span>
+              <span>{copy.sync}</span>
+              <span className="font-semibold text-slate-700">{copy.on}</span>
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             <Link href="/contact" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
-              Destek al
+              {copy.support}
             </Link>
             <Link href="/quote" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
-              Teklif iste
+              {copy.quote}
             </Link>
           </div>
         </div>
