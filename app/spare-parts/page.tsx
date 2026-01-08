@@ -92,6 +92,7 @@ export default function SparePartsPage() {
   const [selectedModel, setSelectedModel] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(24);
+  const [sortOption, setSortOption] = useState('recommended');
 
   const [items, setItems] = useState<SparePart[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -221,14 +222,41 @@ export default function SparePartsPage() {
     });
   }, [items, selectedCategory, selectedModel, searchQuery]);
 
+  const sorted = useMemo(() => {
+    const list = [...filtered];
+    switch (sortOption) {
+      case 'price-asc':
+        list.sort((a, b) => a.priceCents - b.priceCents);
+        break;
+      case 'price-desc':
+        list.sort((a, b) => b.priceCents - a.priceCents);
+        break;
+      case 'rating-desc':
+        list.sort((a, b) => {
+          const scoreA = a.ratingCount > 0 ? a.ratingAverage : 0;
+          const scoreB = b.ratingCount > 0 ? b.ratingAverage : 0;
+          if (scoreB !== scoreA) return scoreB - scoreA;
+          return b.ratingCount - a.ratingCount;
+        });
+        break;
+      case 'name-asc':
+        list.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+        break;
+      default:
+        list.sort((a, b) => Number(b.isFeatured) - Number(a.isFeatured));
+        break;
+    }
+    return list;
+  }, [filtered, sortOption]);
+
   const visibleItems = useMemo(
-    () => filtered.slice(0, Math.min(visibleCount, filtered.length)),
-    [filtered, visibleCount],
+    () => sorted.slice(0, Math.min(visibleCount, sorted.length)),
+    [sorted, visibleCount],
   );
 
   useEffect(() => {
     setVisibleCount(24);
-  }, [selectedCategory, selectedModel, searchQuery]);
+  }, [selectedCategory, selectedModel, searchQuery, sortOption]);
 
   useEffect(() => {
     const target = loadMoreRef.current;
@@ -238,8 +266,8 @@ export default function SparePartsPage() {
       (entries) => {
         if (!entries[0]?.isIntersecting) return;
         setVisibleCount((prev) => {
-          if (prev >= filtered.length) return prev;
-          return Math.min(prev + 24, filtered.length);
+          if (prev >= sorted.length) return prev;
+          return Math.min(prev + 24, sorted.length);
         });
       },
       { rootMargin: '200px' },
@@ -247,7 +275,7 @@ export default function SparePartsPage() {
 
     observer.observe(target);
     return () => observer.disconnect();
-  }, [filtered.length]);
+  }, [sorted.length]);
 
 
   const selectedModelInfo = useMemo(
@@ -402,6 +430,36 @@ export default function SparePartsPage() {
         </aside>
 
         <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
+                Urun listesi
+              </p>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                {isLoading ? 'Yukleniyor...' : `${filtered.length} urun bulundu`}
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <label
+                htmlFor="sortSelect"
+                className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+              >
+                Siralama
+              </label>
+              <select
+                id="sortSelect"
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
+              >
+                <option value="recommended">One cikanlar</option>
+                <option value="price-asc">Fiyat (artan)</option>
+                <option value="price-desc">Fiyat (azalan)</option>
+                <option value="rating-desc">Puan (yuksek)</option>
+                <option value="name-asc">Isim (A-Z)</option>
+              </select>
+            </div>
+          </div>
           {loadError && (
             <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-red-700">{loadError}</div>
           )}
@@ -541,7 +599,7 @@ export default function SparePartsPage() {
         </div>
       </section>
 
-      {!isLoading && !loadError && visibleCount < filtered.length && (
+      {!isLoading && !loadError && visibleCount < sorted.length && (
         <div ref={loadMoreRef} aria-hidden className="h-1" />
       )}
 
