@@ -242,7 +242,7 @@ export default function Home() {
                 </div>
               </div>
               <div
-                className="absolute -bottom-6 -left-6 hidden rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80 float-soft"
+                className="absolute right-6 top-6 hidden max-w-[220px] rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80 float-soft"
                 style={{ animationDelay: '320ms' }}
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
