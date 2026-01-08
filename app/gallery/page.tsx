@@ -128,23 +128,6 @@ export default function GalleryPage() {
     setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % filteredImages.length));
   };
 
-  const getSpanClass = (index: number) => {
-    switch (index % 6) {
-      case 0:
-        return 'md:col-span-6 lg:col-span-6 row-span-2';
-      case 1:
-        return 'md:col-span-3 lg:col-span-3 row-span-2';
-      case 2:
-        return 'md:col-span-3 lg:col-span-3 row-span-1';
-      case 3:
-        return 'md:col-span-4 lg:col-span-4 row-span-2';
-      case 4:
-        return 'md:col-span-4 lg:col-span-4 row-span-1';
-      default:
-        return 'md:col-span-4 lg:col-span-4 row-span-1';
-    }
-  };
-
   return (
     <div className="min-h-screen space-y-16">
       <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
@@ -158,13 +141,6 @@ export default function GalleryPage() {
           <p className="max-w-2xl text-base text-white/70">
             Lazer kesim hatlarindan gercek kurulum fotograflari ve calisma sahalarindan kareler.
           </p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {['22+ saha cekimi', 'Canli kurulum goruntuleri', 'Makine detaylari'].map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
-                {item}
-              </div>
-            ))}
-          </div>
         </div>
       </Reveal>
 
@@ -186,15 +162,15 @@ export default function GalleryPage() {
           ))}
         </div>
 
-        <div className="grid auto-rows-[180px] grid-cols-2 gap-5 sm:auto-rows-[200px] md:auto-rows-[220px] md:grid-cols-6 lg:auto-rows-[240px] lg:grid-cols-12">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredImages.map((item, index) => (
-            <Reveal key={item.src} as="div" delay={120 + index * 40} className={`col-span-2 ${getSpanClass(index)}`}>
+            <Reveal key={item.src} as="div" delay={120 + index * 40}>
               <button
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className="group relative h-full w-full overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group relative w-full overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="relative h-full w-full rounded-[20px] border border-slate-100 bg-white p-2">
+                <div className="relative h-56 w-full rounded-[20px] border border-slate-100 bg-white p-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.src}
