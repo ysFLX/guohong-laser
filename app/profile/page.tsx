@@ -181,13 +181,17 @@ export default function ProfilePage() {
   const userName = `${profile?.firstName ?? ''} ${profile?.lastName ?? ''}`.trim();
   const profileComplete = (session.user as SessionUserWithRole).profileComplete;
   const avatarUrl = profile?.image ?? session.user.image ?? null;
+  const roleLabel = (session.user as SessionUserWithRole).role === 'ADMIN' ? 'Admin' : 'Musteri';
+  const hasAddress = showAddress;
 
   return (
-    <div className="min-h-screen space-y-8">
-      <div className="rounded-[32px] bg-slate-950 px-6 py-8 text-white shadow-2xl">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="min-h-screen space-y-10">
+      <div className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.35),_transparent_60%)] opacity-80" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.3))]" />
+        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-4">
-            <div className="h-14 w-14 rounded-full bg-teal-400 text-slate-900 flex items-center justify-center font-semibold text-lg overflow-hidden">
+            <div className="h-16 w-16 rounded-2xl bg-white/10 text-white flex items-center justify-center font-semibold text-lg overflow-hidden">
               {avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={avatarUrl} alt="Profil fotografi" className="h-full w-full object-cover" />
@@ -198,12 +202,11 @@ export default function ProfilePage() {
             <div>
               <h1 className="text-2xl font-semibold">{userName || 'Hesabim'}</h1>
               <div className="mt-1 text-sm text-white/70">
-                {profile?.email ?? session.user.email ?? ''}
-                {(session.user as SessionUserWithRole).role === 'ADMIN' ? ' - Admin' : ''}
+                {profile?.email ?? session.user.email ?? ''} • {roleLabel}
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
                 profileComplete ? 'bg-teal-400/20 text-teal-200' : 'bg-yellow-400/20 text-yellow-100'
@@ -217,13 +220,63 @@ export default function ProfilePage() {
             >
               Adreslerim
             </Link>
+            <Link
+              href="/profile/orders"
+              className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
+            >
+              Siparislerim
+            </Link>
+          </div>
+        </div>
+        <div className="relative mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-teal-200">Profil durumu</div>
+            <div className="mt-2 text-sm font-semibold text-white">{profileComplete ? 'Hazir' : 'Eksik bilgiler var'}</div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-teal-200">Adres durumu</div>
+            <div className="mt-2 text-sm font-semibold text-white">{hasAddress ? 'Kayitli adres var' : 'Adres eklenmedi'}</div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-teal-200">Uyeligi</div>
+            <div className="mt-2 text-sm font-semibold text-white">{roleLabel}</div>
           </div>
         </div>
       </div>
 
       {loadError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{loadError}</div>}
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[340px_1fr]">
+        <div className="space-y-4">
+          <ProfileAvatarUploader
+            imageUrl={avatarUrl}
+            onUpdated={(url) => setProfile((p) => (p ? { ...p, image: url } : p))}
+          />
+          <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+            <div className="text-sm font-semibold text-slate-900">Hizli erisim</div>
+            <div className="mt-3 grid gap-2">
+              <Link
+                href="/profile/favorites"
+                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Favorilerim
+              </Link>
+              <Link
+                href="/profile/orders"
+                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Siparislerim
+              </Link>
+              <Link
+                href="/profile/addresses"
+                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Adreslerim
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
           <div>
             <div className="text-sm font-semibold text-slate-900">Kisisel bilgiler</div>
@@ -295,35 +348,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <ProfileAvatarUploader
-            imageUrl={avatarUrl}
-            onUpdated={(url) => setProfile((p) => (p ? { ...p, image: url } : p))}
-          />
-          <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
-            <div className="text-sm font-semibold text-slate-900">Hizli erisim</div>
-            <div className="mt-3 grid gap-2">
-              <Link
-                href="/profile/favorites"
-                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Favorilerim
-              </Link>
-              <Link
-                href="/profile/orders"
-                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Siparislerim
-              </Link>
-              <Link
-                href="/profile/addresses"
-                className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Adreslerim
-              </Link>
-            </div>
-          </div>
-        </div>
       </div>
 
       {saveError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{saveError}</div>}
