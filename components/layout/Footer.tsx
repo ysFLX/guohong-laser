@@ -22,21 +22,21 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className={`absolute -top-24 right-10 h-56 w-56 rounded-full ${accent.glow} blur-3xl dark:bg-teal-500/20`} />
-        <div className={`absolute -bottom-24 left-10 h-64 w-64 rounded-full ${accent.glowMuted} blur-3xl dark:bg-teal-500/10`} />
+        <div className={`absolute -top-28 right-10 h-64 w-64 rounded-full ${accent.glow} blur-[140px] dark:bg-teal-500/20`} />
+        <div className={`absolute -bottom-24 left-10 h-72 w-72 rounded-full ${accent.glowMuted} blur-[160px] dark:bg-teal-500/10`} />
         <div className="absolute inset-0 opacity-30 dark:opacity-20 bg-[linear-gradient(90deg,_rgba(15,23,42,0.08)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.08)_1px,_transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
       <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`border-t ${accent.border} dark:border-teal-500/20`} />
 
-        <div className="grid gap-8 py-12 lg:grid-cols-[1.2fr_1fr]">
+        <div className="grid gap-10 py-12 lg:grid-cols-[1.1fr_1.3fr]">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logoacik.png" alt="Guohong Lazer" className="h-16 w-auto block dark:hidden" />
+              <img src="/images/logoacik.png" alt="Guohong Lazer" className="h-14 w-auto block dark:hidden" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-16 w-auto hidden dark:block" />
+              <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-14 w-auto hidden dark:block" />
               <div>
                 <div className="text-xl font-semibold tracking-tight">Guohong Lazer</div>
                 <div className="text-sm text-slate-600 dark:text-slate-300">Lazer makineleri, yedek parca ve teknik destek.</div>
@@ -47,6 +47,17 @@ export default function Footer() {
               Uretim hattinizi hizlandiran lazer teknolojileri, guvenilir servis ve hizli tedarik ile tek noktadan cozum.
               Projelere ozel teknik destek ve hizli teklif sureci sunuyoruz.
             </p>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hizli hatlar</div>
+                <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">24 saat teklif + stoklu tedarik</div>
+              </div>
+              <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Destek</div>
+                <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">Kurulum, servis ve uzaktan teshis</div>
+              </div>
+            </div>
 
             <div className="flex flex-wrap gap-3">
               <Link href="/quote" className={`inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white ${accent.primaryBtn}`}>
@@ -59,27 +70,21 @@ export default function Footer() {
                 WhatsApp Hatti
               </a>
             </div>
-
-            <div className="flex flex-wrap gap-2">
-              <div className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:bg-slate-900 dark:text-slate-300">24 Saat Teklif</div>
-              <div className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:bg-slate-900 dark:text-slate-300">Kurulum + Servis</div>
-              <div className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:bg-slate-900 dark:text-slate-300">Stoklu Yedek Parca</div>
-            </div>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200/70 bg-white/70 p-5 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/60">
+            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hizli Linkler</div>
-              <div className="mt-4 space-y-2 text-sm">
-                <Link href="/about" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Hakkimizda</Link>
-                <Link href="/products" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Makineler</Link>
-                <Link href="/spare-parts" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yedek Parcalar</Link>
-                <Link href="/gallery" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Galeri</Link>
-                <Link href="/contact" className={`block text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Iletisim</Link>
+              <div className="mt-4 grid gap-2 text-sm">
+                <Link href="/about" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Hakkimizda</Link>
+                <Link href="/products" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Makineler</Link>
+                <Link href="/spare-parts" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yedek Parcalar</Link>
+                <Link href="/gallery" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Galeri</Link>
+                <Link href="/contact" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Iletisim</Link>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/70 bg-white/70 p-5 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/60">
+            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Iletisim</div>
               <div className="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                 <div>Telefon: +90 536 831 67 87</div>
