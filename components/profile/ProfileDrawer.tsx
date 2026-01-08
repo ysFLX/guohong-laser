@@ -2,12 +2,21 @@
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; close: () => void }) {
   const { data } = useSession();
   const user = data?.user;
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div className={`fixed inset-0 z-[70] ${isOpen ? '' : 'pointer-events-none'}`}>
       <div
         className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-200 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
@@ -94,6 +103,7 @@ export default function ProfileDrawer({ isOpen, close }: { isOpen: boolean; clos
           </div>
         </div>
       </aside>
-    </div>
+    </div>,
+    document.body,
   );
 }
