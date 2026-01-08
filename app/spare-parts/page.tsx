@@ -496,7 +496,7 @@ export default function SparePartsPage() {
                 return (
                   <div
                     key={p.id}
-                    className="group relative overflow-hidden rounded-[30px] border border-slate-200/70 bg-white/95 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.6)] transition hover:-translate-y-1 hover:border-teal-200 dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-teal-400/50"
+                    className="group relative overflow-hidden rounded-[30px] border border-slate-200/70 bg-white/95 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.6)] ring-1 ring-transparent transition hover:-translate-y-1 hover:border-teal-200 hover:ring-teal-200/40 dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-teal-400/50"
                   >
                     <Link href={`/spare-parts/${p.id}`} className="block">
                       <div className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
