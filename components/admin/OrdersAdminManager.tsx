@@ -416,14 +416,6 @@ export default function OrdersAdminManager() {
                                   E-posta gonder
                                 </a>
                               )}
-                              {order.shippingAddress?.phone && (
-                                <a
-                                  href={`tel:${order.shippingAddress.phone}`}
-                                  className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300 hover:text-slate-900"
-                                >
-                                  Ara
-                                </a>
-                              )}
                             </div>
                           </div>
                         </div>
