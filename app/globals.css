@@ -129,6 +129,49 @@ select:focus-visible {
   box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.2);
 }
 
+.form-alert {
+  border-radius: 12px;
+  border: 1px solid;
+  padding: 12px;
+  font-size: 0.875rem;
+}
+
+.form-alert--success {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.form-alert--error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.form-alert--info {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e3a8a;
+}
+
+:root.dark .form-alert--success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #99f6e4;
+}
+
+:root.dark .form-alert--error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fecaca;
+}
+
+:root.dark .form-alert--info {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #bfdbfe;
+}
+
 .card-surface {
   background: var(--surface);
   border: 1px solid var(--surface-border);

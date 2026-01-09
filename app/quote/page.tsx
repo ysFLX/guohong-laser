@@ -124,10 +124,8 @@ export default function QuotePage() {
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         {submitStatus && (
           <div
-            className={`mb-6 rounded-xl border p-4 text-sm ${
-              submitStatus.success
-                ? 'border-teal-200 bg-teal-50 text-teal-800'
-                : 'border-red-200 bg-red-50 text-red-700'
+            className={`mb-6 form-alert ${
+              submitStatus.success ? 'form-alert--success' : 'form-alert--error'
             }`}
           >
             {submitStatus.message}
@@ -272,11 +270,7 @@ export default function QuotePage() {
             </div>
           )}
 
-          {info && (
-            <div className="rounded-xl border border-teal-100 bg-teal-50 p-3 text-center text-sm text-teal-700">
-              {info}
-            </div>
-          )}
+            {info && <div className="form-alert form-alert--info text-center">{info}</div>}
 
           <div className="flex items-center justify-end gap-x-3">
             <button

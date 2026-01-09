@@ -70,17 +70,9 @@ export default function ForgotPasswordPage() {
                 />
               </div>
 
-              {success && (
-                <div className="rounded-xl border border-teal-200/30 bg-teal-400/10 p-3 text-sm text-teal-100">
-                  {success}
-                </div>
-              )}
+              {success && <div className="form-alert form-alert--success">{success}</div>}
 
-              {error && (
-                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
-                  {error}
-                </div>
-              )}
+              {error && <div className="form-alert form-alert--error">{error}</div>}
 
               <div>
                 <button

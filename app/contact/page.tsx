@@ -141,17 +141,15 @@ export default function ContactPage() {
             as="section"
             className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]"
           >
-            {submitStatus && (
-              <div
-                className={`mb-6 rounded-xl border p-4 text-sm ${
-                  submitStatus.success
-                    ? 'border-teal-200 bg-teal-50 text-teal-800'
-                    : 'border-red-200 bg-red-50 text-red-700'
-                }`}
-              >
-                {submitStatus.message}
-              </div>
-            )}
+          {submitStatus && (
+            <div
+              className={`mb-6 form-alert ${
+                submitStatus.success ? 'form-alert--success' : 'form-alert--error'
+              }`}
+            >
+              {submitStatus.message}
+            </div>
+          )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
@@ -273,11 +271,7 @@ export default function ContactPage() {
                 </div>
               )}
 
-              {info && (
-                <div className="rounded-xl border border-teal-100 bg-teal-50 p-3 text-center text-sm text-teal-700">
-                  {info}
-                </div>
-              )}
+            {info && <div className="form-alert form-alert--info text-center">{info}</div>}
 
               <div className="pt-2">
                 <button

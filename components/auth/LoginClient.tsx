@@ -102,12 +102,12 @@ export default function LoginClient() {
             </div>
 
             {registered && (
-              <div className="mt-6 rounded-xl border border-teal-200/40 bg-teal-400/10 p-3 text-sm text-teal-100">
+              <div className="mt-6 form-alert form-alert--success">
                 Kayit basarili. Simdi giris yapabilirsiniz.
               </div>
             )}
             {resetDone && (
-              <div className="mt-4 rounded-xl border border-teal-200/40 bg-teal-400/10 p-3 text-sm text-teal-100">
+              <div className="mt-4 form-alert form-alert--success">
                 Parola guncellendi. Simdi giris yapabilirsiniz.
               </div>
             )}
@@ -203,15 +203,9 @@ export default function LoginClient() {
                 )}
               </div>
 
-              {info && (
-                <div className="rounded-xl border border-teal-200/30 bg-teal-500/10 p-3 text-sm text-teal-100">
-                  {info}
-                </div>
-              )}
+              {info && <div className="form-alert form-alert--info">{info}</div>}
               {error && (
-                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
-                  {error}
-                </div>
+                <div className="form-alert form-alert--error">{error}</div>
               )}
 
               <div>

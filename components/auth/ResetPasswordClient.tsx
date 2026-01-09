@@ -109,11 +109,7 @@ export default function ResetPasswordClient() {
                 </div>
               </div>
 
-              {error && (
-                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
-                  {error}
-                </div>
-              )}
+              {error && <div className="form-alert form-alert--error">{error}</div>}
 
               <div>
                 <button
