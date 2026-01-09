@@ -69,7 +69,8 @@ export const authOptions: NextAuthOptions = {
         try {
           const email = credentials?.email?.trim().toLowerCase();
           const password = credentials?.password;
-          const otp = credentials?.otp?.trim();
+          const otpRaw = credentials?.otp?.trim();
+          const otp = otpRaw && /^\d{6}$/.test(otpRaw) ? otpRaw : '';
 
           if (!email || !password) {
             throw new Error('Lutfen e-posta ve sifre giriniz');

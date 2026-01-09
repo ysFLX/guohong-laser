@@ -29,7 +29,7 @@ export default function LoginClient() {
         redirect: false,
         email,
         password,
-        otp: step === 'otp' ? otp : undefined,
+        ...(step === 'otp' ? { otp } : {}),
       });
 
       if (result?.error) {
