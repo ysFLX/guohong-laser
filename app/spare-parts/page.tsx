@@ -475,7 +475,7 @@ export default function SparePartsPage() {
                 onChange={(e) => setSortOption(e.target.value)}
                 className="rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
               >
-                <option value="recommended">One cikanlar</option>
+                <option value="recommended">Öne cikanlar</option>
                 <option value="price-asc">Fiyat (artan)</option>
                 <option value="price-desc">Fiyat (azalan)</option>
                 <option value="rating-desc">Puan (yuksek)</option>
