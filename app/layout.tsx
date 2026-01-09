@@ -15,10 +15,29 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
-  description: "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+  description:
+    "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
   keywords: "lazer makinesi, yedek parca, lazer kesim, lazer kazima, endustriyel lazer",
+  openGraph: {
+    title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
+    description:
+      "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+    url: siteUrl,
+    siteName: "Guohong Lazer",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
+    description:
+      "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+  },
   icons: {
     icon: "/images/logokoyu.png",
     shortcut: "/images/logokoyu.png",
