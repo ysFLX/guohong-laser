@@ -86,10 +86,6 @@ export default function ProfilePage() {
     taxOffice: '',
     taxNumber: '',
     eInvoice: false,
-    deliveryNote: '',
-    weekendDelivery: false,
-    callBeforeDelivery: true,
-    leaveAtDoor: false,
     showProfile: true,
     showOrders: true,
   });
@@ -322,12 +318,6 @@ export default function ProfilePage() {
           taxOffice: 'Tax office',
           taxNumber: 'Tax number',
           eInvoice: 'E-invoice',
-          deliveryTitle: 'Delivery preferences',
-          deliveryBody: 'Customize delivery instructions.',
-          deliveryNote: 'Delivery note',
-          weekendDelivery: 'Weekend delivery',
-          callBeforeDelivery: 'Call before delivery',
-          leaveAtDoor: 'Leave at door',
           privacyTitle: 'Privacy',
           privacyBody: 'Control profile visibility and data sharing.',
           publicProfile: 'Public profile',
@@ -380,12 +370,6 @@ export default function ProfilePage() {
           taxOffice: 'Vergi dairesi',
           taxNumber: 'Vergi numarasi',
           eInvoice: 'E-fatura',
-          deliveryTitle: 'Teslimat tercihleri',
-          deliveryBody: 'Teslimat notu ve dagitim tercihleri.',
-          deliveryNote: 'Teslimat notu',
-          weekendDelivery: 'Hafta sonu teslimat',
-          callBeforeDelivery: 'Teslimat once ara',
-          leaveAtDoor: 'Kapida birak',
           privacyTitle: 'Gizlilik',
           privacyBody: 'Profil gorunurlugu ve veri paylasimi ayarlari.',
           publicProfile: 'Profil gorunurlugu',
@@ -399,8 +383,9 @@ export default function ProfilePage() {
   const hasAddress = showAddress;
 
   return (
-    <div className="min-h-screen space-y-10">
-      <div className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-8 text-white shadow-2xl">
+    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+      <div className="mx-auto max-w-6xl space-y-10">
+      <div className="relative overflow-hidden rounded-[36px] border border-slate-900/10 bg-slate-950 px-6 py-8 text-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.35),_transparent_60%)] opacity-80" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.3))]" />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -466,7 +451,7 @@ export default function ProfilePage() {
             imageUrl={avatarUrl}
             onUpdated={(url) => setProfile((p) => (p ? { ...p, image: url } : p))}
           />
-          <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+          <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
             <div className="text-sm font-semibold text-slate-900">Hizli erisim</div>
             <div className="mt-3 grid gap-2">
               <Link
@@ -489,7 +474,7 @@ export default function ProfilePage() {
               </Link>
             </div>
           </div>
-          <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+          <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
             <div className="text-sm font-semibold text-slate-900">{copy.summaryTitle}</div>
             <div className="mt-3 grid gap-3 text-xs text-slate-600">
               <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
@@ -509,7 +494,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+          <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-white/5">
             <div>
               <div className="text-sm font-semibold text-slate-900">Kisisel bilgiler</div>
               <div className="mt-1 text-sm text-slate-600">Hesap bilgilerini guncelle</div>
@@ -580,7 +565,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
+          <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
             <div className="text-sm font-semibold text-slate-900">{copy.billingTitle}</div>
             <p className="mt-1 text-sm text-slate-600">{copy.billingBody}</p>
             <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -634,63 +619,12 @@ export default function ProfilePage() {
             <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
           </div>
 
-          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
-            <div className="text-sm font-semibold text-slate-900">{copy.deliveryTitle}</div>
-            <p className="mt-1 text-sm text-slate-600">{copy.deliveryBody}</p>
-            <div className="mt-5 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700" htmlFor="pfDeliveryNote">
-                  {copy.deliveryNote}
-                </label>
-                <textarea
-                  id="pfDeliveryNote"
-                  rows={3}
-                  value={extras.deliveryNote}
-                  onChange={(e) => setExtras((prev) => ({ ...prev, deliveryNote: e.target.value }))}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-                <button
-                  type="button"
-                  onClick={() => setExtras((prev) => ({ ...prev, weekendDelivery: !prev.weekendDelivery }))}
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600"
-                >
-                  <span>{copy.weekendDelivery}</span>
-                  <span className={extras.weekendDelivery ? 'text-teal-700' : 'text-slate-500'}>
-                    {extras.weekendDelivery ? copy.on : copy.off}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setExtras((prev) => ({ ...prev, callBeforeDelivery: !prev.callBeforeDelivery }))}
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600"
-                >
-                  <span>{copy.callBeforeDelivery}</span>
-                  <span className={extras.callBeforeDelivery ? 'text-teal-700' : 'text-slate-500'}>
-                    {extras.callBeforeDelivery ? copy.on : copy.off}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setExtras((prev) => ({ ...prev, leaveAtDoor: !prev.leaveAtDoor }))}
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600"
-                >
-                  <span>{copy.leaveAtDoor}</span>
-                  <span className={extras.leaveAtDoor ? 'text-teal-700' : 'text-slate-500'}>
-                    {extras.leaveAtDoor ? copy.on : copy.off}
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
-          </div>
         </div>
 
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+        <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.securityTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.securityBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
@@ -722,7 +656,7 @@ export default function ProfilePage() {
           </div>
           <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.securityNote}</div>
         </div>
-        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+        <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.notifyTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.notifyBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
@@ -799,7 +733,7 @@ export default function ProfilePage() {
           </div>
           <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
         </div>
-        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+        <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.privacyTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.privacyBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
@@ -826,7 +760,7 @@ export default function ProfilePage() {
           </div>
           <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
         </div>
-        <div className="rounded-[24px] border border-slate-200/70 bg-white/90 p-5 shadow-xl">
+        <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.prefsTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.prefsBody}</p>
           <div className="mt-4 space-y-2 text-xs text-slate-600">
@@ -887,6 +821,7 @@ export default function ProfilePage() {
           {saveSuccess}
         </div>
       )}
+      </div>
     </div>
   );
 }
