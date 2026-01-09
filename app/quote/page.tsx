@@ -283,7 +283,7 @@ export default function QuotePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center rounded-xl bg-teal-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-teal-500/30 transition hover:bg-teal-500 disabled:opacity-60"
+              className="btn-primary px-6 py-2"
             >
               {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
             </button>

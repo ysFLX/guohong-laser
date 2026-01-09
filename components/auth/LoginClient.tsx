@@ -212,9 +212,7 @@ export default function LoginClient() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition ${
-                    isLoading ? 'bg-teal-200' : 'bg-teal-400 hover:bg-teal-300'
-                  }`}
+                  className="btn-primary w-full"
                 >
                   {isLoading
                     ? 'Giris yapiliyor...'

@@ -172,6 +172,31 @@ select:focus-visible {
   color: #bfdbfe;
 }
 
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: #14b8a6;
+  color: #0f172a;
+  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.25);
+  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-primary:hover {
+  background: #2dd4bf;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
 .card-surface {
   background: var(--surface);
   border: 1px solid var(--surface-border);
