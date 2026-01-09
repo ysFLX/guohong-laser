@@ -164,8 +164,9 @@ const faqs = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen space-y-16">
-      <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
+    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+      <div className="mx-auto max-w-6xl space-y-12">
+      <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white border border-slate-900/10 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
         <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
@@ -211,12 +212,12 @@ export default function AboutPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Biz kimiz</p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+        <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Biz kimiz</p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Uretim hattina uygun cozum tasarlayan ekip
           </h2>
-          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          <p className="mt-3 text-sm text-slate-600">
             Guohong Lazer olarak lazer kesim makineleri, yedek parca tedarigi ve sahada kurulum
             hizmetlerini bir arada sunuyoruz. Amacimiz, uretimde surekliligi korumak ve verimliligi artirmak.
           </p>
@@ -224,37 +225,37 @@ export default function AboutPage() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-white"
+                className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 text-slate-900  text-slate-900"
               >
                 <p className="text-xl font-semibold">{stat.value}</p>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 text-slate-900/60">
                   {stat.label}
                 </p>
               </div>
             ))}
           </div>
         </div>
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Degerler</p>
+        <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Degerler</p>
           <div className="mt-4 space-y-4">
             {values.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
-                <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+              <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
+                <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                <p className="mt-2 text-sm text-slate-600">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="lg:max-w-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Neler yapiyoruz</p>
-            <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Neler yapiyoruz</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900">
               Uretim hatlarinizi uctan uca destekliyoruz
             </h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            <p className="mt-2 text-sm text-slate-600">
               Planlama, kurulum, servis ve performans takibini tek ekipte topluyoruz.
             </p>
           </div>
@@ -272,33 +273,33 @@ export default function AboutPage() {
         </div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+            <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
+              <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+              <p className="mt-2 text-sm text-slate-600">{item.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
           <div className="lg:w-1/2">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Yol haritasi</p>
-            <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Buyume adimlarimiz</h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yol haritasi</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900">Buyume adimlarimiz</h2>
+            <p className="mt-2 text-sm text-slate-600">
               Saha tecrubesini her yil guclendiren sureclerle ilerliyoruz.
             </p>
           </div>
           <div className="lg:w-1/2 space-y-4">
             {milestones.map((item) => (
-              <div key={item.year} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+              <div key={item.year} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
                 <div className="flex items-center gap-4">
                   <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
                     {item.year}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
-                    <p className="text-xs text-slate-600 dark:text-slate-300">{item.description}</p>
+                    <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                    <p className="text-xs text-slate-600">{item.description}</p>
                   </div>
                 </div>
               </div>
@@ -308,36 +309,36 @@ export default function AboutPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Sektorler</p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+        <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Sektorler</p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Cozum sundugumuz alanlar
           </h2>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          <p className="mt-2 text-sm text-slate-600">
             Farkli uretim disiplinlerinde lazer kesim ihtiyaclarina uygun sistemler gelistiriyoruz.
           </p>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {sectors.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+              <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
                 <span className="mt-1 h-2 w-2 rounded-full bg-teal-500" />
                 {item}
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Is akisi</p>
-          <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">4 adimda teslim</h3>
+        <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Is akisi</p>
+          <h3 className="mt-3 text-xl font-semibold text-slate-900">4 adimda teslim</h3>
           <div className="mt-4 space-y-3">
             {timeline.map((step, index) => (
-              <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
+              <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
                 <div className="flex items-start gap-3">
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-100 text-xs font-semibold text-teal-700">
                     {index + 1}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
-                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{step.detail}</p>
+                    <p className="text-sm font-semibold text-slate-900">{step.title}</p>
+                    <p className="mt-1 text-xs text-slate-600">{step.detail}</p>
                   </div>
                 </div>
               </div>
@@ -347,29 +348,29 @@ export default function AboutPage() {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Yetkinlikler</p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+        <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yetkinlikler</p>
+          <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Uretim ve servis sureclerini tek noktada toparliyoruz
           </h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {capabilities.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
-                <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+              <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
+                <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                <p className="mt-2 text-sm text-slate-600">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Tesis ve operasyon</p>
-          <h3 className="mt-3 text-xl font-semibold text-slate-900 dark:text-white">
+        <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Tesis ve operasyon</p>
+          <h3 className="mt-3 text-xl font-semibold text-slate-900">
             Sahadan merkeze entegre operasyon
           </h3>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          <p className="mt-2 text-sm text-slate-600">
             Kurulumdan bakima kadar tum akislar tek merkezden takip edilir.
           </p>
-          <ul className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+          <ul className="mt-4 space-y-3 text-sm text-slate-600">
             {facility.map((item) => (
               <li key={item} className="flex items-start gap-2">
                 <span className="mt-1 h-2 w-2 rounded-full bg-teal-500" />
@@ -382,8 +383,8 @@ export default function AboutPage() {
 
       <section className="space-y-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Ekip</p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Ekip</p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
             Sahada birlikte calisan uzman kadro
           </h2>
         </div>
@@ -391,7 +392,7 @@ export default function AboutPage() {
           {teamMembers.map((member) => (
             <div
               key={member.name}
-              className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+              className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_20px_48px_-28px_rgba(15,23,42,0.45)]"
             >
               <div className="relative h-52 w-full">
                 <Image
@@ -402,8 +403,8 @@ export default function AboutPage() {
                 />
               </div>
               <div className="p-4 text-center">
-                <p className="text-base font-semibold text-slate-900 dark:text-white">{member.name}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-200">
+                <p className="text-base font-semibold text-slate-900">{member.name}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-teal-600">
                   {member.role}
                 </p>
               </div>
@@ -412,21 +413,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">Sik sorulanlar</p>
-            <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Saha ekiplerinden gelen sorular</h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Sik sorulanlar</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900">Saha ekiplerinden gelen sorular</h2>
+            <p className="mt-2 text-sm text-slate-600">
               Kurulum, servis ve yedek parca sureclerinde merak edilenleri netlestiriyoruz.
             </p>
           </div>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {faqs.map((item) => (
-            <div key={item.q} className="rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 dark:border-white/10 dark:bg-white/5">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.q}</p>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.a}</p>
+            <div key={item.q} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
+              <p className="text-sm font-semibold text-slate-900">{item.q}</p>
+              <p className="mt-2 text-sm text-slate-600">{item.a}</p>
             </div>
           ))}
         </div>
@@ -455,6 +456,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
+      </div>
     </div>
   );
 }
