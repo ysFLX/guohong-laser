@@ -163,8 +163,38 @@ const faqs = [
 ];
 
 export default function AboutPage() {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Guohong Lazer',
+    url: baseUrl,
+    logo: `${baseUrl}/images/logokoyu.png`,
+    email: 'guohonglazerinfo@gmail.com',
+    telephone: '+90 536 831 67 87',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Fevzicakmak Mah. Aksaray Cevreyolu Caddesi Akasya Sitesi A Blok No:18T',
+      addressLocality: 'Konya',
+      addressCountry: 'TR',
+      postalCode: '42210',
+    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        telephone: '+90 536 831 67 87',
+        email: 'guohonglazerinfo@gmail.com',
+        areaServed: 'TR',
+        availableLanguage: ['tr', 'en'],
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="mx-auto max-w-6xl space-y-12">
       <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white border border-slate-900/10 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
