@@ -85,6 +85,29 @@ const supportGrid = [
   },
 ];
 
+const trustLinks = [
+  {
+    title: 'Iade ve garanti',
+    description: 'Garanti kapsami, iade kosullari ve servis akisi.',
+    href: '/returns',
+  },
+  {
+    title: 'Kargo ve teslimat',
+    description: 'Hazirlama sureleri ve kargo takip bilgileri.',
+    href: '/shipping',
+  },
+  {
+    title: 'Odeme guvenligi',
+    description: 'SSL, 3D Secure ve guvenli odeme adimlari.',
+    href: '/payment-security',
+  },
+  {
+    title: 'Gizlilik politikasi',
+    description: 'KVKK, veri isleme ve iletisim bilgileri.',
+    href: '/privacy',
+  },
+];
+
 const quickShowcase = [
   {
     title: 'FSCUT',
@@ -446,6 +469,41 @@ export default function Home() {
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
                 <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
                   Ac
+                  <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
+        <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Guven merkezi</p>
+              <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+                Garanti, teslimat ve guvenli odeme bilgileri
+              </h2>
+            </div>
+            <Link
+              href="/contact"
+              className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200"
+            >
+              Destek iste
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {trustLinks.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-teal-400/60"
+              >
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
+                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
+                  Incele
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
               </Link>
