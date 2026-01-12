@@ -290,7 +290,7 @@ export default function AddressesManager() {
         <button
           type="button"
           onClick={openCreate}
-          className="inline-flex items-center px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700"
+          className="inline-flex items-center px-4 py-2 btn-primary text-sm"
         >
           + Yeni Adres
         </button>
@@ -517,7 +517,7 @@ export default function AddressesManager() {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 text-sm rounded-md bg-teal-600 text-white disabled:opacity-50"
+              className="px-4 py-2 text-sm btn-primary disabled:opacity-50"
             >
               {loading ? "Kaydediliyor..." : "Kaydet"}
             </button>

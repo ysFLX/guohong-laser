@@ -23,8 +23,8 @@ export default function InquiryReplyBox({
         Kullanici bu alana cevap yazamaz. Ornek: &quot;Daha fazla bilgi icin ... numaradan arayin&quot;.
       </div>
 
-      {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
-      {success && <div className="mt-3 text-sm text-green-700">{success}</div>}
+      {error && <div className="mt-3 form-alert form-alert--error">{error}</div>}
+      {success && <div className="mt-3 form-alert form-alert--success">{success}</div>}
       {!canReply && (
         <div className="mt-3 text-sm text-amber-700">
           Kullanicinin uyeligi bulunmamaktadir. Yanit gonderilemez.
