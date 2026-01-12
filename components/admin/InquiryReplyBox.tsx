@@ -27,7 +27,7 @@ export default function InquiryReplyBox({
       {success && <div className="mt-3 form-alert form-alert--success">{success}</div>}
       {!canReply && (
         <div className="mt-3 text-sm text-amber-700">
-          Kullanicinin uyeligi bulunmamaktadir. Yanit gonderilemez.
+          E-posta bilgisi yok. Yanit gonderilemez.
         </div>
       )}
 

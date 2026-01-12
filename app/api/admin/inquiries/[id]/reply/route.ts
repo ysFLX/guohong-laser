@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
@@ -18,6 +19,56 @@ const prismaInquiry = prisma as unknown as {
   inquiry: InquiryUpdateDelegate;
 };
 
+async function sendInquiryReplyEmail(params: {
+  to: string;
+  name: string | null;
+  subject: string | null;
+  adminResponse: string;
+}) {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpUser || !smtpPass) {
+    return;
+  }
+
+  const safeName = params.name?.trim() || 'Musterimiz';
+  const subjectText = params.subject?.trim() || 'Talebiniz';
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `Guohong Lazer <${smtpUser}>`,
+    to: params.to,
+    subject: `${subjectText} - Yanit`,
+    text: [
+      `Merhaba ${safeName},`,
+      '',
+      'Talebinize yanit verdik:',
+      params.adminResponse,
+      '',
+      'Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.',
+    ].join('\n'),
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
+        <h2 style="margin: 0 0 8px; color: #0b1120;">Talebinize yanit verdik</h2>
+        <p style="margin: 0 0 16px; color: #475569;">Merhaba <strong>${safeName}</strong>,</p>
+        <div style="padding: 14px; background: #f8fafc; border-radius: 12px; color: #0f172a; white-space: pre-line;">${params.adminResponse}</div>
+        <p style="margin: 16px 0 0; color: #64748b; font-size: 13px;">Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.</p>
+      </div>
+    `,
+  });
+}
+
 export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
 
@@ -33,7 +84,7 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
 
   const inquiry = await prismaInquiry.inquiry.findUnique({
     where: { id },
-    select: { id: true, userId: true },
+    select: { id: true, userId: true, email: true, name: true, subject: true },
   });
 
   if (!inquiry) {
@@ -55,9 +106,6 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   };
 
   if (typeof payload.adminResponse === 'string') {
-    if (!inquiry.userId) {
-      return NextResponse.json({ error: 'Kullanicinin uyeligi bulunmamaktadir' }, { status: 400 });
-    }
     data.adminResponse = payload.adminResponse.trim() ? payload.adminResponse.trim() : null;
   }
 
@@ -71,6 +119,15 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
       data,
       select: { id: true, adminResponse: true, respondedAt: true },
     });
+
+    if (payload.adminResponse && payload.adminResponse.trim() && inquiry.email) {
+      await sendInquiryReplyEmail({
+        to: inquiry.email,
+        name: inquiry.name,
+        subject: inquiry.subject,
+        adminResponse: payload.adminResponse.trim(),
+      });
+    }
 
     return NextResponse.json({ item: updated });
   } catch (e: unknown) {

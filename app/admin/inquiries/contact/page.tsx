@@ -126,7 +126,7 @@ export default async function AdminContactInquiriesPage() {
                 {x.message}
               </div>
 
-              <InquiryReplyBox inquiryId={x.id} existingResponse={x.adminResponse} canReply={Boolean(x.userId)} />
+              <InquiryReplyBox inquiryId={x.id} existingResponse={x.adminResponse} canReply={Boolean(x.email)} />
             </div>
           );
         })}
