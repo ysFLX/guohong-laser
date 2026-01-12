@@ -23,11 +23,66 @@ export default function CartPage() {
   const router = useRouter();
   const { items, subtotalCents, removeItem, setQuantity, clear } = useCart();
   const [checkoutError, setCheckoutError] = useState('');
+  const [isQuickBuying, setIsQuickBuying] = useState(false);
 
   const handleCheckout = () => {
     if (!items.length) return;
     setCheckoutError('');
     router.push('/checkout/address');
+  };
+
+  const handleQuickBuy = async () => {
+    if (!items.length || isQuickBuying) return;
+    setCheckoutError('');
+    setIsQuickBuying(true);
+    try {
+      const profileRes = await fetch('/api/profile');
+      if (profileRes.status === 401) {
+        router.push('/login');
+        return;
+      }
+      const profile = await profileRes.json();
+      const addresses = (profile.user?.addresses || []) as Array<{ id: string; isDefault: boolean }>;
+      const selected = addresses.find((addr) => addr.isDefault) ?? addresses[0];
+
+      if (!selected?.id) {
+        setCheckoutError('Hizli odeme icin kayitli adres gerekli.');
+        router.push('/checkout/address');
+        return;
+      }
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          addressId: selected.id,
+          billingAddressId: selected.id,
+          items: items.map((x) => ({
+            id: x.id,
+            name: x.name,
+            priceCents: x.priceCents,
+            quantity: x.quantity,
+            imageUrl: x.imageUrl,
+          })),
+        }),
+      });
+
+      if (res.status === 401) {
+        router.push('/login');
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.url) {
+        throw new Error(data?.error || 'Odeme baslatilamadi');
+      }
+
+      window.location.href = data.url as string;
+    } catch (err: unknown) {
+      setCheckoutError(err instanceof Error ? err.message : 'Odeme baslatilamadi');
+    } finally {
+      setIsQuickBuying(false);
+    }
   };
 
   return (
@@ -174,11 +229,25 @@ export default function CartPage() {
               <div className="mt-6">
                 <button
                   type="button"
+                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-70"
+                  onClick={handleQuickBuy}
+                  disabled={!items.length || isQuickBuying}
+                >
+                  {isQuickBuying ? 'Hizli odeme hazirlaniyor...' : 'Hizli Al (tek sayfa)'}
+                </button>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Varsayilan adresinle direkt odemeye gecersin.
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <button
+                  type="button"
                   className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-70"
                   onClick={handleCheckout}
                   disabled={!items.length}
                 >
-                  Satin Almaya Devam Et
+                  Adres secerek devam et
                 </button>
               </div>
 
@@ -192,4 +261,3 @@ export default function CartPage() {
     </div>
   );
 }
-
