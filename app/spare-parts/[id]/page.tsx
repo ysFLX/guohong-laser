@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
+import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import SparePartImageSlider from '@/components/spare-parts/SparePartImageSlider';
 import SparePartReviews from '@/components/spare-parts/SparePartReviews';
 
@@ -394,6 +395,16 @@ export default async function SparePartDetailPage({
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
+              {inStock && (
+                <QuickBuyButton
+                  item={{
+                    id: p.id,
+                    name: p.name,
+                    priceCents: p.priceCents,
+                    imageUrl: p.imageUrl,
+                  }}
+                />
+              )}
               {inStock ? (
                 <AddToCartButton
                   id={p.id}
