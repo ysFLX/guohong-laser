@@ -169,6 +169,52 @@ const process = [
   },
 ];
 
+const capacitySchedule = [
+  {
+    title: 'Bu hafta',
+    status: '%78 dolu',
+    detail: '2 uygun kesif slotu',
+    window: '12-14 Ocak',
+  },
+  {
+    title: 'Gelecek hafta',
+    status: '%52 dolu',
+    detail: 'Yeni kurulum planlari',
+    window: '19-23 Ocak',
+  },
+  {
+    title: 'On rezervasyon',
+    status: 'Kurumsal',
+    detail: 'Oncelikli proje takvimi',
+    window: 'Planli',
+  },
+];
+
+const priceAlertSteps = [
+  'Urunu favorilere ekle',
+  'Fiyat esigi belirle',
+  'Dususte e-posta bildirimi al',
+];
+
+const procurementFlow = [
+  {
+    title: 'Teklif',
+    description: 'Teklif detaylari ve teslim plani olusturulur.',
+  },
+  {
+    title: 'Onay',
+    description: 'Teknik ve finans onaylari tek panelde toparlanir.',
+  },
+  {
+    title: 'Sozlesme',
+    description: 'Maddeler ve garanti kosullari imzaya hazir.',
+  },
+  {
+    title: 'Teslim',
+    description: 'Kurulum takvimi ve kargo takibi netlesir.',
+  },
+];
+
 const testimonials = [
   {
     name: 'Ahmet Yilmaz',
@@ -453,6 +499,126 @@ export default function Home() {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-transparent" />
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-6 text-white shadow-2xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Canli kapasite takvimi</p>
+            <h2 className="mt-2 text-2xl font-semibold">Uretim + servis randevu paneli</h2>
+            <p className="mt-3 text-sm text-white/70">
+              Kesif, kurulum ve servis slotlarini canli takip et. Takvim doluluguna gore otomatik onceliklendirme al.
+            </p>
+            <div className="mt-6 grid gap-3">
+              {capacitySchedule.map((slot) => (
+                <div key={slot.title} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">
+                  <div className="flex items-center justify-between text-sm font-semibold">
+                    <span>{slot.title}</span>
+                    <span className="text-amber-200">{slot.status}</span>
+                  </div>
+                  <p className="mt-1 text-sm text-white/70">{slot.detail}</p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/60">{slot.window}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/contact?subject=Kesif+Randevusu"
+                className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
+              >
+                Kesif randevusu al
+              </Link>
+              <Link
+                href="/quote"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80"
+              >
+                Teslim planini sor
+              </Link>
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Fiyat dusus alarmi</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+              Fiyat dusunce otomatik haber ver
+            </h2>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              Secili urunlerde fiyat dusus ve stok girisi oldugunda e-posta ile otomatik bilgilendirme al.
+            </p>
+            <div className="mt-5 space-y-3">
+              {priceAlertSteps.map((step) => (
+                <div
+                  key={step}
+                  className="rounded-2xl border border-teal-100/70 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-800/70 dark:bg-slate-900/80 dark:text-slate-200"
+                >
+                  {step}
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/spare-parts"
+                className="inline-flex items-center justify-center rounded-full bg-teal-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 dark:bg-teal-400 dark:text-slate-900 dark:hover:bg-teal-300"
+              >
+                Alarm kur
+              </Link>
+              <Link
+                href="/stock-request"
+                className="inline-flex items-center justify-center rounded-full border border-teal-200 px-6 py-2.5 text-sm font-semibold text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+              >
+                Stok iste
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
+        <div className="rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Kurumsal satin alma</p>
+              <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+                Tekliften teslimata tek panel akisi
+              </h2>
+            </div>
+            <div className="flex gap-2 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">
+              <span className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700">Yetkili onay</span>
+              <span className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700">SLA takip</span>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
+            {procurementFlow.map((step, index) => (
+              <div
+                key={step.title}
+                className="rounded-2xl border border-teal-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
+              >
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
+                  <span>Adim {index + 1}</span>
+                  <span className="rounded-full bg-teal-50 px-2 py-1 text-[10px] font-semibold text-teal-700 dark:bg-teal-500/10 dark:text-teal-200">
+                    {step.title}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{step.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/quote"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 dark:bg-teal-400 dark:text-slate-900"
+            >
+              Kurumsal teklif baslat
+            </Link>
+            <Link
+              href="/contact?subject=Kurumsal+Satin+Alma"
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300 dark:border-slate-700 dark:text-slate-200"
+            >
+              Satin alma destegi
+            </Link>
           </div>
         </div>
       </Reveal>
