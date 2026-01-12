@@ -320,8 +320,34 @@ select:focus-visible {
   animation: float-soft 6s ease-in-out infinite;
 }
 
+.float-slower {
+  animation: float-soft 9s ease-in-out infinite;
+}
+
+.float-tilt {
+  animation: float-tilt 8s ease-in-out infinite;
+}
+
 .glow-drift {
   animation: glow-drift 10s ease-in-out infinite;
+}
+
+.glint {
+  position: relative;
+  overflow: hidden;
+}
+
+.glint::after {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -30%;
+  width: 45%;
+  height: 240%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.4) 45%, transparent 70%);
+  transform: rotate(25deg);
+  animation: glint 7s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .perf-card {
@@ -349,7 +375,13 @@ select:focus-visible {
 
   .pulse-ring::before,
   .float-soft,
+  .float-slower,
+  .float-tilt,
   .glow-drift {
+    animation: none;
+  }
+
+  .glint::after {
     animation: none;
   }
 }
@@ -375,6 +407,16 @@ select:focus-visible {
   }
 }
 
+@keyframes float-tilt {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.4deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.4deg);
+  }
+}
+
 @keyframes glow-drift {
   0%,
   100% {
@@ -382,6 +424,21 @@ select:focus-visible {
   }
   50% {
     transform: translate3d(18px, -12px, 0);
+  }
+}
+
+@keyframes glint {
+  0%,
+  60% {
+    transform: translateX(-120%) rotate(25deg);
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(220%) rotate(25deg);
+    opacity: 0;
   }
 }
 

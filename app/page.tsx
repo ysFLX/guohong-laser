@@ -348,7 +348,7 @@ export default async function Home() {
                 {heroStats.map((stat, index) => (
                   <div
                     key={stat.label}
-                    className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 shadow-sm dark:border-white/10 dark:bg-slate-900/80 float-soft"
+                    className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 shadow-sm dark:border-white/10 dark:bg-slate-900/80 float-slower"
                     style={{ animationDelay: `${index * 140}ms` }}
                   >
                     <p className="text-lg font-semibold text-slate-900 dark:text-white">{stat.value}</p>
@@ -360,7 +360,7 @@ export default async function Home() {
               </div>
             </div>
             <div className="relative">
-              <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60 float-soft">
+            <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60 float-tilt glint">
                 <Image
                   src="/images/about-showcase.jpg"
                   alt="Guohong lazer hat"
@@ -384,7 +384,7 @@ export default async function Home() {
                 </div>
               </div>
               <div
-                className="absolute right-6 top-6 hidden max-w-[220px] rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80 float-soft"
+                className="absolute right-6 top-6 hidden max-w-[220px] rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80 float-slower glint"
                 style={{ animationDelay: '320ms' }}
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
@@ -458,7 +458,7 @@ export default async function Home() {
                 <Link
                   key={item.title}
                   href={item.href}
-                  className="group relative overflow-hidden rounded-2xl border border-teal-100/70 bg-white px-4 pb-4 pt-3 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-teal-400/60"
+                  className="group relative overflow-hidden rounded-2xl border border-teal-100/70 bg-white px-4 pb-4 pt-3 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-teal-400/60 glint"
                 >
                   <div className="relative h-32 w-full overflow-hidden rounded-xl">
                     <Image src={item.image} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
@@ -556,7 +556,7 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-6 text-white shadow-2xl">
+          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-6 text-white shadow-2xl glint">
             {capacityImageUrl ? (
               <div className="pointer-events-none absolute inset-0">
                 <Image
@@ -607,7 +607,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 glint">
             {priceAlertImageUrl ? (
               <div className="pointer-events-none absolute inset-0">
                 <Image
@@ -660,7 +660,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
-        <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+        <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 glint">
           {procurementImageUrl ? (
             <div className="pointer-events-none absolute inset-0">
               <Image
