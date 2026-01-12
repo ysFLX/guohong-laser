@@ -74,6 +74,10 @@ async function sendOrderEmail(params: {
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
   const returnsUrl = `${appUrl}/returns-request`;
+  const brandPrimary = '#0f766e';
+  const brandPrimarySoft = '#e6fffb';
+  const brandDark = '#0f172a';
+  const brandBorder = '#cbd5f5';
 
   const lines = params.items
     .map((item) => `${item.name} x${item.quantity} TL ${formatPriceTry(item.priceCents * item.quantity)}`)
@@ -150,7 +154,7 @@ async function sendOrderEmail(params: {
             <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
             <h2 style="margin: 6px 0 0; color: #0f172a;">Siparisiniz alindi</h2>
           </div>
-          <span style="padding: 6px 12px; border-radius: 999px; background: #ecfeff; color: #0f766e; font-size: 12px; font-weight: 700;">Siparis alindi</span>
+          <span style="padding: 6px 12px; border-radius: 999px; background: ${brandPrimarySoft}; color: ${brandPrimary}; font-size: 12px; font-weight: 700;">Siparisiniz alindi</span>
         </div>
 
         <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px;">
@@ -159,8 +163,8 @@ async function sendOrderEmail(params: {
         </div>
 
         <div style="margin-top: 18px;">
-          <a href="${orderUrl}" style="display: inline-block; padding: 10px 18px; background: #0f172a; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Siparis detaylarini gor</a>
-          <a href="${returnsUrl}" style="display: inline-block; margin-left: 10px; padding: 10px 18px; border: 1px solid #cbd5f5; color: #1e293b; border-radius: 10px; text-decoration: none; font-weight: 600;">Iade/degisim talebi</a>
+          <a href="${orderUrl}" style="display: inline-block; padding: 10px 18px; background: ${brandDark}; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Siparis detaylarini gor</a>
+          <a href="${returnsUrl}" style="display: inline-block; margin-left: 10px; padding: 10px 18px; border: 1px solid ${brandBorder}; color: ${brandDark}; border-radius: 10px; text-decoration: none; font-weight: 600;">Iade / Degisim talebi</a>
         </div>
 
         <div style="margin-top: 24px;">
