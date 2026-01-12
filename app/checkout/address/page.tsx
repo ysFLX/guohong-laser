@@ -766,6 +766,17 @@ export default function CheckoutAddressPage() {
             <div className="mt-3 text-xs text-gray-500">
               Kargo ucreti ve sure, secilen adrese gore netlesir.
             </div>
+            <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                Guven rozetleri
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">SSL</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">PCI-DSS</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">3D Secure</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">Iade garantisi</span>
+              </div>
+            </div>
 
             <button
               type="button"

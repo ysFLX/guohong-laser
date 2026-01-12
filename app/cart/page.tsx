@@ -151,6 +151,25 @@ export default function CartPage() {
                 </Link>{' '}
                 inceleyebilirsin.
               </div>
+              <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                  Guven rozetleri
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
+                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                    SSL
+                  </span>
+                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                    PCI-DSS
+                  </span>
+                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                    3D Secure
+                  </span>
+                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                    Iade garantisi
+                  </span>
+                </div>
+              </div>
 
               <div className="mt-6">
                 <button

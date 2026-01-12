@@ -48,6 +48,19 @@ export default function PaymentSecurityPage() {
                 <li>Gerekli gorulurse ek dogrulama veya belgeler istenebilir.</li>
               </ul>
             </div>
+            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+              <div className="text-sm font-semibold text-slate-900">Guven rozetleri</div>
+              <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">SSL</span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">PCI-DSS</span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">3D Secure</span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">Banka onayli odeme</span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">Iade garantisi</span>
+              </div>
+              <p className="mt-3 text-sm text-slate-600">
+                Odeme islemleri guvenli altyapi uzerinden gerceklesir ve kart bilgileri sistemimizde tutulmaz.
+              </p>
+            </div>
           </section>
 
           <aside className="space-y-4">
