@@ -74,10 +74,10 @@ async function sendOrderEmail(params: {
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
   const returnsUrl = `${appUrl}/returns-request`;
-  const brandPrimary = '#0f766e';
-  const brandPrimarySoft = '#e6fffb';
-  const brandDark = '#0f172a';
-  const brandBorder = '#cbd5f5';
+  const brandPrimary = '#0b3b36';
+  const brandPrimarySoft = '#e8f3f2';
+  const brandDark = '#0b1120';
+  const brandBorder = '#1f2937';
 
   const lines = params.items
     .map((item) => `${item.name} x${item.quantity} TL ${formatPriceTry(item.priceCents * item.quantity)}`)
