@@ -295,7 +295,14 @@ export default async function Home() {
   const config = await prismaHome.homePanelConfig.findUnique({
     where: { id: 'home' },
   });
-  const { capacitySchedule, priceAlertSteps, procurementFlow } = normalizeHomePanelConfig(config ?? {});
+  const {
+    capacitySchedule,
+    priceAlertSteps,
+    procurementFlow,
+    capacityImageUrl,
+    priceAlertImageUrl,
+    procurementImageUrl,
+  } = normalizeHomePanelConfig(config ?? {});
   return (
     <div className={`${space.className} bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
       <div className="relative overflow-hidden">

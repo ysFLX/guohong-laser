@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
+import QuickBuyButton from '@/components/cart/QuickBuyButton';
 
 type SparePart = {
   id: string;
@@ -621,13 +622,23 @@ export default function SparePartsPage() {
 
                       <div className="flex items-center gap-2">
                         {inStock ? (
-                          <AddToCartButton
-                            id={p.id}
-                            name={p.name}
-                            priceCents={p.priceCents}
-                            imageUrl={p.imageUrl}
-                            className="flex-1 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
-                          />
+                          <div className="flex flex-1 flex-col gap-2">
+                            <AddToCartButton
+                              id={p.id}
+                              name={p.name}
+                              priceCents={p.priceCents}
+                              imageUrl={p.imageUrl}
+                              className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                            />
+                            <QuickBuyButton
+                              item={{
+                                id: p.id,
+                                name: p.name,
+                                priceCents: p.priceCents,
+                                imageUrl: p.imageUrl,
+                              }}
+                            />
+                          </div>
                         ) : (
                           <Link
                             href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
