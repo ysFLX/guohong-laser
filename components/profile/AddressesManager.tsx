@@ -369,9 +369,9 @@ export default function AddressesManager() {
       >
         <form onSubmit={submitForm} className="grid grid-cols-1 md:grid-cols-2 text-black gap-4">
           <div className="space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Etiket</div>
+            <div className="form-label">Etiket</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Etiket (Ev, Is)"
               value={form.label}
               onChange={(e) => setForm({ ...form, label: e.target.value })}
@@ -379,9 +379,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Ad</div>
+            <div className="form-label">Ad</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Ad"
               value={form.firstName}
               onChange={(e) => setForm({ ...form, firstName: e.target.value })}
@@ -389,9 +389,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Soyad</div>
+            <div className="form-label">Soyad</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Soyad"
               value={form.lastName}
               onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -399,9 +399,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Telefon</div>
+            <div className="form-label">Telefon</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Telefon"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -409,9 +409,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Adres</div>
+            <div className="form-label">Adres</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Adres"
               value={form.line1}
               onChange={(e) => setForm({ ...form, line1: e.target.value })}
@@ -419,9 +419,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
+            <div className="form-label">Il Secimi</div>
             <select
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               value={form.cityCode}
               onChange={(e) => {
                 const cityCode = e.target.value;
@@ -448,9 +448,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
+            <div className="form-label">Ilce Secimi</div>
             <select
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               value={form.district}
               onChange={(e) => setForm({ ...form, district: e.target.value })}
               disabled={!form.cityCode || loadingDistricts}
@@ -468,9 +468,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Posta Kodu</div>
+            <div className="form-label">Posta Kodu</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Posta Kodu"
               value={form.postalCode}
               onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
@@ -478,9 +478,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Daire / Not</div>
+            <div className="form-label">Daire / Not</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Daire / Not (opsiyonel)"
               value={form.line2}
               onChange={(e) => setForm({ ...form, line2: e.target.value })}
@@ -488,9 +488,9 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="text-sm font-semibold text-gray-700">Ulke</div>
+            <div className="form-label">Ulke</div>
             <input
-              className="border rounded-lg px-3 py-2 text-sm w-full"
+              className="form-input"
               placeholder="Ulke"
               value={form.country}
               onChange={(e) => setForm({ ...form, country: e.target.value })}
@@ -510,7 +510,7 @@ export default function AddressesManager() {
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-4 py-2 text-sm rounded-md border border-gray-200 text-gray-700"
+              className="px-4 py-2 text-sm btn-secondary"
             >
               Iptal
             </button>
