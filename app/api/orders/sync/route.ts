@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
@@ -15,6 +16,135 @@ const prismaOrders = prisma as unknown as {
     create: (args: unknown) => Promise<OrderCreateResult>;
   };
 };
+
+const prismaNotifications = prisma as unknown as {
+  userNotification: {
+    create: (args: unknown) => Promise<unknown>;
+  };
+  address: {
+    findUnique: (args: unknown) => Promise<{
+      label: string | null;
+      fullName: string | null;
+      phone: string | null;
+      line1: string | null;
+      line2: string | null;
+      city: string | null;
+      state: string | null;
+      postalCode: string | null;
+      country: string | null;
+    } | null>;
+  };
+};
+
+function formatPriceTry(priceCents: number) {
+  try {
+    return new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency: 'TRY',
+      maximumFractionDigits: 2,
+    }).format(priceCents / 100);
+  } catch {
+    return `${(priceCents / 100).toFixed(2)} TL`;
+  }
+}
+
+async function sendOrderEmail(params: {
+  to: string;
+  orderId: string;
+  totalCents: number;
+  items: Array<{ name: string; quantity: number; priceCents: number }>;
+  shippingAddress?: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null;
+}) {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpUser || !smtpPass) {
+    return;
+  }
+
+  const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
+  const returnsUrl = `${appUrl}/returns-request`;
+
+  const lines = params.items
+    .map((item) => `${item.name} x${item.quantity} • ${formatPriceTry(item.priceCents * item.quantity)}`)
+    .join('\n');
+
+  const address = params.shippingAddress
+    ? [
+        params.shippingAddress.fullName,
+        params.shippingAddress.line1,
+        params.shippingAddress.line2,
+        `${params.shippingAddress.city || ''}${params.shippingAddress.state ? ` / ${params.shippingAddress.state}` : ''}`,
+        params.shippingAddress.postalCode,
+        params.shippingAddress.country,
+        params.shippingAddress.phone,
+      ]
+        .filter(Boolean)
+        .join('\n')
+    : 'Adres bilgisi bulunamadi.';
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `Guohong Lazer <${smtpUser}>`,
+    to: params.to,
+    subject: `Siparisiniz alindi (#${params.orderId.slice(0, 8)})`,
+    text: [
+      'Siparisiniz alindi.',
+      `Siparis detaylari: ${orderUrl}`,
+      '',
+      'Siparis ozeti:',
+      lines,
+      '',
+      `Toplam: ${formatPriceTry(params.totalCents)}`,
+      '',
+      'Teslimat adresi:',
+      address,
+      '',
+      `Iade/degisim talebi: ${returnsUrl}`,
+    ].join('\n'),
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
+        <h2 style="margin-top: 0; color: #111827;">Siparisiniz alindi</h2>
+        <p style="margin: 0 0 12px;">Siparis numaraniz: <strong>#${params.orderId.slice(0, 8)}</strong></p>
+        <div style="margin-bottom: 16px;">
+          <a href="${orderUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none;">Siparis detaylari</a>
+        </div>
+        <div style="padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">
+          <strong>Siparis ozeti</strong>
+          <div style="margin-top: 8px;">${lines.replace(/\n/g, '<br />')}</div>
+          <div style="margin-top: 8px;"><strong>Toplam:</strong> ${formatPriceTry(params.totalCents)}</div>
+        </div>
+        <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">
+          <strong>Teslimat adresi</strong>
+          <div style="margin-top: 8px;">${address.replace(/\n/g, '<br />')}</div>
+        </div>
+        <div style="margin-top: 16px;">
+          <a href="${returnsUrl}" style="color: #0f766e; text-decoration: none; font-weight: 600;">Iade/degisim talebi olustur</a>
+        </div>
+      </div>
+    `,
+  });
+}
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -120,14 +250,64 @@ export async function POST(req: Request) {
     },
   };
 
+  let created: OrderCreateResult | null = null;
   try {
-    await prismaOrders.order.create({ data: createPayload, select: { id: true } });
+    created = await prismaOrders.order.create({ data: createPayload, select: { id: true } });
   } catch (error) {
     console.error('[orders/sync] create failed, retrying with PAID:', error);
-    await prismaOrders.order.create({
+    created = await prismaOrders.order.create({
       data: { ...createPayload, status: 'PAID' },
       select: { id: true },
     });
+  }
+
+  try {
+    await prismaNotifications.userNotification.create({
+      data: {
+        userId,
+        type: 'ORDER_STATUS',
+        title: 'Siparisiniz alindi',
+        message: 'Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.',
+        orderId: created?.id ?? null,
+        status: 'RECEIVED',
+      },
+    });
+  } catch (error) {
+    console.error('Siparis bildirimi kaydedilemedi:', error);
+  }
+
+  try {
+    const recipient = session.user.email || checkout.customer_details?.email || checkout.customer_email || '';
+    if (recipient && created?.id) {
+      const shippingAddress = shippingAddressId
+        ? await prismaNotifications.address.findUnique({
+            where: { id: shippingAddressId },
+            select: {
+              fullName: true,
+              phone: true,
+              line1: true,
+              line2: true,
+              city: true,
+              state: true,
+              postalCode: true,
+              country: true,
+            },
+          })
+        : null;
+      await sendOrderEmail({
+        to: recipient,
+        orderId: created.id,
+        totalCents: total,
+        items: itemsToCreate.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          priceCents: item.priceCents,
+        })),
+        shippingAddress,
+      });
+    }
+  } catch (error) {
+    console.error('Siparis e-postasi gonderilemedi:', error);
   }
 
   return NextResponse.json({ ok: true });
