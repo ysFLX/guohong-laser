@@ -136,6 +136,21 @@ export default function CartPage() {
                   {formatPriceTry(subtotalCents)}
                 </div>
               </div>
+              <div className="mt-3 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
+                <span>Kargo</span>
+                <span className="font-semibold text-gray-900 dark:text-white">Adresle hesaplanir</span>
+              </div>
+              <div className="mt-3 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
+                <span>Teslimat</span>
+                <span className="font-semibold text-gray-900 dark:text-white">2-5 is gunu (stokta)</span>
+              </div>
+              <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                Kargo ve teslimat detaylari icin{' '}
+                <Link href="/shipping" className="font-semibold text-teal-600 hover:text-teal-700">
+                  kargo politikasini
+                </Link>{' '}
+                inceleyebilirsin.
+              </div>
 
               <div className="mt-6">
                 <button

@@ -755,6 +755,17 @@ export default function CheckoutAddressPage() {
               <span className="text-gray-600">Toplam</span>
               <span className="font-semibold text-gray-900">{formatPriceTry(subtotalCents)}</span>
             </div>
+            <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
+              <span>Kargo</span>
+              <span className="font-semibold text-gray-900">Adresle hesaplanir</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
+              <span>Teslimat</span>
+              <span className="font-semibold text-gray-900">2-5 is gunu (stokta)</span>
+            </div>
+            <div className="mt-3 text-xs text-gray-500">
+              Kargo ucreti ve sure, secilen adrese gore netlesir.
+            </div>
 
             <button
               type="button"
