@@ -33,6 +33,78 @@ const heroVideos = [
   },
 ];
 
+const panelIcon = (name?: string) => {
+  switch (name) {
+    case 'calendar':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M8 2v4M16 2v4M3 10h18M5 6h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'shield':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M12 3l8 4v5c0 5-3.5 9-8 9s-8-4-8-9V7l8-4z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'heart':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M20.8 7.6a4.5 4.5 0 00-6.4 0L12 10l-2.4-2.4a4.5 4.5 0 00-6.4 6.4L12 22l8.8-8a4.5 4.5 0 000-6.4z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'target':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <circle cx="12" cy="12" r="9" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="12" cy="12" r="4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'bell':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M15 17h5l-1.4-1.4A2 2 0 0118 14V11a6 6 0 10-12 0v3a2 2 0 01-.6 1.4L4 17h5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 17a3 3 0 006 0" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'file':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M14 2v6h6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'check':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'signature':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M4 12c4 0 4-6 8-6s4 6 8 6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 18h16" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'truck':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7z" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="7" cy="17" r="2" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="18" cy="17" r="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M12 8v4l2 2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M12 22a10 10 0 100-20 10 10 0 000 20z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+  }
+};
+
 const commerceTiles = [
   {
     title: 'Lazer makineleri',
@@ -208,7 +280,19 @@ const faq = [
 ];
 
 export default async function Home() {
-  const config = await prisma.homePanelConfig.findUnique({
+  const prismaHome = prisma as unknown as {
+    homePanelConfig: {
+      findUnique: (args: unknown) => Promise<{
+        capacitySchedule?: unknown;
+        priceAlertSteps?: unknown;
+        procurementFlow?: unknown;
+        capacityImageUrl?: string | null;
+        priceAlertImageUrl?: string | null;
+        procurementImageUrl?: string | null;
+      } | null>;
+    };
+  };
+  const config = await prismaHome.homePanelConfig.findUnique({
     where: { id: 'home' },
   });
   const { capacitySchedule, priceAlertSteps, procurementFlow } = normalizeHomePanelConfig(config ?? {});
@@ -465,7 +549,19 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-6 text-white shadow-2xl">
+          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-6 text-white shadow-2xl">
+            {capacityImageUrl ? (
+              <div className="pointer-events-none absolute inset-0">
+                <Image
+                  src={capacityImageUrl}
+                  alt="Kapasite gorseli"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover opacity-25"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/60 to-teal-950/70" />
+              </div>
+            ) : null}
             <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Canli kapasite takvimi</p>
             <h2 className="mt-2 text-2xl font-semibold">Uretim + servis randevu paneli</h2>
             <p className="mt-3 text-sm text-white/70">
@@ -477,10 +573,7 @@ export default async function Home() {
                   <div className="flex items-center justify-between text-sm font-semibold">
                     <div className="flex items-center gap-2">
                       <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-amber-200">
-                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
-                          <path d="M12 8v4l2 2" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M12 22a10 10 0 100-20 10 10 0 000 20z" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
+                        {panelIcon(slot.icon)}
                       </span>
                       <span>{slot.title}</span>
                     </div>
@@ -507,7 +600,18 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+            {priceAlertImageUrl ? (
+              <div className="pointer-events-none absolute inset-0">
+                <Image
+                  src={priceAlertImageUrl}
+                  alt="Fiyat alarmi gorseli"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover opacity-10"
+                />
+              </div>
+            ) : null}
             <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Fiyat dusus alarmi</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
               Fiyat dusunce otomatik haber ver
@@ -518,16 +622,14 @@ export default async function Home() {
             <div className="mt-5 space-y-3">
               {priceAlertSteps.map((step) => (
                 <div
-                  key={step}
+                  key={step.text}
                   className="rounded-2xl border border-teal-100/70 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-800/70 dark:bg-slate-900/80 dark:text-slate-200"
                 >
                   <div className="flex items-center gap-3">
                     <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-200">
-                      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
-                        <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      {panelIcon(step.icon)}
                     </span>
-                    <span>{step}</span>
+                    <span>{step.text}</span>
                   </div>
                 </div>
               ))}
@@ -551,7 +653,18 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
-        <div className="rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+        <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+          {procurementImageUrl ? (
+            <div className="pointer-events-none absolute inset-0">
+              <Image
+                src={procurementImageUrl}
+                alt="Satin alma gorseli"
+                fill
+                sizes="(max-width: 1024px) 100vw, 100vw"
+                className="object-cover opacity-10"
+              />
+            </div>
+          ) : null}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Kurumsal satin alma</p>
@@ -578,9 +691,7 @@ export default async function Home() {
                 </div>
                 <div className="mt-3 flex items-center gap-3">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-teal-600/10 text-teal-700 dark:bg-teal-500/10 dark:text-teal-200">
-                    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    {panelIcon(step.icon)}
                   </span>
                   <div>
                     <p className="text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>

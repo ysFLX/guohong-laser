@@ -53,6 +53,9 @@ type PrismaClientLike = {
       }>
     >;
   };
+  homePanelConfig: {
+    findUnique: (args: unknown) => Promise<{ updatedAt: Date } | null>;
+  };
 };
 
 const prismaAdmin = prisma as unknown as PrismaClientLike;
@@ -90,6 +93,7 @@ export default async function AdminHomePage() {
     newContacts,
     latestParts,
     recentInquiries,
+    homePanels,
   ] = await Promise.all([
     prismaAdmin.sparePart.count(),
     prismaAdmin.sparePart.count({ where: { isActive: true } }),
@@ -115,6 +119,7 @@ export default async function AdminHomePage() {
         createdAt: true,
       },
     }),
+    prismaAdmin.homePanelConfig.findUnique({ where: { id: 'home' }, select: { updatedAt: true } }),
   ]);
 
   const stats = [
@@ -179,6 +184,23 @@ export default async function AdminHomePage() {
               <div className="mt-2 text-2xl font-bold text-slate-900">{stat.value}</div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Anasayfa panelleri</div>
+              <div className="mt-2 text-sm text-slate-600">
+                Son guncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henuz ayarlanmadı'}
+              </div>
+            </div>
+            <Link
+              href="/admin/site-config"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-300"
+            >
+              Panelleri duzenle
+            </Link>
+          </div>
         </div>
       </div>
 

@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
-import type { CapacitySlot, HomePanelConfig, ProcurementStep } from '@/lib/homePanelDefaults';
+import type { CapacitySlot, HomePanelConfig, PriceAlertStep, ProcurementStep } from '@/lib/homePanelDefaults';
 import { homePanelDefaults } from '@/lib/homePanelDefaults';
+import AdminAssetUpload from '@/components/admin/AdminAssetUpload';
 
 type Props = {
   initialConfig: HomePanelConfig;
@@ -11,10 +12,26 @@ type Props = {
 
 export default function HomePanelsForm({ initialConfig }: Props) {
   const [capacitySchedule, setCapacitySchedule] = useState<CapacitySlot[]>(initialConfig.capacitySchedule);
-  const [priceAlertSteps, setPriceAlertSteps] = useState<string[]>(initialConfig.priceAlertSteps);
+  const [priceAlertSteps, setPriceAlertSteps] = useState<PriceAlertStep[]>(initialConfig.priceAlertSteps);
   const [procurementFlow, setProcurementFlow] = useState<ProcurementStep[]>(initialConfig.procurementFlow);
+  const [capacityImageUrl, setCapacityImageUrl] = useState(initialConfig.capacityImageUrl || '');
+  const [priceAlertImageUrl, setPriceAlertImageUrl] = useState(initialConfig.priceAlertImageUrl || '');
+  const [procurementImageUrl, setProcurementImageUrl] = useState(initialConfig.procurementImageUrl || '');
   const [isSaving, setIsSaving] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const iconOptions = [
+    { value: 'clock', label: 'Saat' },
+    { value: 'calendar', label: 'Takvim' },
+    { value: 'shield', label: 'Guvenlik' },
+    { value: 'heart', label: 'Favori' },
+    { value: 'target', label: 'Hedef' },
+    { value: 'bell', label: 'Bildirim' },
+    { value: 'file', label: 'Dosya' },
+    { value: 'check', label: 'Onay' },
+    { value: 'signature', label: 'Imza' },
+    { value: 'truck', label: 'Teslimat' },
+  ];
 
   const saveConfig = async () => {
     setIsSaving(true);
@@ -27,6 +44,9 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           capacitySchedule,
           priceAlertSteps,
           procurementFlow,
+          capacityImageUrl,
+          priceAlertImageUrl,
+          procurementImageUrl,
         }),
       });
       const data = await res.json();
@@ -59,7 +79,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             onClick={() =>
               setCapacitySchedule((prev) => [
                 ...prev,
-                { title: 'Yeni slot', status: '%0 dolu', detail: 'Detay ekle', window: 'Tarih araligi' },
+                { title: 'Yeni slot', status: '%0 dolu', detail: 'Detay ekle', window: 'Tarih araligi', icon: '' },
               ])
             }
             className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
@@ -67,9 +87,17 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             Slot ekle
           </button>
         </div>
+        <div className="mt-4">
+          <AdminAssetUpload
+            label="Panel gorseli"
+            helper="Opsiyonel: premium gorunum icin tek gorsel ekleyebilirsin."
+            value={capacityImageUrl}
+            onChange={setCapacityImageUrl}
+          />
+        </div>
         <div className="mt-4 space-y-4">
           {capacitySchedule.map((slot, index) => (
-            <div key={`${slot.title}-${index}`} className="grid gap-3 rounded-xl border border-slate-200 p-4 md:grid-cols-4">
+            <div key={`${slot.title}-${index}`} className="grid gap-3 rounded-xl border border-slate-200 p-4 md:grid-cols-5">
               <input
                 className="form-input"
                 value={slot.title}
@@ -100,6 +128,22 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                 }}
                 placeholder="Detay"
               />
+              <select
+                className="form-input"
+                value={slot.icon || ''}
+                onChange={(e) => {
+                  const next = [...capacitySchedule];
+                  next[index] = { ...next[index], icon: e.target.value || undefined };
+                  setCapacitySchedule(next);
+                }}
+              >
+                <option value="">Ikon sec</option>
+                {iconOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
               <div className="flex items-center gap-2">
                 <input
                   className="form-input flex-1"
@@ -132,24 +176,48 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           </div>
           <button
             type="button"
-            onClick={() => setPriceAlertSteps((prev) => [...prev, 'Yeni adim'])}
+            onClick={() => setPriceAlertSteps((prev) => [...prev, { text: 'Yeni adim', icon: '' }])}
             className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
           >
             Adim ekle
           </button>
         </div>
+        <div className="mt-4">
+          <AdminAssetUpload
+            label="Panel gorseli"
+            helper="Opsiyonel: fiyat alarmi paneline arka plan gorseli."
+            value={priceAlertImageUrl}
+            onChange={setPriceAlertImageUrl}
+          />
+        </div>
         <div className="mt-4 space-y-3">
           {priceAlertSteps.map((step, index) => (
-            <div key={`${step}-${index}`} className="flex items-center gap-3">
+            <div key={`${step.text}-${index}`} className="flex items-center gap-3">
               <input
                 className="form-input flex-1"
-                value={step}
+                value={step.text}
                 onChange={(e) => {
                   const next = [...priceAlertSteps];
-                  next[index] = e.target.value;
+                  next[index] = { ...next[index], text: e.target.value };
                   setPriceAlertSteps(next);
                 }}
               />
+              <select
+                className="form-input w-40"
+                value={step.icon || ''}
+                onChange={(e) => {
+                  const next = [...priceAlertSteps];
+                  next[index] = { ...next[index], icon: e.target.value || undefined };
+                  setPriceAlertSteps(next);
+                }}
+              >
+                <option value="">Ikon sec</option>
+                {iconOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
                 onClick={() => setPriceAlertSteps((prev) => prev.filter((_, idx) => idx !== index))}
@@ -171,16 +239,24 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           <button
             type="button"
             onClick={() =>
-              setProcurementFlow((prev) => [...prev, { title: 'Yeni adim', description: 'Aciklama ekle' }])
+              setProcurementFlow((prev) => [...prev, { title: 'Yeni adim', description: 'Aciklama ekle', icon: '' }])
             }
             className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
           >
             Adim ekle
           </button>
         </div>
+        <div className="mt-4">
+          <AdminAssetUpload
+            label="Panel gorseli"
+            helper="Opsiyonel: satin alma paneli icin kurumsal gorsel."
+            value={procurementImageUrl}
+            onChange={setProcurementImageUrl}
+          />
+        </div>
         <div className="mt-4 space-y-4">
           {procurementFlow.map((step, index) => (
-            <div key={`${step.title}-${index}`} className="grid gap-3 rounded-xl border border-slate-200 p-4 md:grid-cols-[1fr_2fr_auto]">
+            <div key={`${step.title}-${index}`} className="grid gap-3 rounded-xl border border-slate-200 p-4 md:grid-cols-[1fr_2fr_160px_auto]">
               <input
                 className="form-input"
                 value={step.title}
@@ -201,6 +277,22 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                 }}
                 placeholder="Aciklama"
               />
+              <select
+                className="form-input"
+                value={step.icon || ''}
+                onChange={(e) => {
+                  const next = [...procurementFlow];
+                  next[index] = { ...next[index], icon: e.target.value || undefined };
+                  setProcurementFlow(next);
+                }}
+              >
+                <option value="">Ikon sec</option>
+                {iconOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
                 onClick={() => setProcurementFlow((prev) => prev.filter((_, idx) => idx !== index))}
@@ -224,6 +316,9 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             setCapacitySchedule(homePanelDefaults.capacitySchedule);
             setPriceAlertSteps(homePanelDefaults.priceAlertSteps);
             setProcurementFlow(homePanelDefaults.procurementFlow);
+            setCapacityImageUrl(homePanelDefaults.capacityImageUrl || '');
+            setPriceAlertImageUrl(homePanelDefaults.priceAlertImageUrl || '');
+            setProcurementImageUrl(homePanelDefaults.procurementImageUrl || '');
             setStatus(null);
           }}
         >

@@ -9,6 +9,9 @@ type ConfigPayload = {
   capacitySchedule?: unknown;
   priceAlertSteps?: unknown;
   procurementFlow?: unknown;
+  capacityImageUrl?: unknown;
+  priceAlertImageUrl?: unknown;
+  procurementImageUrl?: unknown;
 };
 
 type HomePanelConfigDelegate = {
