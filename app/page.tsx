@@ -92,6 +92,11 @@ const trustLinks = [
     href: '/returns',
   },
   {
+    title: 'Mesafeli satis',
+    description: 'Siparis onayi, teslimat ve cayma hakki ozeti.',
+    href: '/distance-sales',
+  },
+  {
     title: 'Kargo ve teslimat',
     description: 'Hazirlama sureleri ve kargo takip bilgileri.',
     href: '/shipping',
@@ -105,6 +110,16 @@ const trustLinks = [
     title: 'Gizlilik politikasi',
     description: 'KVKK, veri isleme ve iletisim bilgileri.',
     href: '/privacy',
+  },
+  {
+    title: 'KVKK aydinlatma',
+    description: 'Veri isleme amaclari ve basvuru haklari.',
+    href: '/kvkk',
+  },
+  {
+    title: 'Cerez politikasi',
+    description: 'Cerez turleri ve tercih yonetimi.',
+    href: '/cookies',
   },
 ];
 
