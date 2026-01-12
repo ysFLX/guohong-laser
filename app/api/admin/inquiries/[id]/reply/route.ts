@@ -38,8 +38,10 @@ async function sendInquiryReplyEmail(params: {
     return;
   }
 
+  const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const safeName = params.name?.trim() || 'Musterimiz';
   const subjectText = params.subject?.trim() || 'Talebiniz';
+  const responseHtml = params.adminResponse.replace(/\n/g, '<br />');
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -65,11 +67,32 @@ async function sendInquiryReplyEmail(params: {
       'Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.',
     ].join('\n'),
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
-        <h2 style="margin: 0 0 8px; color: #0b1120;">Talebinize yanit verdik</h2>
-        <p style="margin: 0 0 16px; color: #475569;">Merhaba <strong>${safeName}</strong>,</p>
-        <div style="padding: 14px; background: #f8fafc; border-radius: 12px; color: #0f172a; white-space: pre-line;">${params.adminResponse}</div>
-        <p style="margin: 16px 0 0; color: #64748b; font-size: 13px;">Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.</p>
+      <div style="background: #f1f5f9; padding: 32px 12px;">
+        <div style="font-family: Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 18px; background: #ffffff;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #94a3b8;">Guohong Lazer</div>
+              <h2 style="margin: 6px 0 0; color: #0b1120;">Talebinize yanit verdik</h2>
+            </div>
+            <span style="padding: 6px 12px; border-radius: 999px; background: #e6fffb; color: #0b3b36; font-size: 12px; font-weight: 700;">Destek Yaniti</span>
+          </div>
+
+          <p style="margin: 18px 0 8px; color: #0f172a; font-size: 15px;">Merhaba <strong>${safeName}</strong>,</p>
+          <p style="margin: 0 0 18px; color: #475569;">${subjectText} hakkindaki talebinize cevap verdik.</p>
+
+          <div style="padding: 16px; background: #f8fafc; border-radius: 14px; color: #0f172a; font-size: 15px; line-height: 1.6;">
+            ${responseHtml}
+          </div>
+
+          <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="${appUrl}/contact" style="display: inline-block; padding: 10px 16px; background: #0b1120; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Destek iletisimi</a>
+            <a href="${appUrl}/quote" style="display: inline-block; padding: 10px 16px; border: 1px solid #1f2937; color: #0b1120; border-radius: 10px; text-decoration: none; font-weight: 600;">Fiyat teklifi al</a>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 12px;">
+            Bu e-posta otomatik olarak gonderilmistir. Yanitlamak isterseniz bu e-postaya cevap yazabilirsiniz.
+          </div>
+        </div>
       </div>
     `,
   });
