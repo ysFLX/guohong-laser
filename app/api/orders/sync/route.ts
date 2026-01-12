@@ -76,8 +76,24 @@ async function sendOrderEmail(params: {
   const returnsUrl = `${appUrl}/returns-request`;
 
   const lines = params.items
-    .map((item) => `${item.name} x${item.quantity} • ${formatPriceTry(item.priceCents * item.quantity)}`)
+    .map((item) => `${item.name} x${item.quantity} TL ${formatPriceTry(item.priceCents * item.quantity)}`)
     .join('\n');
+
+  const itemsHtml = params.items
+    .map(
+      (item) => `
+        <tr>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+            <div style="font-weight: 600; color: #0f172a;">${item.name}</div>
+            <div style="font-size: 12px; color: #64748b;">Adet: ${item.quantity}</div>
+          </td>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: 600; color: #0f172a;">
+            ${formatPriceTry(item.priceCents * item.quantity)}
+          </td>
+        </tr>
+      `
+    )
+    .join('');
 
   const address = params.shippingAddress
     ? [
@@ -92,6 +108,11 @@ async function sendOrderEmail(params: {
         .filter(Boolean)
         .join('\n')
     : 'Adres bilgisi bulunamadi.';
+
+  const addressHtml =
+    address === 'Adres bilgisi bulunamadi.'
+      ? '<span style="color:#64748b;">Adres bilgisi bulunamadi.</span>'
+      : address.replace(/\n/g, '<br />');
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -123,23 +144,45 @@ async function sendOrderEmail(params: {
       `Iade/degisim talebi: ${returnsUrl}`,
     ].join('\n'),
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h2 style="margin-top: 0; color: #111827;">Siparisiniz alindi</h2>
-        <p style="margin: 0 0 12px;">Siparis numaraniz: <strong>#${params.orderId.slice(0, 8)}</strong></p>
-        <div style="margin-bottom: 16px;">
-          <a href="${orderUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none;">Siparis detaylari</a>
+      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+          <div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
+            <h2 style="margin: 6px 0 0; color: #0f172a;">Siparisiniz alindi</h2>
+          </div>
+          <span style="padding: 6px 12px; border-radius: 999px; background: #ecfeff; color: #0f766e; font-size: 12px; font-weight: 700;">Siparis alindi</span>
         </div>
-        <div style="padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">
-          <strong>Siparis ozeti</strong>
-          <div style="margin-top: 8px;">${lines.replace(/\n/g, '<br />')}</div>
-          <div style="margin-top: 8px;"><strong>Toplam:</strong> ${formatPriceTry(params.totalCents)}</div>
+
+        <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 13px; color: #475569;">Siparis numaraniz</div>
+          <div style="font-size: 18px; font-weight: 700; color: #0f172a;">#${params.orderId.slice(0, 8)}</div>
         </div>
-        <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">
-          <strong>Teslimat adresi</strong>
-          <div style="margin-top: 8px;">${address.replace(/\n/g, '<br />')}</div>
+
+        <div style="margin-top: 18px;">
+          <a href="${orderUrl}" style="display: inline-block; padding: 10px 18px; background: #0f172a; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Siparis detaylarini gor</a>
+          <a href="${returnsUrl}" style="display: inline-block; margin-left: 10px; padding: 10px 18px; border: 1px solid #cbd5f5; color: #1e293b; border-radius: 10px; text-decoration: none; font-weight: 600;">Iade/degisim talebi</a>
         </div>
-        <div style="margin-top: 16px;">
-          <a href="${returnsUrl}" style="color: #0f766e; text-decoration: none; font-weight: 600;">Iade/degisim talebi olustur</a>
+
+        <div style="margin-top: 24px;">
+          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Siparis ozeti</div>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
+            <tbody>
+              ${itemsHtml}
+              <tr>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">Toplam</td>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">${formatPriceTry(params.totalCents)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px; font-size: 14px; color: #334155;">
+          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Teslimat adresi</div>
+          <div style="margin-top: 8px; line-height: 1.5;">${addressHtml}</div>
+        </div>
+
+        <div style="margin-top: 18px; font-size: 12px; color: #94a3b8;">
+          Bu e-posta otomatik olarak gonderilmistir. Herhangi bir sorunuz olursa bizimle iletisime gecebilirsiniz.
         </div>
       </div>
     `,
@@ -312,3 +355,4 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ ok: true });
 }
+
