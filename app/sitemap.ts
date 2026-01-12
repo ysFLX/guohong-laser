@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/quote',
     '/shipping',
     '/returns',
+    '/stock-request',
     '/privacy',
     '/kvkk',
     '/cookies',

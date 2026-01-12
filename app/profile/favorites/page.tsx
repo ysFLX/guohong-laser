@@ -146,7 +146,7 @@ export default function FavoritesPage() {
 
         {!isLoading && !error && items.length > 0 && (
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
-            {items.map((item) => (
+                {items.map((item) => (
               <div key={item.id} className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white/90 shadow-sm">
                 <Link href={`/spare-parts/${item.sparePartId}`} className="block">
                   <div className="relative h-52 w-full">
@@ -190,8 +190,23 @@ export default function FavoritesPage() {
                       name={item.sparePart.name}
                       priceCents={item.sparePart.priceCents}
                       imageUrl={item.sparePart.imageUrl}
-                      className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                      disabled={item.sparePart.stockOnHand <= 0}
+                      className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+                        item.sparePart.stockOnHand > 0
+                          ? 'bg-teal-600 text-white hover:bg-teal-700'
+                          : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                      }`}
                     />
+                    {item.sparePart.stockOnHand <= 0 && (
+                      <Link
+                        href={`/stock-request?product=${encodeURIComponent(item.sparePart.name)}&id=${encodeURIComponent(
+                          item.sparePart.id,
+                        )}`}
+                        className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
+                      >
+                        Stok gelince haber ver
+                      </Link>
+                    )}
                     <Link
                       href={`/spare-parts/${item.sparePartId}`}
                       className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"

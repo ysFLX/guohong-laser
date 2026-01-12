@@ -37,6 +37,8 @@ const machineModels = [
   { id: 'GL-9000', label: 'GL-9000 (Ozel Kesim)', categories: ['Ozel Kesim'] },
 ];
 
+const CRITICAL_STOCK_LEVEL = 5;
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -492,6 +494,7 @@ export default function SparePartsPage() {
               {visibleItems.map((p) => {
                 const isFavorited = favoriteIds.has(p.id);
                 const inStock = p.stockOnHand > 0;
+                const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
 
                 return (
                   <div
@@ -532,6 +535,11 @@ export default function SparePartsPage() {
                           <span className="rounded-full bg-slate-900/80 px-3 py-1 text-white">
                             {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
                           </span>
+                          {isCritical && (
+                            <span className="rounded-full bg-amber-300 px-3 py-1 text-amber-950">
+                              Kritik stok
+                            </span>
+                          )}
                         </div>
                       </div>
                     </Link>
@@ -592,13 +600,22 @@ export default function SparePartsPage() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <AddToCartButton
-                          id={p.id}
-                          name={p.name}
-                          priceCents={p.priceCents}
-                          imageUrl={p.imageUrl}
-                          className="flex-1 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
-                        />
+                        {inStock ? (
+                          <AddToCartButton
+                            id={p.id}
+                            name={p.name}
+                            priceCents={p.priceCents}
+                            imageUrl={p.imageUrl}
+                            className="flex-1 rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                          />
+                        ) : (
+                          <Link
+                            href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                            className="flex-1 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm font-semibold text-amber-800 hover:border-amber-300"
+                          >
+                            Stok gelince haber ver
+                          </Link>
+                        )}
                         <button
                           type="button"
                           onClick={() => toggleFavorite(p.id)}

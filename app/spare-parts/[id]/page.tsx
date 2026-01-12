@@ -61,6 +61,8 @@ const compatibilityByCategory: Record<string, string[]> = {
   'Ozel Kesim': ['GL-9000'],
 };
 
+const CRITICAL_STOCK_LEVEL = 5;
+
 const faqItems = [
   {
     q: 'Bu parca hangi modellere uyumludur?',
@@ -211,6 +213,7 @@ export default async function SparePartDetailPage({
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;
+  const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
   const baseUrl = getBaseUrl();
   const imageUrls = (p.images?.length ? p.images.map((img) => img.url) : [p.imageUrl]).filter(
     Boolean,
@@ -283,6 +286,9 @@ export default async function SparePartDetailPage({
               <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-800 dark:text-gray-200">
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
+              {isCritical && (
+                <span className="rounded-full bg-amber-200 px-3 py-1 text-amber-800">Kritik stok</span>
+              )}
             </div>
             <div className="grid gap-3 rounded-2xl border border-gray-100 bg-white/90 p-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 sm:grid-cols-3">
               <div>
@@ -369,6 +375,9 @@ export default async function SparePartDetailPage({
               <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-900 dark:text-gray-200">
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
+              {isCritical && (
+                <span className="rounded-full bg-amber-200 px-3 py-1 text-amber-800">Kritik stok</span>
+              )}
             </div>
             <div className="mt-4 rounded-xl border border-gray-100 bg-white/90 p-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
               <div className="flex items-center justify-between">
@@ -385,18 +394,32 @@ export default async function SparePartDetailPage({
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
-              <AddToCartButton
-                id={p.id}
-                name={p.name}
-                priceCents={p.priceCents}
-                imageUrl={p.imageUrl}
-                className={
-                  inStock
-                    ? 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700'
-                    : 'inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 cursor-not-allowed'
-                }
-                quantity={1}
-              />
+              {inStock ? (
+                <AddToCartButton
+                  id={p.id}
+                  name={p.name}
+                  priceCents={p.priceCents}
+                  imageUrl={p.imageUrl}
+                  className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
+                  quantity={1}
+                />
+              ) : (
+                <div className="grid gap-2">
+                  <button
+                    type="button"
+                    disabled
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 cursor-not-allowed"
+                  >
+                    Stokta yok
+                  </button>
+                  <Link
+                    href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-amber-200 bg-amber-50 text-amber-800 hover:border-amber-300"
+                  >
+                    Stok gelince haber ver
+                  </Link>
+                </div>
+              )}
               <Link
                 href="/cart"
                 className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-gray-200 text-gray-800 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"

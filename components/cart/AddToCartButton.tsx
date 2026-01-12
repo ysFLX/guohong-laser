@@ -14,6 +14,7 @@ type Props = {
   imageUrl: string | null;
   className?: string;
   quantity?: number;
+  disabled?: boolean;
 };
 
 export default function AddToCartButton({
@@ -23,6 +24,7 @@ export default function AddToCartButton({
   imageUrl,
   className,
   quantity = 1,
+  disabled = false,
 }: Props) {
   const { addItem } = useCart();
   const { show, dismiss } = useToast();
@@ -30,6 +32,7 @@ export default function AddToCartButton({
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const isDisabled = disabled || isAdding || status === 'loading';
 
   return (
     <button
@@ -67,7 +70,7 @@ export default function AddToCartButton({
         ]);
         window.setTimeout(() => setIsAdding(false), 350);
       }}
-      disabled={isAdding || status === 'loading'}
+      disabled={isDisabled}
       className={
         className ||
         'inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-60'
