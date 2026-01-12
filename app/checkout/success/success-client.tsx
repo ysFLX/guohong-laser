@@ -30,6 +30,17 @@ export default function CheckoutSuccessClient() {
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
           Siparisin alinmistir. Detaylari "Siparislerim" sayfasindan takip edebilirsin.
         </p>
+        <div className="mt-4 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+          Iade veya degisim talebin olursa{' '}
+          <Link href="/returns-request" className="font-semibold text-teal-600 hover:text-teal-700">
+            iade formunu
+          </Link>{' '}
+          doldurabilirsin. Fatura/irsaliye talepleri icin{' '}
+          <Link href="/contact?subject=Fatura+Talebi" className="font-semibold text-teal-600 hover:text-teal-700">
+            iletisim
+          </Link>{' '}
+          kurabilirsin.
+        </div>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             href="/profile/orders"

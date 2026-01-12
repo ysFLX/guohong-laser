@@ -75,7 +75,7 @@ export default function ReturnsPage() {
                 <li>3. Onay sonrasi iade akisina gecilsin.</li>
               </ol>
               <Link
-                href="/contact?subject=Iade+Talebi"
+                href="/returns-request"
                 className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >
                 Iade talebi olustur

@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/cookies',
     '/distance-sales',
     '/payment-security',
+    '/returns-request',
     '/login',
     '/register',
   ];
