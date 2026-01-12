@@ -202,6 +202,19 @@ const servicePackages = [
   },
 ];
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Guohong Lazer urunleri',
+  itemListElement: products.map((product, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: product.name,
+    url: baseUrl ? `${baseUrl}/products#product-${product.id}` : `/products#product-${product.id}`,
+  })),
+};
+
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
@@ -241,6 +254,7 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen space-y-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
@@ -357,7 +371,10 @@ export default function ProductsPage() {
       <Reveal as="section" className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
         {filteredProducts.map((product, index) => (
           <Reveal key={product.id} as="div" delay={120 + index * 60}>
-            <div className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5">
+            <div
+              id={`product-${product.id}`}
+              className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+            >
               <div className="relative h-48 w-full overflow-hidden bg-white">
                 <Image src={product.image} alt={product.name} fill className="object-cover" />
                 <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">

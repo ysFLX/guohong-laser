@@ -38,6 +38,7 @@ const machineModels = [
 ];
 
 const CRITICAL_STOCK_LEVEL = 5;
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
 
 function formatPriceTry(priceCents: number) {
   try {
@@ -256,6 +257,21 @@ export default function SparePartsPage() {
     [sorted, visibleCount],
   );
 
+  const itemListSchema = useMemo(() => {
+    if (!visibleItems.length) return null;
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Guohong Lazer yedek parcalar',
+      itemListElement: visibleItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        url: baseUrl ? `${baseUrl}/spare-parts/${item.id}` : `/spare-parts/${item.id}`,
+      })),
+    };
+  }, [visibleItems]);
+
   useEffect(() => {
     setVisibleCount(24);
   }, [selectedCategory, selectedModel, searchQuery, sortOption]);
@@ -303,6 +319,9 @@ export default function SparePartsPage() {
 
   return (
     <div className="min-h-screen space-y-16">
+      {itemListSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      )}
       <section className="relative overflow-hidden rounded-[40px] bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 px-6 py-14 text-white shadow-2xl sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(251,146,60,0.22),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(148,163,184,0.18),transparent_55%)]" />
