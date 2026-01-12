@@ -504,7 +504,7 @@ export default function OrdersAdminManager() {
                         </div>
                         <div className="mt-3 flex items-center gap-2">
                           <select
-                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                            className="form-input text-xs font-semibold text-slate-700"
                             value={draftStatus[order.id] || order.status}
                             onChange={(e) => {
                               const value = e.target.value;
@@ -564,7 +564,7 @@ export default function OrdersAdminManager() {
                               Kargo firmasi
                             </label>
                           <input
-                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                            className="form-input text-xs text-slate-700"
                             value={draftTracking[order.id]?.carrier || ''}
                             onChange={(e) =>
                               setDraftTracking((prev) => ({
@@ -583,7 +583,7 @@ export default function OrdersAdminManager() {
                               Takip no
                             </label>
                           <input
-                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                            className="form-input text-xs text-slate-700"
                             value={draftTracking[order.id]?.number || ''}
                             onChange={(e) =>
                               setDraftTracking((prev) => ({
@@ -602,7 +602,7 @@ export default function OrdersAdminManager() {
                               Takip linki
                             </label>
                             <input
-                              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700"
+                              className="form-input text-xs text-slate-700"
                               value={draftTracking[order.id]?.url || ''}
                               onChange={(e) =>
                                 setDraftTracking((prev) => ({

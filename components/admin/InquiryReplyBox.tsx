@@ -36,7 +36,7 @@ export default function InquiryReplyBox({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!canReply}
-        className="mt-3 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white disabled:opacity-60"
+        className="mt-3 form-input text-sm disabled:opacity-60"
         placeholder="Yanit metni..."
       />
 
@@ -63,7 +63,7 @@ export default function InquiryReplyBox({
               setIsSaving(false);
             }
           }}
-          className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60"
+          className="btn-primary"
         >
           {isSaving ? 'Kaydediliyor...' : 'Yaniti Kaydet'}
         </button>

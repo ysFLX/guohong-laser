@@ -117,21 +117,21 @@ export default async function AdminSparePartsPage({
       <div className="px-5 pb-5">
         <form className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <div>
-            <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300">Arama</label>
+            <label className="form-label block">Arama</label>
             <input
               type="text"
               name="q"
               defaultValue={query}
               placeholder="Urun adi veya aciklama ara"
-              className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
+              className="form-input mt-1 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300">Kategori</label>
+            <label className="form-label block">Kategori</label>
             <select
               name="category"
               defaultValue={categoryId}
-              className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
+              className="form-input mt-1 text-sm"
             >
               <option value="">Tum kategoriler</option>
               {categories.map((c) => (
@@ -142,11 +142,11 @@ export default async function AdminSparePartsPage({
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300">Durum</label>
+            <label className="form-label block">Durum</label>
             <select
               name="status"
               defaultValue={status}
-              className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
+              className="form-input mt-1 text-sm"
             >
               <option value="all">Tum durumlar</option>
               <option value="active">Aktif</option>
@@ -156,13 +156,13 @@ export default async function AdminSparePartsPage({
           <div className="md:col-span-3 flex items-center gap-2">
             <button
               type="submit"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700"
+              className="btn-primary"
             >
               Filtrele
             </button>
             <Link
               href="/admin/spare-parts"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="btn-secondary"
             >
               Sifirla
             </Link>
