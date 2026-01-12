@@ -358,9 +358,9 @@ export default function CheckoutAddressPage() {
             {showForm && formTarget === 'shipping' && (
               <form onSubmit={submitAddress} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Etiket</div>
+                  <div className="form-label">Etiket</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Etiket (Ev, Is)"
                     value={form.label}
                     onChange={(e) => setForm({ ...form, label: e.target.value })}
@@ -368,9 +368,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Ad</div>
+                  <div className="form-label">Ad</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Ad"
                     value={form.firstName}
                     onChange={(e) => setForm({ ...form, firstName: e.target.value })}
@@ -378,9 +378,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Soyad</div>
+                  <div className="form-label">Soyad</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Soyad"
                     value={form.lastName}
                     onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -388,9 +388,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Telefon</div>
+                  <div className="form-label">Telefon</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Telefon"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -398,9 +398,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Adres</div>
+                  <div className="form-label">Adres</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Adres"
                     value={form.line1}
                     onChange={(e) => setForm({ ...form, line1: e.target.value })}
@@ -408,9 +408,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
+                  <div className="form-label">Il Secimi</div>
                   <select
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
+                    className="form-input"
                     value={form.cityCode}
                     onChange={(e) => {
                       const cityCode = e.target.value;
@@ -437,9 +437,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
+                  <div className="form-label">Ilce Secimi</div>
                   <select
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
+                    className="form-input"
                     value={form.district}
                     onChange={(e) => setForm({ ...form, district: e.target.value })}
                     disabled={!form.cityCode || loadingDistricts}
@@ -457,9 +457,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Posta Kodu</div>
+                  <div className="form-label">Posta Kodu</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Posta Kodu"
                     value={form.postalCode}
                     onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
@@ -467,9 +467,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Daire / Not</div>
+                  <div className="form-label">Daire / Not</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Daire / Not (opsiyonel)"
                     value={form.line2}
                     onChange={(e) => setForm({ ...form, line2: e.target.value })}
@@ -477,9 +477,9 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="text-sm font-semibold text-gray-700">Ulke</div>
+                  <div className="form-label">Ulke</div>
                   <input
-                    className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                    className="form-input"
                     placeholder="Ulke"
                     value={form.country}
                     onChange={(e) => setForm({ ...form, country: e.target.value })}
@@ -490,13 +490,13 @@ export default function CheckoutAddressPage() {
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700"
+                    className="btn-secondary"
                   >
                     Iptal
                   </button>
                   <button
                     type="submit"
-                    className="rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                    className="btn-primary"
                   >
                     Adresi kaydet
                   </button>
@@ -586,9 +586,9 @@ export default function CheckoutAddressPage() {
                 {showForm && formTarget === 'billing' && (
                   <form onSubmit={submitAddress} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div className="space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Etiket</div>
+                      <div className="form-label">Etiket</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Etiket (Ev, Is)"
                         value={form.label}
                         onChange={(e) => setForm({ ...form, label: e.target.value })}
@@ -596,9 +596,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Ad</div>
+                      <div className="form-label">Ad</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Ad"
                         value={form.firstName}
                         onChange={(e) => setForm({ ...form, firstName: e.target.value })}
@@ -606,9 +606,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Soyad</div>
+                      <div className="form-label">Soyad</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Soyad"
                         value={form.lastName}
                         onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -616,9 +616,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Telefon</div>
+                      <div className="form-label">Telefon</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Telefon"
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -626,9 +626,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Adres</div>
+                      <div className="form-label">Adres</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Adres"
                         value={form.line1}
                         onChange={(e) => setForm({ ...form, line1: e.target.value })}
@@ -636,9 +636,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Il Secimi</div>
+                      <div className="form-label">Il Secimi</div>
                       <select
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
+                        className="form-input"
                         value={form.cityCode}
                         onChange={(e) => {
                           const cityCode = e.target.value;
@@ -665,9 +665,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Ilce Secimi</div>
+                      <div className="form-label">Ilce Secimi</div>
                       <select
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900"
+                        className="form-input"
                         value={form.district}
                         onChange={(e) => setForm({ ...form, district: e.target.value })}
                         disabled={!form.cityCode || loadingDistricts}
@@ -685,9 +685,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Posta Kodu</div>
+                      <div className="form-label">Posta Kodu</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Posta Kodu"
                         value={form.postalCode}
                         onChange={(e) => setForm({ ...form, postalCode: e.target.value })}
@@ -695,9 +695,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Daire / Not</div>
+                      <div className="form-label">Daire / Not</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Daire / Not (opsiyonel)"
                         value={form.line2}
                         onChange={(e) => setForm({ ...form, line2: e.target.value })}
@@ -705,9 +705,9 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="text-sm font-semibold text-gray-700">Ulke</div>
+                      <div className="form-label">Ulke</div>
                       <input
-                        className="w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400"
+                        className="form-input"
                         placeholder="Ulke"
                         value={form.country}
                         onChange={(e) => setForm({ ...form, country: e.target.value })}
@@ -718,13 +718,13 @@ export default function CheckoutAddressPage() {
                       <button
                         type="button"
                         onClick={() => setShowForm(false)}
-                        className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700"
+                        className="btn-secondary"
                       >
                         Iptal
                       </button>
                       <button
                         type="submit"
-                        className="rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+                        className="btn-primary"
                       >
                         Adresi kaydet
                       </button>

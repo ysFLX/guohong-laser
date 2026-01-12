@@ -197,6 +197,50 @@ select:focus-visible {
   box-shadow: none;
 }
 
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  background: #ffffff;
+  transition: border-color 200ms ease, background 200ms ease, color 200ms ease;
+}
+
+.btn-secondary:hover {
+  border-color: #cbd5f5;
+  background: #f8fafc;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  padding: 10px 12px;
+  font-size: 0.875rem;
+  color: #0f172a;
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.form-input:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+
 .card-surface {
   background: var(--surface);
   border: 1px solid var(--surface-border);
