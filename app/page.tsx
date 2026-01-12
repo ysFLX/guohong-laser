@@ -333,7 +333,7 @@ export default async function Home() {
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-teal-400 dark:text-slate-900 dark:hover:bg-teal-300"
+                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-teal-400 dark:text-slate-900 dark:hover:bg-teal-300 cta-breathe"
                 >
                   Makineleri gor
                 </Link>
@@ -370,7 +370,7 @@ export default async function Home() {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-white/20 dark:to-slate-900/20" />
-                <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-200">
+                <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-200 ping-dot">
                   Canli izleme
                 </div>
                 <div className="absolute bottom-6 left-6 right-6 grid gap-3 rounded-2xl border border-white/60 bg-white/90 px-4 py-4 text-slate-900 shadow-lg dark:border-white/10 dark:bg-slate-900/80 dark:text-white">
@@ -396,7 +396,7 @@ export default async function Home() {
       </div>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 ambient-pulse gradient-shift bg-[linear-gradient(120deg,rgba(20,184,166,0.08),rgba(255,255,255,0.95),rgba(250,204,21,0.12))]">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Video galerisi</p>
