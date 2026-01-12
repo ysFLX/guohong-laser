@@ -510,7 +510,7 @@ export default function SparePartsPage() {
 
           {!loadError && (
             <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {visibleItems.map((p) => {
+              {visibleItems.map((p, index) => {
                 const isFavorited = favoriteIds.has(p.id);
                 const inStock = p.stockOnHand > 0;
                 const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
@@ -531,6 +531,7 @@ export default function SparePartsPage() {
                           quality={70}
                           loading="lazy"
                           decoding="async"
+                          priority={index < 3}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80" />
                         <div className="absolute top-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">

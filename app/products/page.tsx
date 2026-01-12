@@ -376,7 +376,14 @@ export default function ProductsPage() {
               className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
             >
               <div className="relative h-48 w-full overflow-hidden bg-white">
-                <Image src={product.image} alt={product.name} fill className="object-cover" />
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority={index < 2}
+                />
                 <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
                   <span
                     className={`rounded-full px-3 py-1 ${

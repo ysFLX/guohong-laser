@@ -56,6 +56,8 @@ export default function RootLayout({
         <link rel="icon" href="/images/logokoyu.png" />
         <link rel="apple-touch-icon" href="/images/logokoyu.png" />
         <link rel="shortcut icon" href="/images/logokoyu.png" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`} suppressHydrationWarning>
         <Providers>
