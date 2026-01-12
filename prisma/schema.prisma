@@ -341,6 +341,15 @@ model UserNotification {
   @@index([seenAt])
 }
 
+model HomePanelConfig {
+  id               String   @id
+  capacitySchedule Json
+  priceAlertSteps  Json
+  procurementFlow  Json
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
 model OrderItem {
   id          String   @id @default(cuid())
   orderId     String

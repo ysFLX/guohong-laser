@@ -4,6 +4,8 @@ import { Space_Grotesk } from 'next/font/google';
 
 import Reveal from '@/components/home/Reveal';
 import VideoSlider from '@/components/home/VideoSlider';
+import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
+import { prisma } from '@/lib/prisma';
 
 const space = Space_Grotesk({
   subsets: ['latin'],
@@ -169,52 +171,6 @@ const process = [
   },
 ];
 
-const capacitySchedule = [
-  {
-    title: 'Bu hafta',
-    status: '%78 dolu',
-    detail: '2 uygun kesif slotu',
-    window: '12-14 Ocak',
-  },
-  {
-    title: 'Gelecek hafta',
-    status: '%52 dolu',
-    detail: 'Yeni kurulum planlari',
-    window: '19-23 Ocak',
-  },
-  {
-    title: 'On rezervasyon',
-    status: 'Kurumsal',
-    detail: 'Oncelikli proje takvimi',
-    window: 'Planli',
-  },
-];
-
-const priceAlertSteps = [
-  'Urunu favorilere ekle',
-  'Fiyat esigi belirle',
-  'Dususte e-posta bildirimi al',
-];
-
-const procurementFlow = [
-  {
-    title: 'Teklif',
-    description: 'Teklif detaylari ve teslim plani olusturulur.',
-  },
-  {
-    title: 'Onay',
-    description: 'Teknik ve finans onaylari tek panelde toparlanir.',
-  },
-  {
-    title: 'Sozlesme',
-    description: 'Maddeler ve garanti kosullari imzaya hazir.',
-  },
-  {
-    title: 'Teslim',
-    description: 'Kurulum takvimi ve kargo takibi netlesir.',
-  },
-];
-
 const testimonials = [
   {
     name: 'Ahmet Yilmaz',
@@ -251,7 +207,11 @@ const faq = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const config = await prisma.homePanelConfig.findUnique({
+    where: { id: 'home' },
+  });
+  const { capacitySchedule, priceAlertSteps, procurementFlow } = normalizeHomePanelConfig(config ?? {});
   return (
     <div className={`${space.className} bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
       <div className="relative overflow-hidden">
@@ -515,7 +475,15 @@ export default function Home() {
               {capacitySchedule.map((slot) => (
                 <div key={slot.title} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">
                   <div className="flex items-center justify-between text-sm font-semibold">
-                    <span>{slot.title}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-amber-200">
+                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+                          <path d="M12 8v4l2 2" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M12 22a10 10 0 100-20 10 10 0 000 20z" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      <span>{slot.title}</span>
+                    </div>
                     <span className="text-amber-200">{slot.status}</span>
                   </div>
                   <p className="mt-1 text-sm text-white/70">{slot.detail}</p>
@@ -553,7 +521,14 @@ export default function Home() {
                   key={step}
                   className="rounded-2xl border border-teal-100/70 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-800/70 dark:bg-slate-900/80 dark:text-slate-200"
                 >
-                  {step}
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-200">
+                      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span>{step}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -601,8 +576,17 @@ export default function Home() {
                     {step.title}
                   </span>
                 </div>
-                <p className="mt-3 text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{step.description}</p>
+                <div className="mt-3 flex items-center gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-teal-600/10 text-teal-700 dark:bg-teal-500/10 dark:text-teal-200">
+                    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
+                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{step.description}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

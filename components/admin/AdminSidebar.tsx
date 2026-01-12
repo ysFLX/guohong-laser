@@ -107,6 +107,21 @@ const navSections: NavSection[] = [
       },
     ],
   },
+  {
+    title: 'Site Ayarlari',
+    items: [
+      {
+        href: '/admin/site-config',
+        label: 'Anasayfa Panelleri',
+        icon: (
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.04.04a2 2 0 01-2.83 2.83l-.04-.04A1.7 1.7 0 0015 19.4a1.7 1.7 0 00-1 .6 1.7 1.7 0 00-.33 1v.09a2 2 0 01-4 0v-.09a1.7 1.7 0 00-1.33-1.6 1.7 1.7 0 00-1.6.33l-.04.04a2 2 0 01-2.83-2.83l.04-.04A1.7 1.7 0 004.6 15a1.7 1.7 0 00-.6-1 1.7 1.7 0 00-1-.33h-.09a2 2 0 010-4h.09a1.7 1.7 0 001.6-1.33 1.7 1.7 0 00-.33-1.6l-.04-.04a2 2 0 012.83-2.83l.04.04A1.7 1.7 0 008.34 4.6a1.7 1.7 0 001-.6 1.7 1.7 0 00.33-1v-.09a2 2 0 014 0v.09a1.7 1.7 0 001.33 1.6 1.7 1.7 0 001.6-.33l.04-.04a2 2 0 012.83 2.83l-.04.04A1.7 1.7 0 0019.4 9c.1.33.15.66.15 1s-.05.67-.15 1z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
+    ],
+  },
 ];
 
 export default function AdminSidebar() {
