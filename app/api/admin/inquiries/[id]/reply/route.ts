@@ -67,33 +67,60 @@ async function sendInquiryReplyEmail(params: {
       'Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.',
     ].join('\n'),
     html: `
-      <div style="background: #f1f5f9; padding: 32px 12px;">
-        <div style="font-family: Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 18px; background: #ffffff;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
-            <div>
-              <div style="font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #94a3b8;">Guohong Lazer</div>
-              <h2 style="margin: 6px 0 0; color: #0b1120;">Talebinize yanit verdik</h2>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b1120; padding: 0; margin: 0;">
+        <tr>
+          <td align="center" style="padding: 36px 16px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 700px; background:#ffffff; border-radius: 22px; overflow: hidden; border: 1px solid #0f172a;">
+              <tr>
+                <td style="background: linear-gradient(135deg, #0b1120 0%, #0b3b36 100%); padding: 28px 28px;">
+                  <div style="font-family: Arial, sans-serif; color:#ffffff;">
+                    <div style="font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; opacity: 0.7;">Guohong Lazer</div>
+                    <div style="margin-top: 10px; font-size: 24px; font-weight: 700;">Talebinize premium yanit</div>
+                    <div style="margin-top: 6px; font-size: 14px; opacity: 0.85;">${subjectText}</div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 26px 28px; font-family: Arial, sans-serif;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+                        <div style="font-size: 16px; color:#0b1120;">Merhaba <strong>${safeName}</strong>,</div>
+                        <div style="margin-top: 8px; color:#475569; font-size: 14px;">Talebinizi inceledik ve yanitimiz asagidadir.</div>
+                      </td>
+                      <td align="right">
+                        <span style="display:inline-block; padding: 6px 12px; border-radius: 999px; background:#e6fffb; color:#0b3b36; font-size:12px; font-weight:700;">Destek Yaniti</span>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <div style="margin-top: 18px; padding: 18px; background:#f8fafc; border-radius: 14px; border: 1px solid #e2e8f0; color:#0f172a; font-size: 15px; line-height: 1.65;">
+                    ${responseHtml}
+                  </div>
+
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 22px;">
+                    <tr>
+                      <td>
+                        <a href="${appUrl}/contact" style="display:inline-block; padding: 12px 18px; background:#0b1120; color:#ffffff; border-radius: 10px; text-decoration:none; font-weight:600;">Destek iletisimi</a>
+                      </td>
+                      <td align="right">
+                        <a href="${appUrl}/quote" style="display:inline-block; padding: 12px 18px; border: 1px solid #0b1120; color:#0b1120; border-radius: 10px; text-decoration:none; font-weight:600;">Fiyat teklifi al</a>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <div style="margin-top: 22px; padding-top: 16px; border-top: 1px solid #e2e8f0; color:#64748b; font-size: 12px;">
+                    Bu e-posta otomatik olarak gonderilmistir. Yanitlamak isterseniz bu e-postaya cevap yazabilirsiniz.
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div style="margin-top: 16px; color:#94a3b8; font-size: 11px; font-family: Arial, sans-serif;">
+              Guohong Lazer • Kurumsal destek ekibi
             </div>
-            <span style="padding: 6px 12px; border-radius: 999px; background: #e6fffb; color: #0b3b36; font-size: 12px; font-weight: 700;">Destek Yaniti</span>
-          </div>
-
-          <p style="margin: 18px 0 8px; color: #0f172a; font-size: 15px;">Merhaba <strong>${safeName}</strong>,</p>
-          <p style="margin: 0 0 18px; color: #475569;">${subjectText} hakkindaki talebinize cevap verdik.</p>
-
-          <div style="padding: 16px; background: #f8fafc; border-radius: 14px; color: #0f172a; font-size: 15px; line-height: 1.6;">
-            ${responseHtml}
-          </div>
-
-          <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="${appUrl}/contact" style="display: inline-block; padding: 10px 16px; background: #0b1120; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Destek iletisimi</a>
-            <a href="${appUrl}/quote" style="display: inline-block; padding: 10px 16px; border: 1px solid #1f2937; color: #0b1120; border-radius: 10px; text-decoration: none; font-weight: 600;">Fiyat teklifi al</a>
-          </div>
-
-          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 12px;">
-            Bu e-posta otomatik olarak gonderilmistir. Yanitlamak isterseniz bu e-postaya cevap yazabilirsiniz.
-          </div>
-        </div>
-      </div>
+          </td>
+        </tr>
+      </table>
     `,
   });
 }
