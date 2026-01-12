@@ -251,31 +251,15 @@ export default function RegisterPage() {
                 </div>
               )}
 
-              {info && (
-                <div className="rounded-xl border border-teal-200/30 bg-teal-400/10 p-3 text-sm text-teal-100">
-                  {info}
-                </div>
-              )}
+              {info && <div className="form-alert form-alert--info">{info}</div>}
 
-              {error && (
-                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
-                  {error}
-                </div>
-              )}
+              {error && <div className="form-alert form-alert--error">{error}</div>}
 
               <div className="space-y-3">
                 <button
                   type="submit"
                   disabled={step === 'details' ? isSendingCode : isVerifying}
-                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition ${
-                    step === 'details'
-                      ? isSendingCode
-                        ? 'bg-teal-200'
-                        : 'bg-teal-400 hover:bg-teal-300'
-                      : isVerifying
-                        ? 'bg-teal-200'
-                        : 'bg-teal-400 hover:bg-teal-300'
-                  }`}
+                  className="btn-primary w-full"
                 >
                   {step === 'details'
                     ? isSendingCode

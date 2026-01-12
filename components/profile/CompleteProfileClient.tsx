@@ -148,19 +148,13 @@ export default function CompleteProfileClient() {
                 </div>
               </div>
 
-              {error && (
-                <div className="rounded-xl border border-red-200/30 bg-red-500/10 p-3 text-sm text-red-100">
-                  {error}
-                </div>
-              )}
+              {error && <div className="form-alert form-alert--error">{error}</div>}
 
               <div>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className={`w-full rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition ${
-                    isSaving ? 'bg-teal-200' : 'bg-teal-400 hover:bg-teal-300'
-                  }`}
+                  className="btn-primary w-full"
                 >
                   {isSaving ? 'Kaydediliyor...' : 'Profili kaydet'}
                 </button>
