@@ -7,14 +7,17 @@ type ToastAction = {
   onClick: () => void;
 };
 
+type ToastVariant = 'success' | 'error';
+
 type ToastItem = {
   id: string;
   message: string;
   actions?: ToastAction[];
+  variant: ToastVariant;
 };
 
 type ToastContextValue = {
-  show: (message: string, actions?: ToastAction[]) => string;
+  show: (message: string, actions?: ToastAction[], variant?: ToastVariant) => string;
   dismiss: (id: string) => void;
 };
 
@@ -32,9 +35,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const show = useCallback(
-    (message: string, actions?: ToastAction[]) => {
+    (message: string, actions?: ToastAction[], variant: ToastVariant = 'success') => {
       const id = createId();
-      const toast: ToastItem = { id, message, actions };
+      const toast: ToastItem = { id, message, actions, variant };
       setToasts((prev) => [toast, ...prev].slice(0, 3));
       window.setTimeout(() => dismiss(id), 5000);
       return id;
@@ -51,7 +54,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="toast-enter pointer-events-auto rounded-2xl border border-emerald-200/70 bg-gradient-to-br from-emerald-500/95 via-emerald-500/90 to-emerald-600/90 p-4 text-white shadow-2xl"
+            className={`toast-enter pointer-events-auto rounded-2xl border p-4 text-white shadow-2xl ${
+              toast.variant === 'error'
+                ? 'border-rose-200/70 bg-gradient-to-br from-rose-500/95 via-rose-500/90 to-rose-600/90'
+                : 'border-emerald-200/70 bg-gradient-to-br from-emerald-500/95 via-emerald-500/90 to-emerald-600/90'
+            }`}
           >
             <div className="flex items-start gap-3">
               <div className="mt-1 h-2.5 w-2.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)]" />

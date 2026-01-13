@@ -334,7 +334,7 @@ export default function SparePartsPage() {
     if (compareIds.length >= 3) return;
 
     if (compareCategory && compareCategory !== part.category.name) {
-      show('Farkli turde karsilastirma mumkun degildir.');
+      show('Farkli turde karsilastirma mumkun degildir.', undefined, 'error');
       return;
     }
 
