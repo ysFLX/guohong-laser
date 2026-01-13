@@ -121,7 +121,7 @@ export default function QuickQuoteDock() {
               name="product"
               value={form.product}
               onChange={onChange}
-              placeholder="Urun / hat tipi"
+              placeholder="Urun adi"
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
             />
             <textarea
@@ -129,7 +129,7 @@ export default function QuickQuoteDock() {
               value={form.message}
               onChange={onChange}
               rows={3}
-              placeholder="Kisa ihtiyac notu"
+              placeholder="Talep detayiniz"
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
               required
             />
