@@ -43,7 +43,9 @@ export async function POST(request: Request) {
     const safeEmail = normalizeEmail(formData.email);
     const otp = normalizeString(formData.otp);
     const evidenceUrls = Array.isArray(formData.evidenceUrls)
-      ? formData.evidenceUrls.filter((url) => typeof url === 'string' && url.trim().length > 0)
+      ? (formData.evidenceUrls as unknown[]).filter(
+          (url): url is string => typeof url === 'string' && url.trim().length > 0,
+        )
       : [];
 
     if (!name || !safeEmail || !orderId || !reason) {
