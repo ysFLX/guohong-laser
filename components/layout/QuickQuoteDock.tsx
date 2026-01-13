@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { machineProductNames } from '@/lib/machineCatalog';
+
 type FormState = {
   name: string;
   email: string;
@@ -117,13 +119,19 @@ export default function QuickQuoteDock() {
               placeholder="Telefon"
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
             />
-            <input
+            <select
               name="product"
               value={form.product}
-              onChange={onChange}
-              placeholder="Urun adi"
+              onChange={(e) => setForm((prev) => ({ ...prev, product: e.target.value }))}
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
-            />
+            >
+              <option value="">Makine seciniz</option>
+              {machineProductNames.map((product) => (
+                <option key={product} value={product}>
+                  {product}
+                </option>
+              ))}
+            </select>
             <textarea
               name="message"
               value={form.message}

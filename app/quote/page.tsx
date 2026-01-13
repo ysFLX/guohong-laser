@@ -4,21 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import Reveal from '@/components/home/Reveal';
-
-const products = [
-  'Acik Cift Tablali Sac Kesim Makinasi',
-  'Agir Tip Boru Kesim Makinasi',
-  'Boru Sac Ikisi Bir Arada Lazer Kesim Makinasi',
-  'Cift Tabla Sac Kesim Makinasi',
-  'Degistirilebilir Ayna Boru Kesim Makinasi',
-  'Demir Kesim Makinasi',
-  'Genis Tabla Yuksek KW Sac Kesim Makinasi',
-  'Kucuk Capli Tam Otomatik Yukleme ve Indirme Boru Kesim Makinasi',
-  'Rayli Sac Kesim Makinasi',
-  'Tek Tabla Sac Kesim Makinasi',
-  'Yandan Yuklemeli Yari Otomatik Boru Kesim Makinasi',
-  'Yari Otomatik Yuklemeli Boru Kesim Makinasi',
-];
+import { machineProductNames } from '@/lib/machineCatalog';
 
 export default function QuotePage() {
   const router = useRouter();
@@ -216,8 +202,8 @@ export default function QuotePage() {
                   className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 >
                   <option value="">Urun seciniz</option>
-                  {products.map((product, index) => (
-                    <option key={index} value={product}>
+                  {machineProductNames.map((product) => (
+                    <option key={product} value={product}>
                       {product}
                     </option>
                   ))}
