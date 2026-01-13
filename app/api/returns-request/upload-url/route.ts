@@ -37,7 +37,6 @@ export async function POST(req: Request) {
     const ext = getExtension(filename, contentType);
     const key = `returns/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const { data, error } = await supabase.storage.from(BUCKET).createSignedUploadUrl(key, {
-      contentType,
       upsert: true,
     });
 
