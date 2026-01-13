@@ -19,6 +19,9 @@ export default function ReturnsRequestPage() {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'details' | 'verify'>('details');
   const [info, setInfo] = useState('');
+  const [evidenceUrls, setEvidenceUrls] = useState<string[]>([]);
+  const [evidenceUploading, setEvidenceUploading] = useState(false);
+  const [evidenceError, setEvidenceError] = useState('');
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
@@ -41,6 +44,7 @@ export default function ReturnsRequestPage() {
     setSubmitStatus(null);
     setEmailError('');
     setInfo('');
+    setEvidenceError('');
 
     if (!isEmailValid(formData.email)) {
       setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
@@ -48,16 +52,8 @@ export default function ReturnsRequestPage() {
       return;
     }
 
-    const messageParts = [
-      `Siparis: ${formData.orderId || '-'}`,
-      `Urun: ${formData.itemName || '-'}`,
-      `Talep: ${formData.resolution}`,
-      `Neden: ${formData.reason || '-'}`,
-      `Telefon: ${formData.phone || '-'}`,
-    ];
-
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/returns-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,8 +62,11 @@ export default function ReturnsRequestPage() {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          subject: 'Iade Talebi',
-          message: messageParts.join('\n'),
+          orderId: formData.orderId,
+          itemName: formData.itemName,
+          reason: formData.reason,
+          resolution: formData.resolution,
+          evidenceUrls,
           otp: step === 'verify' ? otp : undefined,
         }),
       });
@@ -93,6 +92,7 @@ export default function ReturnsRequestPage() {
         });
         setOtp('');
         setStep('details');
+        setEvidenceUrls([]);
       } else {
         throw new Error(data.error || data.message || 'Talep gonderilemedi');
       }
@@ -104,6 +104,43 @@ export default function ReturnsRequestPage() {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleEvidenceUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0 || evidenceUploading) return;
+    setEvidenceUploading(true);
+    setEvidenceError('');
+
+    try {
+      const uploaded: string[] = [];
+      for (const file of Array.from(files)) {
+        const res = await fetch('/api/returns-request/upload-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, contentType: file.type || 'application/octet-stream' }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data?.uploadUrl || !data?.publicUrl) {
+          throw new Error(data?.error || 'Kanit yuklenemedi');
+        }
+
+        const uploadRes = await fetch(data.uploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': file.type || 'application/octet-stream' },
+          body: file,
+        });
+
+        if (!uploadRes.ok) {
+          throw new Error('Kanit yuklenemedi');
+        }
+        uploaded.push(String(data.publicUrl));
+      }
+      setEvidenceUrls((prev) => [...prev, ...uploaded]);
+    } catch (error) {
+      setEvidenceError(error instanceof Error ? error.message : 'Kanit yuklenemedi');
+    } finally {
+      setEvidenceUploading(false);
     }
   };
 
@@ -211,6 +248,44 @@ export default function ReturnsRequestPage() {
                     placeholder="Kisa aciklama yazin..."
                   />
                 </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <div className="form-label">Kanit dosyalari</div>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*,application/pdf"
+                    onChange={(e) => handleEvidenceUpload(e.target.files)}
+                    className="form-input"
+                  />
+                  <div className="text-xs text-slate-500">
+                    JPG, PNG veya PDF desteklenir. Birden fazla dosya ekleyebilirsin.
+                  </div>
+                  {evidenceUploading && <div className="text-xs text-slate-600">Kanit yukleniyor...</div>}
+                  {evidenceError && <div className="text-xs text-red-600">{evidenceError}</div>}
+                  {evidenceUrls.length > 0 && (
+                    <div className="mt-2 space-y-2">
+                      {evidenceUrls.map((url, index) => (
+                        <div
+                          key={`${url}-${index}`}
+                          className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-600"
+                        >
+                          <a href={url} target="_blank" rel="noreferrer" className="truncate hover:text-slate-900">
+                            {url}
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setEvidenceUrls((prev) => prev.filter((_, idx) => idx !== index))
+                            }
+                            className="text-xs font-semibold text-red-600 hover:text-red-700"
+                          >
+                            Kaldir
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {step === 'verify' && (
@@ -245,7 +320,7 @@ export default function ReturnsRequestPage() {
               <ol className="mt-4 space-y-3 text-sm text-slate-600">
                 <li>1. Talep formunu doldur ve gonder.</li>
                 <li>2. Teknik ekip on degerlendirme yapsin.</li>
-                <li>3. Onay sonrasi iade/değisim akisi baslasin.</li>
+                <li>3. Onay sonrasi iade/degisim akisi baslasin.</li>
               </ol>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">

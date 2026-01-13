@@ -30,6 +30,7 @@ model User {
   stockMovementsCreated StockMovement[] @relation("StockMovementCreatedBy")
   inquiries       Inquiry[] @relation("InquiryCreatedBy")
   inquiriesResponded Inquiry[] @relation("InquiryRespondedBy")
+  returnRequests ReturnRequest[]
   notifications  UserNotification[]
   sparePartReviews SparePartReview[]
   twoFactorToken TwoFactorToken?
@@ -261,6 +262,14 @@ enum OrderStatus {
   CANCELED
 }
 
+enum ReturnStatus {
+  NEW
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  REFUNDED
+}
+
 model Inquiry {
   id        String        @id @default(cuid())
   type      InquiryType
@@ -320,6 +329,36 @@ model Order {
   @@index([createdAt])
   @@index([shippingAddressId])
   @@index([billingAddressId])
+}
+
+model ReturnRequest {
+  id          String       @id @default(cuid())
+  userId      String?
+  status      ReturnStatus @default(NEW)
+  name        String
+  email       String
+  phone       String?
+  orderId     String
+  itemName    String?
+  reason      String
+  resolution  String
+  evidenceUrls String[]
+
+  adminNote        String?
+  respondedAt      DateTime?
+  respondedByUserId String?
+  respondedByUser   User?   @relation(fields: [respondedByUserId], references: [id], onDelete: SetNull)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([email])
+  @@index([userId])
+  @@index([respondedByUserId])
 }
 
 model UserNotification {

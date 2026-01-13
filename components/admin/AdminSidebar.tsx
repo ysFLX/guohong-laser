@@ -41,6 +41,18 @@ const navSections: NavSection[] = [
         ),
       },
       {
+        href: '/admin/returns',
+        label: 'Iadeler',
+        icon: (
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path d="M4 7h9a4 4 0 014 4v6" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7 4l-3 3 3 3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M20 17h-9a4 4 0 01-4-4V7" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M17 20l3-3-3-3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
+      {
         href: '/admin/inquiries',
         label: 'Talepler',
         icon: (
