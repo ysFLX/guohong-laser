@@ -373,7 +373,7 @@ export default async function Home() {
                 <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-200 ping-dot">
                   Canli izleme
                 </div>
-                <div className="absolute bottom-6 left-6 right-6 grid gap-3 rounded-2xl border border-white/60 bg-white/90 px-4 py-4 text-slate-900 shadow-lg dark:border-white/10 dark:bg-slate-900/80 dark:text-white">
+                <div className="absolute bottom-6 left-6 right-6 grid gap-3 rounded-2xl border border-white/60 bg-white/90 px-4 py-4 text-slate-900 shadow-lg dark:border-white/10 dark:bg-slate-900/80 dark:text-white ambient-pulse">
                   <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                     <span>Anlik performans</span>
                     <span>%98</span>
@@ -416,7 +416,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto w-full px-0">
-        <div className="grid gap-4 rounded-[36px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3 dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+        <div className="grid gap-4 rounded-[36px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3 dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 gradient-shift">
           {commerceTiles.map((tile) => (
             <Link
               key={tile.title}

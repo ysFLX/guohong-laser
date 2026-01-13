@@ -333,16 +333,16 @@ select:focus-visible {
 }
 
 .cta-breathe {
-  animation: cta-breathe 3.4s ease-in-out infinite;
+  animation: cta-breathe 2.2s ease-in-out infinite;
 }
 
 .ambient-pulse {
-  animation: ambient-pulse 5.5s ease-in-out infinite;
+  animation: ambient-pulse 3.6s ease-in-out infinite;
 }
 
 .gradient-shift {
   background-size: 200% 200%;
-  animation: gradient-shift 12s ease-in-out infinite;
+  animation: gradient-shift 8s ease-in-out infinite;
 }
 
 .ping-dot {
@@ -386,7 +386,7 @@ select:focus-visible {
   height: 240%;
   background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.4) 45%, transparent 70%);
   transform: rotate(25deg);
-  animation: glint 7s ease-in-out infinite;
+  animation: glint 5s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -478,21 +478,21 @@ select:focus-visible {
   0%,
   100% {
     transform: translateY(0) scale(1);
-    box-shadow: 0 8px 24px -16px rgba(15, 23, 42, 0.4);
+    box-shadow: 0 10px 26px -14px rgba(15, 23, 42, 0.45);
   }
   50% {
-    transform: translateY(-2px) scale(1.01);
-    box-shadow: 0 12px 32px -18px rgba(15, 23, 42, 0.55);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 18px 36px -16px rgba(15, 23, 42, 0.6);
   }
 }
 
 @keyframes ambient-pulse {
   0%,
   100% {
-    box-shadow: 0 18px 50px -34px rgba(15, 23, 42, 0.55);
+    box-shadow: 0 18px 60px -30px rgba(15, 23, 42, 0.55);
   }
   50% {
-    box-shadow: 0 24px 60px -30px rgba(20, 184, 166, 0.45);
+    box-shadow: 0 28px 70px -26px rgba(20, 184, 166, 0.55);
   }
 }
 
