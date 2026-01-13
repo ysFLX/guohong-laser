@@ -111,10 +111,26 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     ) => {
     const id = input.id ?? `local-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const createdAt = input.createdAt ?? new Date().toISOString();
-    setLocalItems((prev) => [
-      { id, ...input, createdAt, isLocal: true },
-      ...prev,
-    ]);
+    const localItem: NotificationItem = {
+      id,
+      type: input.type,
+      subject: input.subject ?? null,
+      product: input.product ?? null,
+      adminResponse: input.adminResponse ?? null,
+      respondedAt: input.respondedAt ?? null,
+      userSeenAt: input.userSeenAt ?? null,
+      name: input.name,
+      email: input.email,
+      phone: input.phone ?? null,
+      company: input.company ?? null,
+      message: input.message,
+      createdAt,
+      status: input.status,
+      title: input.title ?? null,
+      orderId: input.orderId ?? null,
+      isLocal: true,
+    };
+    setLocalItems((prev) => [localItem, ...prev]);
     },
     [],
   );
