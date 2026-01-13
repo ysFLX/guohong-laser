@@ -418,7 +418,7 @@ export default async function Home() {
               </div>
             </div>
             <div className="relative">
-              <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60 float-tilt glint">
+            <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl ring-1 ring-teal-200/50 dark:border-white/10 dark:bg-slate-900/60 dark:ring-teal-500/30 float-tilt glint">
                 <Image
                   src="/images/about-showcase.jpg"
                   alt="Guohong lazer hat"
@@ -448,6 +448,16 @@ export default async function Home() {
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm shadow-sm dark:border-white/10 dark:bg-slate-900/70">
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Servis yaniti</div>
+                  <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">&lt; 30 dk</div>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm shadow-sm dark:border-white/10 dark:bg-slate-900/70">
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Stok guvencesi</div>
+                  <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">%92 hizli tedarik</div>
+                </div>
               </div>
             </div>
           </div>
