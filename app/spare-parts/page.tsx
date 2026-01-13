@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
-import { useNotifications } from '@/components/notifications/NotificationsProvider';
+import { useToast } from '@/components/ui/ToastProvider';
 
 type SparePart = {
   id: string;
@@ -91,7 +91,7 @@ const renderStars = (average: number) =>
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
-  const { pushLocal, open: openNotifications } = useNotifications();
+  const { show } = useToast();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
@@ -334,14 +334,7 @@ export default function SparePartsPage() {
     if (compareIds.length >= 3) return;
 
     if (compareCategory && compareCategory !== part.category.name) {
-      pushLocal({
-        type: 'SYSTEM',
-        subject: 'Karsilastirma',
-        product: null,
-        title: 'Farkli turde karsilastirma mumkun degildir',
-        message: 'Sadece ayni kategorideki urunleri karsilastirabilirsin.',
-      });
-      openNotifications();
+      show('Farkli turde karsilastirma mumkun degildir.');
       return;
     }
 
