@@ -35,10 +35,68 @@ const heroVideos = [
 
 const panelIcon = (name?: string) => {
   switch (name) {
+    case 'building':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M3 21h18" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 21V3h12v18" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 7h2M9 11h2M9 15h2M13 7h2M13 11h2M13 15h2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
     case 'calendar':
       return (
         <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
           <path d="M8 2v4M16 2v4M3 10h18M5 6h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'shield-check':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M12 3l8 4v5c0 5-3.5 9-8 9s-8-4-8-9V7l8-4z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'chart-up':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M4 19V5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 19h16" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 15l4-4 3 3 5-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'briefcase':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M9 6V4h6v2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 8h16a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2v-7a2 2 0 012-2z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 12h16" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'document':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M14 2v6h6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'badge-check':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <circle cx="12" cy="12" r="9" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M8.5 12l2.5 2.5 4.5-5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'mail':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M4 6h16a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M22 8l-10 6L2 8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'bookmark':
+      return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M6 4h12a1 1 0 011 1v16l-7-4-7 4V5a1 1 0 011-1z" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       );
     case 'shield':

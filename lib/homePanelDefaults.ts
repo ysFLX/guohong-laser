@@ -33,7 +33,7 @@ export const homePanelDefaults: HomePanelConfig = {
       status: '%78 dolu',
       detail: '2 uygun kesif slotu',
       window: '12-14 Ocak',
-      icon: 'clock',
+      icon: 'building',
     },
     {
       title: 'Gelecek hafta',
@@ -47,24 +47,24 @@ export const homePanelDefaults: HomePanelConfig = {
       status: 'Kurumsal',
       detail: 'Oncelikli proje takvimi',
       window: 'Planli',
-      icon: 'shield',
+      icon: 'shield-check',
     },
   ],
   priceAlertSteps: [
-    { text: 'Urunu favorilere ekle', icon: 'heart' },
+    { text: 'Urunu kaydet', icon: 'bookmark' },
     { text: 'Fiyat esigi belirle', icon: 'target' },
-    { text: 'Dususte e-posta bildirimi al', icon: 'bell' },
+    { text: 'Dususte e-posta bildirimi al', icon: 'mail' },
   ],
   procurementFlow: [
     {
       title: 'Teklif',
       description: 'Teklif detaylari ve teslim plani olusturulur.',
-      icon: 'file',
+      icon: 'document',
     },
     {
       title: 'Onay',
       description: 'Teknik ve finans onaylari tek panelde toparlanir.',
-      icon: 'check',
+      icon: 'badge-check',
     },
     {
       title: 'Sozlesme',

@@ -21,16 +21,24 @@ export default function HomePanelsForm({ initialConfig }: Props) {
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const iconOptions = [
-    { value: 'clock', label: 'Saat' },
+    { value: 'building', label: 'Kurumsal' },
     { value: 'calendar', label: 'Takvim' },
-    { value: 'shield', label: 'Guvenlik' },
-    { value: 'heart', label: 'Favori' },
-    { value: 'target', label: 'Hedef' },
-    { value: 'bell', label: 'Bildirim' },
-    { value: 'file', label: 'Dosya' },
-    { value: 'check', label: 'Onay' },
+    { value: 'shield-check', label: 'Guvenlik' },
+    { value: 'chart-up', label: 'Performans' },
+    { value: 'briefcase', label: 'Is sureci' },
+    { value: 'document', label: 'Dokuman' },
+    { value: 'badge-check', label: 'Onay' },
     { value: 'signature', label: 'Imza' },
     { value: 'truck', label: 'Teslimat' },
+    { value: 'mail', label: 'E-posta' },
+    { value: 'bookmark', label: 'Kaydet' },
+    { value: 'target', label: 'Hedef' },
+    { value: 'clock', label: 'Saat (eski)' },
+    { value: 'shield', label: 'Kalkan (eski)' },
+    { value: 'heart', label: 'Favori (eski)' },
+    { value: 'bell', label: 'Bildirim (eski)' },
+    { value: 'file', label: 'Dosya (eski)' },
+    { value: 'check', label: 'Onay (eski)' },
   ];
 
   const saveConfig = async () => {
