@@ -1,0 +1,47 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B1220" />
+      <stop offset="0.45" stop-color="#0F1B2E" />
+      <stop offset="1" stop-color="#0B2D2A" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(860 120) rotate(135) scale(360 360)">
+      <stop stop-color="#2DD4BF" stop-opacity="0.45" />
+      <stop offset="1" stop-color="#2DD4BF" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" rx="36" fill="url(#bg)" />
+  <rect width="1200" height="630" rx="36" fill="url(#glow)" />
+
+  <g opacity="0.25">
+    <circle cx="140" cy="120" r="90" fill="#1F2937" />
+    <circle cx="1110" cy="520" r="130" fill="#0F766E" />
+    <circle cx="1040" cy="140" r="70" fill="#0EA5A5" />
+  </g>
+
+  <g>
+    <rect x="90" y="110" width="220" height="44" rx="22" fill="#111827" stroke="#1F2937" />
+    <text x="110" y="139" fill="#94A3B8" font-size="16" font-family="Inter, Arial, sans-serif" letter-spacing="6">
+      GUOHONG LAZER
+    </text>
+  </g>
+
+  <text x="90" y="240" fill="#E2E8F0" font-size="56" font-weight="700" font-family="Inter, Arial, sans-serif">
+    Lazer makineleri ve
+  </text>
+  <text x="90" y="306" fill="#2DD4BF" font-size="56" font-weight="700" font-family="Inter, Arial, sans-serif">
+    yedek parcalar
+  </text>
+
+  <text x="90" y="370" fill="#94A3B8" font-size="22" font-family="Inter, Arial, sans-serif">
+    Endustriyel lazer cozumleri, kurumsal destek ve hizli tedarik.
+  </text>
+
+  <g>
+    <rect x="90" y="430" width="260" height="56" rx="28" fill="#0F172A" stroke="#1F2937" />
+    <text x="120" y="466" fill="#E2E8F0" font-size="18" font-weight="600" font-family="Inter, Arial, sans-serif">
+      guohong-laser.com
+    </text>
+  </g>
+</svg>

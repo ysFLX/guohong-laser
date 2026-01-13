@@ -46,8 +46,8 @@ export const metadata: Metadata = {
     locale: "tr_TR",
     images: [
       {
-        url: "/images/logokoyu.png",
-        alt: siteName,
+        url: "/images/og-cover.svg",
+        alt: `${siteName} OG`,
       },
     ],
   },
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
-    images: ["/images/logokoyu.png"],
+    images: ["/images/og-cover.svg"],
   },
   icons: {
     icon: "/images/logokoyu.png",
