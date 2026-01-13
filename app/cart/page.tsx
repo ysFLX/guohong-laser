@@ -24,6 +24,7 @@ export default function CartPage() {
   const { items, subtotalCents, removeItem, setQuantity, clear } = useCart();
   const [checkoutError, setCheckoutError] = useState('');
   const [isQuickBuying, setIsQuickBuying] = useState(false);
+  const [showQuickBuyPrompt, setShowQuickBuyPrompt] = useState(false);
 
   const handleCheckout = () => {
     if (!items.length) return;
@@ -46,8 +47,7 @@ export default function CartPage() {
       const selected = addresses.find((addr) => addr.isDefault) ?? addresses[0];
 
       if (!selected?.id) {
-        setCheckoutError('Hizli odeme icin kayitli adres gerekli.');
-        router.push('/checkout/address');
+        setShowQuickBuyPrompt(true);
         return;
       }
 
@@ -258,6 +258,38 @@ export default function CartPage() {
           </div>
         )}
       </div>
+
+      {showQuickBuyPrompt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900">
+            <div className="text-sm font-semibold text-gray-900 dark:text-white">
+              Hizli Al icin adres gerekli
+            </div>
+            <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              Kayitli adresin yoksa hizli odeme baslatilamaz. Simdi adres ekleyelim mi?
+            </div>
+            <div className="mt-5 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowQuickBuyPrompt(false)}
+                className="rounded-xl border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300"
+              >
+                Vazgec
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowQuickBuyPrompt(false);
+                  router.push('/checkout/address');
+                }}
+                className="rounded-xl bg-gray-900 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-800"
+              >
+                Adres ekle
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
