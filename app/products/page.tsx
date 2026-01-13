@@ -11,8 +11,6 @@ const products = machineProducts;
 
 const categories = ['Tumu', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Ozel Kesim'];
 
-const compareItems = [products[0], products[1], products[2]];
-
 const servicePackages = [
   {
     name: 'Kurulum Paketi',
@@ -50,6 +48,7 @@ export default function ProductsPage() {
   const [stockFilter, setStockFilter] = useState<'Tumu' | 'Stokta' | 'Siparisle'>('Tumu');
   const [automationFilter, setAutomationFilter] = useState<'Tumu' | 'Otomatik' | 'Yari otomatik' | 'Manuel'>('Tumu');
   const [powerFilter, setPowerFilter] = useState<'Tumu' | '3-6 kW' | '6-12 kW' | '12+ kW'>('Tumu');
+  const [compareIds, setCompareIds] = useState<number[]>([]);
 
   const parsePowerRange = (value: string) => {
     const matches = value.match(/\d+/g)?.map((n) => Number(n)).filter((n) => Number.isFinite(n)) ?? [];
@@ -80,6 +79,22 @@ export default function ProductsPage() {
 
     return matchesCategory && matchesSearch && matchesStock && matchesAutomation && matchesPower;
   });
+
+  const selectedCompare = compareIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter((item): item is (typeof products)[number] => Boolean(item));
+
+  const toggleCompare = (id: number) => {
+    setCompareIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      }
+      if (prev.length >= 3) {
+        return prev;
+      }
+      return [...prev, id];
+    });
+  };
 
   return (
     <div className="min-h-screen space-y-16">
@@ -227,9 +242,22 @@ export default function ProductsPage() {
                 </div>
               </div>
               <div className="space-y-3 p-5">
-                <span className="inline-flex rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
-                  {product.category}
-                </span>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className="inline-flex rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
+                    {product.category}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => toggleCompare(product.id)}
+                    className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+                      compareIds.includes(product.id)
+                        ? 'bg-slate-900 text-white'
+                        : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
+                    }`}
+                  >
+                    {compareIds.includes(product.id) ? 'Secildi' : 'Karsilastir'}
+                  </button>
+                </div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{product.name}</h3>
                 <p className="text-sm text-slate-600 dark:text-slate-300">{product.description}</p>
                 <div className="grid gap-2 text-xs text-slate-600 dark:text-slate-300 sm:grid-cols-3">
@@ -264,7 +292,35 @@ export default function ProductsPage() {
         <div className="text-center py-12 text-slate-600">Aramaniza uygun urun bulunamadi.</div>
       )}
 
-      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      {compareIds.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm shadow-2xl backdrop-blur">
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Karsilastirma</div>
+            <div className="font-semibold text-slate-900">{compareIds.length} urun secildi</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setCompareIds([])}
+              className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
+            >
+              Temizle
+            </button>
+            <a
+              href="#compare"
+              className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+            >
+              Tabloya git
+            </a>
+          </div>
+        </div>
+      )}
+
+      <Reveal
+        as="section"
+        id="compare"
+        className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5"
+      >
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
@@ -281,30 +337,36 @@ export default function ProductsPage() {
             Teknik teklif iste
           </Link>
         </div>
-        <div className="mt-6 overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-            <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
-              <tr className="border-b border-slate-200">
-                <th className="py-3 pr-4">Model</th>
-                <th className="py-3 pr-4">Guc</th>
-                <th className="py-3 pr-4">Tabla/Boru</th>
-                <th className="py-3 pr-4">Otomasyon</th>
-                <th className="py-3">Teslim</th>
-              </tr>
-            </thead>
-            <tbody>
-              {compareItems.map((item) => (
-                <tr key={item.id} className="border-b border-slate-100">
-                  <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
-                  <td className="py-3 pr-4">{item.power}</td>
-                  <td className="py-3 pr-4">{item.workArea}</td>
-                  <td className="py-3 pr-4">{item.automation}</td>
-                  <td className="py-3">{item.deliveryLabel}</td>
+        {selectedCompare.length === 0 ? (
+          <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
+            Karsilastirma icin kartlardan en az 2 urun sec.
+          </div>
+        ) : (
+          <div className="mt-6 overflow-x-auto">
+            <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+              <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                <tr className="border-b border-slate-200">
+                  <th className="py-3 pr-4">Model</th>
+                  <th className="py-3 pr-4">Guc</th>
+                  <th className="py-3 pr-4">Tabla/Boru</th>
+                  <th className="py-3 pr-4">Otomasyon</th>
+                  <th className="py-3">Teslim</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {selectedCompare.map((item) => (
+                  <tr key={item.id} className="border-b border-slate-100">
+                    <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
+                    <td className="py-3 pr-4">{item.power}</td>
+                    <td className="py-3 pr-4">{item.workArea}</td>
+                    <td className="py-3 pr-4">{item.automation}</td>
+                    <td className="py-3">{item.deliveryLabel}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </Reveal>
 
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
