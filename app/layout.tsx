@@ -17,26 +17,45 @@ const geistMono = Geist_Mono({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
+const siteName = "Guohong Lazer";
+const defaultTitle = "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar";
+const defaultDescription =
+  "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
-  description:
-    "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+  title: {
+    default: defaultTitle,
+    template: "%s | Guohong Lazer",
+  },
+  description: defaultDescription,
   keywords: "lazer makinesi, yedek parca, lazer kesim, lazer kazima, endustriyel lazer",
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
-    description:
-      "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+    title: defaultTitle,
+    description: defaultDescription,
     url: siteUrl,
-    siteName: "Guohong Lazer",
+    siteName,
     type: "website",
+    locale: "tr_TR",
+    images: [
+      {
+        url: "/images/logokoyu.png",
+        alt: siteName,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar",
-    description:
-      "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: ["/images/logokoyu.png"],
   },
   icons: {
     icon: "/images/logokoyu.png",
