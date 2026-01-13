@@ -32,7 +32,11 @@ type Ctx = {
   toggle: () => void;
   refresh: () => Promise<void>;
   markSeen: (id: string) => Promise<void>;
-  pushLocal: (input: Omit<NotificationItem, 'id'> & { id?: string }) => void;
+  pushLocal: (
+    input: Partial<NotificationItem> &
+      Pick<NotificationItem, 'type'> &
+      { id?: string; subject?: string | null; product?: string | null },
+  ) => void;
   clearLocal: () => void;
 };
 
@@ -99,14 +103,21 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     [refresh],
   );
 
-  const pushLocal = useCallback((input: Omit<NotificationItem, 'id'> & { id?: string }) => {
+  const pushLocal = useCallback(
+    (
+      input: Partial<NotificationItem> &
+        Pick<NotificationItem, 'type'> &
+        { id?: string; subject?: string | null; product?: string | null },
+    ) => {
     const id = input.id ?? `local-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const createdAt = input.createdAt ?? new Date().toISOString();
     setLocalItems((prev) => [
       { id, ...input, createdAt, isLocal: true },
       ...prev,
     ]);
-  }, []);
+    },
+    [],
+  );
 
   const clearLocal = useCallback(() => {
     setLocalItems([]);
