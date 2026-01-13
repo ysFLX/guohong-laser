@@ -105,7 +105,7 @@ export default function CartPage() {
           <div className="mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center">
             <div className="text-gray-900 dark:text-white font-semibold">Sepet bos</div>
             <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Yedek parçalara gidip urun ekleyebilirsin.
+              Yedek parçalara gidip ürun ekleyebilirsin.
             </div>
             <Link
               href="/spare-parts"
