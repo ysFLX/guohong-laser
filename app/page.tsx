@@ -418,7 +418,7 @@ export default async function Home() {
               </div>
             </div>
             <div className="relative">
-            <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60 float-tilt glint">
+              <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/70 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/60 float-tilt glint">
                 <Image
                   src="/images/about-showcase.jpg"
                   alt="Guohong lazer hat"
@@ -426,6 +426,7 @@ export default async function Home() {
                   priority
                   sizes="(max-width: 1024px) 100vw, 48vw"
                   className="object-cover"
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-white/20 dark:to-slate-900/20" />
                 <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-200 ping-dot">
