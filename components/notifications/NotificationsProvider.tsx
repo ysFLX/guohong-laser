@@ -8,6 +8,7 @@ type NotificationItem = {
   type: 'CONTACT' | 'QUOTE' | string;
   subject: string | null;
   product: string | null;
+  isLocal?: boolean;
   name?: string;
   email?: string;
   phone?: string | null;
@@ -31,6 +32,8 @@ type Ctx = {
   toggle: () => void;
   refresh: () => Promise<void>;
   markSeen: (id: string) => Promise<void>;
+  pushLocal: (input: Omit<NotificationItem, 'id'> & { id?: string }) => void;
+  clearLocal: () => void;
 };
 
 const NotificationsContext = createContext<Ctx | null>(null);
@@ -39,6 +42,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   const { status, data } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState<NotificationItem[]>([]);
+  const [localItems, setLocalItems] = useState<NotificationItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const isAdmin = data?.user?.role === 'ADMIN';
 
@@ -85,15 +89,57 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
 
   const markSeen = useCallback(
     async (id: string) => {
+      if (id.startsWith('local-')) {
+        setLocalItems((prev) => prev.filter((item) => item.id !== id));
+        return;
+      }
       await fetch(`/api/notifications/${id}/seen`, { method: 'PATCH' });
       await refresh();
     },
     [refresh],
   );
 
+  const pushLocal = useCallback((input: Omit<NotificationItem, 'id'> & { id?: string }) => {
+    const id = input.id ?? `local-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const createdAt = input.createdAt ?? new Date().toISOString();
+    setLocalItems((prev) => [
+      { id, ...input, createdAt, isLocal: true },
+      ...prev,
+    ]);
+  }, []);
+
+  const clearLocal = useCallback(() => {
+    setLocalItems([]);
+  }, []);
+
+  const mergedItems = useMemo(() => [...localItems, ...items], [localItems, items]);
+  const mergedUnreadCount = unreadCount + localItems.length;
+
   const value = useMemo(
-    () => ({ isOpen, items, unreadCount, open, close, toggle, refresh, markSeen }),
-    [isOpen, items, unreadCount, open, close, toggle, refresh, markSeen],
+    () => ({
+      isOpen,
+      items: mergedItems,
+      unreadCount: mergedUnreadCount,
+      open,
+      close,
+      toggle,
+      refresh,
+      markSeen,
+      pushLocal,
+      clearLocal,
+    }),
+    [
+      isOpen,
+      mergedItems,
+      mergedUnreadCount,
+      open,
+      close,
+      toggle,
+      refresh,
+      markSeen,
+      pushLocal,
+      clearLocal,
+    ],
   );
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;

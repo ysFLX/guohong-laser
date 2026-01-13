@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
+import { useNotifications } from '@/components/notifications/NotificationsProvider';
 
 type SparePart = {
   id: string;
@@ -90,6 +91,7 @@ const renderStars = (average: number) =>
 export default function SparePartsPage() {
   const router = useRouter();
   const { status } = useSession();
+  const { pushLocal, open: openNotifications } = useNotifications();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
@@ -97,6 +99,8 @@ export default function SparePartsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(24);
   const [sortOption, setSortOption] = useState('recommended');
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
 
   const [items, setItems] = useState<SparePart[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -258,6 +262,16 @@ export default function SparePartsPage() {
     [sorted, visibleCount],
   );
 
+  const selectedCompare = useMemo(
+    () =>
+      compareIds
+        .map((id) => items.find((item) => item.id === id))
+        .filter((item): item is SparePart => Boolean(item)),
+    [compareIds, items],
+  );
+
+  const compareCategory = selectedCompare[0]?.category.name ?? null;
+
   const itemListSchema = useMemo(() => {
     if (!visibleItems.length) return null;
     return {
@@ -309,6 +323,29 @@ export default function SparePartsPage() {
     setSearchQuery('');
     setSelectedCategory('Tumu');
     setSelectedModel('Tumu');
+  };
+
+  const handleToggleCompare = (part: SparePart) => {
+    if (compareIds.includes(part.id)) {
+      setCompareIds((prev) => prev.filter((id) => id !== part.id));
+      return;
+    }
+
+    if (compareIds.length >= 3) return;
+
+    if (compareCategory && compareCategory !== part.category.name) {
+      pushLocal({
+        type: 'SYSTEM',
+        subject: 'Karsilastirma',
+        product: null,
+        title: 'Farkli turde karsilastirma mumkun degildir',
+        message: 'Sadece ayni kategorideki urunleri karsilastirabilirsin.',
+      });
+      openNotifications();
+      return;
+    }
+
+    setCompareIds((prev) => [...prev, part.id]);
   };
 
   const crossSell = useMemo(() => {
@@ -572,8 +609,21 @@ export default function SparePartsPage() {
                             {p.name}
                           </h3>
                         </Link>
-                        <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                          {formatPriceTry(p.priceCents)}
+                        <div className="flex flex-col items-end gap-2">
+                          <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                            {formatPriceTry(p.priceCents)}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleCompare(p)}
+                            className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
+                              compareIds.includes(p.id)
+                                ? 'bg-slate-900 text-white'
+                                : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200'
+                            }`}
+                          >
+                            {compareIds.includes(p.id) ? 'Secildi' : 'Karsilastir'}
+                          </button>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
@@ -692,6 +742,107 @@ export default function SparePartsPage() {
           )}
         </div>
       </section>
+
+      {compareIds.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm shadow-2xl backdrop-blur">
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Karsilastirma</div>
+            <div className="font-semibold text-slate-900">
+              {compareIds.length} urun secildi {compareCategory ? `- ${compareCategory}` : ''}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setCompareIds([]);
+                setCompareOpen(false);
+              }}
+              className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
+            >
+              Temizle
+            </button>
+            <button
+              type="button"
+              onClick={() => setCompareOpen(true)}
+              className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+            >
+              Karsilastir
+            </button>
+          </div>
+        </div>
+      )}
+
+      {compareOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur">
+          <div className="w-full max-w-5xl rounded-[32px] border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Urun karsilastirma</p>
+                <h2 className="mt-2 text-2xl font-semibold text-slate-900">Yedek parcalari yan yana gor</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setCompareOpen(false)}
+                  className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+                >
+                  Kapat
+                </button>
+              </div>
+            </div>
+
+            {selectedCompare.length === 0 ? (
+              <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
+                Karsilastirma icin kartlardan en az 2 urun sec.
+              </div>
+            ) : (
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full text-left text-sm text-slate-600">
+                  <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <tr className="border-b border-slate-200">
+                      <th className="py-3 pr-4">Urun</th>
+                      <th className="py-3 pr-4">Gorsel</th>
+                      <th className="py-3 pr-4">Kategori</th>
+                      <th className="py-3 pr-4">Stok</th>
+                      <th className="py-3 pr-4">Olcu</th>
+                      <th className="py-3 pr-4">Teslim</th>
+                      <th className="py-3">Fiyat</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedCompare.map((item) => (
+                      <tr key={item.id} className="border-b border-slate-100">
+                        <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
+                        <td className="py-3 pr-4">
+                          <div className="relative h-12 w-12 overflow-hidden rounded-xl bg-slate-100">
+                            <Image
+                              src={item.imageUrl || '/images/1.jpg'}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                              quality={60}
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          </div>
+                        </td>
+                        <td className="py-3 pr-4">{item.category.name}</td>
+                        <td className="py-3 pr-4">{item.stockOnHand}</td>
+                        <td className="py-3 pr-4">{item.dimensions || '-'}</td>
+                        <td className="py-3 pr-4">
+                          {item.stockOnHand > 0 ? '2-3 gun' : '7-10 gun'}
+                        </td>
+                        <td className="py-3 font-semibold text-slate-900">{formatPriceTry(item.priceCents)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {!isLoading && !loadError && visibleCount < sorted.length && (
         <div ref={loadMoreRef} aria-hidden className="h-1" />
