@@ -49,6 +49,7 @@ export default function ProductsPage() {
   const [automationFilter, setAutomationFilter] = useState<'Tumu' | 'Otomatik' | 'Yari otomatik' | 'Manuel'>('Tumu');
   const [powerFilter, setPowerFilter] = useState<'Tumu' | '3-6 kW' | '6-12 kW' | '12+ kW'>('Tumu');
   const [compareIds, setCompareIds] = useState<number[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
 
   const parsePowerRange = (value: string) => {
     const matches = value.match(/\d+/g)?.map((n) => Number(n)).filter((n) => Number.isFinite(n)) ?? [];
@@ -308,6 +309,10 @@ export default function ProductsPage() {
             </button>
             <a
               href="#compare"
+              onClick={(event) => {
+                event.preventDefault();
+                setCompareOpen(true);
+              }}
               className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
             >
               Tabloya git
@@ -316,58 +321,64 @@ export default function ProductsPage() {
         </div>
       )}
 
-      <Reveal
-        as="section"
-        id="compare"
-        className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
-              Urun karsilastirma
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-              Modelleri yan yana gor
-            </h2>
+      {compareOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4">
+          <div className="w-full max-w-5xl rounded-[32px] border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Urun karsilastirma</p>
+                <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gor</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/quote"
+                  className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                >
+                  Teknik teklif iste
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setCompareOpen(false)}
+                  className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+                >
+                  Kapat
+                </button>
+              </div>
+            </div>
+
+            {selectedCompare.length === 0 ? (
+              <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
+                Karsilastirma icin kartlardan en az 2 urun sec.
+              </div>
+            ) : (
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full text-left text-sm text-slate-600">
+                  <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <tr className="border-b border-slate-200">
+                      <th className="py-3 pr-4">Model</th>
+                      <th className="py-3 pr-4">Guc</th>
+                      <th className="py-3 pr-4">Tabla/Boru</th>
+                      <th className="py-3 pr-4">Otomasyon</th>
+                      <th className="py-3">Teslim</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedCompare.map((item) => (
+                      <tr key={item.id} className="border-b border-slate-100">
+                        <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
+                        <td className="py-3 pr-4">{item.power}</td>
+                        <td className="py-3 pr-4">{item.workArea}</td>
+                        <td className="py-3 pr-4">{item.automation}</td>
+                        <td className="py-3">{item.deliveryLabel}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-          <Link
-            href="/quote"
-            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-          >
-            Teknik teklif iste
-          </Link>
         </div>
-        {selectedCompare.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
-            Karsilastirma icin kartlardan en az 2 urun sec.
-          </div>
-        ) : (
-          <div className="mt-6 overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-              <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                <tr className="border-b border-slate-200">
-                  <th className="py-3 pr-4">Model</th>
-                  <th className="py-3 pr-4">Guc</th>
-                  <th className="py-3 pr-4">Tabla/Boru</th>
-                  <th className="py-3 pr-4">Otomasyon</th>
-                  <th className="py-3">Teslim</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedCompare.map((item) => (
-                  <tr key={item.id} className="border-b border-slate-100">
-                    <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
-                    <td className="py-3 pr-4">{item.power}</td>
-                    <td className="py-3 pr-4">{item.workArea}</td>
-                    <td className="py-3 pr-4">{item.automation}</td>
-                    <td className="py-3">{item.deliveryLabel}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Reveal>
+      )}
 
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
