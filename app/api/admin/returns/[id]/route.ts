@@ -7,7 +7,8 @@ import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
 
-const allowedStatuses = new Set(['NEW', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'REFUNDED']);
+const allowedStatuses = new Set(['NEW', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'REFUNDED'] as const);
+type AllowedStatus = (typeof allowedStatuses extends Set<infer T> ? T : never) & string;
 
 const statusLabel: Record<string, string> = {
   NEW: 'Talep alindi',
@@ -37,7 +38,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   const status = typeof body.status === 'string' ? body.status.trim() : '';
   const adminNote = typeof body.adminNote === 'string' ? body.adminNote.trim() : null;
 
-  if (!status || !allowedStatuses.has(status)) {
+  if (!status || !allowedStatuses.has(status as AllowedStatus)) {
     return NextResponse.json({ error: 'Durum gecersiz' }, { status: 400 });
   }
 
@@ -58,7 +59,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   const updated = await prisma.returnRequest.update({
     where: { id },
     data: {
-      status,
+      status: status as AllowedStatus,
       adminNote,
       respondedAt: new Date(),
       respondedByUserId: session.user.id,
