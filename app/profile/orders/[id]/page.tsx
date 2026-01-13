@@ -379,7 +379,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   )}
                 </div>
               ) : (
-                <div className="mt-2 text-slate-600">Takip bilgisi henuz girilmedi.</div>
+                <div className="mt-2 text-slate-600">
+                  Takip bilgisi henuz girilmedi. Kargo bilgisi girildiginde e-posta ile bilgilendirileceksiniz.
+                </div>
               )}
             </div>
 
@@ -400,6 +402,20 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               ) : (
                 <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
               )}
+            </div>
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Iade islemleri
+              </div>
+              <div className="mt-2 text-slate-600">
+                Urun iade veya degisim talebini form uzerinden baslatabilirsin.
+              </div>
+              <Link
+                href="/returns-request"
+                className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Iade talebi olustur
+              </Link>
             </div>
             <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
               Siparis durumunuz guncellendikce burada gorunur.

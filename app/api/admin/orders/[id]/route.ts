@@ -67,7 +67,9 @@ async function sendStatusEmail(params: {
 
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
+  const returnsUrl = `${appUrl}/returns-request`;
   const statusText = formatStatusLabel(params.status);
+  const showInvoiceNote = params.status === 'SHIPPED' || params.status === 'DELIVERED';
 
   const cancelLine =
     params.status === 'CANCELED' && params.cancelReason ? `Iptal nedeni: ${params.cancelReason}` : '';
@@ -98,6 +100,8 @@ async function sendStatusEmail(params: {
     text: [
       `Siparis durumunuz guncellendi: ${statusText}`,
       `Siparis detaylari: ${orderUrl}`,
+      showInvoiceNote ? 'Fatura/irsaliye: Siparis onay e-postasinda paylasildi.' : '',
+      `Iade/degisim talebi: ${returnsUrl}`,
       trackingLines,
     ]
       .filter(Boolean)
@@ -111,10 +115,18 @@ async function sendStatusEmail(params: {
         </div>
         <div style="margin-top: 16px;">
           <a href="${orderUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none;">Siparis detaylari</a>
+          <a href="${returnsUrl}" style="display: inline-block; margin-left: 8px; padding: 10px 16px; border: 1px solid #e2e8f0; color: #0f172a; border-radius: 8px; text-decoration: none;">Iade talebi</a>
         </div>
         ${
           trackingLines
             ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">${trackingLines}</div>`
+            : ''
+        }
+        ${
+          showInvoiceNote
+            ? `<div style="margin-top: 16px; padding: 12px; background: #f1f5f9; border-radius: 8px; font-size: 13px; color: #475569;">
+                Fatura / irsaliye bilgileri siparis onay e-postasinda paylasilmistir.
+              </div>`
             : ''
         }
       </div>

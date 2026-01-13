@@ -63,6 +63,16 @@ async function sendOrderEmail(params: {
     postalCode: string | null;
     country: string | null;
   } | null;
+  billingAddress?: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null;
 }) {
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
@@ -99,24 +109,41 @@ async function sendOrderEmail(params: {
     )
     .join('');
 
-  const address = params.shippingAddress
-    ? [
-        params.shippingAddress.fullName,
-        params.shippingAddress.line1,
-        params.shippingAddress.line2,
-        `${params.shippingAddress.city || ''}${params.shippingAddress.state ? ` / ${params.shippingAddress.state}` : ''}`,
-        params.shippingAddress.postalCode,
-        params.shippingAddress.country,
-        params.shippingAddress.phone,
-      ]
-        .filter(Boolean)
-        .join('\n')
-    : 'Adres bilgisi bulunamadi.';
+  const formatAddressBlock = (address?: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null) => {
+    if (!address) {
+      return {
+        text: 'Adres bilgisi bulunamadi.',
+        html: '<span style="color:#64748b;">Adres bilgisi bulunamadi.</span>',
+      };
+    }
+    const text = [
+      address.fullName,
+      address.line1,
+      address.line2,
+      `${address.city || ''}${address.state ? ` / ${address.state}` : ''}`,
+      address.postalCode,
+      address.country,
+      address.phone,
+    ]
+      .filter(Boolean)
+      .join('\n');
+    return {
+      text,
+      html: text.replace(/\n/g, '<br />'),
+    };
+  };
 
-  const addressHtml =
-    address === 'Adres bilgisi bulunamadi.'
-      ? '<span style="color:#64748b;">Adres bilgisi bulunamadi.</span>'
-      : address.replace(/\n/g, '<br />');
+  const shippingBlock = formatAddressBlock(params.shippingAddress);
+  const billingBlock = formatAddressBlock(params.billingAddress);
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -143,7 +170,10 @@ async function sendOrderEmail(params: {
       `Toplam: ${formatPriceTry(params.totalCents)}`,
       '',
       'Teslimat adresi:',
-      address,
+      shippingBlock.text,
+      '',
+      'Fatura / irsaliye adresi:',
+      billingBlock.text,
       '',
       `Iade/degisim talebi: ${returnsUrl}`,
     ].join('\n'),
@@ -182,7 +212,12 @@ async function sendOrderEmail(params: {
 
         <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px; font-size: 14px; color: #334155;">
           <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Teslimat adresi</div>
-          <div style="margin-top: 8px; line-height: 1.5;">${addressHtml}</div>
+          <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
+        </div>
+
+        <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
+          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Fatura / Irsaliye</div>
+          <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
         </div>
 
         <div style="margin-top: 18px; font-size: 12px; color: #94a3b8;">
@@ -341,6 +376,22 @@ export async function POST(req: Request) {
             },
           })
         : null;
+      const billingAddress =
+        billingAddressId && billingAddressId !== shippingAddressId
+          ? await prismaNotifications.address.findUnique({
+              where: { id: billingAddressId },
+              select: {
+                fullName: true,
+                phone: true,
+                line1: true,
+                line2: true,
+                city: true,
+                state: true,
+                postalCode: true,
+                country: true,
+              },
+            })
+          : shippingAddress;
       await sendOrderEmail({
         to: recipient,
         orderId: created.id,
@@ -351,6 +402,7 @@ export async function POST(req: Request) {
           priceCents: item.priceCents,
         })),
         shippingAddress,
+        billingAddress,
       });
     }
   } catch (error) {
