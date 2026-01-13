@@ -640,12 +640,20 @@ export default function SparePartsPage() {
                             />
                           </div>
                         ) : (
-                          <Link
-                            href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                            className="flex-1 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm font-semibold text-amber-800 hover:border-amber-300"
-                          >
-                            Stok gelince haber ver
-                          </Link>
+                          <div className="flex flex-1 flex-col gap-2">
+                            <Link
+                              href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                              className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-slate-800"
+                            >
+                              Teklif iste
+                            </Link>
+                            <Link
+                              href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                              className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm font-semibold text-amber-800 hover:border-amber-300"
+                            >
+                              Stok gelince haber ver
+                            </Link>
+                          </div>
                         )}
                         <button
                           type="button"
