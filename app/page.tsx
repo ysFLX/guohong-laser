@@ -607,6 +607,9 @@ export default async function Home() {
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-cover"
+              loading="lazy"
+              decoding="async"
+              quality={70}
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-transparent" />
           </div>
@@ -624,6 +627,9 @@ export default async function Home() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover opacity-25"
+                  loading="lazy"
+                  decoding="async"
+                  quality={70}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/60 to-teal-950/70" />
               </div>
@@ -675,6 +681,9 @@ export default async function Home() {
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover opacity-10"
+                  loading="lazy"
+                  decoding="async"
+                  quality={70}
                 />
               </div>
             ) : null}
@@ -728,6 +737,9 @@ export default async function Home() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 100vw"
                 className="object-cover opacity-10"
+                loading="lazy"
+                decoding="async"
+                quality={70}
               />
             </div>
           ) : null}
