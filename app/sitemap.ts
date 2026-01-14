@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/register',
   ];
 
-  const staticEntries = staticRoutes.map((route) => ({
+  const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: now,
     changeFrequency: route === '' ? 'weekly' : 'monthly',
@@ -50,10 +50,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     select: { id: true, updatedAt: true },
   });
 
-  const sparePartEntries = spareParts.map((item) => ({
+  const sparePartEntries: MetadataRoute.Sitemap = spareParts.map((item) => ({
     url: `${baseUrl}/spare-parts/${item.id}`,
     lastModified: item.updatedAt,
-    changeFrequency: 'weekly' as const,
+    changeFrequency: 'weekly',
     priority: 0.8,
   }));
 
