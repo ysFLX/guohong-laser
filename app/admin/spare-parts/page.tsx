@@ -25,6 +25,7 @@ type PrismaClientLike = {
 const prismaSpareParts = prisma as unknown as PrismaClientLike;
 
 const PAGE_SIZE = 20;
+const CRITICAL_STOCK_LEVEL = 5;
 
 function formatPriceTry(priceCents: number) {
   try {
@@ -90,6 +91,8 @@ export default async function AdminSparePartsPage({
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const prevPage = page > 1 ? page - 1 : null;
   const nextPage = page < totalPages ? page + 1 : null;
+  const criticalCount = items.filter((item) => item.stockOnHand > 0 && item.stockOnHand <= CRITICAL_STOCK_LEVEL)
+    .length;
 
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
@@ -97,6 +100,11 @@ export default async function AdminSparePartsPage({
         <div>
           <div className="text-lg font-bold text-gray-900 dark:text-white">Yedek Parcalar</div>
           <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Toplam: {total}</div>
+          {criticalCount > 0 && (
+            <div className="mt-2 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+              Kritik stok: {criticalCount}
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap gap-2">
           <Link
@@ -197,7 +205,16 @@ export default async function AdminSparePartsPage({
                 </td>
                 <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{p.category.name}</td>
                 <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{formatPriceTry(p.priceCents)}</td>
-                <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{p.stockOnHand}</td>
+                <td className="px-4 py-3 text-gray-700 dark:text-gray-200">
+                  <div className="flex items-center gap-2">
+                    <span>{p.stockOnHand}</span>
+                    {p.stockOnHand > 0 && p.stockOnHand <= CRITICAL_STOCK_LEVEL && (
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">
+                        Kritik
+                      </span>
+                    )}
+                  </div>
+                </td>
                 <td className="px-4 py-3">
                   {p.isActive ? (
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
