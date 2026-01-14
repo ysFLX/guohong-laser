@@ -9,12 +9,22 @@ import { prisma } from '@/lib/prisma';
 
 const CODE_TTL_MINUTES = 10;
 const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX = 5;
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 const normalizeEmail = (value: unknown) =>
   typeof value === 'string' ? value.trim().toLowerCase() : '';
 
 const normalizeString = (value: unknown) =>
   typeof value === 'string' ? value.trim() : '';
+
+const getClientIp = (request: Request) => {
+  const forwarded = request.headers.get('x-forwarded-for') || '';
+  const realIp = request.headers.get('x-real-ip') || '';
+  const raw = forwarded.split(',')[0]?.trim() || realIp.trim();
+  return raw || 'unknown';
+};
 
 async function ensureEmailDomain(email: string) {
   const domain = email.split('@')[1] || '';
@@ -31,6 +41,17 @@ async function ensureEmailDomain(email: string) {
 
 export async function POST(request: Request) {
   try {
+    const ip = getClientIp(request);
+    const now = Date.now();
+    const existing = rateLimitStore.get(ip);
+    if (!existing || existing.resetAt < now) {
+      rateLimitStore.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    } else if (existing.count >= RATE_LIMIT_MAX) {
+      return NextResponse.json({ error: 'Cok fazla istek. Lutfen sonra tekrar deneyin.' }, { status: 429 });
+    } else {
+      rateLimitStore.set(ip, { count: existing.count + 1, resetAt: existing.resetAt });
+    }
+
     const session = await getServerSession(authOptions);
     const formData = await request.json();
 
