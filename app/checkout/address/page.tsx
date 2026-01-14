@@ -61,6 +61,7 @@ export default function CheckoutAddressPage() {
   const [loadingAddresses, setLoadingAddresses] = useState(true);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formTarget, setFormTarget] = useState<'shipping' | 'billing'>('shipping');
   const [form, setForm] = useState({ ...emptyForm });
@@ -206,6 +207,10 @@ export default function CheckoutAddressPage() {
     }
     if (!useBillingSame && !selectedBillingId) {
       setCheckoutError('Fatura adresi secmelisin');
+      return;
+    }
+    if (!acceptedTerms) {
+      setCheckoutError('Mesafeli satis ve iade kosullarini kabul etmelisin');
       return;
     }
     setLoadingCheckout(true);
@@ -778,10 +783,36 @@ export default function CheckoutAddressPage() {
               </div>
             </div>
 
+            <div className="mt-4 rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs text-gray-600">
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-1"
+                />
+                <span>
+                  <span className="font-semibold text-gray-900">Mesafeli satis</span> ve{' '}
+                  <span className="font-semibold text-gray-900">iade kosullarini</span> okudum, kabul ediyorum.{' '}
+                  <Link href="/distance-sales" className="text-teal-600 hover:text-teal-700">
+                    Mesafeli satis
+                  </Link>
+                  {' / '}
+                  <Link href="/returns" className="text-teal-600 hover:text-teal-700">
+                    Iade
+                  </Link>
+                  {' / '}
+                  <Link href="/privacy" className="text-teal-600 hover:text-teal-700">
+                    Gizlilik
+                  </Link>
+                </span>
+              </label>
+            </div>
+
             <button
               type="button"
               onClick={handleCheckout}
-              disabled={loadingCheckout || loadingAddresses}
+              disabled={loadingCheckout || loadingAddresses || !acceptedTerms}
               className="mt-6 w-full rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-70"
             >
               {loadingCheckout ? 'Yonlendiriliyor...' : 'Odemeye devam et'}
