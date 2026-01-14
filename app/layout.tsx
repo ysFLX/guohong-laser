@@ -71,6 +71,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const orgSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteName,
+    url: siteUrl,
+    logo: `${siteUrl}/images/logokoyu.png`,
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+90 536 831 67 87',
+        contactType: 'customer service',
+        areaServed: 'TR',
+        availableLanguage: ['tr'],
+      },
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Konya',
+      addressRegion: 'Karatay',
+      addressCountry: 'TR',
+    },
+    sameAs: [
+      'https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR',
+      'https://www.instagram.com/gu0honglaser/',
+      'https://wa.me/905368316787',
+    ],
+  };
 
   return (
     <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900" suppressHydrationWarning>
@@ -83,6 +110,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`} suppressHydrationWarning>
         <Analytics gaId={gaId} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
         <Providers>
           <RootChrome>{children}</RootChrome>
         </Providers>
