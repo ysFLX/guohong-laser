@@ -5,6 +5,7 @@ import "./globals.css";
 import RootChrome from "@/components/layout/RootChrome";
 import Providers from "./providers";
 import Analytics from "@/components/analytics/Analytics";
+import CookieBanner from "@/components/legal/CookieBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -114,6 +115,7 @@ export default function RootLayout({
         <Providers>
           <RootChrome>{children}</RootChrome>
         </Providers>
+        <CookieBanner />
         <SpeedInsights />
       </body>
     </html>
