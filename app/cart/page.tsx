@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useCart } from '@/components/cart/CartProvider';
+import { trackEvent } from '@/lib/analytics';
 
 function formatPriceTry(priceCents: number) {
   try {
@@ -29,6 +30,16 @@ export default function CartPage() {
   const handleCheckout = () => {
     if (!items.length) return;
     setCheckoutError('');
+    trackEvent('begin_checkout', {
+      currency: 'TRY',
+      value: subtotalCents / 100,
+      items: items.map((item) => ({
+        item_id: item.id,
+        item_name: item.name,
+        price: item.priceCents / 100,
+        quantity: item.quantity,
+      })),
+    });
     router.push('/checkout/address');
   };
 
@@ -50,6 +61,17 @@ export default function CartPage() {
         setShowQuickBuyPrompt(true);
         return;
       }
+
+      trackEvent('begin_checkout', {
+        currency: 'TRY',
+        value: subtotalCents / 100,
+        items: items.map((item) => ({
+          item_id: item.id,
+          item_name: item.name,
+          price: item.priceCents / 100,
+          quantity: item.quantity,
+        })),
+      });
 
       const res = await fetch('/api/checkout', {
         method: 'POST',

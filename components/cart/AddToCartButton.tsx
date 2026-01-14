@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { useCart } from './CartProvider';
 import { useToast } from '@/components/ui/ToastProvider';
+import { trackEvent } from '@/lib/analytics';
 
 type Props = {
   id: string;
@@ -52,6 +53,18 @@ export default function AddToCartButton({
         }
         setIsAdding(true);
         addItem({ id, name, priceCents, imageUrl }, quantity);
+        trackEvent('add_to_cart', {
+          currency: 'TRY',
+          value: (priceCents * quantity) / 100,
+          items: [
+            {
+              item_id: id,
+              item_name: name,
+              price: priceCents / 100,
+              quantity,
+            },
+          ],
+        });
         let toastId = '';
         toastId = show('Sepetinize eklendi', [
           {

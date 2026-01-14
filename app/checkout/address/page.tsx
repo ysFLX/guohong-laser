@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCart } from '@/components/cart/CartProvider';
+import { trackEvent } from '@/lib/analytics';
 
 type Address = {
   id: string;
@@ -217,6 +218,17 @@ export default function CheckoutAddressPage() {
     setCheckoutError('');
 
     try {
+      trackEvent('begin_checkout', {
+        currency: 'TRY',
+        value: subtotalCents / 100,
+        items: items.map((item) => ({
+          item_id: item.id,
+          item_name: item.name,
+          price: item.priceCents / 100,
+          quantity: item.quantity,
+        })),
+      });
+
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

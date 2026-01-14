@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { trackEvent } from '@/lib/analytics';
+
 type QuickBuyItem = {
   id: string;
   name: string;
@@ -35,6 +37,19 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
         router.push('/checkout/address');
         return;
       }
+
+      trackEvent('begin_checkout', {
+        currency: 'TRY',
+        value: item.priceCents / 100,
+        items: [
+          {
+            item_id: item.id,
+            item_name: item.name,
+            price: item.priceCents / 100,
+            quantity: 1,
+          },
+        ],
+      });
 
       const res = await fetch('/api/checkout', {
         method: 'POST',
