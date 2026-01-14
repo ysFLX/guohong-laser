@@ -321,12 +321,12 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {compareOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4">
-          <div className="w-full max-w-5xl rounded-[32px] border border-slate-200 bg-white p-6 shadow-2xl">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Urun karsilastirma</p>
+        {compareOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-sm">
+            <div className="w-full max-w-5xl rounded-[32px] border border-slate-200 bg-white p-6 shadow-2xl">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Urun karsilastirma</p>
                 <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gor</h2>
               </div>
               <div className="flex items-center gap-2">
@@ -352,23 +352,35 @@ export default function ProductsPage() {
               </div>
             ) : (
               <div className="mt-6 overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-600">
-                  <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                    <tr className="border-b border-slate-200">
-                      <th className="py-3 pr-4">Model</th>
-                      <th className="py-3 pr-4">Guc</th>
-                      <th className="py-3 pr-4">Tabla/Boru</th>
-                      <th className="py-3 pr-4">Otomasyon</th>
-                      <th className="py-3">Teslim</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedCompare.map((item) => (
-                      <tr key={item.id} className="border-b border-slate-100">
-                        <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
-                        <td className="py-3 pr-4">{item.power}</td>
-                        <td className="py-3 pr-4">{item.workArea}</td>
-                        <td className="py-3 pr-4">{item.automation}</td>
+                  <table className="w-full text-left text-sm text-slate-600">
+                    <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                      <tr className="border-b border-slate-200">
+                        <th className="py-3 pr-4">Gorsel</th>
+                        <th className="py-3 pr-4">Model</th>
+                        <th className="py-3 pr-4">Guc</th>
+                        <th className="py-3 pr-4">Tabla/Boru</th>
+                        <th className="py-3 pr-4">Otomasyon</th>
+                        <th className="py-3">Teslim</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedCompare.map((item) => (
+                        <tr key={item.id} className="border-b border-slate-100">
+                          <td className="py-3 pr-4">
+                            <div className="relative h-16 w-24 overflow-hidden rounded-xl bg-slate-100">
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                fill
+                                sizes="96px"
+                                className="object-cover"
+                              />
+                            </div>
+                          </td>
+                          <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
+                          <td className="py-3 pr-4">{item.power}</td>
+                          <td className="py-3 pr-4">{item.workArea}</td>
+                          <td className="py-3 pr-4">{item.automation}</td>
                         <td className="py-3">{item.deliveryLabel}</td>
                       </tr>
                     ))}

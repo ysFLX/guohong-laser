@@ -282,7 +282,7 @@ export default function CartPage() {
       </div>
 
       {showQuickBuyPrompt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900">
             <div className="text-sm font-semibold text-gray-900 dark:text-white">
               Hizli Al icin adres gerekli
