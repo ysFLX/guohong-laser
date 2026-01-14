@@ -346,48 +346,65 @@ export default function ProductsPage() {
               </div>
             </div>
 
-            {selectedCompare.length === 0 ? (
-              <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
-                Karsilastirma icin kartlardan en az 2 urun sec.
-              </div>
-            ) : (
-              <div className="mt-6 overflow-x-auto">
-                  <table className="w-full text-left text-sm text-slate-600">
-                    <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                      <tr className="border-b border-slate-200">
-                        <th className="py-3 pr-4">Gorsel</th>
-                        <th className="py-3 pr-4">Model</th>
-                        <th className="py-3 pr-4">Guc</th>
-                        <th className="py-3 pr-4">Tabla/Boru</th>
-                        <th className="py-3 pr-4">Otomasyon</th>
-                        <th className="py-3">Teslim</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedCompare.map((item) => (
-                        <tr key={item.id} className="border-b border-slate-100">
-                          <td className="py-3 pr-4">
-                            <div className="relative h-16 w-24 overflow-hidden rounded-xl bg-slate-100">
-                              <Image
-                                src={item.image}
-                                alt={item.name}
-                                fill
-                                sizes="96px"
-                                className="object-cover"
-                              />
-                            </div>
-                          </td>
-                          <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
-                          <td className="py-3 pr-4">{item.power}</td>
-                          <td className="py-3 pr-4">{item.workArea}</td>
-                          <td className="py-3 pr-4">{item.automation}</td>
-                        <td className="py-3">{item.deliveryLabel}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+              {selectedCompare.length === 0 ? (
+                <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
+                  Karsilastirma icin kartlardan en az 2 urun sec.
+                </div>
+              ) : (
+                <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                  {selectedCompare.map((item) => (
+                    <div
+                      key={item.id}
+                      className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl"
+                    >
+                      <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 320px"
+                          className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                        />
+                        <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+                          <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
+                            {item.category}
+                          </span>
+                          <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
+                            {item.stockLabel}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="space-y-4 p-5">
+                        <div>
+                          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Model</div>
+                          <div className="mt-2 text-lg font-semibold text-slate-900">{item.name}</div>
+                        </div>
+                        <div className="grid gap-3 text-sm text-slate-600">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Guc</span>
+                            <span className="font-semibold text-slate-900">{item.power}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Tabla/Boru</span>
+                            <span className="font-semibold text-slate-900">{item.workArea}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
+                            <span className="font-semibold text-slate-900">{item.automation}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</span>
+                            <span className="font-semibold text-slate-900">{item.deliveryLabel}</span>
+                          </div>
+                        </div>
+                        <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-xs text-slate-500">
+                          Uygun konfigurasyon icin teklif isteyebiliriz.
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
           </div>
         </div>
       )}

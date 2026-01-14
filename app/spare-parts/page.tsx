@@ -767,7 +767,7 @@ export default function SparePartsPage() {
       )}
 
       {compareOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-sm">
           <div className="w-full max-w-5xl rounded-[32px] border border-slate-200 bg-white p-6 shadow-2xl">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
@@ -789,53 +789,74 @@ export default function SparePartsPage() {
               <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
                 Karsilastirma icin kartlardan en az 2 urun sec.
               </div>
-            ) : (
-              <div className="mt-6 overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-600">
-                  <thead className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                    <tr className="border-b border-slate-200">
-                      <th className="py-3 pr-4">Urun</th>
-                      <th className="py-3 pr-4">Gorsel</th>
-                      <th className="py-3 pr-4">Kategori</th>
-                      <th className="py-3 pr-4">Stok</th>
-                      <th className="py-3 pr-4">Olcu</th>
-                      <th className="py-3 pr-4">Teslim</th>
-                      <th className="py-3">Fiyat</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedCompare.map((item) => (
-                      <tr key={item.id} className="border-b border-slate-100">
-                        <td className="py-3 pr-4 font-semibold text-slate-900">{item.name}</td>
-                        <td className="py-3 pr-4">
-                          <div className="relative h-12 w-12 overflow-hidden rounded-xl bg-slate-100">
-                            <Image
-                              src={item.imageUrl || '/images/1.jpg'}
-                              alt={item.name}
-                              fill
-                              className="object-cover"
-                              quality={60}
-                              loading="lazy"
-                              decoding="async"
-                            />
+              ) : (
+                <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                  {selectedCompare.map((item) => (
+                    <div
+                      key={item.id}
+                      className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl"
+                    >
+                      <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                        <Image
+                          src={item.imageUrl || '/images/1.jpg'}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 320px"
+                          className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                          quality={60}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+                          <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
+                            {item.category.name}
+                          </span>
+                          <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
+                            {item.stockOnHand > 0 ? 'Stokta' : 'Siparisle'}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="space-y-4 p-5">
+                        <div>
+                          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun</div>
+                          <div className="mt-2 text-lg font-semibold text-slate-900">{item.name}</div>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                          {renderStars(item.ratingAverage)}
+                          <span className="font-semibold text-slate-700">
+                            {item.ratingAverage.toFixed(1)}
+                          </span>
+                        </div>
+                        <div className="grid gap-3 text-sm text-slate-600">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Stok</span>
+                            <span className="font-semibold text-slate-900">{item.stockOnHand}</span>
                           </div>
-                        </td>
-                        <td className="py-3 pr-4">{item.category.name}</td>
-                        <td className="py-3 pr-4">{item.stockOnHand}</td>
-                        <td className="py-3 pr-4">{item.dimensions || '-'}</td>
-                        <td className="py-3 pr-4">
-                          {item.stockOnHand > 0 ? '2-3 gun' : '7-10 gun'}
-                        </td>
-                        <td className="py-3 font-semibold text-slate-900">{formatPriceTry(item.priceCents)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Olcu</span>
+                            <span className="font-semibold text-slate-900">{item.dimensions || '-'}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</span>
+                            <span className="font-semibold text-slate-900">
+                              {item.stockOnHand > 0 ? '2-3 gun' : '7-10 gun'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm">
+                          <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Fiyat</span>
+                          <span className="text-base font-semibold text-slate-900">
+                            {formatPriceTry(item.priceCents)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {!isLoading && !loadError && visibleCount < sorted.length && (
         <div ref={loadMoreRef} aria-hidden className="h-1" />

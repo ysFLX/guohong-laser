@@ -134,7 +134,7 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
                 type="button"
                 onClick={() => {
                   setShowPrompt(false);
-                  router.push('/checkout/address');
+                  router.push('/profile/addresses');
                 }}
                 className="rounded-xl bg-gray-900 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-800"
               >

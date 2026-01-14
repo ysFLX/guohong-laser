@@ -49,6 +49,8 @@ const formatDate = (value: string) => {
   }
 };
 
+const isImageUrl = (url: string) => /\.(png|jpe?g|webp|gif|svg)$/i.test(url);
+
 export default function ReturnsAdminManager() {
   const [items, setItems] = useState<ReturnRequestItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -175,15 +177,34 @@ export default function ReturnsAdminManager() {
                   {item.evidenceUrls?.length > 0 && (
                     <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
                       <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kanitlar</div>
-                      <ul className="mt-2 space-y-2">
+                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
                         {item.evidenceUrls.map((url, idx) => (
-                          <li key={`${url}-${idx}`}>
-                            <a href={url} target="_blank" rel="noreferrer" className="text-teal-600 hover:text-teal-700">
-                              Kanit dosyasi #{idx + 1}
-                            </a>
-                          </li>
+                          <a
+                            key={`${url}-${idx}`}
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600 hover:border-teal-300"
+                          >
+                            {isImageUrl(url) ? (
+                              <div className="relative mb-2 h-32 w-full overflow-hidden rounded-lg bg-slate-100">
+                                <img
+                                  src={url}
+                                  alt={`Kanit ${idx + 1}`}
+                                  className="h-full w-full object-cover"
+                                  loading="lazy"
+                                />
+                              </div>
+                            ) : (
+                              <div className="mb-2 flex h-32 w-full items-center justify-center rounded-lg bg-slate-100 text-xs uppercase tracking-[0.2em] text-slate-400">
+                                Dosya
+                              </div>
+                            )}
+                            <div className="font-semibold text-slate-900">Kanit dosyasi #{idx + 1}</div>
+                            <div className="mt-1 text-[11px] text-slate-500">Goruntule</div>
+                          </a>
                         ))}
-                      </ul>
+                      </div>
                     </div>
                   )}
                 </div>
