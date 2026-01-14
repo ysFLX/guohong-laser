@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import RootChrome from "@/components/layout/RootChrome";
 import Providers from "./providers";
+import Analytics from "@/components/analytics/Analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,6 +70,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+
   return (
     <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900" suppressHydrationWarning>
       <head>
@@ -79,6 +83,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`} suppressHydrationWarning>
+        <Analytics gaId={gaId} metaPixelId={metaPixelId} />
         <Providers>
           <RootChrome>{children}</RootChrome>
         </Providers>
