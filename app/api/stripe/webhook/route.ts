@@ -13,6 +13,7 @@ const prismaOrders = prisma as unknown as {
   order: {
     findUnique: (args: unknown) => Promise<OrderCreateResult | null>;
     create: (args: unknown) => Promise<OrderCreateResult>;
+    updateMany: (args: unknown) => Promise<{ count: number }>;
   };
   user: {
     findUnique: (args: unknown) => Promise<UserLookupResult | null>;
@@ -197,6 +198,56 @@ async function sendOrderEmail(params: {
 
         <div style="margin-top: 18px; font-size: 12px; color: #94a3b8;">
           Bu e-posta otomatik olarak gonderilmistir. Herhangi bir sorunuz olursa bizimle iletisime gecebilirsiniz.
+        </div>
+      </div>
+    `,
+  });
+}
+
+async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | 'CANCELED'; sessionId: string }) {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpUser || !smtpPass) {
+    return;
+  }
+
+  const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const cartUrl = `${appUrl}/cart`;
+  const title = params.status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz';
+  const subtitle =
+    params.status === 'CANCELED'
+      ? 'Odeme tamamlanamadigi icin sepetiniz korunuyor.'
+      : 'Odeme islemi tamamlanamadi, dilediginiz zaman tekrar deneyebilirsiniz.';
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `Guohong Lazer <${smtpUser}>`,
+    to: params.to,
+    subject: `${title} (Oturum: ${params.sessionId.slice(0, 8)})`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
+        <h2 style="margin: 6px 0 0; color: #0f172a;">${title}</h2>
+        <p style="margin-top: 12px; color: #475569;">${subtitle}</p>
+        <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 10px; color: #0f172a;">
+          Oturum: ${params.sessionId.slice(0, 8)}
+        </div>
+        <div style="margin-top: 18px;">
+          <a href="${cartUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none; font-weight: 600;">Sepete don</a>
+        </div>
+        <div style="margin-top: 16px; font-size: 12px; color: #94a3b8;">
+          Bu e-posta otomatik olarak gonderilmistir.
         </div>
       </div>
     `,
@@ -418,6 +469,70 @@ export async function POST(req: Request) {
         } catch (error) {
           console.error('Siparis e-postasi gonderilemedi:', error);
         }
+      }
+    }
+  }
+
+  if (event.type === 'checkout.session.expired' || event.type === 'checkout.session.async_payment_failed') {
+    const session = event.data.object as {
+      id: string;
+      metadata?: Record<string, string> | null;
+      client_reference_id?: string | null;
+      customer_email?: string | null;
+      customer_details?: { email?: string | null } | null;
+    };
+
+    const status = event.type === 'checkout.session.expired' ? 'CANCELED' : 'FAILED';
+    let userId = session.metadata?.userId || session.client_reference_id || '';
+    if (!userId) {
+      const email = session.customer_details?.email || session.customer_email || '';
+      if (email) {
+        const user = await prismaOrders.user.findUnique({
+          where: { email },
+          select: { id: true },
+        });
+        if (user?.id) userId = user.id;
+      }
+    }
+
+    if (userId) {
+      await prismaOrders.order.updateMany({
+        where: { stripeSessionId: session.id },
+        data: { status },
+      });
+
+      try {
+        await prismaOrders.userNotification.create({
+          data: {
+            userId,
+            type: 'ORDER_STATUS',
+            title: status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz',
+            message:
+              status === 'CANCELED'
+                ? 'Odeme suresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
+                : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+            orderId: null,
+            status,
+          },
+        });
+      } catch (error) {
+        console.error('Odeme basarisiz bildirimi kaydedilemedi:', error);
+      }
+
+      try {
+        let recipient = session.customer_details?.email || session.customer_email || '';
+        if (!recipient) {
+          const user = await prismaOrders.user.findUnique({
+            where: { id: userId },
+            select: { email: true },
+          });
+          recipient = user?.email || '';
+        }
+        if (recipient) {
+          await sendPaymentFailedEmail({ to: recipient, status, sessionId: session.id });
+        }
+      } catch (error) {
+        console.error('Odeme basarisiz e-postasi gonderilemedi:', error);
       }
     }
   }
