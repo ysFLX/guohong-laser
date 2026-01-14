@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
@@ -6,7 +7,7 @@ import { getStripe } from '@/lib/stripe';
 export const runtime = 'nodejs';
 
 type OrderCreateResult = { id: string };
-type UserLookupResult = { id: string };
+type UserLookupResult = { id: string; email: string | null };
 
 const prismaOrders = prisma as unknown as {
   order: {
@@ -16,7 +17,191 @@ const prismaOrders = prisma as unknown as {
   user: {
     findUnique: (args: unknown) => Promise<UserLookupResult | null>;
   };
+  userNotification: {
+    create: (args: unknown) => Promise<unknown>;
+  };
+  address: {
+    findUnique: (args: unknown) => Promise<{
+      fullName: string | null;
+      phone: string | null;
+      line1: string | null;
+      line2: string | null;
+      city: string | null;
+      state: string | null;
+      postalCode: string | null;
+      country: string | null;
+    } | null>;
+  };
 };
+
+function formatPriceTry(priceCents: number) {
+  try {
+    return new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency: 'TRY',
+      maximumFractionDigits: 2,
+    }).format(priceCents / 100);
+  } catch {
+    return `${(priceCents / 100).toFixed(2)} TL`;
+  }
+}
+
+async function sendOrderEmail(params: {
+  to: string;
+  orderId: string;
+  totalCents: number;
+  items: Array<{ name: string; quantity: number; priceCents: number }>;
+  shippingAddress?: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null;
+  billingAddress?: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null;
+}) {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpUser || !smtpPass) {
+    return;
+  }
+
+  const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
+  const returnsUrl = `${appUrl}/returns-request`;
+  const brandPrimary = '#0b3b36';
+  const brandPrimarySoft = '#e8f3f2';
+  const brandDark = '#0b1120';
+  const brandBorder = '#1f2937';
+
+  const itemsHtml = params.items
+    .map(
+      (item) => `
+        <tr>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+            <div style="font-weight: 600; color: #0f172a;">${item.name}</div>
+            <div style="font-size: 12px; color: #64748b;">Adet: ${item.quantity}</div>
+          </td>
+          <td style="padding: 8px 0; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: 600; color: #0f172a;">
+            ${formatPriceTry(item.priceCents * item.quantity)}
+          </td>
+        </tr>
+      `,
+    )
+    .join('');
+
+  const formatAddressBlock = (address?: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null) => {
+    if (!address) {
+      return {
+        html: '<span style="color:#64748b;">Adres bilgisi bulunamadi.</span>',
+      };
+    }
+    const text = [
+      address.fullName,
+      address.line1,
+      address.line2,
+      `${address.city || ''}${address.state ? ` / ${address.state}` : ''}`,
+      address.postalCode,
+      address.country,
+      address.phone,
+    ]
+      .filter(Boolean)
+      .join('\n');
+    return {
+      html: text.replace(/\n/g, '<br />'),
+    };
+  };
+
+  const shippingBlock = formatAddressBlock(params.shippingAddress);
+  const billingBlock = formatAddressBlock(params.billingAddress);
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `Guohong Lazer <${smtpUser}>`,
+    to: params.to,
+    subject: `Siparisiniz alindi (#${params.orderId.slice(0, 8)})`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+          <div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
+            <h2 style="margin: 6px 0 0; color: #0f172a;">Siparisiniz alindi</h2>
+          </div>
+          <span style="padding: 6px 12px; border-radius: 999px; background: ${brandPrimarySoft}; color: ${brandPrimary}; font-size: 12px; font-weight: 700;">Siparisiniz alindi</span>
+        </div>
+
+        <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 13px; color: #475569;">Siparis numaraniz</div>
+          <div style="font-size: 18px; font-weight: 700; color: #0f172a;">#${params.orderId.slice(0, 8)}</div>
+        </div>
+
+        <div style="margin-top: 18px;">
+          <a href="${orderUrl}" style="display: inline-block; padding: 10px 18px; background: ${brandDark}; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Siparis detaylarini gor</a>
+          <a href="${returnsUrl}" style="display: inline-block; margin-left: 10px; padding: 10px 18px; border: 1px solid ${brandBorder}; color: ${brandDark}; border-radius: 10px; text-decoration: none; font-weight: 600;">Iade / Degisim talebi</a>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Siparis ozeti</div>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
+            <tbody>
+              ${itemsHtml}
+              <tr>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">Toplam</td>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">${formatPriceTry(params.totalCents)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px; font-size: 14px; color: #334155;">
+          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Teslimat adresi</div>
+          <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
+        </div>
+
+        <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
+          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Fatura / Irsaliye</div>
+          <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
+        </div>
+
+        <div style="margin-top: 18px; font-size: 12px; color: #94a3b8;">
+          Bu e-posta otomatik olarak gonderilmistir. Herhangi bir sorunuz olursa bizimle iletisime gecebilirsiniz.
+        </div>
+      </div>
+    `,
+  });
+}
 
 export async function POST(req: Request) {
   const signature = req.headers.get('stripe-signature');
@@ -147,14 +332,92 @@ export async function POST(req: Request) {
         },
       };
 
+      let created: OrderCreateResult | null = null;
       try {
-        await prismaOrders.order.create({ data: createPayload, select: { id: true } });
+        created = await prismaOrders.order.create({ data: createPayload, select: { id: true } });
       } catch (error) {
         console.error('[stripe/webhook] create failed, retrying with PAID:', error);
-        await prismaOrders.order.create({
+        created = await prismaOrders.order.create({
           data: { ...createPayload, status: 'PAID' },
           select: { id: true },
         });
+      }
+
+      if (created?.id) {
+        try {
+          await prismaOrders.userNotification.create({
+            data: {
+              userId,
+              type: 'ORDER_STATUS',
+              title: 'Siparisiniz alindi',
+              message: 'Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.',
+              orderId: created.id,
+              status: 'RECEIVED',
+            },
+          });
+        } catch (error) {
+          console.error('Siparis bildirimi kaydedilemedi:', error);
+        }
+
+        try {
+          let recipient = session.customer_details?.email || session.customer_email || '';
+          if (!recipient) {
+            const user = await prismaOrders.user.findUnique({
+              where: { id: userId },
+              select: { email: true },
+            });
+            recipient = user?.email || '';
+          }
+
+          if (recipient) {
+            const shippingAddress = shippingAddressId
+              ? await prismaOrders.address.findUnique({
+                  where: { id: shippingAddressId },
+                  select: {
+                    fullName: true,
+                    phone: true,
+                    line1: true,
+                    line2: true,
+                    city: true,
+                    state: true,
+                    postalCode: true,
+                    country: true,
+                  },
+                })
+              : null;
+            const billingAddress =
+              billingAddressId && billingAddressId !== shippingAddressId
+                ? await prismaOrders.address.findUnique({
+                    where: { id: billingAddressId },
+                    select: {
+                      fullName: true,
+                      phone: true,
+                      line1: true,
+                      line2: true,
+                      city: true,
+                      state: true,
+                      postalCode: true,
+                      country: true,
+                    },
+                  })
+                : shippingAddress;
+
+            await sendOrderEmail({
+              to: recipient,
+              orderId: created.id,
+              totalCents: total,
+              items: itemsToCreate.map((item) => ({
+                name: item.name,
+                quantity: item.quantity,
+                priceCents: item.priceCents,
+              })),
+              shippingAddress,
+              billingAddress,
+            });
+          }
+        } catch (error) {
+          console.error('Siparis e-postasi gonderilemedi:', error);
+        }
       }
     }
   }
