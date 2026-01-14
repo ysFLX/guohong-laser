@@ -134,6 +134,69 @@ async function sendStatusEmail(params: {
   });
 }
 
+async function sendTrackingEmail(params: {
+  to: string;
+  orderId: string;
+  status: string;
+  tracking: { carrier?: string | null; number?: string | null; url?: string | null };
+}) {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpUser || !smtpPass) {
+    return;
+  }
+
+  const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
+  const statusText = formatStatusLabel(params.status);
+  const trackingLines = [
+    params.tracking.carrier ? `Kargo firmasi: ${params.tracking.carrier}` : '',
+    params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
+    params.tracking.url ? `Takip linki: ${params.tracking.url}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `Guohong Lazer <${smtpUser}>`,
+    to: params.to,
+    subject: `Kargo bilgisi guncellendi (#${params.orderId.slice(0, 8)})`,
+    text: [
+      `Kargo bilgileriniz guncellendi. Guncel durum: ${statusText}`,
+      `Siparis detaylari: ${orderUrl}`,
+      trackingLines,
+    ]
+      .filter(Boolean)
+      .join('\n'),
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
+        <h2 style="margin-top: 0; color: #111827;">Kargo bilgisi guncellendi</h2>
+        <p style="margin: 0 0 12px;">Guncel durum: <strong>${statusText}</strong></p>
+        <div style="margin-top: 16px;">
+          <a href="${orderUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none;">Siparis detaylari</a>
+        </div>
+        ${
+          trackingLines
+            ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">${trackingLines}</div>`
+            : ''
+        }
+      </div>
+    `,
+  });
+}
+
 export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
   const session = await getServerSession(authOptions);
@@ -171,6 +234,9 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       select: {
         id: true,
         status: true,
+        shippingCarrier: true,
+        trackingNumber: true,
+        trackingUrl: true,
         userId: true,
         user: {
           select: {
@@ -195,6 +261,11 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       },
       select: { id: true, status: true },
     });
+
+    const trackingChanged =
+      (existing.shippingCarrier || null) !== (shippingCarrier || null) ||
+      (existing.trackingNumber || null) !== (trackingNumber || null) ||
+      (existing.trackingUrl || null) !== (trackingUrl || null);
 
     if (existing.status !== status) {
       const reasonSuffix =
@@ -232,6 +303,38 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
         }
       } catch (error) {
         console.error('Siparis durum e-postasi gonderilemedi:', error);
+      }
+    } else if (trackingChanged) {
+      try {
+        await prismaNotifications.userNotification.create({
+          data: {
+            userId: existing.userId,
+            type: 'ORDER_TRACKING',
+            title: 'Kargo bilgisi guncellendi',
+            message: 'Kargo takip bilgileriniz guncellendi.',
+            orderId: updated.id,
+            status,
+          },
+        });
+      } catch (error) {
+        console.error('Kargo bildirimi kaydedilemedi:', error);
+      }
+
+      try {
+        if (existing.user?.email) {
+          await sendTrackingEmail({
+            to: existing.user.email,
+            orderId: updated.id,
+            status,
+            tracking: {
+              carrier: shippingCarrier,
+              number: trackingNumber,
+              url: trackingUrl,
+            },
+          });
+        }
+      } catch (error) {
+        console.error('Kargo e-postasi gonderilemedi:', error);
       }
     }
 

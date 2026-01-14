@@ -215,6 +215,7 @@ export default async function OrdersPage() {
                 <div className="mt-8 space-y-4">
               {orders.map((order) => {
                 const displayStatus = normalizeStatus(order.status);
+                const hasTracking = Boolean(order.shippingCarrier || order.trackingNumber || order.trackingUrl);
                 return (
                   <div
                     key={order.id}
@@ -330,7 +331,7 @@ export default async function OrdersPage() {
                         })}
                       </div>
 
-                  {(order.shippingCarrier || order.trackingNumber || order.trackingUrl) && (
+                  {hasTracking && (
                     <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-3 text-xs text-slate-600">
                       <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                         Kargo takibi
@@ -356,6 +357,16 @@ export default async function OrdersPage() {
                             Takip linki
                           </a>
                         )}
+                      </div>
+                    </div>
+                  )}
+                  {!hasTracking && (displayStatus === 'SHIPPED' || displayStatus === 'DELIVERED') && (
+                    <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50/70 p-3 text-xs text-amber-800">
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-600">
+                        Kargo bilgisi bekleniyor
+                      </div>
+                      <div className="mt-1">
+                        Kargo firmasi ve takip numarasi admin tarafindan eklendiginde burada gorunecek.
                       </div>
                     </div>
                   )}
