@@ -302,14 +302,12 @@ export default function OrdersAdminManager() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Siparis yonetimi</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900">Operasyon merkezi</h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Tum siparisleri tek ekrandan takip et ve aksiyon al.
-            </p>
+            <p className="mt-1 text-sm text-slate-500">Tum siparisleri tek ekrandan takip et.</p>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -405,7 +403,7 @@ export default function OrdersAdminManager() {
         )}
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         {loading && <div className="mt-6 text-sm text-slate-500">Yukleniyor...</div>}
         {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
 
@@ -422,7 +420,7 @@ export default function OrdersAdminManager() {
               return (
               <div
                 key={order.id}
-                className={`relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_50px_-40px_rgba(15,23,42,0.35)] ring-1 ring-slate-100/80 ${statusAccent(
+                className={`overflow-hidden rounded-2xl border border-slate-200 bg-white ${statusAccent(
                   displayStatus,
                 )} border-l-4`}
               >
@@ -430,29 +428,34 @@ export default function OrdersAdminManager() {
                   type="button"
                   onClick={() => toggleExpanded(order.id)}
                   aria-expanded={expandedIds.has(order.id)}
-                  className="flex w-full flex-wrap items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-white px-6 py-5 text-left transition hover:bg-slate-50/80"
+                  className="grid w-full gap-4 border-b border-slate-100 px-6 py-4 text-left transition hover:bg-slate-50 md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
                 >
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">Siparis</div>
-                    <div className="mt-2 flex items-center gap-3">
-                      <div className="text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
-                      <div className="text-xs font-semibold text-slate-500">
-                        {order.user?.name || order.user?.email || 'Misafir'}
-                      </div>
-                      <span
-                        className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(
-                          displayStatus,
-                        )}`}
-                      >
-                        {statusLabel[displayStatus] || displayStatus}
-                      </span>
-                    </div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
+                    <div className="mt-2 text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
                     <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                   </div>
+                  <div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Musteri</div>
+                    <div className="mt-2 text-sm font-semibold text-slate-900">
+                      {order.user?.name || order.user?.email || 'Misafir'}
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">{order.user?.email || '-'}</div>
+                  </div>
+                  <div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                    <span
+                      className={`mt-2 inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(
+                        displayStatus,
+                      )}`}
+                    >
+                      {statusLabel[displayStatus] || displayStatus}
+                    </span>
+                  </div>
                   <div className="text-right">
-                    <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Tutar</div>
-                    <div className="mt-1 text-xl font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
-                    <div className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-slate-500">
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Tutar</div>
+                    <div className="mt-2 text-lg font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
+                    <div className="mt-2 inline-flex items-center justify-end gap-1 text-xs font-semibold text-slate-500">
                       Detay
                       <svg
                         viewBox="0 0 20 20"
@@ -468,7 +471,7 @@ export default function OrdersAdminManager() {
                 </button>
 
                 {expandedIds.has(order.id) && (
-                  <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr] bg-slate-50/60">
                     <div className="relative space-y-5 pl-6">
                       <div className="absolute left-2 top-4 h-[calc(100%-16px)] w-px bg-slate-200" />
                       <div className="relative">

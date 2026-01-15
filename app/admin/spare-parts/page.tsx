@@ -93,53 +93,73 @@ export default async function AdminSparePartsPage({
   const nextPage = page < totalPages ? page + 1 : null;
   const criticalCount = items.filter((item) => item.stockOnHand > 0 && item.stockOnHand <= CRITICAL_STOCK_LEVEL)
     .length;
+  const activeCount = items.filter((item) => item.isActive).length;
+  const featuredCount = items.filter((item) => item.isFeatured).length;
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
-      <div className="p-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="text-lg font-bold text-gray-900 dark:text-white">Yedek Parcalar</div>
-          <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Toplam: {total}</div>
-          {criticalCount > 0 && (
-            <div className="mt-2 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
-              Kritik stok: {criticalCount}
-            </div>
-          )}
+    <div className="space-y-6">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun merkezi</div>
+            <h1 className="mt-2 text-2xl font-semibold text-slate-900">Yedek parcalar</h1>
+            <p className="mt-1 text-sm text-slate-500">Stok, vitrin ve kategori takibini tek ekrandan yonet.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/admin/spare-parts/new"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
+            >
+              Yeni urun
+            </Link>
+            <Link
+              href="/admin/spare-parts/categories"
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+            >
+              Kategoriler
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href="/admin/spare-parts/new"
-            className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
-          >
-            Yeni Urun
-          </Link>
-          <Link
-            href="/admin/spare-parts/categories"
-            className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
-          >
-            Kategoriler
-          </Link>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Toplam urun</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{total}</div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Aktif urun</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{activeCount}</div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Vitrin</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{featuredCount}</div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Kritik stok</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{criticalCount}</div>
+          </div>
         </div>
       </div>
 
-      <div className="px-5 pb-5">
-        <form className="grid grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form className="grid grid-cols-1 gap-4 md:grid-cols-[1.5fr_1fr_1fr_auto] md:items-end">
           <div>
-            <label className="form-label block">Arama</label>
-            <input
-              type="text"
-              name="q"
-              defaultValue={query}
-              placeholder="Urun adi veya aciklama ara"
-              className="form-input mt-1 text-sm"
-            />
+            <label className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Arama</label>
+            <div className="mt-2 rounded-full border border-slate-200 bg-white px-4 py-2">
+              <input
+                type="text"
+                name="q"
+                defaultValue={query}
+                placeholder="Urun adi veya aciklama ara"
+                className="w-full bg-transparent text-sm text-slate-700 focus:outline-none"
+              />
+            </div>
           </div>
           <div>
-            <label className="form-label block">Kategori</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Kategori</label>
             <select
               name="category"
               defaultValue={categoryId}
-              className="form-input mt-1 text-sm"
+              className="form-input mt-2 text-sm text-slate-700"
             >
               <option value="">Tum kategoriler</option>
               {categories.map((c) => (
@@ -150,27 +170,24 @@ export default async function AdminSparePartsPage({
             </select>
           </div>
           <div>
-            <label className="form-label block">Durum</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">Durum</label>
             <select
               name="status"
               defaultValue={status}
-              className="form-input mt-1 text-sm"
+              className="form-input mt-2 text-sm text-slate-700"
             >
               <option value="all">Tum durumlar</option>
               <option value="active">Aktif</option>
               <option value="inactive">Pasif</option>
             </select>
           </div>
-          <div className="md:col-span-3 flex items-center gap-2">
-            <button
-              type="submit"
-              className="btn-primary"
-            >
+          <div className="flex items-center gap-2">
+            <button type="submit" className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
               Filtrele
             </button>
             <Link
               href="/admin/spare-parts"
-              className="btn-secondary"
+              className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
             >
               Sifirla
             </Link>
@@ -178,85 +195,100 @@ export default async function AdminSparePartsPage({
         </form>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-50 dark:bg-gray-900/30">
-            <tr>
-              <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Urun</th>
-              <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Kategori</th>
-              <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Fiyat</th>
-              <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Stok</th>
-              <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Durum</th>
-              <th className="text-right px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Islem</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((p) => (
-              <tr key={p.id} className="border-t border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-3">
-                  <div className="font-semibold text-gray-900 dark:text-white">
-                    {p.name}{' '}
+      <div className="space-y-4">
+        {items.map((p) => {
+          const isCritical = p.stockOnHand > 0 && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
+          const accent =
+            isCritical
+              ? 'border-l-amber-400'
+              : p.isFeatured
+                ? 'border-l-indigo-400'
+                : 'border-l-slate-200';
+          return (
+            <div
+              key={p.id}
+              className={`rounded-2xl border border-slate-200 bg-white shadow-sm ${accent} border-l-4`}
+            >
+              <div className="grid gap-4 border-b border-slate-100 px-6 py-4 md:grid-cols-[1.4fr_1fr_0.9fr_0.7fr_0.7fr]">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Urun</div>
+                  <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
+                    {p.name}
                     {p.isFeatured && (
-                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-900 text-white">
+                      <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
                         Vitrin
                       </span>
                     )}
                   </div>
-                </td>
-                <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{p.category.name}</td>
-                <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{formatPriceTry(p.priceCents)}</td>
-                <td className="px-4 py-3 text-gray-700 dark:text-gray-200">
-                  <div className="flex items-center gap-2">
-                    <span>{p.stockOnHand}</span>
-                    {p.stockOnHand > 0 && p.stockOnHand <= CRITICAL_STOCK_LEVEL && (
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Kategori</div>
+                  <div className="mt-2 text-sm text-slate-700">{p.category.name}</div>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Fiyat</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Stok</div>
+                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-700">
+                    {p.stockOnHand}
+                    {isCritical && (
                       <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">
                         Kritik
                       </span>
                     )}
                   </div>
-                </td>
-                <td className="px-4 py-3">
-                  {p.isActive ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                      Aktif
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-200 text-gray-700">
-                      Pasif
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <Link
-                    href={`/admin/spare-parts/${p.id}`}
-                    className="text-sm font-semibold text-emerald-600 hover:underline"
-                  >
+                </div>
+                <div className="text-right">
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                  <div className="mt-2">
+                    {p.isActive ? (
+                      <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 ring-1 ring-emerald-500/30">
+                        Aktif
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full bg-slate-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 ring-1 ring-slate-500/30">
+                        Pasif
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-xs text-slate-500">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Islem</span>
+                  <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-teal-600 hover:text-teal-700">
                     Duzenle
                   </Link>
-                </td>
-              </tr>
-            ))}
-            {items.length === 0 && (
-              <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-600 dark:text-gray-300">
-                  Henuz urun yok.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                </div>
+                {!p.isActive && (
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                    Pasif urun
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {items.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-600">
+            Henuz urun yok.
+          </div>
+        )}
       </div>
 
-      <div className="px-5 py-4 flex items-center justify-between border-t border-gray-100 dark:border-gray-700">
-        <div className="text-sm text-gray-600 dark:text-gray-300">
+      <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm text-slate-600">
+        <div>
           Sayfa {page} / {totalPages}
         </div>
         <div className="flex items-center gap-2">
           <Link
             href={prevPage ? `/admin/spare-parts?page=${prevPage}&q=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryId)}&status=${encodeURIComponent(status)}` : '#'}
             aria-disabled={!prevPage}
-            className={`px-3 py-2 rounded-lg text-sm font-semibold border ${
-              prevPage ? 'border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700' : 'border-gray-100 text-gray-400 cursor-not-allowed'
+            className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+              prevPage ? 'border border-slate-200 text-slate-700 hover:border-slate-300' : 'border border-slate-100 text-slate-400 cursor-not-allowed'
             }`}
           >
             Onceki
@@ -264,8 +296,8 @@ export default async function AdminSparePartsPage({
           <Link
             href={nextPage ? `/admin/spare-parts?page=${nextPage}&q=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryId)}&status=${encodeURIComponent(status)}` : '#'}
             aria-disabled={!nextPage}
-            className={`px-3 py-2 rounded-lg text-sm font-semibold border ${
-              nextPage ? 'border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700' : 'border-gray-100 text-gray-400 cursor-not-allowed'
+            className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+              nextPage ? 'border border-slate-200 text-slate-700 hover:border-slate-300' : 'border border-slate-100 text-slate-400 cursor-not-allowed'
             }`}
           >
             Sonraki

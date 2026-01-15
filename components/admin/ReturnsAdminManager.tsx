@@ -109,13 +109,13 @@ export default function ReturnsAdminManager() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Iade talepleri</div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {statusOptions.map((status) => (
             <div
               key={status.value}
-              className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
+              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
             >
               <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">{status.label}</div>
               <div className="mt-2 text-lg font-semibold text-slate-900">{summary[status.value] || 0}</div>
@@ -141,19 +141,32 @@ export default function ReturnsAdminManager() {
       ) : (
         <div className="space-y-5">
           {items.map((item) => (
-            <div key={item.id} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-3">
+            <div key={item.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="grid gap-4 border-b border-slate-100 px-6 py-4 text-sm sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Talep</div>
-                  <div className="mt-1 text-lg font-semibold text-slate-900">#{item.id.slice(0, 8)}</div>
-                  <div className="text-xs text-slate-500">{formatDate(item.createdAt)}</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Talep</div>
+                  <div className="mt-2 text-base font-semibold text-slate-900">#{item.id.slice(0, 8)}</div>
+                  <div className="mt-1 text-xs text-slate-500">{formatDate(item.createdAt)}</div>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${statusBadge(item.status)}`}>
-                  {statusOptions.find((s) => s.value === item.status)?.label || item.status}
-                </span>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Musteri</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-900">{item.name}</div>
+                  <div className="mt-1 text-xs text-slate-500">{item.email}</div>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                  <span className={`mt-2 inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusBadge(item.status)}`}>
+                    {statusOptions.find((s) => s.value === item.status)?.label || item.status}
+                  </span>
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-900">{item.orderId}</div>
+                  <div className="mt-1 text-xs text-slate-500">{item.itemName || '-'}</div>
+                </div>
               </div>
 
-              <div className="mt-5 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="grid gap-4 px-6 py-5 lg:grid-cols-[1.2fr_0.8fr] bg-slate-50/60">
                 <div className="space-y-4">
                   <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>

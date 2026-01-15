@@ -150,8 +150,8 @@ export default async function AdminHomePage() {
   const typeLabel = (type: 'CONTACT' | 'QUOTE') => (type === 'QUOTE' ? 'Teklif' : 'Iletisim');
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+    <div className="space-y-8">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="text-lg font-bold text-slate-900">Admin Dashboard</div>
@@ -185,13 +185,17 @@ export default async function AdminHomePage() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
             >
-              <div className="flex items-center justify-between text-sm text-slate-500">
+              <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-400">
                 <span>{stat.label}</span>
-                <span className="h-2 w-2 rounded-full bg-teal-500" />
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-indigo-600 shadow-sm">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2l8 4v12l-8 4-8-4V6l8-4zm0 2.3L6 6.1v9.8l6 2.8 6-2.8V6.1L12 4.3z" />
+                  </svg>
+                </span>
               </div>
-              <div className="mt-2 text-2xl font-bold text-slate-900">{stat.value}</div>
+              <div className="mt-3 text-2xl font-semibold text-slate-900">{stat.value}</div>
             </div>
           ))}
         </div>
@@ -203,33 +207,37 @@ export default async function AdminHomePage() {
               description: 'Tum siparisleri aninda izle.',
               href: '/admin/orders',
               count: totalOrders,
+              tone: 'border-indigo-200',
             },
             {
               title: 'Iadeler',
               description: 'Iade taleplerini yonet.',
               href: '/admin/returns',
               count: totalReturns,
+              tone: 'border-emerald-200',
             },
             {
               title: 'Talepler',
               description: 'Teklif ve iletisim kutusu.',
               href: '/admin/inquiries',
               count: newQuotes + newContacts,
+              tone: 'border-amber-200',
             },
             {
               title: 'Urunler',
               description: 'Stok, vitrin ve fiyatlar.',
               href: '/admin/spare-parts',
               count: totalParts,
+              tone: 'border-slate-200',
             },
           ].map((card) => (
             <Link
               key={card.title}
               href={card.href}
-              className="group rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-teal-300 hover:bg-white hover:shadow-md"
+              className={`group rounded-2xl border bg-white p-4 transition hover:shadow-md ${card.tone}`}
             >
               <div className="flex items-center justify-between text-sm text-slate-500">
-                <span>{card.title}</span>
+                <span className="text-xs uppercase tracking-[0.2em]">{card.title}</span>
                 <span className="rounded-full bg-slate-900 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
                   {card.count}
                 </span>
@@ -243,12 +251,12 @@ export default async function AdminHomePage() {
           ))}
         </div>
 
-        <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Anasayfa panelleri</div>
               <div className="mt-2 text-sm text-slate-600">
-                Son guncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henuz ayarlanmadı'}
+                Son guncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henuz ayarlanmadi'}
               </div>
             </div>
             <Link
@@ -292,7 +300,7 @@ export default async function AdminHomePage() {
                       )}
                     </div>
                     <div className="text-xs text-slate-600">
-                      {p.category.name} · Stok: {p.stockOnHand} · {formatPriceTry(p.priceCents)}
+                      {p.category.name} - Stok: {p.stockOnHand} - {formatPriceTry(p.priceCents)}
                     </div>
                   </div>
                   <Link
@@ -342,10 +350,10 @@ export default async function AdminHomePage() {
                 <div key={inq.id} className="rounded-xl border border-slate-200 p-3 bg-slate-50">
                   <div className="flex items-center justify-between gap-2">
                     <div className="text-sm font-semibold text-slate-900">
-                      {inq.name || 'Isim yok'} · {inq.email}
+                      {inq.name || 'Isim yok'} - {inq.email}
                     </div>
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusBadge(inq.status)}`}>
-                      {typeLabel(inq.type)} · {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapali'}
+                      {typeLabel(inq.type)} - {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapali'}
                     </span>
                   </div>
                   <div className="mt-1 text-xs text-slate-500">{formatDateTime(inq.createdAt)}</div>
