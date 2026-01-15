@@ -145,17 +145,24 @@ export default function AdminSidebar() {
   };
 
   return (
-    <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col lg:bg-slate-950 lg:text-slate-100 lg:shadow-[0_20px_70px_-40px_rgba(15,23,42,0.9)]">
+    <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col lg:bg-slate-950 lg:text-slate-100 lg:shadow-[0_30px_80px_-50px_rgba(15,23,42,0.9)]">
       <div className="px-6 py-6 border-b border-slate-900">
-        <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/70 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-teal-300">
-          Admin Suite
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-teal-300 shadow-sm">
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l8 4v12l-8 4-8-4V6l8-4zm0 2.3L6 6.1v9.8l6 2.8 6-2.8V6.1L12 4.3z" />
+            </svg>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-[0.3em] text-teal-300">Guohong Admin</div>
+            <div className="text-lg font-semibold">Yonetim Merkezi</div>
+          </div>
         </div>
-        <div className="mt-3 text-lg font-semibold">Guohong Panel</div>
-        <p className="mt-2 text-xs text-slate-400">Operasyon, stok ve talepler</p>
+        <p className="mt-3 text-xs text-slate-400">Operasyon, stok ve taleplerin kurumsal kontrolu.</p>
       </div>
 
       <div className="px-4 py-4 space-y-3">
-        <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-gradient-to-br from-slate-950 to-slate-900 px-3 py-3">
+        <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-950 to-slate-900 px-3 py-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-500 text-sm font-semibold text-slate-900">
             A
           </div>

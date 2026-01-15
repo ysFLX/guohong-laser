@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
             <div className="px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-teal-700">
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-slate-600">
                   Guohong Admin
                 </div>
                 <h1 className="text-2xl font-semibold tracking-tight">Yonetim merkezi</h1>
@@ -55,7 +55,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </header>
 
           <main className="px-4 py-6 sm:px-6 lg:px-8">
-            <div className="rounded-[28px] border border-slate-200 bg-white/80 p-4 shadow-sm sm:p-6">
+            <div className="rounded-[28px] border border-slate-200 bg-white/90 p-4 shadow-[0_12px_40px_-28px_rgba(15,23,42,0.35)] sm:p-6">
               {children}
             </div>
           </main>
