@@ -331,36 +331,67 @@ export default async function SparePartDetailPage({
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
-                  Guven modulu
-                </p>
-                <span className="rounded-full bg-teal-100 px-3 py-1 text-[10px] font-semibold text-teal-700">
-                  Kurumsal garanti
-                </span>
-              </div>
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                {[
-                  { title: 'Sertifikali kalite', detail: 'CE ve ISO uyumlu parcalar.' },
-                  { title: 'Orjinal tedarik', detail: 'Resmi servis garantisi.' },
-                  { title: 'Hizli destek', detail: 'Teknik ekip ile 24 saat icinde gorusme.' },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-2xl border border-gray-100 bg-gray-50/80 p-4 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-200"
-                  >
-                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-teal-600 shadow-sm">
-                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                          <path d="M12 2l8 3v6c0 5.25-3.438 10.125-8 11-4.563-.875-8-5.75-8-11V5l8-3zm-1.25 13.25l6-6-1.5-1.5-4.5 4.5-2-2-1.5 1.5 3.5 3.5z" />
-                        </svg>
-                      </span>
-                      {item.title}
-                    </div>
-                    <p className="mt-2 text-xs text-gray-600 dark:text-gray-300">{item.detail}</p>
+            <div className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white/95 p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.2),_transparent_60%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.06),_transparent)]" />
+              <div className="relative space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                      Guven paketi
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-white">
+                      Sertifika + servis + garanti tek ekranda
+                    </h3>
                   </div>
-                ))}
+                  <span className="rounded-full bg-teal-100 px-3 py-1 text-[10px] font-semibold text-teal-700">
+                    Kurumsal garanti
+                  </span>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {[
+                    { title: 'Sertifikali kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
+                    { title: 'Orjinal tedarik', detail: 'Resmi servis ve orjinallik teyidi.' },
+                    { title: 'Hizli destek', detail: '24 saat icinde teknik geri donus.' },
+                  ].map((item) => (
+                    <div
+                      key={item.title}
+                      className="rounded-2xl border border-gray-100 bg-gray-50/80 p-4 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-200"
+                    >
+                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-teal-600 shadow-sm">
+                          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                            <path d="M12 2l8 3v6c0 5.25-3.438 10.125-8 11-4.563-.875-8-5.75-8-11V5l8-3zm-1.25 13.25l6-6-1.5-1.5-4.5 4.5-2-2-1.5 1.5 3.5 3.5z" />
+                          </svg>
+                        </span>
+                        {item.title}
+                      </div>
+                      <p className="mt-2 text-xs text-gray-600 dark:text-gray-300">{item.detail}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid gap-3 rounded-2xl border border-gray-100 bg-white/80 p-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-300 sm:grid-cols-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Garanti</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">Resmi servis</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Iade</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">14 gun</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Destek</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">7/24 teyit</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-300">
+                  <span className="rounded-full border border-gray-200 px-3 py-1">SSL odeme</span>
+                  <span className="rounded-full border border-gray-200 px-3 py-1">Yetkili servis</span>
+                  <span className="rounded-full border border-gray-200 px-3 py-1">Fatura garantisi</span>
+                </div>
               </div>
             </div>
 
