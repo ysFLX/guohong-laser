@@ -113,7 +113,12 @@ async function sendReminderEmail(params: {
 export async function GET(req: Request) {
   const secret = process.env.CRON_SECRET;
   const headerSecret = req.headers.get('x-cron-secret');
-  if (secret && secret !== headerSecret) {
+  const querySecret = new URL(req.url).searchParams.get('secret');
+  const vercelCron = req.headers.get('x-vercel-cron');
+  const isAuthed =
+    !secret || headerSecret === secret || querySecret === secret || vercelCron === '1';
+
+  if (!isAuthed) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
 
