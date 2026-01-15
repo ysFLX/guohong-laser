@@ -34,6 +34,7 @@ model User {
   returnRequestsResponded ReturnRequest[] @relation("ReturnRequestRespondedBy")
   notifications  UserNotification[]
   sparePartReviews SparePartReview[]
+  cartReminders CartReminder[]
   twoFactorToken TwoFactorToken?
 }
 
@@ -330,6 +331,23 @@ model Order {
   @@index([createdAt])
   @@index([shippingAddressId])
   @@index([billingAddressId])
+}
+
+model CartReminder {
+  id         String   @id @default(cuid())
+  userId     String?
+  email      String   @unique
+  items      Json
+  totalCents Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  sentAt     DateTime?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([sentAt])
 }
 
 model ReturnRequest {

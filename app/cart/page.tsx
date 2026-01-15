@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
@@ -22,10 +23,80 @@ function formatPriceTry(priceCents: number) {
 
 export default function CartPage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const { items, subtotalCents, removeItem, setQuantity, clear } = useCart();
   const [checkoutError, setCheckoutError] = useState('');
   const [isQuickBuying, setIsQuickBuying] = useState(false);
   const [showQuickBuyPrompt, setShowQuickBuyPrompt] = useState(false);
+  const [reminderEmail, setReminderEmail] = useState('');
+  const [reminderStatus, setReminderStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [reminderError, setReminderError] = useState('');
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      setReminderEmail(session.user.email);
+    }
+  }, [session?.user?.email]);
+
+  useEffect(() => {
+    if (!items.length) {
+      setReminderStatus('idle');
+      setReminderError('');
+    }
+  }, [items.length]);
+
+  const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  const handleSaveReminder = async () => {
+    setReminderError('');
+    if (!items.length) return;
+    if (!isValidEmail(reminderEmail.trim())) {
+      setReminderError('Gecerli bir e-posta girmelisin.');
+      setReminderStatus('error');
+      return;
+    }
+
+    setReminderStatus('saving');
+    try {
+      const res = await fetch('/api/cart-reminder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: reminderEmail.trim(),
+          totalCents: subtotalCents,
+          items: items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            priceCents: item.priceCents,
+            quantity: item.quantity,
+            imageUrl: item.imageUrl,
+          })),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || 'Kaydedilemedi');
+      }
+      setReminderStatus('saved');
+    } catch (err) {
+      setReminderError(err instanceof Error ? err.message : 'Kaydedilemedi');
+      setReminderStatus('error');
+    }
+  };
+
+  const handleClearReminder = async () => {
+    setReminderError('');
+    try {
+      await fetch('/api/cart-reminder', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: reminderEmail.trim() }),
+      });
+      setReminderStatus('idle');
+    } catch {
+      setReminderStatus('idle');
+    }
+  };
 
   const handleCheckout = () => {
     if (!items.length) return;
@@ -127,7 +198,7 @@ export default function CartPage() {
           <div className="mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center">
             <div className="text-gray-900 dark:text-white font-semibold">Sepet bos</div>
             <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Yedek parçalara gidip ürun ekleyebilirsin.
+              Yedek parcalara gidip urun ekleyebilirsin.
             </div>
             <Link
               href="/spare-parts"
@@ -275,6 +346,55 @@ export default function CartPage() {
 
               {checkoutError && (
                 <div className="mt-3 text-xs text-red-600">{checkoutError}</div>
+              )}
+
+              {items.length > 0 && (
+                <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 px-4 py-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                    Sepet kurtarma
+                  </div>
+                  <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                    24 saat sonra odemeyi tamamlamadiysan sepetini hatirlatiriz.
+                  </div>
+                  <div className="mt-3">
+                    <label className="sr-only" htmlFor="reminder-email">
+                      E-posta
+                    </label>
+                    <input
+                      id="reminder-email"
+                      type="email"
+                      value={reminderEmail}
+                      onChange={(e) => setReminderEmail(e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                      placeholder="E-posta adresin"
+                    />
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={handleSaveReminder}
+                      disabled={reminderStatus === 'saving'}
+                      className="rounded-full bg-gray-900 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-gray-800 disabled:opacity-70"
+                    >
+                      {reminderStatus === 'saved' ? 'Guncelle' : 'Hatirlatma al'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleClearReminder}
+                      className="rounded-full border border-gray-200 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 hover:border-gray-300 dark:border-gray-700 dark:text-gray-300"
+                    >
+                      Iptal
+                    </button>
+                  </div>
+                  {reminderStatus === 'saved' && (
+                    <div className="mt-2 text-[11px] font-semibold text-teal-600">
+                      Hatirlatma aktif. Sepetin korunacak.
+                    </div>
+                  )}
+                  {reminderError && (
+                    <div className="mt-2 text-[11px] font-semibold text-red-600">{reminderError}</div>
+                  )}
+                </div>
               )}
             </div>
           </div>
