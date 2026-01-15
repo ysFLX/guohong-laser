@@ -53,6 +53,12 @@ type PrismaClientLike = {
       }>
     >;
   };
+  order: {
+    count: (args?: unknown) => Promise<number>;
+  };
+  returnRequest: {
+    count: (args?: unknown) => Promise<number>;
+  };
   homePanelConfig: {
     findUnique: (args: unknown) => Promise<{ updatedAt: Date } | null>;
   };
@@ -91,6 +97,8 @@ export default async function AdminHomePage() {
     lowStockParts,
     newQuotes,
     newContacts,
+    totalOrders,
+    totalReturns,
     latestParts,
     recentInquiries,
     homePanels,
@@ -101,6 +109,8 @@ export default async function AdminHomePage() {
     prismaAdmin.sparePart.count({ where: { stockOnHand: { lte: 3 } } }),
     prismaAdmin.inquiry.count({ where: { type: 'QUOTE', status: 'NEW' } }),
     prismaAdmin.inquiry.count({ where: { type: 'CONTACT', status: 'NEW' } }),
+    prismaAdmin.order.count(),
+    prismaAdmin.returnRequest.count(),
     prismaAdmin.sparePart.findMany({
       take: 5,
       orderBy: { updatedAt: 'desc' },
@@ -183,6 +193,53 @@ export default async function AdminHomePage() {
               </div>
               <div className="mt-2 text-2xl font-bold text-slate-900">{stat.value}</div>
             </div>
+          ))}
+        </div>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            {
+              title: 'Siparisler',
+              description: 'Tum siparisleri aninda izle.',
+              href: '/admin/orders',
+              count: totalOrders,
+            },
+            {
+              title: 'Iadeler',
+              description: 'Iade taleplerini yonet.',
+              href: '/admin/returns',
+              count: totalReturns,
+            },
+            {
+              title: 'Talepler',
+              description: 'Teklif ve iletisim kutusu.',
+              href: '/admin/inquiries',
+              count: newQuotes + newContacts,
+            },
+            {
+              title: 'Urunler',
+              description: 'Stok, vitrin ve fiyatlar.',
+              href: '/admin/spare-parts',
+              count: totalParts,
+            },
+          ].map((card) => (
+            <Link
+              key={card.title}
+              href={card.href}
+              className="group rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-teal-300 hover:bg-white hover:shadow-md"
+            >
+              <div className="flex items-center justify-between text-sm text-slate-500">
+                <span>{card.title}</span>
+                <span className="rounded-full bg-slate-900 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                  {card.count}
+                </span>
+              </div>
+              <div className="mt-3 text-sm font-semibold text-slate-900">{card.description}</div>
+              <div className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600">
+                Hemen git
+                <span className="ml-1 transition group-hover:translate-x-1">-&gt;</span>
+              </div>
+            </Link>
           ))}
         </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 type OrderItem = {
   id: string;
@@ -127,6 +128,7 @@ function formatAddress(address: OrderAddress | null) {
 }
 
 export default function OrdersAdminManager() {
+  const searchParams = useSearchParams();
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -175,6 +177,13 @@ export default function OrdersAdminManager() {
   useEffect(() => {
     loadOrders();
   }, []);
+
+  useEffect(() => {
+    const initial = searchParams?.get('q') || '';
+    if (initial) {
+      setSearchQuery(initial);
+    }
+  }, [searchParams]);
 
   async function loadOrders() {
     setLoading(true);

@@ -32,6 +32,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 <p className="text-xs text-slate-500">Siparis, stok ve talepler tek panelde.</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
+                <form action="/admin/orders" method="get" className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs sm:flex">
+                  <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-400" fill="currentColor" aria-hidden="true">
+                    <path
+                      fillRule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <input
+                    name="q"
+                    placeholder="Siparis/musteri ara"
+                    className="w-40 bg-transparent text-xs text-slate-600 focus:outline-none"
+                  />
+                </form>
                 <Link
                   href="/admin"
                   className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800"
