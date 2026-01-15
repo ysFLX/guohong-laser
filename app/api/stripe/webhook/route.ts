@@ -8,6 +8,40 @@ export const runtime = 'nodejs';
 
 type OrderCreateResult = { id: string };
 type UserLookupResult = { id: string; email: string | null };
+type OrderStatusResult = {
+  id: string;
+  status: string;
+  userId: string;
+  stripeSessionId: string | null;
+  stripePaymentIntentId: string | null;
+  user: { email: string | null } | null;
+};
+type OrderEmailResult = {
+  id: string;
+  totalCents: number;
+  items: Array<{ name: string; quantity: number; priceCents: number }>;
+  shippingAddress: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null;
+  billingAddress: {
+    fullName: string | null;
+    phone: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postalCode: string | null;
+    country: string | null;
+  } | null;
+  user: { email: string | null } | null;
+};
 
 const prismaOrders = prisma as unknown as {
   order: {
@@ -32,6 +66,19 @@ const prismaOrders = prisma as unknown as {
       postalCode: string | null;
       country: string | null;
     } | null>;
+  };
+};
+
+const prismaOrderLookup = prisma as unknown as {
+  order: {
+    findUnique: (args: unknown) => Promise<OrderStatusResult | null>;
+    update: (args: unknown) => Promise<Pick<OrderStatusResult, 'id' | 'status'>>;
+  };
+};
+
+const prismaOrderEmail = prisma as unknown as {
+  order: {
+    findUnique: (args: unknown) => Promise<OrderEmailResult | null>;
   };
 };
 
@@ -204,6 +251,64 @@ async function sendOrderEmail(params: {
   });
 }
 
+async function sendOrderEmailForOrder(orderId: string) {
+  const record = await prismaOrderEmail.order.findUnique({
+    where: { id: orderId },
+    select: {
+      id: true,
+      totalCents: true,
+      items: {
+        select: {
+          name: true,
+          quantity: true,
+          priceCents: true,
+        },
+      },
+      shippingAddress: {
+        select: {
+          fullName: true,
+          phone: true,
+          line1: true,
+          line2: true,
+          city: true,
+          state: true,
+          postalCode: true,
+          country: true,
+        },
+      },
+      billingAddress: {
+        select: {
+          fullName: true,
+          phone: true,
+          line1: true,
+          line2: true,
+          city: true,
+          state: true,
+          postalCode: true,
+          country: true,
+        },
+      },
+      user: {
+        select: {
+          email: true,
+        },
+      },
+    },
+  });
+
+  const recipient = record?.user?.email || '';
+  if (!record || !recipient) return;
+
+  await sendOrderEmail({
+    to: recipient,
+    orderId: record.id,
+    totalCents: record.totalCents,
+    items: record.items,
+    shippingAddress: record.shippingAddress,
+    billingAddress: record.billingAddress,
+  });
+}
+
 async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | 'CANCELED'; sessionId: string }) {
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
@@ -254,6 +359,28 @@ async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | '
   });
 }
 
+async function notifyStatus(userId: string, status: string, orderId: string | null, title: string, message: string) {
+  try {
+    await prismaOrders.userNotification.create({
+      data: {
+        userId,
+        type: 'ORDER_STATUS',
+        title,
+        message,
+        orderId,
+        status,
+      },
+    });
+  } catch (error) {
+    console.error('Siparis bildirimi kaydedilemedi:', error);
+  }
+}
+
+const statusFromPayment = (paymentStatus?: string | null) => {
+  if (paymentStatus === 'paid' || paymentStatus === 'no_payment_required') return 'RECEIVED';
+  return 'PENDING';
+};
+
 export async function POST(req: Request) {
   const signature = req.headers.get('stripe-signature');
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
@@ -279,16 +406,39 @@ export async function POST(req: Request) {
       amount_total?: number | null;
       currency?: string | null;
       payment_intent?: string | null;
+      payment_status?: string | null;
       metadata?: Record<string, string> | null;
       client_reference_id?: string | null;
       customer_email?: string | null;
       customer_details?: { email?: string | null } | null;
     };
 
-    const existing = await prismaOrders.order.findUnique({
+    const existingBySession = await prismaOrderLookup.order.findUnique({
       where: { stripeSessionId: session.id },
-      select: { id: true },
+      select: {
+        id: true,
+        status: true,
+        userId: true,
+        stripeSessionId: true,
+        stripePaymentIntentId: true,
+        user: { select: { email: true } },
+      },
     });
+    const existingByIntent = session.payment_intent
+      ? await prismaOrderLookup.order.findUnique({
+          where: { stripePaymentIntentId: session.payment_intent },
+          select: {
+            id: true,
+            status: true,
+            userId: true,
+            stripeSessionId: true,
+            stripePaymentIntentId: true,
+            user: { select: { email: true } },
+          },
+        })
+      : null;
+    const existing = existingBySession || existingByIntent;
+    const nextStatus = statusFromPayment(session.payment_status);
 
     if (!existing) {
       const stripe = getStripe();
@@ -365,7 +515,7 @@ export async function POST(req: Request) {
 
       const createPayload = {
         userId,
-        status: 'RECEIVED',
+        status: nextStatus,
         totalCents: total,
         currency: (session.currency || 'try').toUpperCase(),
         stripeSessionId: session.id,
@@ -394,21 +544,14 @@ export async function POST(req: Request) {
         });
       }
 
-      if (created?.id) {
-        try {
-          await prismaOrders.userNotification.create({
-            data: {
-              userId,
-              type: 'ORDER_STATUS',
-              title: 'Siparisiniz alindi',
-              message: 'Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.',
-              orderId: created.id,
-              status: 'RECEIVED',
-            },
-          });
-        } catch (error) {
-          console.error('Siparis bildirimi kaydedilemedi:', error);
-        }
+      if (created?.id && nextStatus === 'RECEIVED') {
+        await notifyStatus(
+          userId,
+          nextStatus,
+          created.id,
+          'Siparisiniz alindi',
+          'Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.',
+        );
 
         try {
           let recipient = session.customer_details?.email || session.customer_email || '';
@@ -420,7 +563,7 @@ export async function POST(req: Request) {
             recipient = user?.email || '';
           }
 
-          if (recipient) {
+          if (recipient && nextStatus === 'RECEIVED') {
             const shippingAddress = shippingAddressId
               ? await prismaOrders.address.findUnique({
                   where: { id: shippingAddressId },
@@ -470,6 +613,34 @@ export async function POST(req: Request) {
           console.error('Siparis e-postasi gonderilemedi:', error);
         }
       }
+    } else if (existing.status !== nextStatus && nextStatus === 'RECEIVED') {
+      await prismaOrderLookup.order.update({
+        where: { id: existing.id },
+        data: {
+          status: nextStatus,
+          stripeSessionId: existing.stripeSessionId || session.id,
+          stripePaymentIntentId: existing.stripePaymentIntentId || session.payment_intent || null,
+        },
+        select: { id: true, status: true },
+      });
+      await notifyStatus(
+        existing.userId,
+        nextStatus,
+        existing.id,
+        'Siparisiniz alindi',
+        'Odeme tamamlandi. Siparisiniz isleme alindi.',
+      );
+      try {
+        await sendOrderEmailForOrder(existing.id);
+      } catch (error) {
+        console.error('Siparis e-postasi gonderilemedi:', error);
+      }
+    } else if (!existing.stripeSessionId && session.id) {
+      await prismaOrderLookup.order.update({
+        where: { id: existing.id },
+        data: { stripeSessionId: session.id },
+        select: { id: true, status: true },
+      });
     }
   }
 
@@ -495,44 +666,126 @@ export async function POST(req: Request) {
       }
     }
 
-    if (userId) {
-      await prismaOrders.order.updateMany({
-        where: { stripeSessionId: session.id },
+    const existing = await prismaOrderLookup.order.findUnique({
+      where: { stripeSessionId: session.id },
+      select: {
+        id: true,
+        status: true,
+        userId: true,
+        stripeSessionId: true,
+        stripePaymentIntentId: true,
+        user: { select: { email: true } },
+      },
+    });
+
+    if (
+      existing &&
+      existing.status !== status &&
+      existing.status !== 'RECEIVED' &&
+      existing.status !== 'IN_TRANSIT' &&
+      existing.status !== 'SHIPPED' &&
+      existing.status !== 'DELIVERED'
+    ) {
+      await prismaOrderLookup.order.update({
+        where: { id: existing.id },
         data: { status },
+        select: { id: true, status: true },
       });
 
-      try {
-        await prismaOrders.userNotification.create({
-          data: {
-            userId,
-            type: 'ORDER_STATUS',
-            title: status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz',
-            message:
-              status === 'CANCELED'
-                ? 'Odeme suresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
-                : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
-            orderId: null,
-            status,
-          },
-        });
-      } catch (error) {
-        console.error('Odeme basarisiz bildirimi kaydedilemedi:', error);
-      }
+      await notifyStatus(
+        existing.userId,
+        status,
+        existing.id,
+        status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz',
+        status === 'CANCELED'
+          ? 'Odeme suresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
+          : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+      );
 
       try {
-        let recipient = session.customer_details?.email || session.customer_email || '';
-        if (!recipient) {
-          const user = await prismaOrders.user.findUnique({
-            where: { id: userId },
-            select: { email: true },
-          });
-          recipient = user?.email || '';
-        }
+        const recipient =
+          session.customer_details?.email ||
+          session.customer_email ||
+          existing.user?.email ||
+          '';
         if (recipient) {
           await sendPaymentFailedEmail({ to: recipient, status, sessionId: session.id });
         }
       } catch (error) {
         console.error('Odeme basarisiz e-postasi gonderilemedi:', error);
+      }
+    } else if (userId && !existing) {
+      await notifyStatus(
+        userId,
+        status,
+        null,
+        status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz',
+        status === 'CANCELED'
+          ? 'Odeme suresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
+          : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+      );
+    }
+  }
+
+  if (event.type === 'payment_intent.succeeded' || event.type === 'payment_intent.payment_failed') {
+    const intent = event.data.object as {
+      id: string;
+      metadata?: Record<string, string> | null;
+    };
+    const intentStatus = event.type === 'payment_intent.succeeded' ? 'RECEIVED' : 'FAILED';
+    const existing = await prismaOrderLookup.order.findUnique({
+      where: { stripePaymentIntentId: intent.id },
+      select: {
+        id: true,
+        status: true,
+        userId: true,
+        stripeSessionId: true,
+        stripePaymentIntentId: true,
+        user: { select: { email: true } },
+      },
+    });
+
+    if (
+      existing &&
+      existing.status !== intentStatus &&
+      existing.status !== 'IN_TRANSIT' &&
+      existing.status !== 'SHIPPED' &&
+      existing.status !== 'DELIVERED'
+    ) {
+      await prismaOrderLookup.order.update({
+        where: { id: existing.id },
+        data: { status: intentStatus },
+        select: { id: true, status: true },
+      });
+
+      await notifyStatus(
+        existing.userId,
+        intentStatus,
+        existing.id,
+        intentStatus === 'RECEIVED' ? 'Odeme alindi' : 'Odeme basarisiz',
+        intentStatus === 'RECEIVED'
+          ? 'Odemeniz alindi, siparisiniz isleme alindi.'
+          : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+      );
+
+      if (intentStatus === 'RECEIVED') {
+        try {
+          await sendOrderEmailForOrder(existing.id);
+        } catch (error) {
+          console.error('Siparis e-postasi gonderilemedi:', error);
+        }
+      }
+
+      if (intentStatus === 'FAILED' && existing.user?.email) {
+        try {
+          await sendPaymentFailedEmail({
+            to: existing.user.email,
+            status: 'FAILED',
+            sessionId: intent.id,
+          });
+        } catch (error) {
+          console.error('Odeme basarisiz e-postasi gonderilemedi:', error);
+        }
       }
     }
   }
