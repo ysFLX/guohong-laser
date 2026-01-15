@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PageShell from '@/components/layout/PageShell';
 import QuickQuoteDock from '@/components/layout/QuickQuoteDock';
+import SupportWidget from '@/components/support/SupportWidget';
 
 export default function RootChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,6 +23,7 @@ export default function RootChrome({ children }: { children: React.ReactNode }) 
         <PageShell>{children}</PageShell>
       </main>
       <QuickQuoteDock />
+      <SupportWidget />
       <Footer />
     </>
   );

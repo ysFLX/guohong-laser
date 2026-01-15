@@ -331,6 +331,39 @@ export default async function SparePartDetailPage({
               </ul>
             </div>
 
+            <div className="rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                  Guven modulu
+                </p>
+                <span className="rounded-full bg-teal-100 px-3 py-1 text-[10px] font-semibold text-teal-700">
+                  Kurumsal garanti
+                </span>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {[
+                  { title: 'Sertifikali kalite', detail: 'CE ve ISO uyumlu parcalar.' },
+                  { title: 'Orjinal tedarik', detail: 'Resmi servis garantisi.' },
+                  { title: 'Hizli destek', detail: 'Teknik ekip ile 24 saat icinde gorusme.' },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border border-gray-100 bg-gray-50/80 p-4 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-200"
+                  >
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-teal-600 shadow-sm">
+                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                          <path d="M12 2l8 3v6c0 5.25-3.438 10.125-8 11-4.563-.875-8-5.75-8-11V5l8-3zm-1.25 13.25l6-6-1.5-1.5-4.5 4.5-2-2-1.5 1.5 3.5 3.5z" />
+                        </svg>
+                      </span>
+                      {item.title}
+                    </div>
+                    <p className="mt-2 text-xs text-gray-600 dark:text-gray-300">{item.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm dark:border-gray-700 dark:bg-gray-800">
                 <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Teslim</p>

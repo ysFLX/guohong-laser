@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProductNames } from '@/lib/machineCatalog';
@@ -104,6 +105,14 @@ export default function QuotePage() {
           <p className="max-w-2xl text-base text-white/70">
             Ilgilendiginiz urunu secin, detaylari gonderin. Ekibimiz en uygun teklifi hazirlasin.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/bulk-quote"
+              className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-white/60 hover:text-white"
+            >
+              Toplu teklif formu
+            </Link>
+          </div>
         </div>
       </Reveal>
 
