@@ -15,7 +15,7 @@ export default function PageShell({ children }: PageShellProps) {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(15,23,42,0.04)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.04)_1px,_transparent_1px)] bg-[size:80px_80px] opacity-15 dark:bg-[linear-gradient(90deg,_rgba(255,255,255,0.05)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(255,255,255,0.05)_1px,_transparent_1px)] dark:opacity-20" />
       </div>
 
-      <div className="relative mx-auto max-w-[1440px] px-3 py-8 sm:px-6 lg:px-4">
+      <div className="relative mx-auto w-full max-w-none px-3 py-8 sm:px-6 lg:px-4">
         {children}
       </div>
     </div>
