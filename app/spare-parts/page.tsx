@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
@@ -90,7 +90,7 @@ const renderStars = (average: number) =>
 
 export default function SparePartsPage() {
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const { show } = useToast();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -101,6 +101,23 @@ export default function SparePartsPage() {
   const [sortOption, setSortOption] = useState('recommended');
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [stockRequestOpen, setStockRequestOpen] = useState(false);
+  const [stockRequestPart, setStockRequestPart] = useState<SparePart | null>(null);
+  const [stockRequestForm, setStockRequestForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    quantity: '1',
+    note: '',
+  });
+  const [stockRequestOtp, setStockRequestOtp] = useState('');
+  const [stockRequestStep, setStockRequestStep] = useState<'details' | 'verify'>('details');
+  const [stockRequestStatus, setStockRequestStatus] = useState<{ success: boolean; message: string } | null>(
+    null,
+  );
+  const [stockRequestInfo, setStockRequestInfo] = useState('');
+  const [stockRequestLoading, setStockRequestLoading] = useState(false);
+  const [stockRequestEmailError, setStockRequestEmailError] = useState('');
 
   const [items, setItems] = useState<SparePart[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -323,6 +340,91 @@ export default function SparePartsPage() {
     setSearchQuery('');
     setSelectedCategory('Tumu');
     setSelectedModel('Tumu');
+  };
+
+  const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
+
+  const openStockRequest = (part: SparePart) => {
+    setStockRequestPart(part);
+    setStockRequestStatus(null);
+    setStockRequestInfo('');
+    setStockRequestEmailError('');
+    setStockRequestOtp('');
+    setStockRequestStep('details');
+    setStockRequestForm((prev) => ({
+      ...prev,
+      name: session?.user?.name || prev.name,
+      email: session?.user?.email || prev.email,
+      quantity: prev.quantity || '1',
+      note: '',
+    }));
+    setStockRequestOpen(true);
+  };
+
+  const handleStockRequestChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setStockRequestForm((prev) => ({ ...prev, [name]: value }));
+    if (name === 'email' && stockRequestEmailError) setStockRequestEmailError('');
+  };
+
+  const submitStockRequest = async () => {
+    if (!stockRequestPart || stockRequestLoading) return;
+    setStockRequestStatus(null);
+    setStockRequestInfo('');
+    setStockRequestEmailError('');
+
+    if (!isEmailValid(stockRequestForm.email)) {
+      setStockRequestEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      return;
+    }
+
+    setStockRequestLoading(true);
+    try {
+      const message = [
+        `Urun: ${stockRequestPart.name}`,
+        `Urun ID: ${stockRequestPart.id}`,
+        `Adet: ${stockRequestForm.quantity || '-'}`,
+        `Telefon: ${stockRequestForm.phone || '-'}`,
+        `Not: ${stockRequestForm.note || '-'}`,
+      ].join('\n');
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: stockRequestForm.name || 'Misafir',
+          email: stockRequestForm.email,
+          phone: stockRequestForm.phone,
+          subject: 'Stok Talebi',
+          product: stockRequestPart.name,
+          message,
+          otp: stockRequestStep === 'verify' ? stockRequestOtp : undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.step === 'verify') {
+        setStockRequestStep('verify');
+        setStockRequestInfo('Dogrulama kodu e-posta adresine gonderildi.');
+      } else if (data.success) {
+        setStockRequestStatus({
+          success: true,
+          message: 'Talebin alindi. Stok girisinde sana bilgi verecegiz.',
+        });
+        setStockRequestStep('details');
+        setStockRequestOtp('');
+      } else {
+        throw new Error(data.error || data.message || 'Talep gonderilemedi');
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
+      setStockRequestStatus({ success: false, message });
+    } finally {
+      setStockRequestLoading(false);
+    }
   };
 
   const handleToggleCompare = (part: SparePart) => {
@@ -690,11 +792,18 @@ export default function SparePartsPage() {
                             >
                               Teklif iste
                             </Link>
+                            <button
+                              type="button"
+                              onClick={() => openStockRequest(p)}
+                              className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
+                            >
+                              Hizli stok talebi
+                            </button>
                             <Link
                               href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                              className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm font-semibold text-amber-800 hover:border-amber-300"
+                              className="rounded-xl border border-slate-200 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200"
                             >
-                              Stok gelince haber ver
+                              Detayli talep formu
                             </Link>
                           </div>
                         )}
@@ -854,9 +963,146 @@ export default function SparePartsPage() {
                   ))}
                 </div>
               )}
+          </div>
+        </div>
+      )}
+
+      {stockRequestOpen && stockRequestPart && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-xs uppercase tracking-[0.3em] text-amber-500">Stok talebi</div>
+                <h3 className="mt-2 text-xl font-semibold text-slate-900">Hizli stok talebi olustur</h3>
+                <p className="mt-1 text-sm text-slate-500">
+                  {stockRequestPart.name} icin oncelikli bilgilendirme istiyorum.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setStockRequestOpen(false)}
+                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 hover:border-slate-300"
+              >
+                Kapat
+              </button>
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="sm:col-span-1">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Ad Soyad</label>
+                <input
+                  name="name"
+                  value={stockRequestForm.name}
+                  onChange={handleStockRequestChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900"
+                  placeholder="Ad Soyad"
+                />
+              </div>
+              <div className="sm:col-span-1">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">E-posta</label>
+                <input
+                  name="email"
+                  type="email"
+                  value={stockRequestForm.email}
+                  onChange={handleStockRequestChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900"
+                  placeholder="ornek@mail.com"
+                />
+                {stockRequestEmailError && (
+                  <div className="mt-1 text-xs font-semibold text-red-600">{stockRequestEmailError}</div>
+                )}
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Telefon</label>
+                <input
+                  name="phone"
+                  value={stockRequestForm.phone}
+                  onChange={handleStockRequestChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900"
+                  placeholder="05xx xxx xx xx"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Adet</label>
+                <input
+                  name="quantity"
+                  value={stockRequestForm.quantity}
+                  onChange={handleStockRequestChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900"
+                  placeholder="1"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Not</label>
+                <textarea
+                  name="note"
+                  value={stockRequestForm.note}
+                  onChange={handleStockRequestChange}
+                  className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900"
+                  rows={3}
+                  placeholder="Varsa ek bilgi..."
+                />
+              </div>
+            </div>
+
+            {stockRequestStep === 'verify' && (
+              <div className="mt-4 space-y-2">
+                <div className="text-sm text-slate-600">
+                  Dogrulama kodunu e-posta adresine gonderdik. Kodu girip tamamla.
+                </div>
+                <input
+                  name="otp"
+                  inputMode="numeric"
+                  value={stockRequestOtp}
+                  onChange={(e) => setStockRequestOtp(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-center text-sm text-slate-900"
+                  placeholder="000000"
+                />
+              </div>
+            )}
+
+            {stockRequestInfo && (
+              <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                {stockRequestInfo}
+              </div>
+            )}
+
+            {stockRequestStatus && (
+              <div
+                className={`mt-3 rounded-xl px-4 py-3 text-sm ${
+                  stockRequestStatus.success
+                    ? 'border border-teal-200 bg-teal-50 text-teal-800'
+                    : 'border border-red-200 bg-red-50 text-red-700'
+                }`}
+              >
+                {stockRequestStatus.message}
+              </div>
+            )}
+
+            <div className="mt-5 flex flex-wrap items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setStockRequestOpen(false)}
+                className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
+              >
+                Vazgec
+              </button>
+              <button
+                type="button"
+                onClick={submitStockRequest}
+                disabled={stockRequestLoading}
+                className="rounded-full bg-slate-900 px-5 py-2 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-70"
+              >
+                {stockRequestLoading
+                  ? 'Gonderiliyor...'
+                  : stockRequestStep === 'verify'
+                    ? 'Dogrula ve gonder'
+                    : 'Talebi gonder'}
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
       {!isLoading && !loadError && visibleCount < sorted.length && (
         <div ref={loadMoreRef} aria-hidden className="h-1" />
