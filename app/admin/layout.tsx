@@ -17,22 +17,22 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="flex min-h-screen">
         <AdminSidebar />
 
         <div className="flex-1 lg:pl-72">
-          <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
+          <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
             <div className="px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-slate-600">
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-slate-500">
                   Guohong Admin
                 </div>
                 <h1 className="text-2xl font-semibold tracking-tight">Yonetim merkezi</h1>
                 <p className="text-xs text-slate-500">Siparis, stok ve talepler tek panelde.</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <form action="/admin/orders" method="get" className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs sm:flex">
+                <form action="/admin/orders" method="get" className="hidden items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-xs sm:flex">
                   <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-400" fill="currentColor" aria-hidden="true">
                     <path
                       fillRule="evenodd"
@@ -43,7 +43,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   <input
                     name="q"
                     placeholder="Siparis/musteri ara"
-                    className="w-40 bg-transparent text-xs text-slate-600 focus:outline-none"
+                    className="w-44 bg-transparent text-xs text-slate-600 focus:outline-none"
                   />
                 </form>
                 <Link
@@ -69,8 +69,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </header>
 
           <main className="px-4 py-6 sm:px-6 lg:px-8">
-            <div className="rounded-[28px] border border-slate-200 bg-white/90 p-4 shadow-[0_12px_40px_-28px_rgba(15,23,42,0.35)] sm:p-6">
-              {children}
+            <div className="mx-auto max-w-6xl space-y-6">
+              <div className="rounded-[28px] border border-slate-200 bg-white/95 p-4 shadow-[0_18px_50px_-36px_rgba(15,23,42,0.35)] sm:p-6">
+                {children}
+              </div>
             </div>
           </main>
         </div>
