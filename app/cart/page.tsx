@@ -314,7 +314,7 @@ export default function CartPage() {
                     3D Secure
                   </span>
                   <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
-                    Iade garantisi
+                    İade garantisi
                   </span>
                 </div>
               </div>
