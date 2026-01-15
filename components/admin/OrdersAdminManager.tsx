@@ -140,6 +140,8 @@ export default function OrdersAdminManager() {
   const [cancelReasonError, setCancelReasonError] = useState<Record<string, string>>({});
   const [cancelPrevStatus, setCancelPrevStatus] = useState<Record<string, string>>({});
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'ALL' | 'RECEIVED' | 'IN_TRANSIT' | 'SHIPPED' | 'DELIVERED' | 'CANCELED'>('ALL');
 
   const totalOrders = useMemo(() => orders.length, [orders.length]);
   const latestOrder = useMemo(() => {
@@ -155,6 +157,20 @@ export default function OrdersAdminManager() {
       return acc;
     }, {});
   }, [orders]);
+  const filteredOrders = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return orders.filter((order) => {
+      const normalized = normalizeStatus(order.status);
+      const matchesStatus = statusFilter === 'ALL' || normalized === statusFilter;
+      if (!matchesStatus) return false;
+      if (!query) return true;
+      const idMatch = order.id.toLowerCase().includes(query);
+      const nameMatch = (order.user?.name || '').toLowerCase().includes(query);
+      const emailMatch = (order.user?.email || '').toLowerCase().includes(query);
+      const itemMatch = order.items.some((item) => item.name.toLowerCase().includes(query));
+      return idMatch || nameMatch || emailMatch || itemMatch;
+    });
+  }, [orders, searchQuery, statusFilter]);
 
   useEffect(() => {
     loadOrders();
@@ -299,6 +315,61 @@ export default function OrdersAdminManager() {
             </div>
           </div>
         </div>
+        <div className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 md:grid-cols-[1.2fr_2fr]">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Hizli arama</div>
+            <div className="mt-2 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2">
+              <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-400" fill="currentColor" aria-hidden="true">
+                <path
+                  fillRule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Siparis no, musteri, e-posta veya urun ara"
+                className="w-full bg-transparent text-sm text-slate-700 focus:outline-none"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="text-xs font-semibold text-slate-500 hover:text-slate-700"
+                >
+                  Temizle
+                </button>
+              )}
+            </div>
+          </div>
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Durum filtre</div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {[
+                { value: 'ALL', label: 'Hepsi' },
+                { value: 'RECEIVED', label: 'Alindi' },
+                { value: 'IN_TRANSIT', label: 'Hazirlaniyor' },
+                { value: 'SHIPPED', label: 'Kargoda' },
+                { value: 'DELIVERED', label: 'Teslim' },
+                { value: 'CANCELED', label: 'Iptal' },
+              ].map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  onClick={() => setStatusFilter(item.value as typeof statusFilter)}
+                  className={`rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+                    statusFilter === item.value
+                      ? 'bg-slate-900 text-white'
+                      : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
@@ -329,15 +400,15 @@ export default function OrdersAdminManager() {
         {loading && <div className="mt-6 text-sm text-slate-500">Yukleniyor...</div>}
         {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
 
-        {!loading && orders.length === 0 && (
+        {!loading && filteredOrders.length === 0 && (
           <div className="mt-6 rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
-            Henuz siparis yok.
+            Filtreye uygun siparis yok.
           </div>
         )}
 
-        {!loading && orders.length > 0 && (
+        {!loading && filteredOrders.length > 0 && (
           <div className="space-y-8">
-            {orders.map((order) => {
+            {filteredOrders.map((order) => {
               const displayStatus = normalizeStatus(order.status);
               return (
               <div
