@@ -1,4 +1,4 @@
-﻿﻿﻿'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -41,54 +41,55 @@ export default function AdminSparePartEditForm({
   const [success, setSuccess] = useState('');
 
   return (
-    <div className="mt-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-      <div className="flex items-start justify-between gap-3">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="text-lg font-bold text-gray-900 dark:text-white">Ürün Bilgileri</div>
-          <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Değişiklikleri kaydetmek için alttaki butonu kullan.</div>
+          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun bilgileri</div>
+          <h2 className="mt-2 text-xl font-semibold text-slate-900">Duzenleme paneli</h2>
+          <p className="mt-1 text-sm text-slate-500">Degisiklikleri kaydetmek icin asagidaki butonu kullan.</p>
         </div>
       </div>
 
-      {error && <div className="mt-4 text-sm text-red-600">{error}</div>}
-      {success && <div className="mt-4 text-sm text-green-700">{success}</div>}
+      {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
+      {success && <div className="mt-4 text-sm text-emerald-600">{success}</div>}
 
       <div className="mt-6 grid grid-cols-1 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-900 dark:text-white">Ürün Adı</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Urun adi</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
+            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-900 dark:text-white">Açıklama</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Aciklama</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
+            className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white">Ölçüler</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Olculer</label>
             <input
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
-              placeholder="Örn: M16, D30, F125"
-              className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
+              placeholder="Orn: M16, D30, F125"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white">Kategori</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Kategori</label>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
             >
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -99,41 +100,41 @@ export default function AdminSparePartEditForm({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white">Fiyat (TL)</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Fiyat (TL)</label>
             <input
               value={priceTry}
               inputMode="decimal"
               onChange={(e) => setPriceTry(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 dark:text-white">Stok</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Stok</label>
             <input
               value={stockOnHand}
               inputMode="numeric"
               onChange={(e) => setStockOnHand(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white"
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
             />
-            <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">Stok değişince otomatik ADJUSTMENT hareketi yazılır.</div>
+            <div className="mt-2 text-xs text-slate-500">Stok degisince hareket kaydi olusur.</div>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <label className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
             <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
             Aktif
           </label>
-          <label className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+          <label className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
             <input type="checkbox" checked={isFeatured} onChange={(e) => setIsFeatured(e.target.checked)} />
             Vitrin
           </label>
         </div>
 
-        <div className="pt-2 flex flex-col sm:flex-row gap-3">
+        <div className="pt-2 flex flex-wrap gap-3">
           <button
             type="button"
             disabled={isSaving}
@@ -146,19 +147,19 @@ export default function AdminSparePartEditForm({
               const parsedStock = Number(stockOnHand);
 
               if (!name.trim()) {
-                setError('Ürün adı boş olamaz');
+                setError('Urun adi bos olamaz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
-                setError('Fiyat geçersiz');
+                setError('Fiyat gecersiz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedStock) || parsedStock < 0) {
-                setError('Stok geçersiz');
+                setError('Stok gecersiz');
                 setIsSaving(false);
                 return;
               }
@@ -190,7 +191,7 @@ export default function AdminSparePartEditForm({
                 setIsSaving(false);
               }
             }}
-            className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white disabled:opacity-60"
           >
             {isSaving ? 'Kaydediliyor...' : 'Kaydet'}
           </button>
@@ -215,7 +216,7 @@ export default function AdminSparePartEditForm({
                 setIsDeleting(false);
               }
             }}
-            className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-full border border-rose-200 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-rose-600 hover:bg-rose-50 disabled:opacity-60"
           >
             {isDeleting ? 'Siliniyor...' : 'Urunu sil'}
           </button>
@@ -224,6 +225,3 @@ export default function AdminSparePartEditForm({
     </div>
   );
 }
-
-
-
