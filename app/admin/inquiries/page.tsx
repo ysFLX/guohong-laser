@@ -1,4 +1,4 @@
-﻿import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';

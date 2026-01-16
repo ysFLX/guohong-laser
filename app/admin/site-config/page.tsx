@@ -1,4 +1,4 @@
-﻿import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
 import HomePanelsForm from '@/components/admin/HomePanelsForm';
 
