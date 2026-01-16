@@ -3,6 +3,7 @@
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
 import InquiryStatusActions from '@/components/admin/InquiryStatusActions';
+import { AdminBadge } from '@/components/admin/AdminUi';
 
 export const dynamic = 'force-dynamic';
 
@@ -159,6 +160,29 @@ export default async function AdminInquiriesPage() {
         <SectionHeader title="Teklif Talepleri" count={quotes.length} type="QUOTE" />
         <div className="mt-6 space-y-6">{renderCards(quotes, 'QUOTE')}</div>
       </section>
+
+      <div className="sticky bottom-4 z-30">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
+          <div className="flex items-center gap-2">
+            <AdminBadge tone="slate">{contacts.length + quotes.length} kayit</AdminBadge>
+            <span>Iletisim: {contacts.length} / Teklif: {quotes.length}</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="/admin/inquiries"
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
+            >
+              Yenile
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
+            >
+              En ust
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-'use client';
+﻿import { useState } from 'react';
 
-import { useState } from 'react';
+import { AdminButton } from '@/components/admin/AdminUi';
 
 export default function InquiryStatusActions({ inquiryId, status }: { inquiryId: string; status: 'NEW' | 'READ' | 'CLOSED' }) {
   const [isSaving, setIsSaving] = useState(false);
@@ -28,24 +28,24 @@ export default function InquiryStatusActions({ inquiryId, status }: { inquiryId:
   return (
     <div className="flex flex-col items-end gap-2">
       <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={isSaving || status === 'READ'}
+        <AdminButton
           onClick={() => updateStatus('READ')}
-          className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 disabled:opacity-60"
+          disabled={isSaving || status === 'READ'}
+          tone="emerald"
+          variant="outline"
         >
           Okundu
-        </button>
-        <button
-          type="button"
-          disabled={isSaving}
+        </AdminButton>
+        <AdminButton
           onClick={() => updateStatus('CLOSED')}
-          className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100 disabled:opacity-60"
+          disabled={isSaving}
+          tone="rose"
+          variant="outline"
         >
           Sil
-        </button>
+        </AdminButton>
       </div>
-      {error && <div className="text-xs text-red-600">{error}</div>}
+      {error && <div className="text-xs text-rose-600">{error}</div>}
     </div>
   );
 }

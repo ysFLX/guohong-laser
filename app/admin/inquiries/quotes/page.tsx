@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
 import InquiryStatusActions from '@/components/admin/InquiryStatusActions';
+import { AdminBadge } from '@/components/admin/AdminUi';
 
 type InquiryRow = Array<{
   id: string;
@@ -74,7 +75,7 @@ export default async function AdminQuoteInquiriesPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" id="top">
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -137,6 +138,28 @@ export default async function AdminQuoteInquiriesPage() {
             </div>
           );
         })}
+      </div>
+
+      <div className="sticky bottom-4 z-30">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
+          <div className="flex items-center gap-2">
+            <AdminBadge tone="slate">{items.length} teklif</AdminBadge>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="/admin/inquiries/quotes"
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
+            >
+              Yenile
+            </a>
+            <a
+              href="#top"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
+            >
+              En ust
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

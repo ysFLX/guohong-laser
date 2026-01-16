@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
+import { AdminBadge, AdminButton, AdminRadioCard } from '@/components/admin/AdminUi';
+
 type OrderItem = {
   id: string;
   name: string;
@@ -66,15 +68,15 @@ const normalizeStatus = (value: string) => {
 const statusTone = (value: string) => {
   switch (value) {
     case 'DELIVERED':
-      return 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/30';
+      return 'emerald';
     case 'SHIPPED':
-      return 'bg-blue-500/10 text-blue-700 ring-1 ring-blue-500/30';
+      return 'indigo';
     case 'IN_TRANSIT':
-      return 'bg-amber-500/10 text-amber-700 ring-1 ring-amber-500/30';
+      return 'amber';
     case 'CANCELED':
-      return 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30';
+      return 'rose';
     default:
-      return 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30';
+      return 'slate';
   }
 };
 
@@ -310,16 +312,10 @@ export default function OrdersAdminManager() {
             <p className="mt-1 text-sm text-slate-500">Tum siparisleri tek ekrandan takip et.</p>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={loadOrders}
-              className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-            >
+            <AdminButton onClick={loadOrders} tone="slate" variant="outline">
               Yenile
-            </button>
-            <div className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white">
-              {totalOrders} siparis
-            </div>
+            </AdminButton>
+            <AdminBadge tone="slate">{totalOrders} siparis</AdminBadge>
           </div>
         </div>
         <div className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 md:grid-cols-[1.2fr_2fr]">
@@ -361,18 +357,13 @@ export default function OrdersAdminManager() {
                 { value: 'DELIVERED', label: 'Teslim' },
                 { value: 'CANCELED', label: 'Iptal' },
               ].map((item) => (
-                <button
+                <AdminRadioCard
                   key={item.value}
-                  type="button"
+                  active={statusFilter === item.value}
                   onClick={() => setStatusFilter(item.value as typeof statusFilter)}
-                  className={`rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
-                    statusFilter === item.value
-                      ? 'bg-slate-900 text-white'
-                      : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
-                  }`}
                 >
                   {item.label}
-                </button>
+                </AdminRadioCard>
               ))}
             </div>
           </div>
@@ -444,13 +435,11 @@ export default function OrdersAdminManager() {
                   </div>
                   <div>
                     <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
-                    <span
-                      className={`mt-2 inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusTone(
-                        displayStatus,
-                      )}`}
-                    >
-                      {statusLabel[displayStatus] || displayStatus}
-                    </span>
+                    <div className="mt-2">
+                      <AdminBadge tone={statusTone(displayStatus)}>
+                        {statusLabel[displayStatus] || displayStatus}
+                      </AdminBadge>
+                    </div>
                   </div>
                   <div className="text-right">
                     <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Tutar</div>
@@ -579,16 +568,16 @@ export default function OrdersAdminManager() {
 
                     <div className="space-y-5">
                       <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="flex items-center justify-between">
-                          <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
-                          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] ${statusTone(displayStatus)}`}>
-                            {statusLabel[displayStatus] || displayStatus}
-                          </span>
-                        </div>
-                        <div className="mt-3 flex items-center gap-2">
-                          <select
-                            className="form-input text-xs font-semibold text-slate-700"
-                            value={draftStatus[order.id] || order.status}
+                          <div className="flex items-center justify-between">
+                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                            <AdminBadge tone={statusTone(displayStatus)}>
+                              {statusLabel[displayStatus] || displayStatus}
+                            </AdminBadge>
+                          </div>
+                          <div className="mt-3 flex flex-wrap items-center gap-2">
+                            <select
+                              className="form-input text-xs font-semibold text-slate-700"
+                              value={draftStatus[order.id] || order.status}
                             onChange={(e) => {
                               const value = e.target.value;
                               if (value !== 'CANCELED' && cancelDialogId === order.id) {
@@ -613,14 +602,13 @@ export default function OrdersAdminManager() {
                               </option>
                             ))}
                           </select>
-                          <button
-                            type="button"
+                          <AdminButton
                             onClick={() => saveStatus(order.id)}
                             disabled={savingId === order.id}
-                            className="btn-primary px-4 py-2 text-xs"
+                            className="px-5"
                           >
                             {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
-                          </button>
+                          </AdminButton>
                         </div>
                         <div className="mt-2 text-xs text-slate-500">
                           Mevcut: {statusLabel[displayStatus] || displayStatus}
@@ -733,6 +721,23 @@ export default function OrdersAdminManager() {
           </div>
         )}
 
+      </div>
+
+      <div className="sticky bottom-4 z-30">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
+          <div className="flex items-center gap-2">
+            <AdminBadge tone="slate">{filteredOrders.length} kayit</AdminBadge>
+            <span>Filtre: {statusFilter === 'ALL' ? 'Tum siparisler' : statusLabel[statusFilter]}</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <AdminButton tone="slate" variant="outline" onClick={loadOrders}>
+              Yenile
+            </AdminButton>
+            <AdminButton tone="slate" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              En ust
+            </AdminButton>
+          </div>
+        </div>
       </div>
 
       {cancelDialogId && cancelOrder && (

@@ -1,6 +1,6 @@
-'use client';
+﻿import { useState } from 'react';
 
-import { useState } from 'react';
+import { AdminButton } from '@/components/admin/AdminUi';
 
 export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOTE' }) {
   const [isClearing, setIsClearing] = useState(false);
@@ -9,9 +9,10 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
 
   return (
     <div className="flex flex-col items-end">
-      <button
-        type="button"
+      <AdminButton
         disabled={isClearing}
+        tone="slate"
+        variant="outline"
         onClick={async () => {
           const ok = window.confirm('Tum kayitlari temizlemek istedigine emin misin?');
           if (!ok) return;
@@ -40,12 +41,11 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
             setIsClearing(false);
           }
         }}
-        className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-60"
       >
         {isClearing ? 'Temizleniyor...' : 'Temizle'}
-      </button>
+      </AdminButton>
       {success && <div className="mt-2 text-xs text-emerald-600">{success}</div>}
-      {error && <div className="mt-2 text-xs text-red-600">{error}</div>}
+      {error && <div className="mt-2 text-xs text-rose-600">{error}</div>}
     </div>
   );
 }

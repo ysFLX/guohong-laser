@@ -5,6 +5,7 @@ import { authOptions } from '@/auth';
 import AdminSparePartEditForm from '@/components/spare-parts/AdminSparePartEditForm';
 import AdminImageUpload from '@/components/spare-parts/AdminImageUpload';
 import { prisma } from '@/lib/prisma';
+import { AdminBadge } from '@/components/admin/AdminUi';
 
 type SparePartResult = {
   id: string;
@@ -85,11 +86,7 @@ export default async function AdminSparePartDetailPage({
         <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun duzenle</div>
         <div className="mt-2 flex flex-wrap items-center gap-3">
           <h1 className="text-2xl font-semibold text-slate-900">{part.name}</h1>
-          {part.isFeatured && (
-            <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
-              Vitrin
-            </span>
-          )}
+          {part.isFeatured && <AdminBadge tone="slate">Vitrin</AdminBadge>}
         </div>
         <p className="mt-2 text-sm text-slate-500">Kategori: {part.category.name}</p>
       </div>
@@ -119,13 +116,9 @@ export default async function AdminSparePartDetailPage({
               <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
               <div className="mt-2">
                 {part.isActive ? (
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 ring-1 ring-emerald-500/30">
-                    Aktif
-                  </span>
+                  <AdminBadge tone="emerald">Aktif</AdminBadge>
                 ) : (
-                  <span className="inline-flex items-center rounded-full bg-slate-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 ring-1 ring-slate-500/30">
-                    Pasif
-                  </span>
+                  <AdminBadge tone="slate">Pasif</AdminBadge>
                 )}
               </div>
             </div>

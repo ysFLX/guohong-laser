@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { CapacitySlot, HomePanelConfig, PriceAlertStep, ProcurementStep } from '@/lib/homePanelDefaults';
 import { homePanelDefaults } from '@/lib/homePanelDefaults';
 import AdminAssetUpload from '@/components/admin/AdminAssetUpload';
+import { AdminButton } from '@/components/admin/AdminUi';
 
 type Props = {
   initialConfig: HomePanelConfig;
@@ -71,7 +72,13 @@ export default function HomePanelsForm({ initialConfig }: Props) {
   return (
     <div className="space-y-8">
       {status && (
-        <div className={`form-alert ${status.type === 'success' ? 'form-alert--success' : 'form-alert--error'}`}>
+        <div
+          className={`rounded-2xl border px-4 py-3 text-sm ${
+            status.type === 'success'
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+              : 'border-rose-200 bg-rose-50 text-rose-600'
+          }`}
+        >
           {status.message}
         </div>
       )}
@@ -82,18 +89,18 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Canli kapasite takvimi</div>
             <h2 className="mt-2 text-lg font-semibold text-slate-900">Servis ve kesif slotlari</h2>
           </div>
-          <button
+          <AdminButton
             type="button"
+            variant="outline"
             onClick={() =>
               setCapacitySchedule((prev) => [
                 ...prev,
                 { title: 'Yeni slot', status: '%0 dolu', detail: 'Detay ekle', window: 'Tarih araligi', icon: '' },
               ])
             }
-            className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
           >
             Slot ekle
-          </button>
+          </AdminButton>
         </div>
         <div className="mt-4">
           <AdminAssetUpload
@@ -163,13 +170,14 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   }}
                   placeholder="Tarih araligi"
                 />
-                <button
+                <AdminButton
                   type="button"
+                  tone="rose"
+                  variant="outline"
                   onClick={() => setCapacitySchedule((prev) => prev.filter((_, idx) => idx !== index))}
-                  className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300"
                 >
                   Sil
-                </button>
+                </AdminButton>
               </div>
             </div>
           ))}
@@ -182,13 +190,13 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Fiyat dusus alarmi</div>
             <h2 className="mt-2 text-lg font-semibold text-slate-900">Musteri yolculugu adimlari</h2>
           </div>
-          <button
+          <AdminButton
             type="button"
+            variant="outline"
             onClick={() => setPriceAlertSteps((prev) => [...prev, { text: 'Yeni adim', icon: '' }])}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
           >
             Adim ekle
-          </button>
+          </AdminButton>
         </div>
         <div className="mt-4">
           <AdminAssetUpload
@@ -226,13 +234,14 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   </option>
                 ))}
               </select>
-              <button
+              <AdminButton
                 type="button"
+                tone="rose"
+                variant="outline"
                 onClick={() => setPriceAlertSteps((prev) => prev.filter((_, idx) => idx !== index))}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300"
               >
                 Sil
-              </button>
+              </AdminButton>
             </div>
           ))}
         </div>
@@ -244,15 +253,15 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Kurumsal satin alma</div>
             <h2 className="mt-2 text-lg font-semibold text-slate-900">Surec kartlari</h2>
           </div>
-          <button
+          <AdminButton
             type="button"
+            variant="outline"
             onClick={() =>
               setProcurementFlow((prev) => [...prev, { title: 'Yeni adim', description: 'Aciklama ekle', icon: '' }])
             }
-            className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
           >
             Adim ekle
-          </button>
+          </AdminButton>
         </div>
         <div className="mt-4">
           <AdminAssetUpload
@@ -301,25 +310,26 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   </option>
                 ))}
               </select>
-              <button
+              <AdminButton
                 type="button"
+                tone="rose"
+                variant="outline"
                 onClick={() => setProcurementFlow((prev) => prev.filter((_, idx) => idx !== index))}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-500 hover:border-slate-300"
               >
                 Sil
-              </button>
+              </AdminButton>
             </div>
           ))}
         </div>
       </section>
 
       <div className="flex flex-wrap gap-3">
-        <button type="button" className="btn-primary" disabled={isSaving} onClick={saveConfig}>
+        <AdminButton type="button" disabled={isSaving} onClick={saveConfig}>
           {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri kaydet'}
-        </button>
-        <button
+        </AdminButton>
+        <AdminButton
           type="button"
-          className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:border-slate-300"
+          variant="outline"
           onClick={() => {
             setCapacitySchedule(homePanelDefaults.capacitySchedule);
             setPriceAlertSteps(homePanelDefaults.priceAlertSteps);
@@ -331,7 +341,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           }}
         >
           Varsayilana don
-        </button>
+        </AdminButton>
       </div>
     </div>
   );

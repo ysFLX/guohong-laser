@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { AdminButton } from '@/components/admin/AdminUi';
+
 type Category = { id: string; name: string };
 
 export default function AdminSparePartCreateForm({ categories }: { categories: Category[] }) {
@@ -107,7 +109,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
         </div>
 
         <div className="pt-2 flex flex-wrap gap-3">
-          <button
+          <AdminButton
             type="button"
             disabled={isSaving}
             onClick={async () => {
@@ -170,10 +172,10 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                 setIsSaving(false);
               }
             }}
-            className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white disabled:opacity-60"
+            className="px-6 py-3"
           >
             {isSaving ? 'Kaydediliyor...' : 'Kaydet'}
-          </button>
+          </AdminButton>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
-﻿import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
+import { AdminBadge } from '@/components/admin/AdminUi';
 
 import AdminSparePartCategoryForm from '@/components/spare-parts/AdminSparePartCategoryForm';
 
@@ -62,13 +63,9 @@ export default async function AdminSparePartCategoriesPage() {
                 <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
                 <div className="mt-2">
                   {c.isActive ? (
-                    <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 ring-1 ring-emerald-500/30">
-                      Aktif
-                    </span>
+                    <AdminBadge tone="emerald">Aktif</AdminBadge>
                   ) : (
-                    <span className="inline-flex items-center rounded-full bg-slate-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 ring-1 ring-slate-500/30">
-                      Pasif
-                    </span>
+                    <AdminBadge tone="slate">Pasif</AdminBadge>
                   )}
                 </div>
               </div>
@@ -84,3 +81,5 @@ export default async function AdminSparePartCategoriesPage() {
     </div>
   );
 }
+
+

@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import { AdminBadge, AdminButton } from '@/components/admin/AdminUi';
+
 type ReturnRequestItem = {
   id: string;
   status: string;
@@ -29,15 +31,15 @@ const statusOptions = [
 const statusBadge = (value: string) => {
   switch (value) {
     case 'APPROVED':
-      return 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/30';
+      return 'emerald';
     case 'UNDER_REVIEW':
-      return 'bg-amber-500/10 text-amber-700 ring-1 ring-amber-500/30';
+      return 'amber';
     case 'REJECTED':
-      return 'bg-rose-500/10 text-rose-700 ring-1 ring-rose-500/30';
+      return 'rose';
     case 'REFUNDED':
-      return 'bg-teal-500/10 text-teal-700 ring-1 ring-teal-500/30';
+      return 'indigo';
     default:
-      return 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30';
+      return 'slate';
   }
 };
 
@@ -155,9 +157,11 @@ export default function ReturnsAdminManager() {
                 </div>
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
-                  <span className={`mt-2 inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${statusBadge(item.status)}`}>
-                    {statusOptions.find((s) => s.value === item.status)?.label || item.status}
-                  </span>
+                  <div className="mt-2">
+                    <AdminBadge tone={statusBadge(item.status)}>
+                      {statusOptions.find((s) => s.value === item.status)?.label || item.status}
+                    </AdminBadge>
+                  </div>
                 </div>
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
@@ -256,20 +260,36 @@ export default function ReturnsAdminManager() {
                     />
                   </div>
 
-                  <button
-                    type="button"
+                  <AdminButton
                     onClick={() => updateItem(item)}
                     disabled={savingId === item.id}
-                    className="w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+                    className="w-full justify-center"
                   >
                     {savingId === item.id ? 'Kaydediliyor...' : 'Kaydet'}
-                  </button>
+                  </AdminButton>
                 </div>
               </div>
             </div>
           ))}
         </div>
       )}
+
+      <div className="sticky bottom-4 z-30">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
+          <div className="flex items-center gap-2">
+            <AdminBadge tone="slate">{items.length} talep</AdminBadge>
+            <span>Bekleyen: {summary.NEW || 0}</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <AdminButton tone="slate" variant="outline" onClick={() => window.location.reload()}>
+              Yenile
+            </AdminButton>
+            <AdminButton tone="slate" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              En ust
+            </AdminButton>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

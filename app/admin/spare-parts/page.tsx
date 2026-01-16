@@ -1,6 +1,7 @@
 ﻿import Link from 'next/link';
 
 import { prisma } from '@/lib/prisma';
+import { AdminBadge } from '@/components/admin/AdminUi';
 
 type SparePartsResult = Array<{
   id: string;
@@ -233,24 +234,16 @@ export default async function AdminSparePartsPage({
                   <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Stok</div>
                   <div className="mt-2 flex items-center gap-2 text-sm text-slate-700">
                     {p.stockOnHand}
-                    {isCritical && (
-                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">
-                        Kritik
-                      </span>
-                    )}
+                    {isCritical && <AdminBadge tone="amber">Kritik</AdminBadge>}
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
                   <div className="mt-2">
                     {p.isActive ? (
-                      <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 ring-1 ring-emerald-500/30">
-                        Aktif
-                      </span>
+                      <AdminBadge tone="emerald">Aktif</AdminBadge>
                     ) : (
-                      <span className="inline-flex items-center rounded-full bg-slate-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 ring-1 ring-slate-500/30">
-                        Pasif
-                      </span>
+                      <AdminBadge tone="slate">Pasif</AdminBadge>
                     )}
                   </div>
                 </div>
@@ -262,11 +255,7 @@ export default async function AdminSparePartsPage({
                     Duzenle
                   </Link>
                 </div>
-                {!p.isActive && (
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                    Pasif urun
-                  </span>
-                )}
+                {!p.isActive && <AdminBadge tone="slate">Pasif urun</AdminBadge>}
               </div>
             </div>
           );
