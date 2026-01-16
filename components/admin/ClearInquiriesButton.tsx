@@ -49,3 +49,4 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
     </div>
   );
 }
+
