@@ -93,24 +93,26 @@ export default async function AdminInquiriesPage() {
   const renderCards = (list: InquiryRow, typeLabel: 'CONTACT' | 'QUOTE') => (
     <div className="space-y-4">
       {list.length > 0 && (
-        <div className="sticky top-24 z-10 hidden items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
-          <div>Kayit</div>
-          <div>Musteri</div>
-          <div>Iletisim</div>
-          <div>Konu</div>
-          <div>Tarih</div>
-          <div>Durum</div>
-        </div>
-      )}
-      {list.map((x) => {
-        const meta = statusMeta(x.status);
-        const cardId = `${typeLabel.toLowerCase()}-${x.id}`;
-        return (
-          <div
-            key={x.id}
-            id={cardId}
-            className={`rounded-2xl border border-slate-200 bg-white shadow-sm ${meta.accent} border-l-4`}
-          >
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
+            <div>Kayit</div>
+            <div>Musteri</div>
+            <div>Iletisim</div>
+            <div>Konu</div>
+            <div>Tarih</div>
+            <div>Durum</div>
+          </div>
+          {list.map((x, index) => {
+            const meta = statusMeta(x.status);
+            const cardId = `${typeLabel.toLowerCase()}-${x.id}`;
+            const rowTone = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/40';
+            const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
+            return (
+            <div
+              key={x.id}
+              id={cardId}
+              className={`${rowBorder} border-slate-200 ${rowTone} ${meta.accent} border-l-4`}
+            >
             <div className="flex flex-col gap-4 border-b border-slate-100 px-6 py-4 lg:flex-row lg:items-start lg:justify-between">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -151,6 +153,8 @@ export default async function AdminInquiriesPage() {
           </div>
         );
       })}
+        </div>
+      )}
       {list.length === 0 && (
         <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
           Kayit yok.

@@ -406,22 +406,22 @@ export default function OrdersAdminManager() {
 
         {!loading && filteredOrders.length > 0 && (
           <div className="space-y-4">
-            <div className="sticky top-24 z-10 hidden items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
-              <div>Siparis</div>
-              <div>Musteri</div>
-              <div>Durum</div>
-              <div className="text-right">Tutar</div>
-            </div>
-            <div className="space-y-8">
-              {filteredOrders.map((order) => {
-              const displayStatus = normalizeStatus(order.status);
-              return (
-              <div
-                key={order.id}
-                className={`overflow-hidden rounded-2xl border border-slate-200 bg-white ${statusAccent(
-                  displayStatus,
-                )} border-l-4`}
-              >
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
+                <div>Siparis</div>
+                <div>Musteri</div>
+                <div>Durum</div>
+                <div className="text-right">Tutar</div>
+              </div>
+              {filteredOrders.map((order, index) => {
+                const displayStatus = normalizeStatus(order.status);
+                const rowTone = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/40';
+                const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
+                return (
+                <div
+                  key={order.id}
+                  className={`${rowBorder} border-slate-200 ${rowTone} ${statusAccent(displayStatus)} border-l-4`}
+                >
                 <button
                   type="button"
                   onClick={() => toggleExpanded(order.id)}
@@ -467,7 +467,7 @@ export default function OrdersAdminManager() {
                 </button>
 
                 {expandedIds.has(order.id) && (
-                  <div className="grid gap-5 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr] bg-slate-50/60">
+                  <div className="grid gap-5 border-t border-slate-200 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr] bg-slate-50/60">
                     <div className="relative space-y-5 pl-6">
                       <div className="absolute left-2 top-4 h-[calc(100%-16px)] w-px bg-slate-200" />
                       <div className="relative">

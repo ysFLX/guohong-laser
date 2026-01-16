@@ -142,14 +142,18 @@ export default function ReturnsAdminManager() {
         </div>
       ) : (
         <div className="space-y-5">
-          <div className="sticky top-24 z-10 hidden items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
-            <div>Talep</div>
-            <div>Musteri</div>
-            <div>Durum</div>
-            <div>Siparis</div>
-          </div>
-          {items.map((item) => (
-            <div key={item.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
+              <div>Talep</div>
+              <div>Musteri</div>
+              <div>Durum</div>
+              <div>Siparis</div>
+            </div>
+            {items.map((item, index) => {
+              const rowTone = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/40';
+              const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
+              return (
+              <div key={item.id} className={`${rowBorder} border-slate-200 ${rowTone}`}>
               <div className="grid gap-4 border-b border-slate-100 px-6 py-4 text-sm sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Talep</div>
@@ -176,7 +180,7 @@ export default function ReturnsAdminManager() {
                 </div>
               </div>
 
-              <div className="grid gap-4 px-6 py-5 lg:grid-cols-[1.2fr_0.8fr] bg-slate-50/60">
+              <div className="grid gap-4 border-t border-slate-200 px-6 py-5 lg:grid-cols-[1.2fr_0.8fr] bg-slate-50/60">
                 <div className="space-y-4">
                   <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
@@ -276,7 +280,8 @@ export default function ReturnsAdminManager() {
                 </div>
               </div>
             </div>
-          ))}
+          )})}
+          </div>
         </div>
       )}
 
