@@ -213,6 +213,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const hasTracking = Boolean(
     safeOrder.shippingCarrier || safeOrder.trackingNumber || safeOrder.trackingUrl,
   );
+  const invoiceParams = new URLSearchParams({
+    subject: `Fatura Talebi - ${safeOrder.id.slice(0, 8)}`,
+  }).toString();
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -385,28 +388,43 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               )}
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Fatura adresi
-              </div>
-              {billingSame && shippingView ? (
-                <div className="mt-2 text-slate-700">Teslimat adresi ile ayni.</div>
-              ) : billingView ? (
-                <div className="mt-2 space-y-1 text-slate-700">
-                  <div className="font-semibold text-slate-900">{billingView.title}</div>
-                  <div>{billingView.fullName}</div>
-                  <div>{billingView.line1}</div>
-                  <div>{billingView.city}</div>
-                  <div>{billingView.phone}</div>
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Fatura adresi
                 </div>
-              ) : (
-                <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
-              )}
-            </div>
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Iade islemleri
+                {billingSame && shippingView ? (
+                  <div className="mt-2 text-slate-700">Teslimat adresi ile ayni.</div>
+                ) : billingView ? (
+                  <div className="mt-2 space-y-1 text-slate-700">
+                    <div className="font-semibold text-slate-900">{billingView.title}</div>
+                    <div>{billingView.fullName}</div>
+                    <div>{billingView.line1}</div>
+                    <div>{billingView.city}</div>
+                    <div>{billingView.phone}</div>
+                  </div>
+                ) : (
+                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+                )}
               </div>
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Fatura ve irsaliye
+                </div>
+                <div className="mt-2 text-slate-600">
+                  Fatura ve irsaliye, siparis onayiyla birlikte e-posta ile paylasilir. Talep etmek istersen destek ekibi
+                  hizlica yonlendirir.
+                </div>
+                <Link
+                  href={`/contact?${invoiceParams}`}
+                  className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Fatura talebi gonder
+                </Link>
+              </div>
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Iade islemleri
+                </div>
               <div className="mt-2 text-slate-600">
                 Urun iade veya degisim talebini form uzerinden baslatabilirsin.
               </div>

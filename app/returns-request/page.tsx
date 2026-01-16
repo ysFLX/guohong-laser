@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function ReturnsRequestPage() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,8 +24,19 @@ export default function ReturnsRequestPage() {
   const [evidenceUrls, setEvidenceUrls] = useState<string[]>([]);
   const [evidenceUploading, setEvidenceUploading] = useState(false);
   const [evidenceError, setEvidenceError] = useState('');
+  const orderIdParam = searchParams?.get('orderId') ?? '';
+  const itemNameParam = searchParams?.get('itemName') ?? '';
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
+
+  useEffect(() => {
+    if (!orderIdParam && !itemNameParam) return;
+    setFormData((prev) => ({
+      ...prev,
+      orderId: prev.orderId || orderIdParam,
+      itemName: prev.itemName || itemNameParam,
+    }));
+  }, [orderIdParam, itemNameParam]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,

@@ -213,10 +213,17 @@ export default async function OrdersPage() {
 
               {hasOrders && (
                 <div className="mt-8 space-y-4">
-              {orders.map((order) => {
-                const displayStatus = normalizeStatus(order.status);
-                const hasTracking = Boolean(order.shippingCarrier || order.trackingNumber || order.trackingUrl);
-                return (
+                {orders.map((order) => {
+                  const displayStatus = normalizeStatus(order.status);
+                  const hasTracking = Boolean(order.shippingCarrier || order.trackingNumber || order.trackingUrl);
+                  const returnParams = new URLSearchParams({
+                    orderId: order.id,
+                    itemName: order.items[0]?.name || '',
+                  }).toString();
+                  const invoiceParams = new URLSearchParams({
+                    subject: `Fatura Talebi - ${order.id.slice(0, 8)}`,
+                  }).toString();
+                  return (
                   <div
                     key={order.id}
                     className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg"
@@ -360,21 +367,42 @@ export default async function OrdersPage() {
                       </div>
                     </div>
                   )}
-                  {!hasTracking && (displayStatus === 'SHIPPED' || displayStatus === 'DELIVERED') && (
-                    <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50/70 p-3 text-xs text-amber-800">
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-600">
-                        Kargo bilgisi bekleniyor
+                    {!hasTracking && (displayStatus === 'SHIPPED' || displayStatus === 'DELIVERED') && (
+                      <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50/70 p-3 text-xs text-amber-800">
+                        <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-600">
+                          Kargo bilgisi bekleniyor
+                        </div>
+                        <div className="mt-1">
+                          Kargo firmasi ve takip numarasi admin tarafindan eklendiginde burada gorunecek.
+                        </div>
                       </div>
-                      <div className="mt-1">
-                        Kargo firmasi ve takip numarasi admin tarafindan eklendiginde burada gorunecek.
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
-                    <span className="text-slate-600">Toplam</span>
-                    <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
-                  </div>
+                    <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                      <Link
+                        href={`/returns-request?${returnParams}`}
+                        className="rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                      >
+                        Iade / degisim talebi
+                      </Link>
+                      <Link
+                        href={`/contact?${invoiceParams}`}
+                        className="rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                      >
+                        Fatura talebi
+                      </Link>
+                      <Link
+                        href={`/profile/orders/${order.id}`}
+                        className="rounded-full bg-slate-900 px-3 py-2 text-white hover:bg-slate-800"
+                      >
+                        Siparis detayi
+                      </Link>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm">
+                      <span className="text-slate-600">Toplam</span>
+                      <span className="font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</span>
+                    </div>
                   </div>
                 );
               })}
