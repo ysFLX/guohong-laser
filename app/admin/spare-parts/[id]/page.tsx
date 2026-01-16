@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 
 import { authOptions } from '@/auth';
@@ -71,7 +71,7 @@ export default async function AdminSparePartDetailPage({
 
   if (!part) {
     return (
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
         Urun bulunamadi.
       </div>
     );
@@ -80,36 +80,74 @@ export default async function AdminSparePartDetailPage({
   const previewUrl = part.images[0]?.url || part.imageUrl || '/images/1.jpg';
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
-        <div className="relative w-full aspect-[4/3] bg-gray-100 dark:bg-gray-900">
-          <Image
-            src={previewUrl}
-            alt={part.name}
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
-            unoptimized
-          />
+    <div className="space-y-6">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun duzenle</div>
+        <div className="mt-2 flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-semibold text-slate-900">{part.name}</h1>
+          {part.isFeatured && (
+            <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+              Vitrin
+            </span>
+          )}
         </div>
-        <div className="p-5">
-          <div className="text-lg font-bold text-gray-900 dark:text-white">{part.name}</div>
-          <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Kategori: {part.category.name}</div>
-          <div className="mt-3 text-sm text-gray-600 dark:text-gray-300">Fiyat: {formatPriceTry(part.priceCents)}</div>
-          <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Stok: {part.stockOnHand}</div>
+        <p className="mt-2 text-sm text-slate-500">Kategori: {part.category.name}</p>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-slate-100">
+            <Image
+              src={previewUrl}
+              alt={part.name}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              unoptimized
+            />
+          </div>
+          <div className="grid gap-4 px-6 py-5 sm:grid-cols-2">
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Fiyat</div>
+              <div className="mt-2 text-lg font-semibold text-slate-900">{formatPriceTry(part.priceCents)}</div>
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Stok</div>
+              <div className="mt-2 text-lg font-semibold text-slate-900">{part.stockOnHand}</div>
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+              <div className="mt-2">
+                {part.isActive ? (
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 ring-1 ring-emerald-500/30">
+                    Aktif
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center rounded-full bg-slate-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 ring-1 ring-slate-500/30">
+                    Pasif
+                  </span>
+                )}
+              </div>
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Boyut</div>
+              <div className="mt-2 text-sm text-slate-600">{part.dimensions || '-'}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="text-sm font-semibold text-slate-900">Gorseller</div>
+          <p className="mt-2 text-sm text-slate-500">
+            Urun galerisi ve vitrin gorselini buradan guncelleyebilirsin.
+          </p>
+          <div className="mt-4">
+            <AdminImageUpload sparePartId={part.id} images={part.images} />
+          </div>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
-        <div className="text-lg font-bold text-gray-900 dark:text-white">Yonetim</div>
-        <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          Buradan gorselleri guncelleyebilir ve urun alanlarini duzenleyebilirsin.
-        </div>
-
-        <AdminImageUpload sparePartId={part.id} images={part.images} />
-      </div>
-
-      <div className="lg:col-span-2">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <AdminSparePartEditForm
           initial={{
             id: part.id,

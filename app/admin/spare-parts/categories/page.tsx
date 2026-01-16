@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 
 import AdminSparePartCategoryForm from '@/components/spare-parts/AdminSparePartCategoryForm';
 
@@ -26,62 +26,60 @@ export default async function AdminSparePartCategoriesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5">
-        <div className="text-lg font-bold text-gray-900 dark:text-white">Kategoriler</div>
-        <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-          Yeni kategori ekleyin veya mevcut kategorileri kontrol edin.
-        </div>
-
-        <AdminSparePartCategoryForm />
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Kategori merkezi</div>
+        <h1 className="mt-2 text-2xl font-semibold text-slate-900">Kategoriler</h1>
+        <p className="mt-2 text-sm text-slate-500">Kategori ekle ve mevcut kategorileri yonet.</p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
-        <div className="p-5 flex items-center justify-between">
-          <div>
-            <div className="text-lg font-bold text-gray-900 dark:text-white">Kategori Listesi</div>
-            <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">Toplam: {categories.length}</div>
-          </div>
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="text-sm font-semibold text-slate-900">Yeni kategori</div>
+        <div className="mt-3">
+          <AdminSparePartCategoryForm />
         </div>
+      </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-900/30">
-              <tr>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Kategori</th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Slug</th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Urun Sayisi</th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700 dark:text-gray-200">Durum</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map((c) => (
-                <tr key={c.id} className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white">{c.name}</td>
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{c.slug}</td>
-                  <td className="px-4 py-3 text-gray-700 dark:text-gray-200">{c._count.spareParts}</td>
-                  <td className="px-4 py-3">
-                    {c.isActive ? (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                        Aktif
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-200 text-gray-700">
-                        Pasif
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {categories.length === 0 && (
-                <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center text-sm text-gray-600 dark:text-gray-300">
-                    Henuz kategori yok.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+      <div className="space-y-3">
+        {categories.map((c) => (
+          <div
+            key={c.id}
+            className="rounded-2xl border border-slate-200 bg-white px-6 py-4 shadow-sm"
+          >
+            <div className="grid gap-4 md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Kategori</div>
+                <div className="mt-2 text-sm font-semibold text-slate-900">{c.name}</div>
+              </div>
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Slug</div>
+                <div className="mt-2 text-sm text-slate-600">{c.slug}</div>
+              </div>
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Urun sayisi</div>
+                <div className="mt-2 text-sm font-semibold text-slate-900">{c._count.spareParts}</div>
+              </div>
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                <div className="mt-2">
+                  {c.isActive ? (
+                    <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700 ring-1 ring-emerald-500/30">
+                      Aktif
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center rounded-full bg-slate-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 ring-1 ring-slate-500/30">
+                      Pasif
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+        {categories.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
+            Henuz kategori yok.
+          </div>
+        )}
       </div>
     </div>
   );
