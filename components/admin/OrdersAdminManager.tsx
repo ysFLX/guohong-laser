@@ -405,8 +405,15 @@ export default function OrdersAdminManager() {
         )}
 
         {!loading && filteredOrders.length > 0 && (
-          <div className="space-y-8">
-            {filteredOrders.map((order) => {
+          <div className="space-y-4">
+            <div className="sticky top-24 z-10 hidden items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
+              <div>Siparis</div>
+              <div>Musteri</div>
+              <div>Durum</div>
+              <div className="text-right">Tutar</div>
+            </div>
+            <div className="space-y-8">
+              {filteredOrders.map((order) => {
               const displayStatus = normalizeStatus(order.status);
               return (
               <div
@@ -718,6 +725,7 @@ export default function OrdersAdminManager() {
                 )}
               </div>
             )})}
+            </div>
           </div>
         )}
 

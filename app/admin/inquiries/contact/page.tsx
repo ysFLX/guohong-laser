@@ -93,6 +93,16 @@ export default async function AdminContactInquiriesPage() {
       )}
 
       <div className="space-y-4">
+        {items.length > 0 && (
+          <div className="sticky top-24 z-10 hidden items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
+            <div>Kayit</div>
+            <div>Musteri</div>
+            <div>Iletisim</div>
+            <div>Konu</div>
+            <div>Tarih</div>
+            <div>Durum</div>
+          </div>
+        )}
         {items.map((x) => {
           const meta = statusMeta(x.status);
           return (

@@ -142,6 +142,12 @@ export default function ReturnsAdminManager() {
         </div>
       ) : (
         <div className="space-y-5">
+          <div className="sticky top-24 z-10 hidden items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
+            <div>Talep</div>
+            <div>Musteri</div>
+            <div>Durum</div>
+            <div>Siparis</div>
+          </div>
           {items.map((item) => (
             <div key={item.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
               <div className="grid gap-4 border-b border-slate-100 px-6 py-4 text-sm sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
