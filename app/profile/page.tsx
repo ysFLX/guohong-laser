@@ -38,6 +38,15 @@ type ProfileUser = {
   image: string | null;
   role: string;
   twoFactorEnabled: boolean;
+  notificationPrefs?: {
+    emailNotify: boolean;
+    inAppNotify: boolean;
+    promoNotify: boolean;
+    smsNotify: boolean;
+    priceDropNotify: boolean;
+    stockNotify: boolean;
+    newsletter: boolean;
+  } | null;
   addresses: Address[];
 };
 
@@ -81,51 +90,49 @@ export default function ProfilePage() {
     fontScale: 'md',
     loginAlerts: true,
   });
-  const [extras, setExtras] = useState({
-    companyName: '',
-    taxOffice: '',
-    taxNumber: '',
-    eInvoice: false,
-    showProfile: true,
-    showOrders: true,
-  });
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [twoFactorSaving, setTwoFactorSaving] = useState(false);
   const [twoFactorError, setTwoFactorError] = useState('');
+  const [prefsReady, setPrefsReady] = useState(false);
+  const [prefsSaving, setPrefsSaving] = useState(false);
+  const [prefsError, setPrefsError] = useState('');
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const raw = window.localStorage.getItem('profilePrefs');
-    if (!raw) return;
-    try {
-      const parsed = JSON.parse(raw) as Partial<typeof prefs>;
-      setPrefs((prev) => ({ ...prev, ...parsed }));
-    } catch {
-      // ignore malformed local storage
-    }
-  }, []);
+    if (!prefsReady) return;
+    setPrefsSaving(true);
+    setPrefsError('');
+    const timer = window.setTimeout(async () => {
+      try {
+        const res = await fetch('/api/profile/preferences', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prefs: {
+              emailNotify: prefs.emailNotify,
+              inAppNotify: prefs.inAppNotify,
+              promoNotify: prefs.promoNotify,
+              smsNotify: prefs.smsNotify,
+              priceDropNotify: prefs.priceDropNotify,
+              stockNotify: prefs.stockNotify,
+              newsletter: prefs.newsletter,
+            },
+          }),
+        });
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    window.localStorage.setItem('profilePrefs', JSON.stringify(prefs));
-  }, [prefs]);
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : {};
+        if (!res.ok) {
+          throw new Error(data.error || 'Bildirim tercihleri kaydedilemedi');
+        }
+      } catch (e: unknown) {
+        setPrefsError(getErrorMessage(e) || 'Bildirim tercihleri kaydedilemedi');
+      } finally {
+        setPrefsSaving(false);
+      }
+    }, 400);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const raw = window.localStorage.getItem('profileExtras');
-    if (!raw) return;
-    try {
-      const parsed = JSON.parse(raw) as Partial<typeof extras>;
-      setExtras((prev) => ({ ...prev, ...parsed }));
-    } catch {
-      // ignore malformed local storage
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    window.localStorage.setItem('profileExtras', JSON.stringify(extras));
-  }, [extras]);
+    return () => window.clearTimeout(timer);
+  }, [prefs, prefsReady]);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -155,6 +162,13 @@ export default function ProfilePage() {
           setLastName(user.lastName ?? '');
           setPhone(user.phone ?? '');
           setTwoFactorEnabled(Boolean(user.twoFactorEnabled));
+          if (user.notificationPrefs) {
+            setPrefs((prev) => ({
+              ...prev,
+              ...user.notificationPrefs,
+            }));
+          }
+          setPrefsReady(true);
 
           const def = user.addresses?.find((a) => a.isDefault) ?? user.addresses?.[0];
           setAddressLine1(def?.line1 ?? '');
@@ -308,7 +322,7 @@ export default function ProfilePage() {
           sync: 'Account sync',
           on: 'On',
           off: 'Off',
-          savedNote: 'Saved on this device',
+          savedNote: 'Saved to your account',
           securityNote: 'Saved on your account',
           support: 'Support',
           quote: 'Request quote',
@@ -360,7 +374,7 @@ export default function ProfilePage() {
           sync: 'Hesap senkronu',
           on: 'Acik',
           off: 'Kapali',
-          savedNote: 'Bu cihazda kaydedilir',
+          savedNote: 'Hesabinda kaydedilir',
           securityNote: 'Hesabinda kaydedilir',
           support: 'Destek al',
           quote: 'Teklif iste',
@@ -588,6 +602,7 @@ export default function ProfilePage() {
         <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.notifyTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.notifyBody}</p>
+          {prefsError && <div className="mt-2 text-xs text-red-600">{prefsError}</div>}
           <div className="mt-4 space-y-2 text-xs text-slate-600">
             <button
               type="button"
@@ -660,7 +675,9 @@ export default function ProfilePage() {
               </span>
             </button>
           </div>
-          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
+          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">
+            {prefsSaving ? 'Kaydediliyor...' : copy.savedNote}
+          </div>
         </div>
       </div>
 

@@ -36,6 +36,7 @@ model User {
   sparePartReviews SparePartReview[]
   cartReminders CartReminder[]
   twoFactorToken TwoFactorToken?
+  notificationPrefs Json?
 }
 
 model EmailVerification {

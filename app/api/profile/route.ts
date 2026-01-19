@@ -25,6 +25,7 @@ export async function GET() {
       image: true,
       twoFactorEnabled: true,
       role: true,
+      notificationPrefs: true,
       addresses: {
         orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
       },
