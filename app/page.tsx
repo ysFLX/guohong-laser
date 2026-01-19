@@ -33,6 +33,12 @@ const heroVideos = [
   },
 ];
 
+const liveStatus = [
+  { label: 'Stok durumu', value: 'Stokta', tone: 'text-emerald-300' },
+  { label: 'Teslimat', value: '2-3 gun', tone: 'text-amber-200' },
+  { label: 'Son guncelleme', value: '5 dk once', tone: 'text-slate-200' },
+];
+
 const panelIcon = (name?: string) => {
   switch (name) {
     case 'building':
@@ -448,6 +454,29 @@ export default async function Home() {
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
+              </div>
+              <div className="mt-4 rounded-[28px] border border-slate-200 bg-slate-950 p-4 text-white shadow-xl dark:border-white/10">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs uppercase tracking-[0.3em] text-emerald-200">Canli stok / teslimat</div>
+                  <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-emerald-200">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-70" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
+                    </span>
+                    Canli
+                  </span>
+                </div>
+                <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                  {liveStatus.map((item) => (
+                    <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                      <div className="text-[11px] uppercase tracking-[0.2em] text-white/60">{item.label}</div>
+                      <div className={`mt-2 text-sm font-semibold ${item.tone}`}>{item.value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 text-xs text-white/60">
+                  Tahmini teslimatlar stok ve onay durumuna gore guncellenir.
+                </div>
               </div>
             </div>
           </div>
