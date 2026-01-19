@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 export default function ReturnsRequestPage() {
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
