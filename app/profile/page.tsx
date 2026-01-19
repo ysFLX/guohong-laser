@@ -474,23 +474,6 @@ export default function ProfilePage() {
               </Link>
             </div>
           </div>
-          <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
-            <div className="text-sm font-semibold text-slate-900">{copy.summaryTitle}</div>
-            <div className="mt-3 grid gap-3 text-xs text-slate-600">
-              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <span>{copy.profileStatus}</span>
-                <span className="font-semibold text-slate-900">{profileComplete ? copy.statusReady : copy.statusMissing}</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <span>{copy.addressStatus}</span>
-                <span className="font-semibold text-slate-900">{hasAddress ? copy.addressReady : copy.addressMissing}</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-                <span>{copy.membership}</span>
-                <span className="font-semibold text-slate-900">{roleLabel}</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="space-y-6">
@@ -565,65 +548,11 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-            <div className="text-sm font-semibold text-slate-900">{copy.billingTitle}</div>
-            <p className="mt-1 text-sm text-slate-600">{copy.billingBody}</p>
-            <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="block text-sm font-medium text-slate-700" htmlFor="pfCompany">
-                  {copy.companyName}
-                </label>
-                <input
-                  id="pfCompany"
-                  type="text"
-                  value={extras.companyName}
-                  onChange={(e) => setExtras((prev) => ({ ...prev, companyName: e.target.value }))}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700" htmlFor="pfTaxOffice">
-                  {copy.taxOffice}
-                </label>
-                <input
-                  id="pfTaxOffice"
-                  type="text"
-                  value={extras.taxOffice}
-                  onChange={(e) => setExtras((prev) => ({ ...prev, taxOffice: e.target.value }))}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700" htmlFor="pfTaxNumber">
-                  {copy.taxNumber}
-                </label>
-                <input
-                  id="pfTaxNumber"
-                  type="text"
-                  value={extras.taxNumber}
-                  onChange={(e) => setExtras((prev) => ({ ...prev, taxNumber: e.target.value }))}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => setExtras((prev) => ({ ...prev, eInvoice: !prev.eInvoice }))}
-                className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700"
-              >
-                <span>{copy.eInvoice}</span>
-                <span className={`text-xs ${extras.eInvoice ? 'text-teal-700' : 'text-slate-500'}`}>
-                  {extras.eInvoice ? copy.on : copy.off}
-                </span>
-              </button>
-            </div>
-            <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
-          </div>
-
         </div>
 
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.securityTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.securityBody}</p>
@@ -732,86 +661,6 @@ export default function ProfilePage() {
             </button>
           </div>
           <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
-        </div>
-        <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
-          <div className="text-sm font-semibold text-slate-900">{copy.privacyTitle}</div>
-          <p className="mt-2 text-sm text-slate-600">{copy.privacyBody}</p>
-          <div className="mt-4 space-y-2 text-xs text-slate-600">
-            <button
-              type="button"
-              onClick={() => setExtras((prev) => ({ ...prev, showProfile: !prev.showProfile }))}
-              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
-            >
-              <span>{copy.publicProfile}</span>
-              <span className={`font-semibold ${extras.showProfile ? 'text-teal-700' : 'text-slate-500'}`}>
-                {extras.showProfile ? copy.on : copy.off}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setExtras((prev) => ({ ...prev, showOrders: !prev.showOrders }))}
-              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
-            >
-              <span>{copy.orderVisibility}</span>
-              <span className={`font-semibold ${extras.showOrders ? 'text-teal-700' : 'text-slate-500'}`}>
-                {extras.showOrders ? copy.on : copy.off}
-              </span>
-            </button>
-          </div>
-          <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.savedNote}</div>
-        </div>
-        <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
-          <div className="text-sm font-semibold text-slate-900">{copy.prefsTitle}</div>
-          <p className="mt-2 text-sm text-slate-600">{copy.prefsBody}</p>
-          <div className="mt-4 space-y-2 text-xs text-slate-600">
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>{copy.language}</span>
-              <select
-                value={prefs.language}
-                onChange={(e) => setPrefs((prev) => ({ ...prev, language: e.target.value }))}
-                className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700"
-              >
-                <option value="TR">TR</option>
-                <option value="EN">EN</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>{copy.theme}</span>
-              <select
-                value={prefs.theme}
-                onChange={(e) => setPrefs((prev) => ({ ...prev, theme: e.target.value }))}
-                className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700"
-              >
-                <option value="system">{copy.themeSystem}</option>
-                <option value="light">{copy.themeLight}</option>
-                <option value="dark">{copy.themeDark}</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>{copy.fontScale}</span>
-              <select
-                value={prefs.fontScale}
-                onChange={(e) => setPrefs((prev) => ({ ...prev, fontScale: e.target.value }))}
-                className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700"
-              >
-                <option value="sm">{copy.fontSmall}</option>
-                <option value="md">{copy.fontMedium}</option>
-                <option value="lg">{copy.fontLarge}</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <span>{copy.sync}</span>
-              <span className="font-semibold text-slate-700">{copy.on}</span>
-            </div>
-          </div>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            <Link href="/contact" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
-              {copy.support}
-            </Link>
-            <Link href="/quote" className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300">
-              {copy.quote}
-            </Link>
-          </div>
         </div>
       </div>
 
