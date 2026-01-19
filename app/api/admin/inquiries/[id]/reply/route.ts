@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
+import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 
 type Payload = {
@@ -66,62 +67,22 @@ async function sendInquiryReplyEmail(params: {
       '',
       'Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.',
     ].join('\n'),
-    html: `
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b1120; padding: 0; margin: 0;">
-        <tr>
-          <td align="center" style="padding: 36px 16px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 700px; background:#ffffff; border-radius: 22px; overflow: hidden; border: 1px solid #0f172a;">
-              <tr>
-                <td style="background: linear-gradient(135deg, #0b1120 0%, #0b3b36 100%); padding: 28px 28px;">
-                  <div style="font-family: Arial, sans-serif; color:#ffffff;">
-                    <div style="font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; opacity: 0.7;">Guohong Lazer</div>
-                    <div style="margin-top: 10px; font-size: 24px; font-weight: 700;">Talebinize premium yanit</div>
-                    <div style="margin-top: 6px; font-size: 14px; opacity: 0.85;">${subjectText}</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding: 26px 28px; font-family: Arial, sans-serif;">
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td>
-                        <div style="font-size: 16px; color:#0b1120;">Merhaba <strong>${safeName}</strong>,</div>
-                        <div style="margin-top: 8px; color:#475569; font-size: 14px;">Talebinizi inceledik ve yanitimiz asagidadir.</div>
-                      </td>
-                      <td align="right">
-                        <span style="display:inline-block; padding: 6px 12px; border-radius: 999px; background:#e6fffb; color:#0b3b36; font-size:12px; font-weight:700;">Destek Yaniti</span>
-                      </td>
-                    </tr>
-                  </table>
-
-                  <div style="margin-top: 18px; padding: 18px; background:#f8fafc; border-radius: 14px; border: 1px solid #e2e8f0; color:#0f172a; font-size: 15px; line-height: 1.65;">
-                    ${responseHtml}
-                  </div>
-
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 22px;">
-                    <tr>
-                      <td>
-                        <a href="${appUrl}/contact" style="display:inline-block; padding: 12px 18px; background:#0b1120; color:#ffffff; border-radius: 10px; text-decoration:none; font-weight:600;">Destek iletisimi</a>
-                      </td>
-                      <td align="right">
-                        <a href="${appUrl}/quote" style="display:inline-block; padding: 12px 18px; border: 1px solid #0b1120; color:#0b1120; border-radius: 10px; text-decoration:none; font-weight:600;">Fiyat teklifi al</a>
-                      </td>
-                    </tr>
-                  </table>
-
-                  <div style="margin-top: 22px; padding-top: 16px; border-top: 1px solid #e2e8f0; color:#64748b; font-size: 12px;">
-                    Bu e-posta otomatik olarak gonderilmistir. Yanitlamak isterseniz bu e-postaya cevap yazabilirsiniz.
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <div style="margin-top: 16px; color:#94a3b8; font-size: 11px; font-family: Arial, sans-serif;">
-              Guohong Lazer • Kurumsal destek ekibi
-            </div>
-          </td>
-        </tr>
-      </table>
-    `,
+    html: buildEmailHtml({
+      title: 'Talebinize yanit verdik',
+      subtitle: subjectText,
+      badge: 'Destek yaniti',
+      preheader: 'Talebinize yanit verdik.',
+      bodyHtml: `
+        <div>Merhaba <strong>${safeName}</strong>,</div>
+        <div style="margin-top: 8px; color:#475569;">Talebinizi inceledik ve yanitimiz asagidadir.</div>
+        <div style="margin-top: 16px; padding: 16px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; color:#0f172a; line-height: 1.65;">
+          ${responseHtml}
+        </div>
+      `,
+      primaryCta: { label: 'Destek iletisimi', href: `${appUrl}/contact` },
+      secondaryCta: { label: 'Fiyat teklifi al', href: `${appUrl}/quote` },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmistir. Yanitlamak isterseniz bu e-postaya cevap yazabilirsiniz.',
+    }),
   });
 }
 
@@ -191,3 +152,4 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+

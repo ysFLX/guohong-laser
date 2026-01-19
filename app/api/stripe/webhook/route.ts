@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 
@@ -130,10 +131,6 @@ async function sendOrderEmail(params: {
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
   const returnsUrl = `${appUrl}/returns-request`;
-  const brandPrimary = '#0b3b36';
-  const brandPrimarySoft = '#e8f3f2';
-  const brandDark = '#0b1120';
-  const brandBorder = '#1f2937';
 
   const itemsHtml = params.items
     .map(
@@ -200,28 +197,19 @@ async function sendOrderEmail(params: {
     from: `Guohong Lazer <${smtpUser}>`,
     to: params.to,
     subject: `Siparisiniz alindi (#${params.orderId.slice(0, 8)})`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-          <div>
-            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
-            <h2 style="margin: 6px 0 0; color: #0f172a;">Siparisiniz alindi</h2>
-          </div>
-          <span style="padding: 6px 12px; border-radius: 999px; background: ${brandPrimarySoft}; color: ${brandPrimary}; font-size: 12px; font-weight: 700;">Siparisiniz alindi</span>
+    html: buildEmailHtml({
+      title: 'Siparisiniz alindi',
+      subtitle: `Siparis #${params.orderId.slice(0, 8)}`,
+      badge: 'Siparis alindi',
+      preheader: `Siparis #${params.orderId.slice(0, 8)} alindi.`,
+      bodyHtml: `
+        <div style="margin-top: 2px; color:#475569;">Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.</div>
+        <div style="margin-top: 14px; padding: 14px; background: #f8fafc; border-radius: 12px;">
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Siparis numaraniz</div>
+          <div style="margin-top: 6px; font-size: 18px; font-weight: 700; color: #0f172a;">#${params.orderId.slice(0, 8)}</div>
         </div>
-
-        <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 13px; color: #475569;">Siparis numaraniz</div>
-          <div style="font-size: 18px; font-weight: 700; color: #0f172a;">#${params.orderId.slice(0, 8)}</div>
-        </div>
-
         <div style="margin-top: 18px;">
-          <a href="${orderUrl}" style="display: inline-block; padding: 10px 18px; background: ${brandDark}; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Siparis detaylarini gor</a>
-          <a href="${returnsUrl}" style="display: inline-block; margin-left: 10px; padding: 10px 18px; border: 1px solid ${brandBorder}; color: ${brandDark}; border-radius: 10px; text-decoration: none; font-weight: 600;">Iade / Degisim talebi</a>
-        </div>
-
-        <div style="margin-top: 24px;">
-          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Siparis ozeti</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Siparis ozeti</div>
           <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
             <tbody>
               ${itemsHtml}
@@ -232,22 +220,19 @@ async function sendOrderEmail(params: {
             </tbody>
           </table>
         </div>
-
         <div style="margin-top: 18px; padding: 14px; background: #f8fafc; border-radius: 12px; font-size: 14px; color: #334155;">
-          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Teslimat adresi</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Teslimat adresi</div>
           <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
         </div>
-
         <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
-          <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Fatura / Irsaliye</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / Irsaliye</div>
           <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
         </div>
-
-        <div style="margin-top: 18px; font-size: 12px; color: #94a3b8;">
-          Bu e-posta otomatik olarak gonderilmistir. Herhangi bir sorunuz olursa bizimle iletisime gecebilirsiniz.
-        </div>
-      </div>
-    `,
+      `,
+      primaryCta: { label: 'Siparis detaylarini gor', href: orderUrl },
+      secondaryCta: { label: 'Iade / Degisim talebi', href: returnsUrl },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+    }),
   });
 }
 
@@ -340,22 +325,20 @@ async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | '
     from: `Guohong Lazer <${smtpUser}>`,
     to: params.to,
     subject: `${title} (Oturum: ${params.sessionId.slice(0, 8)})`,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
-        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
-        <h2 style="margin: 6px 0 0; color: #0f172a;">${title}</h2>
-        <p style="margin-top: 12px; color: #475569;">${subtitle}</p>
-        <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 10px; color: #0f172a;">
+    html: buildEmailHtml({
+      title,
+      subtitle,
+      badge: params.status === 'CANCELED' ? 'Sure doldu' : 'Odeme basarisiz',
+      preheader: title,
+      bodyHtml: `
+        <div style="color:#475569;">${subtitle}</div>
+        <div style="margin-top: 14px; padding: 12px; background: #f8fafc; border-radius: 10px; color: #0f172a;">
           Oturum: ${params.sessionId.slice(0, 8)}
         </div>
-        <div style="margin-top: 18px;">
-          <a href="${cartUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none; font-weight: 600;">Sepete don</a>
-        </div>
-        <div style="margin-top: 16px; font-size: 12px; color: #94a3b8;">
-          Bu e-posta otomatik olarak gonderilmistir.
-        </div>
-      </div>
-    `,
+      `,
+      primaryCta: { label: 'Sepete don', href: cartUrl },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+    }),
   });
 }
 

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
+import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
@@ -106,31 +107,29 @@ async function sendStatusEmail(params: {
     ]
       .filter(Boolean)
       .join('\n'),
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h2 style="margin-top: 0; color: #111827;">Siparis durumu guncellendi</h2>
-        <p style="margin: 0 0 12px;">Siparisinizin yeni durumu:</p>
-        <div style="display: inline-block; padding: 6px 12px; border-radius: 999px; background: #f1f5f9; color: #0f172a; font-weight: 600;">
-          ${statusText}
-        </div>
-        <div style="margin-top: 16px;">
-          <a href="${orderUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none;">Siparis detaylari</a>
-          <a href="${returnsUrl}" style="display: inline-block; margin-left: 8px; padding: 10px 16px; border: 1px solid #e2e8f0; color: #0f172a; border-radius: 8px; text-decoration: none;">Iade talebi</a>
-        </div>
+    html: buildEmailHtml({
+      title: 'Siparis durumu guncellendi',
+      subtitle: `Siparis #${params.orderId.slice(0, 8)}`,
+      badge: statusText,
+      preheader: `Yeni durum: ${statusText}`,
+      bodyHtml: `
+        <div style="color:#475569;">Siparisinizin yeni durumu:</div>
+        <div style="margin-top: 10px; display: inline-block; padding: 8px 12px; border-radius: 999px; background:#f1f5f9; color:#0f172a; font-weight: 600;">${statusText}</div>
         ${
           trackingLines
-            ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">${trackingLines}</div>`
+            ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 10px; font-size: 14px; color: #334155; white-space: pre-line;">${trackingLines}</div>`
             : ''
         }
         ${
           showInvoiceNote
-            ? `<div style="margin-top: 16px; padding: 12px; background: #f1f5f9; border-radius: 8px; font-size: 13px; color: #475569;">
-                Fatura / irsaliye bilgileri siparis onay e-postasinda paylasilmistir.
-              </div>`
+            ? `<div style="margin-top: 12px; padding: 12px; background: #eef2f7; border-radius: 10px; font-size: 13px; color: #475569;">Fatura / irsaliye bilgileri siparis onay e-postasinda paylasilmistir.</div>`
             : ''
         }
-      </div>
-    `,
+      `,
+      primaryCta: { label: 'Siparis detaylari', href: orderUrl },
+      secondaryCta: { label: 'Iade talebi', href: returnsUrl },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+    }),
   });
 }
 
@@ -180,20 +179,22 @@ async function sendTrackingEmail(params: {
     ]
       .filter(Boolean)
       .join('\n'),
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h2 style="margin-top: 0; color: #111827;">Kargo bilgisi guncellendi</h2>
-        <p style="margin: 0 0 12px;">Guncel durum: <strong>${statusText}</strong></p>
-        <div style="margin-top: 16px;">
-          <a href="${orderUrl}" style="display: inline-block; padding: 10px 16px; background: #0f172a; color: #ffffff; border-radius: 8px; text-decoration: none;">Siparis detaylari</a>
-        </div>
+    html: buildEmailHtml({
+      title: 'Kargo bilgisi guncellendi',
+      subtitle: `Siparis #${params.orderId.slice(0, 8)}`,
+      badge: statusText,
+      preheader: `Kargo durumu: ${statusText}`,
+      bodyHtml: `
+        <div>Guncel durum: <strong>${statusText}</strong></div>
         ${
           trackingLines
-            ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 14px; color: #334155; white-space: pre-line;">${trackingLines}</div>`
+            ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 10px; font-size: 14px; color: #334155; white-space: pre-line;">${trackingLines}</div>`
             : ''
         }
-      </div>
-    `,
+      `,
+      primaryCta: { label: 'Siparis detaylari', href: orderUrl },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+    }),
   });
 }
 

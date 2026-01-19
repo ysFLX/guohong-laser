@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
+import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
@@ -98,23 +99,28 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
         ]
           .filter(Boolean)
           .join('\n'),
-        html: `
-        <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-          <h2 style="margin-top: 0; color: #0f172a;">Iade talebiniz guncellendi</h2>
-          <p>Merhaba <strong>${existing.name}</strong>,</p>
-          <div style="margin: 12px 0; padding: 10px 14px; background: #f8fafc; border-radius: 8px; font-weight: 600;">
-            ${statusLabel[status] || status}
-          </div>
-          ${
-            adminNote
-              ? `<div style="margin-top: 12px; padding: 12px; background: #eef2f7; border-radius: 8px;">
-                  <div style="font-weight: 600; margin-bottom: 6px;">Not</div>
-                  <div style="white-space: pre-line;">${adminNote}</div>
-                </div>`
-              : ''
-          }
-        </div>
-        `,
+        html: buildEmailHtml({
+          title: 'Iade talebiniz guncellendi',
+          subtitle: `Talep no: #${existing.id.slice(0, 8)}`,
+          badge: 'Iade durumu',
+          preheader: `Durum: ${statusLabel[status] || status}`,
+          bodyHtml: `
+            <div>Merhaba <strong>${existing.name}</strong>,</div>
+            <div style="margin-top: 8px; color:#475569;">Talep durumunuz guncellendi.</div>
+            <div style="margin-top: 14px; padding: 12px 14px; background:#f8fafc; border-radius: 10px; font-weight: 600;">
+              ${statusLabel[status] || status}
+            </div>
+            ${
+              adminNote
+                ? `<div style="margin-top: 12px; padding: 12px; background: #eef2f7; border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 6px;">Not</div>
+                    <div style="white-space: pre-line;">${adminNote}</div>
+                  </div>`
+                : ''
+            }
+          `,
+          footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+        }),
       });
     }
   }

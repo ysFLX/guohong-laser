@@ -5,6 +5,7 @@ import { promises as dns } from 'dns';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
+import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 
 const CODE_TTL_MINUTES = 10;
@@ -123,14 +124,19 @@ export async function POST(request: Request) {
         to: safeEmail,
         subject: 'Iade talebi dogrulama kodu',
         text: `Dogrulama kodunuz: ${code}. Bu kod ${CODE_TTL_MINUTES} dakika gecerlidir.`,
-        html: `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-          <h2 style="margin-top: 0; color: #111827;">Dogrulama kodu</h2>
-          <p>Iade talebinizi gonderebilmek icin dogrulama kodunuz:</p>
-          <div style="font-size: 28px; font-weight: 700; letter-spacing: 6px; margin: 16px 0; color: #0f172a;">${code}</div>
-          <p style="margin: 0; color: #6b7280;">Bu kod ${CODE_TTL_MINUTES} dakika boyunca gecerlidir.</p>
-        </div>
-        `,
+        html: buildEmailHtml({
+          title: 'Iade talebi dogrulama',
+          subtitle: 'Iade talebinizi gonderebilmek icin kodunuzu girin',
+          badge: 'Dogrulama',
+          preheader: `Dogrulama kodunuz: ${code}`,
+          bodyHtml: `
+            <div style="margin: 12px 0; padding: 16px; background:#0b1120; color:#ffffff; text-align:center; border-radius: 12px; font-size: 26px; letter-spacing: 6px; font-weight: 700;">
+              ${code}
+            </div>
+            <div style="color:#64748b; font-size: 13px;">Bu kod ${CODE_TTL_MINUTES} dakika boyunca gecerlidir.</div>
+          `,
+          footerNote: 'Bu kodu kimseyle paylasmayin.',
+        }),
       });
 
       return NextResponse.json({ step: 'verify', message: 'Dogrulama kodu gonderildi.' }, { status: 200 });
@@ -234,14 +240,24 @@ export async function POST(request: Request) {
       to: safeEmail,
       subject: 'Iade talebiniz alindi',
       text: `Talebinizi aldik. Talep numaraniz: ${created.id}`,
-      html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-        <h2 style="color: #0f172a; margin-top: 0;">Iade talebiniz alindi</h2>
-        <p>Merhaba <strong>${name}</strong>,</p>
-        <p>Talebinizi aldik. Talep numaraniz: <strong>${created.id.slice(0, 8)}</strong>.</p>
-        <p>Teknik ekip degerlendirme yaptiktan sonra sizi bilgilendirecegiz.</p>
-      </div>
-      `,
+      html: buildEmailHtml({
+        title: 'Iade talebiniz alindi',
+        subtitle: `Talep no: #${created.id.slice(0, 8)}`,
+        badge: 'Iade talebi',
+        preheader: `Talep no: ${created.id.slice(0, 8)}`,
+        bodyHtml: `
+          <div>Merhaba <strong>${name}</strong>,</div>
+          <div style="margin-top: 8px; color:#475569;">Talebinizi aldik. Teknik ekip degerlendirme yaptiktan sonra sizi bilgilendirecegiz.</div>
+          <div style="margin-top: 14px; padding: 14px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 12px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Ozet</div>
+            <div style="margin-top: 8px;"><strong>Talep:</strong> ${resolution}</div>
+            ${itemName ? `<div style="margin-top: 6px;"><strong>Urun:</strong> ${itemName}</div>` : ''}
+            <div style="margin-top: 6px;"><strong>Siparis:</strong> ${orderId}</div>
+          </div>
+        `,
+        primaryCta: { label: 'Iade durumu', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile` },
+        footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      }),
     });
 
     return NextResponse.json({ success: true });

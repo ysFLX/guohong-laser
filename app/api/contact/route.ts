@@ -6,6 +6,7 @@ import { promises as dns } from 'dns';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
+import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 
 const CODE_TTL_MINUTES = 10;
@@ -116,14 +117,19 @@ export async function POST(request: Request) {
         to: safeEmail,
         subject: 'Dogrulama kodunuz',
         text: `Dogrulama kodunuz: ${code}. Bu kod ${CODE_TTL_MINUTES} dakika gecerlidir.`,
-        html: `
-        <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-          <h2 style="margin-top: 0; color: #111827;">Dogrulama kodu</h2>
-          <p>Formu gonderebilmek icin dogrulama kodunuz:</p>
-          <div style="font-size: 28px; font-weight: 700; letter-spacing: 6px; margin: 16px 0; color: #1e40af;">${code}</div>
-          <p style="margin: 0; color: #6b7280;">Bu kod ${CODE_TTL_MINUTES} dakika boyunca gecerlidir.</p>
-        </div>
-        `,
+        html: buildEmailHtml({
+          title: 'Dogrulama kodu',
+          subtitle: 'Formu gonderebilmek icin kodunuz',
+          badge: 'Guvenli dogrulama',
+          preheader: `Dogrulama kodunuz: ${code}`,
+          bodyHtml: `
+            <div style="margin: 12px 0; padding: 16px; background:#0b1120; color:#ffffff; text-align:center; border-radius: 12px; font-size: 26px; letter-spacing: 6px; font-weight: 700;">
+              ${code}
+            </div>
+            <div style="color:#64748b; font-size: 13px;">Bu kod ${CODE_TTL_MINUTES} dakika boyunca gecerlidir.</div>
+          `,
+          footerNote: 'Bu kodu kimseyle paylasmayin.',
+        }),
       });
 
       return NextResponse.json({ step: 'verify', message: 'Dogrulama kodu gonderildi.' }, { status: 200 });
@@ -219,22 +225,24 @@ export async function POST(request: Request) {
       to: safeEmail,
       subject: 'Talebiniz alindi',
       text: 'Talebinizi aldik. En kisa surede sizinle iletisime gececegiz.',
-      html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-        <h2 style="color: #1e40af; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Talebiniz alindi</h2>
-        <p>Merhaba <strong>${String(name)}</strong>,</p>
-        <p>Talebinizi aldik. En kisa surede sizinle <strong>manuel</strong> olarak iletisime gececegiz.</p>
-        <div style="margin-top: 16px; padding: 12px; background-color: #f8fafc; border-radius: 6px;">
-          <div style="font-size: 12px; color: #64748b;">Ozet</div>
-          <div style="margin-top: 6px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'Iletisim'}</div>
-          ${formData.product ? `<div style="margin-top: 6px;"><strong>Urun:</strong> ${formData.product}</div>` : ''}
-          ${subject ? `<div style="margin-top: 6px;"><strong>Konu:</strong> ${subject}</div>` : ''}
-        </div>
-        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 12px;">
-          <p>Bu e-posta otomatik olarak gonderilmistir.</p>
-        </div>
-      </div>
-      `,
+      html: buildEmailHtml({
+        title: 'Talebiniz alindi',
+        subtitle: inferredType === 'QUOTE' ? 'Fiyat teklifi talebiniz alindi' : 'Iletisim talebiniz alindi',
+        badge: inferredType === 'QUOTE' ? 'Fiyat teklifi' : 'Iletisim',
+        preheader: 'Talebinizi aldik. En kisa surede donus yapacagiz.',
+        bodyHtml: `
+          <div>Merhaba <strong>${String(name)}</strong>,</div>
+          <div style="margin-top: 8px; color:#475569;">Talebinizi aldik. En kisa surede sizinle iletisime gececegiz.</div>
+          <div style="margin-top: 14px; padding: 14px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <div style="font-size: 12px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Ozet</div>
+            <div style="margin-top: 8px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'Iletisim'}</div>
+            ${formData.product ? `<div style="margin-top: 6px;"><strong>Urun:</strong> ${formData.product}</div>` : ''}
+            ${subject ? `<div style="margin-top: 6px;"><strong>Konu:</strong> ${subject}</div>` : ''}
+          </div>
+        `,
+        primaryCta: { label: 'Destek iletisimi', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/contact` },
+        footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      }),
     });
 
     return NextResponse.json({ success: true, mailed: true });
