@@ -42,7 +42,6 @@ type ProfileUser = {
     emailNotify: boolean;
     inAppNotify: boolean;
     promoNotify: boolean;
-    smsNotify: boolean;
     priceDropNotify: boolean;
     stockNotify: boolean;
     newsletter: boolean;
@@ -81,7 +80,6 @@ export default function ProfilePage() {
     emailNotify: true,
     inAppNotify: true,
     promoNotify: false,
-    smsNotify: false,
     priceDropNotify: true,
     stockNotify: true,
     newsletter: false,
@@ -108,13 +106,12 @@ export default function ProfilePage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             prefs: {
-              emailNotify: prefs.emailNotify,
-              inAppNotify: prefs.inAppNotify,
-              promoNotify: prefs.promoNotify,
-              smsNotify: prefs.smsNotify,
-              priceDropNotify: prefs.priceDropNotify,
-              stockNotify: prefs.stockNotify,
-              newsletter: prefs.newsletter,
+            emailNotify: prefs.emailNotify,
+            inAppNotify: prefs.inAppNotify,
+            promoNotify: prefs.promoNotify,
+            priceDropNotify: prefs.priceDropNotify,
+            stockNotify: prefs.stockNotify,
+            newsletter: prefs.newsletter,
             },
           }),
         });
@@ -304,7 +301,6 @@ export default function ProfilePage() {
           emailNotify: 'Email',
           inAppNotify: 'In-app',
           promoNotify: 'Promotions',
-          smsNotify: 'SMS',
           priceDropNotify: 'Price drop',
           stockNotify: 'Stock alerts',
           newsletter: 'Newsletter',
@@ -356,7 +352,6 @@ export default function ProfilePage() {
           emailNotify: 'E-posta',
           inAppNotify: 'Site ici',
           promoNotify: 'Kampanya bildirimi',
-          smsNotify: 'SMS',
           priceDropNotify: 'Fiyat dususu',
           stockNotify: 'Stok bildirimi',
           newsletter: 'Bulten',
@@ -622,16 +617,6 @@ export default function ProfilePage() {
               <span>{copy.inAppNotify}</span>
               <span className={`font-semibold ${prefs.inAppNotify ? 'text-teal-700' : 'text-slate-500'}`}>
                 {prefs.inAppNotify ? copy.on : copy.off}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setPrefs((prev) => ({ ...prev, smsNotify: !prev.smsNotify }))}
-              className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
-            >
-              <span>{copy.smsNotify}</span>
-              <span className={`font-semibold ${prefs.smsNotify ? 'text-teal-700' : 'text-slate-500'}`}>
-                {prefs.smsNotify ? copy.on : copy.off}
               </span>
             </button>
             <button
