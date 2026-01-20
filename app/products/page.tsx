@@ -111,6 +111,10 @@ export default function ProductsPage() {
           <p className="max-w-2xl text-base text-white/70">
             Uretim sureclerinizi optimize edecek lazer makine portfoyumuzu kesfedin.
           </p>
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-emerald-200">
+            <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2">Fiyat teklifle belirlenir</span>
+            <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2">Kurumsal satis akisi</span>
+          </div>
         </div>
       </Reveal>
 
@@ -259,6 +263,9 @@ export default function ProductsPage() {
                     {compareIds.includes(product.id) ? 'Secildi' : 'Karsilastir'}
                   </button>
                 </div>
+                <div className="inline-flex w-fit rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                  Fiyat teklif ile
+                </div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{product.name}</h3>
                 <p className="text-sm text-slate-600 dark:text-slate-300">{product.description}</p>
                 <div className="grid gap-2 text-xs text-slate-600 dark:text-slate-300 sm:grid-cols-3">
@@ -283,6 +290,20 @@ export default function ProductsPage() {
                     </li>
                   ))}
                 </ul>
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <Link
+                    href={`/quote?product=${encodeURIComponent(product.name)}`}
+                    className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm transition hover:bg-slate-800"
+                  >
+                    Teklif iste
+                  </Link>
+                  <Link
+                    href={`/contact?subject=${encodeURIComponent(product.name)}+Teknik+Bilgi`}
+                    className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                  >
+                    Teknik bilgi
+                  </Link>
+                </div>
               </div>
             </div>
           </Reveal>
@@ -313,6 +334,48 @@ export default function ProductsPage() {
           </div>
         </div>
       )}
+
+      <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
+              Teklif merkezi
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+              Uretim hattina uygun makine icin hizli teklif al
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Butun makineler kurumsal teklif ile fiyatlanir. Teknik ekip 30 dakika icinde geri doner.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/quote"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm"
+            >
+              Teklif formu
+            </Link>
+            <Link
+              href="/contact?subject=Makine+Teklifi"
+              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+            >
+              Danisman iste
+            </Link>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {[
+            { title: 'Hizli kesif', desc: 'Ihtiyac analizi + kapasite hesaplama' },
+            { title: 'Teknik teklif', desc: 'Guc, tabla ve otomasyon netligi' },
+            { title: 'Kurulum planı', desc: 'Takvim ve servis SLA dogrulama' },
+          ].map((item) => (
+            <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4">
+              <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+              <p className="mt-2 text-sm text-slate-600">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Reveal>
 
         {compareOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-4 py-6 backdrop-blur">
