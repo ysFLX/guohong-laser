@@ -29,6 +29,12 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
   const [evidenceError, setEvidenceError] = useState('');
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
+  const isImageUrl = (url: string) => /\.(png|jpe?g|webp|gif|svg)$/i.test(url);
+  const extractName = (url: string) => {
+    const clean = url.split('?')[0];
+    const name = clean.split('/').pop();
+    return name || 'Kanit dosyasi';
+  };
 
   useEffect(() => {
     if (!orderIdParam && !itemNameParam) return;
@@ -277,24 +283,32 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   {evidenceUploading && <div className="text-xs text-slate-600">Kanit yukleniyor...</div>}
                   {evidenceError && <div className="text-xs text-red-600">{evidenceError}</div>}
                   {evidenceUrls.length > 0 && (
-                    <div className="mt-2 space-y-2">
+                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
                       {evidenceUrls.map((url, index) => (
                         <div
                           key={`${url}-${index}`}
-                          className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-600"
+                          className="group relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
                         >
-                          <a href={url} target="_blank" rel="noreferrer" className="truncate hover:text-slate-900">
-                            {url}
-                          </a>
                           <button
                             type="button"
-                            onClick={() =>
-                              setEvidenceUrls((prev) => prev.filter((_, idx) => idx !== index))
-                            }
-                            className="text-xs font-semibold text-red-600 hover:text-red-700"
+                            onClick={() => setEvidenceUrls((prev) => prev.filter((_, idx) => idx !== index))}
+                            className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-600 shadow-sm"
                           >
-                            Kaldir
+                            Sil
                           </button>
+                          {isImageUrl(url) ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={url} alt={`Kanit ${index + 1}`} className="h-36 w-full object-cover" />
+                          ) : (
+                            <div className="flex h-36 w-full items-center justify-center bg-slate-100 text-xs uppercase tracking-[0.2em] text-slate-400">
+                              PDF
+                            </div>
+                          )}
+                          <div className="border-t border-slate-200 px-3 py-2 text-xs text-slate-600">
+                            <a href={url} target="_blank" rel="noreferrer" className="truncate hover:text-slate-900">
+                              {extractName(url)}
+                            </a>
+                          </div>
                         </div>
                       ))}
                     </div>

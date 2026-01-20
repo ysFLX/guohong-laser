@@ -256,6 +256,17 @@ export default function ReturnsAdminManager() {
 
                   <div>
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Admin notu</div>
+                    {item.adminNote && (
+                      <div className="mt-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-600">
+                        <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                          Son not
+                        </div>
+                        <div className="mt-2 whitespace-pre-line text-sm text-slate-700">{item.adminNote}</div>
+                        {item.respondedAt && (
+                          <div className="mt-2 text-[11px] text-slate-400">{formatDate(item.respondedAt)}</div>
+                        )}
+                      </div>
+                    )}
                     <textarea
                       rows={5}
                       className="form-input mt-2"
