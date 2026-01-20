@@ -217,15 +217,15 @@ export default function ProductsPage() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="grid gap-6">
+      <Reveal as="section" className="grid gap-8">
         {filteredProducts.map((product, index) => (
           <Reveal key={product.id} as="div" delay={120 + index * 60}>
             <div
               id={`product-${product.id}`}
-              className="group overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/95 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"
+              className="group overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/95 shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.12)] dark:border-white/10 dark:bg-white/5"
             >
-              <div className="flex flex-col gap-6 p-6 lg:flex-row lg:items-center lg:gap-8">
-                <div className="relative h-52 w-full overflow-hidden rounded-2xl bg-slate-50 lg:h-56 lg:w-[42%]">
+              <div className="flex flex-col gap-6 p-7 lg:flex-row lg:items-stretch lg:gap-10">
+                <div className="relative h-56 w-full overflow-hidden rounded-[26px] bg-slate-50 lg:h-[270px] lg:w-[42%]">
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -234,6 +234,11 @@ export default function ProductsPage() {
                     className="object-cover"
                     priority={index < 2}
                   />
+                  <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-xs font-semibold">
+                    <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 text-slate-700">
+                      E-katalog
+                    </span>
+                  </div>
                   <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
                     <span
                       className={`rounded-full px-3 py-1 ${
@@ -248,7 +253,7 @@ export default function ProductsPage() {
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-4">
+                <div className="flex-1 space-y-5">
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="inline-flex rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
                       {product.category}
@@ -258,8 +263,8 @@ export default function ProductsPage() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white">{product.name}</h3>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{product.description}</p>
+                    <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">{product.name}</h3>
+                    <p className="mt-2 text-base text-slate-600 dark:text-slate-300">{product.description}</p>
                   </div>
                   <div className="grid gap-3 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-3">
                     <div>
@@ -275,7 +280,8 @@ export default function ProductsPage() {
                       <p className="mt-1 font-medium text-slate-900 dark:text-white">{product.automation}</p>
                     </div>
                   </div>
-                  <ul className="grid gap-2 text-xs text-slate-600 dark:text-slate-300 sm:grid-cols-2">
+                  <div className="h-px w-full bg-slate-200/70" />
+                  <ul className="grid gap-2 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
                     {product.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
@@ -285,7 +291,11 @@ export default function ProductsPage() {
                   </ul>
                 </div>
 
-                <div className="w-full max-w-sm space-y-3 lg:w-[26%]">
+                <div className="w-full max-w-sm space-y-3 rounded-[26px] border border-slate-200/80 bg-slate-50 px-5 py-5 shadow-sm lg:w-[26%]">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Teklif paketi</p>
+                    <p className="mt-2 text-sm font-semibold text-slate-900">Birebir kesif + teknik konfigurasyon</p>
+                  </div>
                   <button
                     type="button"
                     onClick={() => toggleCompare(product.id)}
