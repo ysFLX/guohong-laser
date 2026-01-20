@@ -156,17 +156,17 @@ export default function ReturnsAdminManager() {
               <div key={item.id} className={`${rowBorder} border-slate-200 ${rowTone}`}>
               <div className="grid gap-4 border-b border-slate-100 px-6 py-4 text-sm sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Talep</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Talep</div>
                   <div className="mt-2 text-base font-semibold text-slate-900">#{item.id.slice(0, 8)}</div>
                   <div className="mt-1 text-xs text-slate-500">{formatDate(item.createdAt)}</div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Musteri</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Musteri</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900">{item.name}</div>
                   <div className="mt-1 text-xs text-slate-500">{item.email}</div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Durum</div>
                   <div className="mt-2">
                     <AdminBadge tone={statusBadge(item.status)}>
                       {statusOptions.find((s) => s.value === item.status)?.label || item.status}
@@ -174,7 +174,7 @@ export default function ReturnsAdminManager() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Siparis</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900">{item.orderId}</div>
                   <div className="mt-1 text-xs text-slate-500">{item.itemName || '-'}</div>
                 </div>
