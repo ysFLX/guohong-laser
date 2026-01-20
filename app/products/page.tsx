@@ -50,6 +50,21 @@ export default function ProductsPage() {
   const [powerFilter, setPowerFilter] = useState<'Tumu' | '3-6 kW' | '6-12 kW' | '12+ kW'>('Tumu');
   const [compareIds, setCompareIds] = useState<number[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    product: '',
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const [emailError, setEmailError] = useState('');
+  const [otp, setOtp] = useState('');
+  const [step, setStep] = useState<'details' | 'verify'>('details');
+  const [info, setInfo] = useState('');
 
   const parsePowerRange = (value: string) => {
     const matches = value.match(/\d+/g)?.map((n) => Number(n)).filter((n) => Number.isFinite(n)) ?? [];
@@ -95,6 +110,96 @@ export default function ProductsPage() {
       }
       return [...prev, id];
     });
+  };
+
+  const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'email' && emailError) {
+      setEmailError('');
+    }
+  };
+
+  const openQuoteModal = (productName: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      product: productName,
+    }));
+    setSubmitStatus(null);
+    setEmailError('');
+    setOtp('');
+    setStep('details');
+    setInfo('');
+    setQuoteOpen(true);
+  };
+
+  const closeQuoteModal = () => {
+    setQuoteOpen(false);
+    setSubmitStatus(null);
+    setEmailError('');
+    setOtp('');
+    setStep('details');
+    setInfo('');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setEmailError('');
+    setInfo('');
+
+    if (!isEmailValid(formData.email)) {
+      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          otp: step === 'verify' ? otp : undefined,
+          subject: `Fiyat Teklifi Talebi - ${formData.product}`,
+          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nUrun: ${formData.product}\nMesaj: ${formData.message}`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.step === 'verify') {
+        setStep('verify');
+        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
+      } else if (response.ok) {
+        setSubmitStatus({
+          success: true,
+          message: 'Talebiniz alindi. En kisa surede sizinle iletisime gecilecektir.',
+        });
+        setFormData({
+          name: '',
+          company: '',
+          email: '',
+          phone: '',
+          product: formData.product,
+          message: '',
+        });
+        setOtp('');
+        setStep('details');
+      } else {
+        throw new Error(data.error || 'Form gonderilemedi');
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen daha sonra tekrar deneyiniz.';
+      setSubmitStatus({ success: false, message });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -295,12 +400,13 @@ export default function ProductsPage() {
                   >
                     {compareIds.includes(product.id) ? 'Secildi' : 'Karsilastir'}
                   </button>
-                  <Link
-                    href={`/quote?product=${encodeURIComponent(product.name)}`}
+                  <button
+                    type="button"
+                    onClick={() => openQuoteModal(product.name)}
                     className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white shadow-sm transition hover:bg-slate-800"
                   >
                     Teklif iste
-                  </Link>
+                  </button>
                   <Link
                     href={`/contact?subject=${encodeURIComponent(product.name)}+Teknik+Bilgi`}
                     className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
@@ -335,6 +441,145 @@ export default function ProductsPage() {
             >
               Tabloya git
             </a>
+          </div>
+        </div>
+      )}
+
+      {quoteOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-4 py-6 backdrop-blur">
+          <div className="relative w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/20 bg-white shadow-[0_30px_120px_rgba(15,23,42,0.3)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.08),_transparent_60%)]" />
+            <div className="relative space-y-5 p-6 sm:p-8">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Hizli teklif</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-slate-900">Makine teklifi iste</h2>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Urun icin teknik bilgileri ilet, ekibimiz sana hizli teklif hazirlasin.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={closeQuoteModal}
+                  className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                >
+                  Kapat
+                </button>
+              </div>
+
+              {submitStatus && (
+                <div
+                  className={`form-alert ${submitStatus.success ? 'form-alert--success' : 'form-alert--error'}`}
+                >
+                  {submitStatus.message}
+                </div>
+              )}
+              {info && <div className="form-alert form-alert--info text-center">{info}</div>}
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700">Ad Soyad *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700">Firma Adi</label>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700">E-posta *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                    />
+                    {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700">Telefon *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-slate-700">Ilgilendiginiz urun *</label>
+                    <input
+                      type="text"
+                      name="product"
+                      readOnly
+                      value={formData.product}
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-slate-700">Ek bilgiler</label>
+                    <textarea
+                      name="message"
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
+                    />
+                  </div>
+                </div>
+
+                {step === 'verify' && (
+                  <div className="space-y-3">
+                    <div className="text-sm text-slate-600">
+                      Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700">Dogrulama Kodu</label>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        required
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                        placeholder="000000"
+                        maxLength={6}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={closeQuoteModal}
+                    className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                  >
+                    Iptal
+                  </button>
+                  <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
+                    {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
