@@ -145,10 +145,10 @@ export default function AdminSidebar() {
   };
 
   return (
-    <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-[var(--admin-border)] lg:bg-[var(--admin-sidebar-bg)] lg:text-[var(--admin-sidebar-text)]">
+    <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-[var(--admin-border)] lg:bg-[var(--admin-sidebar-bg)]/95 lg:text-[var(--admin-sidebar-text)] lg:backdrop-blur">
       <div className="px-6 py-6 border-b border-[var(--admin-border)]">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--admin-sidebar-accent)] text-white shadow-sm">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--admin-sidebar-accent)] text-[var(--admin-accent-contrast)] shadow-[0_10px_30px_rgba(34,211,238,0.35)]">
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
               <path d="M12 2l8 4v12l-8 4-8-4V6l8-4zm0 2.3L6 6.1v9.8l6 2.8 6-2.8V6.1L12 4.3z" />
             </svg>
@@ -162,7 +162,7 @@ export default function AdminSidebar() {
       </div>
 
       <div className="px-4 py-4 space-y-3">
-        <div className="flex items-center gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-3 py-3">
+        <div className="flex items-center gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--admin-sidebar-active)] text-sm font-semibold text-[var(--admin-sidebar-accent-text)]">
             A
           </div>
@@ -174,14 +174,14 @@ export default function AdminSidebar() {
         <div className="flex gap-2">
           <Link
             href="/"
-            className="flex-1 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-center text-xs font-semibold text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
+            className="flex-1 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-center text-xs font-semibold text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
             Siteye don
           </Link>
           <button
             type="button"
             onClick={() => signOut({ callbackUrl: '/' })}
-            className="flex-1 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-xs font-semibold text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
+            className="flex-1 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-xs font-semibold text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
             Cikis yap
           </button>
@@ -201,9 +201,9 @@ export default function AdminSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                      active
-                        ? 'bg-[var(--admin-sidebar-active)] text-[var(--admin-sidebar-accent-text)] shadow-[inset_3px_0_0_0_var(--admin-sidebar-accent)]'
+                  className={`group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition ${
+                    active
+                        ? 'bg-[var(--admin-sidebar-active)] text-[var(--admin-sidebar-accent-text)] shadow-[inset_3px_0_0_0_var(--admin-sidebar-accent)] ring-1 ring-[var(--admin-sidebar-accent)]/40'
                         : 'text-[var(--admin-sidebar-muted)] hover:bg-[var(--admin-sidebar-hover)] hover:text-[var(--admin-sidebar-text)]'
                     }`}
                   >
@@ -222,19 +222,19 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="px-6 py-5 border-t border-[var(--admin-border)]">
-        <div className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface-muted)] p-3 text-xs text-[var(--admin-sidebar-muted)]">
+        <div className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-3 text-xs text-[var(--admin-sidebar-muted)]">
           Admin girisi aktif. Islem kayitlarini guncel tut.
         </div>
         <div className="mt-3 flex flex-col gap-2 text-xs">
           <Link
             href="/admin/orders"
-            className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
+            className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
             Siparis merkezine git
           </Link>
           <Link
             href="/admin/spare-parts/new"
-            className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
+            className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
             Yeni urun ekle
           </Link>

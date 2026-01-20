@@ -75,7 +75,7 @@ export function AdminButton({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        'inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60',
+        'inline-flex items-center justify-center rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 shadow-[0_12px_30px_rgba(15,23,42,0.2)]',
         styles,
         className,
       )}

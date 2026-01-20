@@ -17,22 +17,26 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-[var(--admin-bg)] text-[var(--admin-text)] [--admin-bg:#f8fafc] [--admin-surface:#ffffff] [--admin-surface-muted:#f1f5f9] [--admin-border:#e2e8f0] [--admin-text:#0f172a] [--admin-muted:#64748b] [--admin-accent:#0f172a] [--admin-accent-contrast:#ffffff] [--admin-sidebar-bg:#ffffff] [--admin-sidebar-text:#0f172a] [--admin-sidebar-muted:#94a3b8] [--admin-sidebar-hover:#f8fafc] [--admin-sidebar-active:#eef2ff] [--admin-sidebar-accent:#6366f1] [--admin-sidebar-accent-text:#4338ca]">
-      <div className="flex min-h-screen">
+    <div className="relative min-h-screen overflow-hidden bg-[var(--admin-bg)] text-[var(--admin-text)] [--admin-bg:#0b1120] [--admin-surface:#0f172a] [--admin-surface-muted:#111827] [--admin-border:rgba(148,163,184,0.18)] [--admin-text:#e2e8f0] [--admin-muted:#94a3b8] [--admin-accent:#22d3ee] [--admin-accent-contrast:#0b1120] [--admin-sidebar-bg:#0b1220] [--admin-sidebar-text:#e2e8f0] [--admin-sidebar-muted:#94a3b8] [--admin-sidebar-hover:rgba(30,41,59,0.6)] [--admin-sidebar-active:rgba(14,116,144,0.22)] [--admin-sidebar-accent:#22d3ee] [--admin-sidebar-accent-text:#e2e8f0] [--admin-card:#ffffff] [--admin-card-muted:#f8fafc]">
+      <div className="pointer-events-none absolute -left-24 top-0 h-64 w-64 rounded-full bg-cyan-500/20 blur-[120px]" />
+      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-500/20 blur-[140px]" />
+      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_45%)]" />
+
+      <div className="relative flex min-h-screen">
         <AdminSidebar />
 
         <div className="flex-1 lg:pl-72">
-          <header className="sticky top-0 z-20 border-b border-[var(--admin-border)] bg-[var(--admin-surface)]/95 backdrop-blur">
+          <header className="sticky top-0 z-20 border-b border-[var(--admin-border)] bg-[var(--admin-surface)]/90 backdrop-blur">
             <div className="px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">
+                <div className="inline-flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">
                   Guohong Admin
                 </div>
                 <h1 className="text-2xl font-semibold tracking-tight">Yonetim merkezi</h1>
                 <p className="text-xs text-[var(--admin-muted)]">Siparis, stok ve talepler tek panelde.</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <form action="/admin/orders" method="get" className="hidden items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-3 py-2 text-xs sm:flex">
+                <form action="/admin/orders" method="get" className="hidden items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-2 text-xs sm:flex">
                   <svg viewBox="0 0 20 20" className="h-4 w-4 text-[var(--admin-muted)]" fill="currentColor" aria-hidden="true">
                     <path
                       fillRule="evenodd"
@@ -48,19 +52,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 </form>
                 <Link
                   href="/admin"
-                  className="rounded-full bg-[var(--admin-accent)] px-4 py-2 text-xs font-semibold text-[var(--admin-accent-contrast)] hover:opacity-90"
+                  className="rounded-full bg-[var(--admin-accent)] px-4 py-2 text-xs font-semibold text-[var(--admin-accent-contrast)] shadow-[0_10px_30px_rgba(34,211,238,0.25)] hover:opacity-90"
                 >
                   Dashboard
                 </Link>
                 <Link
                   href="/admin/orders"
-                  className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-surface-muted)]"
+                  className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]"
                 >
                   Siparisler
                 </Link>
                 <Link
                   href="/admin/returns"
-                  className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-surface-muted)]"
+                  className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]"
                 >
                   Iadeler
                 </Link>
@@ -69,8 +73,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </header>
 
           <main className="px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-6xl space-y-6">
-              <div className="rounded-[28px] border border-[var(--admin-border)] bg-[var(--admin-surface)]/95 p-4 shadow-[0_18px_50px_-36px_rgba(15,23,42,0.35)] sm:p-6">
+            <div className="mx-auto max-w-7xl space-y-6">
+              <div className="rounded-[28px] border border-[var(--admin-border)] bg-[var(--admin-card)]/95 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.35)] sm:p-6">
                 {children}
               </div>
             </div>
