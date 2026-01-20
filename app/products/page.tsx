@@ -322,92 +322,98 @@ export default function ProductsPage() {
       )}
 
         {compareOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 backdrop-blur-sm">
-            <div className="w-full max-w-5xl rounded-[32px] border border-slate-200 bg-white p-6 shadow-2xl">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Urun karsilastirma</p>
-                <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gor</h2>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/quote"
-                  className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-                >
-                  Teknik teklif iste
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => setCompareOpen(false)}
-                  className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
-                >
-                  Kapat
-                </button>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-4 py-6 backdrop-blur">
+            <div className="relative w-full max-w-6xl overflow-hidden rounded-[36px] border border-white/20 bg-white shadow-[0_30px_120px_rgba(15,23,42,0.35)]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(20,184,166,0.15),_transparent_55%)]" />
+              <div className="relative max-h-[85vh] overflow-y-auto p-6 sm:p-8">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.35em] text-teal-600">Karsilastirma paneli</p>
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gor</h2>
+                    <p className="mt-2 text-sm text-slate-500">
+                      {selectedCompare.length || 0} model secildi. En fazla 3 model karsilastirabilirsin.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href="/quote"
+                      className="rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                    >
+                      Teknik teklif iste
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setCompareOpen(false)}
+                      className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+                    >
+                      Kapat
+                    </button>
+                  </div>
+                </div>
+
+                {selectedCompare.length === 0 ? (
+                  <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
+                    Karsilastirma icin kartlardan en az 2 urun sec.
+                  </div>
+                ) : (
+                  <div className="mt-6 grid gap-5 lg:grid-cols-3">
+                    {selectedCompare.map((item) => (
+                      <div
+                        key={item.id}
+                        className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"
+                      >
+                        <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 320px"
+                            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                          />
+                          <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
+                            <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
+                              {item.category}
+                            </span>
+                            <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
+                              {item.stockLabel}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="space-y-4 p-5">
+                          <div>
+                            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Model</div>
+                            <div className="mt-2 text-lg font-semibold text-slate-900">{item.name}</div>
+                          </div>
+                          <div className="grid gap-3 text-sm text-slate-600">
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Guc</span>
+                              <span className="font-semibold text-slate-900">{item.power}</span>
+                            </div>
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Tabla/Boru</span>
+                              <span className="font-semibold text-slate-900">{item.workArea}</span>
+                            </div>
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
+                              <span className="font-semibold text-slate-900">{item.automation}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</span>
+                              <span className="font-semibold text-slate-900">{item.deliveryLabel}</span>
+                            </div>
+                          </div>
+                          <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-xs text-slate-500">
+                            Uygun konfigurasyon icin teklif isteyebiliriz.
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
-
-              {selectedCompare.length === 0 ? (
-                <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
-                  Karsilastirma icin kartlardan en az 2 urun sec.
-                </div>
-              ) : (
-                <div className="mt-6 grid gap-4 lg:grid-cols-3">
-                  {selectedCompare.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl"
-                    >
-                      <div className="relative h-44 w-full overflow-hidden bg-slate-100">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 320px"
-                          className="object-cover transition duration-500 group-hover:scale-[1.02]"
-                        />
-                        <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
-                          <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
-                            {item.category}
-                          </span>
-                          <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
-                            {item.stockLabel}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="space-y-4 p-5">
-                        <div>
-                          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Model</div>
-                          <div className="mt-2 text-lg font-semibold text-slate-900">{item.name}</div>
-                        </div>
-                        <div className="grid gap-3 text-sm text-slate-600">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Guc</span>
-                            <span className="font-semibold text-slate-900">{item.power}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Tabla/Boru</span>
-                            <span className="font-semibold text-slate-900">{item.workArea}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
-                            <span className="font-semibold text-slate-900">{item.automation}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</span>
-                            <span className="font-semibold text-slate-900">{item.deliveryLabel}</span>
-                          </div>
-                        </div>
-                        <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-xs text-slate-500">
-                          Uygun konfigurasyon icin teklif isteyebiliriz.
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
           </div>
-        </div>
-      )}
+        )}
 
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
