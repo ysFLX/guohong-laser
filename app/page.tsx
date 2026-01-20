@@ -457,7 +457,7 @@ export default async function Home() {
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
               </div>
-              <div className="mt-4 rounded-[28px] border border-slate-200 bg-slate-950 p-4 text-white shadow-xl">
+                <div className="mt-4 rounded-[28px] border border-slate-200 bg-slate-950 p-4 text-white shadow-xl lg:mr-12 lg:max-w-[520px]">
                 <div className="flex items-center justify-between">
                   <div className="text-xs uppercase tracking-[0.3em] text-emerald-200">Canli stok / teslimat</div>
                   <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-emerald-200">
