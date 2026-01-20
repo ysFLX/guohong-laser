@@ -217,89 +217,77 @@ export default function ProductsPage() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="grid gap-8">
+      <Reveal as="section" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredProducts.map((product, index) => (
           <Reveal key={product.id} as="div" delay={120 + index * 60}>
             <div
               id={`product-${product.id}`}
-              className="group overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/95 shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.12)] dark:border-white/10 dark:bg-white/5"
+              className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/95 shadow-[0_18px_60px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.12)] dark:border-white/10 dark:bg-white/5"
             >
-              <div className="flex flex-col gap-6 p-7 lg:flex-row lg:items-stretch lg:gap-10">
-                <div className="relative h-56 w-full overflow-hidden rounded-[26px] bg-slate-50 lg:h-[270px] lg:w-[42%]">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    className="object-cover"
-                    priority={index < 2}
-                  />
-                  <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-xs font-semibold">
-                    <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 text-slate-700">
-                      E-katalog
-                    </span>
+              <div className="relative h-56 w-full overflow-hidden bg-slate-50">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 25vw"
+                  className="object-cover"
+                  priority={index < 2}
+                />
+                <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-xs font-semibold">
+                  <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 text-slate-700">
+                    E-katalog
+                  </span>
+                  <span className="rounded-full bg-teal-100 px-3 py-1 text-teal-700">
+                    {product.category}
+                  </span>
+                </div>
+                <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
+                  <span
+                    className={`rounded-full px-3 py-1 ${
+                      product.stockLabel === 'Stokta' ? 'bg-teal-500 text-slate-900' : 'bg-amber-200 text-amber-900'
+                    }`}
+                  >
+                    {product.stockLabel}
+                  </span>
+                  <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700">
+                    {product.deliveryLabel}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-1 flex-col space-y-3 p-5">
+                <span className="inline-flex w-fit rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                  Fiyat teklif ile
+                </span>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{product.name}</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-300">{product.description}</p>
+                <div className="grid gap-3 text-xs text-slate-600 dark:text-slate-300">
+                  <div className="flex items-center justify-between">
+                    <span className="uppercase tracking-[0.2em] text-slate-400">Guc</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">{product.power}</span>
                   </div>
-                  <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
-                    <span
-                      className={`rounded-full px-3 py-1 ${
-                        product.stockLabel === 'Stokta' ? 'bg-teal-500 text-slate-900' : 'bg-amber-200 text-amber-900'
-                      }`}
-                    >
-                      {product.stockLabel}
-                    </span>
-                    <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700">
-                      {product.deliveryLabel}
-                    </span>
+                  <div className="flex items-center justify-between">
+                    <span className="uppercase tracking-[0.2em] text-slate-400">Tabla</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">{product.workArea}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">{product.automation}</span>
                   </div>
                 </div>
-
-                <div className="flex-1 space-y-5">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="inline-flex rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
-                      {product.category}
-                    </span>
-                    <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
-                      Fiyat teklif ile
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">{product.name}</h3>
-                    <p className="mt-2 text-base text-slate-600 dark:text-slate-300">{product.description}</p>
-                  </div>
-                  <div className="grid gap-3 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-3">
-                    <div>
-                      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Guc</span>
-                      <p className="mt-1 font-medium text-slate-900 dark:text-white">{product.power}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Tabla</span>
-                      <p className="mt-1 font-medium text-slate-900 dark:text-white">{product.workArea}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
-                      <p className="mt-1 font-medium text-slate-900 dark:text-white">{product.automation}</p>
-                    </div>
-                  </div>
-                  <div className="h-px w-full bg-slate-200/70" />
-                  <ul className="grid gap-2 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
-                    {product.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="w-full max-w-sm space-y-3 rounded-[26px] border border-slate-200/80 bg-slate-50 px-5 py-5 shadow-sm lg:w-[26%]">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Teklif paketi</p>
-                    <p className="mt-2 text-sm font-semibold text-slate-900">Birebir kesif + teknik konfigurasyon</p>
-                  </div>
+                <ul className="grid gap-2 text-xs text-slate-600 dark:text-slate-300">
+                  {product.features.slice(0, 3).map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => toggleCompare(product.id)}
-                    className={`w-full rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
+                    className={`rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
                       compareIds.includes(product.id)
                         ? 'bg-slate-900 text-white'
                         : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
@@ -309,13 +297,13 @@ export default function ProductsPage() {
                   </button>
                   <Link
                     href={`/quote?product=${encodeURIComponent(product.name)}`}
-                    className="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm transition hover:bg-slate-800"
+                    className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white shadow-sm transition hover:bg-slate-800"
                   >
                     Teklif iste
                   </Link>
                   <Link
                     href={`/contact?subject=${encodeURIComponent(product.name)}+Teknik+Bilgi`}
-                    className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                    className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
                   >
                     Teknik bilgi
                   </Link>
