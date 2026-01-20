@@ -424,6 +424,13 @@ export default async function Home() {
                   </div>
                 ))}
               </div>
+              <div
+                className="inline-flex w-full max-w-[220px] flex-col rounded-[24px] border border-slate-200 bg-white px-5 py-4 shadow-lg dark:border-white/10 dark:bg-slate-900/80 float-slower glint"
+                style={{ animationDelay: '320ms' }}
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
+              </div>
             </div>
             <div className="relative space-y-4 lg:space-y-5 lg:pr-16">
             <div className="relative min-h-[360px] overflow-hidden rounded-[40px] border border-white/80 bg-white shadow-[0_30px_90px_rgba(15,23,42,0.2)] float-tilt glint">
@@ -448,15 +455,6 @@ export default async function Home() {
                   <div className="text-sm font-semibold text-slate-900 dark:text-white">
                     Gunluk kesim raporu + uzaktan izleme
                   </div>
-                </div>
-              </div>
-              <div className="flex items-start justify-end">
-                <div
-                  className="hidden max-w-[220px] rounded-[28px] border border-slate-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-white/10 dark:bg-slate-900/80 float-slower glint"
-                  style={{ animationDelay: '320ms' }}
-                >
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
-                  <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
                 </div>
               </div>
                 <div className="rounded-[28px] border border-slate-200 bg-slate-950 p-4 text-white shadow-xl lg:max-w-[520px]">
