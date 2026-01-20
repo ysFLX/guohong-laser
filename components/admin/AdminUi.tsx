@@ -28,10 +28,11 @@ type RadioCardProps = BaseProps & {
 
 const toneStyles: Record<Tone, { solid: string; outline: string; ghost: string; badge: string }> = {
   slate: {
-    solid: 'bg-slate-900 text-white hover:bg-slate-800',
-    outline: 'border border-slate-200 text-slate-700 hover:border-slate-300 hover:text-slate-900',
-    ghost: 'text-slate-600 hover:text-slate-900',
-    badge: 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/30',
+    solid: 'bg-[var(--admin-accent)] text-[var(--admin-accent-contrast)] hover:opacity-90',
+    outline:
+      'border border-[var(--admin-border)] text-[var(--admin-text)] hover:bg-[var(--admin-surface-muted)]',
+    ghost: 'text-[var(--admin-muted)] hover:text-[var(--admin-text)]',
+    badge: 'bg-white/10 text-[var(--admin-muted)] ring-1 ring-white/10',
   },
   emerald: {
     solid: 'bg-emerald-600 text-white hover:bg-emerald-500',
