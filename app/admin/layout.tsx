@@ -17,10 +17,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[var(--admin-bg)] text-[var(--admin-text)] [--admin-bg:#0b1120] [--admin-surface:#0f172a] [--admin-surface-muted:#111827] [--admin-border:rgba(148,163,184,0.2)] [--admin-text:#e2e8f0] [--admin-muted:#94a3b8] [--admin-accent:#22d3ee] [--admin-accent-contrast:#081018] [--admin-sidebar-bg:#0b1120] [--admin-sidebar-text:#e2e8f0] [--admin-sidebar-muted:#94a3b8] [--admin-sidebar-hover:rgba(30,41,59,0.6)] [--admin-sidebar-active:rgba(34,211,238,0.14)] [--admin-sidebar-accent:#22d3ee] [--admin-sidebar-accent-text:#e2e8f0] [--admin-card:#0f172a] [--admin-card-muted:#0b1220]">
-      <div className="pointer-events-none absolute -left-24 top-0 h-64 w-64 rounded-full bg-cyan-500/20 blur-[120px]" />
-      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-500/20 blur-[140px]" />
-      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_top,_rgba(148,163,184,0.25),_transparent_45%)]" />
+    <div className="relative min-h-screen overflow-hidden bg-[var(--admin-bg)] text-[var(--admin-text)] [--admin-bg:#eef2ff] [--admin-surface:#ffffff] [--admin-surface-muted:#e0e7ff] [--admin-border:rgba(99,102,241,0.2)] [--admin-text:#1e1b4b] [--admin-muted:#6366f1] [--admin-accent:#4f46e5] [--admin-accent-contrast:#ffffff] [--admin-sidebar-bg:#eef2ff] [--admin-sidebar-text:#1e1b4b] [--admin-sidebar-muted:#6366f1] [--admin-sidebar-hover:rgba(129,140,248,0.2)] [--admin-sidebar-active:rgba(79,70,229,0.18)] [--admin-sidebar-accent:#4f46e5] [--admin-sidebar-accent-text:#1e1b4b] [--admin-card:#ffffff] [--admin-card-muted:#e0e7ff]">
+      <div className="pointer-events-none absolute -left-24 top-0 h-64 w-64 rounded-full bg-indigo-300/50 blur-[120px]" />
+      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-indigo-200/70 blur-[140px]" />
+      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_top,_rgba(99,102,241,0.25),_transparent_45%)]" />
 
       <div className="relative flex min-h-screen">
         <AdminSidebar />

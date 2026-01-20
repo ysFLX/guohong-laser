@@ -32,7 +32,7 @@ const toneStyles: Record<Tone, { solid: string; outline: string; ghost: string; 
     outline:
       'border border-[var(--admin-border)] text-[var(--admin-text)] hover:bg-[var(--admin-surface-muted)]',
     ghost: 'text-[var(--admin-muted)] hover:text-[var(--admin-text)]',
-    badge: 'bg-white/10 text-[var(--admin-muted)] ring-1 ring-white/10',
+    badge: 'bg-indigo-500/10 text-indigo-700 ring-1 ring-indigo-500/30',
   },
   emerald: {
     solid: 'bg-emerald-600 text-white hover:bg-emerald-500',
