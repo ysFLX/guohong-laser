@@ -410,6 +410,13 @@ export default async function Home() {
                   Teklif al
                 </Link>
               </div>
+              <div
+                className="w-full max-w-sm rounded-[24px] border border-slate-200 bg-white px-5 py-4 shadow-lg dark:border-white/10 dark:bg-slate-900/80 float-slower glint"
+                style={{ animationDelay: '320ms' }}
+              >
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
+              </div>
               <div className="flex flex-wrap gap-3">
                 {heroStats.map((stat, index) => (
                   <div
@@ -423,13 +430,6 @@ export default async function Home() {
                     </p>
                   </div>
                 ))}
-              </div>
-              <div
-                className="inline-flex w-full max-w-[220px] flex-col rounded-[24px] border border-slate-200 bg-white px-5 py-4 shadow-lg dark:border-white/10 dark:bg-slate-900/80 float-slower glint"
-                style={{ animationDelay: '320ms' }}
-              >
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
-                <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
               </div>
             </div>
             <div className="relative space-y-4 lg:space-y-5 lg:pr-16">
