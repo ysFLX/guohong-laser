@@ -856,16 +856,6 @@ export default function SparePartsPage() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => {
-                setCompareIds([]);
-                setCompareOpen(false);
-              }}
-              className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
-            >
-              Temizle
-            </button>
-            <button
-              type="button"
               onClick={() => setCompareOpen(true)}
               className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
             >
@@ -889,13 +879,16 @@ export default function SparePartsPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setCompareOpen(false)}
-                    className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
-                  >
-                    Kapat
-                  </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCompareOpen(false);
+                    setCompareIds([]);
+                  }}
+                  className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+                >
+                  Kapat
+                </button>
                 </div>
               </div>
 

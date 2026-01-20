@@ -300,13 +300,6 @@ export default function ProductsPage() {
             <div className="font-semibold text-slate-900">{compareIds.length} urun secildi</div>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setCompareIds([])}
-              className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
-            >
-              Temizle
-            </button>
             <a
               href="#compare"
               onClick={(event) => {
@@ -343,7 +336,10 @@ export default function ProductsPage() {
                     </Link>
                     <button
                       type="button"
-                      onClick={() => setCompareOpen(false)}
+                      onClick={() => {
+                        setCompareOpen(false);
+                        setCompareIds([]);
+                      }}
                       className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
                     >
                       Kapat
