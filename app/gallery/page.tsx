@@ -113,10 +113,30 @@ export default function GalleryPage() {
   );
 
   const activeImage = activeIndex !== null ? filteredImages[activeIndex] : null;
+  const tagCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const image of galleryImages) {
+      counts[image.tag] = (counts[image.tag] ?? 0) + 1;
+    }
+    return counts;
+  }, [galleryImages]);
 
   useEffect(() => {
     setActiveIndex(null);
   }, [activeTag]);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveIndex(null);
+      if (event.key === 'ArrowLeft') goPrev();
+      if (event.key === 'ArrowRight') goNext();
+    };
+
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [activeIndex, filteredImages.length]);
 
   const goPrev = () => {
     if (activeIndex === null || filteredImages.length === 0) return;
@@ -144,8 +164,21 @@ export default function GalleryPage() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="space-y-6">
-        <div className="flex flex-wrap items-center gap-3">
+      <Reveal as="section" className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-lg">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Filtreler</p>
+            <h2 className="mt-2 text-xl font-semibold text-slate-900">Gercek galeri akisi</h2>
+            <p className="mt-1 text-sm text-slate-600">
+              {filteredImages.length} gorsel gosteriliyor / {galleryImages.length} toplam.
+            </p>
+          </div>
+          <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs uppercase tracking-[0.3em] text-slate-500">
+            {activeTag === 'Tumu' ? 'Tum kategoriler' : activeTag}
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
           {['Tumu', ...tagPool].map((tag) => (
             <button
               key={tag}
@@ -158,29 +191,38 @@ export default function GalleryPage() {
               }`}
             >
               {tag}
+              <span className="ml-2 text-[10px] text-slate-400">
+                {tag === 'Tumu' ? galleryImages.length : tagCounts[tag] ?? 0}
+              </span>
             </button>
           ))}
         </div>
+      </Reveal>
 
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <Reveal as="section" className="space-y-6">
+        <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
           {filteredImages.map((item, index) => (
-            <Reveal key={item.src} as="div" delay={120 + index * 40}>
+            <Reveal key={item.src} as="div" delay={120 + index * 30} className="mb-6 break-inside-avoid">
               <button
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className="group relative w-full overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group relative w-full overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="relative h-56 w-full rounded-[20px] border border-slate-100 bg-white p-2">
+                <div className="relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.src}
                     alt={item.alt}
                     loading="lazy"
-                    className="h-full w-full rounded-[14px] object-cover transition duration-500 group-hover:scale-[1.04]"
+                    className="w-full rounded-[28px] object-cover transition duration-500 group-hover:scale-[1.03]"
                   />
-                  <div className="absolute inset-2 rounded-[14px] bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute inset-0 rounded-[28px] bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
                   <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
                     {item.tag}
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 opacity-0 transition group-hover:opacity-100">
+                    <div className="text-sm font-semibold text-white">{item.alt}</div>
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/70">Detay gor</div>
                   </div>
                 </div>
               </button>
@@ -190,46 +232,72 @@ export default function GalleryPage() {
       </Reveal>
 
       {activeImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <button
-            type="button"
-            onClick={() => setActiveIndex(null)}
-            className="absolute inset-0 cursor-default"
-            aria-label="Kapat"
-          />
-          <div className="relative z-10 w-full max-w-5xl">
-            <button
-              type="button"
-              onClick={() => setActiveIndex(null)}
-              className="absolute -top-10 right-0 text-white text-sm font-semibold"
-            >
-              Kapat
-            </button>
-            <div className="rounded-[28px] bg-white p-3 shadow-2xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={activeImage.src} alt={activeImage.alt} className="max-h-[75vh] w-full object-contain" />
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-6"
+          onClick={() => setActiveIndex(null)}
+        >
+          <div
+            className="relative z-10 w-full max-w-6xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex flex-wrap items-center justify-between gap-4 text-white">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-200">Galeri detayi</p>
+                <h3 className="mt-1 text-2xl font-semibold">{activeImage.alt}</h3>
+                <p className="mt-1 text-sm text-white/70">{activeImage.tag}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveIndex(null)}
+                className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
+              >
+                Kapat
+              </button>
             </div>
-            <div className="mt-4 flex items-center justify-between text-xs uppercase tracking-[0.2em] text-white/70">
-              <span>{activeImage.tag}</span>
+
+            <div className="mt-5 overflow-hidden rounded-[28px] bg-white p-3 shadow-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={activeImage.src} alt={activeImage.alt} className="max-h-[70vh] w-full object-contain" />
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-white/70">
               <span>
                 {(activeIndex ?? 0) + 1} / {filteredImages.length}
               </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
+                >
+                  Onceki
+                </button>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
+                >
+                  Sonraki
+                </button>
+              </div>
             </div>
-            <div className="mt-4 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={goPrev}
-                className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/50"
-              >
-                Onceki
-              </button>
-              <button
-                type="button"
-                onClick={goNext}
-                className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/50"
-              >
-                Sonraki
-              </button>
+
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+              {filteredImages.map((item, index) => (
+                <button
+                  key={item.src}
+                  type="button"
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-20 w-28 shrink-0 overflow-hidden rounded-2xl border transition ${
+                    index === activeIndex
+                      ? 'border-teal-300 shadow-lg'
+                      : 'border-white/20 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.src} alt={item.alt} className="h-full w-full object-cover" />
+                </button>
+              ))}
             </div>
           </div>
         </div>
