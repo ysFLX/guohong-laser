@@ -188,7 +188,7 @@ const commerceTiles = [
 ];
 
 const spotlight = {
-  title: 'Guohong GL-3015',
+  title: 'Açık Çift Tablalı Sac Kesim Makinesi',
   description:
     'Yuksek guc secenekleri, otomatik tabla ve stabil kesim kalitesiyle uretim hattinizi hizlandirir.',
   image: '/images/1.jpg',
