@@ -261,11 +261,11 @@ const trustLinks = [
   },
 ];
 
-const quickShowcase = [
+const quickShowcaseFallback = [
   {
     title: 'FSCUT',
     description: 'Kesim hattiniz icin kontrol yazilimi. Hizli kurulum.',
-    price: '₺1.900,90',
+    price: 'TL 1.900,90',
     tag: 'Yazilim',
     href: '/spare-parts',
     image: '/images/1.jpg',
@@ -273,7 +273,7 @@ const quickShowcase = [
   {
     title: 'Seramik Conta (Halka)',
     description: 'Yuksek dayanimli yedek parca. Stoktan teslim.',
-    price: '₺199,99',
+    price: 'TL 199,99',
     tag: 'Conta',
     href: '/spare-parts',
     image: '/images/2.jpg',
@@ -281,12 +281,17 @@ const quickShowcase = [
   {
     title: 'WSX NC30E',
     description: 'Lazer kafa parcalari icin hizli tedarik.',
-    price: '₺1.199,99',
+    price: 'TL 1.199,99',
     tag: 'Lazer Kafasi',
     href: '/spare-parts',
     image: '/images/3.jpg',
   },
 ];
+
+const formatPrice = (value: number, currency = 'TRY') =>
+  new Intl.NumberFormat('tr-TR', { style: 'currency', currency, maximumFractionDigits: 2 }).format(value);
+
+const trimText = (value: string, max = 90) => (value.length > max ? `${value.slice(0, max - 1)}...` : value);
 
 const process = [
   {
@@ -367,6 +372,41 @@ export default async function Home() {
     priceAlertImageUrl,
     procurementImageUrl,
   } = normalizeHomePanelConfig(config ?? {});
+  const spareParts = await prisma.sparePart.findMany({
+    where: { isActive: true },
+    orderBy: [{ isFeatured: 'desc' }, { createdAt: 'desc' }],
+    include: {
+      category: true,
+      images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+    },
+    take: 24,
+  });
+  const byCategory = new Map<string, typeof spareParts[number]>();
+  for (const part of spareParts) {
+    if (!byCategory.has(part.categoryId)) {
+      byCategory.set(part.categoryId, part);
+    }
+  }
+  const pickedParts = Array.from(byCategory.values()).slice(0, 3);
+  const quickShowcase = [
+    ...pickedParts.map((part) => ({
+      title: part.name,
+      description: trimText(part.description, 90),
+      price: formatPrice(part.priceCents / 100, part.currency),
+      tag: part.category.name,
+      href: `/spare-parts/${part.id}`,
+      image: part.imageUrl ?? part.images[0]?.url ?? '/images/2.jpg',
+    })),
+  ];
+  if (quickShowcase.length < 3) {
+    const existing = new Set(quickShowcase.map((item) => item.title));
+    for (const fallback of quickShowcaseFallback) {
+      if (quickShowcase.length >= 3) break;
+      if (!existing.has(fallback.title)) {
+        quickShowcase.push(fallback);
+      }
+    }
+  }
   return (
     <div className={`${space.className} bg-[#f3f5fb] text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
       <div className="relative overflow-hidden">
@@ -1018,4 +1058,5 @@ export default async function Home() {
     </div>
   );
 }
+
 
