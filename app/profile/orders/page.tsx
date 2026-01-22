@@ -230,13 +230,25 @@ export default async function OrdersPage() {
                   >
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
                     <span>Durum</span>
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                        statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-                      }`}
-                    >
-                      {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {order.trackingUrl ? (
+                        <a
+                          href={order.trackingUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="rounded-full border border-slate-200 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                        >
+                          Kargo takip
+                        </a>
+                      ) : null}
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                          statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                        }`}
+                      >
+                        {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                      </span>
+                    </div>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                     <div>

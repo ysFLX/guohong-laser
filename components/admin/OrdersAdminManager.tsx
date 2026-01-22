@@ -695,6 +695,9 @@ export default function OrdersAdminManager() {
                             />
                           </div>
                         </div>
+                        <div className="mt-3 text-[11px] text-slate-500">
+                          Kargo bilgisi kaydedildiginde musteriye e-posta gider ve siparis detayinda gorunur.
+                        </div>
                         {(draftTracking[order.id]?.carrier ||
                           draftTracking[order.id]?.number ||
                           draftTracking[order.id]?.url) && (
