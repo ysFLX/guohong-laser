@@ -626,30 +626,30 @@ export default function SparePartsPage() {
           </div>
         </aside>
 
-        <div className="rounded-[28px] border border-slate-200/70 bg-white/80 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
-                Urun listesi
-              </p>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                {isLoading ? 'Yukleniyor...' : `${filtered.length} urun bulundu`}
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <label
-                htmlFor="sortSelect"
-                className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
-              >
-                Siralama
-              </label>
-              <select
-                id="sortSelect"
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-teal-400 dark:focus:ring-teal-500/30"
-              >
-                <option value="recommended">Öne cikanlar</option>
+          <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                  Urun listesi
+                </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  {isLoading ? 'Yukleniyor...' : `${filtered.length} urun bulundu`}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <label
+                  htmlFor="sortSelect"
+                  className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
+                >
+                  Siralama
+                </label>
+                <select
+                  id="sortSelect"
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                >
+                  <option value="recommended">Öne cikanlar</option>
                 <option value="price-asc">Fiyat (artan)</option>
                 <option value="price-desc">Fiyat (azalan)</option>
                 <option value="rating-desc">Puan (yuksek)</option>
@@ -661,112 +661,111 @@ export default function SparePartsPage() {
             <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-red-700">{loadError}</div>
           )}
 
-          {!loadError && (
-            <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {visibleItems.map((p, index) => {
-                const isFavorited = favoriteIds.has(p.id);
-                const inStock = p.stockOnHand > 0;
-                const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
-
-                return (
-                  <div
-                    key={p.id}
-                    className="group relative overflow-hidden rounded-[30px] border border-slate-200/70 bg-white/95 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.6)] ring-1 ring-transparent transition hover:-translate-y-1 hover:border-teal-200 hover:ring-teal-200/40 dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-teal-400/50"
-                  >
-                    <Link href={`/spare-parts/${p.id}`} className="block">
-                      <div className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                        <Image
-                          src={p.imageUrl || '/images/1.jpg'}
-                          alt={p.name}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                          quality={70}
-                          loading="lazy"
-                          decoding="async"
-                          priority={index < 3}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80" />
-                        <div className="absolute top-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
-                          {p.isFeatured && (
-                            <span className="rounded-full bg-teal-500/90 px-3 py-1 text-slate-900">
-                              Vitrin
-                            </span>
-                          )}
-                          <span className="rounded-full bg-white/90 px-3 py-1 text-slate-900 dark:bg-slate-900/80 dark:text-white">
-                            {p.category.name}
-                          </span>
-                        </div>
-                        <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-semibold">
-                          <span
-                            className={`rounded-full px-3 py-1 ${
-                              inStock ? 'bg-teal-400 text-slate-900' : 'bg-amber-200 text-amber-900'
-                            }`}
-                          >
-                            {inStock ? 'Stokta' : 'Siparisle'}
-                          </span>
-                          <span className="rounded-full bg-slate-900/80 px-3 py-1 text-white">
-                            {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
-                          </span>
-                            {isCritical && (
-                              <span className="inline-flex items-center gap-2 rounded-full bg-amber-300 px-3 py-1 text-amber-950">
-                                <span className="relative flex h-2 w-2">
-                                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-600/60" />
-                                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
-                                </span>
-                                Stok azaliyor
+            {!loadError && (
+              <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {visibleItems.map((p, index) => {
+                  const isFavorited = favoriteIds.has(p.id);
+                  const inStock = p.stockOnHand > 0;
+                  const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
+  
+                  return (
+                    <div
+                      key={p.id}
+                      className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]"
+                    >
+                      <Link href={`/spare-parts/${p.id}`} className="block">
+                        <div className="relative h-56 w-full overflow-hidden bg-slate-50">
+                          <Image
+                            src={p.imageUrl || '/images/1.jpg'}
+                            alt={p.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                            quality={70}
+                            loading="lazy"
+                            decoding="async"
+                            priority={index < 3}
+                          />
+                          <div className="absolute top-4 left-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
+                            {p.isFeatured && (
+                              <span className="rounded-full bg-emerald-100 px-3 py-1 text-emerald-800">
+                                Vitrin
                               </span>
                             )}
-                        </div>
-                      </div>
-                    </Link>
-
-                    <div className="space-y-4 px-5 pb-5 pt-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <Link href={`/spare-parts/${p.id}`} className="min-w-0">
-                          <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2">
-                            {p.name}
-                          </h3>
-                        </Link>
-                        <div className="flex flex-col items-end gap-2">
-                          <div className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                            {formatPriceTry(p.priceCents)}
+                            <span className="rounded-full bg-white px-3 py-1 text-slate-700">
+                              {p.category.name}
+                            </span>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => handleToggleCompare(p)}
-                            className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
-                              compareIds.includes(p.id)
-                                ? 'bg-slate-900 text-white'
-                                : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200'
-                            }`}
-                          >
-                            {compareIds.includes(p.id) ? 'Secildi' : 'Karsilastir'}
-                          </button>
+                          <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-[11px] font-semibold text-slate-600">
+                            <span
+                              className={`rounded-full px-3 py-1 ${
+                                inStock ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                              }`}
+                            >
+                              {inStock ? 'Stokta' : 'Siparisle'}
+                            </span>
+                            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
+                              {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                            </span>
+                              {isCritical && (
+                                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
+                                  <span className="relative flex h-2 w-2">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-600/60" />
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
+                                  </span>
+                                  Stok azaliyor
+                                </span>
+                              )}
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
-                        <div className="flex items-center gap-1">
-                          {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
+                      </Link>
+  
+                      <div className="space-y-4 px-5 pb-5 pt-5">
+                        <div className="flex items-start justify-between gap-3">
+                          <Link href={`/spare-parts/${p.id}`} className="min-w-0">
+                            <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">
+                              {p.name}
+                            </h3>
+                          </Link>
+                          <div className="flex flex-col items-end gap-2">
+                            <div className="text-sm font-bold text-slate-900 whitespace-nowrap">
+                              {formatPriceTry(p.priceCents)}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleToggleCompare(p)}
+                              className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
+                                compareIds.includes(p.id)
+                                  ? 'bg-slate-900 text-white'
+                                  : 'border border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-900'
+                              }`}
+                            >
+                              {compareIds.includes(p.id) ? 'Secildi' : 'Karsilastir'}
+                            </button>
+                          </div>
                         </div>
-                        {p.ratingCount > 0 && (
-                          <span>
-                            {p.ratingAverage.toFixed(1)} ({p.ratingCount})
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">{p.description}</p>
-
-                      <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-xs text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
-                        <div>
-                          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Stok</div>
-                          <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
+                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                          <div className="flex items-center gap-1">
+                            {renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}
+                          </div>
+                          {p.ratingCount > 0 && (
+                            <span>
+                              {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+                            </span>
+                          )}
                         </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Kategori</div>
-                          <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.category.name}</div>
+                        <p className="text-sm text-slate-600 line-clamp-1">{p.description}</p>
+  
+                        <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Stok</div>
+                            <div className="mt-1 font-semibold text-slate-900">{p.stockOnHand}</div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Kategori</div>
+                            <div className="mt-1 font-semibold text-slate-900">{p.category.name}</div>
+                          </div>
                         </div>
-                      </div>
 
                       {selectedModel !== 'Tumu' && (
                         <div className="text-xs text-teal-700 dark:text-teal-300">
@@ -774,75 +773,75 @@ export default function SparePartsPage() {
                         </div>
                       )}
 
-                      <div className="flex items-center gap-2 text-xs opacity-0 transition group-hover:opacity-100">
-                        <Link
-                          href={`/spare-parts/${p.id}`}
-                          className="rounded-full border border-slate-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200"
-                        >
-                          Detay gor
-                        </Link>
-                        <Link
-                          href="/quote"
-                          className="rounded-full border border-teal-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-400/40 dark:text-teal-200"
-                        >
-                          Teklif iste
-                        </Link>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {inStock ? (
-                          <div className="flex flex-1 flex-col gap-2">
-                            <AddToCartButton
-                              id={p.id}
-                              name={p.name}
-                              priceCents={p.priceCents}
-                              imageUrl={p.imageUrl}
-                              className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
-                            />
-                            <QuickBuyButton
-                              item={{
-                                id: p.id,
-                                name: p.name,
-                                priceCents: p.priceCents,
-                                imageUrl: p.imageUrl,
-                              }}
-                            />
-                          </div>
-                        ) : (
-                          <div className="flex flex-1 flex-col gap-2">
-                            <Link
-                              href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                              className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-slate-800"
-                            >
-                              Teklif iste
-                            </Link>
-                            <button
-                              type="button"
-                              onClick={() => openStockRequest(p)}
-                              className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
-                            >
-                              Hizli stok talebi
-                            </button>
-                            <Link
-                              href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                              className="rounded-xl border border-slate-200 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200"
-                            >
-                              Detayli talep formu
-                            </Link>
-                          </div>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => toggleFavorite(p.id)}
-                          disabled={favoriteLoading.has(p.id)}
-                          aria-pressed={isFavorited}
-                          aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-                          className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
-                            isFavorited
-                              ? 'border-red-200 bg-red-50 text-red-600'
-                              : 'border-slate-200 bg-white text-slate-500 hover:text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
-                          } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
-                        >
+                        <div className="flex items-center gap-2 text-xs">
+                          <Link
+                            href={`/spare-parts/${p.id}`}
+                            className="rounded-full border border-slate-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-slate-500 hover:border-slate-300 hover:text-slate-900"
+                          >
+                            Detay gor
+                          </Link>
+                          <Link
+                            href="/quote"
+                            className="rounded-full border border-indigo-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-indigo-600 hover:border-indigo-300"
+                          >
+                            Teklif iste
+                          </Link>
+                        </div>
+  
+                        <div className="flex items-center gap-2">
+                          {inStock ? (
+                            <div className="flex flex-1 flex-col gap-2">
+                              <AddToCartButton
+                                id={p.id}
+                                name={p.name}
+                                priceCents={p.priceCents}
+                                imageUrl={p.imageUrl}
+                                className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                              />
+                              <QuickBuyButton
+                                item={{
+                                  id: p.id,
+                                  name: p.name,
+                                  priceCents: p.priceCents,
+                                  imageUrl: p.imageUrl,
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <div className="flex flex-1 flex-col gap-2">
+                              <Link
+                                href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                                className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-slate-800"
+                              >
+                                Teklif iste
+                              </Link>
+                              <button
+                                type="button"
+                                onClick={() => openStockRequest(p)}
+                                className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
+                              >
+                                Hizli stok talebi
+                              </button>
+                              <Link
+                                href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                                className="rounded-xl border border-slate-200 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                              >
+                                Detayli talep formu
+                              </Link>
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => toggleFavorite(p.id)}
+                            disabled={favoriteLoading.has(p.id)}
+                            aria-pressed={isFavorited}
+                            aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
+                            className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
+                              isFavorited
+                                ? 'border-red-200 bg-red-50 text-red-600'
+                                : 'border-slate-200 bg-white text-slate-500 hover:text-red-600'
+                            } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
+                          >
                           <svg
                             viewBox="0 0 24 24"
                             className="h-5 w-5"
