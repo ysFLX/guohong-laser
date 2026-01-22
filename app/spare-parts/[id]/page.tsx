@@ -284,16 +284,16 @@ export default async function SparePartDetailPage({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24">
+    <div className="min-h-screen bg-slate-50 pb-24 text-slate-900">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <div className="text-xs uppercase tracking-[0.25em] text-gray-400 dark:text-gray-500">
-            <Link href="/" className="hover:text-gray-700 dark:hover:text-gray-200">
+          <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">
+            <Link href="/" className="hover:text-slate-900">
               Ana sayfa
             </Link>
             <span className="mx-2">/</span>
-            <Link href="/spare-parts" className="hover:text-gray-700 dark:hover:text-gray-200">
+            <Link href="/spare-parts" className="hover:text-slate-900">
               Yedek parcalar
             </Link>
             <span className="mx-2">/</span>
@@ -302,37 +302,39 @@ export default async function SparePartDetailPage({
           <div className="flex items-center gap-3">
             <Link
               href="#reviews"
-              className="rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 hover:border-gray-300 hover:text-gray-900 dark:border-gray-700 dark:text-gray-200"
+              className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
             >
               Yorumlara git
             </Link>
             {p.isFeatured && (
-              <div className="inline-flex items-center rounded-full bg-gray-900 px-3 py-1 text-xs font-semibold text-white">
+              <div className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
                 Vitrin
               </div>
             )}
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_1.15fr_0.8fr]">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_0.9fr] lg:items-start">
           <div className="space-y-5">
-            <SparePartImageSlider
-              images={p.images}
-              fallbackUrl={p.imageUrl || '/images/1.jpg'}
-              name={p.name}
-            />
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-200">
-              <span className="rounded-full border border-gray-200 bg-white/90 px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-[0_25px_60px_rgba(15,23,42,0.08)]">
+              <SparePartImageSlider
+                images={p.images}
+                fallbackUrl={p.imageUrl || '/images/1.jpg'}
+                name={p.name}
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">
                 {p.category.name}
               </span>
-              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
+              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
               {isCritical && (
-                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-800">
+                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
@@ -341,135 +343,102 @@ export default async function SparePartDetailPage({
                 </span>
               )}
             </div>
-            <div className="grid gap-3 rounded-2xl border border-gray-100 bg-white/90 p-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 sm:grid-cols-3">
+            <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-600 sm:grid-cols-3">
               <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Guvenli odeme</div>
-                <div className="mt-1 font-semibold text-gray-900 dark:text-white">SSL korumali</div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Guvenli odeme</div>
+                <div className="mt-1 font-semibold text-slate-900">SSL korumali</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Garanti</div>
-                <div className="mt-1 font-semibold text-gray-900 dark:text-white">Resmi servis</div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Garanti</div>
+                <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Iade</div>
-                <div className="mt-1 font-semibold text-gray-900 dark:text-white">14 gun</div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Iade</div>
+                <div className="mt-1 font-semibold text-slate-900">14 gun</div>
               </div>
             </div>
           </div>
 
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
                 {p.name}
               </h1>
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
                 <span>Kategori: {p.category.name}</span>
                 <span>Stok: {p.stockOnHand}</span>
                 <span>Olcu: {p.dimensions || '-'}</span>
               </div>
-              <p className="mt-4 text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{p.description}</p>
+              <p className="mt-4 text-sm leading-relaxed text-slate-700">{p.description}</p>
             </div>
 
-            <div className="rounded-2xl border border-gray-100 bg-white/90 p-5 dark:border-gray-700 dark:bg-gray-800">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 One cikanlar
               </p>
-              <ul className="mt-4 space-y-2 text-sm text-gray-700 dark:text-gray-200">
+              <ul className="mt-4 space-y-2 text-sm text-slate-700">
                 <li>Model uyumlulugu ve teknik destek dahil.</li>
                 <li>Fatura ve garanti belgesi otomatik olusur.</li>
                 <li>Stoklu urunlerde hizli sevkiyat.</li>
               </ul>
             </div>
 
-            <div className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white/95 p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.2),_transparent_60%)]" />
-              <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.06),_transparent)]" />
-              <div className="relative space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
-                      Guven paketi
-                    </p>
-                    <h3 className="mt-2 text-lg font-semibold text-gray-900 dark:text-white">
-                      Sertifika + servis + garanti tek ekranda
-                    </h3>
-                  </div>
-                  <span className="rounded-full bg-teal-100 px-3 py-1 text-[10px] font-semibold text-teal-700">
-                    Kurumsal garanti
-                  </span>
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Guven paketi</p>
+                  <h3 className="mt-2 text-lg font-semibold text-slate-900">
+                    Sertifika + servis + garanti tek ekranda
+                  </h3>
                 </div>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {[
-                    { title: 'Sertifikali kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
-                    { title: 'Orjinal tedarik', detail: 'Resmi servis ve orjinallik teyidi.' },
-                    { title: 'Hizli destek', detail: '24 saat icinde teknik geri donus.' },
-                  ].map((item) => (
-                    <div
-                      key={item.title}
-                      className="rounded-2xl border border-gray-100 bg-gray-50/80 p-4 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-200"
-                    >
-                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
-                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-teal-600 shadow-sm">
-                          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                            <path d="M12 2l8 3v6c0 5.25-3.438 10.125-8 11-4.563-.875-8-5.75-8-11V5l8-3zm-1.25 13.25l6-6-1.5-1.5-4.5 4.5-2-2-1.5 1.5 3.5 3.5z" />
-                          </svg>
-                        </span>
-                        {item.title}
-                      </div>
-                      <p className="mt-2 text-xs text-gray-600 dark:text-gray-300">{item.detail}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid gap-3 rounded-2xl border border-gray-100 bg-white/80 p-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-300 sm:grid-cols-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Garanti</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">Resmi servis</span>
+                <span className="rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-semibold text-indigo-700">
+                  Kurumsal garanti
+                </span>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {[
+                  { title: 'Sertifikali kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
+                  { title: 'Orjinal tedarik', detail: 'Resmi servis ve orjinallik teyidi.' },
+                  { title: 'Hizli destek', detail: '24 saat icinde teknik geri donus.' },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{item.title}</div>
+                    <p className="mt-2 text-xs text-slate-600">{item.detail}</p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Iade</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">14 gun</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400">Destek</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">7/24 teyit</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-300">
-                  <span className="rounded-full border border-gray-200 px-3 py-1">SSL odeme</span>
-                  <span className="rounded-full border border-gray-200 px-3 py-1">Yetkili servis</span>
-                  <span className="rounded-full border border-gray-200 px-3 py-1">Fatura garantisi</span>
-                </div>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-500">
+                <span className="rounded-full border border-slate-200 px-3 py-1">SSL odeme</span>
+                <span className="rounded-full border border-slate-200 px-3 py-1">Yetkili servis</span>
+                <span className="rounded-full border border-slate-200 px-3 py-1">Fatura garantisi</span>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm dark:border-gray-700 dark:bg-gray-800">
-                <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Teslim</p>
-                <p className="mt-1 font-semibold text-gray-900 dark:text-white">{inStock ? '2-3 gun' : '7-10 gun'}</p>
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</p>
+                <p className="mt-1 font-semibold text-slate-900">{inStock ? '2-3 gun' : '7-10 gun'}</p>
               </div>
-              <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm dark:border-gray-700 dark:bg-gray-800">
-                <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Durum</p>
-                <p className="mt-1 font-semibold text-gray-900 dark:text-white">{inStock ? 'Stokta' : 'Siparisle'}</p>
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum</p>
+                <p className="mt-1 font-semibold text-slate-900">{inStock ? 'Stokta' : 'Siparisle'}</p>
               </div>
-              <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm dark:border-gray-700 dark:bg-gray-800">
-                <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Olcu</p>
-                <p className="mt-1 font-semibold text-gray-900 dark:text-white">{p.dimensions || '-'}</p>
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Olcu</p>
+                <p className="mt-1 font-semibold text-slate-900">{p.dimensions || '-'}</p>
               </div>
-              <div className="rounded-2xl border border-gray-100 bg-white/90 p-4 text-sm dark:border-gray-700 dark:bg-gray-800">
-                <p className="text-xs uppercase tracking-[0.2em] text-gray-400">Kategori</p>
-                <p className="mt-1 font-semibold text-gray-900 dark:text-white">{p.category.name}</p>
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Kategori</p>
+                <p className="mt-1 font-semibold text-slate-900">{p.category.name}</p>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-4 text-sm text-teal-900">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700">Uyumluluk listesi</p>
+            <div className="rounded-2xl border border-indigo-100 bg-indigo-50/60 px-4 py-4 text-sm text-indigo-900">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700">Uyumluluk listesi</p>
               {compatibility.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {compatibility.map((model) => (
-                    <span key={model} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-teal-700">
+                    <span key={model} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700">
                       {model}
                     </span>
                   ))}
@@ -481,17 +450,17 @@ export default async function SparePartDetailPage({
 
           </div>
 
-          <aside className="h-fit rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-xl dark:border-gray-700 dark:bg-gray-800 lg:sticky lg:top-24">
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{formatPriceTry(p.priceCents)}</div>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs font-semibold">
-              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-teal-100 text-teal-700' : 'bg-amber-100 text-amber-700'}`}>
+          <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24">
+            <div className="text-3xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
+              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
-              <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 dark:bg-gray-900 dark:text-gray-200">
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
               {isCritical && (
-                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-800">
+                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
@@ -500,18 +469,18 @@ export default async function SparePartDetailPage({
                 </span>
               )}
             </div>
-            <div className="mt-4 rounded-xl border border-gray-100 bg-white/90 p-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+            <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
               <div className="flex items-center justify-between">
                 <span>Gonderen</span>
-                <span className="font-semibold text-gray-900 dark:text-white">Guohong Lazer</span>
+                <span className="font-semibold text-slate-900">Guohong Lazer</span>
               </div>
               <div className="mt-2 flex items-center justify-between">
                 <span>Garanti</span>
-                <span className="font-semibold text-gray-900 dark:text-white">Resmi servis</span>
+                <span className="font-semibold text-slate-900">Resmi servis</span>
               </div>
               <div className="mt-2 flex items-center justify-between">
                 <span>Iade</span>
-                <span className="font-semibold text-gray-900 dark:text-white">14 gun</span>
+                <span className="font-semibold text-slate-900">14 gun</span>
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
@@ -531,7 +500,7 @@ export default async function SparePartDetailPage({
                   name={p.name}
                   priceCents={p.priceCents}
                   imageUrl={p.imageUrl}
-                  className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700"
+                  className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
                   quantity={1}
                 />
               ) : (
@@ -539,13 +508,13 @@ export default async function SparePartDetailPage({
                   <button
                     type="button"
                     disabled
-                    className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-200 text-gray-500 cursor-not-allowed"
+                    className="inline-flex items-center justify-center rounded-xl bg-slate-200 px-5 py-3 text-sm font-semibold text-slate-500"
                   >
                     Stokta yok
                   </button>
                   <Link
                     href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                    className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-amber-200 bg-amber-50 text-amber-800 hover:border-amber-300"
+                    className="inline-flex items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-5 py-3 text-sm font-semibold text-amber-800 hover:border-amber-300"
                   >
                     Stok gelince haber ver
                   </Link>
@@ -553,18 +522,18 @@ export default async function SparePartDetailPage({
               )}
               <Link
                 href="/cart"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-gray-200 text-gray-800 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700"
+                className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
               >
                 Sepete git
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
+                className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
                 Urun hakkinda sor
               </Link>
             </div>
-            <div className="mt-5 border-t border-gray-100 pt-4 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-300">
+            <div className="mt-5 border-t border-slate-200 pt-4 text-xs text-slate-500">
               <ul className="space-y-2">
                 <li>Guvenli odeme altyapisi</li>
                 <li>Fatura ve garanti destegi</li>
@@ -575,19 +544,19 @@ export default async function SparePartDetailPage({
         </div>
 
         {(boughtTogether.length > 0 || related.length > 0) && (
-          <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+          <div className="mt-12 rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">
+                <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">
                   {boughtTogether.length > 0 ? 'Satin alanlar bunlari da aldi' : 'Tamamlayici parcalar'}
                 </p>
-                <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 className="mt-2 text-xl font-semibold text-slate-900">
                   {boughtTogether.length > 0 ? 'Birlikte satin alinan urunler' : 'Benzer urun onerileri'}
                 </h2>
               </div>
               <Link
                 href="/spare-parts"
-                className="rounded-full border border-gray-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gray-600 transition hover:border-gray-300 hover:text-gray-900"
+                className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
               >
                 Tum yedek parcalar
               </Link>
@@ -597,16 +566,16 @@ export default async function SparePartDetailPage({
                 <Link
                   key={item.id}
                   href={`/spare-parts/${item.id}`}
-                  className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:shadow-lg"
+                  className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
                     <Image src={item.imageUrl || '/images/1.jpg'} alt={item.name} fill className="object-cover" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 line-clamp-1">{item.name}</p>
-                    <p className="mt-1 text-xs text-gray-500">{item.category.name}</p>
+                    <p className="text-sm font-semibold text-slate-900 line-clamp-1">{item.name}</p>
+                    <p className="mt-1 text-xs text-slate-500">{item.category.name}</p>
                   </div>
-                  <span className="ml-auto text-teal-600 transition group-hover:translate-x-1">-&gt;</span>
+                  <span className="ml-auto text-indigo-600 transition group-hover:translate-x-1">-&gt;</span>
                 </Link>
               ))}
             </div>
@@ -617,18 +586,18 @@ export default async function SparePartDetailPage({
           <SparePartReviews sparePartId={p.id} />
         </div>
 
-        <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+        <div className="mt-12 rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-teal-600">SSS</p>
-              <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Sik sorulan sorular</h2>
+              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">SSS</p>
+              <h2 className="mt-2 text-xl font-semibold text-slate-900">Sik sorulan sorular</h2>
             </div>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {faqItems.map((item) => (
-              <div key={item.q} className="rounded-2xl border border-gray-100 bg-white/80 p-4">
-                <div className="text-sm font-semibold text-gray-900">{item.q}</div>
-                <p className="mt-2 text-sm text-gray-600">{item.a}</p>
+              <div key={item.q} className="rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="text-sm font-semibold text-slate-900">{item.q}</div>
+                <p className="mt-2 text-sm text-slate-600">{item.a}</p>
               </div>
             ))}
           </div>
