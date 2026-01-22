@@ -49,11 +49,40 @@ type ProfileUser = {
   addresses: Address[];
 };
 
+type ReturnRequestItem = {
+  id: string;
+  orderId: string;
+  itemName: string | null;
+  status: 'NEW' | 'UNDER_REVIEW' | 'APPROVED' | 'REJECTED' | 'REFUNDED';
+  adminNote: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
 function getErrorMessage(e: unknown) {
   if (e instanceof Error) return e.message;
   if (typeof e === 'string') return e;
   return '';
 }
+
+const returnStatusLabel: Record<ReturnRequestItem['status'], string> = {
+  NEW: 'Talep alindi',
+  UNDER_REVIEW: 'Incelemede',
+  APPROVED: 'Onaylandi',
+  REJECTED: 'Reddedildi',
+  REFUNDED: 'Iade tamamlandi',
+};
+
+const returnStatusTone: Record<ReturnRequestItem['status'], string> = {
+  NEW: 'bg-slate-100 text-slate-700',
+  UNDER_REVIEW: 'bg-amber-100 text-amber-800',
+  APPROVED: 'bg-emerald-100 text-emerald-800',
+  REJECTED: 'bg-rose-100 text-rose-800',
+  REFUNDED: 'bg-teal-100 text-teal-800',
+};
+
+const formatShortDate = (value: string) =>
+  new Intl.DateTimeFormat('tr-TR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -94,6 +123,9 @@ export default function ProfilePage() {
   const [prefsReady, setPrefsReady] = useState(false);
   const [prefsSaving, setPrefsSaving] = useState(false);
   const [prefsError, setPrefsError] = useState('');
+  const [returnRequests, setReturnRequests] = useState<ReturnRequestItem[]>([]);
+  const [returnsLoading, setReturnsLoading] = useState(false);
+  const [returnsError, setReturnsError] = useState('');
 
   useEffect(() => {
     if (!prefsReady) return;
@@ -186,6 +218,29 @@ export default function ProfilePage() {
     };
 
     load();
+  }, [status]);
+
+  useEffect(() => {
+    const loadReturns = async () => {
+      if (status !== 'authenticated') return;
+      setReturnsLoading(true);
+      setReturnsError('');
+      try {
+        const res = await fetch('/api/profile/returns');
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : {};
+        if (!res.ok) {
+          throw new Error(data.error || 'Iade talepleri alinamadi');
+        }
+        setReturnRequests(data.items ?? []);
+      } catch (e: unknown) {
+        setReturnsError(getErrorMessage(e) || 'Iade talepleri alinamadi');
+      } finally {
+        setReturnsLoading(false);
+      }
+    };
+
+    loadReturns();
   }, [status]);
 
   const handleSave = async () => {
@@ -555,6 +610,64 @@ export default function ProfilePage() {
                 {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri kaydet'}
               </button>
             </div>
+          </div>
+
+          <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div className="text-sm font-semibold text-slate-900">Iade taleplerim</div>
+                <div className="mt-1 text-sm text-slate-600">Guncel iade durumlarini buradan izle.</div>
+              </div>
+              <Link
+                href="/returns-request"
+                className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900"
+              >
+                Yeni talep
+              </Link>
+            </div>
+
+            {returnsError ? (
+              <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                {returnsError}
+              </div>
+            ) : null}
+
+            {returnsLoading ? (
+              <div className="mt-4 text-sm text-slate-500">Yukleniyor...</div>
+            ) : returnRequests.length === 0 ? (
+              <div className="mt-4 rounded-2xl border border-dashed border-slate-200 px-4 py-6 text-sm text-slate-500">
+                Henuz iade talebin yok.
+              </div>
+            ) : (
+              <div className="mt-4 space-y-3">
+                {returnRequests.map((item) => (
+                  <div key={item.id} className="rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                          Talep #{item.id.slice(0, 8)}
+                        </div>
+                        <div className="mt-1 text-sm font-semibold text-slate-900">
+                          {item.itemName || 'Urun bilgisi bulunamadi'}
+                        </div>
+                        <div className="mt-1 text-xs text-slate-500">Siparis: {item.orderId}</div>
+                      </div>
+                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${returnStatusTone[item.status]}`}>
+                        {returnStatusLabel[item.status]}
+                      </span>
+                    </div>
+                    <div className="mt-3 text-xs text-slate-500">
+                      Son guncelleme: {formatShortDate(item.updatedAt)}
+                    </div>
+                    {item.adminNote ? (
+                      <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600">
+                        <span className="font-semibold text-slate-700">Not:</span> {item.adminNote}
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
         </div>
