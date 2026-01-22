@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { machineProductNames } from '@/lib/machineCatalog';
 
@@ -22,6 +23,8 @@ const emptyForm: FormState = {
 
 export default function QuickQuoteDock() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isSpareParts = pathname?.startsWith('/spare-parts');
   const [form, setForm] = useState<FormState>(emptyForm);
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'details' | 'verify'>('details');
@@ -75,7 +78,7 @@ export default function QuickQuoteDock() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className={`fixed bottom-6 z-40 ${isSpareParts ? 'left-6 right-auto' : 'right-6'}`}>
       {open && (
         <div className="mb-3 w-[320px] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl">
           <div className="flex items-start justify-between gap-3">

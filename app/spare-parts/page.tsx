@@ -471,7 +471,7 @@ export default function SparePartsPage() {
   }, [items]);
 
   return (
-    <div className="min-h-screen space-y-16">
+    <div className="min-h-screen space-y-16 pb-24">
       {itemListSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
