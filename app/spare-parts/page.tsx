@@ -94,6 +94,7 @@ export default function SparePartsPage() {
   const { show } = useToast();
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const lowStockNotified = useRef(false);
   const [selectedCategory, setSelectedCategory] = useState('Tumu');
   const [selectedModel, setSelectedModel] = useState('Tumu');
   const [searchQuery, setSearchQuery] = useState('');
@@ -146,6 +147,25 @@ export default function SparePartsPage() {
 
     load();
   }, []);
+
+  useEffect(() => {
+    if (lowStockNotified.current) return;
+    if (!items.length) return;
+
+    const lowStockItems = items.filter(
+      (item) => item.stockOnHand > 0 && item.stockOnHand <= CRITICAL_STOCK_LEVEL,
+    );
+
+    if (!lowStockItems.length) return;
+
+    lowStockNotified.current = true;
+    const preview = lowStockItems
+      .slice(0, 2)
+      .map((item) => item.name)
+      .join(', ');
+    const extra = lowStockItems.length > 2 ? ` +${lowStockItems.length - 2}` : '';
+    show(`Stok hizla azaliyor: ${preview}${extra}`, undefined, 'error');
+  }, [items, show]);
 
   // Load favorites
   useEffect(() => {
@@ -688,11 +708,15 @@ export default function SparePartsPage() {
                           <span className="rounded-full bg-slate-900/80 px-3 py-1 text-white">
                             {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
                           </span>
-                          {isCritical && (
-                            <span className="rounded-full bg-amber-300 px-3 py-1 text-amber-950">
-                              Kritik stok
-                            </span>
-                          )}
+                            {isCritical && (
+                              <span className="inline-flex items-center gap-2 rounded-full bg-amber-300 px-3 py-1 text-amber-950">
+                                <span className="relative flex h-2 w-2">
+                                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-600/60" />
+                                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
+                                </span>
+                                Stok azaliyor
+                              </span>
+                            )}
                         </div>
                       </div>
                     </Link>

@@ -212,6 +212,50 @@ export default async function SparePartDetailPage({
     },
   });
 
+  const orderIdRows = await prisma.orderItem.findMany({
+    where: { sparePartId: id },
+    select: { orderId: true },
+  });
+  const orderIds = Array.from(new Set(orderIdRows.map((row) => row.orderId)));
+  let boughtTogether: RelatedPart[] = [];
+
+  if (orderIds.length > 0) {
+    const coItems = await prisma.orderItem.findMany({
+      where: {
+        orderId: { in: orderIds },
+        sparePartId: { not: id },
+      },
+      select: {
+        sparePartId: true,
+        sparePart: {
+          select: {
+            id: true,
+            name: true,
+            priceCents: true,
+            imageUrl: true,
+            category: { select: { name: true } },
+          },
+        },
+      },
+    });
+
+    const counts = new Map<string, { item: RelatedPart; count: number }>();
+    for (const item of coItems) {
+      if (!item.sparePartId || !item.sparePart) continue;
+      const existing = counts.get(item.sparePartId);
+      if (existing) {
+        existing.count += 1;
+      } else {
+        counts.set(item.sparePartId, { item: item.sparePart, count: 1 });
+      }
+    }
+
+    boughtTogether = Array.from(counts.values())
+      .sort((a, b) => b.count - a.count)
+      .map((entry) => entry.item)
+      .slice(0, 3);
+  }
+
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;
   const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
@@ -288,7 +332,13 @@ export default async function SparePartDetailPage({
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
               {isCritical && (
-                <span className="rounded-full bg-amber-200 px-3 py-1 text-amber-800">Kritik stok</span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-800">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
+                  </span>
+                  Stok azaliyor
+                </span>
               )}
             </div>
             <div className="grid gap-3 rounded-2xl border border-gray-100 bg-white/90 p-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 sm:grid-cols-3">
@@ -441,7 +491,13 @@ export default async function SparePartDetailPage({
                 {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
               </span>
               {isCritical && (
-                <span className="rounded-full bg-amber-200 px-3 py-1 text-amber-800">Kritik stok</span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-800">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
+                  </span>
+                  Stok azaliyor
+                </span>
               )}
             </div>
             <div className="mt-4 rounded-xl border border-gray-100 bg-white/90 p-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
@@ -518,12 +574,16 @@ export default async function SparePartDetailPage({
           </aside>
         </div>
 
-        {related.length > 0 && (
+        {(boughtTogether.length > 0 || related.length > 0) && (
           <div className="mt-12 rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Satin alanlar bunlari da aldi</p>
-                <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Tamamlayici parcalar</h2>
+                <p className="text-xs uppercase tracking-[0.3em] text-teal-600">
+                  {boughtTogether.length > 0 ? 'Satin alanlar bunlari da aldi' : 'Tamamlayici parcalar'}
+                </p>
+                <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">
+                  {boughtTogether.length > 0 ? 'Birlikte satin alinan urunler' : 'Benzer urun onerileri'}
+                </h2>
               </div>
               <Link
                 href="/spare-parts"
@@ -533,7 +593,7 @@ export default async function SparePartDetailPage({
               </Link>
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {related.map((item) => (
+              {(boughtTogether.length > 0 ? boughtTogether : related).map((item) => (
                 <Link
                   key={item.id}
                   href={`/spare-parts/${item.id}`}
