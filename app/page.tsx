@@ -421,105 +421,77 @@ export default async function Home() {
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px] dark:opacity-20 dark:[background-image:linear-gradient(120deg,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.12)_1px,transparent_1px)]" />
 
         <Reveal as="section" className="relative mx-auto w-full px-0 pb-12 pt-12">
-          <div className="relative overflow-hidden rounded-[44px] border border-white/80 bg-white/85 p-6 shadow-[0_40px_120px_rgba(15,23,42,0.18)] backdrop-blur sm:p-8 lg:p-10">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.08),_transparent_55%)]" />
-            <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] uppercase tracking-[0.4em] text-slate-500 shadow-sm dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300">
-                Guohong Lazer
-              </div>
-              <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-                Lazer uretiminde
-                <span className="block text-teal-600 dark:text-teal-300">yeni standart seti</span>
-              </h1>
-              <p className="max-w-2xl text-base text-slate-600 dark:text-slate-300">
-                Makine, yedek parca ve teknik destek tek sistemde. Hat verimliligi, servis hizi ve kaliteyi
-                ayni anda yukselten tam entegre operasyon.
-              </p>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-teal-400 dark:text-slate-900 dark:hover:bg-teal-300 cta-breathe"
-                >
-                  Makineleri gor
-                </Link>
-                <Link
-                  href="/quote"
-                  className="relative inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-7 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-900 dark:border-white/10 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-white/30 pulse-ring"
-                >
-                  Teklif al
-                </Link>
-              </div>
-              <div
-                className="w-full max-w-sm rounded-[24px] border border-slate-200 bg-white px-5 py-4 shadow-lg dark:border-white/10 dark:bg-slate-900/80 float-slower glint"
-                style={{ animationDelay: '320ms' }}
-              >
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Guclu veri</p>
-                <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">7/24 izleme + servis skoru</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {heroStats.map((stat, index) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_16px_40px_rgba(15,23,42,0.08)] float-slower"
-                    style={{ animationDelay: `${index * 140}ms` }}
+          <div className="relative overflow-hidden rounded-[44px] bg-gradient-to-br from-indigo-950 via-slate-950 to-indigo-900 text-white shadow-[0_50px_140px_rgba(15,23,42,0.45)]">
+            <div className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[140px]" />
+            <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-cyan-400/20 blur-[160px]" />
+            <div className="relative grid gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-14 lg:py-14">
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.4em] text-white/70">
+                  Guohong Lazer
+                </div>
+                <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+                  Uretim hatlarini
+                  <span className="block text-cyan-300">tek panelde yonet</span>
+                </h1>
+                <p className="max-w-xl text-base text-white/70">
+                  Makine, yedek parca ve teknik destek tek sistemde. Hattini hizlandiran, servis akisini netlestiren
+                  premium operasyon altyapisi.
+                </p>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/products"
+                    className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-white/90"
                   >
-                    <p className="text-lg font-semibold text-slate-900 dark:text-white">{stat.value}</p>
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative space-y-4 lg:space-y-5 lg:pr-16">
-            <div className="relative min-h-[360px] overflow-hidden rounded-[40px] border border-white/80 bg-white shadow-[0_30px_90px_rgba(15,23,42,0.2)] float-tilt glint">
-                <Image
-                  src="/images/about-showcase.jpg"
-                  alt="Guohong lazer hat"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 48vw"
-                  className="object-cover"
-                  quality={80}
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-white/20 dark:to-slate-900/20" />
-                <div className="absolute left-6 top-6 rounded-full border border-white/60 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-200 ping-dot">
-                  Canli izleme
+                    Katalogu gor
+                  </Link>
+                  <Link
+                    href="/quote"
+                    className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
+                  >
+                    Teklif al
+                  </Link>
                 </div>
-                <div className="absolute bottom-6 left-6 right-6 grid gap-3 rounded-2xl border border-white/60 bg-white/90 px-4 py-4 text-slate-900 shadow-lg dark:border-white/10 dark:bg-slate-900/80 dark:text-white ambient-pulse">
-                  <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                    <span>Anlik performans</span>
-                    <span>%98</span>
-                  </div>
-                  <div className="text-sm font-semibold text-slate-900 dark:text-white">
-                    Gunluk kesim raporu + uzaktan izleme
-                  </div>
-                </div>
-              </div>
-                <div className="rounded-[28px] border border-slate-200 bg-slate-950 p-4 text-white shadow-xl lg:max-w-[520px]">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs uppercase tracking-[0.3em] text-emerald-200">Canli stok / teslimat</div>
-                    <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-emerald-200">
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-70" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
-                    </span>
-                    Canli
-                  </span>
-                </div>
-                <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                  {liveStatus.map((item) => (
-                    <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
-                      <div className="text-[11px] uppercase tracking-[0.2em] text-white/60">{item.label}</div>
-                      <div className={`mt-2 text-sm font-semibold ${item.tone}`}>{item.value}</div>
+                <div className="flex flex-wrap gap-3">
+                  {heroStats.map((stat) => (
+                    <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
+                      <p className="text-lg font-semibold text-white">{stat.value}</p>
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-white/60">{stat.label}</p>
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 text-xs text-white/60">
-                  Tahmini teslimatlar stok ve onay durumuna gore guncellenir.
-                </div>
               </div>
+              <div className="space-y-5">
+                <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/20 bg-white/10">
+                  <Image
+                    src="/images/about-showcase.jpg"
+                    alt="Guohong lazer hat"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 48vw"
+                    className="object-cover"
+                    quality={85}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-950/70 via-slate-900/10 to-transparent" />
+                  <div className="absolute left-6 top-6 inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-800">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.9)]" />
+                    Canli izleme
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6 rounded-3xl border border-white/40 bg-white/90 px-5 py-4 text-sm text-slate-700 shadow-xl">
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Anlik performans</div>
+                    <div className="mt-2 flex items-center justify-between text-sm font-semibold">
+                      <span>Gunluk kesim raporu + uzaktan izleme</span>
+                      <span className="text-slate-400">%98</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid gap-3 rounded-3xl border border-white/15 bg-white/10 px-5 py-4 text-sm text-white/80">
+                  {liveStatus.map((item) => (
+                    <div key={item.label} className="flex items-center justify-between">
+                      <span className="text-xs uppercase tracking-[0.2em] text-white/50">{item.label}</span>
+                      <span className={`text-sm font-semibold ${item.tone}`}>{item.value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -1058,5 +1030,4 @@ export default async function Home() {
     </div>
   );
 }
-
 
