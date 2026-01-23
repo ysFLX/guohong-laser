@@ -28,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/cookies',
     '/distance-sales',
     '/payment-security',
+    '/legal',
     '/returns-request',
     '/login',
     '/register',
