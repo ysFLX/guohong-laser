@@ -471,7 +471,7 @@ export default function SparePartsPage() {
   }, [items]);
 
   return (
-    <div className="min-h-screen space-y-16 pb-24">
+    <div className="min-h-screen space-y-16 bg-slate-50 pb-24">
       {itemListSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       )}
@@ -626,13 +626,13 @@ export default function SparePartsPage() {
           </div>
         </aside>
 
-          <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
                   Urun listesi
                 </p>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-base font-semibold text-slate-900">
                   {isLoading ? 'Yukleniyor...' : `${filtered.length} urun bulundu`}
                 </p>
               </div>
@@ -662,7 +662,7 @@ export default function SparePartsPage() {
           )}
 
             {!loadError && (
-              <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
                 {visibleItems.map((p, index) => {
                   const isFavorited = favoriteIds.has(p.id);
                   const inStock = p.stockOnHand > 0;
@@ -671,10 +671,10 @@ export default function SparePartsPage() {
                   return (
                     <div
                       key={p.id}
-                      className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]"
+                      className="group relative overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)]"
                     >
                       <Link href={`/spare-parts/${p.id}`} className="block">
-                        <div className="relative h-56 w-full overflow-hidden bg-slate-50">
+                        <div className="relative h-64 w-full overflow-hidden bg-slate-50">
                           <Image
                             src={p.imageUrl || '/images/1.jpg'}
                             alt={p.name}
