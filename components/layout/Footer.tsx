@@ -134,6 +134,7 @@ export default function Footer() {
               <Link href="/distance-sales" className={accent.linkHover}>Mesafeli Satis</Link>
               <Link href="/legal" className={accent.linkHover}>Yasal Merkez</Link>
               <Link href="/returns" className={accent.linkHover}>Iade & Garanti</Link>
+              <Link href="/faq" className={accent.linkHover}>SSS</Link>
               <Link href="/shipping" className={accent.linkHover}>Kargo & Teslimat</Link>
               <Link href="/payment-security" className={accent.linkHover}>Odeme Guvenligi</Link>
               <Link href="/company" className={accent.linkHover}>Firma Bilgileri</Link>
