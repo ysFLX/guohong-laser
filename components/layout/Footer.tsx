@@ -80,6 +80,7 @@ export default function Footer() {
                 <Link href="/products" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Makineler</Link>
                 <Link href="/spare-parts" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yedek Parcalar</Link>
                 <Link href="/gallery" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Galeri</Link>
+                <Link href="/references" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Referanslar</Link>
                 <Link href="/contact" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Iletisim</Link>
               </div>
             </div>
