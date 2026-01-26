@@ -430,8 +430,8 @@ export default async function Home() {
                   Guohong Lazer
                 </div>
                 <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-                  Uretim hatlarini
-                  <span className="block text-cyan-300">tek panelde yonet</span>
+                  Üretim hatlarını
+                  <span className="block text-cyan-300">tek panelde yönet</span>
                 </h1>
                 <p className="max-w-xl text-base text-white/70">
                   Makine, yedek parça ve teknik destek tek sistemde. Hattını hızlandıran, servis akışını netleştiren

@@ -6,22 +6,22 @@ import Link from 'next/link';
 const teamMembers = [
   {
     name: 'Fatih Turgut Polat',
-    role: 'Satis Muduru',
+    role: 'Satış Müdürü',
     image: 'https://randomuser.me/api/portraits/men/1.jpg',
   },
   {
     name: 'Arafat Uygur',
-    role: 'Satis Muduru',
+    role: 'Satış Müdürü',
     image: 'https://randomuser.me/api/portraits/men/2.jpg',
   },
   {
-    name: 'Yusuf Can Gordebil',
-    role: 'Satis Pazarlama',
+    name: 'Yusuf Can Gördebil',
+    role: 'Yazılım Geliştiricisi',
     image: 'https://randomuser.me/api/portraits/men/3.jpg',
   },
   {
-    name: 'Yusuf Kucuktongarlak',
-    role: 'Sosyal Medya Yoneticisi',
+    name: 'Yusuf Küçüktongarlak',
+    role: 'Sosyal Medya Yöneticisi',
     image: 'https://randomuser.me/api/portraits/men/4.jpg',
   },
 ];
@@ -30,135 +30,135 @@ const values = [
   {
     title: 'Vizyon',
     description:
-      'Lazer teknolojilerinde dunya capinda bilinen, yenilikci ve surekli gelisen bir marka olmak.',
+      'Lazer teknolojilerinde dünya çapında bilinen, yenilikçi ve sürekli gelişen bir marka olmak.',
   },
   {
     title: 'Misyon',
     description:
-      'Musterilerimize yuksek performansli lazer makineleri ve kesintisiz servis destegi saglamak.',
+      'Musterilerimize yüksek performanslı lazer makineleri ve kesintisiz servis desteği sağlamak.',
   },
   {
-    title: 'Yaklasim',
+    title: 'Yaklaşım',
     description:
-      'Uretim sahasinda olculen verilerle karar alan, sonucu takip eden bir ekip olmak.',
+      'Üretim sahasında ölçülen verilerle karar alan, sonucu takip eden bir ekip olmak.',
   },
 ];
 
 const stats = [
-  { label: 'Yillik deneyim', value: '10+' },
+  { label: 'Yıllık deneyim', value: '10+' },
   { label: 'Kurulum projesi', value: '1000+' },
-  { label: 'Mutlu musteri', value: '500+' },
-  { label: 'Servis noktasi', value: '24' },
+  { label: 'Mutlu müşteri', value: '500+' },
+  { label: 'Servis noktası', value: '24' },
 ];
 
 const milestones = [
   {
     year: '2014',
-    title: 'Ilk saha kurulumlari',
-    description: 'Yerli uretim hatlariyla ilk anahtar teslim projeler tamamlandi.',
+    title: 'İlk saha kurulumları',
+    description: 'Yerli üretim hatlarıyla ilk anahtar teslim projeler tamamlandı.',
   },
   {
     year: '2017',
-    title: 'Servis agi genisledi',
-    description: 'Teknik servis ve yedek parca operasyonlari tek merkezde birlestirildi.',
+    title: 'Servis ağı genişledi',
+    description: 'Teknik servis ve yedek parça operasyonları tek merkezde birleştirildi.',
   },
   {
     year: '2020',
-    title: 'Akilli hat entegrasyonu',
-    description: 'Veri izleme ve performans raporlama sistemleri sahaya alindi.',
+    title: 'Akıllı hat entegrasyonu',
+    description: 'Veri izleme ve performans raporlama sistemleri sahaya alındı.',
   },
   {
     year: '2024',
-    title: 'Global tedarik gucu',
-    description: 'Kritik parca tedarigi icin uluslararasi lojistik altyapi kuruldu.',
+    title: 'Global tedarik gücü',
+    description: 'Kritik parça tedariği için uluslararası lojistik altyapı kuruldu.',
   },
 ];
 
 const capabilities = [
   {
-    title: 'Kesim hatlari planlama',
-    description: 'Uretim hedeflerine gore hat kapasitesi ve malzeme akisi tasarimlari.',
+    title: 'Kesim hatları planlama',
+    description: 'Üretim hedeflerine göre hat kapasitesi ve malzeme akışı tasarımları.',
   },
   {
     title: 'Kurulum ve devreye alma',
-    description: 'Saha hazirligi, kurulum, test ve operator egitimi tek ekip tarafindan yapilir.',
+    description: 'Saha hazırlığı, kurulum, test ve operator egitimi tek ekip tarafındaı yapılır.',
   },
   {
-    title: 'Sarf ve yedek parca',
-    description: 'Kritik yedek parca ve sarf malzeme stoklari hizli temin edilir.',
+    title: 'Sarf ve yedek parça',
+    description: 'Kritik yedek parça ve sarf malzeme stokları hızlı temin edilir.',
   },
   {
     title: 'Performans takibi',
-    description: 'Hiz, fire ve enerji takibiyle verimlilik raporlari hazirlanir.',
+    description: 'Hız, fire ve enerji takibiyle verimlilik raporları hazırlanır.',
   },
 ];
 
 const facility = [
-  'Uretim planlama ve kesim simulasyonu',
-  'Kritik parca stok yonetimi',
+  'Üretim planlama ve kesim simulasyonu',
+  'Kritik parça stok yönetimi',
   'Kalibrasyon ve kalite kontrol',
   'Uzaktan destek ve saha servis',
 ];
 
 const services = [
   {
-    title: 'Makine secimi ve hat analizi',
-    description: 'Uretim hedeflerine gore uygun lazer sistemi ve hat dizilimi belirlenir.',
+    title: 'Makine seçimi ve hat analizi',
+    description: 'Üretim hedeflerine göre uygun lazer sistemi ve hat dizilimi belirlenir.',
   },
   {
-    title: 'Kurulum ve egitim',
-    description: 'Saha kurulumlari tamamlanir, operator ve bakim ekibi egitilir.',
+    title: 'Kurulum ve eğitim',
+    description: 'Saha kurulumları tamamlanır, operator ve bakım ekibi eğitilir.',
   },
   {
-    title: 'Sarf ve yedek parca',
-    description: 'Kritik sarf kalemleri ve yedek parca tedarigi planli sekilde yonetilir.',
+    title: 'Sarf ve yedek parça',
+    description: 'Kritik sarf kalemleri ve yedek parça tedariği planlı şekilde yönetilir.',
   },
   {
-    title: 'Periyodik bakim',
-    description: 'Duruslari azaltan bakim takvimiyle hat performansi korunur.',
+    title: 'Periyodik bakım',
+    description: 'Duruşları azaltan bakım takvimiyle hat performansı korunur.',
   },
   {
     title: 'Uzaktan izleme',
-    description: 'Hiz, enerji ve fire verileri raporlanir, iyilestirme planlari cikarilir.',
+    description: 'Hız, enerji ve fire verileri raporlanır, iyileştirme planları çıkarılır.',
   },
   {
-    title: '7/24 saha destegi',
-    description: 'Kritik durumlarda hizli yonlendirme ile servis sureci baslatilir.',
+    title: '7/24 saha desteği',
+    description: 'Kritik durumlarda hızlı yönlendirme ile servis süreci başlatılır.',
   },
 ];
 
 const sectors = [
-  'Metal isleme ve sac sekillendirme',
+  'Metal işleme ve sac şekillendirme',
   'Otomotiv yan sanayi',
-  'Boru profil uretimi',
+  'Boru profil üretimi',
   'Makine imalat ve fason kesim',
   'Reklam ve dekoratif metal',
-  'Endustriyel mutfak ekipmanlari',
+  'Endüstriyel mutfak ekipmanları',
 ];
 
 const timeline = [
-  { title: 'Analiz ve planlama', detail: 'Ihtiyaclar netlestirilir, teklif ve plan cikartilir.' },
-  { title: 'Uretim ve lojistik', detail: 'Sistem hazirlanir, saha teslim takvimi belirlenir.' },
-  { title: 'Kurulum ve test', detail: 'Kurulum yapilir, ornek kesimlerle performans dogrulanir.' },
-  { title: 'Egitim ve devralma', detail: 'Operator egitimi ve teslim tutanaklari tamamlanir.' },
+  { title: 'Analiz ve planlama', detail: 'İhtiyaçlar netleştirilir, teklif ve plan çıkartılır.' },
+  { title: 'Üretim ve lojistik', detail: 'Sistem hazırlanır, saha teslim takvimi belirlenir.' },
+  { title: 'Kurulum ve test', detail: 'Kurulum yapılır, örnek kesimlerle performans doğrulanır.' },
+  { title: 'Eğitim ve devralma', detail: 'Operator eğitimi ve teslim tutanakları tamamlanır.' },
 ];
 
 const faqs = [
   {
-    q: 'Kurulum ne kadar surer?',
-    a: 'Ortalama 7-10 gun icinde kurulum ve devreye alma tamamlanir.',
+    q: 'Kurulum ne kadar sürer?',
+    a: 'Ortalama 7-10 gün içinde kurulum ve devreye alma tamamlanır.',
   },
   {
-    q: 'Yedek parca temini nasil?',
-    a: 'Kritik parcalar icin hizli stok ve kargo sistemi uygulanir.',
+    q: 'Yedek parça temini nasıl?',
+    a: 'Kritik parçalar için hızlı stok ve kargo sistemi uygulanır.',
   },
   {
-    q: 'Egitim veriliyor mu?',
-    a: 'Ekipleriniz icin operator ve bakim egitimi saglaniyor.',
+    q: 'Eğitim veriliyor mu?',
+    a: 'Ekipleriniz için operator ve bakim eğitimi sağlanıyor.',
   },
   {
-    q: 'Servis cagri sureci nasil ilerler?',
-    a: 'Kayit alinip uzaktan destek verilir, gerekirse saha ekibi yonlendirilir.',
+    q: 'Servis çağrısı süreci nasıl ilerler?',
+    a: 'Kayıt alınıp uzaktan destek verilir, gerekirse saha ekibi yönlendirilir.',
   },
 ];
 
@@ -175,7 +175,7 @@ export default function AboutPage() {
     telephone: '+90 536 831 67 87',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Fevzicakmak Mah. Aksaray Cevreyolu Caddesi Akasya Sitesi A Blok No:18T',
+      streetAddress: 'Fevziçakmak Mah. Aksaray Çevreyolu Caddesi Akasya Sitesi A Blok No:18T',
       addressLocality: 'Konya',
       addressCountry: 'TR',
       postalCode: '42210',
@@ -206,11 +206,11 @@ export default function AboutPage() {
             </p>
             <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
               Lazer teknolojisinde
-              <span className="block text-teal-300">guclu deneyim, net cozum</span>
+              <span className="block text-teal-300">güçlü deneyim, net çözüm</span>
             </h1>
             <p className="text-base text-white/70">
-              10+ yillik saha deneyimimizle uretim hatlarinin ihtiyacina uygun lazer cozumleri sunuyoruz.
-              Kurulum, egitim ve servis sureclerini tek ekip ile yonetiyoruz.
+              10+ yıllık saha deneyimimizle üretim hatlarının ihtiyacına uygun lazer çözümleri sunuyoruz.
+              Kurulum, eğitim ve servis süreçlerini tek ekip ile yönetiyoruz.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -223,7 +223,7 @@ export default function AboutPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
               >
-                Iletisime gec
+                İletişime geç
               </Link>
             </div>
           </div>
@@ -247,11 +247,11 @@ export default function AboutPage() {
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
           <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Biz kimiz</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
-            Uretim hattina uygun cozum tasarlayan ekip
+            Üretim hattına uygun çözüm tasarlayan ekip
           </h2>
           <p className="mt-3 text-sm text-slate-600">
-            Guohong Lazer olarak lazer kesim makineleri, yedek parca tedarigi ve sahada kurulum
-            hizmetlerini bir arada sunuyoruz. Amacimiz, uretimde surekliligi korumak ve verimliligi artirmak.
+            Guohong Lazer olarak lazer kesim makineleri, yedek parça tedariği ve sahada kurulum
+            hizmetlerini bir arada sunuyoruz. Amacımız, üretimde sürekliliği korumak ve verimliliği artırmak.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {stats.map((stat) => (
@@ -285,7 +285,7 @@ export default function AboutPage() {
           <div className="lg:max-w-xl">
             <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Neler yapiyoruz</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">
-              Uretim hatlarinizi uctan uca destekliyoruz
+              Üretim hatlarınızı uçtan uca destekliyoruz
             </h2>
             <p className="mt-2 text-sm text-slate-600">
               Planlama, kurulum, servis ve performans takibini tek ekipte topluyoruz.
@@ -296,10 +296,10 @@ export default function AboutPage() {
               Tek ekip
             </span>
             <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
-              Hizli devreye alma
+              Hızlı devreye alma
             </span>
             <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
-              Olculen performans
+              Ölçülen performans
             </span>
           </div>
         </div>
@@ -317,9 +317,9 @@ export default function AboutPage() {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
           <div className="lg:w-1/2">
             <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yol haritasi</p>
-            <h2 className="mt-3 text-2xl font-semibold text-slate-900">Buyume adimlarimiz</h2>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900">Buyume adımlarımız</h2>
             <p className="mt-2 text-sm text-slate-600">
-              Saha tecrubesini her yil guclendiren sureclerle ilerliyoruz.
+              Saha tecrübesini her yıl güçlendiren süreçlerle ilerliyoruz.
             </p>
           </div>
           <div className="lg:w-1/2 space-y-4">
@@ -344,10 +344,10 @@ export default function AboutPage() {
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
           <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Sektorler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
-            Cozum sundugumuz alanlar
+            Çözüm sunduğumuz alanlar
           </h2>
           <p className="mt-2 text-sm text-slate-600">
-            Farkli uretim disiplinlerinde lazer kesim ihtiyaclarina uygun sistemler gelistiriyoruz.
+            Farklı üretim disiplinlerinde lazer kesim ihtiyaçlarına uygun sistemler geliştiriyoruz.
           </p>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {sectors.map((item) => (
@@ -359,8 +359,8 @@ export default function AboutPage() {
           </ul>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Is akisi</p>
-          <h3 className="mt-3 text-xl font-semibold text-slate-900">4 adimda teslim</h3>
+          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">İş akışı</p>
+          <h3 className="mt-3 text-xl font-semibold text-slate-900">4 adımda teslim</h3>
           <div className="mt-4 space-y-3">
             {timeline.map((step, index) => (
               <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
@@ -383,7 +383,7 @@ export default function AboutPage() {
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
           <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yetkinlikler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
-            Uretim ve servis sureclerini tek noktada toparliyoruz
+            Üretim ve servis süreçlerini tek noktada toparlıyoruz
           </h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {capabilities.map((item) => (
@@ -400,7 +400,7 @@ export default function AboutPage() {
             Sahadan merkeze entegre operasyon
           </h3>
           <p className="mt-2 text-sm text-slate-600">
-            Kurulumdan bakima kadar tum akislar tek merkezden takip edilir.
+            Kurulumdan bakıma kadar tüm akışlar tek merkezden takip edilir.
           </p>
           <ul className="mt-4 space-y-3 text-sm text-slate-600">
             {facility.map((item) => (
@@ -417,7 +417,7 @@ export default function AboutPage() {
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Ekip</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-            Sahada birlikte calisan uzman kadro
+            Sahada birlikte çalışan uzman kadro
           </h2>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-2">
@@ -451,7 +451,7 @@ export default function AboutPage() {
             <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Sik sorulanlar</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Saha ekiplerinden gelen sorular</h2>
             <p className="mt-2 text-sm text-slate-600">
-              Kurulum, servis ve yedek parca sureclerinde merak edilenleri netlestiriyoruz.
+              Kurulum, servis ve yedek parça süreçlerinde merak edilenleri netleştiriyoruz.
             </p>
           </div>
         </div>
@@ -468,9 +468,9 @@ export default function AboutPage() {
       <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-teal-100">Birlikte calisalim</p>
-          <h2 className="mt-3 text-2xl font-semibold">Uretiminizi guclendirecek cozumleri birlikte planlayalim</h2>
+          <h2 className="mt-3 text-2xl font-semibold">Üretiminizi güçlendirecek çözümleri birlikte planlayalım</h2>
           <p className="mt-2 text-sm text-teal-100">
-            Kurulum ve servis sureclerini hizli planlamak icin bizimle iletisime gecin.
+            Kurulum ve servis süreçlerini hızlı planlamak için bizimle iletişime geçin.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
@@ -484,7 +484,7 @@ export default function AboutPage() {
             href="/contact"
             className="inline-flex items-center justify-center rounded-full border border-white/70 px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:border-white"
           >
-            Iletisim
+            İletişim
           </Link>
         </div>
       </section>
