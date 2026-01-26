@@ -113,10 +113,10 @@ export default async function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.bg-white\\/90]:bg-slate-900/70 dark:[&_.bg-white\\/80]:bg-slate-900/70 dark:[&_.bg-slate-50\\/70]:bg-slate-900/60 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl" />
-        <div className="pointer-events-none absolute -left-32 top-48 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl dark:bg-teal-500/10" />
+        <div className="pointer-events-none absolute -left-32 top-48 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl dark:bg-slate-800/60" />
 
         <div className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
           <div className="rounded-32 bg-slate-950 px-6 py-8 text-white shadow-2xl sm:px-10 sm:py-10">
