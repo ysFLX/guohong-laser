@@ -113,7 +113,7 @@ export default async function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.bg-white\\/90]:bg-slate-900/70 dark:[&_.bg-white\\/80]:bg-slate-900/70 dark:[&_.bg-slate-50\\/70]:bg-slate-900/60 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.bg-white\\/90]:bg-slate-900/70 dark:[&_.bg-white\\/80]:bg-slate-900/70 dark:[&_.bg-slate-50\\/70]:bg-slate-900/60 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300">
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl dark:bg-teal-500/10" />
         <div className="pointer-events-none absolute -left-32 top-48 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl dark:bg-slate-800/60" />
@@ -155,7 +155,7 @@ export default async function OrdersPage() {
                 )}
               </div>
 
-              <div className="rounded-24 border border-slate-200 bg-white p-5 shadow-lg">
+              <div className="rounded-24 border border-slate-200 bg-white p-5 shadow-lg dark:border-white/10 dark:bg-slate-900/70">
                 <div className="text-sm font-semibold text-slate-900">Hizli erisim</div>
                 <div className="mt-3 flex flex-col gap-2">
                   <Link
@@ -174,7 +174,7 @@ export default async function OrdersPage() {
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl">
+            <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-slate-900/70">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <Link href="/profile" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
@@ -189,7 +189,7 @@ export default async function OrdersPage() {
               </div>
 
               {!hasOrders && (
-                <div className="mt-8 rounded-24 border border-dashed border-slate-200 bg-white/90 p-6">
+                <div className="mt-8 rounded-24 border border-dashed border-slate-200 bg-white/90 p-6 dark:border-white/10 dark:bg-slate-900/60">
                   <div className="text-sm font-semibold text-slate-900">Henuz siparis yok</div>
                   <p className="mt-2 text-sm text-slate-600">
                     Sepetine urun ekleyip siparisini tamamladiginda burada gorebilirsin.
@@ -226,7 +226,7 @@ export default async function OrdersPage() {
                   return (
                   <div
                     key={order.id}
-                    className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg"
+                    className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-lg dark:border-white/10 dark:bg-slate-900/70"
                   >
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
                     <span>Durum</span>
@@ -271,7 +271,7 @@ export default async function OrdersPage() {
                       <div className="mt-3">
                         <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
                           <div
-                            className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200"
+                            className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200 dark:bg-white/10"
                             style={{ left: `${lineLeftPercent}%`, width: `${lineWidthPercent}%` }}
                           />
                           <div
@@ -291,7 +291,7 @@ export default async function OrdersPage() {
                               <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
                                 <div
                                   className={`h-3.5 w-3.5 rounded-full ${
-                                    isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
+                                    isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900/70'
                                   } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
                                 />
                                 <span className="text-center text-xs text-slate-500">{step.label}</span>
@@ -351,7 +351,7 @@ export default async function OrdersPage() {
                       </div>
 
                   {hasTracking && (
-                    <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-3 text-xs text-slate-600">
+                    <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-3 text-xs text-slate-600 dark:border-white/10 dark:bg-slate-900/60">
                       <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                         Kargo takibi
                       </div>
