@@ -203,7 +203,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="min-h-screen space-y-16 bg-slate-50 px-4 pb-16 pt-6 sm:px-6 lg:px-10">
+    <div className="min-h-screen space-y-16 bg-slate-50 px-4 pb-16 pt-6 sm:px-6 lg:px-10 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       <Reveal
         as="section"
