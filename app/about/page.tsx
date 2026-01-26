@@ -193,9 +193,9 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 lg:px-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="mx-auto max-w-6xl space-y-12">
+      <div className="mx-auto w-full max-w-screen-2xl space-y-12">
       <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white border border-slate-900/10 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
