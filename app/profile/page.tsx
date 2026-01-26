@@ -447,7 +447,7 @@ export default function ProfilePage() {
   const hasAddress = showAddress;
 
   return (
-    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
       <div className="mx-auto max-w-6xl space-y-10">
       <div className="relative overflow-hidden rounded-[36px] border border-slate-900/10 bg-slate-950 px-6 py-8 text-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.35),_transparent_60%)] opacity-80" />
