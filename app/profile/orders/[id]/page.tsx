@@ -216,193 +216,238 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const invoiceParams = new URLSearchParams({
     subject: `Fatura Talebi - ${safeOrder.id.slice(0, 8)}`,
   }).toString();
+  const itemCount = safeOrder.items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/80 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300 dark:[&_.bg-slate-50]:bg-slate-900/60">
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-20 top-10 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl dark:bg-emerald-500/10" />
-        <div className="pointer-events-none absolute -left-24 top-40 h-80 w-80 rounded-full bg-slate-200/60 blur-3xl dark:bg-slate-800/60" />
+        <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-sky-200/40 blur-3xl dark:bg-sky-500/10" />
+        <div className="pointer-events-none absolute -right-24 top-24 h-80 w-80 rounded-full bg-emerald-200/30 blur-3xl dark:bg-emerald-500/10" />
+
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <Link href="/profile/orders" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
               Siparislerime don
             </Link>
-            <div className="inline-flex items-center gap-2 text-xs text-slate-500">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
               Guncel durum
             </div>
           </div>
 
-          <div className="mt-4 rounded-[28px] border border-slate-200 bg-white/90 p-6 shadow-xl backdrop-blur dark:bg-slate-900/70">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-6 rounded-[32px] border border-slate-200 bg-white/90 p-8 shadow-2xl backdrop-blur dark:bg-slate-900/70">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Siparis
+                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
+                  Siparis ozeti
                 </div>
-                <h1 className="mt-2 text-2xl font-semibold text-slate-900">
+                <h1 className="mt-3 text-3xl font-semibold text-slate-900">
                   #{safeOrder.id.slice(0, 8)}
                 </h1>
-                <div className="mt-1 text-sm text-slate-600">{formatDate(safeOrder.createdAt)}</div>
+                <div className="mt-2 text-sm text-slate-600">{formatDate(safeOrder.createdAt)}</div>
               </div>
-              <div
-                className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-                  statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-                }`}
-              >
-                {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
-              </div>
-            </div>
-          </div>
-
-        {typeof statusToStep[displayStatus] === 'number' && (
-          <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm dark:bg-slate-900/70">
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
-              <span>Durum akisi</span>
-              <span>{progressSteps[statusToStep[displayStatus]].label}</span>
-            </div>
-            <div className="mt-4">
-              <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
+              <div className="flex flex-wrap items-center gap-3">
                 <div
-                  className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200 dark:bg-white/10"
-                  style={{ left: `${lineLeftPercent}%`, width: `${lineWidthPercent}%` }}
-                />
-                <div
-                  className={`absolute top-3 h-0.5 -translate-y-1/2 rounded-full ${
-                    (statusAccent[displayStatus] || statusAccent.RECEIVED).line
-                  }`}
-                  style={{
-                    left: `${lineLeftPercent}%`,
-                    width: `${(statusToStep[displayStatus] / (progressSteps.length - 1)) * lineWidthPercent}%`,
-                  }}
-                />
-                {progressSteps.map((step, index) => {
-                  const isActive = index <= statusToStep[displayStatus];
-                  const isCurrent = index === statusToStep[displayStatus];
-                  const accent = statusAccent[displayStatus] || statusAccent.RECEIVED;
-                  return (
-                    <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
-                      <div
-                        className={`h-3.5 w-3.5 rounded-full ${
-                          isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900/70'
-                        } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
-                      />
-                      <span className="text-center text-xs text-slate-500">{step.label}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
-            <div className="text-lg font-semibold text-slate-900">Siparis detaylari</div>
-            <div className="mt-6 space-y-4">
-            {safeOrder.items.map((item) => (
-              <div key={item.id} className="flex items-center justify-between gap-4">
-                  <div className="flex min-w-0 items-center gap-4">
-                    <div className="h-16 w-16 overflow-hidden rounded-2xl bg-slate-100">
-                      {item.imageUrl ? (
-                        <Image
-                          src={item.imageUrl}
-                          alt={item.name}
-                          width={64}
-                          height={64}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-xs text-slate-400">
-                          Urun
-                        </div>
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <div className="truncate font-semibold text-slate-900">{item.name}</div>
-                      <div className="text-xs text-slate-500">
-                        {item.quantity} adet - {formatPriceTry(item.priceCents)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    {formatPriceTry(item.priceCents * item.quantity)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
-            <div className="text-lg font-semibold text-slate-900">Ozet</div>
-            <div className="mt-4 flex items-center justify-between text-sm">
-              <span className="text-slate-600">Toplam</span>
-            <span className="font-semibold text-slate-900">{formatPriceTry(safeOrder.totalCents)}</span>
-            </div>
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Siparis durumu
-              </div>
-              <div className="mt-2">
-                <span
-                  className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                  className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
                     statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
                   }`}
                 >
                   {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
-                </span>
+                </div>
+                <Link
+                  href={`/contact?${invoiceParams}`}
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:bg-slate-50 dark:text-slate-200"
+                >
+                  Fatura talebi
+                </Link>
+                <Link
+                  href="/returns-request"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:bg-slate-50 dark:text-slate-200"
+                >
+                  Iade talebi
+                </Link>
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Teslimat adresi
-              </div>
-              {shippingView ? (
-                <div className="mt-2 space-y-1 text-slate-700">
-                  <div className="font-semibold text-slate-900">{shippingView.title}</div>
-                  <div>{shippingView.fullName}</div>
-                  <div>{shippingView.line1}</div>
-                  <div>{shippingView.city}</div>
-                  <div>{shippingView.phone}</div>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Toplam</div>
+                <div className="mt-2 text-2xl font-semibold text-slate-900">
+                  {formatPriceTry(safeOrder.totalCents)}
                 </div>
-              ) : (
-                <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
-              )}
+                <div className="mt-1 text-xs text-slate-500">{itemCount} urun</div>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Kargo</div>
+                <div className="mt-2 text-sm font-semibold text-slate-900">
+                  {safeOrder.shippingCarrier || 'Bilgi bekleniyor'}
+                </div>
+                <div className="mt-1 text-xs text-slate-500">
+                  {safeOrder.trackingNumber ? `Takip no: ${safeOrder.trackingNumber}` : 'Takip eklenince gorunur'}
+                </div>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat</div>
+                <div className="mt-2 text-sm font-semibold text-slate-900">
+                  {shippingView?.city || '-'}
+                </div>
+                <div className="mt-1 text-xs text-slate-500">{shippingView?.fullName || '-'}</div>
+              </div>
+            </div>
+          </div>
+
+          {typeof statusToStep[displayStatus] === 'number' && (
+            <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm dark:bg-slate-900/70">
+              <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
+                <span>Durum akisi</span>
+                <span>{progressSteps[statusToStep[displayStatus]].label}</span>
+              </div>
+              <div className="mt-4">
+                <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
+                  <div
+                    className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200 dark:bg-white/10"
+                    style={{ left: `${lineLeftPercent}%`, width: `${lineWidthPercent}%` }}
+                  />
+                  <div
+                    className={`absolute top-3 h-0.5 -translate-y-1/2 rounded-full ${
+                      (statusAccent[displayStatus] || statusAccent.RECEIVED).line
+                    }`}
+                    style={{
+                      left: `${lineLeftPercent}%`,
+                      width: `${(statusToStep[displayStatus] / (progressSteps.length - 1)) * lineWidthPercent}%`,
+                    }}
+                  />
+                  {progressSteps.map((step, index) => {
+                    const isActive = index <= statusToStep[displayStatus];
+                    const isCurrent = index === statusToStep[displayStatus];
+                    const accent = statusAccent[displayStatus] || statusAccent.RECEIVED;
+                    return (
+                      <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
+                        <div
+                          className={`h-3.5 w-3.5 rounded-full ${
+                            isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900/70'
+                          } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
+                        />
+                        <span className="text-center text-xs text-slate-500">{step.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
+              <div className="flex items-center justify-between">
+                <div className="text-lg font-semibold text-slate-900">Siparis detaylari</div>
+                <div className="text-xs text-slate-500">{itemCount} urun</div>
+              </div>
+              <div className="mt-6 space-y-4">
+                {safeOrder.items.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between gap-4">
+                    <div className="flex min-w-0 items-center gap-4">
+                      <div className="h-16 w-16 overflow-hidden rounded-2xl bg-slate-100">
+                        {item.imageUrl ? (
+                          <Image
+                            src={item.imageUrl}
+                            alt={item.name}
+                            width={64}
+                            height={64}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xs text-slate-400">
+                            Urun
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="truncate font-semibold text-slate-900">{item.name}</div>
+                        <div className="text-xs text-slate-500">
+                          {item.quantity} adet - {formatPriceTry(item.priceCents)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-sm font-semibold text-slate-900">
+                      {formatPriceTry(item.priceCents * item.quantity)}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Kargo takibi
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
+              <div className="text-lg font-semibold text-slate-900">Ozet</div>
+              <div className="mt-4 flex items-center justify-between text-sm">
+                <span className="text-slate-600">Toplam</span>
+                <span className="font-semibold text-slate-900">{formatPriceTry(safeOrder.totalCents)}</span>
               </div>
-              {hasTracking ? (
-                <div className="mt-2 space-y-2 text-slate-700">
-                  {safeOrder.shippingCarrier && (
-                    <div>
-                      <span className="text-slate-500">Firma:</span> {safeOrder.shippingCarrier}
-                    </div>
-                  )}
-                  {safeOrder.trackingNumber && (
-                    <div>
-                      <span className="text-slate-500">Takip no:</span> {safeOrder.trackingNumber}
-                    </div>
-                  )}
-                  {safeOrder.trackingUrl && (
-                    <a
-                      href={safeOrder.trackingUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-                    >
-                      Kargo takip sayfasina git
-                    </a>
-                  )}
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Siparis durumu
                 </div>
-              ) : (
-                <div className="mt-2 text-slate-600">
-                  Takip bilgisi henuz girilmedi. Kargo bilgisi girildiginde e-posta ile bilgilendirileceksiniz.
+                <div className="mt-2">
+                  <span
+                    className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                      statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                    }`}
+                  >
+                    {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                  </span>
                 </div>
-              )}
-            </div>
+              </div>
+
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Teslimat adresi
+                </div>
+                {shippingView ? (
+                  <div className="mt-2 space-y-1 text-slate-700">
+                    <div className="font-semibold text-slate-900">{shippingView.title}</div>
+                    <div>{shippingView.fullName}</div>
+                    <div>{shippingView.line1}</div>
+                    <div>{shippingView.city}</div>
+                    <div>{shippingView.phone}</div>
+                  </div>
+                ) : (
+                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+                )}
+              </div>
+
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Kargo takibi
+                </div>
+                {hasTracking ? (
+                  <div className="mt-2 space-y-2 text-slate-700">
+                    {safeOrder.shippingCarrier && (
+                      <div>
+                        <span className="text-slate-500">Firma:</span> {safeOrder.shippingCarrier}
+                      </div>
+                    )}
+                    {safeOrder.trackingNumber && (
+                      <div>
+                        <span className="text-slate-500">Takip no:</span> {safeOrder.trackingNumber}
+                      </div>
+                    )}
+                    {safeOrder.trackingUrl && (
+                      <a
+                        href={safeOrder.trackingUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                      >
+                        Kargo takip sayfasina git
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <div className="mt-2 text-slate-600">
+                    Takip bilgisi henuz girilmedi. Kargo bilgisi girildiginde e-posta ile bilgilendirileceksiniz.
+                  </div>
+                )}
+              </div>
 
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -441,23 +486,23 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   Iade islemleri
                 </div>
-              <div className="mt-2 text-slate-600">
-                Urun iade veya degisim talebini form uzerinden baslatabilirsin.
+                <div className="mt-2 text-slate-600">
+                  Urun iade veya degisim talebini form uzerinden baslatabilirsin.
+                </div>
+                <Link
+                  href="/returns-request"
+                  className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Iade talebi olustur
+                </Link>
               </div>
-              <Link
-                href="/returns-request"
-                className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Iade talebi olustur
-              </Link>
-            </div>
-            <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/60">
-              Siparis durumunuz guncellendikce burada gorunur.
+              <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/60">
+                Siparis durumunuz guncellendikce burada gorunur.
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
