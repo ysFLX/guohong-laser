@@ -652,6 +652,23 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="mt-2 text-slate-600">
                   Urun iade veya degisim talebini form uzerinden baslatabilirsin.
                 </div>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span>Talep alindi</span>
+                    <span className="font-semibold">Beklemede</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-900/40">
+                    <div className="h-2 w-1/4 rounded-full bg-amber-400" />
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span>Inceleme</span>
+                    <span>Hazirlaniyor</span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span>Sonuc</span>
+                    <span>Bilgilendirilecek</span>
+                  </div>
+                </div>
                 <Link
                   href="/returns-request"
                   className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
