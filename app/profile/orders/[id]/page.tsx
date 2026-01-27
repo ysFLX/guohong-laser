@@ -16,6 +16,7 @@ type OrderItem = {
   imageUrl: string | null;
   quantity: number;
   priceCents: number;
+  sparePartId?: string | null;
 };
 
 type Order = {
@@ -404,12 +405,37 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                         <div className="mt-1 text-xs text-slate-500">
                           {item.quantity} adet • {formatPriceTry(item.priceCents)}
                         </div>
+                        <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.2em]">
+                          <span className="rounded-full bg-emerald-500/15 px-2 py-1 text-emerald-600">
+                            Stokta
+                          </span>
+                          <span className="rounded-full bg-sky-500/15 px-2 py-1 text-sky-600">
+                            2-3 gun teslim
+                          </span>
+                          <span className="rounded-full bg-slate-900/10 px-2 py-1 text-slate-600 dark:bg-white/10 dark:text-slate-200">
+                            {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Tutar</div>
                       <div className="mt-1 text-sm font-semibold text-slate-900">
                         {formatPriceTry(item.priceCents * item.quantity)}
+                      </div>
+                      <div className="mt-3 flex flex-wrap items-center justify-end gap-2">
+                        <Link
+                          href={item.sparePartId ? `/spare-parts/${item.sparePartId}` : '/spare-parts'}
+                          className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                        >
+                          Detay
+                        </Link>
+                        <Link
+                          href={item.sparePartId ? `/spare-parts/${item.sparePartId}` : '/spare-parts'}
+                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+                        >
+                          Tekrar satin al
+                        </Link>
                       </div>
                     </div>
                   </div>
