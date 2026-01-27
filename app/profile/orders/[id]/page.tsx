@@ -218,28 +218,44 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   }).toString();
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300 dark:[&_.bg-slate-50]:bg-slate-900/60">
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-        <Link href="/profile/orders" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
-          Siparislerime don
-        </Link>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/80 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300 dark:[&_.bg-slate-50]:bg-slate-900/60">
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute -right-20 top-10 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl dark:bg-emerald-500/10" />
+        <div className="pointer-events-none absolute -left-24 top-40 h-80 w-80 rounded-full bg-slate-200/60 blur-3xl dark:bg-slate-800/60" />
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <Link href="/profile/orders" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+              Siparislerime don
+            </Link>
+            <div className="inline-flex items-center gap-2 text-xs text-slate-500">
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              Guncel durum
+            </div>
+          </div>
 
-        <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-900">Siparis #{safeOrder.id.slice(0, 8)}</h1>
-            <div className="mt-1 text-sm text-slate-600">{formatDate(safeOrder.createdAt)}</div>
+          <div className="mt-4 rounded-[28px] border border-slate-200 bg-white/90 p-6 shadow-xl backdrop-blur dark:bg-slate-900/70">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Siparis
+                </div>
+                <h1 className="mt-2 text-2xl font-semibold text-slate-900">
+                  #{safeOrder.id.slice(0, 8)}
+                </h1>
+                <div className="mt-1 text-sm text-slate-600">{formatDate(safeOrder.createdAt)}</div>
+              </div>
+              <div
+                className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
+                  statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+              </div>
+            </div>
           </div>
-          <div
-            className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-              statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-            }`}
-          >
-            {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
-          </div>
-        </div>
 
         {typeof statusToStep[displayStatus] === 'number' && (
-          <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm">
+          <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm dark:bg-slate-900/70">
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
               <span>Durum akisi</span>
               <span>{progressSteps[statusToStep[displayStatus]].label}</span>
@@ -280,7 +296,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         )}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
             <div className="text-lg font-semibold text-slate-900">Siparis detaylari</div>
             <div className="mt-6 space-y-4">
             {safeOrder.items.map((item) => (
@@ -316,13 +332,13 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
             <div className="text-lg font-semibold text-slate-900">Ozet</div>
             <div className="mt-4 flex items-center justify-between text-sm">
               <span className="text-slate-600">Toplam</span>
             <span className="font-semibold text-slate-900">{formatPriceTry(safeOrder.totalCents)}</span>
             </div>
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Siparis durumu
               </div>
@@ -337,7 +353,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Teslimat adresi
               </div>
@@ -354,7 +370,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               )}
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+            <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
               <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Kargo takibi
               </div>
@@ -388,7 +404,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               )}
             </div>
 
-              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   Fatura adresi
                 </div>
@@ -406,7 +422,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
                 )}
               </div>
-              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   Fatura ve irsaliye
                 </div>
@@ -421,7 +437,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   Fatura talebi gonder
                 </Link>
               </div>
-              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm">
+              <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   Iade islemleri
                 </div>
@@ -441,6 +457,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
