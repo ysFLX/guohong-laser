@@ -218,7 +218,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   }).toString();
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300 dark:[&_.bg-slate-50]:bg-slate-900/60">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         <Link href="/profile/orders" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
           Siparislerime don
@@ -247,7 +247,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             <div className="mt-4">
               <div className="relative grid grid-cols-4 gap-0 pt-1 text-center">
                 <div
-                  className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200"
+                  className="absolute top-3 h-0.5 -translate-y-1/2 rounded-full bg-slate-200 dark:bg-white/10"
                   style={{ left: `${lineLeftPercent}%`, width: `${lineWidthPercent}%` }}
                 />
                 <div
@@ -267,7 +267,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
                       <div
                         className={`h-3.5 w-3.5 rounded-full ${
-                          isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white'
+                          isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900/70'
                         } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
                       />
                       <span className="text-center text-xs text-slate-500">{step.label}</span>
@@ -435,7 +435,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 Iade talebi olustur
               </Link>
             </div>
-            <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
+            <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/60">
               Siparis durumunuz guncellendikce burada gorunur.
             </div>
           </div>
