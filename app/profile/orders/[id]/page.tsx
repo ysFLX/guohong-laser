@@ -421,6 +421,69 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   </div>
                 </div>
               </div>
+
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                      Siparis zaman cizelgesi
+                    </div>
+                    <div className="mt-2 text-slate-600">
+                      Durum guncellendikce zaman damgasi eklenir.
+                    </div>
+                  </div>
+                  <span className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
+                    {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                  </span>
+                </div>
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 dark:bg-slate-900/40">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Olusturuldu</div>
+                    <div className="mt-2 text-sm font-semibold text-slate-900">{formatDate(safeOrder.createdAt)}</div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 dark:bg-slate-900/40">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Hazirlaniyor</div>
+                    <div className="mt-2 text-sm text-slate-600">Duruma gore otomatik</div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 dark:bg-slate-900/40">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Teslim</div>
+                    <div className="mt-2 text-sm text-slate-600">
+                      {displayStatus === 'DELIVERED' ? 'Teslim edildi' : 'Planlama asamasinda'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-3 lg:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat notlari</div>
+                  <ul className="mt-3 space-y-2 text-slate-600">
+                    <li>• Paket tesliminde kimlik teyidi alinabilir.</li>
+                    <li>• Hasarli teslimatlar icin 24 saat icinde bildirim yap.</li>
+                    <li>• Kargo gecikmelerinde destek ekibi bilgi verir.</li>
+                  </ul>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Yardim ve destek</div>
+                  <div className="mt-3 text-slate-600">
+                    Teknik destek ve fatura sorulari icin dogrudan ekibe ulasabilirsin.
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      Destek ekibi
+                    </Link>
+                    <Link
+                      href={`/contact?${invoiceParams}`}
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      Fatura sorusu
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
