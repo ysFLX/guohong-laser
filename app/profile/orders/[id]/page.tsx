@@ -203,6 +203,16 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     DELIVERED: 3,
   };
 
+  const statusTimeline = progressSteps.map((step, index) => {
+    const isReached = typeof statusToStep[displayStatus] === 'number' && index <= statusToStep[displayStatus];
+    const hasDate = index === 0;
+    return {
+      ...step,
+      isReached,
+      dateLabel: hasDate ? formatDate(safeOrder.createdAt) : isReached ? 'Guncellenecek' : 'Planlaniyor',
+    };
+  });
+
   const displayStatus = normalizeStatus(safeOrder.status);
   const shippingView = formatAddress(safeOrder.shippingAddress);
   const billingView = formatAddress(safeOrder.billingAddress);
@@ -328,14 +338,32 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                             isActive ? `border-0 ${accent.dot}` : 'border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900/70'
                           } ${isCurrent ? `${accent.glow} scale-110` : ''}`}
                         />
-                        <span className="text-center text-xs text-slate-500">{step.label}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+                      <span className="text-center text-xs text-slate-500">{step.label}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          )}
+              <div className="mt-5 grid gap-3 sm:grid-cols-4">
+                {statusTimeline.map((step) => (
+                  <div
+                    key={step.key}
+                    className={`rounded-2xl border border-slate-200 px-3 py-3 text-left text-xs ${
+                      step.isReached ? 'bg-slate-50/80' : 'bg-white/70'
+                    } dark:border-white/10 dark:bg-slate-900/60`}
+                  >
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                      {step.label}
+                    </div>
+                    <div className="mt-2 text-sm font-semibold text-slate-900">{step.dateLabel}</div>
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                      {step.isReached ? 'Tamamlandi' : 'Beklemede'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+          </div>
+        )}
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
