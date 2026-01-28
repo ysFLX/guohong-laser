@@ -30,7 +30,7 @@ export default async function AdminSparePartCategoriesPage() {
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Kategori merkezi</div>
         <h1 className="mt-2 text-2xl font-semibold text-slate-900">Kategoriler</h1>
-        <p className="mt-2 text-sm text-slate-500">Kategori ekle ve mevcut kategorileri yonet.</p>
+        <p className="mt-2 text-sm text-slate-500">Kategori ekle ve mevcut kategorileri yönet.</p>
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -56,7 +56,7 @@ export default async function AdminSparePartCategoriesPage() {
                 <div className="mt-2 text-sm text-slate-600">{c.slug}</div>
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Urun sayisi</div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Ürün sayısı</div>
                 <div className="mt-2 text-sm font-semibold text-slate-900">{c._count.spareParts}</div>
               </div>
               <div>
@@ -74,7 +74,7 @@ export default async function AdminSparePartCategoriesPage() {
         ))}
         {categories.length === 0 && (
           <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
-            Henuz kategori yok.
+            Henüz kategori yok.
           </div>
         )}
       </div>
