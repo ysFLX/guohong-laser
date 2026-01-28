@@ -22,14 +22,14 @@ export async function POST(request: Request) {
 
     if (!safeEmail || !emailRegex.test(safeEmail) || !token || !newPassword) {
       return new Response(
-        JSON.stringify({ error: 'E-posta, token ve yeni sifre zorunludur' }),
+        JSON.stringify({ error: 'E-posta, token ve yeni şifre zorunludur' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
     if (newPassword.length < 6) {
       return new Response(
-        JSON.stringify({ error: 'Sifre en az 6 karakter olmalidir' }),
+        JSON.stringify({ error: 'Şifre en az 6 karakter olmalıdır' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
     if (!record) {
       return new Response(
-        JSON.stringify({ error: 'Parola sifirlama istegi bulunamadi' }),
+        JSON.stringify({ error: 'Parola sıfırlama isteği bulunamadı' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     if (record.expiresAt.getTime() < Date.now()) {
       await prisma.passwordResetToken.delete({ where: { email: safeEmail } });
       return new Response(
-        JSON.stringify({ error: 'Parola sifirlama baglantisinin suresi doldu' }),
+        JSON.stringify({ error: 'Parola sıfırlama bağlantısının süresi doldu' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     const tokenHash = hashToken(token);
     if (tokenHash !== record.tokenHash) {
       return new Response(
-        JSON.stringify({ error: 'Parola sifirlama baglantisi gecersiz' }),
+        JSON.stringify({ error: 'Parola sıfırlama bağlantısı geçersiz' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -76,14 +76,14 @@ export async function POST(request: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Parola sifirlama onay hatasi:', error);
+    console.error('Parola sıfırlama onay hatası:', error);
     const message = error instanceof Error ? error.message : 'Bilinmeyen hata';
     return new Response(
       JSON.stringify({
         error:
           process.env.NODE_ENV === 'development'
-            ? `Sunucu hatasi: ${message}`
-            : 'Sunucu hatasi: Lutfen daha sonra tekrar deneyin',
+            ? `Sunucu hatası: ${message}`
+            : 'Sunucu hatası: Lütfen daha sonra tekrar deneyin',
       }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );

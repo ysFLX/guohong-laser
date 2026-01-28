@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const code = url.searchParams.get("code");
 
   if (!code || !isCityCode(code)) {
-    return new Response(JSON.stringify({ error: "Gecersiz il kodu" }), {
+    return new Response(JSON.stringify({ error: "Geçersiz İl kodu" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });

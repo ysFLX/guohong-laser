@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   try {
     if (!process.env.DATABASE_URL) {
       return new Response(
-        JSON.stringify({ error: 'Sunucu yapilandirma hatasi: DATABASE_URL tanimli degil' }),
+        JSON.stringify({ error: 'Sunucu yapılandırması hatası: DATABASE_URL tanımlı değil' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     if (!safeEmail || !emailRegex.test(safeEmail)) {
       return new Response(
-        JSON.stringify({ error: 'Lutfen gecerli bir e-posta adresi girin' }),
+        JSON.stringify({ error: 'Lütfen geçerli bir e-posta adresi girin' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     if (!smtpUser || !smtpPass) {
       return new Response(
-        JSON.stringify({ error: 'SMTP ayarlari bulunamadi. Lutfen e-posta gonderimi icin ayarlarinizi yapilandirin.' }),
+        JSON.stringify({ error: 'SMTP ayarları bulunamadı. Lütfen e-posta gönderimi için ayarlarınızı yapılandırın.' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -87,16 +87,16 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: `Guohong Lazer <${smtpUser}>`,
       to: safeEmail,
-      subject: 'Parola sifirlama baglantiniz',
-      text: `Parolanizi sifirlamak icin bu baglantiyi kullanin: ${resetUrl}`,
+      subject: 'Parola sıfırlama bağlantınız',
+      text: `Parolanızı sıfırlamak için bu bağlantıyı kullanın: ${resetUrl}`,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h2 style="margin-top: 0; color: #111827;">Parola sifirlama</h2>
-        <p>Parolanizi sifirlamak icin asagidaki baglantiya tiklayin:</p>
+        <h2 style="margin-top: 0; color: #111827;">Parola sıfırlama</h2>
+        <p>Parolanızı sıfırlamak için aşağıdaki bağlantıyı tıklayın:</p>
         <div style="margin: 16px 0;">
-          <a href="${resetUrl}" style="display: inline-block; padding: 10px 16px; background: #111827; color: #ffffff; border-radius: 8px; text-decoration: none;">Parolayi sifirla</a>
+          <a href="${resetUrl}" style="display: inline-block; padding: 10px 16px; background: #111827; color: #ffffff; border-radius: 8px; text-decoration: none;">Parolayı sıfırla</a>
         </div>
-        <p style="font-size: 12px; color: #6b7280;">Bu baglanti ${RESET_TTL_MINUTES} dakika boyunca gecerlidir.</p>
+        <p style="font-size: 12px; color: #6b7280;">Bu bağlantı ${RESET_TTL_MINUTES} dakika boyunca geçerlidir.</p>
       </div>
       `,
     });
@@ -106,14 +106,14 @@ export async function POST(request: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Parola sifirlama istegi hatasi:', error);
+    console.error('Parola sıfırlama isteği hatası:', error);
     const message = error instanceof Error ? error.message : 'Bilinmeyen hata';
     return new Response(
       JSON.stringify({
         error:
           process.env.NODE_ENV === 'development'
-            ? `Sunucu hatasi: ${message}`
-            : 'Sunucu hatasi: Lutfen daha sonra tekrar deneyin',
+            ? `Sunucu hatası: ${message}`
+            : 'Sunucu hatası: Lütfen daha sonra tekrar deneyin',
       }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
