@@ -73,7 +73,7 @@ export default async function AdminSparePartDetailPage({
   if (!part) {
     return (
       <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
-        Urun bulunamadi.
+        Ürün bulunamadı.
       </div>
     );
   }
@@ -83,7 +83,7 @@ export default async function AdminSparePartDetailPage({
   return (
     <div className="space-y-6">
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun duzenle</div>
+        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Ürün düzenle</div>
         <div className="mt-2 flex flex-wrap items-center gap-3">
           <h1 className="text-2xl font-semibold text-slate-900">{part.name}</h1>
           {part.isFeatured && <AdminBadge tone="slate">Vitrin</AdminBadge>}
@@ -130,9 +130,9 @@ export default async function AdminSparePartDetailPage({
         </div>
 
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="text-sm font-semibold text-slate-900">Gorseller</div>
+          <div className="text-sm font-semibold text-slate-900">Görseller</div>
           <p className="mt-2 text-sm text-slate-500">
-            Urun galerisi ve vitrin gorselini buradan guncelleyebilirsin.
+            Ürün galerisi ve vitrin görselini buradan güncelleyebilirsin.
           </p>
           <div className="mt-4">
             <AdminImageUpload sparePartId={part.id} images={part.images} />
