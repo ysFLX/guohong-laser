@@ -57,7 +57,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             className={`toast-enter pointer-events-auto rounded-2xl border p-4 text-white shadow-2xl ${
               toast.variant === 'error'
                 ? 'border-rose-200/70 bg-gradient-to-br from-rose-500/95 via-rose-500/90 to-rose-600/90'
-                : 'border-emerald-200/70 bg-gradient-to-br from-emerald-500/95 via-emerald-500/90 to-emerald-600/90'
+                : 'border-indigo-200/70 bg-gradient-to-br from-indigo-500/95 via-indigo-500/90 to-indigo-600/90'
             }`}
           >
             <div className="flex items-start gap-3">
@@ -90,3 +90,4 @@ export function useToast() {
   if (!ctx) throw new Error('useToast must be used within ToastProvider');
   return ctx;
 }
+

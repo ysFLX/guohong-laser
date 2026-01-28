@@ -193,7 +193,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 lg:px-12 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-teal-600]:text-teal-200">
+    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 lg:px-12 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-indigo-600]:text-indigo-200">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="mx-auto w-full max-w-screen-2xl space-y-12">
       <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white border border-slate-900/10 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] sm:px-10 lg:px-14">
@@ -206,7 +206,7 @@ export default function AboutPage() {
             </p>
             <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
               Lazer teknolojisinde
-              <span className="block text-teal-300">güçlü deneyim, net çözüm</span>
+              <span className="block text-indigo-300">güçlü deneyim, net çözüm</span>
             </h1>
             <p className="text-base text-white/70">
               10+ yıllık saha deneyimimizle üretim hatlarının ihtiyacına uygun lazer çözümleri sunuyoruz.
@@ -215,7 +215,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-teal-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-teal-500/30 transition hover:-translate-y-0.5 hover:bg-teal-300"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:bg-indigo-300"
               >
                 Teklif al
               </Link>
@@ -245,7 +245,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Biz kimiz</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Biz kimiz</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Üretim hattına uygun çözüm tasarlayan ekip
           </h2>
@@ -268,7 +268,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Degerler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Degerler</p>
           <div className="mt-4 space-y-4">
             {values.map((item) => (
               <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
@@ -283,7 +283,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="lg:max-w-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Neler yapiyoruz</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Neler yapiyoruz</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">
               Üretim hatlarınızı uçtan uca destekliyoruz
             </h2>
@@ -292,7 +292,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <span className="rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-xs font-semibold text-teal-700">
+            <span className="rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs font-semibold text-indigo-700">
               Tek ekip
             </span>
             <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600">
@@ -316,7 +316,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
           <div className="lg:w-1/2">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yol haritasi</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Yol haritasi</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Buyume adımlarımız</h2>
             <p className="mt-2 text-sm text-slate-600">
               Saha tecrübesini her yıl güçlendiren süreçlerle ilerliyoruz.
@@ -326,7 +326,7 @@ export default function AboutPage() {
             {milestones.map((item) => (
               <div key={item.year} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
                 <div className="flex items-center gap-4">
-                  <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
+                  <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
                     {item.year}
                   </span>
                   <div>
@@ -342,7 +342,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Sektorler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sektorler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Çözüm sunduğumuz alanlar
           </h2>
@@ -352,20 +352,20 @@ export default function AboutPage() {
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {sectors.map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
-                <span className="mt-1 h-2 w-2 rounded-full bg-teal-500" />
+                <span className="mt-1 h-2 w-2 rounded-full bg-indigo-500" />
                 {item}
               </li>
             ))}
           </ul>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">İş akışı</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">İş akışı</p>
           <h3 className="mt-3 text-xl font-semibold text-slate-900">4 adımda teslim</h3>
           <div className="mt-4 space-y-3">
             {timeline.map((step, index) => (
               <div key={step.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-100 text-xs font-semibold text-teal-700">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-xs font-semibold text-indigo-700">
                     {index + 1}
                   </span>
                   <div>
@@ -381,7 +381,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yetkinlikler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Yetkinlikler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Üretim ve servis süreçlerini tek noktada toparlıyoruz
           </h2>
@@ -395,7 +395,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Tesis ve operasyon</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Tesis ve operasyon</p>
           <h3 className="mt-3 text-xl font-semibold text-slate-900">
             Sahadan merkeze entegre operasyon
           </h3>
@@ -405,7 +405,7 @@ export default function AboutPage() {
           <ul className="mt-4 space-y-3 text-sm text-slate-600">
             {facility.map((item) => (
               <li key={item} className="flex items-start gap-2">
-                <span className="mt-1 h-2 w-2 rounded-full bg-teal-500" />
+                <span className="mt-1 h-2 w-2 rounded-full bg-indigo-500" />
                 {item}
               </li>
             ))}
@@ -415,7 +415,7 @@ export default function AboutPage() {
 
       <section className="space-y-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Ekip</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Ekip</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">
             Sahada birlikte çalışan uzman kadro
           </h2>
@@ -436,7 +436,7 @@ export default function AboutPage() {
               </div>
               <div className="p-4 text-center">
                 <p className="text-base font-semibold text-slate-900">{member.name}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-teal-600">
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-indigo-600">
                   {member.role}
                 </p>
               </div>
@@ -448,7 +448,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Sik sorulanlar</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sik sorulanlar</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Saha ekiplerinden gelen sorular</h2>
             <p className="mt-2 text-sm text-slate-600">
               Kurulum, servis ve yedek parça süreçlerinde merak edilenleri netleştiriyoruz.
@@ -465,18 +465,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-teal-700 via-teal-600 to-teal-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
+      <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-100">Birlikte calisalim</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-100">Birlikte calisalim</p>
           <h2 className="mt-3 text-2xl font-semibold">Üretiminizi güçlendirecek çözümleri birlikte planlayalım</h2>
-          <p className="mt-2 text-sm text-teal-100">
+          <p className="mt-2 text-sm text-indigo-100">
             Kurulum ve servis süreçlerini hızlı planlamak için bizimle iletişime geçin.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
           <Link
             href="/quote"
-            className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-teal-700 shadow-lg shadow-teal-900/20 transition hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-700 shadow-lg shadow-indigo-900/20 transition hover:-translate-y-0.5"
           >
             Teklif iste
           </Link>
@@ -492,5 +492,6 @@ export default function AboutPage() {
     </div>
   );
 }
+
 
 

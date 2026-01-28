@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
           <div className="relative">
             <div className="text-center">
-              <div className="mx-auto h-12 w-12 rounded-xl bg-teal-400 text-slate-900 flex items-center justify-center font-semibold">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Parola sifirla</h2>
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
+                  className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
                   placeholder="ornek@email.com"
                 />
               </div>
@@ -86,7 +86,7 @@ export default function ForgotPasswordPage() {
             </form>
 
             <div className="mt-6 text-center">
-              <Link href="/login" className="text-sm font-medium text-teal-200 hover:text-teal-100">
+              <Link href="/login" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
                 Giris ekranina don
               </Link>
             </div>
@@ -96,5 +96,6 @@ export default function ForgotPasswordPage() {
     </div>
   );
 }
+
 
 

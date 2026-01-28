@@ -1,4 +1,4 @@
-ï»¿'use client';
+'use client';
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
@@ -38,7 +38,7 @@ export default function Header() {
   };
 
   const navClass = (href: string) => {
-    const active = 'text-slate-900 dark:text-white border-teal-500';
+    const active = 'text-slate-900 dark:text-white border-indigo-500';
     const idle = 'text-slate-500 dark:text-slate-300 border-transparent hover:text-slate-900 dark:hover:text-white';
     return `relative px-1 pb-2 text-sm font-semibold uppercase tracking-[0.14em] border-b-2 transition ${isActive(href) ? active : idle}`;
   };
@@ -78,16 +78,16 @@ export default function Header() {
                 aria-current={isActive('/spare-parts') ? 'page' : undefined}
                 className={navClass('/spare-parts')}
               >
-                Yedek ParÃ§alar
+                Yedek Parçalar
               </Link>
               <Link href="/gallery" aria-current={isActive('/gallery') ? 'page' : undefined} className={navClass('/gallery')}>
                 Galeri
               </Link>
               <Link href="/about" aria-current={isActive('/about') ? 'page' : undefined} className={navClass('/about')}>
-                HakkÄ±mÄ±zda
+                Hakkýmýzda
               </Link>
               <Link href="/contact" aria-current={isActive('/contact') ? 'page' : undefined} className={navClass('/contact')}>
-                Ä°letiÅŸim
+                Ýletiþim
               </Link>
             </div>
           </nav>
@@ -139,7 +139,7 @@ export default function Header() {
                   {mounted && unreadCount > 0 && (
                     <span
                       className={`absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-white text-xs font-bold flex items-center justify-center ${
-                        isHome ? 'bg-teal-600' : 'bg-teal-600'
+                        isHome ? 'bg-indigo-600' : 'bg-indigo-600'
                       }`}
                     >
                       {unreadCount}
@@ -159,7 +159,7 @@ export default function Header() {
                   {mounted && itemCount > 0 && (
                     <span
                       className={`absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full text-white text-xs font-bold flex items-center justify-center ${
-                        isHome ? 'bg-teal-600' : 'bg-teal-600'
+                        isHome ? 'bg-indigo-600' : 'bg-indigo-600'
                       }`}
                     >
                       {itemCount}
@@ -192,7 +192,7 @@ export default function Header() {
                     type="button"
                     className="text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white px-3 py-2 text-sm font-semibold rounded-md"
                   >
-                    GiriÅŸ Yap / KayÄ±t Ol
+                    Giriþ Yap / Kayýt Ol
                   </button>
                   <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                     <div className="py-1">
@@ -260,8 +260,8 @@ export default function Header() {
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   isActive('/')
                     ? isHome
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'bg-teal-50 text-teal-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
@@ -273,8 +273,8 @@ export default function Header() {
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   isActive('/products')
                     ? isHome
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'bg-teal-50 text-teal-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
@@ -286,12 +286,12 @@ export default function Header() {
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   isActive('/spare-parts')
                     ? isHome
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'bg-teal-50 text-teal-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Yedek ParÃ§alar
+                Yedek Parçalar
               </Link>
               <Link
                 href="/gallery"
@@ -299,8 +299,8 @@ export default function Header() {
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   isActive('/gallery')
                     ? isHome
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'bg-teal-50 text-teal-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
@@ -312,12 +312,12 @@ export default function Header() {
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   isActive('/about')
                     ? isHome
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'bg-teal-50 text-teal-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                HakkÄ±mÄ±zda
+                Hakkýmýzda
               </Link>
               <Link
                 href="/contact"
@@ -325,12 +325,12 @@ export default function Header() {
                 className={`px-3 py-2 text-sm font-medium rounded-md ${
                   isActive('/contact')
                     ? isHome
-                      ? 'bg-teal-50 text-teal-700'
-                      : 'bg-teal-50 text-teal-700'
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'bg-indigo-50 text-indigo-700'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Ä°letisim
+                Ýletisim
               </Link>
 
               <div className="my-2 border-t border-gray-200" />
@@ -342,16 +342,16 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    GiriÅŸ Yap
+                    Giriþ Yap
                   </Link>
                   <Link
                     href="/register"
                     onClick={() => setMobileMenuOpen(false)}
                     className={`px-3 py-2 text-sm font-medium text-white rounded-md ${
-                      isHome ? 'bg-teal-600 hover:bg-teal-700' : 'bg-teal-600 hover:bg-teal-700'
+                      isHome ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-indigo-600 hover:bg-indigo-700'
                     }`}
                   >
-                    KayÄ±t Ol
+                    Kayýt Ol
                   </Link>
                 </>
               )}
@@ -380,7 +380,7 @@ export default function Header() {
                     }}
                     className="text-left px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    Ã‡Ä±kÄ±ÅŸ Yap
+                    Çýkýþ Yap
                   </button>
                 </>
               )}
@@ -391,6 +391,7 @@ export default function Header() {
     </header>
   );
 }
+
 
 
 

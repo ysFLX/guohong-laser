@@ -35,10 +35,10 @@ const toneStyles: Record<Tone, { solid: string; outline: string; ghost: string; 
     badge: 'bg-indigo-500/10 text-indigo-700 ring-1 ring-indigo-500/30',
   },
   emerald: {
-    solid: 'bg-emerald-600 text-white hover:bg-emerald-500',
-    outline: 'border border-emerald-200 text-emerald-700 hover:border-emerald-300',
-    ghost: 'text-emerald-600 hover:text-emerald-700',
-    badge: 'bg-emerald-500/10 text-emerald-700 ring-1 ring-emerald-500/30',
+    solid: 'bg-indigo-600 text-white hover:bg-indigo-500',
+    outline: 'border border-indigo-200 text-indigo-700 hover:border-indigo-300',
+    ghost: 'text-indigo-600 hover:text-indigo-700',
+    badge: 'bg-indigo-500/10 text-indigo-700 ring-1 ring-indigo-500/30',
   },
   amber: {
     solid: 'bg-amber-500 text-white hover:bg-amber-400',
@@ -117,3 +117,4 @@ export function AdminRadioCard({ children, className, active, onClick }: RadioCa
     </button>
   );
 }
+

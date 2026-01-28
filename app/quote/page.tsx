@@ -141,7 +141,7 @@ export default function QuotePage() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
             </div>
@@ -157,7 +157,7 @@ export default function QuotePage() {
                   id="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
             </div>
@@ -174,7 +174,7 @@ export default function QuotePage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
               {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
@@ -192,7 +192,7 @@ export default function QuotePage() {
                   required
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function QuotePage() {
                   required
                   value={formData.product}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 >
                   <option value="">Urun seciniz</option>
                   {machineProductNames.map((product) => (
@@ -231,7 +231,7 @@ export default function QuotePage() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                   placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
                 ></textarea>
               </div>
@@ -256,7 +256,7 @@ export default function QuotePage() {
                     required
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     placeholder="000000"
                     maxLength={6}
                   />
@@ -288,5 +288,6 @@ export default function QuotePage() {
     </div>
   );
 }
+
 
 

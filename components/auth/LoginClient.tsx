@@ -94,7 +94,7 @@ export default function LoginClient() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
           <div className="relative">
             <div className="text-center">
-              <div className="mx-auto h-12 w-12 rounded-xl bg-teal-400 text-slate-900 flex items-center justify-center font-semibold">
+              <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Giris yap</h2>
@@ -143,7 +143,7 @@ export default function LoginClient() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={step === 'otp'}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40 disabled:opacity-60"
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 disabled:opacity-60"
                     placeholder="ornek@email.com"
                   />
                 </div>
@@ -160,7 +160,7 @@ export default function LoginClient() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={step === 'otp'}
-                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40 disabled:opacity-60"
+                    className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 disabled:opacity-60"
                     placeholder="********"
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function LoginClient() {
                       autoComplete="one-time-code"
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
-                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
+                      className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
                       placeholder="6 haneli kod"
                     />
                     <div className="mt-2 flex items-center justify-between text-xs text-white/60">
@@ -194,7 +194,7 @@ export default function LoginClient() {
                       <button
                         type="button"
                         onClick={handleResend}
-                        className="font-semibold text-teal-200 hover:text-teal-100"
+                        className="font-semibold text-indigo-200 hover:text-indigo-100"
                       >
                         Kodu tekrar gonder
                       </button>
@@ -223,12 +223,12 @@ export default function LoginClient() {
               </div>
             </form>
             <div className="mt-4 text-center">
-              <Link href="/forgot-password" className="text-sm font-medium text-teal-200 hover:text-teal-100">
+              <Link href="/forgot-password" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
                 Parolami unuttum
               </Link>
             </div>
             <div className="mt-6 text-center">
-              <Link href="/register" className="text-sm font-medium text-teal-200 hover:text-teal-100">
+              <Link href="/register" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
                 Hesabin yok mu? <span className="underline">Kayit ol</span>
               </Link>
             </div>
@@ -238,5 +238,6 @@ export default function LoginClient() {
     </div>
   );
 }
+
 
 

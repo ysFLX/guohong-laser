@@ -294,7 +294,7 @@ export default function CartPage() {
               </div>
               <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
                 Kargo ve teslimat detaylari icin{' '}
-                <Link href="/shipping" className="font-semibold text-teal-600 hover:text-teal-700">
+                <Link href="/shipping" className="font-semibold text-indigo-600 hover:text-indigo-700">
                   kargo politikasini
                 </Link>{' '}
                 inceleyebilirsin.
@@ -336,7 +336,7 @@ export default function CartPage() {
               <div className="mt-4">
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-70"
+                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-70"
                   onClick={handleCheckout}
                   disabled={!items.length}
                 >
@@ -365,7 +365,7 @@ export default function CartPage() {
                       type="email"
                       value={reminderEmail}
                       onChange={(e) => setReminderEmail(e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                      className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
                       placeholder="E-posta adresin"
                     />
                   </div>
@@ -387,7 +387,7 @@ export default function CartPage() {
                     </button>
                   </div>
                   {reminderStatus === 'saved' && (
-                    <div className="mt-2 text-[11px] font-semibold text-teal-600">
+                    <div className="mt-2 text-[11px] font-semibold text-indigo-600">
                       Hatirlatma aktif. Sepetin korunacak.
                     </div>
                   )}
@@ -435,3 +435,4 @@ export default function CartPage() {
     </div>
   );
 }
+

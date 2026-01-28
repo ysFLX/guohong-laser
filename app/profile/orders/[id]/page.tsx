@@ -176,10 +176,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   };
 
   const statusTone: Record<string, string> = {
-    RECEIVED: 'bg-sky-500/15 text-sky-700',
+    RECEIVED: 'bg-indigo-500/15 text-indigo-700',
     SHIPPED: 'bg-amber-500/15 text-amber-700',
     IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
-    DELIVERED: 'bg-emerald-500/15 text-emerald-700',
+    DELIVERED: 'bg-indigo-500/15 text-indigo-700',
     CANCELED: 'bg-slate-500/15 text-slate-700',
   };
 
@@ -193,9 +193,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
     RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    IN_TRANSIT: { dot: 'bg-teal-500', line: 'bg-teal-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
-    SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
-    DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
+    IN_TRANSIT: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
+    SHIPPED: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
+    DELIVERED: { dot: 'bg-indigo-500', line: 'bg-indigo-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
@@ -232,16 +232,16 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/80 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300 dark:[&_.bg-slate-50]:bg-slate-900/60">
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-sky-200/40 blur-3xl dark:bg-sky-500/10" />
-        <div className="pointer-events-none absolute -right-24 top-24 h-80 w-80 rounded-full bg-emerald-200/30 blur-3xl dark:bg-emerald-500/10" />
+        <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl dark:bg-indigo-500/10" />
+        <div className="pointer-events-none absolute -right-24 top-24 h-80 w-80 rounded-full bg-indigo-200/30 blur-3xl dark:bg-indigo-500/10" />
 
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <Link href="/profile/orders" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+            <Link href="/profile/orders" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
               Siparislerime don
             </Link>
             <div className="flex items-center gap-2 text-xs text-slate-500">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-indigo-400" />
               Guncel durum
             </div>
           </div>
@@ -406,10 +406,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                           {item.quantity} adet • {formatPriceTry(item.priceCents)}
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.2em]">
-                          <span className="rounded-full bg-emerald-500/15 px-2 py-1 text-emerald-600">
+                          <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
                             Stokta
                           </span>
-                          <span className="rounded-full bg-sky-500/15 px-2 py-1 text-sky-600">
+                          <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
                             2-3 gun teslim
                           </span>
                           <span className="rounded-full bg-slate-900/10 px-2 py-1 text-slate-600 dark:bg-white/10 dark:text-slate-200">
@@ -686,4 +686,5 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     </div>
   );
 }
+
 

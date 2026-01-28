@@ -8,27 +8,27 @@ export default function Footer() {
   const isHome = pathname === '/';
 
   const accent = {
-    glow: isHome ? 'bg-amber-200/70' : 'bg-teal-200/70',
-    glowMuted: isHome ? 'bg-amber-200/60' : 'bg-teal-200/60',
-    border: isHome ? 'border-amber-300/50' : 'border-teal-300/50',
-    primaryBtn: isHome ? 'bg-teal-600 hover:bg-teal-700' : 'bg-teal-600 hover:bg-teal-700',
+    glow: isHome ? 'bg-amber-200/70' : 'bg-indigo-200/70',
+    glowMuted: isHome ? 'bg-amber-200/60' : 'bg-indigo-200/60',
+    border: isHome ? 'border-amber-300/50' : 'border-indigo-300/50',
+    primaryBtn: isHome ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-indigo-600 hover:bg-indigo-700',
     outlineBtn: isHome
-      ? 'border-teal-200 text-teal-700 hover:bg-teal-50'
-      : 'border-teal-200 text-teal-700 hover:bg-teal-50',
-    linkHover: isHome ? 'hover:text-amber-600' : 'hover:text-teal-600',
-    iconHover: isHome ? 'hover:text-amber-600' : 'hover:text-teal-600',
+      ? 'border-indigo-200 text-indigo-700 hover:bg-indigo-50'
+      : 'border-indigo-200 text-indigo-700 hover:bg-indigo-50',
+    linkHover: isHome ? 'hover:text-amber-600' : 'hover:text-indigo-600',
+    iconHover: isHome ? 'hover:text-amber-600' : 'hover:text-indigo-600',
   };
 
   return (
     <footer className="relative overflow-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className={`absolute -top-28 right-10 h-64 w-64 rounded-full ${accent.glow} blur-[140px] dark:bg-teal-500/20`} />
-        <div className={`absolute -bottom-24 left-10 h-72 w-72 rounded-full ${accent.glowMuted} blur-[160px] dark:bg-teal-500/10`} />
+        <div className={`absolute -top-28 right-10 h-64 w-64 rounded-full ${accent.glow} blur-[140px] dark:bg-indigo-500/20`} />
+        <div className={`absolute -bottom-24 left-10 h-72 w-72 rounded-full ${accent.glowMuted} blur-[160px] dark:bg-indigo-500/10`} />
         <div className="absolute inset-0 opacity-30 dark:opacity-20 bg-[linear-gradient(90deg,_rgba(15,23,42,0.08)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.08)_1px,_transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
       <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`border-t ${accent.border} dark:border-teal-500/20`} />
+        <div className={`border-t ${accent.border} dark:border-indigo-500/20`} />
 
         <div className="grid gap-10 py-12 lg:grid-cols-[1.1fr_1.3fr]">
           <div className="space-y-6">
@@ -66,7 +66,7 @@ export default function Footer() {
               <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
                 Iletisime Gec
               </Link>
-              <a href="https://wa.me/905368316787" className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold ${accent.outlineBtn} dark:border-teal-400/30 dark:text-teal-300 dark:hover:bg-teal-400/10`}>
+              <a href="https://wa.me/905368316787" className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold ${accent.outlineBtn} dark:border-indigo-400/30 dark:text-indigo-300 dark:hover:bg-indigo-400/10`}>
                 WhatsApp Hatti
               </a>
             </div>
@@ -147,5 +147,6 @@ export default function Footer() {
     </footer>
   );
 }
+
 
 

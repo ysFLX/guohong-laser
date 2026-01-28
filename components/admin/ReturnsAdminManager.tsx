@@ -211,7 +211,7 @@ export default function ReturnsAdminManager() {
                             href={url}
                             target="_blank"
                             rel="noreferrer"
-                            className="group rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600 hover:border-teal-300"
+                            className="group rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600 hover:border-indigo-300"
                           >
                             {isImageUrl(url) ? (
                               <div className="relative mb-2 h-32 w-full overflow-hidden rounded-lg bg-slate-100">
@@ -315,3 +315,4 @@ export default function ReturnsAdminManager() {
     </div>
   );
 }
+

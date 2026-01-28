@@ -83,7 +83,7 @@ const statusTone = (value: string) => {
 const statusAccent = (value: string) => {
   switch (value) {
     case 'DELIVERED':
-      return 'border-l-emerald-500';
+      return 'border-l-indigo-500';
     case 'SHIPPED':
       return 'border-l-blue-500';
     case 'IN_TRANSIT':
@@ -713,7 +713,7 @@ export default function OrdersAdminManager() {
                                   href={draftTracking[order.id].url}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="inline-flex items-center gap-1 text-teal-700 hover:text-teal-800"
+                                  className="inline-flex items-center gap-1 text-indigo-700 hover:text-indigo-800"
                                 >
                                   Takip linkini ac
                                   <span>-&gt;</span>
@@ -756,7 +756,7 @@ export default function OrdersAdminManager() {
           <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" />
           <div className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.18),_transparent_55%),linear-gradient(160deg,_rgba(15,23,42,0.96),_rgba(2,6,23,0.98))] p-6 text-white shadow-[0_30px_80px_-40px_rgba(15,23,42,0.9)]">
             <div className="absolute -right-16 top-10 h-32 w-32 rounded-full bg-rose-500/20 blur-[80px]" />
-            <div className="absolute -left-10 bottom-10 h-32 w-32 rounded-full bg-teal-400/10 blur-[90px]" />
+            <div className="absolute -left-10 bottom-10 h-32 w-32 rounded-full bg-indigo-400/10 blur-[90px]" />
             <div className="relative">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-rose-400/30 bg-rose-500/15 text-rose-200">
@@ -824,6 +824,7 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
+
 
 
 

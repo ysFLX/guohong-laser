@@ -115,11 +115,11 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
     <section className="rounded-[28px] border border-gray-100 bg-white/90 p-6 shadow-xl dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Yorumlar</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Yorumlar</p>
           <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Musteri degerlendirmeleri</h2>
         </div>
         <div className="flex items-center gap-3">
-          <div className="rounded-full bg-teal-100 px-3 py-1 text-sm font-semibold text-teal-700">
+          <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
             {averageLabel}
           </div>
           <span className="text-sm text-gray-600 dark:text-gray-300">{summary.count} yorum</span>
@@ -141,7 +141,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                     </svg>
                   </span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
-                    <div className="h-full rounded-full bg-teal-500" style={{ width: `${percent}%` }} />
+                    <div className="h-full rounded-full bg-indigo-500" style={{ width: `${percent}%` }} />
                   </div>
                   <span className="w-10 text-right">{count}</span>
                 </div>
@@ -177,7 +177,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                       <div className="text-xs text-gray-500">{formatDate(review.createdAt)}</div>
                     </div>
                   </div>
-                  <div className="rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
+                  <div className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
                     {review.rating} / 5
                   </div>
                 </div>
@@ -187,7 +187,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
             ))}
           </div>
 
-          <div className="rounded-2xl border border-teal-100 bg-teal-50/70 p-4 text-sm text-teal-900">
+          <div className="rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 text-sm text-indigo-900">
             {status !== 'authenticated' && (
               <p>Yorum yazmak icin giris yapmalisin.</p>
             )}
@@ -207,8 +207,8 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                       onClick={() => setRating(value)}
                       className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${
                         rating === value
-                          ? 'bg-teal-600 text-white'
-                          : 'bg-white text-teal-700 hover:bg-white/80'
+                          ? 'bg-indigo-600 text-white'
+                          : 'bg-white text-indigo-700 hover:bg-white/80'
                       }`}
                     >
                       <span className="flex items-center gap-1">
@@ -220,12 +220,12 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                     </button>
                   ))}
                 </div>
-                <label className="flex items-center gap-2 text-xs text-teal-800">
+                <label className="flex items-center gap-2 text-xs text-indigo-800">
                   <input
                     type="checkbox"
                     checked={isAnonymous}
                     onChange={(event) => setIsAnonymous(event.target.checked)}
-                    className="h-4 w-4 rounded border-teal-200 text-teal-600 focus:ring-teal-200"
+                    className="h-4 w-4 rounded border-indigo-200 text-indigo-600 focus:ring-indigo-200"
                   />
                   Ismimi gizle
                 </label>
@@ -234,20 +234,20 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
                   placeholder="Baslik (opsiyonel)"
-                  className="w-full rounded-xl border border-teal-100 bg-white px-3 py-2 text-sm text-gray-900 focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                  className="w-full rounded-xl border border-indigo-100 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                 />
                 <textarea
                   value={body}
                   onChange={(event) => setBody(event.target.value)}
                   placeholder="Yorumunuz"
                   rows={3}
-                  className="w-full rounded-xl border border-teal-100 bg-white px-3 py-2 text-sm text-gray-900 focus:border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                  className="w-full rounded-xl border border-indigo-100 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                 />
                 {submitError && <div className="text-sm text-red-600">{submitError}</div>}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center justify-center rounded-full bg-teal-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {submitting ? 'Gonderiliyor' : 'Yorum gonder'}
                 </button>
@@ -259,3 +259,4 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
     </section>
   );
 }
+

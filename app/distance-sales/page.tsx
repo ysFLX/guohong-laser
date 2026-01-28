@@ -54,7 +54,7 @@ export default function DistanceSalesPage() {
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
                   Iade ve garanti
@@ -71,7 +71,7 @@ export default function DistanceSalesPage() {
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Destek ihtiyaci</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Destek ihtiyaci</div>
               <p className="mt-3 text-sm text-slate-600">
                 Sozlesme maddeleri ile ilgili sorularin icin destek hattimiz sana yardimci olur.
               </p>
@@ -88,3 +88,4 @@ export default function DistanceSalesPage() {
     </div>
   );
 }
+

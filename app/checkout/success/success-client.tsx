@@ -32,11 +32,11 @@ export default function CheckoutSuccessClient() {
         </p>
         <div className="mt-4 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
           Iade veya degisim talebin olursa{' '}
-          <Link href="/returns-request" className="font-semibold text-teal-600 hover:text-teal-700">
+          <Link href="/returns-request" className="font-semibold text-indigo-600 hover:text-indigo-700">
             iade formunu
           </Link>{' '}
           doldurabilirsin. Fatura/irsaliye talepleri icin{' '}
-          <Link href="/contact?subject=Fatura+Talebi" className="font-semibold text-teal-600 hover:text-teal-700">
+          <Link href="/contact?subject=Fatura+Talebi" className="font-semibold text-indigo-600 hover:text-indigo-700">
             iletisim
           </Link>{' '}
           kurabilirsin.
@@ -44,7 +44,7 @@ export default function CheckoutSuccessClient() {
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             href="/profile/orders"
-            className="inline-flex items-center justify-center rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
           >
             Siparislerim
           </Link>
@@ -59,4 +59,5 @@ export default function CheckoutSuccessClient() {
     </div>
   );
 }
+
 

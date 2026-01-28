@@ -53,7 +53,7 @@ export default function AdminSparePartEditForm({
       </div>
 
       {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
-      {success && <div className="mt-4 text-sm text-emerald-600">{success}</div>}
+      {success && <div className="mt-4 text-sm text-indigo-600">{success}</div>}
 
       <div className="mt-6 grid grid-cols-1 gap-4">
         <div>
@@ -229,3 +229,4 @@ export default function AdminSparePartEditForm({
     </div>
   );
 }
+

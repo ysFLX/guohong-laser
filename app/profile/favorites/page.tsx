@@ -124,13 +124,13 @@ export default function FavoritesPage() {
       <div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Link href="/profile" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+            <Link href="/profile" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
               Hesap yonetimine don
             </Link>
             <h1 className="mt-3 text-2xl font-semibold text-slate-900">Favorilerim</h1>
             <p className="mt-1 text-sm text-slate-600">Favoriledigin urunleri burada yonetebilirsin.</p>
           </div>
-          <Link href="/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+          <Link href="/spare-parts" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
             Yedek parcalara git
           </Link>
         </div>
@@ -193,7 +193,7 @@ export default function FavoritesPage() {
                       disabled={item.sparePart.stockOnHand <= 0}
                       className={`rounded-xl px-4 py-2 text-sm font-semibold ${
                         item.sparePart.stockOnHand > 0
-                          ? 'bg-teal-600 text-white hover:bg-teal-700'
+                          ? 'bg-indigo-600 text-white hover:bg-indigo-700'
                           : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                       }`}
                     />
@@ -231,5 +231,6 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
+
 
 

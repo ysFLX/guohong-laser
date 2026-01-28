@@ -225,7 +225,7 @@ export default function ProductsPage() {
               <span className="rounded-full border border-indigo-200 bg-white px-4 py-2">Kurumsal teklif akisi</span>
             </div>
           </div>
-          <div className="rounded-[28px] border border-indigo-100 bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-6">
+          <div className="rounded-[28px] border border-indigo-100 bg-gradient-to-br from-indigo-50 via-white to-indigo-50 p-6">
             <p className="text-xs uppercase tracking-[0.3em] text-indigo-500">Katalog hizli bakis</p>
             <div className="mt-4 grid gap-4 text-sm text-slate-600">
               <div className="flex items-center justify-between">
@@ -375,7 +375,7 @@ export default function ProductsPage() {
                     <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em]">
                       <span
                         className={`rounded-full px-3 py-1 ${
-                          product.stockLabel === 'Stokta' ? 'bg-emerald-500 text-white' : 'bg-amber-200 text-amber-900'
+                          product.stockLabel === 'Stokta' ? 'bg-indigo-500 text-white' : 'bg-amber-200 text-amber-900'
                         }`}
                       >
                         {product.stockLabel}
@@ -502,7 +502,7 @@ export default function ProductsPage() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                   </div>
                   <div>
@@ -512,7 +512,7 @@ export default function ProductsPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                   </div>
                   <div>
@@ -523,7 +523,7 @@ export default function ProductsPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                     {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
                   </div>
@@ -535,7 +535,7 @@ export default function ProductsPage() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                   </div>
                   <div className="sm:col-span-2">
@@ -555,7 +555,7 @@ export default function ProductsPage() {
                       rows={4}
                       value={formData.message}
                       onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                       placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
                     />
                   </div>
@@ -574,7 +574,7 @@ export default function ProductsPage() {
                         required
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
-                        className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                        className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                         placeholder="000000"
                         maxLength={6}
                       />
@@ -603,7 +603,7 @@ export default function ProductsPage() {
       <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-200">
               Teklif merkezi
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
@@ -649,7 +649,7 @@ export default function ProductsPage() {
               <div className="relative max-h-[85vh] overflow-y-auto p-6 sm:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.35em] text-teal-600">Karsilastirma paneli</p>
+                    <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">Karsilastirma paneli</p>
                     <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gor</h2>
                     <p className="mt-2 text-sm text-slate-500">
                       {selectedCompare.length || 0} model secildi. En fazla 3 model karsilastirabilirsin.
@@ -742,7 +742,7 @@ export default function ProductsPage() {
       <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-200">
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-200">
               Servis paketleri
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
@@ -761,7 +761,7 @@ export default function ProductsPage() {
             <div key={pkg.name} className="rounded-2xl border border-slate-200/70 bg-white/80 px-5 py-4">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-semibold text-slate-900">{pkg.name}</p>
-                <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-700">
+                <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
                   {pkg.badge}
                 </span>
               </div>
@@ -773,5 +773,6 @@ export default function ProductsPage() {
     </div>
   );
 }
+
 
 

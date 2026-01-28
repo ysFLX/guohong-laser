@@ -9,7 +9,7 @@ export default function AddressesPage() {
   return (
     <ProfileLayout showSide={false}>
       <div>
-        <Link href="/profile" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+        <Link href="/profile" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
           Hesap yonetimine don
         </Link>
         <h1 className="mt-3 text-2xl font-semibold text-slate-900">Adreslerim</h1>
@@ -23,5 +23,6 @@ export default function AddressesPage() {
     </ProfileLayout>
   );
 }
+
 
 

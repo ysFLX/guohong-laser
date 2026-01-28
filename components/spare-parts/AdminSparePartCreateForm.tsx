@@ -26,7 +26,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
   return (
     <div className="mt-2">
       {error && <div className="text-sm text-rose-600">{error}</div>}
-      {success && <div className="text-sm text-emerald-600">{success}</div>}
+      {success && <div className="text-sm text-indigo-600">{success}</div>}
 
       <div className="mt-4 grid grid-cols-1 gap-4">
         <div>
@@ -181,3 +181,4 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
     </div>
   );
 }
+

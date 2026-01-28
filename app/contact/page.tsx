@@ -165,7 +165,7 @@ export default function ContactPage() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function ContactPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                   </div>
                   {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
@@ -199,7 +199,7 @@ export default function ContactPage() {
                       id="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                   </div>
                 </div>
@@ -215,7 +215,7 @@ export default function ContactPage() {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     >
                       <option value="Genel Soru">Genel Soru</option>
                       <option value="Teknik Destek">Teknik Destek</option>
@@ -237,7 +237,7 @@ export default function ContactPage() {
                       required
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                       placeholder="Mesajinizi buraya yazin..."
                     ></textarea>
                   </div>
@@ -262,7 +262,7 @@ export default function ContactPage() {
                         required
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
-                        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                         placeholder="000000"
                         maxLength={6}
                       />
@@ -310,12 +310,12 @@ export default function ContactPage() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[24px] border border-slate-200/70 bg-white p-4 text-sm shadow-[0_18px_40px_-32px_rgba(15,23,42,0.35)]">
-                <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Hizli ulasim</div>
+                <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli ulasim</div>
                 <div className="mt-2 font-semibold text-slate-900">WhatsApp hatti</div>
                 <p className="mt-1 text-xs text-slate-600">Siparis ve servis takibi.</p>
               </div>
               <div className="rounded-[24px] border border-slate-200/70 bg-white p-4 text-sm shadow-[0_18px_40px_-32px_rgba(15,23,42,0.35)]">
-                <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Kurumsal</div>
+                <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal</div>
                 <div className="mt-2 font-semibold text-slate-900">Proje planlama</div>
                 <p className="mt-1 text-xs text-slate-600">Saha kesif ve teklif akisi.</p>
               </div>
@@ -333,5 +333,6 @@ export default function ContactPage() {
     </div>
   );
 }
+
 
 

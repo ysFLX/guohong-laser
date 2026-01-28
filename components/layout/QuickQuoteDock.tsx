@@ -83,7 +83,7 @@ export default function QuickQuoteDock() {
         <div className="mb-3 w-[320px] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Hizli teklif</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli teklif</div>
               <div className="mt-1 text-sm font-semibold text-slate-900">2 dakikada fiyat al</div>
             </div>
             <button
@@ -95,7 +95,7 @@ export default function QuickQuoteDock() {
             </button>
           </div>
 
-          {info && <div className="mt-3 rounded-xl bg-teal-50 px-3 py-2 text-xs text-teal-700">{info}</div>}
+          {info && <div className="mt-3 rounded-xl bg-indigo-50 px-3 py-2 text-xs text-indigo-700">{info}</div>}
           {error && <div className="mt-3 rounded-xl bg-rose-50 px-3 py-2 text-xs text-rose-700">{error}</div>}
 
           <form onSubmit={submit} className="mt-4 space-y-3 text-sm">
@@ -104,7 +104,7 @@ export default function QuickQuoteDock() {
               value={form.name}
               onChange={onChange}
               placeholder="Ad soyad"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               required
             />
             <input
@@ -112,7 +112,7 @@ export default function QuickQuoteDock() {
               value={form.email}
               onChange={onChange}
               placeholder="E-posta"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               required
             />
             <input
@@ -120,13 +120,13 @@ export default function QuickQuoteDock() {
               value={form.phone}
               onChange={onChange}
               placeholder="Telefon"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             />
             <select
               name="product"
               value={form.product}
               onChange={(e) => setForm((prev) => ({ ...prev, product: e.target.value }))}
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             >
               <option value="">Makine seciniz</option>
               {machineProductNames.map((product) => (
@@ -141,7 +141,7 @@ export default function QuickQuoteDock() {
               onChange={onChange}
               rows={3}
               placeholder="Talep detayiniz"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               required
             />
 
@@ -151,7 +151,7 @@ export default function QuickQuoteDock() {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 placeholder="Dogrulama kodu"
-                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-center tracking-[0.3em] focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-center tracking-[0.3em] focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 maxLength={6}
                 required
               />
@@ -171,7 +171,7 @@ export default function QuickQuoteDock() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2 rounded-full bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-500/30 hover:bg-teal-500"
+        className="flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500"
       >
         <span className="inline-flex h-2 w-2 rounded-full bg-white" />
         Hizli Teklif
@@ -179,3 +179,4 @@ export default function QuickQuoteDock() {
     </div>
   );
 }
+

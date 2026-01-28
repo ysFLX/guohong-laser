@@ -327,7 +327,7 @@ export default async function SparePartDetailPage({
               <span className="rounded-full border border-slate-200 bg-white px-3 py-1">
                 {p.category.name}
               </span>
-              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
@@ -453,7 +453,7 @@ export default async function SparePartDetailPage({
           <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24">
             <div className="text-3xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
+              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
@@ -606,6 +606,7 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
+
 
 
 

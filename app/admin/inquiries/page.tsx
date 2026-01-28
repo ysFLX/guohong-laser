@@ -34,8 +34,8 @@ const statusMeta = (status: string) => {
   if (status === 'READ') {
     return {
       label: 'Okundu',
-      accent: 'border-l-emerald-400',
-      badge: 'text-emerald-700 bg-emerald-500/10 ring-1 ring-emerald-500/30',
+      accent: 'border-l-indigo-400',
+      badge: 'text-indigo-700 bg-indigo-500/10 ring-1 ring-indigo-500/30',
     };
   }
   if (status === 'CLOSED') {
@@ -214,3 +214,4 @@ export default async function AdminInquiriesPage() {
     </div>
   );
 }
+

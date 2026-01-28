@@ -26,7 +26,7 @@ export default function SupportWidget() {
       {open && (
         <div className="mb-3 w-[320px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
           <div className="bg-slate-900 px-5 py-4 text-white">
-            <div className="text-xs uppercase tracking-[0.3em] text-teal-300">Destek</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-300">Destek</div>
             <div className="mt-1 text-lg font-semibold">Hizli yardim</div>
             <p className="mt-1 text-xs text-slate-300">Sana en hizli sekilde yardimci olalim.</p>
           </div>
@@ -48,7 +48,7 @@ export default function SupportWidget() {
               </Link>
               <a
                 href="https://wa.me/905368316787"
-                className="inline-flex items-center justify-center rounded-full border border-teal-200 px-4 py-2 text-xs font-semibold text-teal-700"
+                className="inline-flex items-center justify-center rounded-full border border-indigo-200 px-4 py-2 text-xs font-semibold text-indigo-700"
               >
                 WhatsApp hatti
               </a>
@@ -60,7 +60,7 @@ export default function SupportWidget() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-teal-600 text-white shadow-xl transition hover:scale-[1.03]"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl transition hover:scale-[1.03]"
         aria-label="Destek widgetini ac"
       >
         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
@@ -70,3 +70,4 @@ export default function SupportWidget() {
     </div>
   );
 }
+

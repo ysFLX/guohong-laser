@@ -53,7 +53,7 @@ export default function CookiesPage() {
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/privacy" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
                   Gizlilik politikasi
@@ -67,7 +67,7 @@ export default function CookiesPage() {
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Tercih yardimi</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Tercih yardimi</div>
               <p className="mt-3 text-sm text-slate-600">
                 Cerez tercihleriyle ilgili sorularin icin destek ekibimiz yardimci olur.
               </p>
@@ -84,3 +84,4 @@ export default function CookiesPage() {
     </div>
   );
 }
+

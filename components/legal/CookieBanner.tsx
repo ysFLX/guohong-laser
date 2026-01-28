@@ -76,7 +76,7 @@ export default function CookieBanner() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="text-sm text-slate-600 dark:text-slate-200">
           Cerezleri deneyimi iyilestirmek ve analiz icin kullaniyoruz. Detaylar icin{' '}
-          <Link href="/cookies" className="font-semibold text-teal-600 hover:text-teal-700">
+          <Link href="/cookies" className="font-semibold text-indigo-600 hover:text-indigo-700">
             cerez politikasi
           </Link>{' '}
           sayfasini inceleyebilirsin.
@@ -132,7 +132,7 @@ export default function CookieBanner() {
                       Guvenlik ve oturum icin gerekli.
                     </p>
                   </div>
-                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                  <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
                     Her zaman acik
                   </span>
                 </div>
@@ -148,7 +148,7 @@ export default function CookieBanner() {
                   type="checkbox"
                   checked={analyticsEnabled}
                   onChange={(event) => setAnalyticsEnabled(event.target.checked)}
-                  className="h-5 w-5 accent-teal-500"
+                  className="h-5 w-5 accent-indigo-500"
                 />
               </label>
             </div>
@@ -174,3 +174,4 @@ export default function CookieBanner() {
     </div>
   );
 }
+

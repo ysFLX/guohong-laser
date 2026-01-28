@@ -46,9 +46,10 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
       >
         {isClearing ? 'Temizleniyor...' : 'Temizle'}
       </AdminButton>
-      {success && <div className="mt-2 text-xs text-emerald-600">{success}</div>}
+      {success && <div className="mt-2 text-xs text-indigo-600">{success}</div>}
       {error && <div className="mt-2 text-xs text-rose-600">{error}</div>}
     </div>
   );
 }
+
 

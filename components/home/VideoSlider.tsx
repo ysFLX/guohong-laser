@@ -176,7 +176,7 @@ export default function VideoSlider({
             step={0.05}
             value={muted ? 0 : volume}
             onChange={(event) => handleVolumeChange(Number(event.target.value))}
-            className="h-1 w-24 accent-teal-300"
+            className="h-1 w-24 accent-indigo-300"
             aria-label="Ses seviyesi"
           />
           <button
@@ -237,3 +237,4 @@ export default function VideoSlider({
     </div>
   );
 }
+

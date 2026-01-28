@@ -214,7 +214,7 @@ export default async function AdminHomePage() {
               description: 'Iade taleplerini yonet.',
               href: '/admin/returns',
               count: totalReturns,
-              tone: 'border-emerald-200',
+              tone: 'border-indigo-200',
             },
             {
               title: 'Talepler',
@@ -243,7 +243,7 @@ export default async function AdminHomePage() {
                 </span>
               </div>
               <div className="mt-3 text-sm font-semibold text-slate-900">{card.description}</div>
-              <div className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600">
+              <div className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
                 Hemen git
                 <span className="ml-1 transition group-hover:translate-x-1">-&gt;</span>
               </div>
@@ -254,7 +254,7 @@ export default async function AdminHomePage() {
         <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Anasayfa panelleri</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Anasayfa panelleri</div>
               <div className="mt-2 text-sm text-slate-600">
                 Son guncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henuz ayarlanmadi'}
               </div>
@@ -277,7 +277,7 @@ export default async function AdminHomePage() {
                 <div className="text-base font-semibold text-slate-900">Guncel Stok</div>
                 <div className="text-sm text-slate-600">Son guncellenen 5 urun</div>
               </div>
-              <Link href="/admin/spare-parts" className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+              <Link href="/admin/spare-parts" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                 Tumunu gor
               </Link>
             </div>
@@ -305,7 +305,7 @@ export default async function AdminHomePage() {
                   </div>
                   <Link
                     href={`/admin/spare-parts/${p.id}`}
-                    className="text-sm font-semibold text-teal-600 hover:text-teal-700"
+                    className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
                   >
                     Duzenle
                   </Link>
@@ -333,7 +333,7 @@ export default async function AdminHomePage() {
                 >
                   <div className="text-sm font-semibold text-slate-900">{link.title}</div>
                   <div className="mt-1 text-xs text-slate-600">{link.description}</div>
-                  <div className="mt-3 text-sm font-semibold text-teal-600 hover:text-teal-700">{link.action}</div>
+                  <div className="mt-3 text-sm font-semibold text-indigo-600 hover:text-indigo-700">{link.action}</div>
                 </Link>
               ))}
             </div>
@@ -372,6 +372,7 @@ export default async function AdminHomePage() {
     </div>
   );
 }
+
 
 
 

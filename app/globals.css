@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -18,15 +18,15 @@
   --gray-700: #333333;
   --gray-800: #1b1b1b;
   --gray-900: #0f0f0f;
-  --emerald-100: #eef2ff;
-  --emerald-200: #e0e7ff;
-  --emerald-300: #c7d2fe;
-  --emerald-400: #a5b4fc;
-  --emerald-500: #818cf8;
-  --emerald-600: #6366f1;
-  --emerald-700: #4f46e5;
-  --emerald-800: #4338ca;
-  --emerald-900: #312e81;
+  --indigo-100: #eef2ff;
+  --indigo-200: #e0e7ff;
+  --indigo-300: #c7d2fe;
+  --indigo-400: #a5b4fc;
+  --indigo-500: #818cf8;
+  --indigo-600: #6366f1;
+  --indigo-700: #4f46e5;
+  --indigo-800: #4338ca;
+  --indigo-900: #312e81;
   --green-100: #f0fff4;
   --green-200: #c6f6d5;
   --green-300: #9ae6b4;
@@ -72,15 +72,15 @@
   --gray-700: #f2f2f2;
   --gray-800: #ffffff;
   --gray-900: #1d1d1d;
-  --emerald-100: #1e1b4b;
-  --emerald-200: #272a5e;
-  --emerald-300: #312e81;
-  --emerald-400: #3730a3;
-  --emerald-500: #4338ca;
-  --emerald-600: #4f46e5;
-  --emerald-700: #6366f1;
-  --emerald-800: #818cf8;
-  --emerald-900: #a5b4fc;
+  --indigo-100: #1e1b4b;
+  --indigo-200: #272a5e;
+  --indigo-300: #312e81;
+  --indigo-400: #3730a3;
+  --indigo-500: #4338ca;
+  --indigo-600: #4f46e5;
+  --indigo-700: #6366f1;
+  --indigo-800: #818cf8;
+  --indigo-900: #a5b4fc;
   --green-100: #212121;
   --green-200: #333333;
   --green-300: #444444;
@@ -278,13 +278,13 @@ select:focus-visible {
 }
 
 .btn-outline:hover {
-  border-color: var(--emerald-500);
-  color: var(--emerald-600);
+  border-color: var(--indigo-500);
+  color: var(--indigo-600);
 }
 
 .dark .btn-outline:hover {
-  border-color: var(--emerald-400);
-  color: var(--emerald-300);
+  border-color: var(--indigo-400);
+  color: var(--indigo-300);
 }
 
 .fade-up {
@@ -549,5 +549,6 @@ select:focus-visible {
     transform: translateY(0) scale(1);
   }
 }
+
 
 

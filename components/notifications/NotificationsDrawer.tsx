@@ -160,7 +160,7 @@ export default function NotificationsDrawer() {
                             placeholder="Kisa yanit yaz..."
                           />
                           {replyState.error && <div className="mt-2 text-xs text-red-600">{replyState.error}</div>}
-                          {replyState.success && <div className="mt-2 text-xs text-teal-600">{replyState.success}</div>}
+                          {replyState.success && <div className="mt-2 text-xs text-indigo-600">{replyState.success}</div>}
                           <div className="mt-3 flex flex-wrap gap-2">
                             <button
                               type="button"
@@ -255,5 +255,6 @@ export default function NotificationsDrawer() {
     </div>
   );
 }
+
 
 

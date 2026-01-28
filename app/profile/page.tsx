@@ -76,9 +76,9 @@ const returnStatusLabel: Record<ReturnRequestItem['status'], string> = {
 const returnStatusTone: Record<ReturnRequestItem['status'], string> = {
   NEW: 'bg-slate-100 text-slate-700',
   UNDER_REVIEW: 'bg-amber-100 text-amber-800',
-  APPROVED: 'bg-emerald-100 text-emerald-800',
+  APPROVED: 'bg-indigo-100 text-indigo-800',
   REJECTED: 'bg-rose-100 text-rose-800',
-  REFUNDED: 'bg-teal-100 text-teal-800',
+  REFUNDED: 'bg-indigo-100 text-indigo-800',
 };
 
 const formatShortDate = (value: string) =>
@@ -472,7 +472,7 @@ export default function ProfilePage() {
           <div className="flex flex-wrap items-center gap-2">
             <span
               className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                profileComplete ? 'bg-teal-400/20 text-teal-200' : 'bg-yellow-400/20 text-yellow-100'
+                profileComplete ? 'bg-indigo-400/20 text-indigo-200' : 'bg-yellow-400/20 text-yellow-100'
               }`}
             >
               {profileComplete ? 'Profil tamam' : 'Profil eksik'}
@@ -493,15 +493,15 @@ export default function ProfilePage() {
         </div>
         <div className="relative mt-6 grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-teal-200">Profil durumu</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Profil durumu</div>
             <div className="mt-2 text-sm font-semibold text-white">{profileComplete ? 'Hazir' : 'Eksik bilgiler var'}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-teal-200">Adres durumu</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Adres durumu</div>
             <div className="mt-2 text-sm font-semibold text-white">{hasAddress ? 'Kayitli adres var' : 'Adres eklenmedi'}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-teal-200">Uyeligi</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Uyeligi</div>
             <div className="mt-2 text-sm font-semibold text-white">{roleLabel}</div>
           </div>
         </div>
@@ -557,7 +557,7 @@ export default function ProfilePage() {
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
               <div>
@@ -569,7 +569,7 @@ export default function ProfilePage() {
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
               <div>
@@ -593,7 +593,7 @@ export default function ProfilePage() {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="mt-1 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 />
               </div>
             </div>
@@ -604,7 +604,7 @@ export default function ProfilePage() {
                 onClick={handleSave}
                 disabled={isSaving}
                 className={`rounded-xl px-4 py-2 text-sm font-semibold text-white ${
-                  isSaving ? 'bg-teal-300' : 'bg-teal-600 hover:bg-teal-500'
+                  isSaving ? 'bg-indigo-300' : 'bg-indigo-600 hover:bg-indigo-500'
                 }`}
               >
                 {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri kaydet'}
@@ -685,7 +685,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.twoFactor}</span>
-              <span className={`font-semibold ${twoFactorEnabled ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${twoFactorEnabled ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {twoFactorSaving ? '...' : twoFactorEnabled ? copy.on : copy.off}
               </span>
             </button>
@@ -696,7 +696,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.loginAlerts}</span>
-              <span className={`font-semibold ${prefs.loginAlerts ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.loginAlerts ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.loginAlerts ? copy.on : copy.off}
               </span>
             </button>
@@ -718,7 +718,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.emailNotify}</span>
-              <span className={`font-semibold ${prefs.emailNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.emailNotify ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.emailNotify ? copy.on : copy.off}
               </span>
             </button>
@@ -728,7 +728,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.inAppNotify}</span>
-              <span className={`font-semibold ${prefs.inAppNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.inAppNotify ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.inAppNotify ? copy.on : copy.off}
               </span>
             </button>
@@ -738,7 +738,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.promoNotify}</span>
-              <span className={`font-semibold ${prefs.promoNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.promoNotify ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.promoNotify ? copy.on : copy.off}
               </span>
             </button>
@@ -748,7 +748,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.priceDropNotify}</span>
-              <span className={`font-semibold ${prefs.priceDropNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.priceDropNotify ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.priceDropNotify ? copy.on : copy.off}
               </span>
             </button>
@@ -758,7 +758,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.stockNotify}</span>
-              <span className={`font-semibold ${prefs.stockNotify ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.stockNotify ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.stockNotify ? copy.on : copy.off}
               </span>
             </button>
@@ -768,7 +768,7 @@ export default function ProfilePage() {
               className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2"
             >
               <span>{copy.newsletter}</span>
-              <span className={`font-semibold ${prefs.newsletter ? 'text-teal-700' : 'text-slate-500'}`}>
+              <span className={`font-semibold ${prefs.newsletter ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {prefs.newsletter ? copy.on : copy.off}
               </span>
             </button>
@@ -781,7 +781,7 @@ export default function ProfilePage() {
 
       {saveError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{saveError}</div>}
       {saveSuccess && (
-        <div className="rounded-xl border border-teal-200 bg-teal-50 p-3 text-sm text-teal-700">
+        <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-3 text-sm text-indigo-700">
           {saveSuccess}
         </div>
       )}
@@ -789,5 +789,6 @@ export default function ProfilePage() {
     </div>
   );
 }
+
 
 

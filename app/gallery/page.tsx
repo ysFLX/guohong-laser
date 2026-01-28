@@ -167,7 +167,7 @@ export default function GalleryPage() {
       <Reveal as="section" className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600">Filtreler</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Filtreler</p>
             <h2 className="mt-2 text-xl font-semibold text-slate-900">Gercek galeri akisi</h2>
             <p className="mt-1 text-sm text-slate-600">
               {filteredImages.length} gorsel gosteriliyor / {galleryImages.length} toplam.
@@ -186,7 +186,7 @@ export default function GalleryPage() {
               onClick={() => setActiveTag(tag)}
               className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
                 activeTag === tag
-                  ? 'bg-teal-500 text-slate-900'
+                  ? 'bg-indigo-500 text-slate-900'
                   : 'border border-slate-200 bg-white/80 text-slate-600 hover:border-slate-300 hover:text-slate-900'
               }`}
             >
@@ -242,7 +242,7 @@ export default function GalleryPage() {
           >
             <div className="flex flex-wrap items-center justify-between gap-4 text-white">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-teal-200">Galeri detayi</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-indigo-200">Galeri detayi</p>
                 <h3 className="mt-1 text-2xl font-semibold">{activeImage.alt}</h3>
                 <p className="mt-1 text-sm text-white/70">{activeImage.tag}</p>
               </div>
@@ -290,7 +290,7 @@ export default function GalleryPage() {
                   onClick={() => setActiveIndex(index)}
                   className={`h-20 w-28 shrink-0 overflow-hidden rounded-2xl border transition ${
                     index === activeIndex
-                      ? 'border-teal-300 shadow-lg'
+                      ? 'border-indigo-300 shadow-lg'
                       : 'border-white/20 opacity-70 hover:opacity-100'
                   }`}
                 >
@@ -305,3 +305,4 @@ export default function GalleryPage() {
     </div>
   );
 }
+

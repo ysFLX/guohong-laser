@@ -13,7 +13,7 @@ export default function CheckoutCancelPage() {
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             href="/cart"
-            className="inline-flex items-center justify-center rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
           >
             Sepete don
           </Link>
@@ -48,4 +48,5 @@ export default function CheckoutCancelPage() {
     </div>
   );
 }
+
 

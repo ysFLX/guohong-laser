@@ -75,7 +75,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
         <div
           className={`rounded-2xl border px-4 py-3 text-sm ${
             status.type === 'success'
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+              ? 'border-indigo-200 bg-indigo-50 text-indigo-700'
               : 'border-rose-200 bg-rose-50 text-rose-600'
           }`}
         >
@@ -86,7 +86,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Canli kapasite takvimi</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Canli kapasite takvimi</div>
             <h2 className="mt-2 text-lg font-semibold text-slate-900">Servis ve kesif slotlari</h2>
           </div>
           <AdminButton
@@ -187,7 +187,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Fiyat dusus alarmi</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Fiyat dusus alarmi</div>
             <h2 className="mt-2 text-lg font-semibold text-slate-900">Musteri yolculugu adimlari</h2>
           </div>
           <AdminButton
@@ -250,7 +250,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Kurumsal satin alma</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal satin alma</div>
             <h2 className="mt-2 text-lg font-semibold text-slate-900">Surec kartlari</h2>
           </div>
           <AdminButton
@@ -346,3 +346,4 @@ export default function HomePanelsForm({ initialConfig }: Props) {
     </div>
   );
 }
+

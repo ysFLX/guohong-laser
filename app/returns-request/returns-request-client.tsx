@@ -344,7 +344,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Iade adimlari</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Iade adimlari</div>
               <ol className="mt-4 space-y-3 text-sm text-slate-600">
                 <li>1. Talep formunu doldur ve gonder.</li>
                 <li>2. Teknik ekip on degerlendirme yapsin.</li>
@@ -352,7 +352,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
               </ol>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-teal-600">Baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Baglantilar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
                   Iade ve garanti
@@ -371,3 +371,4 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
     </div>
   );
 }
+

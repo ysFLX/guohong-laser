@@ -251,7 +251,7 @@ export default async function AdminSparePartsPage({
               <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-xs text-slate-500">
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Islem</span>
-                  <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-teal-600 hover:text-teal-700">
+                  <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                     Duzenle
                   </Link>
                 </div>
@@ -296,5 +296,6 @@ export default async function AdminSparePartsPage({
     </div>
   );
 }
+
 
 
