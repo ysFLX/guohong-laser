@@ -34,7 +34,7 @@ const heroVideos = [
 ];
 
 const liveStatus = [
-  { label: 'Stok durumu', value: 'Stokta', tone: 'text-emerald-300' },
+  { label: 'Stok durumu', value: 'Stokta', tone: 'text-indigo-300' },
   { label: 'Teslimat', value: '2-3 gun', tone: 'text-amber-200' },
   { label: 'Son güncelleme', value: '5 dk önce', tone: 'text-slate-200' },
 ];
@@ -411,11 +411,11 @@ export default async function Home() {
     <div className={`${space.className} bg-[#f3f5fb] text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
       <div className="relative overflow-hidden">
         <div
-          className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-teal-500/15 glow-drift"
+          className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-indigo-500/15 glow-drift"
           style={{ animationDelay: '0ms' }}
         />
         <div
-          className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-200/50 blur-[140px] dark:bg-sky-500/15 glow-drift"
+          className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-indigo-200/50 blur-[140px] dark:bg-indigo-500/15 glow-drift"
           style={{ animationDelay: '200ms' }}
         />
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px] dark:opacity-20 dark:[background-image:linear-gradient(120deg,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.12)_1px,transparent_1px)]" />
@@ -423,7 +423,7 @@ export default async function Home() {
         <Reveal as="section" className="relative mx-auto w-full px-0 pb-12 pt-12">
           <div className="relative overflow-hidden rounded-[44px] bg-gradient-to-br from-indigo-950 via-slate-950 to-indigo-900 text-white shadow-[0_50px_140px_rgba(15,23,42,0.45)]">
             <div className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[140px]" />
-            <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-cyan-400/20 blur-[160px]" />
+            <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-indigo-400/20 blur-[160px]" />
             <div className="relative grid gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-14 lg:py-14">
               <div className="space-y-6">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.4em] text-white/70">
@@ -431,7 +431,7 @@ export default async function Home() {
                 </div>
                 <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
                   Üretim hatlarını
-                  <span className="block text-cyan-300">tek panelde yönet</span>
+                  <span className="block text-indigo-300">tek panelde yönet</span>
                 </h1>
                 <p className="max-w-xl text-base text-white/70">
                   Makine, yedek parça ve teknik destek tek sistemde. Hattını hızlandıran, servis akışını netleştiren
@@ -473,7 +473,7 @@ export default async function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-br from-slate-950/70 via-slate-900/10 to-transparent" />
                   <div className="absolute left-6 top-6 inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-800">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.9)]" />
+                    <span className="h-2 w-2 rounded-full bg-indigo-500 shadow-[0_0_12px_rgba(16,185,129,0.9)]" />
                     Canlı İzleme
                   </div>
                   <div className="absolute bottom-6 left-6 right-6 rounded-3xl border border-white/40 bg-white/90 px-5 py-4 text-sm text-slate-700 shadow-xl">
@@ -499,17 +499,17 @@ export default async function Home() {
       </div>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 ambient-pulse gradient-shift bg-[linear-gradient(120deg,rgba(20,184,166,0.08),rgba(255,255,255,0.95),rgba(250,204,21,0.12))]">
+        <div className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 ambient-pulse gradient-shift bg-[linear-gradient(120deg,rgba(20,184,166,0.08),rgba(255,255,255,0.95),rgba(250,204,21,0.12))]">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Video galerisi</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Video galerisi</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                 Sac, boru ve demir kesim hatları
               </h2>
             </div>
             <Link
               href="/gallery"
-              className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+              className="rounded-full border border-indigo-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700 hover:border-indigo-300 dark:border-indigo-500/40 dark:text-indigo-200"
             >
               Galeriye Git
             </Link>
@@ -519,18 +519,18 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto w-full px-0">
-        <div className="grid gap-4 rounded-[36px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3 dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 gradient-shift">
+        <div className="grid gap-4 rounded-[36px] border border-indigo-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.45)] md:grid-cols-3 dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 gradient-shift">
           {commerceTiles.map((tile) => (
             <Link
               key={tile.title}
               href={tile.href}
-              className="group relative overflow-hidden rounded-[26px] border border-teal-100/70 bg-white/90 px-5 py-6 transition hover:-translate-y-1 hover:border-teal-200 hover:bg-white hover:shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-teal-400/60"
+              className="group relative overflow-hidden rounded-[26px] border border-indigo-100/70 bg-white/90 px-5 py-6 transition hover:-translate-y-1 hover:border-indigo-200 hover:bg-white hover:shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 dark:hover:border-indigo-400/60"
             >
-              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-amber-100/80 dark:bg-teal-500/20" />
-              <div className="mb-4 h-1 w-10 rounded-full bg-teal-500/70" />
+              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-amber-100/80 dark:bg-indigo-500/20" />
+              <div className="mb-4 h-1 w-10 rounded-full bg-indigo-500/70" />
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{tile.title}</h3>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{tile.description}</p>
-              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
+              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-300">
                 Incele
                 <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
               </span>
@@ -612,15 +612,15 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Ürün spotlight</p>
+          <div className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Ürün spotlight</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">{spotlight.title}</h2>
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{spotlight.description}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {spotlight.specs.map((spec) => (
                 <div
                   key={spec.label}
-                  className="rounded-2xl border border-teal-100/70 bg-white px-4 py-3 dark:border-slate-800/70 dark:bg-slate-900/80"
+                  className="rounded-2xl border border-indigo-100/70 bg-white px-4 py-3 dark:border-slate-800/70 dark:bg-slate-900/80"
                 >
                   <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                     {spec.label}
@@ -632,19 +632,19 @@ export default async function Home() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-full bg-teal-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 dark:bg-teal-400 dark:text-slate-900 dark:hover:bg-teal-300"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 dark:bg-indigo-400 dark:text-slate-900 dark:hover:bg-indigo-300"
               >
                 Detayları Gör
               </Link>
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full border border-teal-200 px-6 py-2.5 text-sm font-semibold text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+                className="inline-flex items-center justify-center rounded-full border border-indigo-200 px-6 py-2.5 text-sm font-semibold text-indigo-700 hover:border-indigo-300 dark:border-indigo-500/40 dark:text-indigo-200"
               >
                 Teklif İste
               </Link>
             </div>
           </div>
-          <div className="relative overflow-hidden rounded-[32px] border border-teal-100/70 bg-white shadow-xl dark:border-slate-800/70 dark:bg-slate-900/80">
+          <div className="relative overflow-hidden rounded-[32px] border border-indigo-100/70 bg-white shadow-xl dark:border-slate-800/70 dark:bg-slate-900/80">
             <Image
               src={spotlight.image}
               alt={spotlight.title}
@@ -662,7 +662,7 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-teal-950 p-6 text-white shadow-2xl glint">
+          <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-6 text-white shadow-2xl glint">
             {capacityImageUrl ? (
               <div className="pointer-events-none absolute inset-0">
                 <Image
@@ -675,7 +675,7 @@ export default async function Home() {
                   decoding="async"
                   quality={70}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/60 to-teal-950/70" />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/60 to-indigo-950/70" />
               </div>
             ) : null}
             <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Canlı kapasite takvimi</p>
@@ -716,7 +716,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 glint">
+          <div className="relative overflow-hidden rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 glint">
             {priceAlertImageUrl ? (
               <div className="pointer-events-none absolute inset-0">
                 <Image
@@ -731,7 +731,7 @@ export default async function Home() {
                 />
               </div>
             ) : null}
-            <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Fiyat düşüş alarmı</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Fiyat düşüş alarmı</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
               Fiyat düşunce otomatik haber ver
             </h2>
@@ -742,10 +742,10 @@ export default async function Home() {
               {priceAlertSteps.map((step) => (
                 <div
                   key={step.text}
-                  className="rounded-2xl border border-teal-100/70 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-800/70 dark:bg-slate-900/80 dark:text-slate-200"
+                  className="rounded-2xl border border-indigo-100/70 bg-white px-4 py-3 text-sm text-slate-700 dark:border-slate-800/70 dark:bg-slate-900/80 dark:text-slate-200"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-200">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-200">
                       {panelIcon(step.icon)}
                     </span>
                     <span>{step.text}</span>
@@ -756,13 +756,13 @@ export default async function Home() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/spare-parts"
-                className="inline-flex items-center justify-center rounded-full bg-teal-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 dark:bg-teal-400 dark:text-slate-900 dark:hover:bg-teal-300"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 dark:bg-indigo-400 dark:text-slate-900 dark:hover:bg-indigo-300"
               >
                 Alarm Kur
               </Link>
               <Link
                 href="/stock-request"
-                className="inline-flex items-center justify-center rounded-full border border-teal-200 px-6 py-2.5 text-sm font-semibold text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+                className="inline-flex items-center justify-center rounded-full border border-indigo-200 px-6 py-2.5 text-sm font-semibold text-indigo-700 hover:border-indigo-300 dark:border-indigo-500/40 dark:text-indigo-200"
               >
                 Stok İste
               </Link>
@@ -772,7 +772,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
-        <div className="relative overflow-hidden rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 glint">
+        <div className="relative overflow-hidden rounded-[32px] border border-indigo-100/80 bg-gradient-to-br from-white via-white to-amber-50/60 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 glint">
           {procurementImageUrl ? (
             <div className="pointer-events-none absolute inset-0">
               <Image
@@ -789,7 +789,7 @@ export default async function Home() {
           ) : null}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Kurumsal satin alma</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Kurumsal satin alma</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                 Tekliften teslimata tek panel akışı
               </h2>
@@ -803,16 +803,16 @@ export default async function Home() {
             {procurementFlow.map((step, index) => (
               <div
                 key={step.title}
-                className="rounded-2xl border border-teal-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
+                className="rounded-2xl border border-indigo-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
               >
-                <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-300">
                   <span>Adım {index + 1}</span>
-                  <span className="rounded-full bg-teal-50 px-2 py-1 text-[10px] font-semibold text-teal-700 dark:bg-teal-500/10 dark:text-teal-200">
+                  <span className="rounded-full bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
                     {step.title}
                   </span>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-teal-600/10 text-teal-700 dark:bg-teal-500/10 dark:text-teal-200">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600/10 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
                     {panelIcon(step.icon)}
                   </span>
                   <div>
@@ -826,7 +826,7 @@ export default async function Home() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 dark:bg-teal-400 dark:text-slate-900"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 dark:bg-indigo-400 dark:text-slate-900"
             >
               Kurumsal teklif başlat
             </Link>
@@ -841,17 +841,17 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
-        <div className="rounded-[32px] border border-teal-100/80 bg-gradient-to-br from-white via-white to-teal-50/50 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
+        <div className="rounded-[32px] border border-indigo-100/80 bg-gradient-to-br from-white via-white to-indigo-50/50 p-6 shadow-xl dark:border-slate-800/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Destek merkezi</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Destek merkezi</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                 E-ticaret + teknik destek tek sayfada
               </h2>
             </div>
             <Link
               href="/contact"
-              className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+              className="rounded-full border border-indigo-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700 hover:border-indigo-300 dark:border-indigo-500/40 dark:text-indigo-200"
             >
               Destek al
             </Link>
@@ -861,11 +861,11 @@ export default async function Home() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-2xl border border-teal-100/70 bg-white px-4 py-4 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-teal-400/60"
+                className="group rounded-2xl border border-indigo-100/70 bg-white px-4 py-4 transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-indigo-400/60"
               >
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
-                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
+                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-300">
                   Ac
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
@@ -879,7 +879,7 @@ export default async function Home() {
         <div className="rounded-[32px] border border-slate-200 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">Guven merkezi</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Guven merkezi</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                 Garanti, teslimat ve güvenli ödeme bilgileri
               </h2>
@@ -896,11 +896,11 @@ export default async function Home() {
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-teal-400/60"
+                className="group rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/80 dark:hover:border-indigo-400/60"
               >
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.description}</p>
-                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-teal-600 dark:text-teal-300">
+                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-300">
                   Incele
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
@@ -911,17 +911,17 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 grid w-full gap-6 px-0 lg:grid-cols-2">
-        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
-          <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">İş akışı</p>
+        <div className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">İş akışı</p>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">4 adımda devreye alma</h2>
           <div className="mt-6 space-y-4">
             {process.map((step, index) => (
               <div
                 key={step.title}
-                className="rounded-2xl border border-teal-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
+                className="rounded-2xl border border-indigo-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
               >
                 <div className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-600 text-xs font-semibold text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
                     {index + 1}
                   </span>
                   <div>
@@ -933,7 +933,7 @@ export default async function Home() {
             ))}
           </div>
         </div>
-        <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-900 via-teal-900/60 to-slate-900 p-6 text-white shadow-xl">
+        <div className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-slate-900 via-indigo-900/60 to-slate-900 p-6 text-white shadow-xl">
           <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Uyumluluk ve güven</p>
           <h2 className="mt-2 text-2xl font-semibold">Model - Parça uyumu tek ekranda</h2>
           <p className="mt-3 text-sm text-white/70">
@@ -948,7 +948,7 @@ export default async function Home() {
           </div>
           <Link
             href="/spare-parts"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-teal-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-indigo-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
           >
             Yedek parça arat
           </Link>
@@ -957,7 +957,7 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 grid w-full gap-5 px-0 lg:grid-cols-2">
         {testimonials.map((item) => (
-          <div key={item.name} className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <div key={item.name} className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
                 <Image src={item.image} alt={item.name} width={48} height={48} className="h-full w-full object-cover" />
@@ -973,17 +973,17 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
-        <div className="rounded-[32px] border border-teal-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+        <div className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-teal-600 dark:text-teal-300">SSS</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">SSS</p>
               <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                 Karar sürecini hızlandıran cevaplar
               </h2>
             </div>
             <Link
               href="/contact"
-              className="rounded-full border border-teal-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 hover:border-teal-300 dark:border-teal-500/40 dark:text-teal-200"
+              className="rounded-full border border-indigo-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700 hover:border-indigo-300 dark:border-indigo-500/40 dark:text-indigo-200"
             >
               Sorunuz mu var?
             </Link>
@@ -992,7 +992,7 @@ export default async function Home() {
             {faq.map((item) => (
               <div
                 key={item.q}
-                className="rounded-2xl border border-teal-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
+                className="rounded-2xl border border-indigo-100/70 bg-white px-4 py-4 dark:border-slate-800/70 dark:bg-slate-900/80"
               >
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.q}</p>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.a}</p>
@@ -1003,7 +1003,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0 pb-16">
-        <div className="grid gap-6 rounded-[36px] border border-white/10 bg-gradient-to-r from-slate-900 via-teal-900/60 to-slate-900 p-8 text-white shadow-2xl">
+        <div className="grid gap-6 rounded-[36px] border border-white/10 bg-gradient-to-r from-slate-900 via-indigo-900/60 to-slate-900 p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi baslayalim</p>
@@ -1030,4 +1030,6 @@ export default async function Home() {
     </div>
   );
 }
+
+
 
