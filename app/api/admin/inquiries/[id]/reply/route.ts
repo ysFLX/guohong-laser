@@ -40,7 +40,7 @@ async function sendInquiryReplyEmail(params: {
   }
 
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-  const safeName = params.name?.trim() || 'Musterimiz';
+  const safeName = params.name?.trim() || 'Müşterimiz';
   const subjectText = params.subject?.trim() || 'Talebiniz';
   const responseHtml = params.adminResponse.replace(/\n/g, '<br />');
 
@@ -62,26 +62,26 @@ async function sendInquiryReplyEmail(params: {
     text: [
       `Merhaba ${safeName},`,
       '',
-      'Talebinize yanit verdik:',
+      'Talebinize yanıt verildi:',
       params.adminResponse,
       '',
-      'Baska bir sorunuz olursa bu e-postaya yanit verebilirsiniz.',
+      'Başka bir sorunuz olursa bu e-postaya yanıt verebilirsiniz.',
     ].join('\n'),
     html: buildEmailHtml({
-      title: 'Talebinize yanit verdik',
+      title: 'Talebinize yanıt verildi',
       subtitle: subjectText,
-      badge: 'Destek yaniti',
-      preheader: 'Talebinize yanit verdik.',
+      badge: 'Destek yanıtı',
+      preheader: 'Talebinize yanıt verildi.',
       bodyHtml: `
         <div>Merhaba <strong>${safeName}</strong>,</div>
-        <div style="margin-top: 8px; color:#475569;">Talebinizi inceledik ve yanitimiz asagidadir.</div>
+        <div style="margin-top: 8px; color:#475569;">Talebinizi inceledik ve yanıtımız aşağıdadır.</div>
         <div style="margin-top: 16px; padding: 16px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; color:#0f172a; line-height: 1.65;">
           ${responseHtml}
         </div>
       `,
       primaryCta: { label: 'Destek iletisimi', href: `${appUrl}/contact` },
       secondaryCta: { label: 'Fiyat teklifi al', href: `${appUrl}/quote` },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmistir. Yanitlamak isterseniz bu e-postaya cevap yazabilirsiniz.',
+      footerNote: 'Bu e-posta otomatik olarak gönderilmiştir. Yanıtlamak isterseniz bu e-postaya cevap yazabilirsiniz.',
     }),
   });
 }
@@ -105,14 +105,14 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   });
 
   if (!inquiry) {
-    return NextResponse.json({ error: 'Talep bulunamadi' }, { status: 404 });
+    return NextResponse.json({ error: 'Talep bulunamadı' }, { status: 404 });
   }
 
   let body: unknown;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const payload = body as Payload;
