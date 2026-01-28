@@ -12,11 +12,11 @@ const allowedStatuses = new Set(['NEW', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 
 type AllowedStatus = (typeof allowedStatuses extends Set<infer T> ? T : never) & string;
 
 const statusLabel: Record<string, string> = {
-  NEW: 'Talep alindi',
-  UNDER_REVIEW: 'Incelemede',
-  APPROVED: 'Onaylandi',
+  NEW: 'Talep alındı',
+  UNDER_REVIEW: 'İncelemede',
+  APPROVED: 'Onaylandı',
   REJECTED: 'Reddedildi',
-  REFUNDED: 'Iade tamamlandi',
+  REFUNDED: 'İade tamamlandı',
 };
 
 export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
@@ -33,14 +33,14 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   try {
     body = (await req.json()) as { status?: string; adminNote?: string };
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const status = typeof body.status === 'string' ? body.status.trim() : '';
   const adminNote = typeof body.adminNote === 'string' ? body.adminNote.trim() : null;
 
   if (!status || !allowedStatuses.has(status as AllowedStatus)) {
-    return NextResponse.json({ error: 'Durum gecersiz' }, { status: 400 });
+    return NextResponse.json({ error: 'Durum geçersiz' }, { status: 400 });
   }
 
   const existing = await prisma.returnRequest.findUnique({
@@ -54,7 +54,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   });
 
   if (!existing) {
-    return NextResponse.json({ error: 'Talep bulunamadi' }, { status: 404 });
+    return NextResponse.json({ error: 'Talep bulunamadı' }, { status: 404 });
   }
 
   const updated = await prisma.returnRequest.update({
@@ -92,21 +92,21 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       await transporter.sendMail({
         from: `Guohong Lazer <${smtpUser}>`,
         to: existing.email,
-        subject: `Iade talebi guncellendi (#${existing.id.slice(0, 8)})`,
+        subject: `İade talebi güncellendi (#${existing.id.slice(0, 8)})`,
         text: [
-          `Talep durumunuz guncellendi: ${statusLabel[status] || status}`,
+          `Talep durumunuz güncellendi: ${statusLabel[status] || status}`,
           adminNote ? `Not: ${adminNote}` : '',
         ]
           .filter(Boolean)
           .join('\n'),
         html: buildEmailHtml({
-          title: 'Iade talebiniz guncellendi',
+          title: 'İade talebiniz güncellendi',
           subtitle: `Talep no: #${existing.id.slice(0, 8)}`,
-          badge: 'Iade durumu',
+          badge: 'İade durumu',
           preheader: `Durum: ${statusLabel[status] || status}`,
           bodyHtml: `
             <div>Merhaba <strong>${existing.name}</strong>,</div>
-            <div style="margin-top: 8px; color:#475569;">Talep durumunuz guncellendi.</div>
+            <div style="margin-top: 8px; color:#475569;">Talep durumunuz güncellendi.</div>
             <div style="margin-top: 14px; padding: 12px 14px; background:#f8fafc; border-radius: 10px; font-weight: 600;">
               ${statusLabel[status] || status}
             </div>
@@ -119,7 +119,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
                 : ''
             }
           `,
-          footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+          footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
         }),
       });
     }
