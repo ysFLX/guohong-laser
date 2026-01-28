@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as UploadRequest;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const fileName = typeof body.fileName === 'string' ? body.fileName : 'image';
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
   });
 
   if (error || !data) {
-    return NextResponse.json({ error: error?.message || 'Signed upload olusturulamadi' }, { status: 500 });
+    return NextResponse.json({ error: error?.message || 'Signed upload oluşturulamadı' }, { status: 500 });
   }
 
   const publicUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/public/${BUCKET}/${objectPath}`;
