@@ -19,7 +19,7 @@ export async function GET() {
 
   if (missingFavoriteModel()) {
     return NextResponse.json(
-      { error: 'Favoriler tablosu hazir degil. Prisma migrate/generate calistir.' },
+      { error: 'Favoriler tablosu hazır değil. Prisma migrate/generate çalıştır.' },
       { status: 500 }
     );
   }
@@ -37,7 +37,7 @@ export async function GET() {
 
     return NextResponse.json({ items: favorites });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Favoriler alinamadi';
+    const message = error instanceof Error ? error.message : 'Favoriler alınamadı';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
   if (missingFavoriteModel()) {
     return NextResponse.json(
-      { error: 'Favoriler tablosu hazir degil. Prisma migrate/generate calistir.' },
+      { error: 'Favoriler tablosu hazır değil. Prisma migrate/generate çalıştır.' },
       { status: 500 }
     );
   }
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ favorited: true });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Favori guncellenemedi';
+    const message = error instanceof Error ? error.message : 'Favori güncellenemedi';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
