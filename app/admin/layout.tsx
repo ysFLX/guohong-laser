@@ -30,10 +30,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <div className="px-4 py-4 sm:px-6 lg:px-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">
-                  Guohong Admin
+                  Guohong Admin Paneli
                 </div>
-                <h1 className="text-2xl font-semibold tracking-tight">Yonetim merkezi</h1>
-                <p className="text-xs text-[var(--admin-muted)]">Siparis, stok ve talepler tek panelde.</p>
+                <h1 className="text-2xl font-semibold tracking-tight">Yönetim Merkezi</h1>
+                <p className="text-xs text-[var(--admin-muted)]">Sipariş, stok ve talepler tek panelde.</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <form action="/admin/orders" method="get" className="hidden items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-2 text-xs sm:flex">
@@ -46,7 +46,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   </svg>
                   <input
                     name="q"
-                    placeholder="Siparis/musteri ara"
+                    placeholder="Sipariş/müşteri ara"
                     className="w-44 bg-transparent text-xs text-[var(--admin-muted)] focus:outline-none"
                   />
                 </form>
@@ -54,19 +54,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   href="/admin"
                   className="rounded-full bg-[var(--admin-accent)] px-4 py-2 text-xs font-semibold text-[var(--admin-accent-contrast)] shadow-[0_10px_30px_rgba(34,211,238,0.25)] hover:opacity-90"
                 >
-                  Dashboard
+                  Anasayfa
                 </Link>
                 <Link
                   href="/admin/orders"
                   className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]"
                 >
-                  Siparisler
+                  Siparişler
                 </Link>
                 <Link
                   href="/admin/returns"
                   className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]"
                 >
-                  Iadeler
+                  İadeler
                 </Link>
               </div>
             </div>
