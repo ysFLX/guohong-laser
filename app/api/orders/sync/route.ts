@@ -118,8 +118,8 @@ async function sendOrderEmail(params: {
   } | null) => {
     if (!address) {
       return {
-        text: 'Adres bilgisi bulunamadi.',
-        html: '<span style="color:#64748b;">Adres bilgisi bulunamadi.</span>',
+        text: 'Adres bilgisi bulunamadı.',
+        html: '<span style="color:#64748b;">Adres bilgisi bulunamadı.</span>',
       };
     }
     const text = [
@@ -156,12 +156,12 @@ async function sendOrderEmail(params: {
   await transporter.sendMail({
     from: `Guohong Lazer <${smtpUser}>`,
     to: params.to,
-    subject: `Siparisiniz alindi (#${params.orderId.slice(0, 8)})`,
+    subject: `Siparişiniz alındı (#${params.orderId.slice(0, 8)})`,
     text: [
-      'Siparisiniz alindi.',
-      `Siparis detaylari: ${orderUrl}`,
+      'Siparişiniz alındı.',
+      `Sipariş detayları: ${orderUrl}`,
       '',
-      'Siparis ozeti:',
+      'Sipariş özeti:',
       lines,
       '',
       `Toplam: ${formatPriceTry(params.totalCents)}`,
@@ -172,21 +172,21 @@ async function sendOrderEmail(params: {
       'Fatura / irsaliye adresi:',
       billingBlock.text,
       '',
-      `Iade/degisim talebi: ${returnsUrl}`,
+      `İade/değişim talebi: ${returnsUrl}`,
     ].join('\n'),
     html: buildEmailHtml({
-      title: 'Siparisiniz alindi',
-      subtitle: `Siparis #${params.orderId.slice(0, 8)}`,
-      badge: 'Siparis alindi',
-      preheader: `Siparis #${params.orderId.slice(0, 8)} alindi.`,
+      title: 'Siparişiniz alındı',
+      subtitle: `Sipariş #${params.orderId.slice(0, 8)}`,
+      badge: 'Sipariş alındı',
+      preheader: `Sipariş #${params.orderId.slice(0, 8)} alındı.`,
       bodyHtml: `
-        <div style="margin-top: 2px; color:#475569;">Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.</div>
+        <div style="margin-top: 2px; color:#475569;">Siparişiniz başarıyla alındı. Detayları hesabınızdan takip edebilirsiniz.</div>
         <div style="margin-top: 14px; padding: 14px; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Siparis numaraniz</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Sipariş numaranız</div>
           <div style="margin-top: 6px; font-size: 18px; font-weight: 700; color: #0f172a;">#${params.orderId.slice(0, 8)}</div>
         </div>
         <div style="margin-top: 18px;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Siparis ozeti</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Sipariş özeti</div>
           <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
             <tbody>
               ${itemsHtml}
@@ -202,13 +202,13 @@ async function sendOrderEmail(params: {
           <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
         </div>
         <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / Irsaliye</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / İrsaliye</div>
           <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
         </div>
       `,
-      primaryCta: { label: 'Siparis detaylarini gor', href: orderUrl },
-      secondaryCta: { label: 'Iade / Degisim talebi', href: returnsUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      primaryCta: { label: 'Sipariş detaylarını gör', href: orderUrl },
+      secondaryCta: { label: 'İade / Değişim talebi', href: returnsUrl },
+      footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
 }
@@ -333,14 +333,14 @@ export async function POST(req: Request) {
       data: {
         userId,
         type: 'ORDER_STATUS',
-        title: 'Siparisiniz alindi',
-        message: 'Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.',
+        title: 'Siparişiniz alındı',
+        message: 'Siparişiniz başarıyla alındı. Detayları hesabınızdan takip edebilirsiniz.',
         orderId: created?.id ?? null,
         status: 'RECEIVED',
       },
     });
   } catch (error) {
-    console.error('Siparis bildirimi kaydedilemedi:', error);
+    console.error('Sipariş bildirimi kaydedilemedi:', error);
   }
 
   try {
@@ -391,7 +391,7 @@ export async function POST(req: Request) {
       });
     }
   } catch (error) {
-    console.error('Siparis e-postasi gonderilemedi:', error);
+    console.error('Sipariş e-postası gönderilemedi:', error);
   }
 
   return NextResponse.json({ ok: true });
