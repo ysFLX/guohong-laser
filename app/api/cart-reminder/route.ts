@@ -45,12 +45,12 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as typeof body;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const items = sanitizeItems(body.items);
   if (items.length === 0) {
-    return NextResponse.json({ error: 'Sepet bos' }, { status: 400 });
+    return NextResponse.json({ error: 'Sepet boş' }, { status: 400 });
   }
 
   const emailRaw = typeof body.email === 'string' ? body.email.trim() : '';

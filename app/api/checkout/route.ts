@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   try {
     payload = (await req.json()) as { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const items = Array.isArray(payload.items) ? payload.items : [];
@@ -42,11 +42,11 @@ export async function POST(req: Request) {
     .filter((x) => x.priceCents > 0 && x.quantity > 0);
 
   if (!cleanItems.length) {
-    return NextResponse.json({ error: 'Sepet bos' }, { status: 400 });
+    return NextResponse.json({ error: 'Sepet boş' }, { status: 400 });
   }
 
   if (!addressId) {
-    return NextResponse.json({ error: 'Adres secilmedi' }, { status: 400 });
+    return NextResponse.json({ error: 'Adres seçilmedi' }, { status: 400 });
   }
 
   const address = await prisma.address.findFirst({
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
   });
 
   if (!address) {
-    return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
+    return NextResponse.json({ error: 'Adres bulunamadı' }, { status: 400 });
   }
 
   if (billingAddressId) {
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     });
 
     if (!billingAddress) {
-      return NextResponse.json({ error: 'Fatura adresi bulunamadi' }, { status: 400 });
+      return NextResponse.json({ error: 'Fatura adresi bulunamadı' }, { status: 400 });
     }
   }
 
