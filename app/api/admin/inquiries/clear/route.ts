@@ -41,7 +41,7 @@ async function handleClear(req: Request) {
         payloadType = body.type;
       }
     } catch {
-      return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+      return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
     }
   }
 

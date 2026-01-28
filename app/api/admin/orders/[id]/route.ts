@@ -28,14 +28,14 @@ const allowedStatuses = new Set([
 ]);
 
 const statusLabel: Record<string, string> = {
-  RECEIVED: 'Siparisiniz alindi',
-  IN_TRANSIT: 'Siparisiniz hazirlaniyor',
+  RECEIVED: 'Siparişiniz alındı',
+  IN_TRANSIT: 'Siparişiniz hazırlanıyor',
   SHIPPED: 'Kargoya verildi',
   DELIVERED: 'Teslim edildi',
-  PENDING: 'Odeme bekleniyor',
-  PAID: 'Odeme alindi',
-  FAILED: 'Odeme basarisiz',
-  CANCELED: 'Iptal edildi',
+  PENDING: 'Ödeme bekleniyor',
+  PAID: 'Ödeme alındı',
+  FAILED: 'Ödeme başarısız',
+  CANCELED: 'İptal edildi',
 };
 
 const formatStatusLabel = (value: string) => statusLabel[value] || value;
@@ -73,9 +73,9 @@ async function sendStatusEmail(params: {
   const showInvoiceNote = params.status === 'SHIPPED' || params.status === 'DELIVERED';
 
   const cancelLine =
-    params.status === 'CANCELED' && params.cancelReason ? `Iptal nedeni: ${params.cancelReason}` : '';
+    params.status === 'CANCELED' && params.cancelReason ? `İptal nedeni: ${params.cancelReason}` : '';
   const trackingLines = [
-    params.tracking.carrier ? `Kargo firmasi: ${params.tracking.carrier}` : '',
+    params.tracking.carrier ? `Kargo firması: ${params.tracking.carrier}` : '',
     params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
     params.tracking.url ? `Takip linki: ${params.tracking.url}` : '',
     cancelLine,
@@ -97,23 +97,23 @@ async function sendStatusEmail(params: {
   await transporter.sendMail({
     from: `Guohong Lazer <${smtpUser}>`,
     to: params.to,
-    subject: `Siparis durumu guncellendi (#${params.orderId.slice(0, 8)})`,
+    subject: `Sipariş durumu güncellendi (#${params.orderId.slice(0, 8)})`,
     text: [
-      `Siparis durumunuz guncellendi: ${statusText}`,
-      `Siparis detaylari: ${orderUrl}`,
-      showInvoiceNote ? 'Fatura/irsaliye: Siparis onay e-postasinda paylasildi.' : '',
-      `Iade/degisim talebi: ${returnsUrl}`,
+      `Sipariş durumunuz güncellendi: ${statusText}`,
+      `Sipariş detayları: ${orderUrl}`,
+      showInvoiceNote ? 'Fatura/irsaliye: Sipariş onay e-postasında paylaşıldı.' : '',
+      `İade/değişim talebi: ${returnsUrl}`,
       trackingLines,
     ]
       .filter(Boolean)
       .join('\n'),
     html: buildEmailHtml({
-      title: 'Siparis durumu guncellendi',
-      subtitle: `Siparis #${params.orderId.slice(0, 8)}`,
+      title: 'Sipariş durumu güncellendi',
+      subtitle: `Sipariş #${params.orderId.slice(0, 8)}`,
       badge: statusText,
       preheader: `Yeni durum: ${statusText}`,
       bodyHtml: `
-        <div style="color:#475569;">Siparisinizin yeni durumu:</div>
+        <div style="color:#475569;">Siparişinizin yeni durumu:</div>
         <div style="margin-top: 10px; display: inline-block; padding: 8px 12px; border-radius: 999px; background:#f1f5f9; color:#0f172a; font-weight: 600;">${statusText}</div>
         ${
           trackingLines
@@ -126,9 +126,9 @@ async function sendStatusEmail(params: {
             : ''
         }
       `,
-      primaryCta: { label: 'Siparis detaylari', href: orderUrl },
-      secondaryCta: { label: 'Iade talebi', href: returnsUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      primaryCta: { label: 'Sipariş detayları', href: orderUrl },
+      secondaryCta: { label: 'İade talebi', href: returnsUrl },
+      footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
 }
@@ -192,8 +192,8 @@ async function sendTrackingEmail(params: {
             : ''
         }
       `,
-      primaryCta: { label: 'Siparis detaylari', href: orderUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      primaryCta: { label: 'Sipariş detayları', href: orderUrl },
+      footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
 }
@@ -212,17 +212,17 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   try {
     body = (await req.json()) as UpdatePayload;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const status = typeof body.status === 'string' ? body.status.trim() : '';
   if (!status || !allowedStatuses.has(status)) {
-    return NextResponse.json({ error: 'Durum gecersiz' }, { status: 400 });
+    return NextResponse.json({ error: 'Durum geçersiz' }, { status: 400 });
   }
   const cancelReason =
     typeof body.cancelReason === 'string' && body.cancelReason.trim() ? body.cancelReason.trim() : null;
   if (status === 'CANCELED' && !cancelReason) {
-    return NextResponse.json({ error: 'Iptal nedeni gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'İptal nedeni gerekli' }, { status: 400 });
   }
 
   const shippingCarrier = typeof body.shippingCarrier === 'string' ? body.shippingCarrier.trim() : null;
@@ -249,7 +249,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
     });
 
     if (!existing) {
-      return NextResponse.json({ error: 'Siparis bulunamadi' }, { status: 404 });
+      return NextResponse.json({ error: 'Sipariş bulunamadı' }, { status: 404 });
     }
 
     const updated = await prismaOrders.order.update({
@@ -276,8 +276,8 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           data: {
             userId: existing.userId,
             type: 'ORDER_STATUS',
-            title: 'Siparis durumu guncellendi',
-            message: `Siparis durumunuz guncellendi: ${formatStatusLabel(status)}${
+            title: 'Sipariş durumu güncellendi',
+            message: `Sipariş durumunuz güncellendi: ${formatStatusLabel(status)}${
               reasonSuffix ? `. ${reasonSuffix}` : ''
             }`,
             orderId: updated.id,
@@ -285,7 +285,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           },
         });
       } catch (error) {
-        console.error('Siparis durum bildirimi kaydedilemedi:', error);
+        console.error('Sipariş durum bildirimi kaydedilemedi:', error);
       }
 
       try {
@@ -303,7 +303,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           });
         }
       } catch (error) {
-        console.error('Siparis durum e-postasi gonderilemedi:', error);
+        console.error('Sipariş durum e-postası gönderilemedi:', error);
       }
     } else if (trackingChanged) {
       try {
@@ -311,8 +311,8 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           data: {
             userId: existing.userId,
             type: 'ORDER_TRACKING',
-            title: 'Kargo bilgisi guncellendi',
-            message: 'Kargo takip bilgileriniz guncellendi.',
+            title: 'Kargo bilgisi güncellendi',
+            message: 'Kargo takip bilgileriniz güncellendi.',
             orderId: updated.id,
             status,
           },
@@ -335,13 +335,13 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           });
         }
       } catch (error) {
-        console.error('Kargo e-postasi gonderilemedi:', error);
+        console.error('Kargo e-postası gönderilemedi:', error);
       }
     }
 
     return NextResponse.json({ item: updated });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Guncelleme hatasi';
+    const message = error instanceof Error ? error.message : 'Güncelleme hatası';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
