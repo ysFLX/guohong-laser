@@ -86,9 +86,9 @@ async function sendReminderEmail(params: {
       <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #ffffff;">
         <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; color: #94a3b8;">Guohong Lazer</div>
         <h2 style="margin: 6px 0 0; color: #0f172a;">Sepetiniz sizi bekliyor</h2>
-        <p style="margin-top: 12px; color: #475569;">Odeme tamamlanmadi. Sepetinizdeki urunleri guncel fiyatlarla koruduk.</p>
+        <p style="margin-top: 12px; color: #475569;">Ödeme tamamlanmadı. Sepetinizdeki ürünleri güncel fiyatlarla koruduk.</p>
         <div style="margin-top: 18px;">
-          <a href="${cartUrl}" style="display: inline-block; padding: 10px 18px; background: #0f172a; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Sepete don</a>
+          <a href="${cartUrl}" style="display: inline-block; padding: 10px 18px; background: #0f172a; color: #ffffff; border-radius: 10px; text-decoration: none; font-weight: 600;">Sepete dön</a>
         </div>
         <div style="margin-top: 24px;">
           <div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Sepet ozeti</div>
@@ -103,7 +103,7 @@ async function sendReminderEmail(params: {
           </table>
         </div>
         <div style="margin-top: 18px; font-size: 12px; color: #94a3b8;">
-          Bu hatirlatma e-postasi otomatik olarak gonderilmistir.
+          Bu hatırlatma e-postası otomatik olarak gönderilmiştir.
         </div>
       </div>
     `,
@@ -162,7 +162,7 @@ export async function GET(req: Request) {
       });
       sent += 1;
     } catch (error) {
-      console.error('Sepet hatirlatma e-postasi gonderilemedi:', error);
+      console.error('Sepet hatırlatma e-postası gönderilemedi:', error);
     }
   }
 
