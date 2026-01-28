@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Guohong Lazer - Hakkimizda',
-  description: 'Guohong Lazer hakkinda bilgi.',
+  title: 'Guohong Lazer - Hakkımızda',
+  description: 'Guohong Lazer hakkında bilgi.',
 };
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
