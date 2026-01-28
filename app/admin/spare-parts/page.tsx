@@ -102,16 +102,16 @@ export default async function AdminSparePartsPage({
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun merkezi</div>
-            <h1 className="mt-2 text-2xl font-semibold text-slate-900">Yedek parcalar</h1>
-            <p className="mt-1 text-sm text-slate-500">Stok, vitrin ve kategori takibini tek ekrandan yonet.</p>
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Ürün merkezi</div>
+            <h1 className="mt-2 text-2xl font-semibold text-slate-900">Yedek parçalar</h1>
+            <p className="mt-1 text-sm text-slate-500">Stok, vitrin ve kategori takibini tek ekrandan yönet.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
               href="/admin/spare-parts/new"
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
             >
-              Yeni urun
+              Yeni ürün
             </Link>
             <Link
               href="/admin/spare-parts/categories"
@@ -123,11 +123,11 @@ export default async function AdminSparePartsPage({
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Toplam urun</div>
+            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Toplam ürün</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{total}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Aktif urun</div>
+            <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Aktif ürün</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{activeCount}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
@@ -162,7 +162,7 @@ export default async function AdminSparePartsPage({
               defaultValue={categoryId}
               className="form-input mt-2 text-sm text-slate-700"
             >
-              <option value="">Tum kategoriler</option>
+              <option value="">Tüm kategoriler</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
@@ -177,7 +177,7 @@ export default async function AdminSparePartsPage({
               defaultValue={status}
               className="form-input mt-2 text-sm text-slate-700"
             >
-              <option value="all">Tum durumlar</option>
+              <option value="all">Tüm durumlar</option>
               <option value="active">Aktif</option>
               <option value="inactive">Pasif</option>
             </select>
@@ -212,7 +212,7 @@ export default async function AdminSparePartsPage({
             >
               <div className="grid gap-4 border-b border-slate-100 px-6 py-4 md:grid-cols-[1.4fr_1fr_0.9fr_0.7fr_0.7fr]">
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Urun</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Ürün</div>
                   <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
                     {p.name}
                     {p.isFeatured && (
@@ -250,12 +250,12 @@ export default async function AdminSparePartsPage({
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-xs text-slate-500">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Islem</span>
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">İşlem</span>
                   <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
                     Duzenle
                   </Link>
                 </div>
-                {!p.isActive && <AdminBadge tone="slate">Pasif urun</AdminBadge>}
+                {!p.isActive && <AdminBadge tone="slate">Pasif ürün</AdminBadge>}
               </div>
             </div>
           );
@@ -263,7 +263,7 @@ export default async function AdminSparePartsPage({
 
         {items.length === 0 && (
           <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-600">
-            Henuz urun yok.
+            Henüz ürün yok.
           </div>
         )}
       </div>
