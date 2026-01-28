@@ -1,4 +1,4 @@
-'use client';
+ï»¿'use client';
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
@@ -78,16 +78,16 @@ export default function Header() {
                 aria-current={isActive('/spare-parts') ? 'page' : undefined}
                 className={navClass('/spare-parts')}
               >
-                Yedek Parçalar
+                Yedek ParÃ§alar
               </Link>
               <Link href="/gallery" aria-current={isActive('/gallery') ? 'page' : undefined} className={navClass('/gallery')}>
                 Galeri
               </Link>
               <Link href="/about" aria-current={isActive('/about') ? 'page' : undefined} className={navClass('/about')}>
-                Hakkýmýzda
+                HakkÄ±mÄ±zda
               </Link>
               <Link href="/contact" aria-current={isActive('/contact') ? 'page' : undefined} className={navClass('/contact')}>
-                Ýletiþim
+                Ä°letiÅŸim
               </Link>
             </div>
           </nav>
@@ -192,7 +192,7 @@ export default function Header() {
                     type="button"
                     className="text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white px-3 py-2 text-sm font-semibold rounded-md"
                   >
-                    Giriþ Yap / Kayýt Ol
+                    GiriÅŸ Yap / KayÄ±t Ol
                   </button>
                   <div className="absolute right-0 top-full pt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block group-focus-within:block z-50">
                     <div className="py-1">
@@ -200,13 +200,13 @@ export default function Header() {
                         href="/login"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Giris Yap
+                        GiriÅŸ Yap
                       </Link>
                       <Link
                         href="/register"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
-                        Kayit Ol
+                        KayÄ±t Ol
                       </Link>
                     </div>
                   </div>
@@ -291,7 +291,7 @@ export default function Header() {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Yedek Parçalar
+                Yedek ParÃ§alar
               </Link>
               <Link
                 href="/gallery"
@@ -317,7 +317,7 @@ export default function Header() {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Hakkýmýzda
+                HakkÄ±mÄ±zda
               </Link>
               <Link
                 href="/contact"
@@ -330,7 +330,7 @@ export default function Header() {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                Ýletisim
+                Ä°letiÅŸim
               </Link>
 
               <div className="my-2 border-t border-gray-200" />
@@ -342,7 +342,7 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    Giriþ Yap
+                    GiriÅŸ Yap
                   </Link>
                   <Link
                     href="/register"
@@ -351,7 +351,7 @@ export default function Header() {
                       isHome ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-indigo-600 hover:bg-indigo-700'
                     }`}
                   >
-                    Kayýt Ol
+                    KayÄ±t Ol
                   </Link>
                 </>
               )}
@@ -380,7 +380,7 @@ export default function Header() {
                     }}
                     className="text-left px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
                   >
-                    Çýkýþ Yap
+                    Ã‡Ä±kÄ±ÅŸ Yap
                   </button>
                 </>
               )}
@@ -391,6 +391,7 @@ export default function Header() {
     </header>
   );
 }
+
 
 
 
