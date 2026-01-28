@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as CategoryCreate;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const name = typeof body.name === 'string' ? body.name.trim() : '';
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
   const isActive = typeof body.isActive === 'boolean' ? body.isActive : true;
 
   if (!name) {
-    return NextResponse.json({ error: 'Kategori adi gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Kategori adı gerekli' }, { status: 400 });
   }
 
   if (!slug) {
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ item: created });
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : 'Kategori olusturulamadi';
+    const message = e instanceof Error ? e.message : 'Kategori oluşturulamadı';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

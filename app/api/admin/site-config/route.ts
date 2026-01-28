@@ -65,7 +65,7 @@ export async function PUT(req: Request) {
   try {
     body = (await req.json()) as ConfigPayload;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const normalized = normalizeHomePanelConfig(body);

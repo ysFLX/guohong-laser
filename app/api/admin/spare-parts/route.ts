@@ -43,7 +43,7 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as CreatePayload;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const name = typeof body.name === 'string' ? body.name.trim() : '';
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
   const isActive = typeof body.isActive === 'boolean' ? body.isActive : true;
 
   if (!name) {
-    return NextResponse.json({ error: 'Urun adi gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Ürün adı gerekli' }, { status: 400 });
   }
 
   if (!categoryId) {
@@ -64,11 +64,11 @@ export async function POST(req: Request) {
   }
 
   if (!Number.isFinite(priceCents) || priceCents < 0) {
-    return NextResponse.json({ error: 'Fiyat gecersiz' }, { status: 400 });
+    return NextResponse.json({ error: 'Fiyat geçersiz' }, { status: 400 });
   }
 
   if (!Number.isFinite(stockOnHand) || stockOnHand < 0) {
-    return NextResponse.json({ error: 'Stok gecersiz' }, { status: 400 });
+    return NextResponse.json({ error: 'Stok geçersiz' }, { status: 400 });
   }
 
   try {
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ item: created });
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : 'Urun olusturulamadi';
+    const message = e instanceof Error ? e.message : 'Ürün oluşturulamadı';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
