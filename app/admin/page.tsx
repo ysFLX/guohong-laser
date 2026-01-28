@@ -4,22 +4,22 @@ import { prisma } from '@/lib/prisma';
 
 const quickLinks = [
   {
-    title: 'Yedek Parcalar',
-    description: 'Stok, fiyat ve vitrin urunlerini yonet.',
+    title: 'Yedek Parçalar',
+    description: 'Stok, fiyat ve vitrin ürünleri yönet.',
     href: '/admin/spare-parts',
-    action: 'Yonet',
+    action: 'Yönet',
   },
   {
     title: 'Teklifler',
-    description: 'Fiyat teklifi taleplerini goruntule ve yanitla.',
+    description: 'Fiyat teklifi taleplerini görüntüle ve yanıtla.',
     href: '/admin/inquiries#quotes',
-    action: 'Goruntule',
+    action: 'Görüntüle',
   },
   {
-    title: 'Iletisim',
-    description: 'Iletisim mesajlarini takip et.',
+    title: 'İletişim',
+    description: 'İletişim mesajlarını takip et.',
     href: '/admin/inquiries#contact',
-    action: 'Goruntule',
+    action: 'Görüntüle',
   },
 ];
 
@@ -133,12 +133,12 @@ export default async function AdminHomePage() {
   ]);
 
   const stats = [
-    { label: 'Toplam Parca', value: totalParts },
-    { label: 'Aktif Parca', value: activeParts },
+    { label: 'Toplam Parça', value: totalParts },
+    { label: 'Aktif Parça', value: activeParts },
     { label: 'Vitrin', value: featuredParts },
-    { label: 'Dusuk Stok', value: lowStockParts },
+    { label: 'Düşük Stok', value: lowStockParts },
     { label: 'Yeni Teklif', value: newQuotes },
-    { label: 'Yeni Iletisim', value: newContacts },
+    { label: 'Yeni İletişim', value: newContacts },
   ];
 
   const statusBadge = (status: 'NEW' | 'READ' | 'CLOSED') => {
@@ -154,9 +154,9 @@ export default async function AdminHomePage() {
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-lg font-bold text-slate-900">Admin Dashboard</div>
+            <div className="text-lg font-bold text-slate-900">Admin Anasayfa</div>
             <div className="mt-1 text-sm text-slate-600">
-              Yedek parca, stok ve iletisim taleplerini tek ekrandan takip et.
+              Yedek parça, stok ve iletişim taleplerini tek ekrandan takip et.
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -164,7 +164,7 @@ export default async function AdminHomePage() {
               href="/admin/spare-parts"
               className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800"
             >
-              Yedek Parca
+              Yedek Parça
             </Link>
             <Link
               href="/admin/inquiries#quotes"
@@ -176,7 +176,7 @@ export default async function AdminHomePage() {
               href="/admin/inquiries#contact"
               className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 text-slate-900 hover:bg-slate-50"
             >
-              Iletisim
+              İletişim
             </Link>
           </div>
         </div>
@@ -203,28 +203,28 @@ export default async function AdminHomePage() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
             {
-              title: 'Siparisler',
-              description: 'Tum siparisleri aninda izle.',
+              title: 'Siparişler',
+              description: 'Tüm siparişleri anında izle.',
               href: '/admin/orders',
               count: totalOrders,
               tone: 'border-indigo-200',
             },
             {
-              title: 'Iadeler',
-              description: 'Iade taleplerini yonet.',
+              title: 'İadeler',
+              description: 'İade taleplerini yönet.',
               href: '/admin/returns',
               count: totalReturns,
               tone: 'border-indigo-200',
             },
             {
               title: 'Talepler',
-              description: 'Teklif ve iletisim kutusu.',
+              description: 'Teklif ve iletişim kutusu.',
               href: '/admin/inquiries',
               count: newQuotes + newContacts,
               tone: 'border-amber-200',
             },
             {
-              title: 'Urunler',
+              title: 'Ürünler',
               description: 'Stok, vitrin ve fiyatlar.',
               href: '/admin/spare-parts',
               count: totalParts,
@@ -256,14 +256,14 @@ export default async function AdminHomePage() {
             <div>
               <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Anasayfa panelleri</div>
               <div className="mt-2 text-sm text-slate-600">
-                Son guncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henuz ayarlanmadi'}
+                Son güncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henüz ayarlanmadı'}
               </div>
             </div>
             <Link
               href="/admin/site-config"
               className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-300"
             >
-              Panelleri duzenle
+              Panelleri düzenle
             </Link>
           </div>
         </div>
@@ -274,11 +274,11 @@ export default async function AdminHomePage() {
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-slate-900">Guncel Stok</div>
-                <div className="text-sm text-slate-600">Son guncellenen 5 urun</div>
+                <div className="text-base font-semibold text-slate-900">Güncel Stok</div>
+                <div className="text-sm text-slate-600">Son güncellenen 5 ürün</div>
               </div>
               <Link href="/admin/spare-parts" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-                Tumunu gor
+                Tümünü gör
               </Link>
             </div>
 
@@ -307,12 +307,12 @@ export default async function AdminHomePage() {
                     href={`/admin/spare-parts/${p.id}`}
                     className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
                   >
-                    Duzenle
+                    Düzenle
                   </Link>
                 </div>
               ))}
               {latestParts.length === 0 && (
-                <div className="py-6 text-sm text-slate-600">Henuz urun yok.</div>
+                <div className="py-6 text-sm text-slate-600">Henüz ürün yok.</div>
               )}
             </div>
           </div>
@@ -320,8 +320,8 @@ export default async function AdminHomePage() {
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-slate-900">Hizli Islemler</div>
-                <div className="text-sm text-slate-600">Sik kullanilan sayfalara kisa yollar</div>
+                <div className="text-base font-semibold text-slate-900">Hızlı İşlemler</div>
+                <div className="text-sm text-slate-600">Sık kullanılan sayfalara kısa yollar</div>
               </div>
             </div>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -350,10 +350,10 @@ export default async function AdminHomePage() {
                 <div key={inq.id} className="rounded-xl border border-slate-200 p-3 bg-slate-50">
                   <div className="flex items-center justify-between gap-2">
                     <div className="text-sm font-semibold text-slate-900">
-                      {inq.name || 'Isim yok'} - {inq.email}
+                      {inq.name || 'İsim yok'} - {inq.email}
                     </div>
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusBadge(inq.status)}`}>
-                      {typeLabel(inq.type)} - {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapali'}
+                      {typeLabel(inq.type)} - {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapalı'}
                     </span>
                   </div>
                   <div className="mt-1 text-xs text-slate-500">{formatDateTime(inq.createdAt)}</div>
@@ -362,7 +362,7 @@ export default async function AdminHomePage() {
               ))}
               {recentInquiries.length === 0 && (
                 <div className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-600">
-                  Henuz talep yok.
+                  Henüz talep yok.
                 </div>
               )}
             </div>
