@@ -38,7 +38,7 @@ const statusMeta = (status: string) => {
   }
   if (status === 'CLOSED') {
     return {
-      label: 'Incele',
+      label: 'İncele',
       accent: 'border-l-rose-400',
       badge: 'text-rose-700 bg-rose-500/10 ring-1 ring-rose-500/30',
     };
@@ -88,7 +88,7 @@ export default async function AdminContactInquiriesPage() {
 
       {items.length === 0 && (
         <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
-          Henuz iletisim mesaji yok.
+          Henüz iletişim mesajı yok.
         </div>
       )}
 
@@ -96,9 +96,9 @@ export default async function AdminContactInquiriesPage() {
         {items.length > 0 && (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
-              <div>Kayit</div>
-              <div>Musteri</div>
-              <div>Iletisim</div>
+              <div>Kayıt</div>
+              <div>Müşteri</div>
+              <div>İletişim</div>
               <div>Konu</div>
               <div>Tarih</div>
               <div>Durum</div>
