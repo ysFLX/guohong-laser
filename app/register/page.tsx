@@ -25,8 +25,8 @@ export default function RegisterPage() {
     try {
       return text ? JSON.parse(text) : {};
     } catch (e) {
-      console.error('JSON parse hatasi:', e, 'Yanit:', text);
-      throw new Error('Sunucudan gecersiz yanit alindi');
+      console.error('JSON parse hatası:', e, 'Yanıt:', text);
+      throw new Error('Sunucudan geçersiz yanıt alındı');
     }
   };
 
@@ -53,14 +53,14 @@ export default function RegisterPage() {
       const data = await parseResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Kayit sirasinda bir hata olustu');
+        throw new Error(data.error || 'Kayıt sırasında bir hata oluştu');
       }
 
       setStep('verify');
-      setInfo(data.message || 'Dogrulama kodu e-posta adresinize gonderildi');
+      setInfo(data.message || 'Doğrulama kodu e-posta adresinize gönderildi');
     } catch (error: any) {
-      console.error('Kayit hatasi:', error);
-      setError(error.message || 'Kayit sirasinda bir hata olustu');
+      console.error('Kayıt hatası:', error);
+      setError(error.message || 'Kayıt sırasında bir hata oluştu');
     } finally {
       setIsSendingCode(false);
     }
@@ -86,13 +86,13 @@ export default function RegisterPage() {
       const data = await parseResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Kayit sirasinda bir hata olustu');
+        throw new Error(data.error || 'Kayıt sırasında bir hata oluştu');
       }
 
       router.push('/login?registered=true');
     } catch (error: any) {
-      console.error('Dogrulama hatasi:', error);
-      setError(error.message || 'Dogrulama sirasinda bir hata olustu');
+      console.error('Doğrulama hatası:', error);
+      setError(error.message || 'Doğrulama sırasında bir hata oluştu');
     } finally {
       setIsVerifying(false);
     }
@@ -117,8 +117,8 @@ export default function RegisterPage() {
               <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
-              <h2 className="mt-4 text-3xl font-semibold">Yeni hesap olustur</h2>
-              <p className="mt-2 text-sm text-white/70">Bilgilerini gir, hesabini olustur</p>
+              <h2 className="mt-4 text-3xl font-semibold">Yeni hesap oluştur</h2>
+              <p className="mt-2 text-sm text-white/70">Bilgilerini gir, hesabini oluştur</p>
             </div>
 
             <div className="mt-6">
@@ -127,7 +127,7 @@ export default function RegisterPage() {
                 onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
                 className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
-                Google ile kayit ol
+                Google ile kayıt ol
               </button>
             </div>
 
@@ -151,7 +151,7 @@ export default function RegisterPage() {
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
-                      placeholder="Adiniz"
+                      placeholder="Adınız"
                     />
                   </div>
 
@@ -167,7 +167,7 @@ export default function RegisterPage() {
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
-                      placeholder="Soyadiniz"
+                      placeholder="Soyadınız"
                     />
                   </div>
 
@@ -207,7 +207,7 @@ export default function RegisterPage() {
 
                   <div>
                     <label htmlFor="password" className="block text-sm font-medium text-white/80">
-                      Sifre
+                      Şifre
                     </label>
                     <input
                       id="password"
@@ -227,13 +227,13 @@ export default function RegisterPage() {
 
               {step === 'verify' && (
                 <div className="space-y-4">
-                  <div className="text-center text-base font-semibold text-white">E-posta dogrulama</div>
+                  <div className="text-center text-base font-semibold text-white">E-posta doğrulama</div>
                   <div className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/70">
-                    Dogrulama kodunu <span className="font-semibold">{email}</span> adresine gonderdik.
+                    Doğrulama kodunu <span className="font-semibold">{email}</span> adresine gönderdik.
                   </div>
                   <div>
                     <label htmlFor="verificationCode" className="block text-sm font-medium text-white/80">
-                      Dogrulama Kodu
+                      Doğrulama Kodu
                     </label>
                     <input
                       id="verificationCode"
@@ -263,11 +263,11 @@ export default function RegisterPage() {
                 >
                   {step === 'details'
                     ? isSendingCode
-                      ? 'Gonderiliyor...'
-                      : 'Kayit ol'
+                      ? 'Gönderiliyor...'
+                      : 'Kayıt ol'
                     : isVerifying
                       ? 'Kontrol ediliyor...'
-                      : 'Kaydi tamamla'}
+                      : 'Kaydı tamamla'}
                 </button>
 
                 {step === 'verify' && (
@@ -277,14 +277,14 @@ export default function RegisterPage() {
                     disabled={isSendingCode}
                     className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
                   >
-                    {isSendingCode ? 'Tekrar gonderiliyor...' : 'Kodu tekrar gonder'}
+                    {isSendingCode ? 'Tekrar gönderiliyor...' : 'Kodu tekrar gönder'}
                   </button>
                 )}
               </div>
             </form>
             <div className="mt-6 text-center">
               <Link href="/login" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
-                Zaten hesabin var mi? <span className="underline">Giris yap</span>
+                Zaten hesabın var mı? <span className="underline">Giriş yap</span>
               </Link>
             </div>
           </div>

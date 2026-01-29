@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Guohong Lazer - Kayit Ol',
-  description: 'Yeni hesap olustur.',
+  title: 'Guohong Lazer - Kayıt Ol',
+  description: 'Yeni hesap oluştur.',
 };
 
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
