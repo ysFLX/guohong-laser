@@ -16,7 +16,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
     orderId: '',
     itemName: '',
     reason: '',
-    resolution: 'Iade',
+    resolution: 'İade',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
@@ -33,7 +33,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
   const extractName = (url: string) => {
     const clean = url.split('?')[0];
     const name = clean.split('/').pop();
-    return name || 'Kanit dosyasi';
+    return name || 'Kanıt dosyası';
   };
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
     setEvidenceError('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
@@ -95,11 +95,11 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
+        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (data.success) {
         setSubmitStatus({
           success: true,
-          message: 'Iade talebiniz alindi. En kisa surede sizinle iletisime gececegiz.',
+          message: 'İade talebiniz alındı. En kısa sürede sizinle iletişime geçeceğiz.',
         });
         setFormData({
           name: '',
@@ -108,16 +108,16 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
           orderId: '',
           itemName: '',
           reason: '',
-          resolution: 'Iade',
+          resolution: 'İade',
         });
         setOtp('');
         setStep('details');
         setEvidenceUrls([]);
       } else {
-        throw new Error(data.error || data.message || 'Talep gonderilemedi');
+        throw new Error(data.error || data.message || 'Talep gönderilemedi. Lütfen daha sonra tekrar deneyin.');
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
+      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen tekrar deneyin.';
       setSubmitStatus({
         success: false,
         message,
@@ -142,7 +142,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
         });
         const data = await res.json();
         if (!res.ok || !data?.uploadUrl || !data?.publicUrl) {
-          throw new Error(data?.error || 'Kanit yuklenemedi');
+          throw new Error(data?.error || 'Kanıt yüklenemedi');
         }
 
         const uploadRes = await fetch(data.uploadUrl, {
@@ -158,7 +158,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
       }
       setEvidenceUrls((prev) => [...prev, ...uploaded]);
     } catch (error) {
-      setEvidenceError(error instanceof Error ? error.message : 'Kanit yuklenemedi');
+      setEvidenceError(error instanceof Error ? error.message : 'Kanıt yüklenemedi');
     } finally {
       setEvidenceUploading(false);
     }
@@ -172,16 +172,16 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
           <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.25))]" />
           <div className="relative space-y-4">
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              Iade talebi
+              İade talebi
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Iade ve degisim basvurusu</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">İade ve değişiklik başvurusu</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Siparis numarani ve talep nedenini paylas. Teknik ekip on degerlendirme yapip hizlica geri donecek.
+              Sipariş numaranızı ve talep nedeninizi paylaşın. Teknik ekip ön değerlendirme yaparak hızlıca geri dönecek.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-white/70">
-              <span className="rounded-full border border-white/20 px-3 py-1">24-48 saat geri donus</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">24-48 saat geri dönüş</span>
               <span className="rounded-full border border-white/20 px-3 py-1">Resmi servis</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Musteri odakli</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Müşteri odaklı</span>
             </div>
           </div>
         </section>
@@ -228,7 +228,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   />
                 </div>
                 <div className="space-y-2">
-                  <div className="form-label">Siparis numarasi *</div>
+                  <div className="form-label">Sipariş numarası *</div>
                   <input
                     name="orderId"
                     required
@@ -239,7 +239,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
-                  <div className="form-label">Urun adi / kodu</div>
+                  <div className="form-label">Ürün adı / kodu</div>
                   <input
                     name="itemName"
                     value={formData.itemName}
@@ -251,8 +251,8 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                 <div className="space-y-2 sm:col-span-2">
                   <div className="form-label">Talep tipi</div>
                   <select name="resolution" value={formData.resolution} onChange={handleChange} className="form-input">
-                    <option value="Iade">Iade</option>
-                    <option value="Degisim">Degisim</option>
+                    <option value="Iade">İade</option>
+                    <option value="Degisim">Değişim</option>
                     <option value="Teknik destek">Teknik destek</option>
                   </select>
                 </div>
@@ -269,7 +269,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
-                  <div className="form-label">Kanit dosyalari</div>
+                  <div className="form-label">Kanıt dosyaları</div>
                   <input
                     type="file"
                     multiple
@@ -280,7 +280,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   <div className="text-xs text-slate-500">
                     JPG, PNG veya PDF desteklenir. Birden fazla dosya ekleyebilirsin.
                   </div>
-                  {evidenceUploading && <div className="text-xs text-slate-600">Kanit yukleniyor...</div>}
+                  {evidenceUploading && <div className="text-xs text-slate-600">Kanıt yükleniyor...</div>}
                   {evidenceError && <div className="text-xs text-red-600">{evidenceError}</div>}
                   {evidenceUrls.length > 0 && (
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -319,7 +319,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
               {step === 'verify' && (
                 <div className="space-y-2">
                   <div className="text-sm text-slate-600">
-                    Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+                    Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
                   </div>
                   <input
                     name="otp"
@@ -337,25 +337,25 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
               {info && <div className="form-alert form-alert--info text-center">{info}</div>}
 
               <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
-                {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Talebi gonder'}
+                {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Talebi gönder'}
               </button>
             </form>
           </section>
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Iade adimlari</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">İade adımları</div>
               <ol className="mt-4 space-y-3 text-sm text-slate-600">
-                <li>1. Talep formunu doldur ve gonder.</li>
-                <li>2. Teknik ekip on degerlendirme yapsin.</li>
-                <li>3. Onay sonrasi iade/degisim akisi baslasin.</li>
+                <li>1. Talep formunu doldur ve gönder.</li>
+                <li>2. Teknik ekip ön değerlendirme yapsın.</li>
+                <li>3. Onay sonrası iade/değişim akışı başlasın.</li>
               </ol>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iade ve garanti
+                  İade ve garanti
                 </Link>
                 <Link href="/shipping" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
                   Kargo ve teslimat

@@ -1,32 +1,32 @@
 import Link from 'next/link';
 
 const highlights = [
-  { title: 'Stoklu teslimat', value: 'Ayni/ertesi gun' },
-  { title: 'Yurtdisi sevkiyat', value: 'Planli lojistik' },
-  { title: 'Takip guncelleme', value: 'Anlik panel + e-posta' },
+  { title: 'Stoklu teslimat', value: 'Aynı/ertesi gün' },
+  { title: 'Yurtdışı sevkiyat', value: 'Planlı lojistik' },
+  { title: 'Takip güncelleme', value: 'Anlık panel + e-posta' },
 ];
 
 const deliveryCards = [
   {
-    title: 'Hazirlama suresi',
+    title: 'Hazırlama süresi',
     items: [
-      'Stoklu urunler ayni gun veya ertesi is gunu kargolanir.',
-      'Stoksuz urunlerde tedarik suresi teklif onayinda netlesir.',
-      'Ozel uretim modellerde termin tarihlerine gore planlama yapilir.',
+      'Stoklu ürünler aynı gün veya ertesi iş günü kargolanır.',
+      'Stoksuz ürünlerde tedarik süresi teklif onayında netleşir.',
+      'Özel üretim modellerde termin tarihlerine göre planlama yapılır.',
     ],
   },
   {
-    title: 'Teslimat bolgeleri',
+    title: 'Teslimat bölgeleri',
     items: [
-      'Turkiye geneli teslimat yapilir.',
-      'Yurtdisi sevkiyatlar icin lojistik ekibimiz destek verir.',
-      'Agir/hacimli urunler icin ozel tasima kosullari uygulanabilir.',
+      'Türkiye geneli teslimat yapilir.',
+      'Yurtdışı sevkiyatlar için lojistik ekibimiz destek verir.',
+      'Ağır/hacimli ürünler için özel taşıma koşulları uygulanabilir.',
     ],
   },
   {
     title: 'Kargo takip',
     items: [
-      'Takip numarasi siparis panelinde ve e-postada paylasilir.',
+      'Takip numarası sipariş panelinde ve e-postada paylaşılır.',
       'Gecikme veya hasar durumunda ekip hemen bilgilendirilir.',
     ],
   },
@@ -42,10 +42,10 @@ export default function ShippingPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs uppercase tracking-[0.4em] text-indigo-700">
               Teslimat Merkezi
             </p>
-            <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Kargo ve teslimat politikasi</h1>
+            <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Kargo ve teslimat politikası</h1>
             <p className="max-w-2xl text-base text-slate-600">
-              Siparis hazirlik sureci, teslimat standartlari ve takip adimlari kurumsal satis sureciniz icin
-              netlestirilmistir.
+              Sipariş hazırlık süresi, teslimat standartları ve takip adımları kurumsal satış süreciniz için
+              netleştirilmiştir.
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
               {highlights.map((item) => (
@@ -77,30 +77,30 @@ export default function ShippingPage() {
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.3)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iade ve garanti
+                  İade ve garanti
                 </Link>
                 <Link href="/payment-security" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Odeme guvenligi
+                  Ödeme güvenliği
                 </Link>
                 <Link href="/privacy" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Gizlilik politikasi
+                  Gizlilik politikası
                 </Link>
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.3)]">
               <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Teslimat destek</div>
               <p className="mt-3 text-sm text-slate-600">
-                Kritik teslimatlarda randevu planlamasi, agir urunlerde ekipman destegi ve hasar tutanaklari icin destek
-                saglariz.
+                Kritik teslimatlarda randevu planlaması, ağır ürünlerde ekipman desteği ve hasar tutanakları için destek
+                sağlanır.
               </p>
               <Link
                 href="/contact?subject=Kargo+Takip"
                 className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >
-                Kargo destegi
+                Kargo desteği
               </Link>
             </div>
           </aside>
