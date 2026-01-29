@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Guohong Lazer - Urunler',
-  description: 'Lazer makineleri ve urun katalogu.',
+  title: 'Guohong Lazer - Ürünler',
+  description: 'Lazer makineleri ve ürün kataloğu.',
 };
 
 export default function ProductsLayout({ children }: { children: React.ReactNode }) {
