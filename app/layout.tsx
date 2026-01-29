@@ -20,9 +20,9 @@ const geistMono = Geist_Mono({
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
 const siteName = "Guohong Lazer";
-const defaultTitle = "Guohong Lazer - Lazer Makineleri ve Yedek Parcalar";
+const defaultTitle = "Guohong Lazer - Lazer Makineleri ve Yedek Parçalar";
 const defaultDescription =
-  "Yuksek kaliteli lazer makineleri ve yedek parcalar icin dogru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.";
+  "Yüksek kaliteli lazer makineleri ve yedek parçalar için doğru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Guohong Lazer",
   },
   description: defaultDescription,
-  keywords: "lazer makinesi, yedek parca, lazer kesim, lazer kazima, endustriyel lazer",
+  keywords: "lazer makinesi, yedek parça, lazer kesim, lazer kazima, endustriyel lazer",
   alternates: {
     canonical: siteUrl,
   },

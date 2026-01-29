@@ -42,12 +42,12 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
             onClick={() => onChange('')}
             className="absolute right-3 top-3 rounded-full bg-slate-900/80 px-3 py-1 text-xs font-semibold text-white"
           >
-            Kaldir
+            Kaldır
           </button>
         </div>
       ) : (
         <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-          Gorsel yuklenmedi.
+          Görsel yüklenemedi.
         </div>
       )}
 
@@ -71,7 +71,7 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
             setError('');
             try {
               if (!supabase) {
-                throw new Error('Supabase client hazir degil');
+                throw new Error('Supabase client hazır değil');
               }
               const signRes = await fetch('/api/admin/site-assets/upload-url', {
                 method: 'POST',
@@ -79,14 +79,14 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
                 body: JSON.stringify({ fileName: file.name, contentType: file.type }),
               });
               const signData = await signRes.json();
-              if (!signRes.ok) throw new Error(signData?.error || 'Upload url olusturulamadi');
+              if (!signRes.ok) throw new Error(signData?.error || 'Upload url oluşturulamadı');
 
               const upload = await supabase.storage
                 .from('spare-parts')
                 .uploadToSignedUrl(signData.path, signData.token, file, { contentType: file.type });
 
               if (upload.error) {
-                throw new Error(upload.error.message || 'Yukleme basarisiz');
+                throw new Error(upload.error.message || 'Yükleme başarısız');
               }
 
               onChange(signData.publicUrl);
@@ -99,7 +99,7 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
           }}
           className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
         >
-          {isUploading ? 'Yukleniyor...' : 'Gorsel yukle'}
+          {isUploading ? 'Yükleniyor...' : 'Görsel yükle'}
         </button>
       </div>
 
