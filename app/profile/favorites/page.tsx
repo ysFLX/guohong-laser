@@ -72,12 +72,12 @@ export default function FavoritesPage() {
         const data = text ? JSON.parse(text) : {};
 
         if (!res.ok) {
-          throw new Error(data?.error || 'Favoriler yuklenemedi');
+          throw new Error(data?.error || 'Favoriler yüklenemedi');
         }
 
         setItems(Array.isArray(data?.items) ? data.items : []);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Favoriler yuklenemedi';
+        const message = e instanceof Error ? e.message : 'Favoriler yüklenemedi';
         setError(message);
       } finally {
         setIsLoading(false);
@@ -101,14 +101,14 @@ export default function FavoritesPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Favori guncellenemedi');
+        throw new Error(data?.error || 'Favori güncellenemedi');
       }
 
       if (data?.favorited === false) {
         setItems((prev) => prev.filter((item) => item.sparePartId !== sparePartId));
       }
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Favori guncellenemedi';
+      const message = e instanceof Error ? e.message : 'Favori güncellenemedi';
       setError(message);
     } finally {
       setToggling((prev) => {
@@ -125,22 +125,22 @@ export default function FavoritesPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link href="/profile" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-              Hesap yonetimine don
+              Hesap yönetimine dön
             </Link>
             <h1 className="mt-3 text-2xl font-semibold text-slate-900">Favorilerim</h1>
-            <p className="mt-1 text-sm text-slate-600">Favoriledigin urunleri burada yonetebilirsin.</p>
+            <p className="mt-1 text-sm text-slate-600">Favorilediğin ürünleri burada yönetebilirsin.</p>
           </div>
           <Link href="/spare-parts" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-            Yedek parcalara git
+            Yedek parçalara git
           </Link>
         </div>
 
-        {isLoading && <div className="mt-6 text-sm text-slate-600">Yukleniyor...</div>}
+        {isLoading && <div className="mt-6 text-sm text-slate-600">Yükleniyor...</div>}
         {error && <div className="mt-6 text-sm text-red-600">{error}</div>}
 
         {!isLoading && !error && items.length === 0 && (
           <div className="mt-8 rounded-xl border border-dashed border-slate-200 p-6 text-sm text-slate-600">
-            Henuz favori urun yok. Yedek parcalardan favori ekleyebilirsin.
+            Henüz favori ürün yok. Yedek parçalardan favori ekleyebilirsin.
           </div>
         )}
 
@@ -219,7 +219,7 @@ export default function FavoritesPage() {
                       disabled={toggling.has(item.sparePartId)}
                       className="rounded-xl border border-red-100 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:text-slate-400"
                     >
-                      Favoriden kaldir
+                      Favoriden kaldır
                     </button>
                   </div>
                 </div>

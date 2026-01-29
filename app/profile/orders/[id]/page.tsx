@@ -168,11 +168,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const safeOrder = order!;
 
   const statusLabel: Record<string, string> = {
-    RECEIVED: 'Siparis alindi',
+    RECEIVED: 'Sipariş alındı',
     SHIPPED: 'Kargoya verildi',
-    IN_TRANSIT: 'Siparis hazirlaniyor',
+    IN_TRANSIT: 'Sipariş hazırlanıyor',
     DELIVERED: 'Teslim edildi',
-    CANCELED: 'Iptal',
+    CANCELED: 'İptal',
   };
 
   const statusTone: Record<string, string> = {
@@ -184,8 +184,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   };
 
   const progressSteps = [
-    { key: 'RECEIVED', label: 'Siparisiniz alindi' },
-    { key: 'IN_TRANSIT', label: 'Siparisiniz hazirlaniyor' },
+    { key: 'RECEIVED', label: 'Siparişiniz alındı' },
+    { key: 'IN_TRANSIT', label: 'Siparişiniz hazırlanıyor' },
     { key: 'SHIPPED', label: 'Kargoya verildi' },
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
@@ -210,7 +210,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     return {
       ...step,
       isReached,
-      dateLabel: hasDate ? formatDate(safeOrder.createdAt) : isReached ? 'Guncellenecek' : 'Planlaniyor',
+      dateLabel: hasDate ? formatDate(safeOrder.createdAt) : isReached ? 'Güncellenecek' : 'Planlanıyor',
     };
   });
 
@@ -238,11 +238,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link href="/profile/orders" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-              Siparislerime don
+              Siparişlerime dön
             </Link>
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <span className="h-2.5 w-2.5 rounded-full bg-indigo-400" />
-              Guncel durum
+              Güncel durum
             </div>
           </div>
 
@@ -250,7 +250,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-                  Siparis ozeti
+                  Sipariş özeti
                 </div>
                 <h1 className="mt-3 text-3xl font-semibold text-slate-900">
                   #{safeOrder.id.slice(0, 8)}
@@ -275,7 +275,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   href="/returns-request"
                   className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:bg-slate-50 dark:text-slate-200"
                 >
-                  Iade talebi
+                  İade talebi
                 </Link>
               </div>
             </div>
@@ -286,7 +286,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="mt-2 text-2xl font-semibold text-slate-900">
                   {formatPriceTry(safeOrder.totalCents)}
                 </div>
-                <div className="mt-1 text-xs text-slate-500">{itemCount} urun</div>
+                <div className="mt-1 text-xs text-slate-500">{itemCount} ürün</div>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Kargo</div>
@@ -294,7 +294,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   {safeOrder.shippingCarrier || 'Bilgi bekleniyor'}
                 </div>
                 <div className="mt-1 text-xs text-slate-500">
-                  {safeOrder.trackingNumber ? `Takip no: ${safeOrder.trackingNumber}` : 'Takip eklenince gorunur'}
+                  {safeOrder.trackingNumber ? `Takip no: ${safeOrder.trackingNumber}` : 'Takip eklenince görünür'}
                 </div>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
@@ -310,7 +310,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           {typeof statusToStep[displayStatus] === 'number' && (
             <div className="mt-6 rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm dark:bg-slate-900/70">
               <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
-                <span>Durum akisi</span>
+                <span>Durum akışı</span>
                 <span>{progressSteps[statusToStep[displayStatus]].label}</span>
               </div>
               <div className="mt-4">
@@ -358,7 +358,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     </div>
                     <div className="mt-2 text-sm font-semibold text-slate-900">{step.dateLabel}</div>
                     <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-slate-500">
-                      {step.isReached ? 'Tamamlandi' : 'Beklemede'}
+                      {step.isReached ? 'Tamamlandı' : 'Beklemede'}
                     </div>
                   </div>
                 ))}
@@ -370,11 +370,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Siparis detaylari</div>
-                  <div className="mt-2 text-lg font-semibold text-slate-900">Urunler ve kalemler</div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Sipariş detayları</div>
+                  <div className="mt-2 text-lg font-semibold text-slate-900">Ürünler ve kalemler</div>
                 </div>
                 <span className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
-                  {itemCount} urun
+                  {itemCount} ürün
                 </span>
               </div>
 
@@ -396,7 +396,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-xs text-slate-400">
-                            Urun
+                            Ürün
                           </div>
                         )}
                       </div>
@@ -444,11 +444,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm dark:bg-slate-900/60">
-                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Siparis notu</div>
-                  <div className="mt-2 text-slate-600">Sisteme kayitli ozel bir not bulunmuyor.</div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Sipariş notu</div>
+                  <div className="mt-2 text-slate-600">Sisteme kayıtlı özel bir not bulunmuyor.</div>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm dark:bg-slate-900/60">
-                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hizli aksiyonlar</div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hızlı aksiyonlar</div>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {safeOrder.trackingUrl ? (
                       <a
@@ -470,7 +470,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       href="/returns-request"
                       className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                     >
-                      Iade talebi
+                      İade talebi
                     </Link>
                   </div>
                 </div>
@@ -480,10 +480,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                      Siparis zaman cizelgesi
+                      Sipariş zaman çizelgesi
                     </div>
                     <div className="mt-2 text-slate-600">
-                      Durum guncellendikce zaman damgasi eklenir.
+                      Durum güncellendikçe zaman damgası eklenir.
                     </div>
                   </div>
                   <span className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
@@ -492,17 +492,17 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 dark:bg-slate-900/40">
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Olusturuldu</div>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Oluşturuldu</div>
                     <div className="mt-2 text-sm font-semibold text-slate-900">{formatDate(safeOrder.createdAt)}</div>
                   </div>
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 dark:bg-slate-900/40">
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Hazirlaniyor</div>
-                    <div className="mt-2 text-sm text-slate-600">Duruma gore otomatik</div>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Hazırlanıyor</div>
+                    <div className="mt-2 text-sm text-slate-600">Duruma göre otomatik</div>
                   </div>
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 dark:bg-slate-900/40">
                     <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Teslim</div>
                     <div className="mt-2 text-sm text-slate-600">
-                      {displayStatus === 'DELIVERED' ? 'Teslim edildi' : 'Planlama asamasinda'}
+                      {displayStatus === 'DELIVERED' ? 'Teslim edildi' : 'Planlama aşamasında'}
                     </div>
                   </div>
                 </div>
@@ -510,17 +510,17 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
               <div className="mt-6 grid gap-3 lg:grid-cols-2">
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
-                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat notlari</div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat notları</div>
                   <ul className="mt-3 space-y-2 text-slate-600">
                     <li>• Paket tesliminde kimlik teyidi alinabilir.</li>
-                    <li>• Hasarli teslimatlar icin 24 saat icinde bildirim yap.</li>
+                    <li>• Hasarlı teslimatlar için 24 saat içinde bildirim yap.</li>
                     <li>• Kargo gecikmelerinde destek ekibi bilgi verir.</li>
                   </ul>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
-                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Yardim ve destek</div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Yardım ve destek</div>
                   <div className="mt-3 text-slate-600">
-                    Teknik destek ve fatura sorulari icin dogrudan ekibe ulasabilirsin.
+                    Teknik destek ve fatura soruları için doğrudan ekibe ulaşabilirsin.
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <Link
@@ -548,7 +548,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Siparis durumu
+                  Sipariş durumu
                 </div>
                 <div className="mt-2">
                   <span
@@ -574,7 +574,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     <div>{shippingView.phone}</div>
                   </div>
                 ) : (
-                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadı.</div>
                 )}
               </div>
 
@@ -601,13 +601,13 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                         rel="noreferrer"
                         className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                       >
-                        Kargo takip sayfasina git
+                        Kargo takip sayfasına git
                       </a>
                     )}
                   </div>
                 ) : (
                   <div className="mt-2 text-slate-600">
-                    Takip bilgisi henuz girilmedi. Kargo bilgisi girildiginde e-posta ile bilgilendirileceksiniz.
+                    Takip bilgisi henüz girilmedi. Kargo bilgisi girildiğinde e-posta ile bilgilendirileceksiniz.
                   </div>
                 )}
               </div>
@@ -617,7 +617,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   Fatura adresi
                 </div>
                 {billingSame && shippingView ? (
-                  <div className="mt-2 text-slate-700">Teslimat adresi ile ayni.</div>
+                  <div className="mt-2 text-slate-700">Teslimat adresi ile aynı.</div>
                 ) : billingView ? (
                   <div className="mt-2 space-y-1 text-slate-700">
                     <div className="font-semibold text-slate-900">{billingView.title}</div>
@@ -627,7 +627,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     <div>{billingView.phone}</div>
                   </div>
                 ) : (
-                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadi.</div>
+                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadı.</div>
                 )}
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
@@ -635,37 +635,37 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   Fatura ve irsaliye
                 </div>
                 <div className="mt-2 text-slate-600">
-                  Fatura ve irsaliye, siparis onayiyla birlikte e-posta ile paylasilir. Talep etmek istersen destek ekibi
-                  hizlica yonlendirir.
+                  Fatura ve irsaliye, sipariş onayıyla birlikte e-posta ile paylaşılır. Talep etmek istersen destek ekibi
+                  hızlıca yönlendirilir.
                 </div>
                 <Link
                   href={`/contact?${invoiceParams}`}
                   className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  Fatura talebi gonder
+                  Fatura talebi gönder
                 </Link>
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Iade islemleri
+                  İade işlemleri
                 </div>
                 <div className="mt-2 text-slate-600">
-                  Urun iade veya degisim talebini form uzerinden baslatabilirsin.
+                  Ürün iade veya değişim talebini form üzerinden başlatabilirsiniz.
                 </div>
                 <div className="mt-4 space-y-2">
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span>Talep alindi</span>
+                    <span>Talep alındı</span>
                     <span className="font-semibold">Beklemede</span>
                   </div>
                   <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-900/40">
                     <div className="h-2 w-1/4 rounded-full bg-amber-400" />
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span>Inceleme</span>
-                    <span>Hazirlaniyor</span>
+                    <span>İnceleme</span>
+                    <span>Hazırlanıyor</span>
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span>Sonuc</span>
+                    <span>Sonuç</span>
                     <span>Bilgilendirilecek</span>
                   </div>
                 </div>
@@ -673,11 +673,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   href="/returns-request"
                   className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  Iade talebi olustur
+                  İade talebi oluştur
                 </Link>
               </div>
               <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/60">
-                Siparis durumunuz guncellendikce burada gorunur.
+                Sipariş durumunuz güncellendikçe burada görünür.
               </div>
             </div>
           </div>

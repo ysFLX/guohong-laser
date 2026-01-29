@@ -14,7 +14,7 @@ export default function AddressesPage() {
         </Link>
         <h1 className="mt-3 text-2xl font-semibold text-slate-900">Adreslerim</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Adreslerini burada yonetebilirsin. Profil sayfasindan da erisebilirsin.
+          Adreslerinizi buradan yönetebilirsiniz. Profil sayfasından da erişebilirsiniz.
         </p>
         <div className="mt-6">
           <AddressesManager />
