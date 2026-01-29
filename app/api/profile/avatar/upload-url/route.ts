@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
   if (!supabaseUrl || !serviceRoleKey) {
-    return new Response(JSON.stringify({ error: "Supabase ayarlari eksik" }), {
+    return new Response(JSON.stringify({ error: "Supabase ayarları eksik" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   });
 
   if (error || !data) {
-    return new Response(JSON.stringify({ error: error?.message || "Upload url olusturulamadi" }), {
+    return new Response(JSON.stringify({ error: error?.message || "Upload url oluşturulamadı" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });

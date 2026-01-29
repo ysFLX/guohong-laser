@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const url = typeof body?.url === "string" ? body.url.trim() : "";
   if (!url) {
-    return new Response(JSON.stringify({ error: "Gecersiz url" }), {
+    return new Response(JSON.stringify({ error: "Geçersiz url" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
