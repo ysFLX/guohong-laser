@@ -51,7 +51,7 @@ export default function CartPage() {
     setReminderError('');
     if (!items.length) return;
     if (!isValidEmail(reminderEmail.trim())) {
-      setReminderError('Gecerli bir e-posta girmelisin.');
+      setReminderError('Geçerli bir e-posta girmelisin.');
       setReminderStatus('error');
       return;
     }
@@ -167,12 +167,12 @@ export default function CartPage() {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.url) {
-        throw new Error(data?.error || 'Odeme baslatilamadi');
+        throw new Error(data?.error || 'Ödeme başlatılamadı');
       }
 
       window.location.href = data.url as string;
     } catch (err: unknown) {
-      setCheckoutError(err instanceof Error ? err.message : 'Odeme baslatilamadi');
+      setCheckoutError(err instanceof Error ? err.message : 'Ödeme başlatılamadı');
     } finally {
       setIsQuickBuying(false);
     }
@@ -196,15 +196,15 @@ export default function CartPage() {
 
         {items.length === 0 ? (
           <div className="mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center">
-            <div className="text-gray-900 dark:text-white font-semibold">Sepet bos.</div>
+            <div className="text-gray-900 dark:text-white font-semibold">Sepet boş.</div>
             <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Yedek parcalara gidip urun ekleyebilirsin.
+              Yedek parçalara gidip ürün ekleyebilirsin.
             </div>
             <Link
               href="/spare-parts"
               className="mt-6 inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
             >
-              Yedek Parcalar
+              Yedek Parçalar
             </Link>
           </div>
         ) : (
@@ -277,7 +277,7 @@ export default function CartPage() {
             </div>
 
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 h-fit">
-              <div className="text-lg font-bold text-gray-900 dark:text-white">Ozet</div>
+              <div className="text-lg font-bold text-gray-900 dark:text-white">Özet</div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="text-sm text-gray-600 dark:text-gray-300">Ara Toplam</div>
                 <div className="text-base font-bold text-gray-900 dark:text-white">
@@ -286,22 +286,22 @@ export default function CartPage() {
               </div>
               <div className="mt-3 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
                 <span>Kargo</span>
-                <span className="font-semibold text-gray-900 dark:text-white">Adresle hesaplanir</span>
+                <span className="font-semibold text-gray-900 dark:text-white">Adresle birlikte hesaplanır</span>
               </div>
               <div className="mt-3 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
                 <span>Teslimat</span>
-                <span className="font-semibold text-gray-900 dark:text-white">2-5 is gunu (stokta)</span>
+                <span className="font-semibold text-gray-900 dark:text-white">2-5 iş günü (stokta)</span>
               </div>
               <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                Kargo ve teslimat detaylari icin{' '}
+                Kargo ve teslimat detayları için{' '}
                 <Link href="/shipping" className="font-semibold text-indigo-600 hover:text-indigo-700">
-                  kargo politikasini
+                  kargo politikasını
                 </Link>{' '}
-                inceleyebilirsin.
+                inceleyebilirsiniz.
               </div>
               <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
-                  Guven rozetleri
+                  Güven rozetleri
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
                   <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
@@ -329,7 +329,7 @@ export default function CartPage() {
                   {isQuickBuying ? 'Hizli odeme hazirlaniyor...' : 'Hizli Al (tek sayfa)'}
                 </button>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                  Varsayilan adresinle direkt odemeye gecersin.
+                  Varsayılan adresinizle direkt ödemeye geçebilirsiniz.
                 </div>
               </div>
 
@@ -340,7 +340,7 @@ export default function CartPage() {
                   onClick={handleCheckout}
                   disabled={!items.length}
                 >
-                  Adres secerek devam et
+                  Adres seçerek devam et
                 </button>
               </div>
 
@@ -354,7 +354,7 @@ export default function CartPage() {
                     Sepet kurtarma
                   </div>
                   <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    24 saat sonra odemeyi tamamlamadiysan sepetini hatirlatiriz.
+                    24 saat sonra ödemeyi tamamlamadıysanız sepetinizi hatırlatırız.
                   </div>
                   <div className="mt-3">
                     <label className="sr-only" htmlFor="reminder-email">
@@ -366,7 +366,7 @@ export default function CartPage() {
                       value={reminderEmail}
                       onChange={(e) => setReminderEmail(e.target.value)}
                       className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-                      placeholder="E-posta adresin"
+                      placeholder="E-posta adresiniz"
                     />
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -376,7 +376,7 @@ export default function CartPage() {
                       disabled={reminderStatus === 'saving'}
                       className="rounded-full bg-gray-900 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-gray-800 disabled:opacity-70"
                     >
-                      {reminderStatus === 'saved' ? 'Guncelle' : 'Hatirlatma al'}
+                      {reminderStatus === 'saved' ? 'Guncelle' : 'Hatırlatma al'}
                     </button>
                     <button
                       type="button"
@@ -388,7 +388,7 @@ export default function CartPage() {
                   </div>
                   {reminderStatus === 'saved' && (
                     <div className="mt-2 text-[11px] font-semibold text-indigo-600">
-                      Hatirlatma aktif. Sepetin korunacak.
+                      Hatırlatma aktif. Sepetin korunacak.
                     </div>
                   )}
                   {reminderError && (
@@ -405,10 +405,10 @@ export default function CartPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900">
             <div className="text-sm font-semibold text-gray-900 dark:text-white">
-              Hizli Al icin adres gerekli
+              Hızlı Al için adres gerekli
             </div>
             <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Kayitli adresin yoksa hizli odeme baslatilamaz. Simdi adres ekleyelim mi?
+              Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Şimdi adres eklemek ister misiniz?
             </div>
             <div className="mt-5 flex items-center justify-end gap-2">
               <button
@@ -416,7 +416,7 @@ export default function CartPage() {
                 onClick={() => setShowQuickBuyPrompt(false)}
                 className="rounded-xl border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300"
               >
-                Vazgec
+                Vazgeç
               </button>
               <button
                 type="button"

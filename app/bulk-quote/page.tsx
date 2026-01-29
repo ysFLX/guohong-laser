@@ -59,14 +59,14 @@ export default function BulkQuotePage() {
     setInfo('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
 
     const cleanedItems = items.filter((item) => item.name.trim().length > 0);
     if (cleanedItems.length === 0) {
-      setSubmitStatus({ success: false, message: 'En az bir urun eklemelisin.' });
+      setSubmitStatus({ success: false, message: 'En az bir ürün eklemelisiniz.' });
       setIsSubmitting(false);
       return;
     }
@@ -89,7 +89,7 @@ export default function BulkQuotePage() {
       `Firma: ${formData.company || '-'}`,
       `E-posta: ${formData.email}`,
       `Telefon: ${formData.phone}`,
-      'Urunler:',
+      'Ürünler:',
       itemsText,
       `Ek Mesaj: ${formData.message || '-'}`,
     ].join('\n');
@@ -113,21 +113,21 @@ export default function BulkQuotePage() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
+        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (response.ok) {
         setSubmitStatus({
           success: true,
-          message: 'Talebiniz alindi. Ekibimiz toplu teklifi hazirlayip sizinle iletisime gececek.',
+          message: 'Talebiniz alındı. Ekibimiz toplu teklifi hazırlayip sizinle iletisime geçecek.',
         });
         setFormData({ name: '', company: '', email: '', phone: '', message: '' });
         setItems([{ name: '', quantity: '1', note: '' }]);
         setOtp('');
         setStep('details');
       } else {
-        throw new Error(data.error || 'Form gonderilemedi');
+        throw new Error(data.error || 'Form gönderilemedi');
       }
     } catch (error) {
-      const messageText = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
+      const messageText = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
       setSubmitStatus({ success: false, message: messageText });
     } finally {
       setIsSubmitting(false);
@@ -143,9 +143,9 @@ export default function BulkQuotePage() {
           <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
             Toplu Teklif
           </p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Coklu urun teklifi iste</h1>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Çoklu ürün teklifi iste</h1>
           <p className="max-w-2xl text-base text-white/70">
-            Birden fazla urun icin tek seferde teklif talebi olustur. Ekibimiz toplu fiyatlandirma hazirlasin.
+            Birden fazla ürün için tek seferde teklif talebi oluştur. Ekibimiz toplu fiyatlandırma hazırlasın.
           </p>
         </div>
       </Reveal>
@@ -170,7 +170,7 @@ export default function BulkQuotePage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700">Firma Adi</label>
+              <label className="block text-sm font-medium text-slate-700">Firma Adı</label>
               <input
                 name="company"
                 value={formData.company}
@@ -204,7 +204,7 @@ export default function BulkQuotePage() {
 
           <div className="rounded-2xl border border-slate-200 bg-white/80 p-4">
             <div className="flex items-center justify-between">
-              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Urun listesi</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Ürün Listesi</div>
               <button
                 type="button"
                 onClick={addItem}
@@ -217,13 +217,13 @@ export default function BulkQuotePage() {
               {items.map((item, idx) => (
                 <div key={`item-${idx}`} className="grid gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:grid-cols-[1.6fr_0.6fr_0.8fr]">
                   <div className="sm:col-span-1">
-                    <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Urun</label>
+                    <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Ürün</label>
                     <input
                       list="machine-products"
                       value={item.name}
                       onChange={(e) => handleItemChange(idx, 'name', e.target.value)}
                       className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
-                      placeholder="Urun adi"
+                      placeholder="Ürün adı"
                     />
                   </div>
                   <div>
@@ -251,7 +251,7 @@ export default function BulkQuotePage() {
                         onClick={() => removeItem(idx)}
                         className="text-xs font-semibold text-red-600"
                       >
-                        Urunu kaldir
+                        Ürünü kaldır
                       </button>
                     </div>
                   )}
@@ -274,14 +274,14 @@ export default function BulkQuotePage() {
               value={formData.message}
               onChange={handleFormChange}
               className="mt-1 w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm"
-              placeholder="Ek notlar veya teslimat detaylari..."
+              placeholder="Ek notlar veya teslimat detayları..."
             />
           </div>
 
           {step === 'verify' && (
             <div className="space-y-3">
               <div className="text-sm text-slate-600">
-                Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+                Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
               </div>
               <input
                 name="otp"
@@ -308,7 +308,7 @@ export default function BulkQuotePage() {
               Iptal
             </button>
             <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
-              {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Teklif iste'}
+              {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Teklif iste'}
             </button>
           </div>
         </form>
