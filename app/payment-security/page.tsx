@@ -9,16 +9,16 @@ export default function PaymentSecurityPage() {
           <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.25))]" />
           <div className="relative space-y-4">
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              Guven Merkezi
+              Güven Merkezi
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Odeme Guvenligi</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Ödeme Güvenliği</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Odeme altyapisi guvenlik standartlarina uygundur. Kart bilgileri sistemimizde tutulmaz.
-              Islem adimlari guvenli odeme saglayicisi uzerinden yurutulur.
+              Ödeme altyapısı güvenlik standartlarına uygundur. Kart bilgileri sistemimizde tutulmaz.
+              İşlem adımları güvenli ödeme sağlayıcısı üzerinden yürütülür.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-white/70">
-              <span className="rounded-full border border-white/20 px-3 py-1">SSL koruma</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">PCI-DSS uyumlu</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">SSL Koruma</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">PCI-DSS Uyumlu</span>
               <span className="rounded-full border border-white/20 px-3 py-1">3D Secure</span>
             </div>
           </div>
@@ -27,69 +27,69 @@ export default function PaymentSecurityPage() {
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
           <section className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Guvenli altyapi</div>
+              <div className="text-sm font-semibold text-slate-900">Güvenli altyapı</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>SSL ile sifrelenmis baglanti kullanilir.</li>
-                <li>Odeme saglayicisi PCI-DSS standartlarina uygun islemler yapar.</li>
-                <li>Kart bilgileri sirket sistemlerine kaydedilmez.</li>
+                <li>SSL ile şifrelenmiş bağlantı kullanılır.</li>
+                <li>Ödeme sağlayıcısı PCI-DSS standartlarına uygun işlemler yapar.</li>
+                <li>Kart bilgileri şirket sistemlerine kaydedilmez.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">3D Secure ve dogrulama</div>
+              <div className="text-sm font-semibold text-slate-900">3D Secure ve doğrulama</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Bankanizin 3D Secure dogrulama adimi gerekebilir.</li>
-                <li>Supheli islemler guvenlik nedeni ile reddedilebilir.</li>
+                <li>Bankanızın 3D Secure doğrulama adımı gerekebilir.</li>
+                <li>Şüpheli işlemler güvenlik nedeni ile reddedilebilir.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Sahtekarlik onleme</div>
+              <div className="text-sm font-semibold text-slate-900">Sahtekarlık önleme</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Olagandisi islemler risk kontrolunden gecirilebilir.</li>
-                <li>Gerekli gorulurse ek dogrulama veya belgeler istenebilir.</li>
+                <li>Olağandışı işlemler risk kontrolunden geçirilebilir.</li>
+                <li>Gerekli görülürse ek doğrulama veya belgeler istenebilir.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Guven rozetleri</div>
+              <div className="text-sm font-semibold text-slate-900">Güven rozetleri</div>
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
                 <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">SSL</span>
                 <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">PCI-DSS</span>
                 <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">3D Secure</span>
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">Banka onayli odeme</span>
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">Iade garantisi</span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">Banka onaylı ödeme</span>
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">İade garantisi</span>
               </div>
               <p className="mt-3 text-sm text-slate-600">
-                Odeme islemleri guvenli altyapi uzerinden gerceklesir ve kart bilgileri sistemimizde tutulmaz.
+                Ödeme işlemleri güvenli altyapı üzerinden gerçekleşir ve kart bilgileri sistemimizde tutulmaz.
               </p>
             </div>
           </section>
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı Bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iade ve garanti
+                  İade ve Garanti
                 </Link>
                 <Link href="/shipping" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Kargo ve teslimat
+                  Kargo ve Teslimat
                 </Link>
                 <Link href="/privacy" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Gizlilik politikasi
+                  Gizlilik Politikası
                 </Link>
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Guvenli odeme adimlari</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Güvenli ödeme adımları</div>
               <ol className="mt-4 space-y-3 text-sm text-slate-600">
-                <li>1. Siparis detaylarini onayla.</li>
-                <li>2. 3D Secure dogrulamasini tamamla.</li>
-                <li>3. Odeme durumunu siparis ekranindan takip et.</li>
+                <li>1. Sipariş detaylarını onayla.</li>
+                <li>2. 3D Secure doğrulamasını tamamla.</li>
+                <li>3. Ödeme durumunu sipariş ekranından takip et.</li>
               </ol>
               <Link
                 href="/contact?subject=Odeme+Sorusu"
                 className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >
-                Odeme destegi al
+                Ödeme desteği al
               </Link>
             </div>
           </aside>
