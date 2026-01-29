@@ -16,7 +16,7 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
         tone="slate"
         variant="outline"
         onClick={async () => {
-          const ok = window.confirm('Tum kayitlari temizlemek istedigine emin misin?');
+          const ok = window.confirm('Tüm kayıtları temizlemek istediğine emin misin?');
           if (!ok) return;
 
           setError('');
@@ -30,15 +30,15 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-              throw new Error(data?.error || 'Temizleme basarisiz');
+              throw new Error(data?.error || 'Temizleme basarısız');
             }
 
             const count = typeof data?.count === 'number' ? data.count : 0;
-            setSuccess(count > 0 ? `${count} kayit kapatildi.` : 'Acik kayit yok.');
+            setSuccess(count > 0 ? `${count} kayıt kapatıldı.` : 'Açık kayıt yok.');
 
             window.location.reload();
           } catch (e: unknown) {
-            setError(e instanceof Error ? e.message : 'Temizleme basarisiz');
+            setError(e instanceof Error ? e.message : 'Temizleme başarısız');
           } finally {
             setIsClearing(false);
           }

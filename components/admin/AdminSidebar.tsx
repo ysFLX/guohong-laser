@@ -22,7 +22,7 @@ const navSections: NavSection[] = [
     items: [
       {
         href: '/admin',
-        label: 'Dashboard',
+        label: 'Anasayfa',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M3 12l9-9 9 9" strokeLinecap="round" strokeLinejoin="round" />
@@ -32,7 +32,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/orders',
-        label: 'Siparisler',
+        label: 'Siparişler',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M7 4h10l2 4H5l2-4z" strokeLinecap="round" strokeLinejoin="round" />
@@ -42,7 +42,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/returns',
-        label: 'Iadeler',
+        label: 'İadeler',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M4 7h9a4 4 0 014 4v6" strokeLinecap="round" strokeLinejoin="round" />
@@ -64,7 +64,7 @@ const navSections: NavSection[] = [
     ],
   },
   {
-    title: 'Yedek Parca',
+    title: 'Yedek Parça',
     items: [
       {
         href: '/admin/spare-parts',
@@ -77,7 +77,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/spare-parts/new',
-        label: 'Yeni Urun',
+        label: 'Yeni Ürün',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M12 5v14M5 12h14" strokeLinecap="round" strokeLinejoin="round" />
@@ -109,7 +109,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/inquiries#contact',
-        label: 'Iletisim',
+        label: 'İletişim',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M21 10V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h8" strokeLinecap="round" strokeLinejoin="round" />
@@ -120,7 +120,7 @@ const navSections: NavSection[] = [
     ],
   },
   {
-    title: 'Site Ayarlari',
+    title: 'Site Ayarları',
     items: [
       {
         href: '/admin/site-config',
@@ -155,10 +155,10 @@ export default function AdminSidebar() {
           </div>
           <div>
             <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-sidebar-muted)]">Guohong Admin</div>
-            <div className="text-lg font-semibold">Yonetim Merkezi</div>
+            <div className="text-lg font-semibold">Yönetim Merkezi</div>
           </div>
         </div>
-        <p className="mt-3 text-xs text-[var(--admin-sidebar-muted)]">Operasyon, stok ve taleplerin kurumsal kontrolu.</p>
+        <p className="mt-3 text-xs text-[var(--admin-sidebar-muted)]">Operasyon, stok ve taleplerin kurumsal kontrolü.</p>
       </div>
 
       <div className="px-4 py-4 space-y-3">
@@ -176,14 +176,14 @@ export default function AdminSidebar() {
             href="/"
             className="flex-1 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-center text-xs font-semibold text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
-            Siteye don
+            Siteye dön
           </Link>
           <button
             type="button"
             onClick={() => signOut({ callbackUrl: '/' })}
             className="flex-1 rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-xs font-semibold text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
-            Cikis yap
+            Çıkış yap
           </button>
         </div>
       </div>
@@ -223,20 +223,20 @@ export default function AdminSidebar() {
 
       <div className="px-6 py-5 border-t border-[var(--admin-border)]">
         <div className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-3 text-xs text-[var(--admin-sidebar-muted)]">
-          Admin girisi aktif. Islem kayitlarini guncel tut.
+          Admin girişi aktif. İşlem kayıtlarını güncel tut.
         </div>
         <div className="mt-3 flex flex-col gap-2 text-xs">
           <Link
             href="/admin/orders"
             className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
-            Siparis merkezine git
+            Sipariş merkezine git
           </Link>
           <Link
             href="/admin/spare-parts/new"
             className="rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-[var(--admin-sidebar-text)] hover:bg-[var(--admin-sidebar-hover)]"
           >
-            Yeni urun ekle
+            Yeni ürün ekle
           </Link>
         </div>
       </div>
