@@ -59,27 +59,27 @@ const compatibilityByCategory: Record<string, string[]> = {
   'Sac Kesim': ['GL-3015', 'GL-6020', 'GL-9025'],
   'Boru Kesim': ['GT-6020', 'GT-12030'],
   'Kombine Kesim': ['GL-Comb 1500', 'GL-Comb 3000'],
-  'Ozel Kesim': ['GL-9000'],
+  'Özel Kesim': ['GL-9000'],
 };
 
 const CRITICAL_STOCK_LEVEL = 5;
 
 const faqItems = [
   {
-    q: 'Bu parca hangi modellere uyumludur?',
-    a: 'Uyumluluk listesi urun kartinda yer alir. Net teyit icin model bilgisini paylasabilirsiniz.',
+    q: 'Bu parça hangi modellere uyumludur?',
+    a: 'Uyumluluk listesi ürün kartında yer alır. Net teyit için model bilgisini paylaşabilirsiniz.',
   },
   {
-    q: 'Teslimat suresi nedir?',
-    a: 'Stoklu urunler genellikle 2-3 is gunu, ozel siparisler 7-10 gun icinde sevk edilir.',
+    q: 'Teslimat süresi nedir?',
+    a: 'Stoklu ürünler genellikle 2-3 iş günü, özel siparişler 7-10 gün içinde sevk edilir.',
   },
   {
-    q: 'Montaj destegi sagliyor musunuz?',
-    a: 'Teknik ekip uzaktan destek verir. Yerinde servis icin planlama yapilabilir.',
+    q: 'Montaj desteği sağlıyor musunuz?',
+    a: 'Teknik ekip uzaktan destek verir. Yerinde servis için planlama yapilabilir.',
   },
   {
     q: 'Garanti kapsami nedir?',
-    a: 'Garanti suresi urun tipine gore degisir. Fatura ve seri numarasi ile destek alabilirsiniz.',
+    a: 'Garanti süresi ürün tipine göre değişir. Fatura ve seri numarası ile destek alabilirsiniz.',
   },
 ];
 
@@ -111,7 +111,7 @@ export async function generateMetadata({
 
   if (!part) {
     return {
-      title: 'Urun bulunamadi',
+      title: 'Ürün bulunamadı',
       robots: { index: false, follow: false },
     };
   }
@@ -119,7 +119,7 @@ export async function generateMetadata({
   const baseUrl = getBaseUrl();
   const url = `${baseUrl}/spare-parts/${part.id}`;
   const title = `${part.name} | Guohong Lazer`;
-  const description = truncate(part.description || `${part.name} yedek parca detaylari.`);
+  const description = truncate(part.description || `${part.name} yedek parça detayları.`);
   const images = (part.images?.length ? part.images.map((img) => img.url) : [part.imageUrl]).filter(
     Boolean,
   ) as string[];
@@ -294,7 +294,7 @@ export default async function SparePartDetailPage({
             </Link>
             <span className="mx-2">/</span>
             <Link href="/spare-parts" className="hover:text-slate-900">
-              Yedek parcalar
+              Yedek parçalar
             </Link>
             <span className="mx-2">/</span>
             <span>{p.category.name}</span>
@@ -328,7 +328,7 @@ export default async function SparePartDetailPage({
                 {p.category.name}
               </span>
               <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-                {inStock ? 'Stokta' : 'Siparisle'}
+                {inStock ? 'Stokta' : 'Siparişle'}
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
                 {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
@@ -339,22 +339,22 @@ export default async function SparePartDetailPage({
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
                   </span>
-                  Stok azaliyor
+                  Stok azalıyor
                 </span>
               )}
             </div>
             <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-600 sm:grid-cols-3">
               <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Guvenli odeme</div>
-                <div className="mt-1 font-semibold text-slate-900">SSL korumali</div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Güvenli ödeme</div>
+                <div className="mt-1 font-semibold text-slate-900">SSL korumalı</div>
               </div>
               <div>
                 <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Garanti</div>
                 <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Iade</div>
-                <div className="mt-1 font-semibold text-slate-900">14 gun</div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">İade</div>
+                <div className="mt-1 font-semibold text-slate-900">14 gün</div>
               </div>
             </div>
           </div>
@@ -367,26 +367,26 @@ export default async function SparePartDetailPage({
               <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
                 <span>Kategori: {p.category.name}</span>
                 <span>Stok: {p.stockOnHand}</span>
-                <span>Olcu: {p.dimensions || '-'}</span>
+                <span>Ölçü: {p.dimensions || '-'}</span>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-700">{p.description}</p>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                One cikanlar
+                Öne çıkanlar
               </p>
               <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                <li>Model uyumlulugu ve teknik destek dahil.</li>
-                <li>Fatura ve garanti belgesi otomatik olusur.</li>
-                <li>Stoklu urunlerde hizli sevkiyat.</li>
+                <li>Model uyumluluğu ve teknik destek dahil.</li>
+                <li>Fatura ve garanti belgesi otomatik oluşur.</li>
+                <li>Stoklu ürünlerde hızlı sevkiyat.</li>
               </ul>
             </div>
 
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Guven paketi</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Güven paketi</p>
                   <h3 className="mt-2 text-lg font-semibold text-slate-900">
                     Sertifika + servis + garanti tek ekranda
                   </h3>
@@ -399,7 +399,7 @@ export default async function SparePartDetailPage({
                 {[
                   { title: 'Sertifikali kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
                   { title: 'Orjinal tedarik', detail: 'Resmi servis ve orjinallik teyidi.' },
-                  { title: 'Hizli destek', detail: '24 saat icinde teknik geri donus.' },
+                  { title: 'Hızlı destek', detail: '24 saat içinde teknik geri dönüş.' },
                 ].map((item) => (
                   <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
                     <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{item.title}</div>
@@ -408,7 +408,7 @@ export default async function SparePartDetailPage({
                 ))}
               </div>
               <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-500">
-                <span className="rounded-full border border-slate-200 px-3 py-1">SSL odeme</span>
+                <span className="rounded-full border border-slate-200 px-3 py-1">SSL korumalı ödeme</span>
                 <span className="rounded-full border border-slate-200 px-3 py-1">Yetkili servis</span>
                 <span className="rounded-full border border-slate-200 px-3 py-1">Fatura garantisi</span>
               </div>
@@ -424,7 +424,7 @@ export default async function SparePartDetailPage({
                 <p className="mt-1 font-semibold text-slate-900">{inStock ? 'Stokta' : 'Siparisle'}</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Olcu</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Ölçü</p>
                 <p className="mt-1 font-semibold text-slate-900">{p.dimensions || '-'}</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
@@ -444,7 +444,7 @@ export default async function SparePartDetailPage({
                   ))}
                 </div>
               ) : (
-                <p className="mt-2">Uyumluluk icin teknik ekiple iletisime gec.</p>
+                <p className="mt-2">Uyumluluk için teknik ekiple iletişime geç.</p>
               )}
             </div>
 
@@ -454,7 +454,7 @@ export default async function SparePartDetailPage({
             <div className="text-3xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
               <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-                {inStock ? 'Stokta' : 'Siparisle'}
+                {inStock ? 'Stokta' : 'Siparişle'}
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
                 {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
@@ -465,13 +465,13 @@ export default async function SparePartDetailPage({
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
                   </span>
-                  Stok azaliyor
+                  Stok azalıyor
                 </span>
               )}
             </div>
             <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
               <div className="flex items-center justify-between">
-                <span>Gonderen</span>
+                <span>Gönderen</span>
                 <span className="font-semibold text-slate-900">Guohong Lazer</span>
               </div>
               <div className="mt-2 flex items-center justify-between">
@@ -479,8 +479,8 @@ export default async function SparePartDetailPage({
                 <span className="font-semibold text-slate-900">Resmi servis</span>
               </div>
               <div className="mt-2 flex items-center justify-between">
-                <span>Iade</span>
-                <span className="font-semibold text-slate-900">14 gun</span>
+                <span>İade</span>
+                <span className="font-semibold text-slate-900">14 gün</span>
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
@@ -530,14 +530,14 @@ export default async function SparePartDetailPage({
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
-                Urun hakkinda sor
+                Ürün hakkında sor
               </Link>
             </div>
             <div className="mt-5 border-t border-slate-200 pt-4 text-xs text-slate-500">
               <ul className="space-y-2">
-                <li>Guvenli odeme altyapisi</li>
-                <li>Fatura ve garanti destegi</li>
-                <li>Teknik ekipten hizli destek</li>
+                <li>Güvenli ödeme altyapısı</li>
+                <li>Fatura ve garanti desteği</li>
+                <li>Teknik ekipten hızlı destek</li>
               </ul>
             </div>
           </aside>
@@ -548,17 +548,17 @@ export default async function SparePartDetailPage({
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">
-                  {boughtTogether.length > 0 ? 'Satin alanlar bunlari da aldi' : 'Tamamlayici parcalar'}
+                  {boughtTogether.length > 0 ? 'Satın alanlar bunları da aldı' : 'Tamamlayıcı parçalar'}
                 </p>
                 <h2 className="mt-2 text-xl font-semibold text-slate-900">
-                  {boughtTogether.length > 0 ? 'Birlikte satin alinan urunler' : 'Benzer urun onerileri'}
+                  {boughtTogether.length > 0 ? 'Birlikte satın alınan ürünler' : 'Benzer ürün önerileri'}
                 </h2>
               </div>
               <Link
                 href="/spare-parts"
                 className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
               >
-                Tum yedek parcalar
+                Tüm yedek parçalar
               </Link>
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -590,7 +590,7 @@ export default async function SparePartDetailPage({
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">SSS</p>
-              <h2 className="mt-2 text-xl font-semibold text-slate-900">Sik sorulan sorular</h2>
+              <h2 className="mt-2 text-xl font-semibold text-slate-900">Sık sorulan sorular</h2>
             </div>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">

@@ -30,13 +30,13 @@ type SparePart = {
 };
 
 const machineModels = [
-  { id: 'Tumu', label: 'Tum modeller', categories: ['Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Ozel Kesim'] },
+  { id: 'Tümü', label: 'Tüm modeller', categories: ['Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'] },
   { id: 'GL-3015', label: 'GL-3015 (Sac Kesim)', categories: ['Sac Kesim'] },
   { id: 'GL-6020', label: 'GL-6020 (Sac Kesim)', categories: ['Sac Kesim'] },
   { id: 'GT-6020', label: 'GT-6020 (Boru Kesim)', categories: ['Boru Kesim'] },
   { id: 'GT-12030', label: 'GT-12030 (Boru Kesim)', categories: ['Boru Kesim'] },
   { id: 'GL-COMB-1500', label: 'GL-Comb 1500 (Kombine)', categories: ['Kombine Kesim'] },
-  { id: 'GL-9000', label: 'GL-9000 (Ozel Kesim)', categories: ['Ozel Kesim'] },
+  { id: 'GL-9000', label: 'GL-9000 (Özel Kesim)', categories: ['Özel Kesim'] },
 ];
 
 const CRITICAL_STOCK_LEVEL = 5;
@@ -135,10 +135,10 @@ export default function SparePartsPage() {
       try {
         const res = await fetch('/api/spare-parts');
         const data = await res.json();
-        if (!res.ok) throw new Error(data?.error || 'Yedek parcalar alinamadi');
+        if (!res.ok) throw new Error(data?.error || 'Yedek parçalar alınamadı');
         setItems(Array.isArray(data?.items) ? data.items : []);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Yedek parcalar alinamadi';
+        const message = e instanceof Error ? e.message : 'Yedek parçalar alınamadı';
         setLoadError(message);
       } finally {
         setIsLoading(false);
@@ -164,7 +164,7 @@ export default function SparePartsPage() {
       .map((item) => item.name)
       .join(', ');
     const extra = lowStockItems.length > 2 ? ` +${lowStockItems.length - 2}` : '';
-    show(`Stok hizla azaliyor: ${preview}${extra}`, undefined, 'error');
+    show(`Stok hızla azalıyor: ${preview}${extra}`, undefined, 'error');
   }, [items, show]);
 
   // Load favorites
@@ -182,7 +182,7 @@ export default function SparePartsPage() {
         const data = text ? JSON.parse(text) : {};
 
         if (!res.ok) {
-          throw new Error(data?.error || 'Favoriler alinamadi');
+          throw new Error(data?.error || 'Favoriler alınamadı');
         }
 
         const ids = new Set<string>();
@@ -193,7 +193,7 @@ export default function SparePartsPage() {
         }
         setFavoriteIds(ids);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Favoriler alinamadi';
+        const message = e instanceof Error ? e.message : 'Favoriler alınamadı';
         setFavoriteError(message);
       }
     };
@@ -220,7 +220,7 @@ export default function SparePartsPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data?.error || 'Favori guncellenemedi');
+        throw new Error(data?.error || 'Favori güncellenemedi');
       }
 
       setFavoriteIds((prev) => {
@@ -233,7 +233,7 @@ export default function SparePartsPage() {
         return next;
       });
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Favori guncellenemedi';
+      const message = e instanceof Error ? e.message : 'Favori güncellenemedi';
       setFavoriteError(message);
     } finally {
       setFavoriteLoading((prev) => {
@@ -314,7 +314,7 @@ export default function SparePartsPage() {
     return {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Guohong Lazer yedek parcalar',
+      name: 'Guohong Lazer yedek parçalar',
       itemListElement: visibleItems.map((item, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -354,12 +354,12 @@ export default function SparePartsPage() {
   );
 
   const activeFiltersCount =
-    (searchQuery.trim() ? 1 : 0) + (selectedCategory !== 'Tumu' ? 1 : 0) + (selectedModel !== 'Tumu' ? 1 : 0);
+    (searchQuery.trim() ? 1 : 0) + (selectedCategory !== 'Tümü' ? 1 : 0) + (selectedModel !== 'Tümü' ? 1 : 0);
 
   const resetFilters = () => {
     setSearchQuery('');
-    setSelectedCategory('Tumu');
-    setSelectedModel('Tumu');
+    setSelectedCategory('Tümü');
+    setSelectedModel('Tümü');
   };
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
@@ -396,7 +396,7 @@ export default function SparePartsPage() {
     setStockRequestEmailError('');
 
     if (!isEmailValid(stockRequestForm.email)) {
-      setStockRequestEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setStockRequestEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       return;
     }
 
@@ -428,19 +428,19 @@ export default function SparePartsPage() {
 
       if (data.step === 'verify') {
         setStockRequestStep('verify');
-        setStockRequestInfo('Dogrulama kodu e-posta adresine gonderildi.');
+        setStockRequestInfo('Doğrulama kodu e-posta adresine gönderildi.');
       } else if (data.success) {
         setStockRequestStatus({
           success: true,
-          message: 'Talebin alindi. Stok girisinde sana bilgi verecegiz.',
+          message: 'Talebin alındı. Stok girişinde sana bilgi vereceğiz.',
         });
         setStockRequestStep('details');
         setStockRequestOtp('');
       } else {
-        throw new Error(data.error || data.message || 'Talep gonderilemedi');
+        throw new Error(data.error || data.message || 'Talep gönderilemedi. Lütfen daha sonra tekrar deneyin.');
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
+      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
       setStockRequestStatus({ success: false, message });
     } finally {
       setStockRequestLoading(false);
@@ -456,7 +456,7 @@ export default function SparePartsPage() {
     if (compareIds.length >= 3) return;
 
     if (compareCategory && compareCategory !== part.category.name) {
-      show('Farkli turde karsilastirma mumkun degildir.', undefined, 'error');
+      show('Farklı türde karşılaştırma mümkün değildir.', undefined, 'error');
       return;
     }
 
@@ -482,11 +482,11 @@ export default function SparePartsPage() {
         <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-4">
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              Yedek Parcalar
+              Yedek Parçalar
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Sarf ve kritik parcalar</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Sarf ve kritik parçalar</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Fiber lazer makineleri icin kritik yedek parcayi hizli temin edin.
+              Fiber lazer makineleri için kritik yedek parçayı hızlı temin edin.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
@@ -499,16 +499,16 @@ export default function SparePartsPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
               >
-                Uyum danis
+                Uyum danış
               </Link>
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             {[
-              { title: 'Hizli teslim', detail: 'Stokta 2-3 gün, özel siparişte 7-10 gün.' },
-              { title: 'Uyum kontrolu', detail: 'Model secerek sadece uyumlu parcalari gorun.' },
-              { title: 'Kurumsal destek', detail: 'Teknik ekipten dogrudan teyit ve destek.' },
+              { title: 'Hızlı teslim', detail: 'Stokta 2-3 gün, özel siparişte 7-10 gün.' },
+              { title: 'Uyum kontrolü', detail: 'Model seçerek sadece uyumlu parçaları görün.' },
+              { title: 'Kurumsal destek', detail: 'Teknik ekipten doğrudan teyit ve destek.' },
             ].map((item) => (
               <div
                 key={item.title}
@@ -569,7 +569,7 @@ export default function SparePartsPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="block w-full rounded-xl border border-slate-200 bg-white/90 py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-indigo-400 dark:focus:ring-indigo-500/30"
-                    placeholder="Parca ara..."
+                    placeholder="Parça ara..."
                   />
                 </div>
               </div>
@@ -614,13 +614,13 @@ export default function SparePartsPage() {
                   ))}
                 </select>
                 <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                  {selectedModel === 'Tumu'
-                    ? 'Model secerek uyumluluk listele.'
+                  {selectedModel === 'Tümü'
+                    ? 'Model seçerek uyumluluk listele.'
                     : `${selectedModelInfo?.label} filtreleniyor.`}
                 </p>
               </div>
               <div className="rounded-2xl border border-indigo-100 bg-indigo-50/70 px-4 py-4 text-xs text-indigo-900 dark:border-indigo-400/40 dark:bg-slate-900/70 dark:text-indigo-200">
-                {isLoading ? 'Yukleniyor...' : `${filtered.length} urun listeleniyor`}
+                {isLoading ? 'Yükleniyor...' : `${filtered.length} ürün listeleniyor`}
               </div>
               {favoriteError && <div className="text-xs text-red-600">{favoriteError}</div>}
           </div>
@@ -630,10 +630,10 @@ export default function SparePartsPage() {
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-                  Urun listesi
+                  Ürün listesi
                 </p>
                 <p className="mt-2 text-base font-semibold text-slate-900">
-                  {isLoading ? 'Yukleniyor...' : `${filtered.length} urun bulundu`}
+                  {isLoading ? 'Yükleniyor...' : `${filtered.length} ürün bulundu`}
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -641,7 +641,7 @@ export default function SparePartsPage() {
                   htmlFor="sortSelect"
                   className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
                 >
-                  Siralama
+                  Sıralama
                 </label>
                 <select
                   id="sortSelect"
@@ -649,11 +649,11 @@ export default function SparePartsPage() {
                   onChange={(e) => setSortOption(e.target.value)}
                   className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 >
-                  <option value="recommended">Öne cikanlar</option>
+                  <option value="recommended">Öne çıkanlar</option>
                 <option value="price-asc">Fiyat (artan)</option>
                 <option value="price-desc">Fiyat (azalan)</option>
-                <option value="rating-desc">Puan (yuksek)</option>
-                <option value="name-asc">Isim (A-Z)</option>
+                <option value="rating-desc">Puan (yüksek)</option>
+                <option value="name-asc">İsim (A-Z)</option>
               </select>
             </div>
           </div>
@@ -702,7 +702,7 @@ export default function SparePartsPage() {
                                 inStock ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'
                               }`}
                             >
-                              {inStock ? 'Stokta' : 'Siparisle'}
+                              {inStock ? 'Stokta' : 'Siparişle'}
                             </span>
                             <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
                               {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
@@ -713,7 +713,7 @@ export default function SparePartsPage() {
                                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-600/60" />
                                     <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
                                   </span>
-                                  Stok azaliyor
+                                  Stok azalıyor
                                 </span>
                               )}
                           </div>
@@ -778,7 +778,7 @@ export default function SparePartsPage() {
                             href={`/spare-parts/${p.id}`}
                             className="rounded-full border border-slate-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-slate-500 hover:border-slate-300 hover:text-slate-900"
                           >
-                            Detay gor
+                            Detay gör
                           </Link>
                           <Link
                             href="/quote"
@@ -820,13 +820,13 @@ export default function SparePartsPage() {
                                 onClick={() => openStockRequest(p)}
                                 className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
                               >
-                                Hizli stok talebi
+                                Hızlı stok talebi
                               </button>
                               <Link
                                 href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
                                 className="rounded-xl border border-slate-200 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900"
                               >
-                                Detayli talep formu
+                                Detaylı talep formu
                               </Link>
                             </div>
                           )}
@@ -835,7 +835,7 @@ export default function SparePartsPage() {
                             onClick={() => toggleFavorite(p.id)}
                             disabled={favoriteLoading.has(p.id)}
                             aria-pressed={isFavorited}
-                            aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
+                            aria-label={isFavorited ? 'Favoriden kaldır' : 'Favorilere ekle'}
                             className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
                               isFavorited
                                 ? 'border-red-200 bg-red-50 text-red-600'
@@ -862,7 +862,7 @@ export default function SparePartsPage() {
 
           {!isLoading && !loadError && filtered.length === 0 && (
             <div className="py-14 text-center text-slate-600 dark:text-slate-300">
-              Sonuc bulunamadi. Filtreleri degistirip tekrar deneyebilirsin.
+              Sonuç bulunamadı. Filtreleri değiştirip tekrar deneyebilirsiniz.
             </div>
           )}
         </div>
@@ -871,9 +871,9 @@ export default function SparePartsPage() {
       {compareIds.length > 0 && (
         <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm shadow-2xl backdrop-blur">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Karsilastirma</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Karşılaştırma</div>
             <div className="font-semibold text-slate-900">
-              {compareIds.length} urun secildi {compareCategory ? `- ${compareCategory}` : ''}
+              {compareIds.length} ürün seçildi {compareCategory ? `- ${compareCategory}` : ''}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -882,7 +882,7 @@ export default function SparePartsPage() {
               onClick={() => setCompareOpen(true)}
               className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
             >
-              Karsilastir
+              Karşılaştır
             </button>
           </div>
         </div>
@@ -895,10 +895,10 @@ export default function SparePartsPage() {
             <div className="relative max-h-[85vh] overflow-y-auto p-6 sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">Karsilastirma paneli</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-900">Yedek parcalari yan yana gor</h2>
+                  <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">Karşılaştırma paneli</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-slate-900">Yedek parçaları yan yana gör</h2>
                   <p className="mt-2 text-sm text-slate-500">
-                    {selectedCompare.length || 0} urun secildi. En fazla 3 urun karsilastirabilirsin.
+                    {selectedCompare.length || 0} ürün seçildi. En fazla 3 ürün karşılaştırabilirsin.
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -917,7 +917,7 @@ export default function SparePartsPage() {
 
               {selectedCompare.length === 0 ? (
                 <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
-                  Karsilastirma icin kartlardan en az 2 urun sec.
+                  Karşılaştırma için kartlardan en az 2 ürün seçmelisiniz.
                 </div>
               ) : (
                 <div className="mt-6 grid gap-5 lg:grid-cols-3">
@@ -948,7 +948,7 @@ export default function SparePartsPage() {
                       </div>
                       <div className="space-y-4 p-5">
                         <div>
-                          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun</div>
+                          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Ürün</div>
                           <div className="mt-2 text-lg font-semibold text-slate-900">{item.name}</div>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-slate-500">
@@ -961,7 +961,7 @@ export default function SparePartsPage() {
                             <span className="font-semibold text-slate-900">{item.stockOnHand}</span>
                           </div>
                           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Olcu</span>
+                            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Ölçü</span>
                             <span className="font-semibold text-slate-900">{item.dimensions || '-'}</span>
                           </div>
                           <div className="flex items-center justify-between">
@@ -993,9 +993,9 @@ export default function SparePartsPage() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="text-xs uppercase tracking-[0.3em] text-amber-500">Stok talebi</div>
-                <h3 className="mt-2 text-xl font-semibold text-slate-900">Hizli stok talebi olustur</h3>
+                <h3 className="mt-2 text-xl font-semibold text-slate-900">Hızlı stok talebi oluştur</h3>
                 <p className="mt-1 text-sm text-slate-500">
-                  {stockRequestPart.name} icin oncelikli bilgilendirme istiyorum.
+                  {stockRequestPart.name} için öncelikli bilgilendirme istiyorum.
                 </p>
               </div>
               <button
@@ -1068,7 +1068,7 @@ export default function SparePartsPage() {
             {stockRequestStep === 'verify' && (
               <div className="mt-4 space-y-2">
                 <div className="text-sm text-slate-600">
-                  Dogrulama kodunu e-posta adresine gonderdik. Kodu girip tamamla.
+                  Doğrulama kodunu e-posta adresine gönderdik. Kodu girip tamamla.
                 </div>
                 <input
                   name="otp"
@@ -1105,7 +1105,7 @@ export default function SparePartsPage() {
                 onClick={() => setStockRequestOpen(false)}
                 className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:border-slate-300"
               >
-                Vazgec
+                Vazgeç
               </button>
               <button
                 type="button"
@@ -1114,10 +1114,10 @@ export default function SparePartsPage() {
                 className="rounded-full bg-slate-900 px-5 py-2 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-70"
               >
                 {stockRequestLoading
-                  ? 'Gonderiliyor...'
+                  ? 'Gönderiliyor...'
                   : stockRequestStep === 'verify'
-                    ? 'Dogrula ve gonder'
-                    : 'Talebi gonder'}
+                    ? 'Doğrula ve gönder'
+                    : 'Talebi gönder'}
               </button>
             </div>
           </div>
@@ -1133,17 +1133,17 @@ export default function SparePartsPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">
-                Satin alanlar bunlari da aldi
+                Satın alanlar bunları da aldı
               </p>
               <h2 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
-                Tamamlayici parcalar
+                Tamamlayıcı parçalar
               </h2>
             </div>
             <Link
               href="/spare-parts"
               className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
             >
-              Tum yedek parcalar
+              Tüm yedek parçalar
             </Link>
           </div>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
