@@ -76,11 +76,11 @@ export default async function OrdersPage() {
   const latestOrder = hasOrders ? orders[0] : null;
 
   const statusLabel: Record<string, string> = {
-    RECEIVED: 'Siparis alindi',
+    RECEIVED: 'Sipariş alındı',
     SHIPPED: 'Kargoya verildi',
-    IN_TRANSIT: 'Siparis hazirlaniyor',
+    IN_TRANSIT: 'Sipariş hazırlanıyor',
     DELIVERED: 'Teslim edildi',
-    CANCELED: 'Iptal',
+    CANCELED: 'İptal',
   };
 
   const statusTone: Record<string, string> = {
@@ -92,8 +92,8 @@ export default async function OrdersPage() {
   };
 
   const progressSteps = [
-    { key: 'RECEIVED', label: 'Siparisiniz alindi' },
-    { key: 'IN_TRANSIT', label: 'Siparisiniz hazirlaniyor' },
+    { key: 'RECEIVED', label: 'Siparişiniz alındı' },
+    { key: 'IN_TRANSIT', label: 'Siparişiniz hazırlanıyor' },
     { key: 'SHIPPED', label: 'Kargoya verildi' },
     { key: 'DELIVERED', label: 'Teslim edildi' },
   ];
@@ -137,7 +137,7 @@ export default async function OrdersPage() {
                 href="/profile"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
               >
-                Profil sayfasi
+                Profil Sayfası
               </Link>
             </div>
           </div>
@@ -145,24 +145,24 @@ export default async function OrdersPage() {
           <div className="mt-8 grid gap-6 lg:grid-cols-[280px_1fr]">
             <div className="space-y-4">
               <div className="rounded-24 bg-slate-900 p-5 text-white shadow-xl">
-                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">Siparis ozeti</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-white/60">Sipariş Özeti</div>
                 <div className="mt-3 text-3xl font-semibold">{orders.length}</div>
-                <div className="text-sm text-white/70">Toplam siparis</div>
+                <div className="text-sm text-white/70">Toplam sipariş</div>
                 {latestOrder && (
                   <div className="mt-4 rounded-20 bg-white/10 p-3 text-xs text-white/70">
-                    Son siparis: {formatDate(latestOrder.createdAt)}
+                    Son sipariş: {formatDate(latestOrder.createdAt)}
                   </div>
                 )}
               </div>
 
               <div className="rounded-24 border border-slate-200 bg-white p-5 shadow-lg dark:border-white/10 dark:bg-slate-900/70">
-                <div className="text-sm font-semibold text-slate-900">Hizli erisim</div>
+                <div className="text-sm font-semibold text-slate-900">Hızlı erişim</div>
                 <div className="mt-3 flex flex-col gap-2">
                   <Link
                     href="/spare-parts"
                     className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
                   >
-                    Yeni urun kesfet
+                    Yeni ürün keşfet
                   </Link>
                   <Link
                     href="/contact"
@@ -178,28 +178,28 @@ export default async function OrdersPage() {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <Link href="/profile" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-                    Hesap yonetimine don
+                    Hesap yönetimine dön
                   </Link>
-                  <h2 className="mt-3 text-2xl font-semibold text-slate-900">Siparislerim</h2>
-                  <p className="mt-1 text-sm text-slate-600">Tum siparislerin burada listelenir.</p>
+                  <h2 className="mt-3 text-2xl font-semibold text-slate-900">Siparişlerim</h2>
+                  <p className="mt-1 text-sm text-slate-600">Tüm siparişleriniz burada listelenir.</p>
                 </div>
                 <Link href="/spare-parts" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-                  Yeni urun kesfet
+                  Yeni ürün keşfet
                 </Link>
               </div>
 
               {!hasOrders && (
                 <div className="mt-8 rounded-24 border border-dashed border-slate-200 bg-white/90 p-6 dark:border-white/10 dark:bg-slate-900/60">
-                  <div className="text-sm font-semibold text-slate-900">Henuz siparis yok</div>
+                  <div className="text-sm font-semibold text-slate-900">Henüz sipariş yok</div>
                   <p className="mt-2 text-sm text-slate-600">
-                    Sepetine urun ekleyip siparisini tamamladiginda burada gorebilirsin.
+                    Sepetinize ürün ekleyip siparişinizi tamamladığınızda burada görebilirsiniz.
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <Link
                       href="/spare-parts"
                       className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
                     >
-                      Yedek parcalar
+                      Yedek parçalar
                     </Link>
                     <Link
                       href="/contact"
@@ -319,7 +319,7 @@ export default async function OrdersPage() {
                                   />
                                 ) : (
                                   <div className="flex h-full w-full items-center justify-center text-xs text-slate-400">
-                                    Urun
+                                    Ürün
                                   </div>
                                 )}
                               </div>
@@ -385,7 +385,7 @@ export default async function OrdersPage() {
                           Kargo bilgisi bekleniyor
                         </div>
                         <div className="mt-1">
-                          Kargo firmasi ve takip numarasi admin tarafindan eklendiginde burada gorunecek.
+                          Kargo firması ve takip numarası admin tarafından eklendiğinde burada görünecek.
                         </div>
                       </div>
                     )}
@@ -395,7 +395,7 @@ export default async function OrdersPage() {
                         href={`/returns-request?${returnParams}`}
                         className="rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:border-slate-300 hover:text-slate-900"
                       >
-                        Iade / degisim talebi
+                        İade / değişim talebi
                       </Link>
                       <Link
                         href={`/contact?${invoiceParams}`}
@@ -407,7 +407,7 @@ export default async function OrdersPage() {
                         href={`/profile/orders/${order.id}`}
                         className="rounded-full bg-slate-900 px-3 py-2 text-white hover:bg-slate-800"
                       >
-                        Siparis detayi
+                        Sipariş detayı
                       </Link>
                     </div>
 

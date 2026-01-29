@@ -66,11 +66,11 @@ function getErrorMessage(e: unknown) {
 }
 
 const returnStatusLabel: Record<ReturnRequestItem['status'], string> = {
-  NEW: 'Talep alindi',
-  UNDER_REVIEW: 'Incelemede',
-  APPROVED: 'Onaylandi',
+  NEW: 'Talep alındı',
+  UNDER_REVIEW: 'İncelemede',
+  APPROVED: 'Onaylandı',
   REJECTED: 'Reddedildi',
-  REFUNDED: 'Iade tamamlandi',
+  REFUNDED: 'İade tamamlandı',
 };
 
 const returnStatusTone: Record<ReturnRequestItem['status'], string> = {
@@ -180,7 +180,7 @@ export default function ProfilePage() {
         const data = text ? JSON.parse(text) : {};
 
         if (!res.ok) {
-          throw new Error(data.error || 'Profil bilgileri alinamadi');
+          throw new Error(data.error || 'Profil bilgileri alınamadı');
         }
 
         const user: ProfileUser | null = data.user ?? null;
@@ -213,7 +213,7 @@ export default function ProfilePage() {
           setShowAddress(hasAnyAddress);
         }
       } catch (e: unknown) {
-        setLoadError(getErrorMessage(e) || 'Profil bilgileri alinamadi');
+        setLoadError(getErrorMessage(e) || 'Profil bilgileri alınamadı');
       }
     };
 
@@ -230,11 +230,11 @@ export default function ProfilePage() {
         const text = await res.text();
         const data = text ? JSON.parse(text) : {};
         if (!res.ok) {
-          throw new Error(data.error || 'Iade talepleri alinamadi');
+          throw new Error(data.error || 'İade talepleri alınamadı');
         }
         setReturnRequests(data.items ?? []);
       } catch (e: unknown) {
-        setReturnsError(getErrorMessage(e) || 'Iade talepleri alinamadi');
+        setReturnsError(getErrorMessage(e) || 'İade talepleri alınamadı');
       } finally {
         setReturnsLoading(false);
       }
@@ -278,15 +278,15 @@ export default function ProfilePage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Profil guncellenemedi');
+        throw new Error(data.error || 'Profil güncellenemedi');
       }
 
-      setSaveSuccess('Profil guncellendi');
+      setSaveSuccess('Profil güncellendi');
       if (data.user) {
         setProfile((p) => (p ? { ...p, ...data.user, addresses: data.addresses ?? p.addresses } : data.user));
       }
     } catch (e: unknown) {
-      setSaveError(getErrorMessage(e) || 'Profil guncellenemedi');
+      setSaveError(getErrorMessage(e) || 'Profil güncellenemedi');
     } finally {
       setIsSaving(false);
     }
@@ -309,12 +309,12 @@ export default function ProfilePage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Iki adimli dogrulama guncellenemedi');
+        throw new Error(data.error || 'İki adımlı doğrulama güncellenemedi');
       }
 
       setTwoFactorEnabled(next);
     } catch (e: unknown) {
-      setTwoFactorError(getErrorMessage(e) || 'Iki adimli dogrulama guncellenemedi');
+      setTwoFactorError(getErrorMessage(e) || 'İki adımlı doğrulama güncellenemedi');
     } finally {
       setTwoFactorSaving(false);
     }
@@ -323,7 +323,7 @@ export default function ProfilePage() {
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white/70">
-        Yukleniyor...
+        Yükleniyor...
       </div>
     );
   }
@@ -389,61 +389,61 @@ export default function ProfilePage() {
           orderVisibility: 'Order visibility',
         }
       : {
-          summaryTitle: 'Durum ozeti',
+          summaryTitle: 'Durum Özeti',
           profileStatus: 'Profil tamamlama',
           addressStatus: 'Adres durumu',
-          membership: 'Uyeligi',
-          statusReady: 'Hazir',
+          membership: 'Üyeliği',
+          statusReady: 'Hazır',
           statusMissing: 'Eksik',
-          addressReady: 'Kayitli',
+          addressReady: 'Kayıtlı',
           addressMissing: 'Yok',
-          securityTitle: 'Hesap guvenligi',
-          securityBody: 'Sifreni duzenli degistir, taninmayan cihazlarda oturum acma.',
-          twoFactor: 'Iki adimli dogrulama',
+          securityTitle: 'Hesap güvenliği',
+          securityBody: 'Şifreni düzenli değiştir, tanınmayan cihazlarda oturum açma.',
+          twoFactor: 'İki adımlı doğrulama',
           sessionTracking: 'Oturum takibi',
-          loginAlerts: 'Giris bildirimleri',
+          loginAlerts: 'Giriş bildirimleri',
           notifyTitle: 'Bildirim tercihleri',
-          notifyBody: 'Siparis durumlari ve kampanyalar icin bildirim ayarlarini duzenle.',
+          notifyBody: 'Sipariş durumlari ve kampanyalar icin bildirim ayarlarını düzenle.',
           emailNotify: 'E-posta',
-          inAppNotify: 'Site ici',
+          inAppNotify: 'Site içi',
           promoNotify: 'Kampanya bildirimi',
-          priceDropNotify: 'Fiyat dususu',
+          priceDropNotify: 'Fiyat düşüşü',
           stockNotify: 'Stok bildirimi',
-          newsletter: 'Bulten',
+          newsletter: 'Bülten',
           prefsTitle: 'Tercihler',
-          prefsBody: 'Dil, gorunum ve hesap senkronu ayarlari.',
-          language: 'Varsayilan dil',
+          prefsBody: 'Dil, görünüm ve hesap senkronu ayarları.',
+          language: 'Varsayılan dil',
           theme: 'Tema',
           themeSystem: 'Sistem',
-          themeLight: 'Aydinlik',
+          themeLight: 'Aydınlık',
           themeDark: 'Koyu',
-          fontScale: 'Yazi boyutu',
-          fontSmall: 'Kucuk',
+          fontScale: 'Yazı boyutu',
+          fontSmall: 'Küçük',
           fontMedium: 'Orta',
-          fontLarge: 'Buyuk',
+          fontLarge: 'Büyük',
           sync: 'Hesap senkronu',
-          on: 'Acik',
-          off: 'Kapali',
-          savedNote: 'Hesabinda kaydedilir',
-          securityNote: 'Hesabinda kaydedilir',
+          on: 'Açık',
+          off: 'Kapalı',
+          savedNote: 'Hesabında kaydedilir',
+          securityNote: 'Hesabında kaydedilir',
           support: 'Destek al',
           quote: 'Teklif iste',
           billingTitle: 'Fatura bilgileri',
-          billingBody: 'Fatura ve e-arsiv bilgilerini guncelle.',
+          billingBody: 'Fatura ve e-arşiv bilgilerini güncelle.',
           companyName: 'Firma adi',
           taxOffice: 'Vergi dairesi',
           taxNumber: 'Vergi numarasi',
           eInvoice: 'E-fatura',
           privacyTitle: 'Gizlilik',
-          privacyBody: 'Profil gorunurlugu ve veri paylasimi ayarlari.',
-          publicProfile: 'Profil gorunurlugu',
-          orderVisibility: 'Siparis gorunurlugu',
+          privacyBody: 'Profil görünurluğu ve veri paylaşımı ayarları.',
+          publicProfile: 'Profil görünürlüğü',
+          orderVisibility: 'Sipariş görünürlüğü',
         };
   const roleLabel = (session.user as SessionUserWithRole).role === 'ADMIN'
     ? 'Admin'
     : prefs.language === 'EN'
       ? 'Customer'
-      : 'Musteri';
+      : 'Müşteri';
   const hasAddress = showAddress;
 
   return (
@@ -463,7 +463,7 @@ export default function ProfilePage() {
               )}
             </div>
             <div>
-              <h1 className="text-2xl font-semibold">{userName || 'Hesabim'}</h1>
+              <h1 className="text-2xl font-semibold">{userName || 'Hesabım'}</h1>
               <div className="mt-1 text-sm text-white/70">
                 {profile?.email ?? session.user.email ?? ''} • {roleLabel}
               </div>
@@ -494,14 +494,14 @@ export default function ProfilePage() {
         <div className="relative mt-6 grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
             <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Profil durumu</div>
-            <div className="mt-2 text-sm font-semibold text-white">{profileComplete ? 'Hazir' : 'Eksik bilgiler var'}</div>
+            <div className="mt-2 text-sm font-semibold text-white">{profileComplete ? 'Hazır' : 'Eksik bilgiler var'}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
             <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Adres durumu</div>
-            <div className="mt-2 text-sm font-semibold text-white">{hasAddress ? 'Kayitli adres var' : 'Adres eklenmedi'}</div>
+            <div className="mt-2 text-sm font-semibold text-white">{hasAddress ? 'Kayıtlı adres var' : 'Adres eklenmedi'}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/80">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Uyeligi</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-indigo-200">Üyeliği</div>
             <div className="mt-2 text-sm font-semibold text-white">{roleLabel}</div>
           </div>
         </div>
@@ -516,7 +516,7 @@ export default function ProfilePage() {
             onUpdated={(url) => setProfile((p) => (p ? { ...p, image: url } : p))}
           />
           <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
-            <div className="text-sm font-semibold text-slate-900">Hizli erisim</div>
+            <div className="text-sm font-semibold text-slate-900">Hızlı erişim</div>
             <div className="mt-3 grid gap-2">
               <Link
                 href="/profile/favorites"
@@ -528,7 +528,7 @@ export default function ProfilePage() {
                 href="/profile/orders"
                 className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
-                Siparislerim
+                Siparişlerim
               </Link>
               <Link
                 href="/profile/addresses"
@@ -543,8 +543,8 @@ export default function ProfilePage() {
         <div className="space-y-6">
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-white/5">
             <div>
-              <div className="text-sm font-semibold text-slate-900">Kisisel bilgiler</div>
-              <div className="mt-1 text-sm text-slate-600">Hesap bilgilerini guncelle</div>
+              <div className="text-sm font-semibold text-slate-900">Kişisel bilgiler</div>
+              <div className="mt-1 text-sm text-slate-600">Hesap bilgilerini güncelle</div>
             </div>
 
             <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -615,8 +615,8 @@ export default function ProfilePage() {
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-slate-900">Iade taleplerim</div>
-                <div className="mt-1 text-sm text-slate-600">Guncel iade durumlarini buradan izle.</div>
+                <div className="text-sm font-semibold text-slate-900">İade taleplerim</div>
+                <div className="mt-1 text-sm text-slate-600">Güncel iade durumlarını buradan izle.</div>
               </div>
               <Link
                 href="/returns-request"
@@ -633,10 +633,10 @@ export default function ProfilePage() {
             ) : null}
 
             {returnsLoading ? (
-              <div className="mt-4 text-sm text-slate-500">Yukleniyor...</div>
+              <div className="mt-4 text-sm text-slate-500">Yükleniyor...</div>
             ) : returnRequests.length === 0 ? (
               <div className="mt-4 rounded-2xl border border-dashed border-slate-200 px-4 py-6 text-sm text-slate-500">
-                Henuz iade talebin yok.
+                Henüz iade talebiniz yok.
               </div>
             ) : (
               <div className="mt-4 space-y-3">
@@ -648,7 +648,7 @@ export default function ProfilePage() {
                           Talep #{item.id.slice(0, 8)}
                         </div>
                         <div className="mt-1 text-sm font-semibold text-slate-900">
-                          {item.itemName || 'Urun bilgisi bulunamadi'}
+                          {item.itemName || 'Ürün bilgisi bulunamadı'}
                         </div>
                         <div className="mt-1 text-xs text-slate-500">Siparis: {item.orderId}</div>
                       </div>
