@@ -40,7 +40,7 @@ export default function ContactPage() {
     setInfo('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
@@ -61,11 +61,11 @@ export default function ContactPage() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
+        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (data.success) {
         setSubmitStatus({
           success: true,
-          message: 'Mesajiniz alindi. En kisa surede size geri donecegiz.',
+          message: 'Mesajınız alındı. En kısa sürede size geri döneceğiz.',
         });
         setFormData({
           name: '',
@@ -77,10 +77,10 @@ export default function ContactPage() {
         setOtp('');
         setStep('details');
       } else {
-        throw new Error(data.error || data.message || 'Form gonderilemedi');
+        throw new Error(data.error || data.message || 'Form gönderilemedi');
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
+      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
       setSubmitStatus({
         success: false,
         message,
@@ -101,12 +101,12 @@ export default function ContactPage() {
               <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
                 Iletisim
               </p>
-              <h1 className="text-3xl font-semibold sm:text-4xl">Sorulariniz icin buradayiz</h1>
+              <h1 className="text-3xl font-semibold sm:text-4xl">Sorularınız için buradayız</h1>
               <p className="max-w-2xl text-base text-white/70">
-                Teklif, servis veya urun detaylari icin formu doldurun. Ekibimiz size hizla geri donsun.
+                Teklif, servis veya ürün detayları için formu doldurun. Ekibimiz size hızla geri dönecektir.
               </p>
               <div className="flex flex-wrap gap-3 text-xs text-white/70">
-                <span className="rounded-full border border-white/20 px-3 py-1">Ortalama 2 saat geri donus</span>
+                <span className="rounded-full border border-white/20 px-3 py-1">Ortalama 2 saatte geri dönüş</span>
                 <span className="rounded-full border border-white/20 px-3 py-1">7/24 teknik destek takibi</span>
                 <span className="rounded-full border border-white/20 px-3 py-1">Kurumsal SLA</span>
               </div>
@@ -114,23 +114,23 @@ export default function ContactPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4">
                 <div className="text-xs uppercase tracking-[0.3em] text-white/60">Destek</div>
-                <div className="mt-2 text-lg font-semibold">Teknik kayit ac</div>
-                <p className="mt-1 text-xs text-white/60">Kurulum, ariza, servis planlama.</p>
+                <div className="mt-2 text-lg font-semibold">Teknik kayıt aç</div>
+                <p className="mt-1 text-xs text-white/60">Kurulum, arıza, servis planlama.</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4">
                 <div className="text-xs uppercase tracking-[0.3em] text-white/60">Teklif</div>
-                <div className="mt-2 text-lg font-semibold">Hizli teklif iste</div>
-                <p className="mt-1 text-xs text-white/60">Uygun konfigurasyon icin.</p>
+                <div className="mt-2 text-lg font-semibold">Hızlı teklif iste</div>
+                <p className="mt-1 text-xs text-white/60">Uygun konfigurasyon için.</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4">
-                <div className="text-xs uppercase tracking-[0.3em] text-white/60">Satis</div>
-                <div className="mt-2 text-lg font-semibold">Satin alma danis</div>
-                <p className="mt-1 text-xs text-white/60">Tedarik ve teslim planla.</p>
+                <div className="text-xs uppercase tracking-[0.3em] text-white/60">Satış</div>
+                <div className="mt-2 text-lg font-semibold">Satın alma danışmanlığı</div>
+                <p className="mt-1 text-xs text-white/60">Tedarik ve teslim planlaması.</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-4">
                 <div className="text-xs uppercase tracking-[0.3em] text-white/60">Kurumsal</div>
-                <div className="mt-2 text-lg font-semibold">Proje gorusmesi</div>
-                <p className="mt-1 text-xs text-white/60">Buyuk olcekli isler icin.</p>
+                <div className="mt-2 text-lg font-semibold">Proje görüşmesi</div>
+                <p className="mt-1 text-xs text-white/60">Büyük ölçekli işler için.</p>
               </div>
             </div>
           </div>
@@ -219,15 +219,15 @@ export default function ContactPage() {
                     >
                       <option value="Genel Soru">Genel Soru</option>
                       <option value="Teknik Destek">Teknik Destek</option>
-                      <option value="Satis Bilgisi">Satis Bilgisi</option>
-                      <option value="Diger">Diger</option>
+                      <option value="Satis Bilgisi">Satış Bilgisi</option>
+                      <option value="Diger">Diğer Konular</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="sm:col-span-2">
                   <label htmlFor="message" className="block text-sm font-medium text-slate-700">
-                    Mesajiniz <span className="text-red-500">*</span>
+                    Mesajınız <span className="text-red-500">*</span>
                   </label>
                   <div className="mt-1">
                     <textarea
@@ -238,7 +238,7 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                      placeholder="Mesajinizi buraya yazin..."
+                      placeholder="Mesajınızı buraya yazınız..."
                     ></textarea>
                   </div>
                 </div>
@@ -247,11 +247,11 @@ export default function ContactPage() {
               {step === 'verify' && (
                 <div className="space-y-3">
                   <div className="text-sm text-slate-600">
-                    Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+                    Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
                   </div>
                   <div>
                     <label htmlFor="otp" className="block text-sm font-medium text-slate-700">
-                      Dogrulama Kodu
+                      Doğrulama Kodu
                     </label>
                     <div className="mt-1">
                       <input
@@ -279,7 +279,7 @@ export default function ContactPage() {
                 disabled={isSubmitting}
                 className="btn-primary w-full"
               >
-                {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
+                {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve Gönder' : 'Gönder'}
               </button>
             </div>
             </form>
@@ -287,12 +287,12 @@ export default function ContactPage() {
 
           <Reveal as="section" delay={150} className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <h2 className="text-lg font-semibold text-slate-900">Iletisim bilgilerimiz</h2>
+              <h2 className="text-lg font-semibold text-slate-900">İletişim Bilgilerimiz</h2>
               <div className="mt-4 space-y-3 text-sm text-slate-600">
                 <div>
                   <p className="font-semibold text-slate-900">Adres</p>
-                  <p>Fevzicakmak Mah. Aksaray Cevreyolu Caddesi Akasya Sitesi</p>
-                  <p>A Blok No:18T 42210 Konya, Turkiye</p>
+                  <p>Fevziçakmak Mah. Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi</p>
+                  <p>A Blok No:18T 42210 Konya, Türkiye</p>
                 </div>
                 <div>
                   <p className="font-semibold text-slate-900">E-posta</p>
@@ -303,27 +303,27 @@ export default function ContactPage() {
                   <p>+90 536 831 67 87</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-slate-900">Calisma saatleri</p>
+                  <p className="font-semibold text-slate-900">Çalışma Saatleri</p>
                   <p>Pazartesi - Cuma: 09:00 - 17:30</p>
                 </div>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[24px] border border-slate-200/70 bg-white p-4 text-sm shadow-[0_18px_40px_-32px_rgba(15,23,42,0.35)]">
-                <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli ulasim</div>
-                <div className="mt-2 font-semibold text-slate-900">WhatsApp hatti</div>
-                <p className="mt-1 text-xs text-slate-600">Siparis ve servis takibi.</p>
+                <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı ulaşım</div>
+                <div className="mt-2 font-semibold text-slate-900">WhatsApp hattı</div>
+                <p className="mt-1 text-xs text-slate-600">Sipariş ve servis takibi.</p>
               </div>
               <div className="rounded-[24px] border border-slate-200/70 bg-white p-4 text-sm shadow-[0_18px_40px_-32px_rgba(15,23,42,0.35)]">
                 <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal</div>
                 <div className="mt-2 font-semibold text-slate-900">Proje planlama</div>
-                <p className="mt-1 text-xs text-slate-600">Saha kesif ve teklif akisi.</p>
+                <p className="mt-1 text-xs text-slate-600">Saha keşif ve teklif akışı.</p>
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-slate-900 p-6 text-white shadow-[0_18px_48px_-30px_rgba(15,23,42,0.5)]">
               <h3 className="text-sm uppercase tracking-[0.3em] text-white/60">Lokasyon</h3>
               <p className="mt-2 text-sm text-white/80">
-                Konya merkez depo ve servis noktalarimizdan ayni gun cikis.
+                Konya merkez depo ve servis noktalarımızdan aynı gün çıkış.
               </p>
               <div className="mt-4 h-32 rounded-2xl border border-white/10 bg-[linear-gradient(120deg,_rgba(255,255,255,0.08),_transparent)]" />
             </div>

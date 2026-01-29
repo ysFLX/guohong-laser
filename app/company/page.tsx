@@ -4,12 +4,12 @@ export default function CompanyPage() {
       <div className="mx-auto max-w-3xl px-4 py-12">
         <h1 className="text-2xl font-semibold text-slate-900">Firma Bilgileri</h1>
         <p className="mt-4 text-sm text-slate-600">
-          Guohong Lazer resmi firma bilgileri ve iletisim detaylari burada yer alir.
-          Teklif, teknik destek ve servis talepleri icin bu kanallari kullanabilirsiniz.
+          Guohong Lazer resmi firma bilgileri ve iletişim detayları burada yer alır.
+          Teklif, teknik destek ve servis talepleri için bu kanalları kullanabilirsiniz.
         </p>
         <div className="mt-6 space-y-6 text-sm text-slate-600">
           <div>
-            <div className="font-semibold text-slate-900">Unvan</div>
+            <div className="font-semibold text-slate-900">Ünvan</div>
             <p className="mt-1">Guohong Lazer</p>
           </div>
           <div>
@@ -17,18 +17,18 @@ export default function CompanyPage() {
             <p className="mt-1">Konya / Karatay 42210</p>
           </div>
           <div>
-            <div className="font-semibold text-slate-900">Iletisim</div>
+            <div className="font-semibold text-slate-900">İletişim</div>
             <p className="mt-1">Telefon: +90 536 831 67 87</p>
             <p className="mt-1">E-posta: guohonglazerinfo@gmail.com</p>
           </div>
           <div>
-            <div className="font-semibold text-slate-900">Calisma saatleri</div>
+            <div className="font-semibold text-slate-900">Çalışma saatleri</div>
             <p className="mt-1">Pazartesi - Cumartesi 09:00 - 18:00</p>
           </div>
           <div>
             <div className="font-semibold text-slate-900">Hizmet kapsamı</div>
             <p className="mt-1">
-              Lazer makineleri, yedek parca tedariği, kurulum, egitim ve teknik servis.
+              Lazer makineleri, yedek parçaların tedariği, kurulum, eğitim ve teknik servis.
             </p>
           </div>
         </div>
