@@ -11,14 +11,14 @@ export default function CookiesPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
               Guven Merkezi
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Cerez Politikasi</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Çerez Politikası</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Cerezler, site deneyimini iyilestirmek ve servisleri guvenli calistirmak icin kullanilir. Bu sayfada
-              cerez turleri ve kontrol secenekleri ozetlenir.
+              Çerezler, site deneyimini iyileştirmek ve servisleri güvenli çalıştırmak için kullanılır. Bu sayfada
+              çerez türleri ve kontrol seçenekleri özetlenir.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-white/70">
               <span className="rounded-full border border-white/20 px-3 py-1">Performans</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Islevsellik</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">İşlevsellik</span>
               <span className="rounded-full border border-white/20 px-3 py-1">Analitik</span>
             </div>
           </div>
@@ -27,49 +27,49 @@ export default function CookiesPage() {
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
           <section className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Kullandigimiz cerez tipleri</div>
+              <div className="text-sm font-semibold text-slate-900">Kullandığımız çerez türleri</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Zorunlu cerezler: Oturum ve guvenlik icin gereklidir.</li>
-                <li>Performans cerezleri: Site hizini ve deneyimini iyilestirir.</li>
-                <li>Analitik cerezler: Trafik ve icerik performansini olcer.</li>
+                <li>Zorunlu çerezler: Oturum ve güvenlik için gereklidir.</li>
+                <li>Performans çerezleri: Site hızını ve deneyimini iyileştirir.</li>
+                <li>Analitik çerezler: Trafik ve içerik performansını ölçer.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Cerez yonetimi</div>
+              <div className="text-sm font-semibold text-slate-900">Çerez yönetimi</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Tarayici ayarlarinizdan cerezleri silebilir veya engelleyebilirsiniz.</li>
-                <li>Bazi cerezler devre disi kalirsa site ozellikleri etkilenebilir.</li>
-                <li>Tercihlerinizde degisiklik yaptiginizda yenileme gerekebilir.</li>
+                <li>Tarayıcı ayarlarınızdan çerezleri silebilir veya engelleyebilirsiniz.</li>
+                <li>Bazı çerezler devre dışı kalırsa site özellikleri etkilenebilir.</li>
+                <li>Tercihlerinizde değişiklik yaptığınızda yenileme gerekebilir.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Ucuncu taraf servisler</div>
+              <div className="text-sm font-semibold text-slate-900">Üçüncü taraf servisler</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Odeme ve kargo servisleri, teknik olarak zorunlu cerezler kullanabilir.</li>
-                <li>Analitik servisler anonim veriler uzerinden raporlama yapar.</li>
+                <li>Ödeme ve kargo servisleri, teknik olarak zorunlu çerezler kullanabilir.</li>
+                <li>Analitik servisler anonim veriler üzerinden raporlama yapar.</li>
               </ul>
             </div>
           </section>
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/privacy" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Gizlilik politikasi
+                  Gizlilik Politikası
                 </Link>
                 <Link href="/kvkk" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  KVKK aydinlatma
+                  KVKK Aydınlatma
                 </Link>
                 <Link href="/payment-security" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Odeme guvenligi
+                  Ödeme Güvenliği
                 </Link>
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Tercih yardimi</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Tercih Yardımı</div>
               <p className="mt-3 text-sm text-slate-600">
-                Cerez tercihleriyle ilgili sorularin icin destek ekibimiz yardimci olur.
+                Çerez tercihleriyle ilgili soruların için destek ekibimiz yardımcı olur.
               </p>
               <Link
                 href="/contact?subject=Cerez+Tercihleri"

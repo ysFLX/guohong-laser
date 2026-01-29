@@ -2,53 +2,53 @@ import Link from 'next/link';
 
 const faqGroups = [
   {
-    title: 'Siparis ve teklif',
+    title: 'Sipariş ve Teklif',
     items: [
       {
-        q: 'Fiyatlari neden gorunmuyor?',
-        a: 'Urunler kurumsal teklif ile fiyatlandirilir. Model, konfigurasyon ve teslimat seceneklerine gore teklif hazirlanir.',
+        q: 'Makine Fiyatları neden görünmüyor?',
+        a: 'Ürünler kurumsal teklif ile fiyatlandırılır. Model, konfigurasyon ve teslimat seçeneklerine göre teklif hazırlanır.',
       },
       {
         q: 'Teklif ne kadar surede gelir?',
-        a: 'Stoklu modeller icin 30-60 dakika icinde, ozel uretimlerde ayni gun icinde geri donus saglanir.',
+        a: 'Stoklu modeller için 30-60 dakika içinde, özel üretimlerde aynı gün içinde geri dönüş sağlanır.',
       },
       {
-        q: 'Toplu alimda ekstra indirim var mi?',
-        a: 'Toplu alimlarda proje bazli fiyatlama yapilir. Teklif formunda adet bilgisini paylasabilirsiniz.',
-      },
-    ],
-  },
-  {
-    title: 'Teslimat ve servis',
-    items: [
-      {
-        q: 'Teslimat sureleri nedir?',
-        a: 'Stoklu urunler ayni/ertesi gun kargoya verilir. Ozel uretimlerde termin tarihi teklif asamasinda netlesir.',
-      },
-      {
-        q: 'Kurulum ve egitim sagliyor musunuz?',
-        a: 'Evet. Kurulum, test ve operator egitimi kurumsal servis paketi kapsaminda sunulur.',
-      },
-      {
-        q: 'Garanti sureci nasil ilerler?',
-        a: 'Garanti basvurusu seri numarasi ve fatura bilgisi ile acilir. Teknik ekip on degerlendirme yapar.',
+        q: 'Toplu alımda ekstra indirim var mı?',
+        a: 'Toplu alımlarda proje bazlı fiyatlama yapılır. Teklif formunda adet bilgisini paylaşabilirsiniz.',
       },
     ],
   },
   {
-    title: 'Yedek parca ve uyumluluk',
+    title: 'Teslimat ve Servis',
     items: [
       {
-        q: 'Parca uyumlulugunu nasil ogrenecegim?',
-        a: 'Urun sayfasinda uyumluluk bilgisi yoksa teknik ekibe model adini ileterek teyit alabilirsiniz.',
+        q: 'Yedek parça teslimat süreleri nedir?',
+        a: 'Stoklu ürünler aynı/ertesi gün kargoya verilir. Özel üretimlerde termin tarihi teklif aşamasında netleşir.',
       },
       {
-        q: 'Stokta olmayan parcalar icin ne yapmaliyim?',
-        a: 'Teklif formu uzerinden talep olusturarak tedarik suresi ve fiyat bilgisi alabilirsiniz.',
+        q: 'Kurulum ve eğitim sağlıyor musunuz?',
+        a: 'Evet. Kurulum, test ve operator eğitimi kurumsal servis paketi kapsamında sunulur.',
       },
       {
-        q: 'Acil tedarik hizmeti var mi?',
-        a: 'Kritik parcalar icin hizli tedarik sureci uygulanir. Durum bilgi panelinde paylasilir.',
+        q: 'Garanti süreci nasıl ilerler?',
+        a: 'Garanti başvurusu seri numarası ve fatura bilgisi ile açılır. Teknik ekip ön değerlendirme yapar.',
+      },
+    ],
+  },
+  {
+    title: 'Yedek parçalar ve uyumluluk',
+    items: [
+      {
+        q: 'Parça uyumluluğunu nasıl ögreneceğim?',
+        a: 'Ürün sayfasında uyumluluk bilgisi yoksa teknik ekibe model adını ileterek teyit alabilirsiniz.',
+      },
+      {
+        q: 'Stokta olmayan parçalar için ne yapmalıyım?',
+        a: 'Teklif formu üzerinden talep oluşturarak tedarik süresi ve fiyat bilgisi alabilirsiniz.',
+      },
+      {
+        q: 'Acil tedarik hizmeti var mı?',
+        a: 'Kritik parçalar için hızlı tedarik süreci uygulanır. Durum bilgi panelinde paylaşılır.',
       },
     ],
   },
@@ -66,12 +66,12 @@ export default function FaqPage() {
             </p>
             <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Sik sorulan sorular</h1>
             <p className="max-w-2xl text-base text-slate-600">
-              Teklif, teslimat ve servis surecleriyle ilgili en cok sorulan sorulari tek sayfada topladik.
+              Teklif, teslimat ve servis süreçleriyle ilgili en çok sorulan soruları tek sayfada topladık.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-slate-500">
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Kurumsal satis</span>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Hizli destek</span>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Teknik servis</span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Kurumsal Satış</span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Hızlı Destek</span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Teknik Servis</span>
             </div>
           </div>
         </section>
@@ -95,32 +95,32 @@ export default function FaqPage() {
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı Bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/contact" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iletisim
+                  İletişim
                 </Link>
                 <Link href="/quote" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Teklif iste
+                  Teklif İste
                 </Link>
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iade ve garanti
+                  İade ve Garanti
                 </Link>
                 <Link href="/shipping" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Kargo ve teslimat
+                  Kargo ve Teslimat
                 </Link>
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Canli destek</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Canlı Destek</div>
               <p className="mt-3 text-sm text-slate-600">
-                Projenize ozel destek icin teknik ekibimizden geri donus talep edebilirsiniz.
+                Projenize özel destek için teknik ekibimizden geri dönüş talep edebilirsiniz.
               </p>
               <Link
                 href="/contact?subject=Hizli+Destek"
                 className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >
-                Destek talebi
+                Destek Talebi
               </Link>
             </div>
           </aside>

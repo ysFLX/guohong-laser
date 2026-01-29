@@ -11,15 +11,15 @@ export default function DistanceSalesPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
               Guven Merkezi
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Mesafeli Satis Sozlesmesi</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Mesafeli Satış Sözleşmesi</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Bu sayfa bilgilendirme amaclidir. Satisa konu urun, teslimat ve cayma hakki kosullari siparis oncesi onay
-              adiminda ozetlenir.
+              Bu sayfa bilgilendirme amaçlıdır. Satışa konu ürün, teslimat ve cayma hakkı koşulları sipariş öncesi onay
+              adımında özetlenir.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-white/70">
-              <span className="rounded-full border border-white/20 px-3 py-1">Siparis onayi</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Cayma hakki</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Teslimat sartlari</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Sipariş onayı</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Cayma hakkı</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Teslimat şartları</span>
             </div>
           </div>
         </section>
@@ -27,59 +27,59 @@ export default function DistanceSalesPage() {
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
           <section className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Taraflar ve konu</div>
+              <div className="text-sm font-semibold text-slate-900">Taraflar ve Konu</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Satici: Guohong Lazer - siparis oncesi iletisim bilgilerimiz surekli goruntulenir.</li>
-                <li>Alici: Siparis esnasinda beyan ettiginiz kullanici ve teslimat bilgileri esas alinir.</li>
-                <li>Konu: Urunlerin satimi, teslimati ve satis sonrasi yukumlulukler.</li>
+                <li>Satıcı: Guohong Lazer - sipariş öncesi iletişim bilgilerimiz sürekli görüntülenir.</li>
+                <li>Alıcı: Sipariş esnasında beyan ettiğiniz kullanıcı ve teslimat bilgileri esas alınır.</li>
+                <li>Konu: Ürünlerin satımı, teslimati ve satış sonrası yükümlülükler.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Teslimat ve odeme</div>
+              <div className="text-sm font-semibold text-slate-900">Teslimat ve Ödeme</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Teslimat suresi stok ve kargo durumu ile siparis oncesi bildirilir.</li>
-                <li>Odeme, guvenli altyapi ile alinir ve odeme onayi ardindan siparis hazirlanir.</li>
-                <li>Fatura bilgileri siparis sirasinda talep edilir ve mail ile paylasilir.</li>
+                <li>Teslimat süresi stok ve kargo durumu ile sipariş öncesi bildirilir.</li>
+                <li>Ödeme, güvenli altyapı ile alınır ve ödeme onayı ardından sipariş hazırlanır.</li>
+                <li>Fatura bilgileri sipariş sırasında talep edilir ve mail ile paylaşılır.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Cayma hakki ve iade</div>
+              <div className="text-sm font-semibold text-slate-900">Cayma hakkı ve İade</div>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Cayma hakki kapsaminda iade kosullari urun grubuna gore degisebilir.</li>
-                <li>Ozel uretim, kisisellestirilmis veya kurulumlu urunlerde farkli kosullar uygulanir.</li>
-                <li>Iade sureci icin destek ekibimizle iletisime gecilmelidir.</li>
+                <li>Cayma hakkı kapsamında iade koşulları ürün grubuna göre değişebilir.</li>
+                <li>Özel üretim, kişiselleştirilmiş veya kurulumlu ürünlerde farklı koşullar uygulanır.</li>
+                <li>İade süreci için destek ekibimizle iletişime geçilmelidir.</li>
               </ul>
             </div>
           </section>
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı Bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iade ve garanti
+                  İade ve Garanti
                 </Link>
                 <Link href="/shipping" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
                   Kargo ve teslimat
                 </Link>
                 <Link href="/payment-security" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Odeme guvenligi
+                  Ödeme Güvenliği
                 </Link>
                 <Link href="/privacy" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Gizlilik politikasi
+                  Gizlilik Politikası
                 </Link>
               </div>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Destek ihtiyaci</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Destek İhtiyaci</div>
               <p className="mt-3 text-sm text-slate-600">
-                Sozlesme maddeleri ile ilgili sorularin icin destek hattimiz sana yardimci olur.
+                Sözleşmelerle ilgili sorularınız için destek hattımız size yardımcı olur.
               </p>
               <Link
                 href="/contact?subject=Mesafeli+Satis"
                 className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
               >
-                Iletisim kur
+                İletişim Kur
               </Link>
             </div>
           </aside>
