@@ -108,7 +108,7 @@ export default function CheckoutAddressPage() {
       setFormTarget('shipping');
       setShowForm(list.length === 0);
     } catch {
-      setCheckoutError('Adresler yuklenemedi');
+      setCheckoutError('Adresler yüklenemedi');
     } finally {
       setLoadingAddresses(false);
     }
@@ -121,7 +121,7 @@ export default function CheckoutAddressPage() {
       const data = await res.json();
       setCities(data.cities || []);
     } catch {
-      setCheckoutError('Iller yuklenemedi');
+      setCheckoutError('İller yüklenemedi');
     } finally {
       setLoadingCities(false);
     }
@@ -134,7 +134,7 @@ export default function CheckoutAddressPage() {
       const data = await res.json();
       setDistricts(data.districts || []);
     } catch {
-      setCheckoutError('Ilceler yuklenemedi');
+      setCheckoutError('İlçeler yüklenemedi');
     } finally {
       setLoadingDistricts(false);
     }
@@ -156,7 +156,7 @@ export default function CheckoutAddressPage() {
       return;
     }
     if (!districtValue) {
-      setCheckoutError('Ilce secimi zorunludur');
+      setCheckoutError('İlçe seçimi zorunludur');
       return;
     }
 
@@ -203,15 +203,15 @@ export default function CheckoutAddressPage() {
   async function handleCheckout() {
     if (!items.length || loadingCheckout) return;
     if (!selectedId) {
-      setCheckoutError('Adres secmelisin');
+      setCheckoutError('Adres seçmelisin');
       return;
     }
     if (!useBillingSame && !selectedBillingId) {
-      setCheckoutError('Fatura adresi secmelisin');
+      setCheckoutError('Fatura adresi seçmelisin');
       return;
     }
     if (!acceptedTerms) {
-      setCheckoutError('Mesafeli satis ve iade kosullarini kabul etmelisin');
+      setCheckoutError('Mesafeli satış ve iade koşullarını kabul etmelisin');
       return;
     }
     setLoadingCheckout(true);
@@ -252,12 +252,12 @@ export default function CheckoutAddressPage() {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.url) {
-        throw new Error(data?.error || 'Odeme baslatilamadi');
+        throw new Error(data?.error || 'Ödeme başlatılamadı');
       }
 
       window.location.href = data.url as string;
     } catch (err: unknown) {
-      setCheckoutError(err instanceof Error ? err.message : 'Odeme baslatilamadi');
+      setCheckoutError(err instanceof Error ? err.message : 'Ödeme başlatılamadı');
     } finally {
       setLoadingCheckout(false);
     }
@@ -267,20 +267,20 @@ export default function CheckoutAddressPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="mx-auto max-w-3xl px-4 py-12 text-center">
-          <h1 className="text-2xl font-semibold text-gray-900">Sepet bos</h1>
-          <p className="mt-2 text-sm text-gray-600">Odeme icin once urun eklemelisin.</p>
+          <h1 className="text-2xl font-semibold text-gray-900">Sepet boş</h1>
+          <p className="mt-2 text-sm text-gray-600">Ödeme için önce ürün eklemelisin.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/spare-parts"
               className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
             >
-              Urunlere git
+              Ürünlere git
             </Link>
             <Link
               href="/cart"
               className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
             >
-              Sepete don
+              Sepete dön
             </Link>
           </div>
         </div>
@@ -294,10 +294,10 @@ export default function CheckoutAddressPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link href="/cart" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-              Sepete geri don
+              Sepete geri dön
             </Link>
             <h1 className="mt-3 text-2xl font-semibold text-gray-900">Teslimat adresi</h1>
-            <p className="mt-1 text-sm text-gray-600">Odeme oncesi adres secimini tamamla.</p>
+            <p className="mt-1 text-sm text-gray-600">Ödeme öncesi adres seçimini tamamla.</p>
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900">
             {cartItemCount} urun - {formatPriceTry(subtotalCents)}
@@ -307,7 +307,7 @@ export default function CheckoutAddressPage() {
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">Adres sec</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Adres seç</h2>
               <button
                 type="button"
                 onClick={() => {
@@ -320,12 +320,11 @@ export default function CheckoutAddressPage() {
                 }}
                 className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
               >
-                {showForm && formTarget === 'shipping' ? 'Vazgec' : 'Yeni adres ekle'}
+                {showForm && formTarget === 'shipping' ? 'Vazgeç' : 'Yeni adres ekle'}
               </button>
             </div>
 
-            {loadingAddresses && <div className="mt-6 text-sm text-gray-500">Adresler yukleniyor...</div>}
-
+            {loadingAddresses && <div className="mt-6 text-sm text-gray-500">Adresler yükleniyor...</div>}
             {!loadingAddresses && addresses.length > 0 && (
               <div className="mt-6 space-y-3">
                 {addresses.map((address) => (
@@ -368,7 +367,7 @@ export default function CheckoutAddressPage() {
 
             {!loadingAddresses && addresses.length === 0 && (
               <div className="mt-6 rounded-2xl border border-dashed border-gray-200 p-5 text-sm text-gray-600">
-                Kayitli adres bulunamadi. Devam etmek icin yeni adres ekle.
+                Kayıtlı adres bulunamadı. Devam etmek için yeni adres ekle.
               </div>
             )}
 
@@ -425,7 +424,7 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="form-label">Il Secimi</div>
+                  <div className="form-label">İl Seçimi</div>
                   <select
                     className="form-input"
                     value={form.cityCode}
@@ -454,7 +453,7 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="form-label">Ilce Secimi</div>
+                  <div className="form-label">İlçe Seçimi</div>
                   <select
                     className="form-input"
                     value={form.district}
@@ -470,7 +469,7 @@ export default function CheckoutAddressPage() {
                       </option>
                     ))}
                   </select>
-                  {loadingDistricts && <div className="text-xs text-gray-500">Ilceler yukleniyor...</div>}
+                  {loadingDistricts && <div className="text-xs text-gray-500">İlçeler yükleniyor...</div>}
                 </div>
 
                 <div className="space-y-2">
@@ -494,10 +493,10 @@ export default function CheckoutAddressPage() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="form-label">Ulke</div>
+                  <div className="form-label">Ülke</div>
                   <input
                     className="form-input"
-                    placeholder="Ulke"
+                    placeholder="Ülke"
                     value={form.country}
                     onChange={(e) => setForm({ ...form, country: e.target.value })}
                   />
@@ -515,7 +514,7 @@ export default function CheckoutAddressPage() {
                     type="submit"
                     className="btn-primary"
                   >
-                    Adresi kaydet
+                    Adresi Kaydet
                   </button>
                 </div>
               </form>
@@ -542,7 +541,7 @@ export default function CheckoutAddressPage() {
             {!useBillingSame && (
               <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold text-gray-900">Fatura adresi</h3>
+                  <h3 className="text-base font-semibold text-gray-900">Fatura Adresi</h3>
                   <button
                     type="button"
                     onClick={() => {
@@ -555,7 +554,7 @@ export default function CheckoutAddressPage() {
                     }}
                     className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
                   >
-                    {showForm && formTarget === 'billing' ? 'Vazgec' : 'Yeni adres ekle'}
+                    {showForm && formTarget === 'billing' ? 'Vazgeç' : 'Yeni adres ekle'}
                   </button>
                 </div>
 
@@ -596,7 +595,7 @@ export default function CheckoutAddressPage() {
 
                 {addresses.length === 0 && (
                   <div className="mt-4 rounded-2xl border border-dashed border-gray-200 p-4 text-sm text-gray-600">
-                    Fatura adresi icin once yeni adres ekle.
+                    Fatura adresi için önce yeni adres ekle.
                   </div>
                 )}
 
@@ -653,7 +652,7 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="form-label">Il Secimi</div>
+                      <div className="form-label">İl Seçimi</div>
                       <select
                         className="form-input"
                         value={form.cityCode}
@@ -678,11 +677,11 @@ export default function CheckoutAddressPage() {
                           </option>
                         ))}
                       </select>
-                      {loadingCities && <div className="text-xs text-gray-500">Iller yukleniyor...</div>}
+                      {loadingCities && <div className="text-xs text-gray-500">İller yükleniyor...</div>}
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="form-label">Ilce Secimi</div>
+                      <div className="form-label">İlçe Seçimi</div>
                       <select
                         className="form-input"
                         value={form.district}
@@ -698,7 +697,7 @@ export default function CheckoutAddressPage() {
                           </option>
                         ))}
                       </select>
-                      {loadingDistricts && <div className="text-xs text-gray-500">Ilceler yukleniyor...</div>}
+                      {loadingDistricts && <div className="text-xs text-gray-500">İlçeler yükleniyor...</div>}
                     </div>
 
                     <div className="space-y-2">
@@ -722,7 +721,7 @@ export default function CheckoutAddressPage() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="form-label">Ulke</div>
+                      <div className="form-label">Ülke</div>
                       <input
                         className="form-input"
                         placeholder="Ulke"
@@ -743,7 +742,7 @@ export default function CheckoutAddressPage() {
                         type="submit"
                         className="btn-primary"
                       >
-                        Adresi kaydet
+                        Adresi Kaydet
                       </button>
                     </div>
                   </form>
@@ -753,7 +752,7 @@ export default function CheckoutAddressPage() {
           </div>
 
           <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
-            <div className="text-lg font-semibold text-gray-900">Siparis ozeti</div>
+            <div className="text-lg font-semibold text-gray-900">Sipariş Özeti</div>
             <div className="mt-4 space-y-3 text-sm text-gray-600">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-3">
@@ -774,14 +773,14 @@ export default function CheckoutAddressPage() {
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
               <span>Kargo</span>
-              <span className="font-semibold text-gray-900">Adresle hesaplanir</span>
+              <span className="font-semibold text-gray-900">Adresle birlikte hesaplanır</span>
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
               <span>Teslimat</span>
-              <span className="font-semibold text-gray-900">2-5 is gunu (stokta)</span>
+              <span className="font-semibold text-gray-900">2-5 iş günü (stokta)</span>
             </div>
             <div className="mt-3 text-xs text-gray-500">
-              Kargo ucreti ve sure, secilen adrese gore netlesir.
+              Kargo ücreti ve süre, seçilen adrese göre netleşir.
             </div>
             <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600">
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
@@ -791,7 +790,7 @@ export default function CheckoutAddressPage() {
                 <span className="rounded-full border border-gray-200 bg-white px-3 py-1">SSL</span>
                 <span className="rounded-full border border-gray-200 bg-white px-3 py-1">PCI-DSS</span>
                 <span className="rounded-full border border-gray-200 bg-white px-3 py-1">3D Secure</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">Iade garantisi</span>
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">İade garantisi</span>
               </div>
             </div>
 
@@ -804,14 +803,14 @@ export default function CheckoutAddressPage() {
                   className="mt-1"
                 />
                 <span>
-                  <span className="font-semibold text-gray-900">Mesafeli satis</span> ve{' '}
-                  <span className="font-semibold text-gray-900">iade kosullarini</span> okudum, kabul ediyorum.{' '}
+                  <span className="font-semibold text-gray-900">Mesafeli satış</span> ve{' '}
+                  <span className="font-semibold text-gray-900">iade koşullarını</span> okudum, kabul ediyorum.{' '}
                   <Link href="/distance-sales" className="text-indigo-600 hover:text-indigo-700">
-                    Mesafeli satis
+                    Mesafeli satış
                   </Link>
                   {' / '}
                   <Link href="/returns" className="text-indigo-600 hover:text-indigo-700">
-                    Iade
+                    İade
                   </Link>
                   {' / '}
                   <Link href="/privacy" className="text-indigo-600 hover:text-indigo-700">
@@ -827,7 +826,7 @@ export default function CheckoutAddressPage() {
               disabled={loadingCheckout || loadingAddresses || !acceptedTerms}
               className="mt-6 w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-70"
             >
-              {loadingCheckout ? 'Yonlendiriliyor...' : 'Odemeye devam et'}
+              {loadingCheckout ? 'Yönlendiriliyor...' : 'Ödemeye devam et'}
             </button>
 
             {checkoutError && <div className="mt-3 text-xs text-red-600">{checkoutError}</div>}
