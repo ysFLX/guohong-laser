@@ -766,7 +766,7 @@ export async function POST(req: Request) {
             sessionId: intent.id,
           });
         } catch (error) {
-          console.error('Ödeme başarısız e-postası gönderilemedi:', error);
+          console.error('Ödeme başarısız sipariş e-postası gönderilemedi:', error);
         }
       }
     }

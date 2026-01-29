@@ -1,32 +1,32 @@
 import Link from 'next/link';
 
 const sectors = [
-  { title: 'Otomotiv yan sanayi', detail: 'Yuksek hassasiyetli sac ve boru kesim hatlari.' },
-  { title: 'Metal isleme', detail: 'Fason kesim ve uretim hatlari optimizasyonu.' },
+  { title: 'Otomotiv yan sanayi', detail: 'Yüksek hassasiyetli sac ve boru kesim hatları.' },
+  { title: 'Metal işleme', detail: 'Fason kesim ve üretim hatları optimizasyonu.' },
   { title: 'Makine imalat', detail: 'Kurulum + devreye alma + servis paketleri.' },
-  { title: 'Enerji ekipmanlari', detail: 'Kalibrasyon, kalite kontrol ve veri izleme.' },
+  { title: 'Enerji ekipmanları', detail: 'Kalibrasyon, kalite kontrol ve veri izleme.' },
 ];
 
 const highlights = [
   { title: 'Kurulum', value: '1000+' },
-  { title: 'Servis noktasi', value: '24' },
+  { title: 'Servis noktası', value: '24' },
   { title: 'Referans proje', value: '350+' },
 ];
 
 const stories = [
   {
-    title: 'Yuksek hassasiyet sac kesim hatti',
-    desc: 'Verimlilik %22 artarken fire orani %12 dustu. Takipli bakim ve uzaktan izleme aktif edildi.',
+    title: 'Yüksek hassasiyet sac kesim hattı',
+    desc: 'Verimlilik %22 artarken fire oranı %12 düştü. Takipli bakım ve uzaktan izleme aktif edildi.',
     tag: 'Sac kesim',
   },
   {
-    title: 'Boru kesim hat hizlandirma',
-    desc: 'Otomasyon revizyonu ile vardiya basina ortalama 40 dk tasarruf saglandi.',
+    title: 'Boru kesim hat hızlandırma',
+    desc: 'Otomasyon revizyonu ile vardiya başına ortalama 40 dk tasarruf sağlandı.',
     tag: 'Boru kesim',
   },
   {
-    title: 'Kombine hat kurulum & egitim',
-    desc: 'Kurulumdan 7 gun sonra operator egitimi tamamlandi, teslimatta tam performans elde edildi.',
+    title: 'Kombine hat kurulum & eğitim',
+    desc: 'Kurulumdan 7 gün sonra operator eğitimi tamamlandı, teslimatta tam performans elde edildi.',
     tag: 'Kombine kesim',
   },
 ];
@@ -41,9 +41,9 @@ export default function ReferencesPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs uppercase tracking-[0.4em] text-indigo-700">
               Referanslar
             </p>
-            <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Saha basarilari ve projeler</h1>
+            <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Saha başarıları ve projeler</h1>
             <p className="max-w-2xl text-base text-slate-600">
-              Kurulum, servis ve tedarik sureclerinde gercek saha basarilariyla olculen kurumsal guc.
+              Kurulum, servis ve tedarik süreçlerinde gerçek saha başarılarıyla ölçülen kurumsal güç.
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
               {highlights.map((item) => (
@@ -58,7 +58,7 @@ export default function ReferencesPage() {
 
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sektorel dagilim</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sektorel dağılım</p>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               {sectors.map((sector) => (
                 <div key={sector.title} className="rounded-2xl border border-slate-200/70 bg-slate-50 px-4 py-4">
@@ -69,12 +69,12 @@ export default function ReferencesPage() {
             </div>
           </div>
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal guvence</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal güvence</p>
             <ul className="mt-4 space-y-3 text-sm text-slate-600">
-              <li>Tek ekip ile kurulum + egitim + servis sureci.</li>
-              <li>Yedek parca tedarikinde kritik stok guvencesi.</li>
-              <li>Performans raporu ve uretim analizi destegi.</li>
-              <li>Kurumsal SLA ile planli servis takvimi.</li>
+              <li>Tek ekip ile kurulum + eğitim + servis süreci.</li>
+              <li>Yedek parça tedarikinde kritik stok güvencesi.</li>
+              <li>Performans raporu ve üretim analizi desteği.</li>
+              <li>Kurumsal SLA ile planlı servis takvimi.</li>
             </ul>
             <Link
               href="/contact?subject=Referans+Talebi"
@@ -89,7 +89,7 @@ export default function ReferencesPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Saha hikayeleri</p>
-              <h2 className="mt-2 text-2xl font-semibold text-slate-900">Olculen basarilar</h2>
+              <h2 className="mt-2 text-2xl font-semibold text-slate-900">ölçülen başarılar</h2>
             </div>
             <Link
               href="/quote"
