@@ -17,9 +17,9 @@ export default function GlobalError({
     <div className="min-h-screen bg-gray-50 px-4 py-16 text-center">
       <div className="mx-auto max-w-xl rounded-3xl border border-gray-200 bg-white p-8 shadow-lg">
         <div className="text-xs font-semibold uppercase tracking-[0.3em] text-gray-400">Bir sorun oldu</div>
-        <h1 className="mt-3 text-2xl font-semibold text-gray-900">Beklenmeyen bir hata olustu</h1>
+        <h1 className="mt-3 text-2xl font-semibold text-gray-900">Beklenmeyen bir hata oluştu</h1>
         <p className="mt-2 text-sm text-gray-600">
-          Lutfen sayfayi yenileyin veya biraz sonra tekrar deneyin.
+          Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.
         </p>
         {error?.digest && (
           <div className="mt-3 text-xs text-gray-400">Hata kodu: {error.digest}</div>
