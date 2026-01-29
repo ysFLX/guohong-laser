@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: 'Gecersiz JSON' }), {
+    return new Response(JSON.stringify({ error: 'Geçersiz JSON' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });

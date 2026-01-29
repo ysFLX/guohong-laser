@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   try {
     if (!process.env.DATABASE_URL) {
       return new Response(
-        JSON.stringify({ error: 'Sunucu yapilandirma hatasi: DATABASE_URL tanimli degil' }),
+        JSON.stringify({ error: 'Sunucu yapılandırması hatası: DATABASE_URL tanımlı değil' }),
         {
           status: 500,
           headers: { 'Content-Type': 'application/json' },
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
     if (!safeEmail || !emailRegex.test(safeEmail)) {
       return new Response(
-        JSON.stringify({ error: 'Lutfen gecerli bir e-posta adresi girin' }),
+        JSON.stringify({ error: 'Lütfen geçerli bir e-posta adresi girin' }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
       if (!pending) {
         return new Response(
-          JSON.stringify({ error: 'Dogrulama kodu bulunamadi. Lutfen tekrar deneyin.' }),
+          JSON.stringify({ error: 'Doğrulama kodu bulunamadı. Lütfen tekrar deneyin.' }),
           {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
       if (pending.expiresAt.getTime() < Date.now()) {
         await prisma.emailVerification.delete({ where: { email: safeEmail } });
         return new Response(
-          JSON.stringify({ error: 'Dogrulama kodunun suresi doldu. Lutfen yeni kod isteyin.' }),
+          JSON.stringify({ error: 'Doğrulama kodunun süresi doldu. Lütfen yeni kod isteyin.' }),
           {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -101,7 +101,7 @@ export async function POST(request: Request) {
       const codeMatches = await bcrypt.compare(verificationCode, pending.codeHash);
       if (!codeMatches) {
         return new Response(
-          JSON.stringify({ error: 'Dogrulama kodu hatali.' }),
+          JSON.stringify({ error: 'Doğrulama kodu hatalı.' }),
           {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
 
       if (existingUser) {
         return new Response(
-          JSON.stringify({ error: 'Bu e-posta adresi zaten kullaniliyor' }),
+          JSON.stringify({ error: 'Bu e-posta adresi zaten kullanılıyor' }),
           {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -162,7 +162,7 @@ export async function POST(request: Request) {
       return new Response(
         JSON.stringify({
           success: true,
-          message: 'Kullanici basariyla olusturuldu',
+          message: 'Kullanıcı başarıyla oluşturuldu',
           userId: user.id,
         }),
         {
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
 
     if (!safePassword || !safeFirstName || !safeLastName || !safePhone) {
       return new Response(
-        JSON.stringify({ error: 'Ad, soyad, e-posta, telefon ve sifre zorunludur' }),
+        JSON.stringify({ error: 'Ad, soyad, e-posta, telefon ve şifre zorunludur' }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -190,7 +190,7 @@ export async function POST(request: Request) {
 
     if (safePassword.length < 6) {
       return new Response(
-        JSON.stringify({ error: 'Sifre en az 6 karakter olmalidir' }),
+        JSON.stringify({ error: 'Şifre en az 6 karakter olmalıdır' }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -204,7 +204,7 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       return new Response(
-        JSON.stringify({ error: 'Bu e-posta adresi zaten kullaniliyor' }),
+        JSON.stringify({ error: 'Bu e-posta adresi zaten kullanılıyor' }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -217,7 +217,7 @@ export async function POST(request: Request) {
 
     if (!smtpUser || !smtpPass) {
       return new Response(
-        JSON.stringify({ error: 'SMTP ayarlari bulunamadi. Lutfen e-posta gonderimi icin ayarlarinizi yapilandirin.' }),
+        JSON.stringify({ error: 'SMTP ayarları bulunamadı. Lütfen e-posta gönderimi için ayarlarınızı yapılandırın.' }),
         {
           status: 500,
           headers: { 'Content-Type': 'application/json' },
@@ -269,14 +269,14 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: `Guohong Lazer <${smtpUser}>`,
       to: safeEmail,
-      subject: 'E-posta dogrulama kodunuz',
-      text: `Dogrulama kodunuz: ${code}. Bu kod ${CODE_TTL_MINUTES} dakika gecerlidir.`,
+      subject: 'E-posta doğrulama kodunuz',
+      text: `Doğrulama kodunuz: ${code}. Bu kod ${CODE_TTL_MINUTES} dakika geçerlidir.`,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h2 style="margin-top: 0; color: #111827;">E-posta dogrulama</h2>
-        <p>Kaydinizi tamamlamak icin dogrulama kodunuz:</p>
+        <h2 style="margin-top: 0; color: #111827;">E-posta doğrulama</h2>
+        <p>Kaydınızı tamamlamak için doğrulama kodunuz:</p>
         <div style="font-size: 28px; font-weight: 700; letter-spacing: 6px; margin: 16px 0; color: #1e40af;">${code}</div>
-        <p style="margin: 0; color: #6b7280;">Bu kod ${CODE_TTL_MINUTES} dakika boyunca gecerlidir.</p>
+        <p style="margin: 0; color: #6b7280;">Bu kod ${CODE_TTL_MINUTES} dakika boyunca geçerlidir.</p>
       </div>
       `,
     });
@@ -285,7 +285,7 @@ export async function POST(request: Request) {
       JSON.stringify({
         success: true,
         step: 'verify',
-        message: 'Dogrulama kodu gonderildi',
+        message: 'Doğrulama kodu gönderildi',
       }),
       {
         status: 200,
@@ -299,8 +299,8 @@ export async function POST(request: Request) {
       JSON.stringify({
         error:
           process.env.NODE_ENV === 'development'
-            ? `Sunucu hatasi: ${message}`
-            : 'Sunucu hatasi: Lutfen daha sonra tekrar deneyin',
+            ? `Sunucu hatası: ${message}`
+            : 'Sunucu hatası: Lütfen daha sonra tekrar deneyin',
       }),
       {
         status: 500,
