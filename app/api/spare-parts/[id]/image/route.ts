@@ -63,11 +63,11 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const file = form.get('file');
 
   if (!(file instanceof File)) {
-    return NextResponse.json({ error: 'file alani gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'file alanı gerekli' }, { status: 400 });
   }
 
   if (!file.type.startsWith('image/')) {
-    return NextResponse.json({ error: 'Sadece resim dosyasi yuklenebilir' }, { status: 400 });
+    return NextResponse.json({ error: 'Sadece resim dosyası yüklenebilir' }, { status: 400 });
   }
 
   const ext = safeFileExt(file);
@@ -81,7 +81,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   });
 
   if (uploadError) {
-    return NextResponse.json({ error: `Upload basarisiz: ${uploadError.message}` }, { status: 500 });
+    return NextResponse.json({ error: `Upload başarısız: ${uploadError.message}` }, { status: 500 });
   }
 
   const publicUrl = supabase.storage.from(BUCKET).getPublicUrl(objectPath).data.publicUrl;

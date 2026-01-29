@@ -27,7 +27,7 @@ const getDisplayName = (user: { name: string | null; firstName: string | null; l
 
 const maskName = (value: string) => {
   const trimmed = value.trim();
-  if (!trimmed || trimmed === 'Musteri') return 'Gizli Musteri';
+  if (!trimmed || trimmed === 'Musteri') return 'Gizli Müşteri';
   const parts = trimmed.split(/\s+/).filter(Boolean);
   const masked = parts
     .map((part) => {
@@ -36,7 +36,7 @@ const maskName = (value: string) => {
       return `${part[0]}${stars}`;
     })
     .join(' ');
-  return masked || 'Gizli Musteri';
+  return masked || 'Gizli Müşteri';
 };
 
 const getReviewName = (review: { isAnonymous: boolean; user: { name: string | null; firstName: string | null; lastName: string | null } }) => {
@@ -130,7 +130,7 @@ export async function GET(
     });
   } catch (error) {
     console.error('reviews:get', error);
-    return NextResponse.json({ error: 'Yorumlar alinamadi.' }, { status: 500 });
+    return NextResponse.json({ error: 'Yorumlar alınamadı.' }, { status: 500 });
   }
 }
 
@@ -141,7 +141,7 @@ export async function POST(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Giris yapmalisin.' }, { status: 401 });
+      return NextResponse.json({ error: 'Giriş yapmanız gerekmektedir.' }, { status: 401 });
     }
 
     const { id: sparePartId } = await params;
@@ -152,15 +152,15 @@ export async function POST(
     const isAnonymous = Boolean(body?.isAnonymous);
 
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
-      return NextResponse.json({ error: 'Puan 1 ile 5 arasinda olmali.' }, { status: 400 });
+      return NextResponse.json({ error: 'Puan 1 ile 5 arasında olmalı.' }, { status: 400 });
     }
 
     const reviewStatus = await canUserReview(session.user.id, sparePartId);
     if (reviewStatus.hasReviewed) {
-      return NextResponse.json({ error: 'Bu urun icin daha once yorum yaptin.' }, { status: 409 });
+      return NextResponse.json({ error: 'Bu ürün için daha önce yorum yaptınız.' }, { status: 409 });
     }
     if (!reviewStatus.canReview) {
-      return NextResponse.json({ error: 'Sadece satin alanlar yorum yapabilir.' }, { status: 403 });
+      return NextResponse.json({ error: 'Sadece satın alanlar yorum yapabilir.' }, { status: 403 });
     }
 
     const created = await prisma.sparePartReview.create({

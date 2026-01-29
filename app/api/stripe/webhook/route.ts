@@ -160,7 +160,7 @@ async function sendOrderEmail(params: {
   } | null) => {
     if (!address) {
       return {
-        html: '<span style="color:#64748b;">Adres bilgisi bulunamadi.</span>',
+        html: '<span style="color:#64748b;">Adres bilgisi bulunamadı.</span>',
       };
     }
     const text = [
@@ -203,13 +203,13 @@ async function sendOrderEmail(params: {
       badge: 'Siparis alindi',
       preheader: `Siparis #${params.orderId.slice(0, 8)} alindi.`,
       bodyHtml: `
-        <div style="margin-top: 2px; color:#475569;">Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.</div>
+        <div style="margin-top: 2px; color:#475569;">Siparişiniz başarıyla alındı. Detayları hesabınızdan takip edebilirsiniz.</div>
         <div style="margin-top: 14px; padding: 14px; background: #f8fafc; border-radius: 12px;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Siparis numaraniz</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Sipariş numaranız</div>
           <div style="margin-top: 6px; font-size: 18px; font-weight: 700; color: #0f172a;">#${params.orderId.slice(0, 8)}</div>
         </div>
         <div style="margin-top: 18px;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Siparis ozeti</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Sipariş özeti</div>
           <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
             <tbody>
               ${itemsHtml}
@@ -225,13 +225,13 @@ async function sendOrderEmail(params: {
           <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
         </div>
         <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / Irsaliye</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / İrsaliye</div>
           <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
         </div>
       `,
-      primaryCta: { label: 'Siparis detaylarini gor', href: orderUrl },
-      secondaryCta: { label: 'Iade / Degisim talebi', href: returnsUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      primaryCta: { label: 'Sipariş detaylarını gör', href: orderUrl },
+      secondaryCta: { label: 'İade / Değişim talebi', href: returnsUrl },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmiştir.',
     }),
   });
 }
@@ -304,12 +304,11 @@ async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | '
 
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const cartUrl = `${appUrl}/cart`;
-  const title = params.status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz';
+  const title = params.status === 'CANCELED' ? 'Ödeme süresi doldu' : 'Ödeme başarısız';
   const subtitle =
     params.status === 'CANCELED'
-      ? 'Odeme tamamlanamadigi icin sepetiniz korunuyor.'
-      : 'Odeme islemi tamamlanamadi, dilediginiz zaman tekrar deneyebilirsiniz.';
-
+      ? 'Ödeme tamamlanamadığı için sepetiniz korunuyor.'
+      : 'Ödeme işlemi tamamlanamadı, lütfen daha sonra tekrar deneyin.';
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
@@ -328,7 +327,7 @@ async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | '
     html: buildEmailHtml({
       title,
       subtitle,
-      badge: params.status === 'CANCELED' ? 'Sure doldu' : 'Odeme basarisiz',
+      badge: params.status === 'CANCELED' ? 'Süre doldu' : 'Ödeme başarısız',
       preheader: title,
       bodyHtml: `
         <div style="color:#475569;">${subtitle}</div>
@@ -336,8 +335,8 @@ async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | '
           Oturum: ${params.sessionId.slice(0, 8)}
         </div>
       `,
-      primaryCta: { label: 'Sepete don', href: cartUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmistir.',
+      primaryCta: { label: 'Sepete dön', href: cartUrl },
+      footerNote: 'Bu e-posta otomatik olarak gonderilmiştir.',
     }),
   });
 }
@@ -355,7 +354,7 @@ async function notifyStatus(userId: string, status: string, orderId: string | nu
       },
     });
   } catch (error) {
-    console.error('Siparis bildirimi kaydedilemedi:', error);
+    console.error('Sipariş bildirimi kaydedilemedi:', error);
   }
 }
 
@@ -379,7 +378,7 @@ export async function POST(req: Request) {
     const stripe = getStripe();
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Webhook dogrulama basarisiz';
+    const message = err instanceof Error ? err.message : 'Webhook doğrulama başarısız';
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
@@ -532,8 +531,8 @@ export async function POST(req: Request) {
           userId,
           nextStatus,
           created.id,
-          'Siparisiniz alindi',
-          'Siparisiniz basariyla alindi. Detaylari hesabinizdan takip edebilirsiniz.',
+          'Siparişiniz alındı',
+          'Siparişiniz başarıyla alındı. Detayları hesabınızdan takip edebilirsiniz.',
         );
 
         try {
@@ -593,7 +592,7 @@ export async function POST(req: Request) {
             });
           }
         } catch (error) {
-          console.error('Siparis e-postasi gonderilemedi:', error);
+          console.error('Sipariş e-postası gönderilemedi:', error);
         }
       }
     } else if (existing.status !== nextStatus && nextStatus === 'RECEIVED') {
@@ -610,13 +609,13 @@ export async function POST(req: Request) {
         existing.userId,
         nextStatus,
         existing.id,
-        'Siparisiniz alindi',
-        'Odeme tamamlandi. Siparisiniz isleme alindi.',
+        'Siparişiniz alındı',
+        'Ödeme tamamlandı. Siparişiniz işleme alındı.',
       );
       try {
         await sendOrderEmailForOrder(existing.id);
       } catch (error) {
-        console.error('Siparis e-postasi gonderilemedi:', error);
+        console.error('Sipariş e-postası gönderilemedi:', error);
       }
     } else if (!existing.stripeSessionId && session.id) {
       await prismaOrderLookup.order.update({
@@ -679,10 +678,10 @@ export async function POST(req: Request) {
         existing.userId,
         status,
         existing.id,
-        status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz',
+        status === 'CANCELED' ? 'Ödeme süresi doldu' : 'Ödeme başarısız',
         status === 'CANCELED'
-          ? 'Odeme suresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
-          : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+          ? 'Ödeme süresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
+          : 'Ödeme başarısız oldu. ütfen tekrar deneyin.',
       );
 
       try {
@@ -695,17 +694,17 @@ export async function POST(req: Request) {
           await sendPaymentFailedEmail({ to: recipient, status, sessionId: session.id });
         }
       } catch (error) {
-        console.error('Odeme basarisiz e-postasi gonderilemedi:', error);
+        console.error('Ödeme başarısız e-postası gönderilemedi:', error);
       }
     } else if (userId && !existing) {
       await notifyStatus(
         userId,
         status,
         null,
-        status === 'CANCELED' ? 'Odeme suresi doldu' : 'Odeme basarisiz',
+        status === 'CANCELED' ? 'Ödeme süresi doldu' : 'Ödeme başarısız',
         status === 'CANCELED'
-          ? 'Odeme suresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
-          : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+          ? 'Ödeme süresi doldu. Sepetinizi tekrar onaylayabilirsiniz.'
+          : 'Ödeme başarısız oldu. Lutfen tekrar deneyin.',
       );
     }
   }
@@ -745,17 +744,17 @@ export async function POST(req: Request) {
         existing.userId,
         intentStatus,
         existing.id,
-        intentStatus === 'RECEIVED' ? 'Odeme alindi' : 'Odeme basarisiz',
+        intentStatus === 'RECEIVED' ? 'Ödeme alındı' : 'Ödeme başarısız',
         intentStatus === 'RECEIVED'
-          ? 'Odemeniz alindi, siparisiniz isleme alindi.'
-          : 'Odeme basarisiz oldu. Lutfen tekrar deneyin.',
+          ? 'Ödemeniz alındı, siparişiniz işleme alındı.'
+          : 'Ödeme başarısız oldu. Lutfen tekrar deneyin.',
       );
 
       if (intentStatus === 'RECEIVED') {
         try {
           await sendOrderEmailForOrder(existing.id);
         } catch (error) {
-          console.error('Siparis e-postasi gonderilemedi:', error);
+          console.error('Sipariş e-postası gönderilemedi:', error);
         }
       }
 
@@ -767,7 +766,7 @@ export async function POST(req: Request) {
             sessionId: intent.id,
           });
         } catch (error) {
-          console.error('Odeme basarisiz e-postasi gonderilemedi:', error);
+          console.error('Ödeme başarısız e-postası gönderilemedi:', error);
         }
       }
     }

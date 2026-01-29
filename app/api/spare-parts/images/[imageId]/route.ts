@@ -66,7 +66,7 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ imageId: str
   });
 
   if (!image) {
-    return NextResponse.json({ error: 'Gorsel bulunamadi' }, { status: 404 });
+    return NextResponse.json({ error: 'Görsel bulunamadı' }, { status: 404 });
   }
 
   const objectPath = extractObjectPath(image.url);
