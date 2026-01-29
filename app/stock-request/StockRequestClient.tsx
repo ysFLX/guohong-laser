@@ -58,7 +58,7 @@ export default function StockRequestClient() {
     setInfo('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
@@ -92,11 +92,11 @@ export default function StockRequestClient() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
+        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (data.success) {
         setSubmitStatus({
           success: true,
-          message: 'Talebiniz alindi. Stok guncelligi icin sizinle iletisime gececegiz.',
+          message: 'Talebiniz alındı. Stok güncelligi için sizinle iletişime geçeceğiz.',
         });
         setFormData({
           name: '',
@@ -111,10 +111,10 @@ export default function StockRequestClient() {
         setOtp('');
         setStep('details');
       } else {
-        throw new Error(data.error || data.message || 'Talep gonderilemedi');
+        throw new Error(data.error || data.message || 'Talep gönderilemedi');
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen tekrar deneyin.';
+      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
       setSubmitStatus({
         success: false,
         message,
@@ -136,11 +136,11 @@ export default function StockRequestClient() {
             </p>
             <h1 className="text-3xl font-semibold sm:text-4xl">Stok gelince haber ver</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Stokta olmayan urunler icin talep birak. Stok acildiginda size oncelikli bilgi gonderelim.
+              Stokta olmayan ürünler için talep bırak. Stok açıldığında size öncelikli bilgi gönderelim.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-white/70">
-              <span className="rounded-full border border-white/20 px-3 py-1">Oncelikli bilgilendirme</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Hizli tedarik</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Öncelikli bilgilendirme</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Hızlı tedarik</span>
               <span className="rounded-full border border-white/20 px-3 py-1">Kurumsal destek</span>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default function StockRequestClient() {
                   <input name="phone" value={formData.phone} onChange={handleChange} className="form-input" />
                 </div>
                 <div className="space-y-2">
-                  <div className="form-label">Urun adi *</div>
+                  <div className="form-label">Ürün adı *</div>
                   <input
                     name="product"
                     required
@@ -187,7 +187,7 @@ export default function StockRequestClient() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <div className="form-label">Urun ID</div>
+                  <div className="form-label">Ürün ID</div>
                   <input
                     name="productId"
                     value={formData.productId}
@@ -210,7 +210,7 @@ export default function StockRequestClient() {
                   <select name="urgency" value={formData.urgency} onChange={handleChange} className="form-input">
                     <option value="Normal">Normal</option>
                     <option value="Acil (48 saat)">Acil (48 saat)</option>
-                    <option value="Planli">Planli</option>
+                    <option value="Planli">Planlı</option>
                   </select>
                 </div>
                 <div className="space-y-2 sm:col-span-2">
@@ -229,7 +229,7 @@ export default function StockRequestClient() {
               {step === 'verify' && (
                 <div className="space-y-2">
                   <div className="text-sm text-slate-600">
-                    Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+                    Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
                   </div>
                   <input
                     name="otp"
@@ -247,31 +247,31 @@ export default function StockRequestClient() {
               {info && <div className="form-alert form-alert--info text-center">{info}</div>}
 
               <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
-                {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Talebi gonder'}
+                {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Talebi gönder'}
               </button>
             </form>
           </section>
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Neden talep birakmali?</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Neden talep bırakmalıyım?</div>
               <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Stok girisi oldugunda once size haber verilir.</li>
-                <li>Tedarik surecinde onceliklendirme saglanir.</li>
-                <li>Alternatif parca onerileri paylasilir.</li>
+                <li>Stok girişi olduğunda önce size haber verilir.</li>
+                <li>Tedarik sürecinde önceliklendirme sağlanır.</li>
+                <li>Alternatif parça önerileri paylaşılır.</li>
               </ul>
             </div>
             <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Baglantilar</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm text-slate-700">
                 <Link href="/spare-parts" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Yedek parcalara don
+                  Yedek parçalara dön
                 </Link>
                 <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Iade ve garanti
+                  İade ve garanti
                 </Link>
                 <Link href="/contact?subject=Stok+Talebi" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Destek iletisimi
+                  Destek iletişimi
                 </Link>
               </div>
             </div>
