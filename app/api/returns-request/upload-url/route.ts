@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
     if (!supabaseUrl || !serviceRoleKey) {
-      return NextResponse.json({ error: 'Supabase ayarlari eksik' }, { status: 500 });
+      return NextResponse.json({ error: 'Supabase ayarları eksik' }, { status: 500 });
     }
 
     const supabase = createClient(supabaseUrl, serviceRoleKey, { auth: { persistSession: false } });
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     });
 
     if (error || !data?.signedUrl) {
-      return NextResponse.json({ error: error?.message || 'Signed upload olusturulamadi' }, { status: 500 });
+      return NextResponse.json({ error: error?.message || 'Signed upload oluşturulamadı' }, { status: 500 });
     }
 
     const publicUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/public/${BUCKET}/${key}`;
@@ -51,6 +51,6 @@ export async function POST(req: Request) {
       publicUrl,
     });
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message || 'Upload url hatasi' }, { status: 500 });
+    return NextResponse.json({ error: (error as Error).message || 'Upload url hatası' }, { status: 500 });
   }
 }
