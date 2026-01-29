@@ -42,7 +42,7 @@ export default function QuotePage() {
     setInfo('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('Lutfen dogru bir e-posta adresi giriniz.');
+      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
@@ -57,7 +57,7 @@ export default function QuotePage() {
           ...formData,
           otp: step === 'verify' ? otp : undefined,
           subject: `Fiyat Teklifi Talebi - ${formData.product}`,
-          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nUrun: ${formData.product}\nMesaj: ${formData.message}`,
+          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nÜrün: ${formData.product}\nMesaj: ${formData.message}`,
         }),
       });
 
@@ -65,11 +65,11 @@ export default function QuotePage() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Dogrulama kodu e-posta adresinize gonderildi.');
+        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (response.ok) {
         setSubmitStatus({
           success: true,
-          message: 'Talebiniz alindi. En kisa surede sizinle iletisime gecilecektir.',
+          message: 'Talebiniz alındı. En kısa sürede sizinle iletişime geçilecektir.',
         });
         setFormData({
           name: '',
@@ -82,10 +82,10 @@ export default function QuotePage() {
         setOtp('');
         setStep('details');
       } else {
-        throw new Error(data.error || 'Form gonderilemedi');
+        throw new Error(data.error || 'Form gönderilemedi');
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata olustu. Lutfen daha sonra tekrar deneyiniz.';
+      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.';
       setSubmitStatus({ success: false, message });
     } finally {
       setIsSubmitting(false);
@@ -101,9 +101,9 @@ export default function QuotePage() {
           <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
             Fiyat Teklifi
           </p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Hizli teklif formu</h1>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Hızlı teklif formu</h1>
           <p className="max-w-2xl text-base text-white/70">
-            Ilgilendiginiz urunu secin, detaylari gonderin. Ekibimiz en uygun teklifi hazirlasin.
+            İlgi duyduğunuz ürünü seçin, detayları gönderin. Ekibimiz en uygun teklifi hazırlayacaktır.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
@@ -148,7 +148,7 @@ export default function QuotePage() {
 
             <div>
               <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-                Firma Adi
+                Firma Adı
               </label>
               <div className="mt-1">
                 <input
@@ -199,7 +199,7 @@ export default function QuotePage() {
 
             <div className="sm:col-span-2">
               <label htmlFor="product" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-                Ilgilendiginiz urun <span className="text-red-500">*</span>
+                İlgi duyduğunuz ürün <span className="text-red-500">*</span>
               </label>
               <div className="mt-1">
                 <select
@@ -210,7 +210,7 @@ export default function QuotePage() {
                   onChange={handleChange}
                   className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 >
-                  <option value="">Urun seciniz</option>
+                  <option value="">Ürün seçiniz</option>
                   {machineProductNames.map((product) => (
                     <option key={product} value={product}>
                       {product}
@@ -232,7 +232,7 @@ export default function QuotePage() {
                   value={formData.message}
                   onChange={handleChange}
                   className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                  placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
+                  placeholder="Eklemek istediğiniz notlar veya özel istekleriniz..."
                 ></textarea>
               </div>
             </div>
@@ -241,11 +241,11 @@ export default function QuotePage() {
           {step === 'verify' && (
             <div className="space-y-3">
               <div className="text-sm text-slate-600 dark:text-slate-300">
-                Dogrulama kodunu e-posta adresine gonderdik. Kodu girip gonderimi tamamla.
+                Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
               </div>
               <div>
                 <label htmlFor="otp" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-                  Dogrulama Kodu
+                  Doğrulama Kodu
                 </label>
                 <div className="mt-1">
                   <input
@@ -280,7 +280,7 @@ export default function QuotePage() {
               disabled={isSubmitting}
               className="btn-primary px-6 py-2"
             >
-              {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Gonder'}
+              {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Gönder'}
             </button>
           </div>
         </form>

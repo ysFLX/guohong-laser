@@ -196,17 +196,17 @@ export async function POST(request: Request) {
       from: `"${name}" <${smtpUser}>`,
       to: smtpUser,
       replyTo: safeEmail,
-      subject: `Iade talebi (#${created.id.slice(0, 8)})`,
+      subject: `İade talebi (#${created.id.slice(0, 8)})`,
       text: [
-        `Iade talebi: ${created.id}`,
+        `İade talebi: ${created.id}`,
         `Ad: ${name}`,
         `E-posta: ${safeEmail}`,
         phone ? `Telefon: ${phone}` : '',
-        `Siparis: ${orderId}`,
-        itemName ? `Urun: ${itemName}` : '',
+        `Sipariş: ${orderId}`,
+        itemName ? `Ürün: ${itemName}` : '',
         `Talep: ${resolution}`,
         `Neden: ${reason}`,
-        evidenceUrls.length ? `Kanit: ${evidenceUrls.join(', ')}` : '',
+        evidenceUrls.length ? `Kanıt: ${evidenceUrls.join(', ')}` : '',
       ]
         .filter(Boolean)
         .join('\n'),
@@ -256,7 +256,7 @@ export async function POST(request: Request) {
           </div>
         `,
         primaryCta: { label: 'İade durumu', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile` },
-        footerNote: 'Bu e-posta otomatik olarak gonderilmiştir.',
+        footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
       }),
     });
 
