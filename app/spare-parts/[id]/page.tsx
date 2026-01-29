@@ -331,7 +331,7 @@ export default async function SparePartDetailPage({
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
               </span>
               {isCritical && (
                 <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
@@ -417,7 +417,7 @@ export default async function SparePartDetailPage({
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</p>
-                <p className="mt-1 font-semibold text-slate-900">{inStock ? '2-3 gun' : '7-10 gun'}</p>
+                <p className="mt-1 font-semibold text-slate-900">{inStock ? '2-3 gün' : '7-10 gün'}</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum</p>
@@ -457,7 +457,7 @@ export default async function SparePartDetailPage({
                 {inStock ? 'Stokta' : 'Siparisle'}
               </span>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
               </span>
               {isCritical && (
                 <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">

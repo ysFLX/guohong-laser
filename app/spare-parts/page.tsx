@@ -506,7 +506,7 @@ export default function SparePartsPage() {
 
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             {[
-              { title: 'Hizli teslim', detail: 'Stokta 2-3 gun, ozel sipariste 7-10 gun.' },
+              { title: 'Hizli teslim', detail: 'Stokta 2-3 gün, özel siparişte 7-10 gün.' },
               { title: 'Uyum kontrolu', detail: 'Model secerek sadece uyumlu parcalari gorun.' },
               { title: 'Kurumsal destek', detail: 'Teknik ekipten dogrudan teyit ve destek.' },
             ].map((item) => (
@@ -705,7 +705,7 @@ export default function SparePartsPage() {
                               {inStock ? 'Stokta' : 'Siparisle'}
                             </span>
                             <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                              {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+                              {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
                             </span>
                               {isCritical && (
                                 <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
@@ -967,7 +967,7 @@ export default function SparePartsPage() {
                           <div className="flex items-center justify-between">
                             <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</span>
                             <span className="font-semibold text-slate-900">
-                              {item.stockOnHand > 0 ? '2-3 gun' : '7-10 gun'}
+                              {item.stockOnHand > 0 ? '2-3 gün' : '7-10 gün'}
                             </span>
                           </div>
                         </div>

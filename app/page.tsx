@@ -35,7 +35,7 @@ const heroVideos = [
 
 const liveStatus = [
   { label: 'Stok durumu', value: 'Stokta', tone: 'text-indigo-300' },
-  { label: 'Teslimat', value: '2-3 gun', tone: 'text-amber-200' },
+  { label: 'Teslimat', value: '2-3 gün', tone: 'text-amber-200' },
   { label: 'Son güncelleme', value: '5 dk önce', tone: 'text-slate-200' },
 ];
 

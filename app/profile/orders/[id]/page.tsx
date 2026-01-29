@@ -410,7 +410,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                             Stokta
                           </span>
                           <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
-                            2-3 gun teslim
+                            2-3 gün teslim
                           </span>
                           <span className="rounded-full bg-slate-900/10 px-2 py-1 text-slate-600 dark:bg-white/10 dark:text-slate-200">
                             {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
