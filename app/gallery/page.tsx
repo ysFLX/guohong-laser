@@ -16,15 +16,15 @@ export default function GalleryPage() {
   const galleryImages = [
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/1.jpg',
-      alt: 'Lazer kesim atelye',
+      alt: 'Lazer kesim atölye',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/2.jpg',
-      alt: 'Uretim hatti detay',
+      alt: 'Üretim hattı detay',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/3.jpg',
-      alt: 'Metal isleme',
+      alt: 'Metal işleme',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/4.jpg',
@@ -32,75 +32,75 @@ export default function GalleryPage() {
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/5.jpg',
-      alt: 'Atolye gorunumu',
+      alt: 'Atölye görünümü',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/6.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/7.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/8.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/9.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/10.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/11.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/12.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/13.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/14.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/15.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/16.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/17.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/18.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/19.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/20.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/21.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/22.jpg',
-      alt: 'Calisma alani',
+      alt: 'Çalışma alanı',
     },
   ].map((item, index) => ({ ...item, tag: tagPool[index % tagPool.length] })) as GalleryImage[];
 
@@ -108,7 +108,7 @@ export default function GalleryPage() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const filteredImages = useMemo(
-    () => (activeTag === 'Tumu' ? galleryImages : galleryImages.filter((item) => item.tag === activeTag)),
+    () => (activeTag === 'Tümü' ? galleryImages : galleryImages.filter((item) => item.tag === activeTag)),
     [activeTag, galleryImages],
   );
 
@@ -157,9 +157,9 @@ export default function GalleryPage() {
           <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
             Galeri
           </p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Saha kurulumlari ve uretim</h1>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Saha kurulumları ve üretim</h1>
           <p className="max-w-2xl text-base text-white/70">
-            Lazer kesim hatlarindan gercek kurulum fotograflari ve calisma sahalarindan kareler.
+            Lazer kesim hatlarından gerçek kurulum fotoğrafları ve çalışma sahalarından kareler.
           </p>
         </div>
       </Reveal>
@@ -168,13 +168,13 @@ export default function GalleryPage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Filtreler</p>
-            <h2 className="mt-2 text-xl font-semibold text-slate-900">Gercek galeri akisi</h2>
+            <h2 className="mt-2 text-xl font-semibold text-slate-900">Gerçek galeri akışı</h2>
             <p className="mt-1 text-sm text-slate-600">
-              {filteredImages.length} gorsel gosteriliyor / {galleryImages.length} toplam.
+              {filteredImages.length} görsel gösteriliyor / {galleryImages.length} toplam.
             </p>
           </div>
           <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs uppercase tracking-[0.3em] text-slate-500">
-            {activeTag === 'Tumu' ? 'Tum kategoriler' : activeTag}
+            {activeTag === 'Tümü' ? 'Tüm kategoriler' : activeTag}
           </div>
         </div>
 
@@ -222,7 +222,7 @@ export default function GalleryPage() {
                   </div>
                   <div className="absolute bottom-4 left-4 right-4 opacity-0 transition group-hover:opacity-100">
                     <div className="text-sm font-semibold text-white">{item.alt}</div>
-                    <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/70">Detay gor</div>
+                    <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/70">Detay gör</div>
                   </div>
                 </div>
               </button>
@@ -242,7 +242,7 @@ export default function GalleryPage() {
           >
             <div className="flex flex-wrap items-center justify-between gap-4 text-white">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-indigo-200">Galeri detayi</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-indigo-200">Galeri detayı</p>
                 <h3 className="mt-1 text-2xl font-semibold">{activeImage.alt}</h3>
                 <p className="mt-1 text-sm text-white/70">{activeImage.tag}</p>
               </div>
@@ -270,7 +270,7 @@ export default function GalleryPage() {
                   onClick={goPrev}
                   className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
                 >
-                  Onceki
+                  Önceki
                 </button>
                 <button
                   type="button"

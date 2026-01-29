@@ -26,12 +26,12 @@ export default function ForgotPasswordPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Parola sifirlama istegi gonderilemedi');
+        throw new Error(data.error || 'Parola sıfırlama isteği gönderilemedi');
       }
 
-      setSuccess('Eger bu e-posta kayitliysa parola sifirlama baglantisi gonderildi.');
+      setSuccess('Eğer bu e-posta kayıtlıysa parola sıfırlama bağlantısı gönderildi.');
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Parola sifirlama istegi gonderilemedi';
+      const message = e instanceof Error ? e.message : 'Parola sıfırlama isteği gönderilemedi';
       setError(message);
     } finally {
       setIsLoading(false);
@@ -48,8 +48,8 @@ export default function ForgotPasswordPage() {
               <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
-              <h2 className="mt-4 text-3xl font-semibold">Parola sifirla</h2>
-              <p className="mt-2 text-sm text-white/70">E-posta adresini gir, sifirlama linki gonderelim.</p>
+              <h2 className="mt-4 text-3xl font-semibold">Parola sıfırla</h2>
+              <p className="mt-2 text-sm text-white/70">E-posta adresini gir, sıfırlama linki gönderelim.</p>
             </div>
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -80,14 +80,14 @@ export default function ForgotPasswordPage() {
                   disabled={isLoading}
                   className="btn-primary w-full"
                 >
-                  {isLoading ? 'Gonderiliyor...' : 'Sifirlama linki gonder'}
+                  {isLoading ? 'Gönderiliyor...' : 'Sıfırlama bağlantısı gönder'}
                 </button>
               </div>
             </form>
 
             <div className="mt-6 text-center">
               <Link href="/login" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
-                Giris ekranina don
+                Giriş ekranına dön
               </Link>
             </div>
           </div>

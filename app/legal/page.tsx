@@ -2,43 +2,43 @@ import Link from 'next/link';
 
 const legalLinks = [
   {
-    title: 'KVKK Aydinlatma Metni',
-    description: 'Kisisel veri isleme amaclari, haklar ve basvuru sureci.',
+    title: 'KVKK Aydınlatma Metni',
+    description: 'Kişisel veri işleme amaçları, haklar ve başvuru süreci.',
     href: '/kvkk',
   },
   {
-    title: 'Gizlilik Politikasi',
-    description: 'Toplanan veriler, saklama sureleri ve paylasim esaslari.',
+    title: 'Gizlilik Politikası',
+    description: 'Toplanan veriler, saklama süreleri ve paylaşım esasları.',
     href: '/privacy',
   },
   {
-    title: 'Cerez Politikasi',
-    description: 'Cerez turleri, tercih yonetimi ve tarayici ayarlari.',
+    title: 'Çerez Politikası',
+    description: 'Çerez türleri, tercih yönetimi ve tarayıcı ayarları.',
     href: '/cookies',
   },
   {
-    title: 'Mesafeli Satis Sozlesmesi',
-    description: 'Siparis, odeme, teslimat ve cayma hakki kosullari.',
+    title: 'Mesafeli Satış Sözleşmesi',
+    description: 'Sipariş, ödeme, teslimat ve cayma hakkı koşulları.',
     href: '/distance-sales',
   },
   {
-    title: 'Iade ve Garanti',
-    description: 'Iade kosullari, garanti kapsami ve servis sureci.',
+    title: 'İade ve Garanti',
+    description: 'İade koşulları, garanti kapsamı ve servis süreci.',
     href: '/returns',
   },
   {
     title: 'Kargo ve Teslimat',
-    description: 'Teslimat sureleri, kargo sureci ve takip bilgileri.',
+    description: 'Teslimat süreleri, kargo süreci ve takip bilgileri.',
     href: '/shipping',
   },
   {
-    title: 'Odeme Guvenligi',
-    description: 'Guvenli odeme altyapisi, SSL ve koruma adimlari.',
+    title: 'Ödeme Güvenliği',
+    description: 'Güvenli ödeme altyapisi, SSL ve koruma adimlari.',
     href: '/payment-security',
   },
   {
     title: 'Firma Bilgileri',
-    description: 'Resmi unvan, iletisim ve kurumsal bilgiler.',
+    description: 'Resmi ünvan, iletişim ve kurumsal bilgiler.',
     href: '/company',
   },
 ];
@@ -53,14 +53,14 @@ export default function LegalPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs uppercase tracking-[0.4em] text-indigo-700">
               Yasal Belgeler
             </p>
-            <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Guven ve uyumluluk merkezi</h1>
+            <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Güven ve uyumluluk merkezi</h1>
             <p className="max-w-2xl text-base text-slate-600">
-              Yasal metinler, siparis kosullari ve veri guvenligi ile ilgili tum dokumanlara buradan ulasabilirsiniz.
+              Yasal metinler, sipariş koşulları ve veri güvenliği ile ilgili tüm dokumanlara buradan ulaşabilirsiniz.
             </p>
             <div className="flex flex-wrap gap-3 text-xs text-slate-500">
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Guncel metinler</span>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Guvenli satis</span>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Kurumsal standart</span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Güncel Metinler</span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Güvenli Satış</span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Kurumsal Standart</span>
             </div>
           </div>
         </section>
@@ -73,12 +73,12 @@ export default function LegalPage() {
               className="group flex h-full flex-col justify-between rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Yasal metin</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Yasal Metin</div>
                 <h2 className="mt-3 text-lg font-semibold text-slate-900">{item.title}</h2>
                 <p className="mt-2 text-sm text-slate-600">{item.description}</p>
               </div>
               <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-600">
-                Goruntule
+                Görüntüle
                 <span className="text-indigo-400 transition group-hover:translate-x-1">→</span>
               </div>
             </Link>
