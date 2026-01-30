@@ -57,7 +57,7 @@ export default function CompleteProfileClient() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Profil guncellenemedi');
+        throw new Error(data.error || 'Profil güncellenemedi');
       }
 
       await update();
@@ -66,7 +66,7 @@ export default function CompleteProfileClient() {
       router.replace(next);
       router.refresh();
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Profil guncellenemedi';
+      const message = e instanceof Error ? e.message : 'Profil güncellenemedi';
       setError(message);
     } finally {
       setIsSaving(false);
@@ -76,7 +76,7 @@ export default function CompleteProfileClient() {
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white/70">
-        Yukleniyor...
+        Yükleniyor...
       </div>
     );
   }
@@ -93,7 +93,7 @@ export default function CompleteProfileClient() {
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Profili tamamla</h2>
               <p className="mt-2 text-sm text-white/70">
-                Sepete urun eklemek icin ad, soyad ve telefon bilgilerini eklemelisin.
+                Sepete ürün eklemek için ad, soyad ve telefon bilgilerini eklemelisin.
               </p>
             </div>
 
