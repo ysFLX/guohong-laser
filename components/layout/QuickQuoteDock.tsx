@@ -61,17 +61,17 @@ export default function QuickQuoteDock() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('Dogrulama kodu e-postana gonderildi.');
+        setInfo('Doğrulama kodu e-postana gönderildi.');
       } else if (data.success) {
-        setInfo('Talebin alindi. En kisa surede geri donecegiz.');
+        setInfo('Talebiniz alındı. En kısa sürede geri döneceğiz.');
         setForm(emptyForm);
         setOtp('');
         setStep('details');
       } else {
-        throw new Error(data.error || 'Talep gonderilemedi.');
+        throw new Error(data.error || 'Talep gönderilemedi.');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Talep gonderilemedi.');
+      setError(err instanceof Error ? err.message : 'Talep gönderilemedi.');
     } finally {
       setIsSubmitting(false);
     }
@@ -83,7 +83,7 @@ export default function QuickQuoteDock() {
         <div className="mb-3 w-[320px] rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hizli teklif</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı teklif</div>
               <div className="mt-1 text-sm font-semibold text-slate-900">2 dakikada fiyat al</div>
             </div>
             <button
@@ -128,7 +128,7 @@ export default function QuickQuoteDock() {
               onChange={(e) => setForm((prev) => ({ ...prev, product: e.target.value }))}
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             >
-              <option value="">Makine seciniz</option>
+              <option value="">Makine seçiniz</option>
               {machineProductNames.map((product) => (
                 <option key={product} value={product}>
                   {product}
@@ -140,7 +140,7 @@ export default function QuickQuoteDock() {
               value={form.message}
               onChange={onChange}
               rows={3}
-              placeholder="Talep detayiniz"
+              placeholder="Talep detayınız"
               className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               required
             />
@@ -150,7 +150,7 @@ export default function QuickQuoteDock() {
                 name="otp"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                placeholder="Dogrulama kodu"
+                placeholder="Doğrulama kodu"
                 className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-center tracking-[0.3em] focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 maxLength={6}
                 required
@@ -162,7 +162,7 @@ export default function QuickQuoteDock() {
               disabled={isSubmitting}
               className="w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
             >
-              {isSubmitting ? 'Gonderiliyor...' : step === 'verify' ? 'Dogrula ve gonder' : 'Teklif iste'}
+              {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Teklif iste'}
             </button>
           </form>
         </div>
@@ -174,7 +174,7 @@ export default function QuickQuoteDock() {
         className="flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500"
       >
         <span className="inline-flex h-2 w-2 rounded-full bg-white" />
-        Hizli Teklif
+        Hızlı Teklif
       </button>
     </div>
   );

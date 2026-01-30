@@ -75,11 +75,11 @@ export default function CookieBanner() {
     <div className="fixed bottom-4 left-1/2 z-[60] w-[min(92vw,960px)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-2xl backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="text-sm text-slate-600 dark:text-slate-200">
-          Cerezleri deneyimi iyilestirmek ve analiz icin kullaniyoruz. Detaylar icin{' '}
+          Çerezleri deneyimi iyileştirmek ve analiz için kullanıyoruz. Detaylar için{' '}
           <Link href="/cookies" className="font-semibold text-indigo-600 hover:text-indigo-700">
-            cerez politikasi
+            çerez politikası
           </Link>{' '}
-          sayfasini inceleyebilirsin.
+          sayfasını inceleyebilirsin.
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -112,7 +112,7 @@ export default function CookieBanner() {
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Cerez tercihleri</p>
                 <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
-                  Hangi cerezleri kullanabiliriz?
+                  Hangi çerezleri kullanabiliriz?
                 </h3>
               </div>
               <button
@@ -129,19 +129,19 @@ export default function CookieBanner() {
                   <div>
                     <p className="text-sm font-semibold text-slate-900 dark:text-white">Zorunlu cerezler</p>
                     <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                      Guvenlik ve oturum icin gerekli.
+                      Güvenlik ve oturum için gerekli.
                     </p>
                   </div>
                   <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
-                    Her zaman acik
+                    Her zaman açık
                   </span>
                 </div>
               </div>
               <label className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 dark:border-slate-800">
                 <div>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-white">Analitik cerezler</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">Analitik çerezler</p>
                   <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Trafik ve performansi olcer.
+                    Trafik ve performansı ölçer.
                   </p>
                 </div>
                 <input

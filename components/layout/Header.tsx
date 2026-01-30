@@ -97,7 +97,7 @@ export default function Header() {
               type="button"
               onClick={toggleTheme}
               className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-              aria-label="Tema degistir"
+              aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -126,7 +126,7 @@ export default function Header() {
                   type="button"
                   onClick={openNotifications}
                   className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-400 hover:text-slate-600 hover:bg-white dark:hover:bg-slate-800"
-                  aria-label="Bildirimleri ac"
+                  aria-label="Bildirimleri aç"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
@@ -151,7 +151,7 @@ export default function Header() {
                   type="button"
                   onClick={toggleCart}
                   className="relative inline-flex items-center justify-center rounded-full p-2 text-slate-400 hover:text-slate-600 hover:bg-white dark:hover:bg-slate-800"
-                  aria-label="Sepeti ac"
+                  aria-label="Sepeti aç"
                 >
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -174,7 +174,7 @@ export default function Header() {
               className="lg:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-500 hover:text-slate-700 hover:bg-white"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-expanded={mobileMenuOpen}
-              aria-label="Menuyu ac/kapat"
+              aria-label="Menüyü aç/kapat"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileMenuOpen ? (
@@ -251,7 +251,7 @@ export default function Header() {
                 }}
                 className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
               >
-                Tema: {theme === 'dark' ? 'Koyu' : 'Acik'}
+                Tema: {theme === 'dark' ? 'Koyu' : 'Açık'}
               </button>
 
               <Link
