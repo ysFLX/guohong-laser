@@ -199,7 +199,7 @@ export default function VideoSlider({
                 onClick={handleUserPlay}
                 className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur hover:bg-white/20"
               >
-                Sesi ac ve oynat
+                Sesi aç ve oynat
               </button>
             )}
           </div>
@@ -209,7 +209,7 @@ export default function VideoSlider({
           type="button"
           onClick={() => goTo(index - 1)}
           className="absolute left-4 top-1/2 z-20 -translate-y-1/2 h-11 w-11 rounded-full border border-white/30 text-white backdrop-blur hover:bg-white/10"
-          aria-label="Onceki video"
+          aria-label="Önceki video"
         >
           ‹
         </button>

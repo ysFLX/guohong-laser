@@ -77,12 +77,12 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.url) {
-        throw new Error(data?.error || 'Odeme baslatilamadi');
+        throw new Error(data?.error || 'Ödeme başlatılamadı');
       }
 
       window.location.href = data.url as string;
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Odeme baslatilamadi');
+      setError(err instanceof Error ? err.message : 'Ödeme başlatılamadı');
     } finally {
       setIsLoading(false);
     }
@@ -110,17 +110,17 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
             </svg>
           )}
         </span>
-        {isLoading ? 'Hizli odeme hazirlaniyor...' : 'Hizli Al'}
+        {isLoading ? 'Hızlı ödeme hazırlanıyor...' : 'Hızlı Al'}
       </button>
       {error && <div className="mt-2 text-xs text-red-600">{error}</div>}
       {showPrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900">
             <div className="text-sm font-semibold text-gray-900 dark:text-white">
-              Hizli Al icin adres gerekli
+              Hızlı Al için adres gerekli
             </div>
             <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              Kayitli adresin yoksa hizli odeme baslatilamaz. Simdi adres ekleyelim mi?
+              Kayıtlı adresin yoksa hızlı ödeme başlatılamaz. Şimdi adres ekleyelim mi?
             </div>
             <div className="mt-5 flex items-center justify-end gap-2">
               <button
@@ -128,7 +128,7 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
                 onClick={() => setShowPrompt(false)}
                 className="rounded-xl border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300"
               >
-                Vazgec
+                Vazgeç
               </button>
               <button
                 type="button"

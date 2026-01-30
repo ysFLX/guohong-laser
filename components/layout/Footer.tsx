@@ -39,23 +39,23 @@ export default function Footer() {
               <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-14 w-auto hidden dark:block" />
               <div>
                 <div className="text-xl font-semibold tracking-tight">Guohong Lazer</div>
-                <div className="text-sm text-slate-600 dark:text-slate-300">Lazer makineleri, yedek parca ve teknik destek.</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">Lazer makineleri, yedek parça ve teknik destek.</div>
               </div>
             </div>
 
             <p className="max-w-xl text-sm text-slate-600 dark:text-slate-300">
-              Uretim hattinizi hizlandiran lazer teknolojileri, guvenilir servis ve hizli tedarik ile tek noktadan cozum.
-              Projelere ozel teknik destek ve hizli teklif sureci sunuyoruz.
+              Üretim hattınızı hızlandıran lazer teknolojileri, güvenilir servis ve hızlı tedarik ile tek noktadan çözüm.
+              Projelere özel teknik destek ve hızlı teklif süreci sunuyoruz.
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hizli hatlar</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hızlı hatlar</div>
                 <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">24 saat teklif + stoklu tedarik</div>
               </div>
               <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Destek</div>
-                <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">Kurulum, servis ve uzaktan teshis</div>
+                <div className="mt-2 text-sm text-slate-700 dark:text-slate-300">Kurulum, servis ve uzaktan teşhis</div>
               </div>
             </div>
 
@@ -64,29 +64,29 @@ export default function Footer() {
                 Teklif Al
               </Link>
               <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
-                Iletisime Gec
+                İletişime Geç
               </Link>
               <a href="https://wa.me/905368316787" className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold ${accent.outlineBtn} dark:border-indigo-400/30 dark:text-indigo-300 dark:hover:bg-indigo-400/10`}>
-                WhatsApp Hatti
+                WhatsApp Hattı
               </a>
             </div>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hizli Linkler</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hızlı Linkler</div>
               <div className="mt-4 grid gap-2 text-sm">
-                <Link href="/about" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Hakkimizda</Link>
+                <Link href="/about" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Hakkımızda</Link>
                 <Link href="/products" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Makineler</Link>
-                <Link href="/spare-parts" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yedek Parcalar</Link>
+                <Link href="/spare-parts" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yedek Parçalar</Link>
                 <Link href="/gallery" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Galeri</Link>
                 <Link href="/references" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Referanslar</Link>
-                <Link href="/contact" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Iletisim</Link>
+                <Link href="/contact" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>İletişim</Link>
               </div>
             </div>
 
             <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
-              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Iletisim</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">İletişim</div>
               <div className="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                 <div>Telefon: +90 536 831 67 87</div>
                 <div>E-posta: guohonglazerinfo@gmail.com</div>
@@ -105,7 +105,7 @@ export default function Footer() {
                   </svg>
                 </a>
                 <a href="https://www.instagram.com/gu0honglaser/" className={accent.iconHover}>
-                  <span className="sr-only">Instagram</span>
+                  <span className="sr-only">İnstagram</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
                       fillRule="evenodd"
@@ -127,17 +127,17 @@ export default function Footer() {
 
         <div className="border-t border-slate-200/70 dark:border-slate-800/60 py-5">
           <div className="flex flex-col gap-3 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-            <div>&copy; {new Date().getFullYear()} Guohong Lazer. Tum haklari saklidir.</div>
+            <div>&copy; {new Date().getFullYear()} Guohong Lazer. Tüm hakları saklıdır.</div>
             <div className="flex flex-wrap gap-3">
               <Link href="/privacy" className={accent.linkHover}>Gizlilik</Link>
               <Link href="/kvkk" className={accent.linkHover}>KVKK</Link>
-              <Link href="/cookies" className={accent.linkHover}>Cerez Politikasi</Link>
-              <Link href="/distance-sales" className={accent.linkHover}>Mesafeli Satis</Link>
+              <Link href="/cookies" className={accent.linkHover}>Çerez Politikası</Link>
+              <Link href="/distance-sales" className={accent.linkHover}>Mesafeli Satış</Link>
               <Link href="/legal" className={accent.linkHover}>Yasal Merkez</Link>
-              <Link href="/returns" className={accent.linkHover}>Iade & Garanti</Link>
+              <Link href="/returns" className={accent.linkHover}>İade & Garanti</Link>
               <Link href="/faq" className={accent.linkHover}>SSS</Link>
               <Link href="/shipping" className={accent.linkHover}>Kargo & Teslimat</Link>
-              <Link href="/payment-security" className={accent.linkHover}>Odeme Guvenligi</Link>
+              <Link href="/payment-security" className={accent.linkHover}>Ödeme Güvenliği</Link>
               <Link href="/company" className={accent.linkHover}>Firma Bilgileri</Link>
               <Link href="/contact" className={accent.linkHover}>Destek</Link>
             </div>
