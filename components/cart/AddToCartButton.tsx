@@ -75,7 +75,7 @@ export default function AddToCartButton({
             },
           },
           {
-            label: 'Alisverise devam et',
+            label: 'Alışverişe devam et',
             onClick: () => {
               dismiss(toastId);
             },

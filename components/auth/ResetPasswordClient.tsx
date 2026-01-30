@@ -20,17 +20,17 @@ export default function ResetPasswordClient() {
     setError('');
 
     if (!token || !email) {
-      setError('Sifirlama baglantisi gecersiz.');
+      setError('Sıfırlama bağlantısı geçersiz.');
       return;
     }
 
     if (password.length < 6) {
-      setError('Sifre en az 6 karakter olmalidir.');
+      setError('Şifre en az 6 karakter olmalıdır.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Sifreler eslesmiyor.');
+      setError('Şifreler eşleşmiyor.');
       return;
     }
 
@@ -46,12 +46,12 @@ export default function ResetPasswordClient() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Parola sifirlama basarisiz');
+        throw new Error(data.error || 'Parola sıfırlama başarısız');
       }
 
       router.replace('/login?reset=true');
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Parola sifirlama basarisiz';
+      const message = e instanceof Error ? e.message : 'Parola sıfırlama başarısız';
       setError(message);
     } finally {
       setIsLoading(false);
@@ -69,14 +69,14 @@ export default function ResetPasswordClient() {
                 GL
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Yeni parola</h2>
-              <p className="mt-2 text-sm text-white/70">Yeni sifrenizi belirleyin.</p>
+              <p className="mt-2 text-sm text-white/70">Yeni şifrenizi belirleyin.</p>
             </div>
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-white/80">
-                    Yeni sifre
+                    Yeni şifre
                   </label>
                   <input
                     id="password"
@@ -93,7 +93,7 @@ export default function ResetPasswordClient() {
 
                 <div>
                   <label htmlFor="confirmPassword" className="block text-sm font-medium text-white/80">
-                    Yeni sifre (tekrar)
+                    Yeni şifre (tekrar)
                   </label>
                   <input
                     id="confirmPassword"
@@ -117,14 +117,14 @@ export default function ResetPasswordClient() {
                   disabled={isLoading}
                   className="btn-primary w-full"
                 >
-                  {isLoading ? 'Kaydediliyor...' : 'Parolayi guncelle'}
+                  {isLoading ? 'Kaydediliyor...' : 'Parolayı Güncelle'}
                 </button>
               </div>
             </form>
 
             <div className="mt-6 text-center">
               <Link href="/login" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
-                Giris ekranina don
+                Giriş ekranına dön
               </Link>
             </div>
           </div>
