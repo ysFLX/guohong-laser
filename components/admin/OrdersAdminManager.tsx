@@ -46,11 +46,11 @@ type AdminOrder = {
 };
 
 const statusOptions = [
-  { value: 'RECEIVED', label: 'Siparis alindi' },
-  { value: 'IN_TRANSIT', label: 'Siparis hazirlaniyor' },
+  { value: 'RECEIVED', label: 'Sipariş alındı' },
+  { value: 'IN_TRANSIT', label: 'Sipariş hazırlanıyor' },
   { value: 'SHIPPED', label: 'Kargoya verildi' },
   { value: 'DELIVERED', label: 'Teslim edildi' },
-  { value: 'CANCELED', label: 'Iptal' },
+  { value: 'CANCELED', label: 'İptal' },
 ];
 
 const statusLabel = statusOptions.reduce<Record<string, string>>((acc, item) => {
@@ -193,7 +193,7 @@ export default function OrdersAdminManager() {
     try {
       const res = await fetch('/api/admin/orders');
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || 'Siparisler yuklenemedi');
+      if (!res.ok) throw new Error(data?.error || 'Siparişler yüklenemedi');
       const list = (data.items || []) as AdminOrder[];
       setOrders(list);
       setExpandedIds(new Set(list.length ? [list[0].id] : []));
@@ -214,7 +214,7 @@ export default function OrdersAdminManager() {
         }, {}),
       );
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Siparisler yuklenemedi');
+      setError(err instanceof Error ? err.message : 'Siparişler yüklenemedi');
     } finally {
       setLoading(false);
     }
@@ -239,7 +239,7 @@ export default function OrdersAdminManager() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || 'Durum guncellenemedi');
+      if (!res.ok) throw new Error(data?.error || 'Durum güncellenemedi');
       setOrders((prev) =>
         prev.map((order) =>
           order.id === orderId
@@ -255,7 +255,7 @@ export default function OrdersAdminManager() {
       );
       setCancelDialogId(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Durum guncellenemedi');
+      setError(err instanceof Error ? err.message : 'Durum güncellenemedi');
     } finally {
       setSavingId(null);
     }
@@ -271,7 +271,7 @@ export default function OrdersAdminManager() {
     if (!reason) {
       setCancelReasonError((prev) => ({
         ...prev,
-        [orderId]: 'Iptal nedeni yazilmasi gerekiyor.',
+        [orderId]: 'İptal nedeni yazılması gerekiyor.',
       }));
       return;
     }
@@ -307,20 +307,20 @@ export default function OrdersAdminManager() {
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Siparis yonetimi</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Sipariş yönetimi</p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900">Operasyon merkezi</h2>
-            <p className="mt-1 text-sm text-slate-500">Tum siparisleri tek ekrandan takip et.</p>
+            <p className="mt-1 text-sm text-slate-500">Tüm siparişleri tek ekrandan takip et.</p>
           </div>
           <div className="flex items-center gap-2">
             <AdminButton onClick={loadOrders} tone="slate" variant="outline">
               Yenile
             </AdminButton>
-            <AdminBadge tone="slate">{totalOrders} siparis</AdminBadge>
+            <AdminBadge tone="slate">{totalOrders} sipariş</AdminBadge>
           </div>
         </div>
         <div className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 md:grid-cols-[1.2fr_2fr]">
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Hizli arama</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Hızlı arama</div>
             <div className="mt-2 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2">
               <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-400" fill="currentColor" aria-hidden="true">
                 <path
@@ -351,11 +351,11 @@ export default function OrdersAdminManager() {
             <div className="mt-2 flex flex-wrap gap-2">
               {[
                 { value: 'ALL', label: 'Hepsi' },
-                { value: 'RECEIVED', label: 'Alindi' },
-                { value: 'IN_TRANSIT', label: 'Hazirlaniyor' },
+                { value: 'RECEIVED', label: 'Alındı' },
+                { value: 'IN_TRANSIT', label: 'Hazırlanıyor' },
                 { value: 'SHIPPED', label: 'Kargoda' },
                 { value: 'DELIVERED', label: 'Teslim' },
-                { value: 'CANCELED', label: 'Iptal' },
+                { value: 'CANCELED', label: 'İptal' },
               ].map((item) => (
                 <AdminRadioCard
                   key={item.value}
@@ -374,15 +374,15 @@ export default function OrdersAdminManager() {
             <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Alindi</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Alındı</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.RECEIVED || 0}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazirlaniyor</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazırlanıyor</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.IN_TRANSIT || 0}</div>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Iptal</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">İptal</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.CANCELED || 0}</div>
           </div>
         </div>
@@ -395,12 +395,12 @@ export default function OrdersAdminManager() {
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        {loading && <div className="mt-6 text-sm text-slate-500">Yukleniyor...</div>}
+        {loading && <div className="mt-6 text-sm text-slate-500">Yükleniyor...</div>}
         {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
 
         {!loading && filteredOrders.length === 0 && (
           <div className="mt-6 rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
-            Filtreye uygun siparis yok.
+            Filtreye uygun sipariş yok.
           </div>
         )}
 
@@ -408,8 +408,8 @@ export default function OrdersAdminManager() {
           <div className="space-y-4">
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
               <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
-                <div>Siparis</div>
-                <div>Musteri</div>
+                <div>Sipariş</div>
+                <div>Müşteri</div>
                 <div>Durum</div>
                 <div className="text-right">Tutar</div>
               </div>
@@ -429,12 +429,12 @@ export default function OrdersAdminManager() {
                   className="grid w-full gap-4 border-b border-slate-100 px-6 py-4 text-left transition hover:bg-slate-50 md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
                 >
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Siparis</div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Sipariş</div>
                     <div className="mt-2 text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
                     <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                   </div>
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Musteri</div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Müşteri</div>
                     <div className="mt-2 text-sm font-semibold text-slate-900">
                       {order.user?.name || order.user?.email || 'Misafir'}
                     </div>
@@ -481,7 +481,7 @@ export default function OrdersAdminManager() {
                             </svg>
                           </div>
                           <div>
-                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Müşteri</div>
                             <div className="mt-2 text-sm font-semibold text-slate-900">
                               {order.user?.name || order.user?.email || 'Misafir'}
                             </div>
@@ -492,7 +492,7 @@ export default function OrdersAdminManager() {
                                   href={`mailto:${order.user.email}`}
                                   className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300 hover:text-slate-900"
                                 >
-                                  E-posta gonder
+                                  E-posta gönder
                                 </a>
                               )}
                             </div>
@@ -543,7 +543,7 @@ export default function OrdersAdminManager() {
                               </svg>
                             </div>
                             <div className="flex-1">
-                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Urunler</div>
+                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Ürünler</div>
                               <div className="mt-3 space-y-2">
                                 {order.items.map((item) => (
                                   <div
@@ -557,7 +557,7 @@ export default function OrdersAdminManager() {
                                           <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
                                         ) : (
                                           <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
-                                            Urun
+                                            Ürün
                                           </div>
                                         )}
                                       </div>
@@ -576,7 +576,7 @@ export default function OrdersAdminManager() {
                     <div className="space-y-5">
                       <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
                           <div className="flex items-center justify-between">
-                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum güncelle</div>
                             <AdminBadge tone={statusTone(displayStatus)}>
                               {statusLabel[displayStatus] || displayStatus}
                             </AdminBadge>
@@ -633,13 +633,13 @@ export default function OrdersAdminManager() {
                           </div>
                           <div>
                             <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
-                            <div className="text-xs text-slate-500">Tasima detaylarini tamamla.</div>
+                            <div className="text-xs text-slate-500">Taşıma detaylarını tamamla.</div>
                           </div>
                         </div>
                         <div className="mt-3 space-y-3">
                           <div>
                             <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                              Kargo firmasi
+                              Kargo firması
                             </label>
                           <input
                             className="form-input text-xs text-slate-700"
@@ -696,14 +696,14 @@ export default function OrdersAdminManager() {
                           </div>
                         </div>
                         <div className="mt-3 text-[11px] text-slate-500">
-                          Kargo bilgisi kaydedildiginde musteriye e-posta gider ve siparis detayinda gorunur.
+                          Kargo bilgisi kaydedildiğinde müşteriye e-posta gider ve sipariş detayında görünür.
                         </div>
                         {(draftTracking[order.id]?.carrier ||
                           draftTracking[order.id]?.number ||
                           draftTracking[order.id]?.url) && (
                           <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-600">
                             <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                              Kargo ozeti
+                              Kargo Özeti
                             </div>
                             <div className="mt-2 space-y-1">
                               {draftTracking[order.id]?.carrier && <div>Firma: {draftTracking[order.id].carrier}</div>}
@@ -715,7 +715,7 @@ export default function OrdersAdminManager() {
                                   rel="noreferrer"
                                   className="inline-flex items-center gap-1 text-indigo-700 hover:text-indigo-800"
                                 >
-                                  Takip linkini ac
+                                  Takip linkini aç
                                   <span>-&gt;</span>
                                 </a>
                               )}
@@ -738,14 +738,14 @@ export default function OrdersAdminManager() {
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
           <div className="flex items-center gap-2">
             <AdminBadge tone="slate">{filteredOrders.length} kayit</AdminBadge>
-            <span>Filtre: {statusFilter === 'ALL' ? 'Tum siparisler' : statusLabel[statusFilter]}</span>
+            <span>Filtre: {statusFilter === 'ALL' ? 'Tüm siparişler' : statusLabel[statusFilter]}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <AdminButton tone="slate" variant="outline" onClick={loadOrders}>
               Yenile
             </AdminButton>
             <AdminButton tone="slate" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              En ust
+              En üst
             </AdminButton>
           </div>
         </div>
@@ -767,21 +767,21 @@ export default function OrdersAdminManager() {
                 </div>
                 <div>
                   <div className="text-[11px] font-semibold uppercase tracking-[0.35em] text-rose-300">
-                    Siparis iptali
+                    Sipariş iptali
                   </div>
                   <div className="mt-1 text-lg font-semibold">
-                    #{cancelOrder.id.slice(0, 8)} siparisini iptal et
+                    #{cancelOrder.id.slice(0, 8)} siparişini iptal et
                   </div>
                 </div>
               </div>
 
               <p className="mt-3 text-sm text-slate-300">
-                Iptal islemi icin musteriye gidecek nedeni yazman gerekiyor.
+                İptal işlemi için müşteriye gidecek nedeni yazman gerekiyor.
               </p>
 
               <div className="mt-5">
                 <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Iptal nedeni
+                  İptal nedeni
                 </label>
                 <textarea
                   rows={4}
@@ -793,7 +793,7 @@ export default function OrdersAdminManager() {
                     }))
                   }
                   className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-rose-400/60 focus:outline-none focus:ring-2 focus:ring-rose-400/30"
-                  placeholder="Orn: Uretim stok sorunu nedeniyle iptal edildi."
+                  placeholder="Orn: Üretim stok sorunu nedeniyle iptal edildi."
                 />
                 {cancelReasonError[cancelDialogId] && (
                   <div className="mt-2 text-xs text-rose-300">{cancelReasonError[cancelDialogId]}</div>
@@ -806,7 +806,7 @@ export default function OrdersAdminManager() {
                   onClick={() => closeCancelDialog(cancelDialogId)}
                   className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:border-white/30 hover:text-white"
                 >
-                  Vazgec
+                  Vazgeç
                 </button>
                 <button
                   type="button"
@@ -814,7 +814,7 @@ export default function OrdersAdminManager() {
                   disabled={savingId === cancelDialogId}
                   className="rounded-full bg-rose-500 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400 disabled:opacity-60"
                 >
-                  Iptali onayla
+                  İptali onayla
                 </button>
               </div>
             </div>

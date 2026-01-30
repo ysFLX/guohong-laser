@@ -24,12 +24,12 @@ export default function HomePanelsForm({ initialConfig }: Props) {
   const iconOptions = [
     { value: 'building', label: 'Kurumsal' },
     { value: 'calendar', label: 'Takvim' },
-    { value: 'shield-check', label: 'Guvenlik' },
+    { value: 'shield-check', label: 'Güvenlik' },
     { value: 'chart-up', label: 'Performans' },
-    { value: 'briefcase', label: 'Is sureci' },
-    { value: 'document', label: 'Dokuman' },
+    { value: 'briefcase', label: 'İş süreci' },
+    { value: 'document', label: 'Döküman' },
     { value: 'badge-check', label: 'Onay' },
-    { value: 'signature', label: 'Imza' },
+    { value: 'signature', label: 'İmza' },
     { value: 'truck', label: 'Teslimat' },
     { value: 'mail', label: 'E-posta' },
     { value: 'bookmark', label: 'Kaydet' },
@@ -60,7 +60,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
-      setStatus({ type: 'success', message: 'Paneller guncellendi.' });
+      setStatus({ type: 'success', message: 'Paneller güncellendi.' });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Kaydedilemedi';
       setStatus({ type: 'error', message });
@@ -86,8 +86,8 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Canli kapasite takvimi</div>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">Servis ve kesif slotlari</h2>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Canlı kapasite takvimi</div>
+            <h2 className="mt-2 text-lg font-semibold text-slate-900">Servis ve keşif slotları</h2>
           </div>
           <AdminButton
             type="button"
@@ -95,7 +95,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             onClick={() =>
               setCapacitySchedule((prev) => [
                 ...prev,
-                { title: 'Yeni slot', status: '%0 dolu', detail: 'Detay ekle', window: 'Tarih araligi', icon: '' },
+                { title: 'Yeni slot', status: '%0 dolu', detail: 'Detay ekle', window: 'Tarih aralığı', icon: '' },
               ])
             }
           >
@@ -104,8 +104,8 @@ export default function HomePanelsForm({ initialConfig }: Props) {
         </div>
         <div className="mt-4">
           <AdminAssetUpload
-            label="Panel gorseli"
-            helper="Opsiyonel: premium gorunum icin tek gorsel ekleyebilirsin."
+            label="Panel görseli"
+            helper="Opsiyonel: premium görünüm için tek görsel ekleyebilirsin."
             value={capacityImageUrl}
             onChange={setCapacityImageUrl}
           />
@@ -121,7 +121,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   next[index] = { ...next[index], title: e.target.value };
                   setCapacitySchedule(next);
                 }}
-                placeholder="Baslik"
+                placeholder="Başlık"
               />
               <input
                 className="form-input"
@@ -168,7 +168,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                     next[index] = { ...next[index], window: e.target.value };
                     setCapacitySchedule(next);
                   }}
-                  placeholder="Tarih araligi"
+                  placeholder="Tarih aralığı"
                 />
                 <AdminButton
                   type="button"
@@ -187,21 +187,21 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Fiyat dusus alarmi</div>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">Musteri yolculugu adimlari</h2>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Fiyat düşüş alarmı</div>
+            <h2 className="mt-2 text-lg font-semibold text-slate-900">Müşteri yolculuğu adımları</h2>
           </div>
           <AdminButton
             type="button"
             variant="outline"
-            onClick={() => setPriceAlertSteps((prev) => [...prev, { text: 'Yeni adim', icon: '' }])}
+            onClick={() => setPriceAlertSteps((prev) => [...prev, { text: 'Yeni adım', icon: '' }])}
           >
-            Adim ekle
+            Adım ekle
           </AdminButton>
         </div>
         <div className="mt-4">
           <AdminAssetUpload
-            label="Panel gorseli"
-            helper="Opsiyonel: fiyat alarmi paneline arka plan gorseli."
+            label="Panel görseli"
+            helper="Opsiyonel: fiyat düşüş alarmı paneline arka plan görseli."
             value={priceAlertImageUrl}
             onChange={setPriceAlertImageUrl}
           />
@@ -227,7 +227,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   setPriceAlertSteps(next);
                 }}
               >
-                <option value="">Ikon sec</option>
+                <option value="">İkon seç</option>
                 {iconOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -250,23 +250,23 @@ export default function HomePanelsForm({ initialConfig }: Props) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal satin alma</div>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">Surec kartlari</h2>
+            <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Kurumsal satın alma</div>
+            <h2 className="mt-2 text-lg font-semibold text-slate-900">Süreç kartları</h2>
           </div>
           <AdminButton
             type="button"
             variant="outline"
             onClick={() =>
-              setProcurementFlow((prev) => [...prev, { title: 'Yeni adim', description: 'Aciklama ekle', icon: '' }])
+              setProcurementFlow((prev) => [...prev, { title: 'Yeni adım', description: 'Açıklama ekle', icon: '' }])
             }
           >
-            Adim ekle
+            Adım ekle
           </AdminButton>
         </div>
         <div className="mt-4">
           <AdminAssetUpload
-            label="Panel gorseli"
-            helper="Opsiyonel: satin alma paneli icin kurumsal gorsel."
+            label="Panel görseli"
+            helper="Opsiyonel: satın alma paneli için kurumsal görsel."
             value={procurementImageUrl}
             onChange={setProcurementImageUrl}
           />
@@ -282,7 +282,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   next[index] = { ...next[index], title: e.target.value };
                   setProcurementFlow(next);
                 }}
-                placeholder="Baslik"
+                placeholder="Başlık"
               />
               <input
                 className="form-input"
@@ -292,7 +292,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                   next[index] = { ...next[index], description: e.target.value };
                   setProcurementFlow(next);
                 }}
-                placeholder="Aciklama"
+                placeholder="Açıklama"
               />
               <select
                 className="form-input"
@@ -325,7 +325,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
       <div className="flex flex-wrap gap-3">
         <AdminButton type="button" disabled={isSaving} onClick={saveConfig}>
-          {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri kaydet'}
+          {isSaving ? 'Kaydediliyor...' : 'Değişiklikleri kaydet'}
         </AdminButton>
         <AdminButton
           type="button"
@@ -340,7 +340,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             setStatus(null);
           }}
         >
-          Varsayilana don
+          Varsayılana dön
         </AdminButton>
       </div>
     </div>

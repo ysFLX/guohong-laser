@@ -18,10 +18,10 @@ export default function InquiryStatusActions({ inquiryId, status }: { inquiryId:
         body: JSON.stringify({ status: nextStatus }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'Durum guncellenemedi');
+      if (!res.ok) throw new Error(data?.error || 'Durum güncellenemedi');
       window.location.reload();
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Durum guncellenemedi');
+      setError(e instanceof Error ? e.message : 'Durum güncellenemedi');
     } finally {
       setIsSaving(false);
     }

@@ -20,14 +20,14 @@ export default function InquiryReplyBox({
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="text-sm font-semibold text-slate-900">Admin yanit</div>
+      <div className="text-sm font-semibold text-slate-900">Admin yanıtı</div>
       <div className="mt-1 text-xs text-slate-500">
-        Kullanici bu alana cevap yazamaz. Ornek: &quot;Daha fazla bilgi icin ... numaradan arayin&quot;.
+        Kullanıcı bu alana cevap yazamaz. Örnek: &quot;Daha fazla bilgi için ... numaradan arayın&quot;.
       </div>
 
       {error && <div className="mt-3 form-alert form-alert--error">{error}</div>}
       {success && <div className="mt-3 form-alert form-alert--success">{success}</div>}
-      {!canReply && <div className="mt-3 text-sm text-amber-700">E-posta bilgisi yok. Yanit gonderilemez.</div>}
+      {!canReply && <div className="mt-3 text-sm text-amber-700">E-posta bilgisi yok. Yanıt gönderilemez.</div>}
 
       <textarea
         rows={4}
@@ -63,7 +63,7 @@ export default function InquiryReplyBox({
           }}
           className="px-5"
         >
-          {isSaving ? 'Kaydediliyor...' : 'Yaniti Kaydet'}
+          {isSaving ? 'Kaydediliyor...' : 'Yanıtı Kaydet'}
         </AdminButton>
       </div>
     </div>
