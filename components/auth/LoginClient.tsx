@@ -35,23 +35,23 @@ export default function LoginClient() {
       if (result?.error) {
         if (result.error === '2FA_REQUIRED') {
           setStep('otp');
-          setInfo('E-postana dogrulama kodu gonderdik. Kodun 10 dakika gecerlidir.');
+          setInfo('E-postana doğrulama kodu gönderdik. Kodun 10 dakika geçerlidir.');
         } else if (result.error === '2FA_INVALID') {
-          setError('Dogrulama kodu hatali. Tekrar dene.');
+          setError('Doğrulama kodu hatalı. Lütfen daha sonra tekrar dene.');
         } else if (result.error === '2FA_EXPIRED') {
-          setError('Kodun suresi doldu. Yeniden kod gonder.');
+          setError('Kodun süresi doldu. Yeniden kod gönder.');
         } else if (result.error === '2FA_SEND_FAILED') {
-          setError('Kod gonderilemedi. Lutfen e-posta ayarlarini kontrol et.');
+          setError('Kod gönderilemedi. Lütfen e-posta ayarlarını kontrol et.');
         } else {
-          setError('Gecersiz e-posta veya sifre');
+          setError('Geçersiz e-posta veya şifre');
         }
       } else {
         router.push('/');
         router.refresh();
       }
     } catch (error) {
-      console.error('Giris hatasi:', error);
-      setError('Giris sirasinda bir hata olustu');
+      console.error('Giriş hatası:', error);
+      setError('Giriş sırasında bir hata oluştu. Lütfen daha sonra tekrar dene.');
     } finally {
       setIsLoading(false);
     }
@@ -59,7 +59,7 @@ export default function LoginClient() {
 
   const handleResend = async () => {
     if (!email || !password) {
-      setError('E-posta ve sifre girmen gerekiyor');
+      setError('E-posta ve şifre girmen gerekiyor');
       return;
     }
 
@@ -75,13 +75,13 @@ export default function LoginClient() {
       });
 
       if (result?.error === '2FA_REQUIRED') {
-        setInfo('Yeni kodu e-postana gonderdik.');
+        setInfo('Yeni kod e-posta adresine gönderildi.');
       } else if (result?.error) {
-        setError('Kod gonderilemedi. Tekrar dene.');
+        setError('Kod gönderilemedi. Lütfen daha sonra tekrar dene.');
       }
     } catch (error) {
-      console.error('Kod gonderme hatasi:', error);
-      setError('Kod gonderilemedi');
+      console.error('Kod gönderme hatası:', error);
+      setError('Kod gönderilemedi. Lütfen daha sonra tekrar dene.');
     } finally {
       setIsLoading(false);
     }
@@ -97,18 +97,18 @@ export default function LoginClient() {
               <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-400 text-slate-900 flex items-center justify-center font-semibold">
                 GL
               </div>
-              <h2 className="mt-4 text-3xl font-semibold">Giris yap</h2>
-              <p className="mt-2 text-sm text-white/70">Hesabiniza giris yaparak devam edin.</p>
+              <h2 className="mt-4 text-3xl font-semibold">Giriş yap</h2>
+              <p className="mt-2 text-sm text-white/70">Hesabınıza giriş yaparak devam edin.</p>
             </div>
 
             {registered && (
               <div className="mt-6 form-alert form-alert--success">
-                Kayit basarili. Simdi giris yapabilirsiniz.
+                Kayıt başarılı. Simdi giriş yapabilirsiniz.
               </div>
             )}
             {resetDone && (
               <div className="mt-4 form-alert form-alert--success">
-                Parola guncellendi. Simdi giris yapabilirsiniz.
+                Parola güncellendi. Şimdi giriş yapabilirsiniz.
               </div>
             )}
 
@@ -118,7 +118,7 @@ export default function LoginClient() {
                 onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
                 className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
-                Google ile giris yap
+                Google ile giriş yap
               </button>
             </div>
 
@@ -149,7 +149,7 @@ export default function LoginClient() {
                 </div>
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-white/80">
-                    Sifre
+                    Şifre
                   </label>
                   <input
                     id="password"
@@ -167,7 +167,7 @@ export default function LoginClient() {
                 {step === 'otp' && (
                   <div>
                     <label htmlFor="otp" className="block text-sm font-medium text-white/80">
-                      Dogrulama kodu
+                      Doğrulama Kodu
                     </label>
                     <input
                       id="otp"
@@ -189,14 +189,14 @@ export default function LoginClient() {
                         }}
                         className="hover:text-white"
                       >
-                        Geri don
+                        Geri dön
                       </button>
                       <button
                         type="button"
                         onClick={handleResend}
                         className="font-semibold text-indigo-200 hover:text-indigo-100"
                       >
-                        Kodu tekrar gonder
+                        Kodu tekrar gönder
                       </button>
                     </div>
                   </div>
@@ -215,21 +215,21 @@ export default function LoginClient() {
                   className="btn-primary w-full"
                 >
                   {isLoading
-                    ? 'Giris yapiliyor...'
+                    ? 'Giriş yapılıyor...'
                     : step === 'otp'
-                      ? 'Kodu dogrula'
-                      : 'Giris yap'}
+                      ? 'Kodu doğrula'
+                      : 'Giriş yap'}
                 </button>
               </div>
             </form>
             <div className="mt-4 text-center">
               <Link href="/forgot-password" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
-                Parolami unuttum
+                Parolamı unuttum
               </Link>
             </div>
             <div className="mt-6 text-center">
               <Link href="/register" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
-                Hesabin yok mu? <span className="underline">Kayit ol</span>
+                Hesabın yok mu? <span className="underline">Kayıt ol</span>
               </Link>
             </div>
           </div>

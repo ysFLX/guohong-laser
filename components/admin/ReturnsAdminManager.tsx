@@ -21,11 +21,11 @@ type ReturnRequestItem = {
 };
 
 const statusOptions = [
-  { value: 'NEW', label: 'Talep alindi' },
-  { value: 'UNDER_REVIEW', label: 'Incelemede' },
-  { value: 'APPROVED', label: 'Onaylandi' },
+  { value: 'NEW', label: 'Talep alındı' },
+  { value: 'UNDER_REVIEW', label: 'İncelemede' },
+  { value: 'APPROVED', label: 'Onaylandı' },
   { value: 'REJECTED', label: 'Reddedildi' },
-  { value: 'REFUNDED', label: 'Iade tamamlandi' },
+  { value: 'REFUNDED', label: 'İade tamamlandı' },
 ];
 
 const statusBadge = (value: string) => {
@@ -66,10 +66,10 @@ export default function ReturnsAdminManager() {
       try {
         const res = await fetch('/api/admin/returns');
         const data = await res.json();
-        if (!res.ok) throw new Error(data?.error || 'Iade talepleri alinamadi');
+        if (!res.ok) throw new Error(data?.error || 'İade talepleri alınamadı');
         setItems(Array.isArray(data?.items) ? data.items : []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Iade talepleri alinamadi');
+        setError(err instanceof Error ? err.message : 'İade talepleri alınamadı');
       } finally {
         setLoading(false);
       }
@@ -90,13 +90,13 @@ export default function ReturnsAdminManager() {
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data?.error || 'Guncelleme basarisiz');
+        throw new Error(data?.error || 'Güncelleme başarısız');
       }
       setItems((prev) =>
         prev.map((row) => (row.id === item.id ? { ...row, ...data.item } : row)),
       );
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Guncelleme basarisiz');
+      setError(err instanceof Error ? err.message : 'Güncelleme başarısız');
     } finally {
       setSavingId(null);
     }
@@ -112,7 +112,7 @@ export default function ReturnsAdminManager() {
   return (
     <div className="space-y-6">
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Iade talepleri</div>
+        <div className="text-xs uppercase tracking-[0.3em] text-slate-500">İade talepleri</div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {statusOptions.map((status) => (
             <div
@@ -134,20 +134,20 @@ export default function ReturnsAdminManager() {
 
       {loading ? (
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
-          Yukleniyor...
+          Yükleniyor...
         </div>
       ) : items.length === 0 ? (
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
-          Iade talebi bulunamadi.
+          İade talebi bulunamadı.
         </div>
       ) : (
         <div className="space-y-5">
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
               <div>Talep</div>
-              <div>Musteri</div>
+              <div>Müşteri</div>
               <div>Durum</div>
-              <div>Siparis</div>
+              <div>Sipariş</div>
             </div>
             {items.map((item, index) => {
               const rowTone = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/40';
@@ -161,7 +161,7 @@ export default function ReturnsAdminManager() {
                   <div className="mt-1 text-xs text-slate-500">{formatDate(item.createdAt)}</div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Musteri</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Müşteri</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900">{item.name}</div>
                   <div className="mt-1 text-xs text-slate-500">{item.email}</div>
                 </div>
@@ -174,7 +174,7 @@ export default function ReturnsAdminManager() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Siparis</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 sm:hidden">Sipariş</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900">{item.orderId}</div>
                   <div className="mt-1 text-xs text-slate-500">{item.itemName || '-'}</div>
                 </div>
@@ -183,16 +183,16 @@ export default function ReturnsAdminManager() {
               <div className="grid gap-4 border-t border-slate-200 px-6 py-5 lg:grid-cols-[1.2fr_0.8fr] bg-slate-50/60">
                 <div className="space-y-4">
                   <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Müşteri</div>
                     <div className="mt-2 font-semibold text-slate-900">{item.name}</div>
                     <div className="text-xs text-slate-500">{item.email}</div>
                     {item.phone && <div className="text-xs text-slate-500">{item.phone}</div>}
                   </div>
 
                   <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
-                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Siparis</div>
-                    <div className="mt-2 text-sm">Siparis no: {item.orderId}</div>
-                    {item.itemName && <div className="mt-1 text-sm">Urun: {item.itemName}</div>}
+                    <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Sipariş</div>
+                    <div className="mt-2 text-sm">Sipariş no: {item.orderId}</div>
+                    {item.itemName && <div className="mt-1 text-sm">Ürün: {item.itemName}</div>}
                     <div className="mt-1 text-sm">Talep tipi: {item.resolution}</div>
                   </div>
 
@@ -203,7 +203,7 @@ export default function ReturnsAdminManager() {
 
                   {item.evidenceUrls?.length > 0 && (
                     <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
-                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kanitlar</div>
+                      <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kanıtlar</div>
                       <div className="mt-3 grid gap-3 sm:grid-cols-2">
                         {item.evidenceUrls.map((url, idx) => (
                           <a
@@ -227,8 +227,8 @@ export default function ReturnsAdminManager() {
                                 Dosya
                               </div>
                             )}
-                            <div className="font-semibold text-slate-900">Kanit dosyasi #{idx + 1}</div>
-                            <div className="mt-1 text-[11px] text-slate-500">Goruntule</div>
+                            <div className="font-semibold text-slate-900">Kanıt dosyası #{idx + 1}</div>
+                            <div className="mt-1 text-[11px] text-slate-500">Görüntüle</div>
                           </a>
                         ))}
                       </div>
@@ -237,7 +237,7 @@ export default function ReturnsAdminManager() {
                 </div>
 
                 <div className="space-y-4 rounded-2xl border border-slate-200 p-4">
-                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum guncelle</div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum güncelle</div>
                   <select
                     className="form-input"
                     value={item.status}
@@ -307,7 +307,7 @@ export default function ReturnsAdminManager() {
               Yenile
             </AdminButton>
             <AdminButton tone="slate" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              En ust
+              En üst
             </AdminButton>
           </div>
         </div>
