@@ -61,7 +61,7 @@ export default function NotificationsDrawer() {
           <div>
             <div className="text-lg font-bold text-gray-900 dark:text-white">{title}</div>
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {isAdmin ? 'Yeni talepler' : 'Yanitlar'}
+              {isAdmin ? 'Yeni talepler' : 'Yanıtlar'}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -95,8 +95,8 @@ export default function NotificationsDrawer() {
               <div className="text-gray-900 dark:text-white font-semibold">Bildirim yok</div>
               <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
                 {isAdmin
-                  ? 'Yeni iletisim / teklif talebi geldiginde burada gorunur.'
-                  : 'Iletisim veya teklif formu gonderdiginde yanitlar burada gorunur.'}
+                  ? 'Yeni iletişim / teklif talebi geldiğinde burada görünür.'
+                  : 'İletişim veya teklif formu gönderdikten sonra yanıtlar burada görünür.'}
               </div>
             </div>
           )}
@@ -115,10 +115,10 @@ export default function NotificationsDrawer() {
                       {isSystem
                         ? 'Sistem'
                         : isOrderStatus
-                          ? 'Siparis durumu'
+                          ? 'Sipariş durumu'
                           : x.type === 'QUOTE'
                             ? 'Fiyat Teklifi'
-                            : 'Iletisim'}
+                            : 'İletişim'}
                       {!isOrderStatus && x.product ? ` - ${x.product}` : ''}
                       {!isOrderStatus && x.subject ? ` - ${x.subject}` : ''}
                     </div>
@@ -138,7 +138,7 @@ export default function NotificationsDrawer() {
                     ) : isAdmin ? (
                       <>
                         <div className="mt-2 text-sm font-semibold text-gray-900 dark:text-white">
-                          {x.name || 'Isimsiz'}
+                          {x.name || 'İsimsiz'}
                         </div>
                         <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">
                           {x.email || ''}{x.phone ? ` - ${x.phone}` : ''}
@@ -151,13 +151,13 @@ export default function NotificationsDrawer() {
                         </div>
                         <div className="mt-2 text-xs text-gray-500 dark:text-gray-400"><span suppressHydrationWarning>{formatDateTr(x.createdAt || null)}</span></div>
                         <div className="mt-3">
-                          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">Yanitla</div>
+                          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">Yanıtla</div>
                           <textarea
                             rows={3}
                             value={replyState.value}
                             onChange={(e) => setReplyState(x.id, { value: e.target.value })}
                             className="mt-2 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                            placeholder="Kisa yanit yaz..."
+                            placeholder="Kısa yanıt yaz..."
                           />
                           {replyState.error && <div className="mt-2 text-xs text-red-600">{replyState.error}</div>}
                           {replyState.success && <div className="mt-2 text-xs text-indigo-600">{replyState.success}</div>}
@@ -175,20 +175,20 @@ export default function NotificationsDrawer() {
                                   });
                                   const data = await res.json().catch(() => ({}));
                                   if (!res.ok) {
-                                    throw new Error(data?.error || 'Yanit gonderilemedi');
+                                    throw new Error(data?.error || 'Yanıt gönderilemedi');
                                   }
-                                  setReplyState(x.id, { isSending: false, success: 'Yanit gonderildi' });
+                                  setReplyState(x.id, { isSending: false, success: 'Yanıt gönderildi' });
                                   await refresh();
                                 } catch (err: unknown) {
                                   setReplyState(x.id, {
                                     isSending: false,
-                                    error: err instanceof Error ? err.message : 'Yanit gonderilemedi',
+                                    error: err instanceof Error ? err.message : 'Yanıt gönderilemedi',
                                   });
                                 }
                               }}
                               className="rounded-lg bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-gray-800 disabled:opacity-60"
                             >
-                              {replyState.isSending ? 'Gonderiliyor...' : 'Yaniti Gonder'}
+                              {replyState.isSending ? 'Gönderiliyor...' : 'Yanıtı Gönder'}
                             </button>
                             <Link
                               href={adminLink}
@@ -203,7 +203,7 @@ export default function NotificationsDrawer() {
                     ) : isOrderStatus ? (
                       <>
                         <div className="mt-2 text-sm font-semibold text-gray-900 dark:text-white">
-                          {x.title || 'Siparis durumu guncellendi'}
+                          {x.title || 'Sipariş durumu güncellendi'}
                         </div>
                         <div className="mt-2 text-sm text-gray-700 dark:text-gray-200 whitespace-pre-line">
                           {x.message}
@@ -214,7 +214,7 @@ export default function NotificationsDrawer() {
                             onClick={close}
                             className="mt-3 inline-flex items-center rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
                           >
-                            Siparise git
+                            Siparişe git
                           </Link>
                         )}
                         <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -244,7 +244,7 @@ export default function NotificationsDrawer() {
                       await markSeen(x.id);
                     }}
                   >
-                    Kaldir
+                    Kaldır
                   </button>
                 </div>
               </div>

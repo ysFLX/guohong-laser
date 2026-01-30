@@ -64,7 +64,7 @@ export default function OrderStatusToast() {
         const actions = [];
         if (item.orderId) {
           actions.push({
-            label: 'Siparisi gor',
+            label: 'Siparişi gör',
             onClick: () => router.push(`/profile/orders/${item.orderId}`),
           });
         }

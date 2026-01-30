@@ -67,7 +67,7 @@ const emptyForm = {
   cityName: "",
   district: "",
   postalCode: "",
-  country: "Turkiye",
+  country: "Türkiye",
   isDefault: false,
 };
 
@@ -117,7 +117,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setAddresses(data.user?.addresses || []);
     } catch {
-      setToast({ type: "error", message: "Adresler yuklenemedi" });
+      setToast({ type: "error", message: "Adresler yüklenemedi" });
     } finally {
       setLoading(false);
     }
@@ -130,7 +130,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setCities(data.cities || []);
     } catch {
-      setToast({ type: "error", message: "Iller yuklenemedi" });
+      setToast({ type: "error", message: "İller yüklenemedi" });
     } finally {
       setLoadingCities(false);
     }
@@ -143,7 +143,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setDistricts(data.districts || []);
     } catch {
-      setToast({ type: "error", message: "Ilceler yuklenemedi" });
+      setToast({ type: "error", message: "İlçeler yüklenemedi" });
     } finally {
       setLoadingDistricts(false);
     }
@@ -175,7 +175,7 @@ export default function AddressesManager() {
       cityName: cityValue,
       district: address.state ?? "",
       postalCode: address.postalCode ?? "",
-      country: address.country ?? "Turkiye",
+      country: address.country ?? "Türkiye",
       isDefault: address.isDefault ?? false,
     });
     setShowForm(true);
@@ -196,7 +196,7 @@ export default function AddressesManager() {
         throw new Error("Ad, soyad, telefon, adres ve il zorunludur");
       }
       if (!districtValue) {
-        throw new Error("Ilce secimi zorunludur");
+        throw new Error("İlçe seçimi zorunludur");
       }
 
       const payload = {
@@ -208,7 +208,7 @@ export default function AddressesManager() {
         city: cityValue,
         state: districtValue,
         postalCode: form.postalCode.trim() || null,
-        country: form.country.trim() || "Turkiye",
+        country: form.country.trim() || "Türkiye",
         isDefault: form.isDefault,
       };
 
@@ -222,15 +222,15 @@ export default function AddressesManager() {
       );
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "islem basarisiz");
+      if (!res.ok) throw new Error(data?.error || "İşlem başarısız");
 
       setAddresses(data.addresses || []);
       setShowForm(false);
       setEditingid(null);
       setForm({ ...emptyForm });
-      setToast({ type: "success", message: editingid ? "Adres guncellendi" : "Adres eklendi" });
+      setToast({ type: "success", message: editingid ? "Adres güncellendi" : "Adres eklendi" });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "islem basarisiz";
+      const message = err instanceof Error ? err.message : "İşlem başarısız";
       setToast({ type: "error", message });
     } finally {
       setLoading(false);
@@ -247,12 +247,12 @@ export default function AddressesManager() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Guncelleme hatasi");
+      if (!res.ok) throw new Error(data?.error || "Güncelleme hatası");
 
       setAddresses(data.addresses || []);
-      setToast({ type: "success", message: "Varsayilan adres ayarlandi" });
+      setToast({ type: "success", message: "Varsayılan adres ayarlandı" });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Guncelleme hatasi";
+      const message = err instanceof Error ? err.message : "Güncelleme hatası";
       setToast({ type: "error", message });
     } finally {
       setLoading(false);
@@ -268,12 +268,12 @@ export default function AddressesManager() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Silme hatasi");
+      if (!res.ok) throw new Error(data?.error || "Silme hatası");
 
       setAddresses(data.addresses || []);
       setToast({ type: "success", message: "Adres silindi" });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Silme hatasi";
+      const message = err instanceof Error ? err.message : "Silme hatası";
       setToast({ type: "error", message });
     } finally {
       setLoading(false);
@@ -285,7 +285,7 @@ export default function AddressesManager() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold text-gray-900">Adresler</h2>
-          <p className="text-sm text-gray-500 mt-1">Teslimat ve fatura adreslerinizi yonetin</p>
+          <p className="text-sm text-gray-500 mt-1">Teslimat ve fatura adreslerinizi yönetin</p>
         </div>
         <button
           type="button"
@@ -298,7 +298,7 @@ export default function AddressesManager() {
 
       {addresses.length === 0 && !loading && (
         <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 text-sm text-gray-600">
-          Henuz adres yok. Yeni adres ekleyebilirsin.
+          Henüz adres yok. Yeni adres ekleyebilirsin.
         </div>
       )}
 
@@ -313,7 +313,7 @@ export default function AddressesManager() {
                 <h3 className="text-base font-semibold text-gray-900">{a.label || "Adres"}</h3>
                 {a.isDefault && (
                   <span className="px-2 py-0.5 text-xs rounded-full bg-indigo-50 text-indigo-700">
-                    Varsayilan
+                    Varsayılan
                   </span>
                 )}
               </div>
@@ -337,7 +337,7 @@ export default function AddressesManager() {
                 onClick={() => openEdit(a)}
                 className="font-medium text-gray-700 hover:text-gray-900"
               >
-                Duzenle
+                Düzenle
               </button>
 
               {!a.isDefault && (
@@ -346,7 +346,7 @@ export default function AddressesManager() {
                   onClick={() => makeDefault(a.id)}
                   className="font-medium text-indigo-600 hover:text-indigo-800"
                 >
-                  Varsayilan Yap
+                  Varsayılan Yap
                 </button>
               )}
 
@@ -363,7 +363,7 @@ export default function AddressesManager() {
       </div>
 
       <Modal
-        title={editingid ? "Adres Duzenle" : "Yeni Adres Ekle"}
+        title={editingid ? "Adres düzenle" : "Yeni Adres Ekle"}
         open={showForm}
         onClose={() => setShowForm(false)}
       >
@@ -419,7 +419,7 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">Il Secimi</div>
+            <div className="form-label">İl Seçimi</div>
             <select
               className="form-input"
               value={form.cityCode}
@@ -444,11 +444,11 @@ export default function AddressesManager() {
                 </option>
               ))}
             </select>
-            {loadingCities && <div className="text-xs text-gray-500">Iller yukleniyor...</div>}
+            {loadingCities && <div className="text-xs text-gray-500">İller yükleniyor...</div>}
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">Ilce Secimi</div>
+            <div className="form-label">İlçe Seçimi</div>
             <select
               className="form-input"
               value={form.district}
@@ -464,7 +464,7 @@ export default function AddressesManager() {
                 </option>
               ))}
             </select>
-            {loadingDistricts && <div className="text-xs text-gray-500">Ilceler yukleniyor...</div>}
+            {loadingDistricts && <div className="text-xs text-gray-500">İlceler yükleniyor...</div>}
           </div>
 
           <div className="space-y-2">
@@ -488,7 +488,7 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">Ulke</div>
+            <div className="form-label">Ülke</div>
             <input
               className="form-input"
               placeholder="Ulke"
@@ -503,7 +503,7 @@ export default function AddressesManager() {
               checked={form.isDefault}
               onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
             />
-            Varsayilan adres yap
+            Varsayılan adres yap
           </label>
 
           <div className="md:col-span-2 flex justify-end gap-3 pt-2">
