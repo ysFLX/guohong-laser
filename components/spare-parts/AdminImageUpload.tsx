@@ -38,9 +38,9 @@ export default function AdminImageUpload({
 
   return (
     <div className="mt-6 rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-800">
-      <div className="text-sm font-semibold text-gray-900 dark:text-white">Admin: Resim Yukle</div>
+      <div className="text-sm font-semibold text-gray-900 dark:text-white">Admin: Resim Yükle</div>
       <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">
-        JPG/PNG/WEBP onerilir. Yukleme dogrudan Supabase Storage (bucket: spare-parts) icine yapilir.
+        JPG/PNG/WEBP önerilir. Yükleme doğrudan Supabase Storage (bucket: spare-parts) içine yapılır.
       </div>
 
       {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
@@ -67,7 +67,7 @@ export default function AdminImageUpload({
             setError('');
             try {
               if (!supabase) {
-                throw new Error('Supabase client hazir degil');
+                throw new Error('Supabase client hazır değil');
               }
 
               await Promise.all(
@@ -81,14 +81,14 @@ export default function AdminImageUpload({
                     }),
                   });
                   const signData = await signRes.json();
-                  if (!signRes.ok) throw new Error(signData?.error || 'Upload url olusturulamadi');
+                  if (!signRes.ok) throw new Error(signData?.error || 'Upload url oluşturulamadı');
 
                   const upload = await supabase.storage
                     .from('spare-parts')
                     .uploadToSignedUrl(signData.path, signData.token, file, { contentType: file.type });
 
                   if (upload.error) {
-                    throw new Error(upload.error.message || 'Yukleme basarisiz');
+                    throw new Error(upload.error.message || 'Yükleme başarısız');
                   }
 
                   const saveRes = await fetch(`/api/spare-parts/${sparePartId}/image-url`, {
@@ -103,14 +103,14 @@ export default function AdminImageUpload({
               setFiles([]);
               router.refresh();
             } catch (e: unknown) {
-              setError(e instanceof Error ? e.message : 'Yukleme basarisiz');
+              setError(e instanceof Error ? e.message : 'Yükleme başarısız');
             } finally {
               setIsUploading(false);
             }
           }}
           className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60"
         >
-          {isUploading ? 'Yukleniyor...' : 'Yukle'}
+          {isUploading ? 'Yükleniyor...' : 'yükle'}
         </button>
       </div>
 
@@ -129,10 +129,10 @@ export default function AdminImageUpload({
                   try {
                     const res = await fetch(`/api/spare-parts/images/${img.id}`, { method: 'DELETE' });
                     const data = await res.json();
-                    if (!res.ok) throw new Error(data?.error || 'Silme basarisiz');
+                    if (!res.ok) throw new Error(data?.error || 'Silme başarısız');
                     router.refresh();
                   } catch (e: unknown) {
-                    setError(e instanceof Error ? e.message : 'Silme basarisiz');
+                    setError(e instanceof Error ? e.message : 'Silme başarısız');
                   } finally {
                     setDeletingId(null);
                   }

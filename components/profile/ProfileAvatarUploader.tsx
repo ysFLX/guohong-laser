@@ -31,7 +31,7 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
     setIsUploading(true);
     try {
       if (!supabase) {
-        throw new Error("Supabase client hazir degil");
+        throw new Error("Supabase client hazır değil");
       }
 
       const signRes = await fetch("/api/profile/avatar/upload-url", {
@@ -43,14 +43,14 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
         }),
       });
       const signData = await signRes.json();
-      if (!signRes.ok) throw new Error(signData?.error || "Upload url olusturulamadi");
+      if (!signRes.ok) throw new Error(signData?.error || "Upload url oluşturulamadı");
 
       const upload = await supabase.storage
         .from("profile-avatars")
         .uploadToSignedUrl(signData.path, signData.token, file, { contentType: file.type });
 
       if (upload.error) {
-        throw new Error(upload.error.message || "Yukleme basarisiz");
+        throw new Error(upload.error.message || "Yükleme başarısız");
       }
 
       const saveRes = await fetch("/api/profile/avatar", {
@@ -66,7 +66,7 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
       await update?.();
       router.refresh();
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Yukleme basarisiz");
+      setError(e instanceof Error ? e.message : "Yükleme başarısız");
     } finally {
       setIsUploading(false);
     }
@@ -74,8 +74,8 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
 
   return (
     <div className="rounded-2xl border border-gray-200 p-4 bg-white">
-      <div className="text-sm font-semibold text-gray-900">Profil Fotograf</div>
-      <div className="mt-1 text-xs text-gray-500">JPEG/PNG/WEBP onerilir.</div>
+      <div className="text-sm font-semibold text-gray-900">Profil Fotoğrafı</div>
+      <div className="mt-1 text-xs text-gray-500">JPEG/PNG/WEBP önerilir.</div>
 
       <div className="mt-4 flex items-center gap-4">
         <div className="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center text-gray-400">
@@ -104,7 +104,7 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
           onClick={handleUpload}
           className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60"
         >
-          {isUploading ? "Yukleniyor..." : "Yukle"}
+          {isUploading ? "Yükleniyor..." : "Yukle"}
         </button>
       </div>
 

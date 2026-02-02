@@ -36,7 +36,7 @@ export default function ProfileLayout({
               {initial}
             </div>
             <div>
-              <h1 className="text-2xl font-semibold">Hesabim</h1>
+              <h1 className="text-2xl font-semibold">Hesabım</h1>
               <div className="mt-1 text-sm text-white/70" suppressHydrationWarning>
                 {emailLine}
               </div>
@@ -46,7 +46,7 @@ export default function ProfileLayout({
             href="/profile"
             className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
           >
-            Profil sayfasi
+            Profil sayfası
           </Link>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function ProfileLayout({
             {side ?? (
               <>
                 <div className="text-sm font-semibold text-slate-900">Adres</div>
-                <div className="mt-1 text-sm text-slate-600">Adreslerini yonetmek icin tikla</div>
+                <div className="mt-1 text-sm text-slate-600">Adreslerini yönetmek için tıkla</div>
                 <div className="mt-4">
                   <Link
                     href="/profile/addresses"
