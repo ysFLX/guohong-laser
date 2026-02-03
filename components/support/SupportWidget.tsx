@@ -5,16 +5,16 @@ import { useState } from 'react';
 
 const faqs = [
   {
-    q: 'Teslimat ne kadar suruyor?',
-    a: 'Stoklu urunlerde 2-3 is gunu, ozel siparislerde 7-10 gun.',
+    q: 'Teslimat ne kadar sürüyor?',
+    a: 'Stoklu ürünlerde 2-3 iş günü, özel siparişlerde 7-10 gün.',
   },
   {
-    q: 'Garanti nasil isliyor?',
-    a: 'Resmi servis garantisi ve fatura ile destek saglaniyor.',
+    q: 'Garanti nasıl işliyor?',
+    a: 'Resmi servis garantisi ve fatura ile destek sağlanıyor.',
   },
   {
     q: 'Uyumluluk teyidi alabilir miyim?',
-    a: 'Model bilgisi paylasirsan teknik ekip teyit eder.',
+    a: 'Model bilgisi paylaşırsan teknik ekip teyit eder.',
   },
 ];
 
@@ -27,8 +27,8 @@ export default function SupportWidget() {
         <div className="mb-3 w-[320px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
           <div className="bg-slate-900 px-5 py-4 text-white">
             <div className="text-xs uppercase tracking-[0.3em] text-indigo-300">Destek</div>
-            <div className="mt-1 text-lg font-semibold">Hizli yardim</div>
-            <p className="mt-1 text-xs text-slate-300">Sana en hizli sekilde yardimci olalim.</p>
+            <div className="mt-1 text-lg font-semibold">Hızlı yardım</div>
+            <p className="mt-1 text-xs text-slate-300">Sana en hızlı şekilde yardımcı olalım.</p>
           </div>
           <div className="space-y-4 px-5 py-4 text-sm text-slate-700">
             <div className="space-y-3">
@@ -44,13 +44,13 @@ export default function SupportWidget() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
               >
-                Destek talebi ac
+                Destek talebi aç
               </Link>
               <a
                 href="https://wa.me/905368316787"
                 className="inline-flex items-center justify-center rounded-full border border-indigo-200 px-4 py-2 text-xs font-semibold text-indigo-700"
               >
-                WhatsApp hatti
+                WhatsApp Hattı
               </a>
             </div>
           </div>
@@ -61,7 +61,7 @@ export default function SupportWidget() {
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl transition hover:scale-[1.03]"
-        aria-label="Destek widgetini ac"
+        aria-label="Destek kaydını aç"
       >
         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
           <path d="M2 12a10 10 0 1118.22 5.56L22 22l-4.7-1.57A10 10 0 012 12zm6.5-1.25a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" />
