@@ -30,7 +30,7 @@ export default function AdminSparePartCategoryForm() {
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="sm:col-span-1">
-          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200">Kategori Adi</label>
+          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200">Kategori Adı</label>
           <input
             value={name}
             onChange={(e) => {
@@ -69,7 +69,7 @@ export default function AdminSparePartCategoryForm() {
             const trimmedSlug = slug.trim();
 
             if (!trimmedName) {
-              setError('Kategori adi bos olamaz');
+              setError('Kategori adı boş olamaz');
               return;
             }
 
@@ -88,15 +88,15 @@ export default function AdminSparePartCategoryForm() {
               });
 
               const data = await res.json();
-              if (!res.ok) throw new Error(data?.error || 'Kategori olusturulamadi');
+              if (!res.ok) throw new Error(data?.error || 'Kategori oluşturulamadı');
 
-              setSuccess('Kategori olusturuldu');
+              setSuccess('Kategori oluşturuldu');
               setName('');
               setSlug('');
               setIsActive(true);
               router.refresh();
             } catch (e: unknown) {
-              setError(e instanceof Error ? e.message : 'Kategori olusturulamadi');
+              setError(e instanceof Error ? e.message : 'Kategori oluşturulamadı');
             } finally {
               setIsSaving(false);
             }

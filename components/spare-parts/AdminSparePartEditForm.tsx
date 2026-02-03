@@ -46,9 +46,9 @@ export default function AdminSparePartEditForm({
     <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Urun bilgileri</div>
-          <h2 className="mt-2 text-xl font-semibold text-slate-900">Duzenleme paneli</h2>
-          <p className="mt-1 text-sm text-slate-500">Degisiklikleri kaydetmek icin asagidaki butonu kullan.</p>
+          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Ürün bilgileri</div>
+          <h2 className="mt-2 text-xl font-semibold text-slate-900">Düzenleme paneli</h2>
+          <p className="mt-1 text-sm text-slate-500">Değişiklikleri kaydetmek için aşağıdaki butonu kullanın.</p>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ export default function AdminSparePartEditForm({
 
       <div className="mt-6 grid grid-cols-1 gap-4">
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Urun adi</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Ürün adı</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -66,7 +66,7 @@ export default function AdminSparePartEditForm({
         </div>
 
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Aciklama</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Açıklama</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -77,7 +77,7 @@ export default function AdminSparePartEditForm({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Olculer</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Ölçüler</label>
             <input
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
@@ -121,7 +121,7 @@ export default function AdminSparePartEditForm({
               onChange={(e) => setStockOnHand(e.target.value)}
               className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60"
             />
-            <div className="mt-2 text-xs text-slate-500">Stok degisince hareket kaydi olusur.</div>
+            <div className="mt-2 text-xs text-slate-500">Stok değişince hareket kaydı oluşur.</div>
           </div>
         </div>
 
@@ -149,19 +149,19 @@ export default function AdminSparePartEditForm({
               const parsedStock = Number(stockOnHand);
 
               if (!name.trim()) {
-                setError('Urun adi bos olamaz');
+                setError('Ürün adı boş olamaz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
-                setError('Fiyat gecersiz');
+                setError('Fiyat geçersiz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedStock) || parsedStock < 0) {
-                setError('Stok gecersiz');
+                setError('Stok geçersiz');
                 setIsSaving(false);
                 return;
               }
@@ -201,7 +201,7 @@ export default function AdminSparePartEditForm({
             type="button"
             disabled={isDeleting}
             onClick={async () => {
-              const ok = window.confirm('Urunu silmek istiyor musun? Bu islem geri alinamaz.');
+              const ok = window.confirm('Ürünü silmek istiyor musun? Bu işlem geri alınamaz.');
               if (!ok) return;
               setIsDeleting(true);
               setError('');
@@ -222,7 +222,7 @@ export default function AdminSparePartEditForm({
             variant="outline"
             className="px-6 py-3"
           >
-            {isDeleting ? 'Siliniyor...' : 'Urunu sil'}
+            {isDeleting ? 'Siliniyor...' : 'Ürünü sil'}
           </AdminButton>
         </div>
       </div>

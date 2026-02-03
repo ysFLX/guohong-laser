@@ -30,7 +30,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
 
       <div className="mt-4 grid grid-cols-1 gap-4">
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Urun adi</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Ürün adı</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -39,7 +39,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
         </div>
 
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Aciklama</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Açıklama</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -50,7 +50,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Olculer</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Ölçüler</label>
             <input
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
@@ -121,25 +121,25 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
               const parsedStock = Number(stockOnHand);
 
               if (!name.trim()) {
-                setError('Urun adi bos olamaz');
+                setError('Ürün adı boş olamaz');
                 setIsSaving(false);
                 return;
               }
 
               if (!categoryId) {
-                setError('Kategori secin');
+                setError('Kategori seçin');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
-                setError('Fiyat gecersiz');
+                setError('Fiyat geçersiz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedStock) || parsedStock < 0) {
-                setError('Stok gecersiz');
+                setError('Stok geçersiz');
                 setIsSaving(false);
                 return;
               }
@@ -163,7 +163,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                 const data = await res.json();
                 if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
 
-                setSuccess('Urun olusturuldu');
+                setSuccess('Ürün oluşturuldu');
                 router.push(`/admin/spare-parts/${data.item.id}`);
                 router.refresh();
               } catch (e: unknown) {
