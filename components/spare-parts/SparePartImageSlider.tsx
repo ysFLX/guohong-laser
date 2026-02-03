@@ -50,7 +50,7 @@ export default function SparePartImageSlider({
               type="button"
               onClick={() => goTo(index - 1)}
               className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border border-white/40 text-white backdrop-blur hover:bg-white/10"
-              aria-label="Onceki gorsel"
+              aria-label="Önceki görsel"
             >
               {'<'}
             </button>
@@ -58,7 +58,7 @@ export default function SparePartImageSlider({
               type="button"
               onClick={() => goTo(index + 1)}
               className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border border-white/40 text-white backdrop-blur hover:bg-white/10"
-              aria-label="Sonraki gorsel"
+              aria-label="Sonraki görsel"
             >
               {'>'}
             </button>

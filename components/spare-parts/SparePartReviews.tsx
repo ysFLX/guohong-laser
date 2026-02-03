@@ -65,7 +65,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
       setCanReview(Boolean(data.canReview));
       setHasReviewed(Boolean(data.hasReviewed));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Yorumlar alinamadi.');
+      setError(err instanceof Error ? err.message : 'Yorumlar alınamadı.');
     } finally {
       setLoading(false);
     }
@@ -85,7 +85,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
     setSubmitError('');
 
     if (!rating) {
-      setSubmitError('Lutfen puan sec.');
+      setSubmitError('Lütfen puan seçin.');
       return;
     }
 
@@ -116,7 +116,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Yorumlar</p>
-          <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Musteri degerlendirmeleri</h2>
+          <h2 className="mt-2 text-xl font-semibold text-gray-900 dark:text-white">Müşteri değerlendirmeleri</h2>
         </div>
         <div className="flex items-center gap-3">
           <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
@@ -149,11 +149,11 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
             })}
           </div>
 
-          {loading && <div className="mt-6 text-sm text-gray-500">Yukleniyor...</div>}
+          {loading && <div className="mt-6 text-sm text-gray-500">Yükleniyor...</div>}
           {error && <div className="mt-6 text-sm text-red-600">{error}</div>}
 
           {!loading && !error && items.length === 0 && (
-            <div className="mt-6 text-sm text-gray-500">Henuz yorum yok.</div>
+            <div className="mt-6 text-sm text-gray-500">Henüz yorum yok.</div>
           )}
         </div>
 
@@ -189,13 +189,13 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
 
           <div className="rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 text-sm text-indigo-900">
             {status !== 'authenticated' && (
-              <p>Yorum yazmak icin giris yapmalisin.</p>
+              <p>Yorum yazmak için giriş yapmalısın.</p>
             )}
             {status === 'authenticated' && hasReviewed && (
-              <p>Bu urun icin yorumun alinmis. Tesekkurler.</p>
+              <p>Bu ürün için yorumun alındı. Teşekkürler.</p>
             )}
             {status === 'authenticated' && !hasReviewed && !canReview && (
-              <p>Yorum yazmak icin urunu satin almalisin.</p>
+              <p>Yorum yazmak için ürün satın almalısın.</p>
             )}
             {status === 'authenticated' && canReview && (
               <form onSubmit={handleSubmit} className="mt-2 space-y-3">
@@ -227,7 +227,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                     onChange={(event) => setIsAnonymous(event.target.checked)}
                     className="h-4 w-4 rounded border-indigo-200 text-indigo-600 focus:ring-indigo-200"
                   />
-                  Ismimi gizle
+                  İsmini gizle
                 </label>
                 <input
                   type="text"
@@ -249,7 +249,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                   disabled={submitting}
                   className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {submitting ? 'Gonderiliyor' : 'Yorum gonder'}
+                  {submitting ? 'Gönderiliyor' : 'Yorum gönder'}
                 </button>
               </form>
             )}
