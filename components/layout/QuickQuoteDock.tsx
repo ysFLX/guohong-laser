@@ -5,6 +5,11 @@ import { usePathname } from 'next/navigation';
 
 import { machineProductNames } from '@/lib/machineCatalog';
 
+// The floating "Hızlı Teklif" dock is intentionally disabled.
+// Keep the `/quote` and other CTAs, but remove the bottom-corner widget.
+// Re-enable later by setting `NEXT_PUBLIC_ENABLE_QUICK_QUOTE=1`.
+const QUICK_QUOTE_ENABLED = process.env.NEXT_PUBLIC_ENABLE_QUICK_QUOTE === '1';
+
 type FormState = {
   name: string;
   email: string;
@@ -22,6 +27,8 @@ const emptyForm: FormState = {
 };
 
 export default function QuickQuoteDock() {
+  if (!QUICK_QUOTE_ENABLED) return null;
+
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isSpareParts = pathname?.startsWith('/spare-parts');
@@ -179,4 +186,3 @@ export default function QuickQuoteDock() {
     </div>
   );
 }
-
