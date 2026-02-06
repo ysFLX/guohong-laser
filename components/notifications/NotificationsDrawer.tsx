@@ -105,7 +105,13 @@ export default function NotificationsDrawer() {
             const replyState = replyById[x.id] ?? { value: '', isSending: false, error: '', success: '' };
             const isOrderStatus = x.type === 'ORDER_STATUS';
             const isSystem = x.type === 'SYSTEM';
-            const adminLink = x.type === 'QUOTE' ? `/admin/inquiries#quote-${x.id}` : `/admin/inquiries#contact-${x.id}`;
+            const isLiveSupportContact =
+              x.type === 'CONTACT' && /canl[ıi]\s*destek/i.test((x.subject || '').toLowerCase());
+            const adminLink = isLiveSupportContact
+              ? '/admin/live-support'
+              : x.type === 'QUOTE'
+                ? `/admin/inquiries/quotes#quote-${x.id}`
+                : `/admin/inquiries/contact#contact-${x.id}`;
 
             return (
               <div key={x.id} className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 bg-white dark:bg-gray-900">
@@ -255,6 +261,5 @@ export default function NotificationsDrawer() {
     </div>
   );
 }
-
 
 

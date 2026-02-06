@@ -181,7 +181,7 @@ export default function AdminLiveSupportPage() {
                   className={
                     item.role === 'user'
                       ? 'max-w-[80%] rounded-2xl rounded-bl-md border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-2'
-                      : 'max-w-[80%] rounded-2xl rounded-br-md bg-[var(--admin-primary)] px-3 py-2 text-white'
+                      : 'max-w-[80%] rounded-2xl rounded-br-md bg-indigo-600 px-3 py-2 text-white shadow-sm'
                   }
                 >
                   <div className="text-xs leading-6">{item.text}</div>
@@ -211,7 +211,7 @@ export default function AdminLiveSupportPage() {
                 type="button"
                 onClick={handleSend}
                 disabled={!replyTargetInquiryId || !input.trim() || saving}
-                className="h-11 rounded-xl bg-[var(--admin-primary)] px-4 text-sm font-semibold text-white disabled:opacity-60"
+                className="inline-flex h-11 items-center justify-center rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {saving ? 'Gonderiliyor...' : 'Gonder'}
               </button>
@@ -222,4 +222,3 @@ export default function AdminLiveSupportPage() {
     </div>
   );
 }
-
