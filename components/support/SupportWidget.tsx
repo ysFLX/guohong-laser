@@ -11,6 +11,15 @@ type LiveMessage = {
   status?: string;
 };
 
+type LivePayload = {
+  authenticated?: boolean;
+  messages?: LiveMessage[];
+  supportAgentName?: string;
+  supportOnline?: boolean;
+  waitingReply?: boolean;
+  agentTyping?: boolean;
+};
+
 const fallbackFaqs = [
   {
     q: 'Teslimat ne kadar suruyor?',
@@ -26,6 +35,16 @@ const fallbackFaqs = [
   },
 ];
 
+function TypingDots() {
+  return (
+    <div className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-2">
+      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-500 [animation-delay:-0.2s]" />
+      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-500 [animation-delay:-0.1s]" />
+      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-500" />
+    </div>
+  );
+}
+
 export default function SupportWidget() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,6 +52,10 @@ export default function SupportWidget() {
   const [authenticated, setAuthenticated] = useState(false);
   const [messages, setMessages] = useState<LiveMessage[]>([]);
   const [input, setInput] = useState('');
+  const [supportAgentName, setSupportAgentName] = useState('Guohong Destek');
+  const [supportOnline, setSupportOnline] = useState(true);
+  const [waitingReply, setWaitingReply] = useState(false);
+  const [agentTyping, setAgentTyping] = useState(false);
 
   const hasMessages = messages.length > 0;
 
@@ -45,13 +68,14 @@ export default function SupportWidget() {
     setLoading(true);
     try {
       const response = await fetch('/api/support/live', { cache: 'no-store' });
-      const data = (await response.json().catch(() => ({}))) as {
-        authenticated?: boolean;
-        messages?: LiveMessage[];
-      };
+      const data = (await response.json().catch(() => ({}))) as LivePayload;
 
       setAuthenticated(Boolean(data.authenticated));
       setMessages(Array.isArray(data.messages) ? data.messages : []);
+      setSupportAgentName(data.supportAgentName || 'Guohong Destek');
+      setSupportOnline(data.supportOnline !== false);
+      setWaitingReply(Boolean(data.waitingReply));
+      setAgentTyping(Boolean(data.agentTyping));
     } finally {
       setLoading(false);
     }
@@ -84,7 +108,7 @@ export default function SupportWidget() {
         body: JSON.stringify({ message }),
       });
 
-      const data = (await response.json().catch(() => ({}))) as { message?: LiveMessage; error?: string };
+      const data = (await response.json().catch(() => ({}))) as { message?: LiveMessage };
 
       if (!response.ok) {
         return;
@@ -103,18 +127,23 @@ export default function SupportWidget() {
   return (
     <div className="fixed bottom-4 right-6 z-40">
       {open && (
-        <div className="mb-3 w-[360px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
-          <div className="bg-slate-900 px-5 py-4 text-white">
-            <div className="text-xs uppercase tracking-[0.3em] text-indigo-300">Canli Destek</div>
-            <div className="mt-1 text-lg font-semibold">Anlik sohbet</div>
-            <p className="mt-1 text-xs text-slate-300">Teknik ekibe direkt mesaj birak, cevabi burada gor.</p>
+        <div className="mb-3 w-[370px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
+          <div className="bg-gradient-to-r from-indigo-700 to-indigo-600 px-5 py-4 text-white">
+            <div className="flex items-center justify-between">
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-100">Canli Destek</div>
+              <span className="rounded-full bg-white/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.15em]">
+                {supportOnline ? 'Cevrimici' : 'Mesgul'}
+              </span>
+            </div>
+            <div className="mt-2 text-sm font-semibold">{supportAgentName}</div>
+            <p className="mt-1 text-xs text-indigo-100">Gercek zamanli destek icin mesajini birak, ekip panelde aninda gorur.</p>
           </div>
 
-          <div className="max-h-[360px] space-y-3 overflow-y-auto px-5 py-4 text-sm">
+          <div className="max-h-[360px] space-y-3 overflow-y-auto bg-slate-50 px-5 py-4 text-sm">
             {loading && <div className="text-xs text-slate-500">Yukleniyor...</div>}
 
             {!loading && authenticated && !hasMessages && (
-              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600">
                 Henuz mesaj yok. Asagidan ilk mesajini gonderebilirsin.
               </div>
             )}
@@ -122,36 +151,48 @@ export default function SupportWidget() {
             {!loading && authenticated && hasMessages && (
               <div className="space-y-2">
                 {sortedMessages.map((item) => (
-                  <div
-                    key={item.id}
-                    className={
-                      item.role === 'user'
-                        ? 'ml-auto max-w-[85%] rounded-2xl bg-indigo-600 px-3 py-2 text-xs text-white'
-                        : 'mr-auto max-w-[85%] rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700'
-                    }
-                  >
-                    <div>{item.text}</div>
+                  <div key={item.id} className={item.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
                     <div
                       className={
-                        item.role === 'user' ? 'mt-1 text-[10px] text-indigo-100' : 'mt-1 text-[10px] text-slate-400'
+                        item.role === 'user'
+                          ? 'max-w-[85%] rounded-2xl rounded-br-md bg-indigo-600 px-3 py-2 text-xs text-white shadow-sm'
+                          : 'max-w-[85%] rounded-2xl rounded-bl-md border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 shadow-sm'
                       }
                     >
-                      {new Date(item.at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                      <div>{item.text}</div>
+                      <div
+                        className={
+                          item.role === 'user' ? 'mt-1 text-[10px] text-indigo-100' : 'mt-1 text-[10px] text-slate-400'
+                        }
+                      >
+                        {new Date(item.at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                      </div>
                     </div>
                   </div>
                 ))}
+
+                {agentTyping && (
+                  <div className="flex items-center gap-2">
+                    <TypingDots />
+                    <span className="text-[10px] font-medium text-slate-500">{supportAgentName} yaziyor...</span>
+                  </div>
+                )}
+
+                {waitingReply && !agentTyping && (
+                  <div className="text-[11px] text-slate-500">Destek ekibi mesajini goruyor, kisa surede yanitlanir.</div>
+                )}
               </div>
             )}
 
             {!loading && !authenticated && (
               <div className="space-y-3">
                 {fallbackFaqs.map((item) => (
-                  <div key={item.q} className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2">
+                  <div key={item.q} className="rounded-2xl border border-slate-200 bg-white px-3 py-2">
                     <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{item.q}</div>
                     <div className="mt-1 text-xs text-slate-600">{item.a}</div>
                   </div>
                 ))}
-                <div className="rounded-2xl border border-indigo-100 bg-indigo-50 px-3 py-2 text-xs text-indigo-700">
+                <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs text-indigo-700">
                   Anlik sohbet icin once hesaba giris yap.
                 </div>
               </div>
@@ -168,13 +209,13 @@ export default function SupportWidget() {
                     if (event.key === 'Enter') sendMessage();
                   }}
                   placeholder="Mesajinizi yazin..."
-                  className="h-10 w-full rounded-full border border-slate-200 px-4 text-xs text-slate-700 outline-none focus:border-indigo-400"
+                  className="h-10 w-full rounded-full border border-slate-200 bg-white px-4 text-xs text-slate-700 outline-none focus:border-indigo-400"
                 />
                 <button
                   type="button"
                   onClick={sendMessage}
                   disabled={sending || !input.trim()}
-                  className="inline-flex h-10 items-center justify-center rounded-full bg-slate-900 px-4 text-xs font-semibold text-white disabled:opacity-60"
+                  className="inline-flex h-10 items-center justify-center rounded-full bg-indigo-600 px-4 text-xs font-semibold text-white disabled:opacity-60"
                 >
                   {sending ? '...' : 'Gonder'}
                 </button>
@@ -182,7 +223,7 @@ export default function SupportWidget() {
             ) : (
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white"
               >
                 Giris yap
               </Link>

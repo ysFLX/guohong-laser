@@ -8,7 +8,7 @@ import { machineProductNames } from '@/lib/machineCatalog';
 // The floating "Hızlı Teklif" dock is intentionally disabled.
 // Keep the `/quote` and other CTAs, but remove the bottom-corner widget.
 // Re-enable later by setting `NEXT_PUBLIC_ENABLE_QUICK_QUOTE=1`.
-const QUICK_QUOTE_ENABLED = process.env.NEXT_PUBLIC_ENABLE_QUICK_QUOTE === '1';
+const QUICK_QUOTE_ENABLED = false;
 
 type FormState = {
   name: string;
@@ -186,3 +186,4 @@ export default function QuickQuoteDock() {
     </div>
   );
 }
+

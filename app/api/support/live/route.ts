@@ -43,12 +43,21 @@ function splitInquiryToMessages(inquiry: {
   return result;
 }
 
+const SUPPORT_AGENT_FALLBACK = 'Guohong Destek';
+
 export async function GET() {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
 
   if (!userId) {
-    return NextResponse.json({ authenticated: false, messages: [] as LiveMessage[] });
+    return NextResponse.json({
+      authenticated: false,
+      messages: [] as LiveMessage[],
+      supportAgentName: SUPPORT_AGENT_FALLBACK,
+      supportOnline: true,
+      waitingReply: false,
+      agentTyping: false,
+    });
   }
 
   const inquiries = await prisma.inquiry.findMany({
@@ -62,6 +71,11 @@ export async function GET() {
       status: true,
       adminResponse: true,
       respondedAt: true,
+      respondedByUser: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
@@ -69,7 +83,20 @@ export async function GET() {
     .flatMap(splitInquiryToMessages)
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
 
-  return NextResponse.json({ authenticated: true, messages });
+  const latestAnswered = inquiries.find((item) => Boolean(item.adminResponse));
+  const supportAgentName = latestAnswered?.respondedByUser?.name || SUPPORT_AGENT_FALLBACK;
+
+  const waitingReply = inquiries.some((item) => !item.adminResponse && item.status !== 'CLOSED');
+  const agentTyping = inquiries.some((item) => !item.adminResponse && item.status === 'READ');
+
+  return NextResponse.json({
+    authenticated: true,
+    messages,
+    supportAgentName,
+    supportOnline: true,
+    waitingReply,
+    agentTyping,
+  });
 }
 
 export async function POST(request: Request) {
