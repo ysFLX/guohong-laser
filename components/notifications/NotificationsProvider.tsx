@@ -67,10 +67,11 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
   }, [status, refresh]);
 
   useEffect(() => {
-    if (status !== 'authenticated' || isAdmin) return;
+    if (status !== 'authenticated') return;
+    const pollMs = isAdmin ? 5000 : 30000;
     const interval = window.setInterval(() => {
       refresh();
-    }, 30000);
+    }, pollMs);
     return () => window.clearInterval(interval);
   }, [status, isAdmin, refresh]);
 

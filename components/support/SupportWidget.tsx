@@ -48,6 +48,7 @@ function TypingDots() {
 export default function SupportWidget() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const [sending, setSending] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [messages, setMessages] = useState<LiveMessage[]>([]);
@@ -64,33 +65,39 @@ export default function SupportWidget() {
     [messages],
   );
 
-  async function loadMessages() {
-    setLoading(true);
+  async function loadMessages(showLoader = false) {
+    if (showLoader) setLoading(true);
     try {
       const response = await fetch('/api/support/live', { cache: 'no-store' });
       const data = (await response.json().catch(() => ({}))) as LivePayload;
 
-      setAuthenticated(Boolean(data.authenticated));
-      setMessages(Array.isArray(data.messages) ? data.messages : []);
+      // Keep last valid state to prevent message flicker during transient responses.
+      if (typeof data.authenticated === 'boolean') {
+        setAuthenticated(data.authenticated);
+      }
+      if (Array.isArray(data.messages)) {
+        setMessages(data.messages);
+      }
       setSupportAgentName(data.supportAgentName || 'Guohong Destek');
       setSupportOnline(data.supportOnline !== false);
       setWaitingReply(Boolean(data.waitingReply));
       setAgentTyping(Boolean(data.agentTyping));
+      setInitialized(true);
     } finally {
-      setLoading(false);
+      if (showLoader) setLoading(false);
     }
   }
 
   useEffect(() => {
     if (!open) return;
-    loadMessages();
+    loadMessages(!initialized);
   }, [open]);
 
   useEffect(() => {
     if (!open || !authenticated) return;
 
     const timer = setInterval(() => {
-      loadMessages();
+      loadMessages(false);
     }, 5000);
 
     return () => clearInterval(timer);
@@ -118,7 +125,7 @@ export default function SupportWidget() {
         setMessages((prev) => [...prev, data.message as LiveMessage]);
       }
       setInput('');
-      loadMessages();
+      loadMessages(false);
     } finally {
       setSending(false);
     }
@@ -140,15 +147,15 @@ export default function SupportWidget() {
           </div>
 
           <div className="max-h-[360px] space-y-3 overflow-y-auto bg-slate-50 px-5 py-4 text-sm">
-            {loading && <div className="text-xs text-slate-500">Yukleniyor...</div>}
+            {loading && !hasMessages && <div className="text-xs text-slate-500">Yukleniyor...</div>}
 
-            {!loading && authenticated && !hasMessages && (
+            {authenticated && !hasMessages && !loading && (
               <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600">
                 Henuz mesaj yok. Asagidan ilk mesajini gonderebilirsin.
               </div>
             )}
 
-            {!loading && authenticated && hasMessages && (
+            {authenticated && hasMessages && (
               <div className="space-y-2">
                 {sortedMessages.map((item) => (
                   <div key={item.id} className={item.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
@@ -184,7 +191,7 @@ export default function SupportWidget() {
               </div>
             )}
 
-            {!loading && !authenticated && (
+            {!authenticated && !loading && (
               <div className="space-y-3">
                 {fallbackFaqs.map((item) => (
                   <div key={item.q} className="rounded-2xl border border-slate-200 bg-white px-3 py-2">
