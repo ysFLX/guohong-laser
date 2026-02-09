@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
@@ -52,6 +52,11 @@ const statusMeta = (status: string) => {
   };
 };
 
+const isLiveSupportInquiry = (subject: string | null) => {
+  const normalizedSubject = (subject ?? '').toLocaleLowerCase('tr-TR').replaceAll('ı', 'i');
+  return normalizedSubject.includes('canli destek');
+};
+
 function SectionHeader({ title, count, type }: { title: string; count: number; type: 'CONTACT' | 'QUOTE' }) {
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -87,7 +92,9 @@ export default async function AdminInquiriesPage() {
     take: 400,
   });
 
-  const contacts = items.filter((item) => item.type === 'CONTACT' && item.status !== 'CLOSED');
+  const contacts = items.filter(
+    (item) => item.type === 'CONTACT' && item.status !== 'CLOSED' && !isLiveSupportInquiry(item.subject ?? null),
+  );
   const quotes = items.filter((item) => item.type === 'QUOTE' && item.status !== 'CLOSED');
 
   const renderCards = (list: InquiryRow, typeLabel: 'CONTACT' | 'QUOTE') => (
@@ -206,4 +213,5 @@ export default async function AdminInquiriesPage() {
     </div>
   );
 }
+
 

@@ -16,6 +16,21 @@ const prismaInquiry = prisma as unknown as {
   inquiry: InquiryDeleteDelegate;
 };
 
+function getClearWhere(type: Payload['type']) {
+  if (type === 'CONTACT') {
+    return {
+      type,
+      status: { not: 'CLOSED' },
+      OR: [
+        { subject: null },
+        { subject: { not: { contains: 'canli destek', mode: 'insensitive' } } },
+      ],
+    };
+  }
+
+  return { type, status: { not: 'CLOSED' } };
+}
+
 async function handleClear(req: Request) {
   const session = await getServerSession(authOptions);
 
@@ -41,7 +56,7 @@ async function handleClear(req: Request) {
         payloadType = body.type;
       }
     } catch {
-      return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
+      return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
     }
   }
 
@@ -50,7 +65,7 @@ async function handleClear(req: Request) {
   }
 
   const result = await prismaInquiry.inquiry.updateMany({
-    where: { type: payloadType, status: { not: 'CLOSED' } },
+    where: getClearWhere(payloadType),
     data: { status: 'CLOSED' },
   });
 

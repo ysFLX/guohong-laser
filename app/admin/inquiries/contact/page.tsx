@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,7 +38,7 @@ const statusMeta = (status: string) => {
   }
   if (status === 'CLOSED') {
     return {
-      label: 'İncele',
+      label: 'Incele',
       accent: 'border-l-rose-400',
       badge: 'text-rose-700 bg-rose-500/10 ring-1 ring-rose-500/30',
     };
@@ -48,6 +48,11 @@ const statusMeta = (status: string) => {
     accent: 'border-l-amber-400',
     badge: 'text-amber-700 bg-amber-500/10 ring-1 ring-amber-500/30',
   };
+};
+
+const isLiveSupportInquiry = (subject: string | null) => {
+  const normalizedSubject = (subject ?? '').toLocaleLowerCase('tr-TR').replaceAll('ı', 'i');
+  return normalizedSubject.includes('canli destek');
 };
 
 export default async function AdminContactInquiriesPage() {
@@ -65,13 +70,14 @@ export default async function AdminContactInquiriesPage() {
     console.error('Inquiry cleanup failed (CONTACT):', error);
   }
 
-  const items = await prismaInquiry.inquiry.findMany({
+  const contactItems = await prismaInquiry.inquiry.findMany({
     where: {
       type: 'CONTACT',
     },
     orderBy: [{ createdAt: 'desc' }],
     take: 200,
   });
+  const items = contactItems.filter((item) => !isLiveSupportInquiry(item.subject ?? null));
 
   return (
     <div className="space-y-6" id="top">
@@ -88,7 +94,7 @@ export default async function AdminContactInquiriesPage() {
 
       {items.length === 0 && (
         <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
-          Henüz iletişim mesajı yok.
+          Henuz iletisim mesaji yok.
         </div>
       )}
 
@@ -96,9 +102,9 @@ export default async function AdminContactInquiriesPage() {
         {items.length > 0 && (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
-              <div>Kayıt</div>
-              <div>Müşteri</div>
-              <div>İletişim</div>
+              <div>Kayit</div>
+              <div>Musteri</div>
+              <div>Iletisim</div>
               <div>Konu</div>
               <div>Tarih</div>
               <div>Durum</div>
