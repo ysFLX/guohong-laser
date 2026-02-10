@@ -1102,7 +1102,7 @@ function SparePartsPageContent() {
                             {item.category.name}
                           </span>
                           <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
-                            {item.stockOnHand > 0 ? 'Stokta' : 'Siparisle'}
+                            {item.stockOnHand > 0 ? 'Stokta' : 'Siparişle'}
                           </span>
                         </div>
                       </div>

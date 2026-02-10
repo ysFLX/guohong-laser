@@ -131,7 +131,7 @@ export async function POST(request: Request) {
     data: {
       type: 'CONTACT',
       status: 'NEW',
-      name: user.name || 'Musteri',
+      name: user.name || 'Müşteri',
       email: user.email,
       subject: 'Canli destek',
       message,

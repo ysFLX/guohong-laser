@@ -22,12 +22,12 @@ type ReviewSummary = {
 const getDisplayName = (user: { name: string | null; firstName: string | null; lastName: string | null }) => {
   if (user.name) return user.name;
   const composed = [user.firstName, user.lastName].filter(Boolean).join(' ');
-  return composed || 'Musteri';
+  return composed || 'Müşteri';
 };
 
 const maskName = (value: string) => {
   const trimmed = value.trim();
-  if (!trimmed || trimmed === 'Musteri') return 'Gizli Müşteri';
+  if (!trimmed || trimmed === 'Müşteri' || trimmed === 'Musteri') return 'Gizli Müşteri';
   const parts = trimmed.split(/\s+/).filter(Boolean);
   const masked = parts
     .map((part) => {
@@ -93,7 +93,7 @@ export async function GET(
     const { id: sparePartId } = await params;
 
     const reviews = await prisma.sparePartReview.findMany({
-      where: { sparePartId },
+      where: { sparePartId, isApproved: true },
       orderBy: { createdAt: 'desc' },
       include: {
         user: {

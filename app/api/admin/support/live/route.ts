@@ -79,7 +79,7 @@ export async function GET(request: Request) {
       return {
         key,
         userId: last.userId,
-        name: last.name || 'Musteri',
+        name: last.name || 'Müşteri',
         email: last.email,
         lastAt: last.createdAt.toISOString(),
         lastPreview: last.message.slice(0, 120),
@@ -130,4 +130,3 @@ export async function GET(request: Request) {
     replyTargetInquiryId,
   });
 }
-

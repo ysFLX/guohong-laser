@@ -2,10 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Footer() {
   const pathname = usePathname();
   const isHome = pathname === '/';
+  const [whatsAppHref, setWhatsAppHref] = useState('https://wa.me/905368316787');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const pageUrl = window.location.href;
+    const message = pageUrl
+      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Şu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
+      : 'Merhaba, Guohong Lazer sitesinden yazıyorum. Bilgi almak istiyorum.';
+    setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
+  }, [pathname]);
 
   const accent = {
     glow: isHome ? 'bg-amber-200/70' : 'bg-indigo-200/70',
@@ -66,7 +77,12 @@ export default function Footer() {
               <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-white dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900">
                 İletişime Geç
               </Link>
-              <a href="https://wa.me/905368316787" className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold ${accent.outlineBtn} dark:border-indigo-400/30 dark:text-indigo-300 dark:hover:bg-indigo-400/10`}>
+              <a
+                href={whatsAppHref}
+                target="_blank"
+                rel="noreferrer"
+                className={`inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold ${accent.outlineBtn} dark:border-indigo-400/30 dark:text-indigo-300 dark:hover:bg-indigo-400/10`}
+              >
                 WhatsApp Hattı
               </a>
             </div>
@@ -105,7 +121,7 @@ export default function Footer() {
                   </svg>
                 </a>
                 <a href="https://www.instagram.com/gu0honglaser/" className={accent.iconHover}>
-                  <span className="sr-only">İnstagram</span>
+                  <span className="sr-only">Instagram</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
                       fillRule="evenodd"
@@ -114,7 +130,7 @@ export default function Footer() {
                     />
                   </svg>
                 </a>
-                <a href="https://wa.me/905368316787" className={accent.iconHover}>
+                <a href={whatsAppHref} target="_blank" rel="noreferrer" className={accent.iconHover}>
                   <span className="sr-only">WhatsApp</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.52 3.48A11.94 11.94 0 0012.06 0C5.4 0 .07 5.33.07 12c0 2.11.55 4.18 1.6 6.02L0 24l6.17-1.62A11.95 11.95 0 0012.06 24h.01c6.66 0 12.09-5.33 12.09-11.99 0-3.2-1.25-6.2-3.64-8.53zm-8.46 18.5a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.65.96.98-3.56-.24-.37a9.93 9.93 0 01-1.57-5.31c0-5.51 4.48-9.99 10-9.99a9.95 9.95 0 017.09 2.93 9.9 9.9 0 012.94 7.06c0 5.51-4.48 9.99-9.99 9.99zm5.47-7.46c-.3-.15-1.77-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.18-.17.2-.35.23-.65.08-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.8-1.67-2.1-.18-.3-.02-.46.13-.6.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.53.08-.8.38-.27.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.23 5.14 4.53.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.20-.57-.35z" />
@@ -147,6 +163,4 @@ export default function Footer() {
     </footer>
   );
 }
-
-
 

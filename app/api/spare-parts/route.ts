@@ -43,6 +43,7 @@ export async function GET() {
   try {
     const ratingRows = await prisma.sparePartReview.groupBy({
       by: ['sparePartId'],
+      where: { isApproved: true },
       _avg: { rating: true },
       _count: { rating: true },
     });

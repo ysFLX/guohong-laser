@@ -76,15 +76,16 @@ const faqItems = [
   },
   {
     q: 'Montaj desteği sağlıyor musunuz?',
-    a: 'Teknik ekip uzaktan destek verir. Yerinde servis için planlama yapilabilir.',
+    a: 'Teknik ekip uzaktan destek verir. Yerinde servis için planlama yapılabilir.',
   },
   {
-    q: 'Garanti kapsami nedir?',
+    q: 'Garanti kapsamı nedir?',
     a: 'Garanti süresi ürün tipine göre değişir. Fatura ve seri numarası ile destek alabilirsiniz.',
   },
 ];
 
-const getBaseUrl = () => process.env.NEXTAUTH_URL || 'http://localhost:3000';
+const getBaseUrl = () =>
+  process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
 const truncate = (value: string, max = 160) =>
   value.length > max ? `${value.slice(0, max - 3)}...` : value;
@@ -163,6 +164,40 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
+const renderStars = (average: number) =>
+  Array.from({ length: 5 }, (_, index) => {
+    const value = average - index;
+    const isFull = value >= 0.9;
+    const isHalf = value >= 0.1 && value < 0.9;
+
+    if (isHalf) {
+      return (
+        <span key={`star-${index}`} className="relative inline-flex h-4 w-4">
+          <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-300" fill="currentColor" aria-hidden="true">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+          </svg>
+          <span className="absolute left-0 top-0 h-4 w-2 overflow-hidden">
+            <svg viewBox="0 0 20 20" className="h-4 w-4 text-amber-400" fill="currentColor" aria-hidden="true">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+            </svg>
+          </span>
+        </span>
+      );
+    }
+
+    return (
+      <svg
+        key={`star-${index}`}
+        viewBox="0 0 20 20"
+        className={`h-4 w-4 ${isFull ? 'text-amber-400' : 'text-slate-300'}`}
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.367 2.447a1 1 0 00-.364 1.118l1.286 3.96c.3.921-.755 1.688-1.538 1.118l-3.367-2.447a1 1 0 00-1.176 0l-3.367 2.447c-.783.57-1.838-.197-1.538-1.118l1.286-3.96a1 1 0 00-.364-1.118L2.025 9.387c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.96z" />
+      </svg>
+    );
+  });
+
 export default async function SparePartDetailPage({
   params,
   searchParams,
@@ -210,6 +245,19 @@ export default async function SparePartDetailPage({
       slug: part.category.slug,
     },
   };
+
+  const reviewSummary = await prisma.sparePartReview.aggregate({
+    where: { sparePartId: id, isApproved: true },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+  const ratingCount = reviewSummary._count.rating ?? 0;
+  const ratingAverage = Number(reviewSummary._avg.rating ?? 0);
+
+  const baseUrl = getBaseUrl().replace(/\/$/, '');
+  const productUrl = `${baseUrl}/spare-parts/${p.id}`;
+  const whatsAppText = `Merhaba, ${p.name} yedek parçası hakkında bilgi almak istiyorum.\nLink: ${productUrl}`;
+  const whatsAppHref = `https://wa.me/905368316787?text=${encodeURIComponent(whatsAppText)}`;
 
   const related = await prismaSpareParts.sparePart.findMany({
     where: {
@@ -273,7 +321,6 @@ export default async function SparePartDetailPage({
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;
   const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
-  const baseUrl = getBaseUrl();
   const imageUrls = (p.images?.length ? p.images.map((img) => img.url) : [p.imageUrl]).filter(
     Boolean,
   ) as string[];
@@ -374,16 +421,32 @@ export default async function SparePartDetailPage({
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
-                {p.name}
-              </h1>
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
-                <span>Kategori: {p.category.name}</span>
-                <span>Stok: {p.stockOnHand}</span>
-                <span>Ölçü: {p.dimensions || '-'}</span>
-              </div>
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
+                  {p.name}
+                </h1>
+                {ratingCount > 0 && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+                    <span className="inline-flex items-center gap-0.5" aria-label={`Ortalama puan ${ratingAverage.toFixed(1)} / 5`}>
+                      {renderStars(ratingAverage)}
+                    </span>
+                    <Link
+                      href="#reviews"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700"
+                    >
+                      <span>{ratingAverage.toFixed(1)}</span>
+                      <span className="text-slate-400">({ratingCount})</span>
+                      <span className="text-slate-400">•</span>
+                      <span>Yorumları gör</span>
+                    </Link>
+                  </div>
+                )}
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                  <span>Kategori: {p.category.name}</span>
+                  <span>Stok: {p.stockOnHand}</span>
+                  <span>Ölçü: {p.dimensions || '-'}</span>
+                </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-700">{p.description}</p>
             </div>
 
@@ -410,13 +473,13 @@ export default async function SparePartDetailPage({
                   Kurumsal garanti
                 </span>
               </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {[
-                  { title: 'Sertifikali kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
-                  { title: 'Orjinal tedarik', detail: 'Resmi servis ve orjinallik teyidi.' },
-                  { title: 'Hızlı destek', detail: '24 saat içinde teknik geri dönüş.' },
-                ].map((item) => (
-                  <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {[
+                    { title: 'Sertifikalı kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
+                    { title: 'Orijinal tedarik', detail: 'Resmi servis ve orijinallik teyidi.' },
+                    { title: 'Hızlı destek', detail: '24 saat içinde teknik geri dönüş.' },
+                  ].map((item) => (
+                    <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
                     <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{item.title}</div>
                     <p className="mt-2 text-xs text-slate-600">{item.detail}</p>
                   </div>
@@ -436,7 +499,7 @@ export default async function SparePartDetailPage({
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum</p>
-                <p className="mt-1 font-semibold text-slate-900">{inStock ? 'Stokta' : 'Siparisle'}</p>
+                <p className="mt-1 font-semibold text-slate-900">{inStock ? 'Stokta' : 'Siparişle'}</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Ölçü</p>
@@ -541,12 +604,14 @@ export default async function SparePartDetailPage({
               >
                 Sepete git
               </Link>
-              <Link
-                href="/contact"
+              <a
+                href={whatsAppHref}
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
-                Ürün hakkında sor
-              </Link>
+                WhatsApp&apos;tan sor
+              </a>
             </div>
             <div className="mt-5 border-t border-slate-200 pt-4 text-xs text-slate-500">
               <ul className="space-y-2">

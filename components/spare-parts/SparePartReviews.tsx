@@ -233,7 +233,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                   type="text"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
-                  placeholder="Baslik (opsiyonel)"
+                  placeholder="Başlık (opsiyonel)"
                   className="w-full rounded-xl border border-indigo-100 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                 />
                 <textarea
@@ -259,4 +259,3 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
     </section>
   );
 }
-

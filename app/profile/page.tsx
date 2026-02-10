@@ -487,7 +487,7 @@ export default function ProfilePage() {
               href="/profile/orders"
               className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
             >
-              Siparislerim
+              Siparişlerim
             </Link>
           </div>
         </div>
