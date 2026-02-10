@@ -407,7 +407,7 @@ export default function OrdersAdminManager() {
         {!loading && filteredOrders.length > 0 && (
           <div className="space-y-4">
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
+              <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
                 <div>Sipariş</div>
                 <div>Müşteri</div>
                 <div>Durum</div>
@@ -826,6 +826,5 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
-
 
 
