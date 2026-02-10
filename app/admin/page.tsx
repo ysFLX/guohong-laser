@@ -151,30 +151,30 @@ export default async function AdminHomePage() {
 
   return (
     <div className="space-y-8">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-lg font-bold text-slate-900">Admin Anasayfa</div>
-            <div className="mt-1 text-sm text-slate-600">
+            <div className="text-lg font-semibold text-[var(--admin-text)]">Admin Anasayfa</div>
+            <div className="mt-1 text-sm text-[var(--admin-muted)]">
               Yedek parça, stok ve iletişim taleplerini tek ekrandan takip et.
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
               href="/admin/spare-parts"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800"
+              className="inline-flex items-center justify-center rounded-xl bg-[var(--admin-accent)] px-4 py-2 text-sm font-semibold text-[var(--admin-accent-contrast)] shadow-sm hover:opacity-95"
             >
               Yedek Parça
             </Link>
             <Link
               href="/admin/inquiries#quotes"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 text-slate-900 hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-sm font-semibold text-[var(--admin-text)] shadow-sm hover:bg-[var(--admin-card-muted)]"
             >
               Teklifler
             </Link>
             <Link
               href="/admin/inquiries#contact"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 text-slate-900 hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-sm font-semibold text-[var(--admin-text)] shadow-sm hover:bg-[var(--admin-card-muted)]"
             >
               İletişim
             </Link>
@@ -185,17 +185,17 @@ export default async function AdminHomePage() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+              className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4"
             >
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-400">
+              <div className="flex items-center justify-between text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-muted)]">
                 <span>{stat.label}</span>
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-indigo-600 shadow-sm">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--admin-surface)] text-[var(--admin-accent)] shadow-sm">
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
                     <path d="M12 2l8 4v12l-8 4-8-4V6l8-4zm0 2.3L6 6.1v9.8l6 2.8 6-2.8V6.1L12 4.3z" />
                   </svg>
                 </span>
               </div>
-              <div className="mt-3 text-2xl font-semibold text-slate-900">{stat.value}</div>
+              <div className="mt-3 text-2xl font-semibold text-[var(--admin-text)]">{stat.value}</div>
             </div>
           ))}
         </div>
@@ -234,16 +234,16 @@ export default async function AdminHomePage() {
             <Link
               key={card.title}
               href={card.href}
-              className={`group rounded-2xl border bg-white p-4 transition hover:shadow-md ${card.tone}`}
+              className={`group rounded-2xl border bg-[var(--admin-surface)] p-4 transition hover:shadow-[var(--admin-shadow)] ${card.tone}`}
             >
-              <div className="flex items-center justify-between text-sm text-slate-500">
-                <span className="text-xs uppercase tracking-[0.2em]">{card.title}</span>
-                <span className="rounded-full bg-slate-900 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+              <div className="flex items-center justify-between text-sm text-[var(--admin-muted)]">
+                <span className="text-xs font-semibold tracking-[0.22em]">{card.title}</span>
+                <span className="rounded-full bg-[var(--admin-accent)] px-2 py-1 text-[10px] font-semibold tracking-[0.2em] text-[var(--admin-accent-contrast)]">
                   {card.count}
                 </span>
               </div>
-              <div className="mt-3 text-sm font-semibold text-slate-900">{card.description}</div>
-              <div className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+              <div className="mt-3 text-sm font-semibold text-[var(--admin-text)]">{card.description}</div>
+              <div className="mt-4 inline-flex items-center text-xs font-semibold tracking-[0.22em] text-[var(--admin-accent)]">
                 Hemen git
                 <span className="ml-1 transition group-hover:translate-x-1">-&gt;</span>
               </div>
@@ -251,20 +251,20 @@ export default async function AdminHomePage() {
           ))}
         </div>
 
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+        <div className="mt-6 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Anasayfa panelleri</div>
-              <div className="mt-2 text-sm text-slate-600">
+              <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">Anasayfa panelleri</div>
+              <div className="mt-2 text-sm text-[var(--admin-muted)]">
                 Son güncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henüz ayarlanmadı'}
               </div>
-              <div className="mt-1 text-xs text-slate-500">
+              <div className="mt-1 text-xs text-[var(--admin-muted)]">
                 Ana sayfadaki 3 blok (kapasite, fiyat alarmı, satın alma) buradan yönetilir.
               </div>
             </div>
             <Link
               href="/admin/site-config"
-              className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:border-slate-300"
+              className="inline-flex items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] shadow-sm hover:bg-[var(--admin-card)]"
             >
               Panelleri düzenle
             </Link>
@@ -274,13 +274,16 @@ export default async function AdminHomePage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-slate-900">Güncel Stok</div>
-                <div className="text-sm text-slate-600">Son güncellenen 5 ürün</div>
+                <div className="text-base font-semibold text-[var(--admin-text)]">Güncel Stok</div>
+                <div className="text-sm text-[var(--admin-muted)]">Son güncellenen 5 ürün</div>
               </div>
-              <Link href="/admin/spare-parts" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+              <Link
+                href="/admin/spare-parts"
+                className="text-sm font-semibold text-[var(--admin-accent)] hover:opacity-90"
+              >
                 Tümünü gör
               </Link>
             </div>
@@ -289,42 +292,42 @@ export default async function AdminHomePage() {
               {latestParts.map((p) => (
                 <div key={p.id} className="py-3 flex items-center justify-between gap-3">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">
+                    <div className="text-sm font-semibold text-[var(--admin-text)]">
                       {p.name}{' '}
                       {!p.isActive && (
-                        <span className="ml-1 rounded-full bg-slate-200 text-slate-700 px-2 py-0.5 text-[11px] font-semibold">
+                        <span className="ml-1 rounded-full bg-[var(--admin-card-muted)] px-2 py-0.5 text-[11px] font-semibold text-[var(--admin-muted)]">
                           Pasif
                         </span>
                       )}
                       {p.isFeatured && (
-                        <span className="ml-1 rounded-full bg-slate-900 text-white px-2 py-0.5 text-[11px] font-semibold">
+                        <span className="ml-1 rounded-full bg-[var(--admin-accent)] px-2 py-0.5 text-[11px] font-semibold text-[var(--admin-accent-contrast)]">
                           Vitrin
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-slate-600">
+                    <div className="text-xs text-[var(--admin-muted)]">
                       {p.category.name} - Stok: {p.stockOnHand} - {formatPriceTry(p.priceCents)}
                     </div>
                   </div>
                   <Link
                     href={`/admin/spare-parts/${p.id}`}
-                    className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+                    className="text-sm font-semibold text-[var(--admin-accent)] hover:opacity-90"
                   >
                     Düzenle
                   </Link>
                 </div>
               ))}
               {latestParts.length === 0 && (
-                <div className="py-6 text-sm text-slate-600">Henüz ürün yok.</div>
+                <div className="py-6 text-sm text-[var(--admin-muted)]">Henüz ürün yok.</div>
               )}
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-slate-900">Hızlı İşlemler</div>
-                <div className="text-sm text-slate-600">Sık kullanılan sayfalara kısa yollar</div>
+                <div className="text-base font-semibold text-[var(--admin-text)]">Hızlı İşlemler</div>
+                <div className="text-sm text-[var(--admin-muted)]">Sık kullanılan sayfalara kısa yollar</div>
               </div>
             </div>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -332,11 +335,11 @@ export default async function AdminHomePage() {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-slate-300 transition"
+                  className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4 transition hover:bg-[var(--admin-surface)]"
                 >
-                  <div className="text-sm font-semibold text-slate-900">{link.title}</div>
-                  <div className="mt-1 text-xs text-slate-600">{link.description}</div>
-                  <div className="mt-3 text-sm font-semibold text-indigo-600 hover:text-indigo-700">{link.action}</div>
+                  <div className="text-sm font-semibold text-[var(--admin-text)]">{link.title}</div>
+                  <div className="mt-1 text-xs text-[var(--admin-muted)]">{link.description}</div>
+                  <div className="mt-3 text-sm font-semibold text-[var(--admin-accent)] hover:opacity-90">{link.action}</div>
                 </Link>
               ))}
             </div>
@@ -344,27 +347,30 @@ export default async function AdminHomePage() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="text-base font-semibold text-slate-900">Son Talepler</div>
-            <div className="text-sm text-slate-600">Son 5 teklif/iletisim talebi</div>
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
+            <div className="text-base font-semibold text-[var(--admin-text)]">Son Talepler</div>
+            <div className="text-sm text-[var(--admin-muted)]">Son 5 teklif/iletişim talebi</div>
 
             <div className="mt-4 space-y-3">
               {recentInquiries.map((inq) => (
-                <div key={inq.id} className="rounded-xl border border-slate-200 p-3 bg-slate-50">
+                <div
+                  key={inq.id}
+                  className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-3"
+                >
                   <div className="flex items-center justify-between gap-2">
-                    <div className="text-sm font-semibold text-slate-900">
+                    <div className="text-sm font-semibold text-[var(--admin-text)]">
                       {inq.name || 'İsim yok'} - {inq.email}
                     </div>
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusBadge(inq.status)}`}>
                       {typeLabel(inq.type)} - {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapalı'}
                     </span>
                   </div>
-                  <div className="mt-1 text-xs text-slate-500">{formatDateTime(inq.createdAt)}</div>
+                  <div className="mt-1 text-xs text-[var(--admin-muted)]">{formatDateTime(inq.createdAt)}</div>
                   <div className="mt-2 text-sm text-slate-700 line-clamp-2">{inq.message}</div>
                 </div>
               ))}
               {recentInquiries.length === 0 && (
-                <div className="rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-600">
+                <div className="rounded-xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 text-sm text-[var(--admin-muted)] shadow-sm">
                   Henüz talep yok.
                 </div>
               )}

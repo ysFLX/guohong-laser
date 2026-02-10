@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { AdminBadge } from '@/components/admin/AdminUi';
 
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import AdminSparePartCategoryForm from '@/components/spare-parts/AdminSparePartCategoryForm';
 
 type Category = {
@@ -27,13 +28,13 @@ export default async function AdminSparePartCategoriesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Kategori merkezi</div>
-        <h1 className="mt-2 text-2xl font-semibold text-slate-900">Kategoriler</h1>
-        <p className="mt-2 text-sm text-slate-500">Kategori ekle ve mevcut kategorileri yönet.</p>
-      </div>
+      <AdminPageHeader
+        eyebrow="Kategori merkezi"
+        title="Kategoriler"
+        description="Kategori ekle ve mevcut kategorileri yönet."
+      />
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <div className="text-sm font-semibold text-slate-900">Yeni kategori</div>
         <div className="mt-3">
           <AdminSparePartCategoryForm />
@@ -44,7 +45,7 @@ export default async function AdminSparePartCategoriesPage() {
         {categories.map((c) => (
           <div
             key={c.id}
-            className="rounded-2xl border border-slate-200 bg-white px-6 py-4 shadow-sm"
+            className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-6 py-4 shadow-sm"
           >
             <div className="grid gap-4 md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
               <div>
@@ -73,7 +74,7 @@ export default async function AdminSparePartCategoriesPage() {
           </div>
         ))}
         {categories.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
+          <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-8 text-center text-sm text-[var(--admin-muted)] shadow-sm">
             Henüz kategori yok.
           </div>
         )}
@@ -81,5 +82,4 @@ export default async function AdminSparePartCategoriesPage() {
     </div>
   );
 }
-
 

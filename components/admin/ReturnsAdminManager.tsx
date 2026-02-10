@@ -111,13 +111,13 @@ export default function ReturnsAdminManager() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <div className="text-xs uppercase tracking-[0.3em] text-slate-500">İade talepleri</div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {statusOptions.map((status) => (
             <div
               key={status.value}
-              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
+              className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-3 text-sm"
             >
               <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">{status.label}</div>
               <div className="mt-2 text-lg font-semibold text-slate-900">{summary[status.value] || 0}</div>
@@ -133,16 +133,16 @@ export default function ReturnsAdminManager() {
       )}
 
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+        <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-slate-600 shadow-sm">
           Yükleniyor...
         </div>
       ) : items.length === 0 ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+        <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-slate-600 shadow-sm">
           İade talebi bulunamadı.
         </div>
       ) : (
         <div className="space-y-5">
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm">
             <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
               <div>Talep</div>
               <div>Müşteri</div>

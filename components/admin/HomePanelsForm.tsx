@@ -85,79 +85,79 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5">
-        <div className="text-xs font-semibold uppercase tracking-[0.25em] text-indigo-600">Hızlı düzenleme</div>
-        <h2 className="mt-2 text-lg font-semibold text-slate-900">Anasayfa panel ayarları</h2>
-        <p className="mt-2 text-sm text-slate-700">
-          Aşağıdan bir panel seç, düzenle ve en alttan kaydet.
-        </p>
+      <section className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-5">
+        <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">Hızlı düzenleme</div>
+        <h2 className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Anasayfa panel ayarları</h2>
+        <p className="mt-2 text-sm text-[var(--admin-muted)]">Aşağıdan bir panel seç, düzenle ve kaydet.</p>
         <div className="mt-4 grid gap-2 sm:grid-cols-3">
           <button
             type="button"
             onClick={() => setActivePanel('capacity')}
             className={`rounded-xl border px-4 py-3 text-left transition ${
               activePanel === 'capacity'
-                ? 'border-indigo-300 bg-white shadow-sm'
-                : 'border-indigo-100 bg-indigo-50/30 hover:bg-white'
+                ? 'border-[var(--admin-accent)] bg-[var(--admin-surface)] shadow-sm'
+                : 'border-[var(--admin-border)] bg-[var(--admin-card-muted)] hover:bg-[var(--admin-surface)]'
             }`}
           >
             <div className="flex items-center justify-between gap-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">1. Panel</div>
-              <div className="rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-semibold text-indigo-700">
+              <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-muted)]">1. Panel</div>
+              <div className="rounded-full bg-[var(--admin-surface)] px-2 py-0.5 text-[11px] font-semibold text-[var(--admin-muted)] ring-1 ring-[var(--admin-border)]">
                 {capacitySchedule.length} slot
               </div>
             </div>
-            <div className="mt-1 text-sm font-semibold text-slate-900">Canlı kapasite takvimi</div>
+            <div className="mt-1 text-sm font-semibold text-[var(--admin-text)]">Canlı kapasite takvimi</div>
           </button>
           <button
             type="button"
             onClick={() => setActivePanel('price')}
             className={`rounded-xl border px-4 py-3 text-left transition ${
               activePanel === 'price'
-                ? 'border-indigo-300 bg-white shadow-sm'
-                : 'border-indigo-100 bg-indigo-50/30 hover:bg-white'
+                ? 'border-[var(--admin-accent)] bg-[var(--admin-surface)] shadow-sm'
+                : 'border-[var(--admin-border)] bg-[var(--admin-card-muted)] hover:bg-[var(--admin-surface)]'
             }`}
           >
             <div className="flex items-center justify-between gap-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">2. Panel</div>
-              <div className="rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-semibold text-indigo-700">
+              <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-muted)]">2. Panel</div>
+              <div className="rounded-full bg-[var(--admin-surface)] px-2 py-0.5 text-[11px] font-semibold text-[var(--admin-muted)] ring-1 ring-[var(--admin-border)]">
                 {priceAlertSteps.length} adım
               </div>
             </div>
-            <div className="mt-1 text-sm font-semibold text-slate-900">Fiyat düşüş alarmı</div>
+            <div className="mt-1 text-sm font-semibold text-[var(--admin-text)]">Fiyat düşüş alarmı</div>
           </button>
           <button
             type="button"
             onClick={() => setActivePanel('procurement')}
             className={`rounded-xl border px-4 py-3 text-left transition ${
               activePanel === 'procurement'
-                ? 'border-indigo-300 bg-white shadow-sm'
-                : 'border-indigo-100 bg-indigo-50/30 hover:bg-white'
+                ? 'border-[var(--admin-accent)] bg-[var(--admin-surface)] shadow-sm'
+                : 'border-[var(--admin-border)] bg-[var(--admin-card-muted)] hover:bg-[var(--admin-surface)]'
             }`}
           >
             <div className="flex items-center justify-between gap-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">3. Panel</div>
-              <div className="rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-semibold text-indigo-700">
+              <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-muted)]">3. Panel</div>
+              <div className="rounded-full bg-[var(--admin-surface)] px-2 py-0.5 text-[11px] font-semibold text-[var(--admin-muted)] ring-1 ring-[var(--admin-border)]">
                 {procurementFlow.length} kart
               </div>
             </div>
-            <div className="mt-1 text-sm font-semibold text-slate-900">Kurumsal satın alma</div>
+            <div className="mt-1 text-sm font-semibold text-[var(--admin-text)]">Kurumsal satın alma</div>
           </button>
         </div>
-        <div className="mt-4 text-xs text-indigo-700">
-          İpucu: Kayıtları düzenlemek için ilgili satırdaki alanları değiştir. Kaydet butonu sayfanın en altındadır.
+        <div className="mt-4 text-xs text-[var(--admin-muted)]">
+          İpucu: Kaydet butonu sayfanın altında sabit. Kayıtları düzenlemek için satırdaki alanları değiştirebilirsin.
         </div>
       </section>
 
-      <section className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm ${activePanel !== 'capacity' ? 'hidden' : ''}`}>
+      <section
+        className={`rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)] ${activePanel !== 'capacity' ? 'hidden' : ''}`}
+      >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-700">
+            <div className="inline-flex items-center rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-1 text-[11px] font-semibold text-[var(--admin-muted)]">
               1. Panel
             </div>
-            <div className="mt-3 text-xs uppercase tracking-[0.3em] text-indigo-600">Canlı kapasite takvimi</div>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">Servis ve keşif slotları</h2>
-            <p className="mt-1 text-sm text-slate-600">Ana sayfadaki kapasite kartları burada girdiğin bilgilerle görünür.</p>
+            <div className="mt-3 text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">Canlı kapasite takvimi</div>
+            <h2 className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Servis ve keşif slotları</h2>
+            <p className="mt-1 text-sm text-[var(--admin-muted)]">Ana sayfadaki kapasite kartları burada girdiğin bilgilerle görünür.</p>
           </div>
           <AdminButton
             type="button"
@@ -268,7 +268,9 @@ export default function HomePanelsForm({ initialConfig }: Props) {
         </div>
       </section>
 
-      <section className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm ${activePanel !== 'price' ? 'hidden' : ''}`}>
+      <section
+        className={`rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)] ${activePanel !== 'price' ? 'hidden' : ''}`}
+      >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-700">
@@ -341,7 +343,9 @@ export default function HomePanelsForm({ initialConfig }: Props) {
         </div>
       </section>
 
-      <section className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm ${activePanel !== 'procurement' ? 'hidden' : ''}`}>
+      <section
+        className={`rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)] ${activePanel !== 'procurement' ? 'hidden' : ''}`}
+      >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-700">
@@ -435,7 +439,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
         </div>
       </section>
 
-      <div className="sticky bottom-4 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <div className="sticky bottom-4 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)]/90 p-4 shadow-[var(--admin-shadow)] backdrop-blur">
         <div className="flex flex-wrap gap-3">
           <AdminButton type="button" disabled={isSaving} onClick={saveConfig}>
             {isSaving ? 'Kaydediliyor...' : 'Değişiklikleri kaydet'}
@@ -463,7 +467,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           <div
             className={`rounded-xl border px-3 py-2 text-xs font-semibold ${
               status.type === 'success'
-                ? 'border-indigo-200 bg-indigo-50 text-indigo-700'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
                 : 'border-rose-200 bg-rose-50 text-rose-700'
             }`}
             role="status"
@@ -471,7 +475,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
             {status.message}
           </div>
         ) : (
-          <div className="text-xs text-slate-500">Kaydetmeden çıkarsan değişiklikler kaybolur.</div>
+          <div className="text-xs text-[var(--admin-muted)]">Kaydetmeden çıkarsan değişiklikler kaybolur.</div>
         )}
       </div>
     </div>

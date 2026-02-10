@@ -304,7 +304,7 @@ export default function OrdersAdminManager() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Sipariş yönetimi</p>
@@ -318,7 +318,7 @@ export default function OrdersAdminManager() {
             <AdminBadge tone="slate">{totalOrders} sipariş</AdminBadge>
           </div>
         </div>
-        <div className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 md:grid-cols-[1.2fr_2fr]">
+        <div className="mt-5 grid gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4 md:grid-cols-[1.2fr_2fr]">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Hızlı arama</div>
             <div className="mt-2 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2">
@@ -369,32 +369,32 @@ export default function OrdersAdminManager() {
           </div>
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Alındı</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.RECEIVED || 0}</div>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazırlanıyor</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.IN_TRANSIT || 0}</div>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">İptal</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.CANCELED || 0}</div>
           </div>
         </div>
         {latestOrder && (
-          <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xs text-slate-600">
+          <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 text-xs text-slate-600 shadow-sm">
             Son sipariş: <span className="font-semibold text-slate-900">#{latestOrder.id.slice(0, 8)}</span> -{' '}
             {formatDate(latestOrder.createdAt)}
           </div>
         )}
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         {loading && <div className="mt-6 text-sm text-slate-500">Yükleniyor...</div>}
         {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
 
@@ -406,7 +406,7 @@ export default function OrdersAdminManager() {
 
         {!loading && filteredOrders.length > 0 && (
           <div className="space-y-4">
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm">
               <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
                 <div>Sipariş</div>
                 <div>Müşteri</div>
@@ -826,4 +826,3 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
-

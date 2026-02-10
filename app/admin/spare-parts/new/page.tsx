@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import AdminSparePartCreateForm from '@/components/spare-parts/AdminSparePartCreateForm';
 
 type CategoryResult = Array<{ id: string; name: string }>;
@@ -18,15 +19,13 @@ export default async function AdminSparePartNewPage() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Ürün oluştur</div>
-        <h1 className="mt-2 text-2xl font-semibold text-slate-900">Yeni yedek parça</h1>
-        <p className="mt-2 text-sm text-slate-500">
-          Ürün bilgilerini gir, kaydettikten sonra görsel ve ek detayları tamamla.
-        </p>
-      </div>
+      <AdminPageHeader
+        eyebrow="Ürün oluştur"
+        title="Yeni yedek parça"
+        description="Ürün bilgilerini gir, kaydettikten sonra görsel ve ek detayları tamamla."
+      />
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <AdminSparePartCreateForm categories={categories} />
       </div>
     </div>

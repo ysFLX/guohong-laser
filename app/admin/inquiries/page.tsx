@@ -4,6 +4,7 @@ import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
 import InquiryStatusActions from '@/components/admin/InquiryStatusActions';
 import { AdminBadge } from '@/components/admin/AdminUi';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -66,16 +67,13 @@ const isLiveSupportInquiry = (subject: string | null) => {
 
 function SectionHeader({ title, count, type }: { title: string; count: number; type: 'CONTACT' | 'QUOTE' }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Talepler</div>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">{title}</h2>
-          <p className="mt-2 text-sm text-slate-500">Toplam kayıt: {count}</p>
-        </div>
-        <ClearInquiriesButton type={type} />
-      </div>
-    </div>
+    <AdminPageHeader
+      heading="h2"
+      eyebrow="Talepler"
+      title={title}
+      description={`Toplam kayıt: ${count}`}
+      actions={<ClearInquiriesButton type={type} />}
+    />
   );
 }
 
@@ -204,7 +202,7 @@ export default async function AdminInquiriesPage() {
       </section>
 
       <div className="sticky bottom-4 z-30">
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)]/90 px-4 py-3 text-xs text-[var(--admin-muted)] shadow-[var(--admin-shadow)] backdrop-blur">
           <div className="flex items-center gap-2">
             <AdminBadge tone="slate">{contacts.length + quotes.length} kayıt</AdminBadge>
             <span>İletişim: {contacts.length} / Teklif: {quotes.length}</span>
@@ -212,13 +210,13 @@ export default async function AdminInquiriesPage() {
           <div className="flex flex-wrap items-center gap-2">
             <a
               href="/admin/inquiries"
-              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
+              className="inline-flex items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] shadow-sm hover:bg-[var(--admin-card-muted)]"
             >
               Yenile
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
+              className="inline-flex items-center justify-center rounded-xl bg-[var(--admin-accent)] px-4 py-2 text-xs font-semibold text-[var(--admin-accent-contrast)] shadow-sm hover:opacity-95"
             >
               En üst
             </a>

@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 
 import { authOptions } from '@/auth';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import AdminSparePartEditForm from '@/components/spare-parts/AdminSparePartEditForm';
 import AdminImageUpload from '@/components/spare-parts/AdminImageUpload';
 import { prisma } from '@/lib/prisma';
@@ -72,7 +73,7 @@ export default async function AdminSparePartDetailPage({
 
   if (!part) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-sm">
         Ürün bulunamadı.
       </div>
     );
@@ -82,18 +83,16 @@ export default async function AdminSparePartDetailPage({
 
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Ürün düzenle</div>
-        <div className="mt-2 flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-semibold text-slate-900">{part.name}</h1>
-          {part.isFeatured && <AdminBadge tone="slate">Vitrin</AdminBadge>}
-        </div>
-        <p className="mt-2 text-sm text-slate-500">Kategori: {part.category.name}</p>
-      </div>
+      <AdminPageHeader
+        eyebrow="Ürün düzenle"
+        title={part.name}
+        description={`Kategori: ${part.category.name}`}
+        actions={part.isFeatured ? <AdminBadge tone="slate">Vitrin</AdminBadge> : null}
+      />
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-slate-100">
+        <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-[var(--admin-shadow)]">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-[var(--admin-surface-muted)]">
             <Image
               src={previewUrl}
               alt={part.name}
@@ -129,7 +128,7 @@ export default async function AdminSparePartDetailPage({
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
           <div className="text-sm font-semibold text-slate-900">Görseller</div>
           <p className="mt-2 text-sm text-slate-500">
             Ürün galerisi ve vitrin görselini buradan güncelleyebilirsin.
@@ -140,7 +139,7 @@ export default async function AdminSparePartDetailPage({
         </div>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <AdminSparePartEditForm
           initial={{
             id: part.id,

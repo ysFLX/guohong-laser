@@ -6,6 +6,7 @@ import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
 import InquiryStatusActions from '@/components/admin/InquiryStatusActions';
 import { AdminBadge } from '@/components/admin/AdminUi';
+import AdminPageHeader from '@/components/admin/AdminPageHeader';
 
 type InquiryRow = Array<{
   id: string;
@@ -77,19 +78,15 @@ export default async function AdminQuoteInquiriesPage() {
 
   return (
     <div className="space-y-6" id="top">
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Teklif merkezi</div>
-            <h1 className="mt-2 text-2xl font-semibold text-slate-900">Fiyat teklifleri</h1>
-            <p className="mt-2 text-sm text-slate-500">Toplam kayıt: {items.length}</p>
-          </div>
-          <ClearInquiriesButton type="QUOTE" />
-        </div>
-      </div>
+      <AdminPageHeader
+        eyebrow="Teklif merkezi"
+        title="Fiyat teklifleri"
+        description={`Toplam kayıt: ${items.length}`}
+        actions={<ClearInquiriesButton type="QUOTE" />}
+      />
 
       {items.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
+        <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-8 text-center text-sm text-[var(--admin-muted)] shadow-sm">
           Henüz teklif talebi yok.
         </div>
       )}
