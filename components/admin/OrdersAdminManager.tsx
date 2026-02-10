@@ -429,28 +429,30 @@ export default function OrdersAdminManager() {
                   className="grid w-full gap-4 border-b border-slate-100 px-6 py-4 text-left transition hover:bg-slate-50 md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
                 >
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Sipariş</div>
-                    <div className="mt-2 text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 md:hidden">Sipariş</div>
+                    <div className="mt-2 md:mt-0 text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
                     <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                   </div>
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Müşteri</div>
-                    <div className="mt-2 text-sm font-semibold text-slate-900">
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 md:hidden">Müşteri</div>
+                    <div className="mt-2 md:mt-0 text-sm font-semibold text-slate-900">
                       {order.user?.name || order.user?.email || 'Misafir'}
                     </div>
                     <div className="mt-1 text-xs text-slate-500">{order.user?.email || '-'}</div>
                   </div>
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
-                    <div className="mt-2">
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 md:hidden">Durum</div>
+                    <div className="mt-2 md:mt-0">
                       <AdminBadge tone={statusTone(displayStatus)}>
                         {statusLabel[displayStatus] || displayStatus}
                       </AdminBadge>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Tutar</div>
-                    <div className="mt-2 text-lg font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
+                    <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 md:hidden">Tutar</div>
+                    <div className="mt-2 md:mt-0 text-lg font-semibold text-slate-900">
+                      {formatPriceTry(order.totalCents)}
+                    </div>
                     <div className="mt-2 inline-flex items-center justify-end gap-1 text-xs font-semibold text-slate-500">
                       Detay
                       <svg
@@ -824,7 +826,6 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
-
 
 
 
