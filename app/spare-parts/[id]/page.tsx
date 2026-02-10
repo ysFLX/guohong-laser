@@ -165,10 +165,23 @@ function formatPriceTry(priceCents: number) {
 
 export default async function SparePartDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { id } = await params;
+  const sp = (await searchParams) ?? {};
+  const rawFrom = sp.from;
+  const from = (typeof rawFrom === 'string' ? rawFrom : Array.isArray(rawFrom) ? rawFrom[0] : '').trim();
+  const backHref =
+    from &&
+    from.length < 800 &&
+    from.startsWith('/spare-parts') &&
+    !from.startsWith('//') &&
+    !from.includes('://')
+      ? from
+      : '/spare-parts';
 
   const part = await prismaSpareParts.sparePart.findUnique({
     where: { id },
@@ -295,7 +308,7 @@ export default async function SparePartDetailPage({
               Ana sayfa
             </Link>
             <span className="mx-2">/</span>
-            <Link href="/spare-parts" className="hover:text-slate-900">
+            <Link href={backHref} className="hover:text-slate-900">
               Yedek parçalar
             </Link>
             <span className="mx-2">/</span>
@@ -651,5 +664,3 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
-
-

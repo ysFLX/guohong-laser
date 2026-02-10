@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
@@ -42,6 +42,25 @@ const machineModels = [
 
 const CRITICAL_STOCK_LEVEL = 5;
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+const SORT_OPTIONS = ['recommended', 'price-asc', 'price-desc', 'rating-desc', 'name-asc'] as const;
+const VALID_SORT_OPTIONS = new Set<string>(SORT_OPTIONS);
+const VALID_MODEL_IDS = new Set<string>(machineModels.map((model) => model.id));
+
+type SearchParamsLike = { get: (key: string) => string | null };
+
+function parseFiltersFromSearchParams(searchParams: SearchParamsLike) {
+  const q = (searchParams.get('q') ?? '').trim();
+  const cat = (searchParams.get('cat') ?? '').trim();
+  const model = (searchParams.get('model') ?? '').trim();
+  const sort = (searchParams.get('sort') ?? '').trim();
+
+  return {
+    q,
+    category: cat && cat !== 'Tümü' ? cat : 'Tümü',
+    model: VALID_MODEL_IDS.has(model) ? model : 'Tümü',
+    sort: VALID_SORT_OPTIONS.has(sort) ? sort : 'recommended',
+  };
+}
 
 function formatPriceTry(priceCents: number) {
   try {
@@ -89,19 +108,22 @@ const renderStars = (average: number) =>
     );
   });
 
-export default function SparePartsPage() {
+function SparePartsPageContent() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { status, data: session } = useSession();
   const { show } = useToast();
+  const urlFilters = useMemo(() => parseFiltersFromSearchParams(searchParams), [searchParams]);
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const lowStockNotified = useRef(false);
   const viewedItemListKey = useRef('');
-  const [selectedCategory, setSelectedCategory] = useState('Tümü');
-  const [selectedModel, setSelectedModel] = useState('Tümü');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(urlFilters.category);
+  const [selectedModel, setSelectedModel] = useState(urlFilters.model);
+  const [searchQuery, setSearchQuery] = useState(urlFilters.q);
   const [visibleCount, setVisibleCount] = useState(24);
-  const [sortOption, setSortOption] = useState('recommended');
+  const [sortOption, setSortOption] = useState(urlFilters.sort);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [stockRequestOpen, setStockRequestOpen] = useState(false);
@@ -128,6 +150,30 @@ export default function SparePartsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [favoriteError, setFavoriteError] = useState('');
+
+  const urlUpdateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevFiltersRef = useRef({
+    selectedCategory: urlFilters.category,
+    selectedModel: urlFilters.model,
+    searchQuery: urlFilters.q,
+    sortOption: urlFilters.sort,
+  });
+
+  useEffect(() => {
+    return () => {
+      if (urlUpdateTimer.current) {
+        clearTimeout(urlUpdateTimer.current);
+        urlUpdateTimer.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    setSelectedCategory(urlFilters.category);
+    setSelectedModel(urlFilters.model);
+    setSearchQuery(urlFilters.q);
+    setSortOption(urlFilters.sort);
+  }, [urlFilters.category, urlFilters.model, urlFilters.q, urlFilters.sort]);
 
   // Load products
   useEffect(() => {
@@ -205,7 +251,8 @@ export default function SparePartsPage() {
 
   const toggleFavorite = async (sparePartId: string) => {
     if (status !== 'authenticated') {
-      router.push(`/login?next=${encodeURIComponent('/spare-parts')}`);
+      const next = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      router.push(`/login?next=${encodeURIComponent(next)}`);
       return;
     }
 
@@ -251,6 +298,70 @@ export default function SparePartsPage() {
     for (const p of items) set.add(p.category.name);
     return ['Tümü', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'tr'))];
   }, [items]);
+
+  useEffect(() => {
+    if (!items.length) return;
+    if (selectedCategory === 'Tümü') return;
+    if (categories.includes(selectedCategory)) return;
+    setSelectedCategory('Tümü');
+  }, [categories, items.length, selectedCategory]);
+
+  useEffect(() => {
+    const prev = prevFiltersRef.current;
+    const changedSearch = prev.searchQuery !== searchQuery;
+    const changedCategory = prev.selectedCategory !== selectedCategory;
+    const changedModel = prev.selectedModel !== selectedModel;
+    const changedSort = prev.sortOption !== sortOption;
+
+    prevFiltersRef.current = { selectedCategory, selectedModel, searchQuery, sortOption };
+
+    const normalizedDesired = {
+      q: searchQuery.trim(),
+      category: selectedCategory,
+      model: selectedModel,
+      sort: sortOption,
+    };
+
+    const current = parseFiltersFromSearchParams(searchParams);
+    if (
+      normalizedDesired.q === current.q &&
+      normalizedDesired.category === current.category &&
+      normalizedDesired.model === current.model &&
+      normalizedDesired.sort === current.sort
+    ) {
+      return;
+    }
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+    if (normalizedDesired.q) nextParams.set('q', normalizedDesired.q);
+    else nextParams.delete('q');
+
+    if (normalizedDesired.category !== 'Tümü') nextParams.set('cat', normalizedDesired.category);
+    else nextParams.delete('cat');
+
+    if (normalizedDesired.model !== 'Tümü') nextParams.set('model', normalizedDesired.model);
+    else nextParams.delete('model');
+
+    if (normalizedDesired.sort !== 'recommended') nextParams.set('sort', normalizedDesired.sort);
+    else nextParams.delete('sort');
+
+    const href = nextParams.toString() ? `${pathname}?${nextParams.toString()}` : pathname;
+    const shouldDebounce = changedSearch && !changedCategory && !changedModel && !changedSort;
+
+    if (urlUpdateTimer.current) {
+      clearTimeout(urlUpdateTimer.current);
+      urlUpdateTimer.current = null;
+    }
+
+    if (shouldDebounce) {
+      urlUpdateTimer.current = setTimeout(() => {
+        router.replace(href);
+      }, 350);
+      return;
+    }
+
+    router.push(href);
+  }, [pathname, router, searchParams, searchQuery, selectedCategory, selectedModel, sortOption]);
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -390,6 +501,20 @@ export default function SparePartsPage() {
     setSelectedCategory('Tümü');
     setSelectedModel('Tümü');
   };
+
+  const fromParam = useMemo(() => {
+    const params = new URLSearchParams();
+    const q = searchQuery.trim();
+    if (q) params.set('q', q);
+    if (selectedCategory !== 'Tümü') params.set('cat', selectedCategory);
+    if (selectedModel !== 'Tümü') params.set('model', selectedModel);
+    if (sortOption !== 'recommended') params.set('sort', sortOption);
+    const qs = params.toString();
+    return qs ? `/spare-parts?${qs}` : '';
+  }, [searchQuery, selectedCategory, selectedModel, sortOption]);
+
+  const getPartHref = (id: string) =>
+    fromParam ? `/spare-parts/${id}?from=${encodeURIComponent(fromParam)}` : `/spare-parts/${id}`;
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
@@ -708,7 +833,7 @@ export default function SparePartsPage() {
                       key={p.id}
                       className="group relative overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)]"
                     >
-                      <Link href={`/spare-parts/${p.id}`} className="block">
+                      <Link href={getPartHref(p.id)} className="block">
                         <div className="relative h-64 w-full overflow-hidden bg-slate-50">
                           <Image
                             src={p.imageUrl || '/images/1.jpg'}
@@ -757,7 +882,7 @@ export default function SparePartsPage() {
   
                       <div className="space-y-4 px-5 pb-5 pt-5">
                         <div className="flex items-start justify-between gap-3">
-                          <Link href={`/spare-parts/${p.id}`} className="min-w-0">
+                          <Link href={getPartHref(p.id)} className="min-w-0">
                             <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">
                               {p.name}
                             </h3>
@@ -810,7 +935,7 @@ export default function SparePartsPage() {
 
                         <div className="flex items-center gap-2 text-xs">
                           <Link
-                            href={`/spare-parts/${p.id}`}
+                            href={getPartHref(p.id)}
                             className="rounded-full border border-slate-200 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-slate-500 hover:border-slate-300 hover:text-slate-900"
                           >
                             Detay gör
@@ -1185,7 +1310,7 @@ export default function SparePartsPage() {
             {crossSell.map((item) => (
               <Link
                 key={item.id}
-                href={`/spare-parts/${item.id}`}
+                href={getPartHref(item.id)}
                 className="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white/80 p-4 transition-colors hover:border-indigo-200 dark:border-slate-800/60 dark:bg-slate-900/70 dark:hover:border-indigo-400/50"
               >
                 <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-white">
@@ -1210,5 +1335,13 @@ export default function SparePartsPage() {
         </section>
       )}
     </div>
+  );
+}
+
+export default function SparePartsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+      <SparePartsPageContent />
+    </Suspense>
   );
 }
