@@ -429,15 +429,15 @@ export default function SparePartsPage() {
       return;
     }
 
-    setStockRequestLoading(true);
-    try {
-      const message = [
-        `Urun: ${stockRequestPart.name}`,
-        `Urun ID: ${stockRequestPart.id}`,
-        `Adet: ${stockRequestForm.quantity || '-'}`,
-        `Telefon: ${stockRequestForm.phone || '-'}`,
-        `Not: ${stockRequestForm.note || '-'}`,
-      ].join('\n');
+      setStockRequestLoading(true);
+      try {
+        const message = [
+          `Ürün: ${stockRequestPart.name}`,
+          `Ürün ID: ${stockRequestPart.id}`,
+          `Adet: ${stockRequestForm.quantity || '-'}`,
+          `Telefon: ${stockRequestForm.phone || '-'}`,
+          `Not: ${stockRequestForm.note || '-'}`,
+        ].join('\n');
 
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -455,14 +455,20 @@ export default function SparePartsPage() {
 
       const data = await response.json();
 
-      if (data.step === 'verify') {
-        setStockRequestStep('verify');
-        setStockRequestInfo('Doğrulama kodu e-posta adresine gönderildi.');
-      } else if (data.success) {
-        setStockRequestStatus({
-          success: true,
-          message: 'Talebin alındı. Stok girişinde sana bilgi vereceğiz.',
-        });
+        if (data.step === 'verify') {
+          setStockRequestStep('verify');
+          setStockRequestInfo('Doğrulama kodu e-posta adresine gönderildi.');
+        } else if (data.success) {
+          trackEvent('generate_lead', {
+            lead_type: 'stock_request',
+            source: 'spare_parts_modal',
+            product: stockRequestPart.name,
+            quantity: stockRequestForm.quantity,
+          });
+          setStockRequestStatus({
+            success: true,
+            message: 'Talebin alındı. Stok girişinde sana bilgi vereceğiz.',
+          });
         setStockRequestStep('details');
         setStockRequestOtp('');
       } else {

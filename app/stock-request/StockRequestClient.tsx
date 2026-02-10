@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
+import { trackEvent } from '@/lib/analytics';
+
 export default function StockRequestClient() {
   const searchParams = useSearchParams();
   const presetProduct = searchParams.get('product') || '';
@@ -64,8 +66,8 @@ export default function StockRequestClient() {
     }
 
     const messageParts = [
-      `Urun: ${formData.product || '-'}`,
-      `Urun ID: ${formData.productId || '-'}`,
+      `Ürün: ${formData.product || '-'}`,
+      `Ürün ID: ${formData.productId || '-'}`,
       `Adet: ${formData.quantity || '-'}`,
       `Aciliyet: ${formData.urgency || '-'}`,
       `Not: ${formData.note || '-'}`,
@@ -94,9 +96,14 @@ export default function StockRequestClient() {
         setStep('verify');
         setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (data.success) {
+        trackEvent('generate_lead', {
+          lead_type: 'stock_request',
+          product: formData.product || undefined,
+          urgency: formData.urgency,
+        });
         setSubmitStatus({
           success: true,
-          message: 'Talebiniz alındı. Stok güncelligi için sizinle iletişime geçeceğiz.',
+          message: 'Talebiniz alındı. Stok güncelliği için sizinle iletişime geçeceğiz.',
         });
         setFormData({
           name: '',
@@ -210,7 +217,7 @@ export default function StockRequestClient() {
                   <select name="urgency" value={formData.urgency} onChange={handleChange} className="form-input">
                     <option value="Normal">Normal</option>
                     <option value="Acil (48 saat)">Acil (48 saat)</option>
-                    <option value="Planli">Planlı</option>
+                    <option value="Planlı">Planlı</option>
                   </select>
                 </div>
                 <div className="space-y-2 sm:col-span-2">
@@ -281,4 +288,3 @@ export default function StockRequestClient() {
     </div>
   );
 }
-

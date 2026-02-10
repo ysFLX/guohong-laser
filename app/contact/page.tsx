@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import Reveal from '@/components/home/Reveal';
+import { trackEvent } from '@/lib/analytics';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -63,6 +64,10 @@ export default function ContactPage() {
         setStep('verify');
         setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (data.success) {
+        trackEvent('generate_lead', {
+          lead_type: 'contact',
+          subject: formData.subject,
+        });
         setSubmitStatus({
           success: true,
           message: 'Mesajınız alındı. En kısa sürede size geri döneceğiz.',
@@ -333,6 +338,5 @@ export default function ContactPage() {
     </div>
   );
 }
-
 
 

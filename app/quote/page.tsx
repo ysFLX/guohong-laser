@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProductNames } from '@/lib/machineCatalog';
+import { trackEvent } from '@/lib/analytics';
 
 export default function QuotePage() {
   const router = useRouter();
@@ -67,6 +68,10 @@ export default function QuotePage() {
         setStep('verify');
         setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (response.ok) {
+        trackEvent('generate_lead', {
+          lead_type: 'quote',
+          product: formData.product || undefined,
+        });
         setSubmitStatus({
           success: true,
           message: 'Talebiniz alındı. En kısa sürede sizinle iletişime geçilecektir.',
@@ -273,7 +278,7 @@ export default function QuotePage() {
               onClick={() => router.back()}
               className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Iptal
+              İptal
             </button>
             <button
               type="submit"
@@ -288,6 +293,5 @@ export default function QuotePage() {
     </div>
   );
 }
-
 
 

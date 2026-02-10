@@ -218,9 +218,10 @@ export default function CheckoutAddressPage() {
     setCheckoutError('');
 
     try {
-      trackEvent('begin_checkout', {
+      trackEvent('add_shipping_info', {
         currency: 'TRY',
         value: subtotalCents / 100,
+        shipping_tier: 'Standart',
         items: items.map((item) => ({
           item_id: item.id,
           item_name: item.name,

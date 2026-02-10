@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProductNames } from '@/lib/machineCatalog';
+import { trackEvent } from '@/lib/analytics';
 
 type QuoteItem = {
   name: string;
@@ -115,9 +116,13 @@ export default function BulkQuotePage() {
         setStep('verify');
         setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (response.ok) {
+        trackEvent('generate_lead', {
+          lead_type: 'bulk_quote',
+          items_count: cleanedItems.length,
+        });
         setSubmitStatus({
           success: true,
-          message: 'Talebiniz alındı. Ekibimiz toplu teklifi hazırlayip sizinle iletisime geçecek.',
+          message: 'Talebiniz alındı. Ekibimiz toplu teklifi hazırlayıp sizinle iletişime geçecek.',
         });
         setFormData({ name: '', company: '', email: '', phone: '', message: '' });
         setItems([{ name: '', quantity: '1', note: '' }]);
@@ -305,7 +310,7 @@ export default function BulkQuotePage() {
               onClick={() => router.back()}
               className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
             >
-              Iptal
+              İptal
             </button>
             <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
               {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Teklif iste'}
