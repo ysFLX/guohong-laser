@@ -301,12 +301,12 @@ export default function CheckoutAddressPage() {
             <p className="mt-1 text-sm text-gray-600">Ödeme öncesi adres seçimini tamamla.</p>
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900">
-            {cartItemCount} urun - {formatPriceTry(subtotalCents)}
+            {cartItemCount} ürün - {formatPriceTry(subtotalCents)}
           </div>
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
+          <div className="h-fit rounded-3xl border border-gray-200 bg-white p-6 shadow-lg lg:sticky lg:top-24">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">Adres seç</h2>
               <button
@@ -725,7 +725,7 @@ export default function CheckoutAddressPage() {
                       <div className="form-label">Ülke</div>
                       <input
                         className="form-input"
-                        placeholder="Ulke"
+                        placeholder="Ülke"
                         value={form.country}
                         onChange={(e) => setForm({ ...form, country: e.target.value })}
                       />
@@ -785,7 +785,7 @@ export default function CheckoutAddressPage() {
             </div>
             <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600">
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
-                Guven rozetleri
+                Güven rozetleri
               </div>
               <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
                 <span className="rounded-full border border-gray-200 bg-white px-3 py-1">SSL</span>

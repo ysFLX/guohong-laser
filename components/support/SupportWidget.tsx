@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 type LiveMessage = {
@@ -22,16 +23,16 @@ type LivePayload = {
 
 const fallbackFaqs = [
   {
-    q: 'Teslimat ne kadar suruyor?',
-    a: 'Stoklu urunlerde 2-3 is gunu, ozel siparislerde 7-10 gun.',
+    q: 'Teslimat ne kadar sürüyor?',
+    a: 'Stoklu ürünlerde 2-3 iş günü, özel siparişlerde 7-10 gün.',
   },
   {
-    q: 'Garanti nasil isliyor?',
-    a: 'Resmi servis garantisi ve fatura ile destek saglaniyor.',
+    q: 'Garanti nasıl işliyor?',
+    a: 'Resmi servis garantisi ve fatura ile destek sağlanıyor.',
   },
   {
     q: 'Uyumluluk teyidi alabilir miyim?',
-    a: 'Model bilgisini paylasirsan teknik ekip teyit eder.',
+    a: 'Model bilgisini paylaşırsan teknik ekip teyit eder.',
   },
 ];
 
@@ -46,6 +47,7 @@ function TypingDots() {
 }
 
 export default function SupportWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -57,6 +59,15 @@ export default function SupportWidget() {
   const [supportOnline, setSupportOnline] = useState(true);
   const [waitingReply, setWaitingReply] = useState(false);
   const [agentTyping, setAgentTyping] = useState(false);
+  const [loginHref, setLoginHref] = useState(`/login?next=${encodeURIComponent(pathname || '/')}`);
+
+  useEffect(() => {
+    const next =
+      typeof window !== 'undefined'
+        ? `${window.location.pathname}${window.location.search}${window.location.hash}`
+        : pathname || '/';
+    setLoginHref(`/login?next=${encodeURIComponent(next || '/')}`);
+  }, [pathname]);
 
   const hasMessages = messages.length > 0;
 
@@ -137,21 +148,23 @@ export default function SupportWidget() {
         <div className="mb-3 w-[370px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
           <div className="bg-gradient-to-r from-indigo-700 to-indigo-600 px-5 py-4 text-white">
             <div className="flex items-center justify-between">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-100">Canli Destek</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-indigo-100">Canlı Destek</div>
               <span className="rounded-full bg-white/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.15em]">
-                {supportOnline ? 'Cevrimici' : 'Mesgul'}
+                {supportOnline ? 'Çevrimiçi' : 'Meşgul'}
               </span>
             </div>
             <div className="mt-2 text-sm font-semibold">{supportAgentName}</div>
-            <p className="mt-1 text-xs text-indigo-100">Gercek zamanli destek icin mesajini birak, ekip panelde aninda gorur.</p>
+            <p className="mt-1 text-xs text-indigo-100">
+              Gerçek zamanlı destek için mesajını bırak, ekip panelde anında görür.
+            </p>
           </div>
 
           <div className="max-h-[360px] space-y-3 overflow-y-auto bg-slate-50 px-5 py-4 text-sm">
-            {loading && !hasMessages && <div className="text-xs text-slate-500">Yukleniyor...</div>}
+            {loading && !hasMessages && <div className="text-xs text-slate-500">Yükleniyor...</div>}
 
             {authenticated && !hasMessages && !loading && (
               <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600">
-                Henuz mesaj yok. Asagidan ilk mesajini gonderebilirsin.
+                Henüz mesaj yok. Aşağıdan ilk mesajını gönderebilirsin.
               </div>
             )}
 
@@ -181,12 +194,14 @@ export default function SupportWidget() {
                 {agentTyping && (
                   <div className="flex items-center gap-2">
                     <TypingDots />
-                    <span className="text-[10px] font-medium text-slate-500">{supportAgentName} yaziyor...</span>
+                    <span className="text-[10px] font-medium text-slate-500">{supportAgentName} yazıyor...</span>
                   </div>
                 )}
 
                 {waitingReply && !agentTyping && (
-                  <div className="text-[11px] text-slate-500">Destek ekibi mesajini goruyor, kisa surede yanitlanir.</div>
+                  <div className="text-[11px] text-slate-500">
+                    Destek ekibi mesajını görüyor, kısa sürede yanıtlanır.
+                  </div>
                 )}
               </div>
             )}
@@ -200,7 +215,7 @@ export default function SupportWidget() {
                   </div>
                 ))}
                 <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs text-indigo-700">
-                  Anlik sohbet icin once hesaba giris yap.
+                  Anlık sohbet için önce hesaba giriş yap.
                 </div>
               </div>
             )}
@@ -215,7 +230,7 @@ export default function SupportWidget() {
                   onKeyDown={(event) => {
                     if (event.key === 'Enter') sendMessage();
                   }}
-                  placeholder="Mesajinizi yazin..."
+                  placeholder="Mesajınızı yazın..."
                   className="h-10 w-full rounded-full border border-slate-200 bg-white px-4 text-xs text-slate-700 outline-none focus:border-indigo-400"
                 />
                 <button
@@ -224,15 +239,15 @@ export default function SupportWidget() {
                   disabled={sending || !input.trim()}
                   className="inline-flex h-10 items-center justify-center rounded-full bg-indigo-600 px-4 text-xs font-semibold text-white disabled:opacity-60"
                 >
-                  {sending ? '...' : 'Gonder'}
+                  {sending ? '...' : 'Gönder'}
                 </button>
               </div>
             ) : (
               <Link
-                href="/login"
+                href={loginHref}
                 className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white"
               >
-                Giris yap
+                Giriş yap
               </Link>
             )}
 
@@ -242,7 +257,7 @@ export default function SupportWidget() {
               rel="noreferrer"
               className="inline-flex items-center justify-center rounded-full border border-indigo-200 px-4 py-2 text-xs font-semibold text-indigo-700"
             >
-              WhatsApp canli hat
+              WhatsApp canlı hat
             </a>
           </div>
         </div>
@@ -252,7 +267,7 @@ export default function SupportWidget() {
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl transition hover:scale-[1.03]"
-        aria-label="Canli destek penceresini ac"
+        aria-label="Canlı destek penceresini aç"
       >
         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
           <path d="M2 12a10 10 0 1118.22 5.56L22 22l-4.7-1.57A10 10 0 012 12zm6.5-1.25a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" />

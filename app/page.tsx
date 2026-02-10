@@ -4,6 +4,7 @@ import { Space_Grotesk } from 'next/font/google';
 
 import Reveal from '@/components/home/Reveal';
 import VideoSlider from '@/components/home/VideoSlider';
+import AddToCartButton from '@/components/cart/AddToCartButton';
 import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
 import { prisma } from '@/lib/prisma';
 
@@ -14,7 +15,7 @@ const space = Space_Grotesk({
 
 const heroStats = [
   { label: 'Hat verimliliği', value: '%98' },
-  { label: 'Kurulum süresi', value: '7-12 gun' },
+  { label: 'Kurulum süresi', value: '7-12 gün' },
   { label: 'Servis noktası', value: '24' },
 ];
 
@@ -293,6 +294,21 @@ const formatPrice = (value: number, currency = 'TRY') =>
 
 const trimText = (value: string, max = 90) => (value.length > max ? `${value.slice(0, max - 1)}...` : value);
 
+type QuickShowcaseItem = {
+  title: string;
+  description: string;
+  price: string;
+  tag: string;
+  href: string;
+  image: string;
+  id?: string;
+  priceCents?: number;
+  currency?: string;
+  imageUrl?: string | null;
+  stockOnHand?: number;
+  inStock?: boolean;
+};
+
 const process = [
   {
     title: 'Keşif ve Analiz',
@@ -300,11 +316,11 @@ const process = [
   },
   {
     title: 'Teknik Teklif',
-    description: 'Uygun makine konfigurasyonu ve plan paylaşılır.',
+    description: 'Uygun makine konfigürasyonu ve plan paylaşılır.',
   },
   {
     title: 'Kurulum ve Eğitim',
-    description: 'Kurulum, test, operator ve bakım eğitimi tamamlanır.',
+    description: 'Kurulum, test, operatör ve bakım eğitimi tamamlanır.',
   },
   {
     title: 'Sürekli Destek',
@@ -383,12 +399,20 @@ export default async function Home() {
   });
   const byCategory = new Map<string, typeof spareParts[number]>();
   for (const part of spareParts) {
-    if (!byCategory.has(part.categoryId)) {
+    const existing = byCategory.get(part.categoryId);
+    if (!existing) {
+      byCategory.set(part.categoryId, part);
+      continue;
+    }
+
+    const existingInStock = existing.stockOnHand > 0;
+    const partInStock = part.stockOnHand > 0;
+    if (!existingInStock && partInStock) {
       byCategory.set(part.categoryId, part);
     }
   }
   const pickedParts = Array.from(byCategory.values()).slice(0, 3);
-  const quickShowcase = [
+  const quickShowcase: QuickShowcaseItem[] = [
     ...pickedParts.map((part) => ({
       title: part.name,
       description: trimText(part.description, 90),
@@ -396,6 +420,12 @@ export default async function Home() {
       tag: part.category.name,
       href: `/spare-parts/${part.id}`,
       image: part.imageUrl ?? part.images[0]?.url ?? '/images/2.jpg',
+      id: part.id,
+      priceCents: part.priceCents,
+      currency: part.currency,
+      imageUrl: part.imageUrl ?? part.images[0]?.url ?? null,
+      stockOnHand: part.stockOnHand,
+      inStock: part.stockOnHand > 0,
     })),
   ];
   if (quickShowcase.length < 3) {
@@ -437,20 +467,26 @@ export default async function Home() {
                   Makine, yedek parça ve teknik destek tek sistemde. Hattını hızlandıran, servis akışını netleştiren
                   premium operasyon altyapısı.
                 </p>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    href="/products"
-                    className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-white/90"
-                  >
-                    Kataloğu Gör
-                  </Link>
-                  <Link
-                    href="/quote"
-                    className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
-                  >
-                    Teklif al
-                  </Link>
-                </div>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/products"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto"
+                >
+                  Kataloğu Gör
+                </Link>
+                <Link
+                  href="/spare-parts"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-indigo-400 px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-300 sm:w-auto"
+                >
+                  Yedek parça al
+                </Link>
+                <Link
+                  href="/quote"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white sm:w-auto"
+                >
+                  Teklif al
+                </Link>
+              </div>
                 <div className="flex flex-wrap gap-3">
                   {heroStats.map((stat) => (
                     <div key={stat.label} className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
@@ -544,7 +580,7 @@ export default async function Home() {
           <div className="rounded-[36px] border border-slate-200 bg-white/95 p-8 shadow-[0_30px_90px_rgba(15,23,42,0.12)]">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-indigo-500">Kisa urun vitrini</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-indigo-500">Kısa ürün vitrini</p>
                 <h2 className="mt-2 text-2xl font-semibold text-slate-900">
                   Hemen teslim yedek parçalar
                 </h2>
@@ -557,27 +593,84 @@ export default async function Home() {
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {quickShowcase.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50/70 px-4 pb-4 pt-3 transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-[0_20px_50px_rgba(15,23,42,0.15)] glint"
-                >
-                  <div className="relative h-32 w-full overflow-hidden rounded-xl">
-                    <Image src={item.image} alt={item.title} fill className="object-cover transition duration-500 group-hover:scale-105" />
-                    <span className="absolute left-3 top-3 rounded-full bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
-                      {item.tag}
-                    </span>
+              {quickShowcase.map((item) => {
+                const isDbItem = typeof item.id === 'string';
+                const inStock = Boolean(item.inStock);
+                const stockLabel = isDbItem ? (inStock ? 'Stokta' : 'Siparişle') : null;
+                const stockRequestHref =
+                  isDbItem && item.id
+                    ? `/stock-request?product=${encodeURIComponent(item.title)}&id=${encodeURIComponent(item.id)}`
+                    : '/stock-request';
+
+                return (
+                  <div
+                    key={item.title}
+                    className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50/70 px-4 pb-4 pt-3 transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-[0_20px_50px_rgba(15,23,42,0.15)] glint"
+                  >
+                    <Link href={item.href} className="block">
+                      <div className="relative h-32 w-full overflow-hidden rounded-xl">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-cover transition duration-500 group-hover:scale-105"
+                          quality={75}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+                          <span className="rounded-full bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                            {item.tag}
+                          </span>
+                          {stockLabel && (
+                            <span
+                              className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] ${
+                                inStock ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'
+                              }`}
+                            >
+                              {stockLabel}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-4 flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                          <p className="mt-1 text-xs text-slate-500">{item.description}</p>
+                        </div>
+                        <span className="text-sm font-semibold text-indigo-600">{item.price}</span>
+                      </div>
+                    </Link>
+
+                    {isDbItem && item.id && typeof item.priceCents === 'number' && (
+                      <div className="mt-4 grid gap-2">
+                        {inStock ? (
+                          <AddToCartButton
+                            id={item.id}
+                            name={item.title}
+                            priceCents={item.priceCents}
+                            imageUrl={item.imageUrl ?? null}
+                            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                          />
+                        ) : (
+                          <Link
+                            href={stockRequestHref}
+                            className="inline-flex items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 transition hover:border-amber-300"
+                          >
+                            Stok gelince haber ver
+                          </Link>
+                        )}
+                        <Link
+                          href={item.href}
+                          className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                        >
+                          Detay gör
+                        </Link>
+                      </div>
+                    )}
                   </div>
-                  <div className="mt-4 flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">{item.title}</p>
-                      <p className="mt-1 text-xs text-slate-500">{item.description}</p>
-                    </div>
-                    <span className="text-sm font-semibold text-indigo-600">{item.price}</span>
-                  </div>
-                </Link>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -588,9 +681,9 @@ export default async function Home() {
               Üretim hedefini, parça modelini ve teslim aciliyetini ilet. Net fiyat ve plan aynı gün geri dönsün.
             </p>
             <div className="mt-5 space-y-3 text-sm text-white/80">
-              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">1. Model / parca bilgisi</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">1. Model / parça bilgisi</div>
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">2. Adet ve teslim tarihi</div>
-              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">3. Iletisim e-posta adresi</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">3. İletişim e-posta adresi</div>
             </div>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -1030,6 +1123,5 @@ export default async function Home() {
     </div>
   );
 }
-
 
 
