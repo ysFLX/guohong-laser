@@ -35,7 +35,7 @@ export default function InquiryReplyBox({
         onChange={(e) => setValue(e.target.value)}
         disabled={!canReply}
         className="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60 disabled:opacity-60"
-        placeholder="Yanit metni..."
+        placeholder="Yanıt metni..."
       />
 
       <div className="mt-3 flex gap-3">
@@ -54,7 +54,7 @@ export default function InquiryReplyBox({
               });
               const data = await res.json();
               if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
-              setSuccess('Yanit kaydedildi');
+              setSuccess('Yanıt kaydedildi');
             } catch (e: unknown) {
               setError(e instanceof Error ? e.message : 'Kaydedilemedi');
             } finally {

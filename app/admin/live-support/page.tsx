@@ -54,7 +54,7 @@ export default function AdminLiveSupportPage() {
       const data = (await res.json().catch(() => ({}))) as LiveSupportPayload;
 
       if (!res.ok) {
-        setError(data.error || 'Canli destek verisi alinamadi.');
+        setError(data.error || 'Canlı destek verisi alınamadı.');
         return;
       }
 
@@ -96,7 +96,7 @@ export default function AdminLiveSupportPage() {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError((data as { error?: string }).error || 'Yanit gonderilemedi.');
+        setError((data as { error?: string }).error || 'Yanıt gönderilemedi.');
         return;
       }
 
@@ -110,22 +110,22 @@ export default function AdminLiveSupportPage() {
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-5 py-4 shadow-sm">
-        <div className="text-[11px] uppercase tracking-[0.24em] text-[var(--admin-muted)]">Canli destek</div>
+        <div className="text-[11px] uppercase tracking-[0.24em] text-[var(--admin-muted)]">Canlı destek</div>
         <h1 className="mt-1 text-2xl font-semibold text-[var(--admin-text)]">Mesaj merkezi</h1>
         <p className="mt-1 text-sm text-[var(--admin-muted)]">
-          Kullanici mesajlarini gercek zamanli izle, tek ekrandan yanitla.
+          Kullanıcı mesajlarını gerçek zamanlı izle, tek ekrandan yanıtla.
         </p>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[340px_1fr]">
         <section className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] shadow-sm">
           <div className="border-b border-[var(--admin-border)] px-4 py-3 text-sm font-semibold text-[var(--admin-text)]">
-            Konusmalar ({threads.length})
+            Konuşmalar ({threads.length})
           </div>
           <div className="max-h-[68vh] space-y-1 overflow-y-auto p-2">
-            {loading && <div className="px-3 py-2 text-sm text-[var(--admin-muted)]">Yukleniyor...</div>}
+            {loading && <div className="px-3 py-2 text-sm text-[var(--admin-muted)]">Yükleniyor...</div>}
             {!loading && threads.length === 0 && (
-              <div className="px-3 py-2 text-sm text-[var(--admin-muted)]">Henuz canli destek mesaji yok.</div>
+              <div className="px-3 py-2 text-sm text-[var(--admin-muted)]">Henüz canlı destek mesajı yok.</div>
             )}
             {threads.map((thread) => {
               const active = selectedThread === thread.key;
@@ -136,7 +136,7 @@ export default function AdminLiveSupportPage() {
                   onClick={() => load(false, thread.key)}
                   className={`w-full rounded-xl border px-3 py-3 text-left transition ${
                     active
-                      ? 'border-[var(--admin-primary)] bg-[var(--admin-primary-soft)]'
+                      ? 'border-[var(--admin-accent)] bg-[var(--admin-sidebar-active)]'
                       : 'border-[var(--admin-border)] hover:bg-[var(--admin-card-muted)]'
                   }`}
                 >
@@ -162,7 +162,7 @@ export default function AdminLiveSupportPage() {
         <section className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] shadow-sm">
           <div className="border-b border-[var(--admin-border)] px-4 py-3">
             <div className="text-sm font-semibold text-[var(--admin-text)]">
-              {selectedThreadInfo ? `${selectedThreadInfo.name} ile sohbet` : 'Sohbet sec'}
+              {selectedThreadInfo ? `${selectedThreadInfo.name} ile sohbet` : 'Sohbet seç'}
             </div>
             {selectedThreadInfo && (
               <div className="text-xs text-[var(--admin-muted)]">
@@ -203,9 +203,9 @@ export default function AdminLiveSupportPage() {
                 onKeyDown={(event) => {
                   if (event.key === 'Enter') handleSend();
                 }}
-                placeholder={replyTargetInquiryId ? 'Yanit yaz...' : 'Yanitlanacak mesaj yok'}
+                placeholder={replyTargetInquiryId ? 'Yanıt yaz...' : 'Yanıtlanacak mesaj yok'}
                 disabled={!replyTargetInquiryId || saving}
-                className="h-11 w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 text-sm text-[var(--admin-text)] outline-none focus:border-[var(--admin-primary)] disabled:opacity-60"
+                className="h-11 w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 text-sm text-[var(--admin-text)] outline-none focus:border-[var(--admin-accent)] disabled:opacity-60"
               />
               <button
                 type="button"
@@ -213,7 +213,7 @@ export default function AdminLiveSupportPage() {
                 disabled={!replyTargetInquiryId || !input.trim() || saving}
                 className="inline-flex h-11 items-center justify-center rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {saving ? 'Gonderiliyor...' : 'Gonder'}
+                {saving ? 'Gönderiliyor...' : 'Gönder'}
               </button>
             </div>
           </div>

@@ -119,7 +119,7 @@ export default function AdminImageUpload({
           {images.map((img) => (
             <div key={img.id} className="relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={img.url} alt="Urun gorseli" className="h-28 w-full object-cover" />
+              <img src={img.url} alt="Ürün görseli" className="h-28 w-full object-cover" />
               <button
                 type="button"
                 disabled={deletingId === img.id}

@@ -143,7 +143,7 @@ export default function ReturnsAdminManager() {
       ) : (
         <div className="space-y-5">
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
+            <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 sm:grid sm:grid-cols-[1fr_1.2fr_0.8fr_0.8fr]">
               <div>Talep</div>
               <div>Müşteri</div>
               <div>Durum</div>
@@ -217,7 +217,7 @@ export default function ReturnsAdminManager() {
                               <div className="relative mb-2 h-32 w-full overflow-hidden rounded-lg bg-slate-100">
                                 <img
                                   src={url}
-                                  alt={`Kanit ${idx + 1}`}
+                                  alt={`Kanıt ${idx + 1}`}
                                   className="h-full w-full object-cover"
                                   loading="lazy"
                                 />
@@ -315,4 +315,3 @@ export default function ReturnsAdminManager() {
     </div>
   );
 }
-

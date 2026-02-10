@@ -150,7 +150,7 @@ export default async function AdminSparePartsPage({
                 type="text"
                 name="q"
                 defaultValue={query}
-                placeholder="Urun adi veya aciklama ara"
+                placeholder="Ürün adı veya açıklama ara"
                 className="w-full bg-transparent text-sm text-slate-700 focus:outline-none"
               />
             </div>
@@ -190,7 +190,7 @@ export default async function AdminSparePartsPage({
               href="/admin/spare-parts"
               className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300"
             >
-              Sifirla
+              Sıfırla
             </Link>
           </div>
         </form>
@@ -252,7 +252,7 @@ export default async function AdminSparePartsPage({
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">İşlem</span>
                   <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
-                    Duzenle
+                    Düzenle
                   </Link>
                 </div>
                 {!p.isActive && <AdminBadge tone="slate">Pasif ürün</AdminBadge>}
@@ -280,7 +280,7 @@ export default async function AdminSparePartsPage({
               prevPage ? 'border border-slate-200 text-slate-700 hover:border-slate-300' : 'border border-slate-100 text-slate-400 cursor-not-allowed'
             }`}
           >
-            Onceki
+            Önceki
           </Link>
           <Link
             href={nextPage ? `/admin/spare-parts?page=${nextPage}&q=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryId)}&status=${encodeURIComponent(status)}` : '#'}
@@ -296,6 +296,5 @@ export default async function AdminSparePartsPage({
     </div>
   );
 }
-
 
 

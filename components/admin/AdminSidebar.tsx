@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 type NavItem = {
   href: string;
@@ -63,7 +63,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/live-support',
-        label: 'Canli Destek',
+        label: 'Canlı Destek',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M4 5h16v10H8l-4 4V5z" strokeLinecap="round" strokeLinejoin="round" />
@@ -78,7 +78,7 @@ const navSections: NavSection[] = [
     items: [
       {
         href: '/admin/spare-parts',
-        label: 'Urun Listesi',
+        label: 'Ürün Listesi',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeLinejoin="round" />
@@ -148,10 +148,22 @@ const navSections: NavSection[] = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const [hash, setHash] = useState('');
+
+  useEffect(() => {
+    const update = () => setHash(globalThis.window?.location?.hash ?? '');
+    update();
+    window.addEventListener('hashchange', update);
+    return () => window.removeEventListener('hashchange', update);
+  }, []);
 
   const isActive = (href: string) => {
-    if (href === '/admin') return pathname === '/admin';
-    return pathname?.startsWith(href);
+    const [path, hrefHash] = href.split('#');
+    if (path === '/admin') return pathname === '/admin';
+    if (!pathname?.startsWith(path)) return false;
+    if (!hrefHash) return true;
+    if (hash === `#${hrefHash}`) return true;
+    return pathname === `${path}/${hrefHash}`;
   };
 
   return (
@@ -211,6 +223,7 @@ export default function AdminSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    aria-current={active ? 'page' : undefined}
                   className={`group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition ${
                     active
                         ? 'bg-[var(--admin-sidebar-active)] text-[var(--admin-sidebar-accent-text)] shadow-[inset_3px_0_0_0_var(--admin-sidebar-accent)] ring-1 ring-[var(--admin-sidebar-accent)]/40'

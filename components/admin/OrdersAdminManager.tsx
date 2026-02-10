@@ -329,12 +329,12 @@ export default function OrdersAdminManager() {
                   clipRule="evenodd"
                 />
               </svg>
-              <input
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Siparis no, musteri, e-posta veya urun ara"
-                className="w-full bg-transparent text-sm text-slate-700 focus:outline-none"
-              />
+                  <input
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Sipariş no, müşteri, e-posta veya ürün ara"
+                    className="w-full bg-transparent text-sm text-slate-700 focus:outline-none"
+                  />
               {searchQuery && (
                 <button
                   type="button"
@@ -388,7 +388,7 @@ export default function OrdersAdminManager() {
         </div>
         {latestOrder && (
           <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xs text-slate-600">
-            Son siparis: <span className="font-semibold text-slate-900">#{latestOrder.id.slice(0, 8)}</span> -{' '}
+            Son sipariş: <span className="font-semibold text-slate-900">#{latestOrder.id.slice(0, 8)}</span> -{' '}
             {formatDate(latestOrder.createdAt)}
           </div>
         )}
@@ -826,5 +826,4 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
-
 

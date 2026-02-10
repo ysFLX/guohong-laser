@@ -147,7 +147,7 @@ export default async function AdminHomePage() {
     return 'bg-slate-200 text-slate-700';
   };
 
-  const typeLabel = (type: 'CONTACT' | 'QUOTE') => (type === 'QUOTE' ? 'Teklif' : 'Iletisim');
+  const typeLabel = (type: 'CONTACT' | 'QUOTE') => (type === 'QUOTE' ? 'Teklif' : 'İletişim');
 
   return (
     <div className="space-y-8">

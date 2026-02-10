@@ -39,7 +39,7 @@ const statusMeta = (status: string) => {
   }
   if (status === 'CLOSED') {
     return {
-      label: 'Incele',
+      label: 'Silindi',
       accent: 'border-l-rose-400',
       badge: 'text-rose-700 bg-rose-500/10 ring-1 ring-rose-500/30',
     };
@@ -52,7 +52,8 @@ const statusMeta = (status: string) => {
 };
 
 export default async function AdminQuoteInquiriesPage() {
-  const retentionCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const retentionCutoff = new Date();
+  retentionCutoff.setDate(retentionCutoff.getDate() - 1);
 
   try {
     await prismaInquiry.inquiry.deleteMany({
@@ -81,7 +82,7 @@ export default async function AdminQuoteInquiriesPage() {
           <div>
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Teklif merkezi</div>
             <h1 className="mt-2 text-2xl font-semibold text-slate-900">Fiyat teklifleri</h1>
-            <p className="mt-2 text-sm text-slate-500">Toplam kayit: {items.length}</p>
+            <p className="mt-2 text-sm text-slate-500">Toplam kayıt: {items.length}</p>
           </div>
           <ClearInquiriesButton type="QUOTE" />
         </div>
@@ -89,17 +90,17 @@ export default async function AdminQuoteInquiriesPage() {
 
       {items.length === 0 && (
         <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
-          Henuz teklif talebi yok.
+          Henüz teklif talebi yok.
         </div>
       )}
 
       <div className="space-y-4">
         {items.length > 0 && (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div className="sticky top-24 z-10 hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
-              <div>Kayit</div>
-              <div>Musteri</div>
-              <div>Iletisim</div>
+            <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
+              <div>Kayıt</div>
+              <div>Müşteri</div>
+              <div>İletişim</div>
               <div>Konu</div>
               <div>Tarih</div>
               <div>Durum</div>
@@ -116,24 +117,24 @@ export default async function AdminQuoteInquiriesPage() {
               >
               <div className="grid gap-4 border-b border-slate-100 px-6 py-4 text-sm lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Kayit</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Kayıt</div>
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teklif</div>
                   <div className="mt-2 text-base font-semibold text-slate-900">#{x.id.slice(0, 8)}</div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Musteri</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Müşteri</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900">{x.name}</div>
                   {x.company && <div className="mt-1 text-xs text-slate-500">{x.company}</div>}
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Iletisim</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">İletişim</div>
                   <div className="mt-2 text-xs text-slate-600">{x.email}</div>
                   {x.phone && <div className="mt-1 text-xs text-slate-500">{x.phone}</div>}
                 </div>
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Konu</div>
                   <div className="mt-2 text-xs text-slate-600">
-                    {x.product ? `Urun: ${x.product}` : x.subject || '-'}
+                    {x.product ? `Ürün: ${x.product}` : x.subject || '-'}
                   </div>
                 </div>
                 <div>
@@ -184,7 +185,7 @@ export default async function AdminQuoteInquiriesPage() {
               href="#top"
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
             >
-              En ust
+              En üst
             </a>
           </div>
         </div>

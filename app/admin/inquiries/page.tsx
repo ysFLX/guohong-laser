@@ -40,7 +40,7 @@ const statusMeta = (status: string) => {
   }
   if (status === 'CLOSED') {
     return {
-      label: 'Incele',
+      label: 'Silindi',
       accent: 'border-l-rose-400',
       badge: 'text-rose-700 bg-rose-500/10 ring-1 ring-rose-500/30',
     };
@@ -71,7 +71,7 @@ function SectionHeader({ title, count, type }: { title: string; count: number; t
         <div>
           <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Talepler</div>
           <h2 className="mt-2 text-2xl font-semibold text-slate-900">{title}</h2>
-          <p className="mt-2 text-sm text-slate-500">Toplam kayit: {count}</p>
+          <p className="mt-2 text-sm text-slate-500">Toplam kayıt: {count}</p>
         </div>
         <ClearInquiriesButton type={type} />
       </div>
@@ -80,7 +80,8 @@ function SectionHeader({ title, count, type }: { title: string; count: number; t
 }
 
 export default async function AdminInquiriesPage() {
-  const retentionCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const retentionCutoff = new Date();
+  retentionCutoff.setDate(retentionCutoff.getDate() - 1);
 
   try {
     await prismaInquiry.inquiry.deleteMany({
@@ -130,7 +131,7 @@ export default async function AdminInquiriesPage() {
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                        {typeLabel === 'QUOTE' ? 'Teklif' : 'Iletisim'}
+                        {typeLabel === 'QUOTE' ? 'Teklif' : 'İletişim'}
                       </div>
                       <div className="mt-1 text-lg font-semibold text-slate-900">#{x.id.slice(0, 8)}</div>
                       <div className="mt-1 text-xs text-slate-500">{new Date(x.createdAt).toLocaleString('tr-TR')}</div>
@@ -145,13 +146,13 @@ export default async function AdminInquiriesPage() {
 
                   <div className="mt-4 grid gap-3 lg:grid-cols-3">
                     <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
-                      <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Musteri</div>
+                      <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Müşteri</div>
                       <div className="mt-2 text-sm font-semibold text-slate-900">{x.name}</div>
                       {x.company && <div className="mt-1 text-xs text-slate-500">{x.company}</div>}
                     </div>
 
                     <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
-                      <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Iletisim</div>
+                      <div className="text-[11px] uppercase tracking-[0.2em] text-slate-400">İletişim</div>
                       <div className="mt-2 text-xs text-slate-700">{x.email}</div>
                       {x.phone && <div className="mt-1 text-xs text-slate-500">{x.phone}</div>}
                     </div>
@@ -161,7 +162,7 @@ export default async function AdminInquiriesPage() {
                       <div className="mt-2 text-xs text-slate-700">
                         {typeLabel === 'QUOTE'
                           ? x.product
-                            ? `Urun: ${x.product}`
+                            ? `Ürün: ${x.product}`
                             : x.subject || '-'
                           : x.subject || '-'}
                       </div>
@@ -184,7 +185,7 @@ export default async function AdminInquiriesPage() {
       )}
       {list.length === 0 && (
         <div className="rounded-2xl border border-dashed border-slate-200 p-8 text-center text-sm text-slate-500">
-          Kayit yok.
+          Kayıt yok.
         </div>
       )}
     </div>
@@ -193,7 +194,7 @@ export default async function AdminInquiriesPage() {
   return (
     <div className="space-y-10">
       <section id="contact">
-        <SectionHeader title="Iletisim Mesajlari" count={contacts.length} type="CONTACT" />
+        <SectionHeader title="İletişim Mesajları" count={contacts.length} type="CONTACT" />
         <div className="mt-6 space-y-6">{renderCards(contacts, 'CONTACT')}</div>
       </section>
 
@@ -205,8 +206,8 @@ export default async function AdminInquiriesPage() {
       <div className="sticky bottom-4 z-30">
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
           <div className="flex items-center gap-2">
-            <AdminBadge tone="slate">{contacts.length + quotes.length} kayit</AdminBadge>
-            <span>Iletisim: {contacts.length} / Teklif: {quotes.length}</span>
+            <AdminBadge tone="slate">{contacts.length + quotes.length} kayıt</AdminBadge>
+            <span>İletişim: {contacts.length} / Teklif: {quotes.length}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <a
@@ -219,7 +220,7 @@ export default async function AdminInquiriesPage() {
               href="#contact"
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
             >
-              En ust
+              En üst
             </a>
           </div>
         </div>
