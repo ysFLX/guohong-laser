@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 import { prisma } from '@/lib/prisma';
+import { createCartRecoveryToken } from '@/lib/cartRecovery';
 
 export const runtime = 'nodejs';
 
@@ -40,6 +41,7 @@ async function sendReminderEmail(params: {
   to: string;
   items: Array<{ name: string; quantity: number; priceCents: number }>;
   totalCents: number;
+  recoveryToken?: string | null;
 }) {
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
@@ -49,7 +51,9 @@ async function sendReminderEmail(params: {
   }
 
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-  const cartUrl = `${appUrl}/cart`;
+  const cartUrl = params.recoveryToken
+    ? `${appUrl}/cart?recover=${encodeURIComponent(params.recoveryToken)}`
+    : `${appUrl}/cart`;
 
   const itemsHtml = params.items
     .map(
@@ -154,6 +158,10 @@ export async function GET(req: Request) {
         to: reminder.email,
         items: reminder.items,
         totalCents: reminder.totalCents,
+        recoveryToken: createCartRecoveryToken({
+          reminderId: reminder.id,
+          email: reminder.email,
+        }),
       });
       await prismaReminders.cartReminder.update({
         where: { id: reminder.id },

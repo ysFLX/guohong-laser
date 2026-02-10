@@ -1,6 +1,14 @@
 'use client';
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 import { useSession } from 'next-auth/react';
 
 type CartItem = {
@@ -9,11 +17,6 @@ type CartItem = {
   priceCents: number;
   imageUrl: string | null;
   quantity: number;
-};
-
-type CartState = {
-  items: CartItem[];
-  isOpen: boolean;
 };
 
 type CartContextValue = {
@@ -33,6 +36,7 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY_PREFIX = 'laser-market:cart';
+const CART_EVENT_NAME = 'laser-market:cart:change';
 
 function clampQuantity(q: number) {
   if (!Number.isFinite(q)) return 1;
@@ -59,76 +63,155 @@ function safeParseCart(value: string | null): CartItem[] {
   }
 }
 
+function emitCartChange(storageKey: string) {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(CART_EVENT_NAME, { detail: { key: storageKey } }));
+}
+
+function subscribeToCart(storageKey: string, callback: () => void) {
+  if (typeof window === 'undefined') return () => {};
+
+  const onCustom = (event: Event) => {
+    const e = event as CustomEvent<{ key?: string }>;
+    if (e.detail?.key === storageKey) {
+      callback();
+    }
+  };
+
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === storageKey) {
+      callback();
+    }
+  };
+
+  window.addEventListener(CART_EVENT_NAME, onCustom);
+  window.addEventListener('storage', onStorage);
+
+  return () => {
+    window.removeEventListener(CART_EVENT_NAME, onCustom);
+    window.removeEventListener('storage', onStorage);
+  };
+}
+
+function readCart(storageKey: string) {
+  if (typeof window === 'undefined') return [];
+  return safeParseCart(window.localStorage.getItem(storageKey));
+}
+
+function writeCart(storageKey: string, items: CartItem[]) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(storageKey, JSON.stringify(items));
+  emitCartChange(storageKey);
+}
+
+function useCartItems(storageKey: string) {
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => subscribeToCart(storageKey, onStoreChange),
+    [storageKey],
+  );
+  const getSnapshot = useCallback(() => readCart(storageKey), [storageKey]);
+  return useSyncExternalStore(subscribe, getSnapshot, () => []);
+}
+
+function mergeCartItems(base: CartItem[], incoming: CartItem[]) {
+  if (incoming.length === 0) return base;
+
+  const merged = [...base];
+  const indexById = new Map<string, number>();
+  merged.forEach((item, index) => indexById.set(item.id, index));
+
+  for (const item of incoming) {
+    const existingIndex = indexById.get(item.id);
+    if (existingIndex === undefined) {
+      merged.push({ ...item, quantity: clampQuantity(item.quantity) });
+      indexById.set(item.id, merged.length - 1);
+      continue;
+    }
+
+    const existing = merged[existingIndex];
+    merged[existingIndex] = {
+      ...existing,
+      quantity: clampQuantity(existing.quantity + item.quantity),
+    };
+  }
+
+  return merged;
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const userId = session?.user?.id ?? null;
-  const storageKey = useMemo(
-    () => `${STORAGE_KEY_PREFIX}:${userId ?? 'guest'}`,
-    [userId],
+  const storageKey = useMemo(() => `${STORAGE_KEY_PREFIX}:${userId ?? 'guest'}`, [userId]);
+  const items = useCartItems(storageKey);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!userId) return;
+    const guestKey = `${STORAGE_KEY_PREFIX}:guest`;
+    const guestItems = readCart(guestKey);
+    if (guestItems.length === 0) return;
+
+    const merged = mergeCartItems(readCart(storageKey), guestItems);
+    writeCart(storageKey, merged);
+
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(guestKey);
+    }
+    emitCartChange(guestKey);
+  }, [storageKey, userId]);
+
+  const updateItems = useCallback(
+    (updater: (prev: CartItem[]) => CartItem[]) => {
+      const next = updater(readCart(storageKey));
+      writeCart(storageKey, next);
+    },
+    [storageKey],
   );
-  const [state, setState] = useState<CartState>({ items: [], isOpen: false });
-  const [hydrated, setHydrated] = useState(false);
-  const [activeKey, setActiveKey] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const items = safeParseCart(window.localStorage.getItem(storageKey));
-    setState({ items, isOpen: false });
-    setActiveKey(storageKey);
-    setHydrated(true);
-  }, [storageKey]);
-
-  useEffect(() => {
-    if (!hydrated || typeof window === 'undefined') return;
-    if (activeKey !== storageKey) return;
-    window.localStorage.setItem(storageKey, JSON.stringify(state.items));
-  }, [state.items, hydrated, storageKey, activeKey]);
-
-  const openCart = useCallback(() => setState((s) => ({ ...s, isOpen: true })), []);
-  const closeCart = useCallback(() => setState((s) => ({ ...s, isOpen: false })), []);
-  const toggleCart = useCallback(() => setState((s) => ({ ...s, isOpen: !s.isOpen })), []);
+  const openCart = useCallback(() => setIsOpen(true), []);
+  const closeCart = useCallback(() => setIsOpen(false), []);
+  const toggleCart = useCallback(() => setIsOpen((x) => !x), []);
 
   const addItem = useCallback(
     (item: Omit<CartItem, 'quantity'>, quantity = 1) => {
       const q = clampQuantity(quantity);
-      setState((s) => {
-        const existing = s.items.find((x) => x.id === item.id);
-        const items = existing
-          ? s.items.map((x) => (x.id === item.id ? { ...x, quantity: clampQuantity(x.quantity + q) } : x))
-          : [...s.items, { ...item, quantity: q }];
-
-        return { items, isOpen: s.isOpen };
+      updateItems((prev) => {
+        const existing = prev.find((x) => x.id === item.id);
+        if (existing) {
+          return prev.map((x) => (x.id === item.id ? { ...x, quantity: clampQuantity(x.quantity + q) } : x));
+        }
+        return [...prev, { ...item, quantity: q }];
       });
     },
-    [],
+    [updateItems],
   );
 
-  const removeItem = useCallback((id: string) => {
-    setState((s) => ({ ...s, items: s.items.filter((x) => x.id !== id) }));
-  }, []);
+  const removeItem = useCallback(
+    (id: string) => {
+      updateItems((prev) => prev.filter((x) => x.id !== id));
+    },
+    [updateItems],
+  );
 
-  const setQuantity = useCallback((id: string, quantity: number) => {
-    const q = clampQuantity(quantity);
-    setState((s) => ({
-      ...s,
-      items: s.items.map((x) => (x.id === id ? { ...x, quantity: q } : x)),
-    }));
-  }, []);
+  const setQuantity = useCallback(
+    (id: string, quantity: number) => {
+      const q = clampQuantity(quantity);
+      updateItems((prev) => prev.map((x) => (x.id === id ? { ...x, quantity: q } : x)));
+    },
+    [updateItems],
+  );
 
   const clear = useCallback(() => {
-    setState((s) => ({ ...s, items: [] }));
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(storageKey, JSON.stringify([]));
-    }
-  }, [storageKey]);
+    updateItems(() => []);
+  }, [updateItems]);
 
-  const itemCount = useMemo(() => state.items.reduce((sum, x) => sum + x.quantity, 0), [state.items]);
-  const subtotalCents = useMemo(() => state.items.reduce((sum, x) => sum + x.quantity * x.priceCents, 0), [state.items]);
+  const itemCount = useMemo(() => items.reduce((sum, x) => sum + x.quantity, 0), [items]);
+  const subtotalCents = useMemo(() => items.reduce((sum, x) => sum + x.quantity * x.priceCents, 0), [items]);
 
   const value: CartContextValue = useMemo(
     () => ({
-      items: state.items,
-      isOpen: state.isOpen,
+      items,
+      isOpen,
       itemCount,
       subtotalCents,
       openCart,
@@ -139,7 +222,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setQuantity,
       clear,
     }),
-    [state.items, state.isOpen, itemCount, subtotalCents, openCart, closeCart, toggleCart, addItem, removeItem, setQuantity, clear],
+    [items, isOpen, itemCount, subtotalCents, openCart, closeCart, toggleCart, addItem, removeItem, setQuantity, clear],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

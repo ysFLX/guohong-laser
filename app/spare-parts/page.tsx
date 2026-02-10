@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import { useToast } from '@/components/ui/ToastProvider';
+import { trackEvent } from '@/lib/analytics';
 
 type SparePart = {
   id: string;
@@ -95,8 +96,9 @@ export default function SparePartsPage() {
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const lowStockNotified = useRef(false);
-  const [selectedCategory, setSelectedCategory] = useState('Tumu');
-  const [selectedModel, setSelectedModel] = useState('Tumu');
+  const viewedItemListKey = useRef('');
+  const [selectedCategory, setSelectedCategory] = useState('Tümü');
+  const [selectedModel, setSelectedModel] = useState('Tümü');
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(24);
   const [sortOption, setSortOption] = useState('recommended');
@@ -247,7 +249,7 @@ export default function SparePartsPage() {
   const categories = useMemo(() => {
     const set = new Set<string>();
     for (const p of items) set.add(p.category.name);
-    return ['Tumu', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'tr'))];
+    return ['Tümü', ...Array.from(set).sort((a, b) => a.localeCompare(b, 'tr'))];
   }, [items]);
 
   const filtered = useMemo(() => {
@@ -256,8 +258,8 @@ export default function SparePartsPage() {
     const modelCategories = modelInfo?.categories ?? [];
 
     return items.filter((p) => {
-      const matchesCategory = selectedCategory === 'Tumu' || p.category.name === selectedCategory;
-      const matchesModel = selectedModel === 'Tumu' || modelCategories.includes(p.category.name);
+      const matchesCategory = selectedCategory === 'Tümü' || p.category.name === selectedCategory;
+      const matchesModel = selectedModel === 'Tümü' || modelCategories.includes(p.category.name);
       const matchesSearch =
         !q ||
         p.name.toLowerCase().includes(q) ||
@@ -323,6 +325,33 @@ export default function SparePartsPage() {
       })),
     };
   }, [visibleItems]);
+
+  useEffect(() => {
+    if (isLoading || loadError) return;
+    if (!visibleItems.length) return;
+
+    const q = searchQuery.trim();
+    const listName = q
+      ? `Arama: ${q}`
+      : selectedCategory !== 'Tümü'
+        ? `Kategori: ${selectedCategory}`
+        : selectedModel !== 'Tümü'
+          ? `Model: ${selectedModel}`
+          : 'Yedek Parçalar';
+
+    const key = `${listName}|${sortOption}`;
+    if (viewedItemListKey.current === key) return;
+    viewedItemListKey.current = key;
+
+    trackEvent('view_item_list', {
+      item_list_name: listName,
+      items: visibleItems.map((item) => ({
+        item_id: item.id,
+        item_name: item.name,
+        price: item.priceCents / 100,
+      })),
+    });
+  }, [isLoading, loadError, visibleItems, searchQuery, selectedCategory, selectedModel, sortOption]);
 
   useEffect(() => {
     setVisibleCount(24);
@@ -767,7 +796,7 @@ export default function SparePartsPage() {
                           </div>
                         </div>
 
-                      {selectedModel !== 'Tumu' && (
+                      {selectedModel !== 'Tümü' && (
                         <div className="text-xs text-indigo-700 dark:text-indigo-300">
                           {selectedModelInfo?.label} ile uyumlu
                         </div>
@@ -1177,6 +1206,3 @@ export default function SparePartsPage() {
     </div>
   );
 }
-
-
-

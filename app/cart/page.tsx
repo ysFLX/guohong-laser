@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import { useCart } from '@/components/cart/CartProvider';
@@ -21,16 +21,22 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-export default function CartPage() {
+function CartPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const recoverToken = searchParams.get('recover');
   const { data: session } = useSession();
-  const { items, subtotalCents, removeItem, setQuantity, clear } = useCart();
+  const { items, subtotalCents, addItem, removeItem, setQuantity, clear } = useCart();
+  const viewedCart = useRef(false);
+  const recoveryAttempted = useRef(false);
   const [checkoutError, setCheckoutError] = useState('');
   const [isQuickBuying, setIsQuickBuying] = useState(false);
   const [showQuickBuyPrompt, setShowQuickBuyPrompt] = useState(false);
   const [reminderEmail, setReminderEmail] = useState('');
   const [reminderStatus, setReminderStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [reminderError, setReminderError] = useState('');
+  const [recoveryStatus, setRecoveryStatus] = useState<'idle' | 'restoring' | 'restored' | 'error'>('idle');
+  const [recoveryError, setRecoveryError] = useState('');
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -39,11 +45,93 @@ export default function CartPage() {
   }, [session?.user?.email]);
 
   useEffect(() => {
+    if (!recoverToken) return;
+    if (recoveryAttempted.current) return;
+    recoveryAttempted.current = true;
+
+    setRecoveryStatus('restoring');
+    setRecoveryError('');
+
+    const run = async () => {
+      try {
+        const res = await fetch(`/api/cart-recovery?token=${encodeURIComponent(recoverToken)}`);
+        const data = (await res.json().catch(() => ({}))) as { items?: unknown; error?: unknown };
+        if (!res.ok) {
+          throw new Error(typeof data?.error === 'string' ? data.error : 'Sepet geri yüklenemedi.');
+        }
+
+        const recovered = Array.isArray(data?.items) ? data.items : [];
+        for (const item of recovered) {
+          if (!item || typeof item !== 'object') continue;
+          const x = item as Partial<{
+            id: unknown;
+            name: unknown;
+            priceCents: unknown;
+            quantity: unknown;
+            imageUrl: unknown;
+          }>;
+
+          if (typeof x.id !== 'string' || typeof x.name !== 'string') continue;
+          addItem(
+            {
+              id: x.id,
+              name: x.name,
+              priceCents: typeof x.priceCents === 'number' ? x.priceCents : 0,
+              imageUrl: typeof x.imageUrl === 'string' ? x.imageUrl : null,
+            },
+            typeof x.quantity === 'number' ? x.quantity : 1,
+          );
+        }
+
+        setRecoveryStatus('restored');
+        router.replace('/cart');
+      } catch (err) {
+        setRecoveryStatus('error');
+        setRecoveryError(err instanceof Error ? err.message : 'Sepet geri yüklenemedi.');
+      }
+    };
+
+    run();
+  }, [recoverToken, addItem, router]);
+
+  useEffect(() => {
+    if (viewedCart.current) return;
+    if (!items.length) return;
+    viewedCart.current = true;
+    trackEvent('view_cart', {
+      currency: 'TRY',
+      value: subtotalCents / 100,
+      items: items.map((item) => ({
+        item_id: item.id,
+        item_name: item.name,
+        price: item.priceCents / 100,
+        quantity: item.quantity,
+      })),
+    });
+  }, [items, subtotalCents]);
+
+  useEffect(() => {
     if (!items.length) {
       setReminderStatus('idle');
       setReminderError('');
     }
   }, [items.length]);
+
+  const handleRemoveItem = (item: (typeof items)[number]) => {
+    trackEvent('remove_from_cart', {
+      currency: 'TRY',
+      value: (item.priceCents * item.quantity) / 100,
+      items: [
+        {
+          item_id: item.id,
+          item_name: item.name,
+          price: item.priceCents / 100,
+          quantity: item.quantity,
+        },
+      ],
+    });
+    removeItem(item.id);
+  };
 
   const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
@@ -194,6 +282,22 @@ export default function CartPage() {
           )}
         </div>
 
+        {recoveryStatus !== 'idle' && (
+          <div
+            className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
+              recoveryStatus === 'error'
+                ? 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950/30 dark:text-red-200'
+                : recoveryStatus === 'restoring'
+                  ? 'border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/30 dark:text-indigo-200'
+                  : 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-200'
+            }`}
+          >
+            {recoveryStatus === 'restoring' && 'Sepetiniz geri yükleniyor...'}
+            {recoveryStatus === 'restored' && 'Sepetiniz geri yüklendi.'}
+            {recoveryStatus === 'error' && (recoveryError || 'Sepet geri yüklenemedi.')}
+          </div>
+        )}
+
         {items.length === 0 ? (
           <div className="mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center">
             <div className="text-gray-900 dark:text-white font-semibold">Sepet boş.</div>
@@ -239,7 +343,7 @@ export default function CartPage() {
                       </div>
                       <button
                         type="button"
-                        onClick={() => removeItem(x.id)}
+                        onClick={() => handleRemoveItem(x)}
                         className="text-sm font-semibold text-red-600 hover:underline"
                       >
                         Sil
@@ -326,7 +430,7 @@ export default function CartPage() {
                   onClick={handleQuickBuy}
                   disabled={!items.length || isQuickBuying}
                 >
-                  {isQuickBuying ? 'Hizli odeme hazirlaniyor...' : 'Hizli Al (tek sayfa)'}
+                  {isQuickBuying ? 'Hızlı ödeme hazırlanıyor...' : 'Hızlı Al (tek sayfa)'}
                 </button>
                 <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                   Varsayılan adresinizle direkt ödemeye geçebilirsiniz.
@@ -376,14 +480,14 @@ export default function CartPage() {
                       disabled={reminderStatus === 'saving'}
                       className="rounded-full bg-gray-900 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-gray-800 disabled:opacity-70"
                     >
-                      {reminderStatus === 'saved' ? 'Guncelle' : 'Hatırlatma al'}
+                      {reminderStatus === 'saved' ? 'Güncelle' : 'Hatırlatma al'}
                     </button>
                     <button
                       type="button"
                       onClick={handleClearReminder}
                       className="rounded-full border border-gray-200 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 hover:border-gray-300 dark:border-gray-700 dark:text-gray-300"
                     >
-                      Iptal
+                      İptal
                     </button>
                   </div>
                   {reminderStatus === 'saved' && (
@@ -436,3 +540,10 @@ export default function CartPage() {
   );
 }
 
+export default function CartPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900" />}>
+      <CartPageContent />
+    </Suspense>
+  );
+}

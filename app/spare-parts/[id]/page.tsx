@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 
 import { prisma } from '@/lib/prisma';
 
+import ViewItemEvent from '@/components/analytics/ViewItemEvent';
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import SparePartImageSlider from '@/components/spare-parts/SparePartImageSlider';
@@ -286,6 +287,7 @@ export default async function SparePartDetailPage({
   return (
     <div className="min-h-screen bg-slate-50 pb-24 text-slate-900">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <ViewItemEvent id={p.id} name={p.name} priceCents={p.priceCents} currency={p.currency || 'TRY'} />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">
@@ -606,7 +608,6 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
-
 
 
 

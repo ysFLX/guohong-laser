@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { useCart } from './CartProvider';
 import { useToast } from '@/components/ui/ToastProvider';
@@ -30,27 +29,13 @@ export default function AddToCartButton({
   const { addItem } = useCart();
   const { show, dismiss } = useToast();
   const [isAdding, setIsAdding] = useState(false);
-  const { data: session, status } = useSession();
   const router = useRouter();
-  const pathname = usePathname();
-  const isDisabled = disabled || isAdding || status === 'loading';
+  const isDisabled = disabled || isAdding;
 
   return (
     <button
       type="button"
       onClick={() => {
-        if (status === 'loading') {
-          return;
-        }
-        if (status === 'unauthenticated') {
-          router.push('/login');
-          return;
-        }
-        if (!session?.user?.profileComplete) {
-          const next = encodeURIComponent(pathname || '/');
-          router.push(`/complete-profile?next=${next}`);
-          return;
-        }
         setIsAdding(true);
         addItem({ id, name, priceCents, imageUrl }, quantity);
         trackEvent('add_to_cart', {
@@ -93,7 +78,6 @@ export default function AddToCartButton({
     </button>
   );
 }
-
 
 
 

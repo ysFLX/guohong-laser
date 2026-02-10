@@ -508,7 +508,7 @@ export default function CheckoutAddressPage() {
                     onClick={() => setShowForm(false)}
                     className="btn-secondary"
                   >
-                    Iptal
+                    İptal
                   </button>
                   <button
                     type="submit"
@@ -736,7 +736,7 @@ export default function CheckoutAddressPage() {
                         onClick={() => setShowForm(false)}
                         className="btn-secondary"
                       >
-                        Iptal
+                        İptal
                       </button>
                       <button
                         type="submit"
