@@ -209,7 +209,7 @@ function CartPageContent() {
     try {
       const profileRes = await fetch('/api/profile');
       if (profileRes.status === 401) {
-        router.push('/login');
+        router.push(`/login?next=${encodeURIComponent('/cart')}`);
         return;
       }
       const profile = await profileRes.json();
@@ -249,7 +249,7 @@ function CartPageContent() {
       });
 
       if (res.status === 401) {
-        router.push('/login');
+        router.push(`/login?next=${encodeURIComponent('/cart')}`);
         return;
       }
 

@@ -56,7 +56,7 @@ export default function FavoritesPage() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.replace('/login');
+      router.replace(`/login?next=${encodeURIComponent('/profile/favorites')}`);
     }
   }, [status, router]);
 
@@ -231,6 +231,5 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
-
 
 

@@ -101,12 +101,14 @@ function formatAddress(address: Address | null) {
 }
 
 export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    redirect('/login');
+    const next = id ? `/profile/orders/${id}` : '/profile/orders';
+    redirect(`/login?next=${encodeURIComponent(next)}`);
   }
 
-  const { id } = await params;
   if (!id) {
     notFound();
   }
@@ -686,5 +688,4 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     </div>
   );
 }
-
 

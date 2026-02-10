@@ -53,6 +53,25 @@ export default function AddToCartButton({
         let toastId = '';
         toastId = show('Sepetinize eklendi', [
           {
+            label: 'Ödemeye geç',
+            onClick: () => {
+              dismiss(toastId);
+              trackEvent('begin_checkout', {
+                currency: 'TRY',
+                value: (priceCents * quantity) / 100,
+                items: [
+                  {
+                    item_id: id,
+                    item_name: name,
+                    price: priceCents / 100,
+                    quantity,
+                  },
+                ],
+              });
+              router.push('/checkout/address');
+            },
+          },
+          {
             label: 'Sepete git',
             onClick: () => {
               dismiss(toastId);
@@ -78,7 +97,6 @@ export default function AddToCartButton({
     </button>
   );
 }
-
 
 
 

@@ -5,6 +5,14 @@ import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
+function sanitizeNext(value: string | null) {
+  if (!value) return null;
+  if (!value.startsWith('/')) return null;
+  if (value.startsWith('//')) return null;
+  if (value.includes('://')) return null;
+  return value;
+}
+
 export default function LoginClient() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +25,8 @@ export default function LoginClient() {
   const searchParams = useSearchParams();
   const registered = searchParams.get('registered') === 'true';
   const resetDone = searchParams.get('reset') === 'true';
+  const next = sanitizeNext(searchParams.get('next')) || '/';
+  const registerHref = next === '/' ? '/register' : `/register?next=${encodeURIComponent(next)}`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +56,7 @@ export default function LoginClient() {
           setError('Geçersiz e-posta veya şifre');
         }
       } else {
-        router.push('/');
+        router.replace(next);
         router.refresh();
       }
     } catch (error) {
@@ -115,7 +125,11 @@ export default function LoginClient() {
             <div className="mt-6">
               <button
                 type="button"
-                onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
+                onClick={() =>
+                  signIn('google', {
+                    callbackUrl: `/complete-profile?next=${encodeURIComponent(next)}`,
+                  })
+                }
                 className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
                 Google ile giriş yap
@@ -228,7 +242,7 @@ export default function LoginClient() {
               </Link>
             </div>
             <div className="mt-6 text-center">
-              <Link href="/register" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
+              <Link href={registerHref} className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
                 Hesabın yok mu? <span className="underline">Kayıt ol</span>
               </Link>
             </div>
@@ -238,6 +252,5 @@ export default function LoginClient() {
     </div>
   );
 }
-
 
 

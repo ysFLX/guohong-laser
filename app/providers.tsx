@@ -12,7 +12,7 @@ import OrderStatusToast from '@/components/notifications/OrderStatusToast';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { ToastProvider } from '@/components/ui/ToastProvider';
 
-const ALLOWED_INCOMPLETE_ROUTES = new Set(['/complete-profile', '/login', '/register']);
+const PROFILE_COMPLETE_REQUIRED_ROUTES = new Set(['/checkout/address']);
 
 function ProfileCompletionGate() {
   const { data: session, status } = useSession();
@@ -22,7 +22,7 @@ function ProfileCompletionGate() {
   useEffect(() => {
     if (status !== 'authenticated') return;
     if (session?.user?.profileComplete) return;
-    if (!pathname || ALLOWED_INCOMPLETE_ROUTES.has(pathname)) return;
+    if (!pathname || !PROFILE_COMPLETE_REQUIRED_ROUTES.has(pathname)) return;
 
     const next = encodeURIComponent(pathname);
     router.replace(`/complete-profile?next=${next}`);

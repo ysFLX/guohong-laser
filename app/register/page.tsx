@@ -1,11 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function RegisterPage() {
+function sanitizeNext(value: string | null) {
+  if (!value) return null;
+  if (!value.startsWith('/')) return null;
+  if (value.startsWith('//')) return null;
+  if (value.includes('://')) return null;
+  return value;
+}
+
+function RegisterPageContent() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +27,9 @@ export default function RegisterPage() {
   const [isSendingCode, setIsSendingCode] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = sanitizeNext(searchParams.get('next')) || '/';
+  const loginHref = next === '/' ? '/login' : `/login?next=${encodeURIComponent(next)}`;
 
   const parseResponse = async (response: Response) => {
     const text = await response.text();
@@ -89,7 +100,7 @@ export default function RegisterPage() {
         throw new Error(data.error || 'Kayıt sırasında bir hata oluştu');
       }
 
-      router.push('/login?registered=true');
+      router.push(`/login?registered=true&next=${encodeURIComponent(next)}`);
     } catch (error: any) {
       console.error('Doğrulama hatası:', error);
       setError(error.message || 'Doğrulama sırasında bir hata oluştu');
@@ -124,7 +135,11 @@ export default function RegisterPage() {
             <div className="mt-6">
               <button
                 type="button"
-                onClick={() => signIn('google', { callbackUrl: '/complete-profile?next=/' })}
+                onClick={() =>
+                  signIn('google', {
+                    callbackUrl: `/complete-profile?next=${encodeURIComponent(next)}`,
+                  })
+                }
                 className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-white hover:bg-white/20"
               >
                 Google ile kayıt ol
@@ -283,7 +298,7 @@ export default function RegisterPage() {
               </div>
             </form>
             <div className="mt-6 text-center">
-              <Link href="/login" className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
+              <Link href={loginHref} className="text-sm font-medium text-indigo-200 hover:text-indigo-100">
                 Zaten hesabın var mı? <span className="underline">Giriş yap</span>
               </Link>
             </div>
@@ -294,5 +309,12 @@ export default function RegisterPage() {
   );
 }
 
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-950 text-white/70">Yükleniyor...</div>}>
+      <RegisterPageContent />
+    </Suspense>
+  );
+}
 
 

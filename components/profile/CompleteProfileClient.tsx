@@ -17,7 +17,9 @@ export default function CompleteProfileClient() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.replace('/login');
+      const next = searchParams.get('next') || '/';
+      const returnTo = `/complete-profile?next=${encodeURIComponent(next)}`;
+      router.replace(`/login?next=${encodeURIComponent(returnTo)}`);
       return;
     }
     if (session?.user) {
@@ -93,7 +95,7 @@ export default function CompleteProfileClient() {
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Profili tamamla</h2>
               <p className="mt-2 text-sm text-white/70">
-                Sepete ürün eklemek için ad, soyad ve telefon bilgilerini eklemelisin.
+                Siparişe devam etmek için ad, soyad ve telefon bilgilerini eklemelisin.
               </p>
             </div>
 
@@ -166,6 +168,4 @@ export default function CompleteProfileClient() {
     </div>
   );
 }
-
-
 

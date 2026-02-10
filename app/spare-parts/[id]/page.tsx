@@ -605,9 +605,51 @@ export default async function SparePartDetailPage({
           </div>
         </div>
       </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/90 backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+          <div className="min-w-0">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">
+              {inStock ? 'Toplam' : 'Stok durumu'}
+            </div>
+            <div className="mt-1 text-base font-semibold text-slate-900">
+              {inStock ? formatPriceTry(p.priceCents) : 'Stokta yok'}
+            </div>
+          </div>
+
+          {inStock ? (
+            <div className="ml-auto grid w-full max-w-[360px] grid-cols-2 gap-2">
+              <AddToCartButton
+                id={p.id}
+                name={p.name}
+                priceCents={p.priceCents}
+                imageUrl={p.imageUrl}
+                className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                quantity={1}
+              />
+              <QuickBuyButton
+                item={{
+                  id: p.id,
+                  name: p.name,
+                  priceCents: p.priceCents,
+                  imageUrl: p.imageUrl,
+                }}
+              />
+            </div>
+          ) : (
+            <div className="ml-auto w-full max-w-[360px]">
+              <Link
+                href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                className="inline-flex w-full items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 hover:border-amber-300"
+              >
+                Stok gelince haber ver
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
-
 
 

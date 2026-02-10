@@ -63,7 +63,7 @@ function normalizeStatus(value: string) {
 export default async function OrdersPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    redirect('/login');
+    redirect('/login?next=/profile/orders');
   }
 
   const orders = await prismaOrders.order.findMany({
@@ -427,5 +427,4 @@ export default async function OrdersPage() {
     </div>
   );
 }
-
 

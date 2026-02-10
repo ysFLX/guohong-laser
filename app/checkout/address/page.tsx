@@ -95,7 +95,7 @@ export default function CheckoutAddressPage() {
     try {
       const res = await fetch('/api/profile');
       if (res.status === 401) {
-        router.push('/login');
+        router.push(`/login?next=${encodeURIComponent('/checkout/address')}`);
         return;
       }
       const data = await res.json();
@@ -247,7 +247,7 @@ export default function CheckoutAddressPage() {
       });
 
       if (res.status === 401) {
-        router.push('/login');
+        router.push(`/login?next=${encodeURIComponent('/checkout/address')}`);
         return;
       }
 

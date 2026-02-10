@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { trackEvent } from '@/lib/analytics';
@@ -14,9 +14,18 @@ type QuickBuyItem = {
 
 export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
+
+  const getLoginUrl = () => {
+    if (typeof window !== 'undefined') {
+      const next = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      return `/login?next=${encodeURIComponent(next || '/')}`;
+    }
+    return `/login?next=${encodeURIComponent(pathname || '/')}`;
+  };
 
   const handleQuickBuy = async () => {
     if (isLoading) return;
@@ -26,7 +35,7 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
     try {
       const profileRes = await fetch('/api/profile');
       if (profileRes.status === 401) {
-        router.push('/login');
+        router.push(getLoginUrl());
         return;
       }
       const profile = await profileRes.json();
@@ -71,7 +80,7 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
       });
 
       if (res.status === 401) {
-        router.push('/login');
+        router.push(getLoginUrl());
         return;
       }
 

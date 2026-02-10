@@ -205,7 +205,7 @@ export default function SparePartsPage() {
 
   const toggleFavorite = async (sparePartId: string) => {
     if (status !== 'authenticated') {
-      router.push('/login');
+      router.push(`/login?next=${encodeURIComponent('/spare-parts')}`);
       return;
     }
 
