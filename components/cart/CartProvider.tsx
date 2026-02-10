@@ -98,6 +98,11 @@ function readCart(storageKey: string) {
   return safeParseCart(window.localStorage.getItem(storageKey));
 }
 
+function readCartRaw(storageKey: string) {
+  if (typeof window === 'undefined') return '[]';
+  return window.localStorage.getItem(storageKey) ?? '[]';
+}
+
 function writeCart(storageKey: string, items: CartItem[]) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(storageKey, JSON.stringify(items));
@@ -109,8 +114,8 @@ function useCartItems(storageKey: string) {
     (onStoreChange: () => void) => subscribeToCart(storageKey, onStoreChange),
     [storageKey],
   );
-  const getSnapshot = useCallback(() => readCart(storageKey), [storageKey]);
-  return useSyncExternalStore(subscribe, getSnapshot, () => []);
+  const raw = useSyncExternalStore(subscribe, () => readCartRaw(storageKey), () => '[]');
+  return useMemo(() => safeParseCart(raw), [raw]);
 }
 
 function mergeCartItems(base: CartItem[], incoming: CartItem[]) {
