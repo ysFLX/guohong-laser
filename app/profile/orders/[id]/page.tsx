@@ -206,6 +206,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     DELIVERED: 3,
   };
 
+  const displayStatus = normalizeStatus(safeOrder.status);
+
   const statusTimeline = progressSteps.map((step, index) => {
     const isReached = typeof statusToStep[displayStatus] === 'number' && index <= statusToStep[displayStatus];
     const hasDate = index === 0;
@@ -216,7 +218,6 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     };
   });
 
-  const displayStatus = normalizeStatus(safeOrder.status);
   const shippingView = formatAddress(safeOrder.shippingAddress);
   const billingView = formatAddress(safeOrder.billingAddress);
   const billingSame =
@@ -688,4 +689,3 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     </div>
   );
 }
-
