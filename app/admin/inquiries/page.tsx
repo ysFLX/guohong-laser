@@ -53,8 +53,15 @@ const statusMeta = (status: string) => {
 };
 
 const isLiveSupportInquiry = (subject: string | null) => {
-  const normalizedSubject = (subject ?? '').toLocaleLowerCase('tr-TR').replaceAll('ı', 'i');
-  return normalizedSubject.includes('canli destek');
+  const normalizedSubject = (subject ?? '')
+    .toLocaleLowerCase('tr-TR')
+    .replaceAll('ı', 'i')
+    .trim();
+  return (
+    normalizedSubject.includes('canli destek') ||
+    normalizedSubject.includes('live support') ||
+    normalizedSubject.includes('canli-destek')
+  );
 };
 
 function SectionHeader({ title, count, type }: { title: string; count: number; type: 'CONTACT' | 'QUOTE' }) {
@@ -87,7 +94,14 @@ export default async function AdminInquiriesPage() {
   }
 
   const items = await prismaInquiry.inquiry.findMany({
-    where: {},
+    where: {
+      NOT: [
+        { subject: { contains: 'canli destek', mode: 'insensitive' } },
+        { subject: { contains: 'canlı destek', mode: 'insensitive' } },
+        { subject: { contains: 'live support', mode: 'insensitive' } },
+        { subject: { contains: 'canli-destek', mode: 'insensitive' } },
+      ],
+    },
     orderBy: [{ createdAt: 'desc' }],
     take: 400,
   });

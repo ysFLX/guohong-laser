@@ -36,7 +36,7 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
       {value ? (
         <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={value} alt="Panel gorseli" className="h-32 w-full rounded-lg object-cover" />
+          <img src={value} alt="Panel görseli" className="h-32 w-full rounded-lg object-cover" />
           <button
             type="button"
             onClick={() => onChange('')}
@@ -47,7 +47,7 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
         </div>
       ) : (
         <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-          Görsel yüklenemedi.
+          Henüz görsel eklenmedi.
         </div>
       )}
 
@@ -92,7 +92,7 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
               onChange(signData.publicUrl);
               setFile(null);
             } catch (e: unknown) {
-              setError(e instanceof Error ? e.message : 'Yukleme basarisiz');
+              setError(e instanceof Error ? e.message : 'Yükleme başarısız');
             } finally {
               setIsUploading(false);
             }

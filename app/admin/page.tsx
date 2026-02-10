@@ -258,6 +258,9 @@ export default async function AdminHomePage() {
               <div className="mt-2 text-sm text-slate-600">
                 Son güncelleme: {homePanels ? formatDateTime(homePanels.updatedAt) : 'Henüz ayarlanmadı'}
               </div>
+              <div className="mt-1 text-xs text-slate-500">
+                Ana sayfadaki 3 blok (kapasite, fiyat alarmı, satın alma) buradan yönetilir.
+              </div>
             </div>
             <Link
               href="/admin/site-config"
