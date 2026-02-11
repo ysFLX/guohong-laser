@@ -104,13 +104,44 @@ export default function Footer() {
             <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">İletişim</div>
               <div className="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                <div>Telefon: +90 536 831 67 87</div>
-                <div>E-posta: guohonglazerinfo@gmail.com</div>
-                <div>Konya / Karatay 42210</div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-slate-500 dark:text-slate-400">Telefon:</span>
+                  <a
+                    href="tel:+905368316787"
+                    className={`font-semibold text-slate-800 ${accent.linkHover} dark:text-slate-100`}
+                  >
+                    +90 536 831 67 87
+                  </a>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-slate-500 dark:text-slate-400">E-posta:</span>
+                  <a
+                    href="mailto:guohonglazerinfo@gmail.com"
+                    className={`font-semibold text-slate-800 ${accent.linkHover} dark:text-slate-100`}
+                  >
+                    guohonglazerinfo@gmail.com
+                  </a>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-slate-500 dark:text-slate-400">Adres:</span>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Konya%20Karatay%2042210"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`font-semibold text-slate-800 ${accent.linkHover} dark:text-slate-100`}
+                  >
+                    Konya / Karatay 42210
+                  </a>
+                </div>
                 <div>Pazartesi - Cumartesi 09:00 - 18:00</div>
               </div>
               <div className="mt-4 flex items-center gap-3 text-slate-400">
-                <a href="https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR" className={accent.iconHover}>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={accent.iconHover}
+                >
                   <span className="sr-only">Facebook</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
@@ -120,7 +151,7 @@ export default function Footer() {
                     />
                   </svg>
                 </a>
-                <a href="https://www.instagram.com/gu0honglaser/" className={accent.iconHover}>
+                <a href="https://www.instagram.com/gu0honglaser/" target="_blank" rel="noreferrer" className={accent.iconHover}>
                   <span className="sr-only">Instagram</span>
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
@@ -163,4 +194,3 @@ export default function Footer() {
     </footer>
   );
 }
-

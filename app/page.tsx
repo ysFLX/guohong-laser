@@ -293,6 +293,17 @@ const formatPrice = (value: number, currency = 'TRY') =>
   new Intl.NumberFormat('tr-TR', { style: 'currency', currency, maximumFractionDigits: 2 }).format(value);
 
 const trimText = (value: string, max = 90) => (value.length > max ? `${value.slice(0, max - 1)}...` : value);
+const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ').trim();
+
+const getInitials = (value: string) => {
+  const words = value.trim().split(/\s+/).filter(Boolean);
+  const initials = words
+    .slice(0, 2)
+    .map((word) => (word[0] ?? '').toUpperCase())
+    .join('');
+
+  return initials || 'M';
+};
 
 type QuickShowcaseItem = {
   title: string;
@@ -309,6 +320,46 @@ type QuickShowcaseItem = {
   inStock?: boolean;
   ratingAverage?: number;
   ratingCount?: number;
+};
+
+type HomeTestimonial = {
+  id: string;
+  name: string;
+  role: string;
+  quote: string;
+  image?: string | null;
+  rating?: number;
+  productLabel?: string;
+  href?: string;
+};
+
+const getDisplayName = (user: { name: string | null; firstName: string | null; lastName: string | null }) => {
+  if (user.name) return user.name;
+  const composed = [user.firstName, user.lastName].filter(Boolean).join(' ');
+  return composed || 'Müşteri';
+};
+
+const maskName = (value: string) => {
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === 'Müşteri' || trimmed === 'Musteri') return 'Gizli Müşteri';
+  const parts = trimmed.split(/\s+/).filter(Boolean);
+  const masked = parts
+    .map((part) => {
+      if (!part.length) return '';
+      const stars = '*'.repeat(Math.max(part.length - 1, 1));
+      return `${part[0]}${stars}`;
+    })
+    .join(' ');
+  return masked || 'Gizli Müşteri';
+};
+
+const getReviewName = (review: {
+  isAnonymous: boolean;
+  user: { name: string | null; firstName: string | null; lastName: string | null };
+}) => {
+  const displayName = getDisplayName(review.user);
+  if (review.isAnonymous) return maskName(displayName);
+  return displayName;
 };
 
 const process = [
@@ -330,8 +381,9 @@ const process = [
   },
 ];
 
-const testimonials = [
+const staticTestimonials: HomeTestimonial[] = [
   {
+    id: 'static-1',
     name: 'Ahmet Yılmaz',
     role: 'Üretim Müdürü',
     quote:
@@ -339,6 +391,7 @@ const testimonials = [
     image: '/images/avatar1.jpg',
   },
   {
+    id: 'static-2',
     name: 'Ayşe Kaya',
     role: 'İşletme sahibi',
     quote:
@@ -462,6 +515,48 @@ export default async function Home() {
       }
     }
   }
+
+  let testimonials: HomeTestimonial[] = staticTestimonials;
+  try {
+    const homepageReviews = await prisma.sparePartReview.findMany({
+      where: {
+        isApproved: true,
+        rating: { gte: 4 },
+        OR: [{ body: { not: null } }, { title: { not: null } }],
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 2,
+      include: {
+        user: { select: { name: true, firstName: true, lastName: true } },
+        sparePart: { select: { id: true, name: true, category: { select: { name: true } } } },
+      },
+    });
+
+    const fromReviews: HomeTestimonial[] = [];
+    for (const review of homepageReviews) {
+      const quoteSource = normalizeWhitespace(review.body ?? review.title ?? '');
+      if (!quoteSource) continue;
+
+      const productLabel = [review.sparePart.name, review.sparePart.category?.name].filter(Boolean).join(' • ');
+      fromReviews.push({
+        id: review.id,
+        name: getReviewName(review),
+        role: 'Doğrulanmış müşteri',
+        quote: trimText(quoteSource, 170),
+        image: null,
+        rating: review.rating,
+        productLabel,
+        href: `/spare-parts/${review.sparePart.id}#reviews`,
+      });
+    }
+
+    if (fromReviews.length) {
+      testimonials = [...fromReviews, ...staticTestimonials].slice(0, 2);
+    }
+  } catch (error) {
+    console.error('home:testimonials', error);
+  }
+
   return (
     <div className={`${space.className} bg-[#f3f5fb] text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
       <div className="relative overflow-hidden">
@@ -1081,17 +1176,44 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 grid w-full gap-5 px-0 lg:grid-cols-2">
         {testimonials.map((item) => (
-          <div key={item.name} className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70">
+          <div
+            key={item.id}
+            className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70"
+          >
             <div className="flex items-center gap-4">
               <div className="h-12 w-12 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                <Image src={item.image} alt={item.name} width={48} height={48} className="h-full w-full object-cover" />
+                {item.image ? (
+                  <Image src={item.image} alt={item.name} width={48} height={48} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-500/20 via-white/10 to-amber-500/20 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                    {getInitials(item.name)}
+                  </div>
+                )}
               </div>
-              <div>
-                <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{item.role}</p>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">{item.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{item.role}</p>
+                  </div>
+                  {typeof item.rating === 'number' && (
+                    <div className="shrink-0 text-xs font-semibold text-amber-600 dark:text-amber-300">
+                      ★ {item.rating}/5
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <p className="mt-4 text-sm text-slate-600 dark:text-slate-300">"{item.quote}"</p>
+            <p className="mt-4 text-sm text-slate-600 dark:text-slate-300 line-clamp-4">"{item.quote}"</p>
+            {item.href && item.productLabel && (
+              <Link
+                href={item.href}
+                className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200"
+              >
+                <span className="line-clamp-1">{item.productLabel}</span>
+                <span aria-hidden>→</span>
+              </Link>
+            )}
           </div>
         ))}
       </Reveal>

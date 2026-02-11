@@ -349,6 +349,15 @@ export default async function SparePartDetailPage({
       availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: `${baseUrl}/spare-parts/${p.id}`,
     },
+    ...(ratingCount > 0
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: Number(ratingAverage.toFixed(1)),
+            ratingCount,
+          },
+        }
+      : {}),
   };
 
   return (
