@@ -55,6 +55,11 @@ function CartPageContent() {
   const [recommendedStatus, setRecommendedStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [recommendedError, setRecommendedError] = useState('');
 
+  const cartItemCount = useMemo(
+    () => items.reduce((acc, item) => acc + item.quantity, 0),
+    [items],
+  );
+
   const cartIdsKey = useMemo(() => {
     if (!items.length) return '';
     const ids = Array.from(new Set(items.map((item) => item.id))).filter(Boolean);
@@ -352,19 +357,50 @@ function CartPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-5xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Sepet</h1>
-          {items.length > 0 && (
-            <button
-              type="button"
-              onClick={clear}
-              className="text-sm font-semibold text-red-600 hover:underline"
-            >
-              Sepeti Temizle
-            </button>
-          )}
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">Sepet</h1>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Ödeme öncesi son kontrol.</p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+            {items.length > 0 && (
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-200">
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-indigo-600 text-[10px] text-white">
+                  1
+                </span>
+                Sepet
+                <span className="text-slate-300 dark:text-slate-600">/</span>
+                <span className="grid h-5 w-5 place-items-center rounded-full border border-slate-200 bg-white text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
+                  2
+                </span>
+                Adres
+                <span className="text-slate-300 dark:text-slate-600">/</span>
+                <span className="grid h-5 w-5 place-items-center rounded-full border border-slate-200 bg-white text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
+                  3
+                </span>
+                Ödeme
+              </div>
+            )}
+
+            {items.length > 0 && (
+              <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-white">
+                {cartItemCount} ürün • {formatPriceTry(subtotalCents)}
+              </div>
+            )}
+
+            {items.length > 0 && (
+              <button
+                type="button"
+                onClick={clear}
+                className="rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200 dark:hover:bg-rose-500/20"
+              >
+                Sepeti temizle
+              </button>
+            )}
+          </div>
         </div>
 
         {recoveryStatus !== 'idle' && (
@@ -384,14 +420,15 @@ function CartPageContent() {
         )}
 
         {items.length === 0 ? (
-          <div className="mt-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 text-center">
-            <div className="text-gray-900 dark:text-white font-semibold">Sepet boş.</div>
-            <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+          <div className="mt-10 rounded-[28px] border border-slate-200/70 bg-white/90 p-8 text-center shadow-xl dark:border-slate-800/70 dark:bg-slate-950/40">
+            <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Sepet</div>
+            <div className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">Sepet boş</div>
+            <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
               Yedek parçalara gidip ürün ekleyebilirsin.
             </div>
             <Link
               href="/spare-parts"
-              className="mt-6 inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800"
+              className="mt-6 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
               Yedek Parçalar
             </Link>
@@ -402,9 +439,9 @@ function CartPageContent() {
               {items.map((x) => (
                 <div
                   key={x.id}
-                  className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 flex gap-4"
+                  className="flex gap-4 rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40"
                 >
-                  <div className="relative h-20 w-20 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 shrink-0">
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900/60">
                     <Image
                       src={x.imageUrl || '/images/1.jpg'}
                       alt={x.name}
@@ -419,44 +456,44 @@ function CartPageContent() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <div className="text-base font-semibold text-gray-900 dark:text-white line-clamp-2">
+                        <div className="line-clamp-2 text-base font-semibold text-slate-900 dark:text-white">
                           {x.name}
                         </div>
-                        <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                        <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                           {formatPriceTry(x.priceCents)}
                         </div>
                       </div>
                       <button
                         type="button"
                         onClick={() => handleRemoveItem(x)}
-                        className="text-sm font-semibold text-red-600 hover:underline"
+                        className="text-sm font-semibold text-rose-600 hover:underline dark:text-rose-300"
                       >
                         Sil
                       </button>
                     </div>
 
                     <div className="mt-4 flex items-center justify-between">
-                      <div className="inline-flex items-center rounded-xl border border-gray-200 dark:border-gray-700">
+                      <div className="inline-flex items-center rounded-xl border border-slate-200 bg-white/70 shadow-sm dark:border-slate-800 dark:bg-slate-950/30">
                         <button
                           type="button"
-                          className="px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-l-xl"
+                          className="rounded-l-xl px-4 py-2 text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-900/60"
                           onClick={() => setQuantity(x.id, x.quantity - 1)}
                         >
                           -
                         </button>
-                        <div className="px-4 py-2 text-sm font-semibold text-gray-900 dark:text-white min-w-12 text-center">
+                        <div className="min-w-12 px-4 py-2 text-center text-sm font-semibold text-slate-900 dark:text-white">
                           {x.quantity}
                         </div>
                         <button
                           type="button"
-                          className="px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 rounded-r-xl"
+                          className="rounded-r-xl px-4 py-2 text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-900/60"
                           onClick={() => setQuantity(x.id, x.quantity + 1)}
                         >
                           +
                         </button>
                       </div>
 
-                      <div className="text-base font-bold text-gray-900 dark:text-white">
+                      <div className="text-base font-bold text-slate-900 dark:text-white">
                         {formatPriceTry(x.priceCents * x.quantity)}
                       </div>
                     </div>
@@ -465,16 +502,16 @@ function CartPageContent() {
               ))}
 
               {(recommendedStatus === 'loading' || recommendedStatus === 'error' || recommended.length > 0) && (
-                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
+                <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-950/40">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                      <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                         Tamamlayıcı parçalar
                       </div>
-                      <div className="mt-2 text-lg font-bold text-gray-900 dark:text-white">
+                      <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
                         Sık birlikte alınan öneriler
                       </div>
-                      <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                      <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                         Sepetine uygun 3 ürünü hızlıca ekleyebilirsin.
                       </div>
                     </div>
@@ -488,12 +525,12 @@ function CartPageContent() {
                       {[0, 1, 2].map((key) => (
                         <div
                           key={key}
-                          className="rounded-2xl border border-gray-200 bg-gray-50/60 p-4 dark:border-gray-700 dark:bg-gray-900/40"
+                          className="rounded-2xl border border-slate-200/70 bg-slate-50/70 p-4 dark:border-slate-800/70 dark:bg-slate-900/30"
                         >
-                          <div className="h-28 w-full rounded-xl bg-gray-200/70 dark:bg-gray-700/40" />
-                          <div className="mt-3 h-4 w-4/5 rounded bg-gray-200/70 dark:bg-gray-700/40" />
-                          <div className="mt-2 h-3 w-2/5 rounded bg-gray-200/70 dark:bg-gray-700/40" />
-                          <div className="mt-3 h-9 w-full rounded-xl bg-gray-200/70 dark:bg-gray-700/40" />
+                          <div className="h-28 w-full rounded-xl bg-slate-200/70 dark:bg-slate-800/60" />
+                          <div className="mt-3 h-4 w-4/5 rounded bg-slate-200/70 dark:bg-slate-800/60" />
+                          <div className="mt-2 h-3 w-2/5 rounded bg-slate-200/70 dark:bg-slate-800/60" />
+                          <div className="mt-3 h-9 w-full rounded-xl bg-slate-200/70 dark:bg-slate-800/60" />
                         </div>
                       ))}
                     </div>
@@ -561,59 +598,66 @@ function CartPageContent() {
               )}
             </div>
 
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 h-fit lg:sticky lg:top-24">
-              <div className="text-lg font-bold text-gray-900 dark:text-white">Özet</div>
+            <div className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl backdrop-blur lg:sticky lg:top-24 dark:border-slate-800/70 dark:bg-slate-950/40">
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Özet</div>
+              <div className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">Sipariş özeti</div>
               <div className="mt-4 flex items-center justify-between">
-                <div className="text-sm text-gray-600 dark:text-gray-300">Ara Toplam</div>
-                <div className="text-base font-bold text-gray-900 dark:text-white">
+                <div className="text-sm text-slate-600 dark:text-slate-300">Ara toplam</div>
+                <div className="text-base font-semibold text-slate-900 dark:text-white">
                   {formatPriceTry(subtotalCents)}
                 </div>
               </div>
-              <div className="mt-3 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
+              <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
                 <span>Kargo</span>
-                <span className="font-semibold text-gray-900 dark:text-white">Adresle birlikte hesaplanır</span>
+                <span className="font-semibold text-slate-900 dark:text-white">Adresle birlikte hesaplanır</span>
               </div>
-              <div className="mt-3 flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
+              <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
                 <span>Teslimat</span>
-                <span className="font-semibold text-gray-900 dark:text-white">2-5 iş günü (stokta)</span>
+                <span className="font-semibold text-slate-900 dark:text-white">2-5 iş günü (stokta)</span>
               </div>
-              <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+              <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
                 Kargo ve teslimat detayları için{' '}
                 <Link href="/shipping" className="font-semibold text-indigo-600 hover:text-indigo-700">
                   kargo politikasını
                 </Link>{' '}
                 inceleyebilirsiniz.
               </div>
-              <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+              <div className="mt-4 rounded-2xl border border-slate-200/70 bg-slate-50 px-3 py-3 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/30 dark:text-slate-200">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                   Güven rozetleri
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
-                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
                     SSL
                   </span>
-                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
                     PCI-DSS
                   </span>
-                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
                     3D Secure
                   </span>
-                  <span className="rounded-full border border-gray-200 bg-white px-3 py-1 dark:border-gray-700 dark:bg-gray-800">
+                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
                     İade garantisi
                   </span>
                 </div>
               </div>
 
+              {checkoutError && (
+                <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200">
+                  {checkoutError}
+                </div>
+              )}
+
               <div className="mt-6">
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-70"
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-70 dark:bg-white/10 dark:hover:bg-white/20"
                   onClick={handleQuickBuy}
                   disabled={!items.length || isQuickBuying}
                 >
                   {isQuickBuying ? 'Hızlı ödeme hazırlanıyor...' : 'Hızlı Al (tek sayfa)'}
                 </button>
-                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
                   Varsayılan adresinizle direkt ödemeye geçebilirsiniz.
                 </div>
               </div>
@@ -621,7 +665,7 @@ function CartPageContent() {
               <div className="mt-4">
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-70"
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
                   onClick={handleCheckout}
                   disabled={!items.length}
                 >
@@ -643,16 +687,12 @@ function CartPageContent() {
                 </div>
               </div>
 
-              {checkoutError && (
-                <div className="mt-3 text-xs text-red-600">{checkoutError}</div>
-              )}
-
               {items.length > 0 && (
-                <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 px-4 py-4 text-xs text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                <div className="mt-6 rounded-2xl border border-slate-200/70 bg-slate-50 px-4 py-4 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/30 dark:text-slate-200">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                     Sepet kurtarma
                   </div>
-                  <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                  <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
                     24 saat sonra ödemeyi tamamlamadıysanız sepetinizi hatırlatırız.
                   </div>
                   <div className="mt-3">
@@ -664,7 +704,7 @@ function CartPageContent() {
                       type="email"
                       value={reminderEmail}
                       onChange={(e) => setReminderEmail(e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-slate-800 dark:bg-slate-950/30 dark:text-white"
                       placeholder="E-posta adresiniz"
                     />
                   </div>
@@ -673,14 +713,14 @@ function CartPageContent() {
                       type="button"
                       onClick={handleSaveReminder}
                       disabled={reminderStatus === 'saving'}
-                      className="rounded-full bg-gray-900 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-gray-800 disabled:opacity-70"
+                      className="rounded-full bg-slate-900 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800 disabled:opacity-70 dark:bg-white/10 dark:hover:bg-white/20"
                     >
                       {reminderStatus === 'saved' ? 'Güncelle' : 'Hatırlatma al'}
                     </button>
                     <button
                       type="button"
                       onClick={handleClearReminder}
-                      className="rounded-full border border-gray-200 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600 hover:border-gray-300 dark:border-gray-700 dark:text-gray-300"
+                      className="rounded-full border border-slate-200 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 dark:border-slate-800 dark:text-slate-300"
                     >
                       İptal
                     </button>
@@ -702,18 +742,18 @@ function CartPageContent() {
 
       {showQuickBuyPrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900">
-            <div className="text-sm font-semibold text-gray-900 dark:text-white">
+          <div className="w-full max-w-sm rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-2xl dark:border-slate-800/70 dark:bg-slate-950/40">
+            <div className="text-sm font-semibold text-slate-900 dark:text-white">
               Hızlı Al için adres gerekli
             </div>
-            <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+            <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
               Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Şimdi adres eklemek ister misiniz?
             </div>
             <div className="mt-5 flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setShowQuickBuyPrompt(false)}
-                className="rounded-xl border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 hover:border-gray-300 dark:border-gray-800 dark:text-gray-300"
+                className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-slate-300 dark:border-slate-800 dark:text-slate-300"
               >
                 Vazgeç
               </button>
@@ -723,7 +763,7 @@ function CartPageContent() {
                   setShowQuickBuyPrompt(false);
                   router.push('/profile/addresses');
                 }}
-                className="rounded-xl bg-gray-900 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-800"
+                className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
               >
                 Adres ekle
               </button>
@@ -737,7 +777,7 @@ function CartPageContent() {
 
 export default function CartPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900" />}>
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 dark:bg-slate-950" />}>
       <CartPageContent />
     </Suspense>
   );

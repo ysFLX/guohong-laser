@@ -83,13 +83,13 @@ const statusTone = (value: string) => {
 const statusAccent = (value: string) => {
   switch (value) {
     case 'DELIVERED':
-      return 'border-l-indigo-500';
+      return 'border-l-emerald-500';
     case 'SHIPPED':
-      return 'border-l-blue-500';
+      return 'border-l-indigo-500';
     case 'IN_TRANSIT':
       return 'border-l-amber-500';
     case 'CANCELED':
-      return 'border-l-slate-400';
+      return 'border-l-rose-500';
     default:
       return 'border-l-slate-300';
   }
@@ -321,25 +321,31 @@ export default function OrdersAdminManager() {
         <div className="mt-5 grid gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4 md:grid-cols-[1.2fr_2fr]">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Hızlı arama</div>
-            <div className="mt-2 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2">
-              <svg viewBox="0 0 20 20" className="h-4 w-4 text-slate-400" fill="currentColor" aria-hidden="true">
+            <div className="mt-2 flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 shadow-sm">
+              <svg
+                viewBox="0 0 20 20"
+                className="h-4 w-4 text-[var(--admin-muted)]"
+                fill="currentColor"
+                aria-hidden="true"
+              >
                 <path
                   fillRule="evenodd"
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                   clipRule="evenodd"
                 />
               </svg>
-                  <input
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Sipariş no, müşteri, e-posta veya ürün ara"
-                    className="w-full bg-transparent text-sm text-slate-700 focus:outline-none"
-                  />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Sipariş no, müşteri, e-posta veya ürün ara"
+                className="w-full bg-transparent text-sm text-[var(--admin-text)] placeholder:text-[var(--admin-muted)] focus:outline-none"
+              />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="text-xs font-semibold text-slate-500 hover:text-slate-700"
+                  className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-1 text-[11px] font-semibold text-[var(--admin-muted)] transition hover:text-[var(--admin-text)]"
                 >
                   Temizle
                 </button>
@@ -368,7 +374,7 @@ export default function OrdersAdminManager() {
             </div>
           </div>
         </div>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
@@ -380,6 +386,14 @@ export default function OrdersAdminManager() {
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazırlanıyor</div>
             <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.IN_TRANSIT || 0}</div>
+          </div>
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Kargoda</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.SHIPPED || 0}</div>
+          </div>
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
+            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Teslim</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.DELIVERED || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
             <div className="text-xs uppercase tracking-[0.3em] text-slate-400">İptal</div>
@@ -407,7 +421,7 @@ export default function OrdersAdminManager() {
         {!loading && filteredOrders.length > 0 && (
           <div className="space-y-4">
             <div className="overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm">
-              <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
+              <div className="hidden items-center gap-4 border-b border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)] md:grid md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]">
                 <div>Sipariş</div>
                 <div>Müşteri</div>
                 <div>Durum</div>
@@ -415,28 +429,28 @@ export default function OrdersAdminManager() {
               </div>
               {filteredOrders.map((order, index) => {
                 const displayStatus = normalizeStatus(order.status);
-                const rowTone = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/40';
+                const rowTone = index % 2 === 0 ? 'bg-[var(--admin-surface)]' : 'bg-[var(--admin-card-muted)]';
                 const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
                 return (
                 <div
                   key={order.id}
-                  className={`${rowBorder} border-slate-200 ${rowTone} ${statusAccent(displayStatus)} border-l-4`}
+                  className={`${rowBorder} border-[var(--admin-border)] ${rowTone} ${statusAccent(displayStatus)} border-l-4`}
                 >
                 <button
                   type="button"
                   onClick={() => toggleExpanded(order.id)}
                   aria-expanded={expandedIds.has(order.id)}
-                  className="grid w-full gap-4 border-b border-slate-100 px-6 py-4 text-left transition hover:bg-slate-50 md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
+                  className="grid w-full gap-4 border-b border-[var(--admin-border)] px-6 py-4 text-left transition hover:bg-[var(--admin-card-muted)] md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
                 >
                   <div className="min-w-0">
-                    <div className="text-lg font-semibold text-slate-900">#{order.id.slice(0, 8)}</div>
-                    <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
+                    <div className="text-lg font-semibold text-[var(--admin-text)]">#{order.id.slice(0, 8)}</div>
+                    <div className="mt-1 text-xs text-[var(--admin-muted)]">{formatDate(order.createdAt)}</div>
                   </div>
                   <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold text-slate-900">
+                    <div className="truncate text-sm font-semibold text-[var(--admin-text)]">
                       {order.user?.name || order.user?.email || 'Misafir'}
                     </div>
-                    <div className="mt-1 truncate text-xs text-slate-500">{order.user?.email || '-'}</div>
+                    <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{order.user?.email || '-'}</div>
                   </div>
                   <div className="flex items-start md:items-center">
                     <AdminBadge tone={statusTone(displayStatus)}>
@@ -444,8 +458,8 @@ export default function OrdersAdminManager() {
                     </AdminBadge>
                   </div>
                   <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
-                    <div className="text-lg font-semibold text-slate-900">{formatPriceTry(order.totalCents)}</div>
-                    <div className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500">
+                    <div className="text-lg font-semibold text-[var(--admin-text)]">{formatPriceTry(order.totalCents)}</div>
+                    <div className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--admin-muted)]">
                       Detay
                       <svg
                         viewBox="0 0 20 20"
@@ -461,124 +475,158 @@ export default function OrdersAdminManager() {
                 </button>
 
                 {expandedIds.has(order.id) && (
-                  <div className="grid gap-5 border-t border-slate-200 px-6 py-6 lg:grid-cols-[1.1fr_0.9fr] bg-slate-50/60">
-                    <div className="relative space-y-5 pl-6">
-                      <div className="absolute left-2 top-4 h-[calc(100%-16px)] w-px bg-slate-200" />
-                      <div className="relative">
-                        <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
-                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+                  <div className="grid gap-6 border-t border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
                         <div className="flex items-start gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
-                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] text-[var(--admin-accent)]">
+                            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
                               <path d="M20 21a8 8 0 10-16 0" />
                               <circle cx="12" cy="7" r="4" />
                             </svg>
                           </div>
-                          <div>
-                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Müşteri</div>
-                            <div className="mt-2 text-sm font-semibold text-slate-900">
+                          <div className="min-w-0">
+                            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                              Müşteri
+                            </div>
+                            <div className="mt-2 truncate text-sm font-semibold text-[var(--admin-text)]">
                               {order.user?.name || order.user?.email || 'Misafir'}
                             </div>
-                            <div className="text-xs text-slate-500">{order.user?.email || '-'}</div>
-                            <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
-                              {order.user?.email && (
+                            <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{order.user?.email || '-'}</div>
+                            {order.user?.email && (
+                              <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
                                 <a
                                   href={`mailto:${order.user.email}`}
-                                  className="rounded-full border border-slate-200 px-3 py-1 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                                  className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-1 text-[var(--admin-muted)] transition hover:bg-[var(--admin-card-muted)] hover:text-[var(--admin-text)]"
                                 >
                                   E-posta gönder
                                 </a>
-                              )}
-                            </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
-                      </div>
 
-                      <div className="relative">
-                        <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
-                        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                          <div className="flex items-start gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
-                              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M12 21s7-4.35 7-10a7 7 0 10-14 0c0 5.65 7 10 7 10z" />
-                                <circle cx="12" cy="11" r="2.5" />
-                              </svg>
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] text-[var(--admin-accent)]">
+                            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M12 21s7-4.35 7-10a7 7 0 10-14 0c0 5.65 7 10 7 10z" />
+                              <circle cx="12" cy="11" r="2.5" />
+                            </svg>
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                              Teslimat adresi
                             </div>
-                            <div>
-                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslimat adresi</div>
-                              {(() => {
-                                const view = formatAddress(order.shippingAddress);
-                                if (!view) {
-                                  return <div className="mt-2 text-xs text-slate-500">Adres bilgisi yok</div>;
-                                }
-                                return (
-                                  <div className="mt-2 text-xs text-slate-600">
-                                  <div className="font-semibold text-slate-900">{view.fullName}</div>
+                            {(() => {
+                              const view = formatAddress(order.shippingAddress);
+                              if (!view) {
+                                return <div className="mt-2 text-xs text-[var(--admin-muted)]">Adres bilgisi yok</div>;
+                              }
+                              return (
+                                <div className="mt-2 space-y-1 text-xs text-[var(--admin-muted)]">
+                                  <div className="text-sm font-semibold text-[var(--admin-text)]">{view.fullName}</div>
                                   <div>{view.line1}</div>
                                   <div>{view.city}</div>
                                   <div>{view.phone}</div>
-                                  </div>
-                                );
-                              })()}
-                            </div>
+                                </div>
+                              );
+                            })()}
                           </div>
                         </div>
                       </div>
 
-                      <div className="relative">
-                        <span className="absolute left-[-2px] top-5 h-2.5 w-2.5 rounded-full bg-slate-900" />
-                        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                          <div className="flex items-start gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
-                              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M20 7h-3V4H7v3H4v13h16V7z" />
-                                <path d="M7 4h10" />
-                              </svg>
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] text-[var(--admin-accent)]">
+                            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                              <path d="M14 2v6h6" />
+                              <path d="M16 13H8" />
+                              <path d="M16 17H8" />
+                            </svg>
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                              Fatura adresi
                             </div>
-                            <div className="flex-1">
-                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Ürünler</div>
-                              <div className="mt-3 space-y-2">
-                                {order.items.map((item) => (
-                                  <div
-                                    key={item.id}
-                                    className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs"
-                                  >
-                                    <div className="flex min-w-0 items-center gap-2">
-                                      <div className="h-9 w-9 overflow-hidden rounded-lg bg-white">
-                                        {item.imageUrl ? (
-                                          // eslint-disable-next-line @next/next/no-img-element
-                                          <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
-                                        ) : (
-                                          <div className="flex h-full w-full items-center justify-center text-[10px] text-slate-400">
-                                            Ürün
-                                          </div>
-                                        )}
-                                      </div>
-                                      <span className="truncate text-slate-700">{item.name}</span>
+                            {(() => {
+                              const view = formatAddress(order.billingAddress);
+                              if (!view) {
+                                return <div className="mt-2 text-xs text-[var(--admin-muted)]">Adres bilgisi yok</div>;
+                              }
+                              return (
+                                <div className="mt-2 space-y-1 text-xs text-[var(--admin-muted)]">
+                                  <div className="text-sm font-semibold text-[var(--admin-text)]">{view.fullName}</div>
+                                  <div>{view.line1}</div>
+                                  <div>{view.city}</div>
+                                  <div>{view.phone}</div>
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm sm:col-span-2">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] text-[var(--admin-accent)]">
+                            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M20 7h-3V4H7v3H4v13h16V7z" />
+                              <path d="M7 4h10" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                              Ürünler
+                            </div>
+                            <div className="mt-3 space-y-2">
+                              {order.items.map((item) => (
+                                <div
+                                  key={item.id}
+                                  className="flex items-center justify-between gap-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-2 text-xs"
+                                >
+                                  <div className="flex min-w-0 items-center gap-2">
+                                    <div className="h-9 w-9 overflow-hidden rounded-lg border border-[var(--admin-border)] bg-[var(--admin-card)]">
+                                      {item.imageUrl ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
+                                        <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
+                                      ) : (
+                                        <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--admin-muted)]">
+                                          Ürün
+                                        </div>
+                                      )}
                                     </div>
-                                    <span className="text-slate-500">{item.quantity}x</span>
+                                    <span className="truncate font-semibold text-[var(--admin-text)]">{item.name}</span>
                                   </div>
-                                ))}
-                              </div>
+                                  <div className="flex items-center gap-3 text-[var(--admin-muted)]">
+                                    <span>{item.quantity}x</span>
+                                    <span className="font-semibold text-[var(--admin-text)]">
+                                      {formatPriceTry(item.priceCents * item.quantity)}
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-5">
-                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                          <div className="flex items-center justify-between">
-                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum güncelle</div>
-                            <AdminBadge tone={statusTone(displayStatus)}>
-                              {statusLabel[displayStatus] || displayStatus}
-                            </AdminBadge>
+                    <div className="space-y-4">
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                            Durum güncelle
                           </div>
-                          <div className="mt-3 flex flex-wrap items-center gap-2">
-                            <select
-                              className="form-input text-xs font-semibold text-slate-700"
-                              value={draftStatus[order.id] || order.status}
+                          <AdminBadge tone={statusTone(displayStatus)}>{statusLabel[displayStatus] || displayStatus}</AdminBadge>
+                        </div>
+
+                        <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_auto] sm:items-center">
+                          <select
+                            className="w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-xs font-semibold text-[var(--admin-text)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--admin-accent)]/30"
+                            value={draftStatus[order.id] || order.status}
                             onChange={(e) => {
                               const value = e.target.value;
                               if (value !== 'CANCELED' && cancelDialogId === order.id) {
@@ -603,78 +651,89 @@ export default function OrdersAdminManager() {
                               </option>
                             ))}
                           </select>
-                          <AdminButton
-                            onClick={() => saveStatus(order.id)}
-                            disabled={savingId === order.id}
-                            className="px-5"
-                          >
-                            {savingId === order.id ? 'Kaydediliyor' : 'Kaydet'}
+                          <AdminButton onClick={() => saveStatus(order.id)} disabled={savingId === order.id} className="px-6">
+                            {savingId === order.id ? 'Kaydediliyor' : 'Durumu kaydet'}
                           </AdminButton>
                         </div>
-                        <div className="mt-2 text-xs text-slate-500">
+
+                        <div className="mt-2 text-xs text-[var(--admin-muted)]">
                           Mevcut: {statusLabel[displayStatus] || displayStatus}
                         </div>
                       </div>
 
-                      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white">
-                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M3 7h13l3 4v6H3z" />
-                              <circle cx="7.5" cy="17" r="2" />
-                              <circle cx="16.5" cy="17" r="2" />
-                            </svg>
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] text-[var(--admin-accent)]">
+                              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M3 7h13l3 4v6H3z" />
+                                <circle cx="7.5" cy="17" r="2" />
+                                <circle cx="16.5" cy="17" r="2" />
+                              </svg>
+                            </div>
+                            <div>
+                              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                                Kargo bilgisi
+                              </div>
+                              <div className="text-xs text-[var(--admin-muted)]">Taşıma detaylarını tamamla.</div>
+                            </div>
                           </div>
-                          <div>
-                            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Kargo bilgisi</div>
-                            <div className="text-xs text-slate-500">Taşıma detaylarını tamamla.</div>
-                          </div>
+                          <AdminButton
+                            tone="slate"
+                            variant="outline"
+                            onClick={() => saveStatus(order.id)}
+                            disabled={savingId === order.id}
+                            className="px-5"
+                          >
+                            {savingId === order.id ? 'Kaydediliyor' : 'Kargoyu kaydet'}
+                          </AdminButton>
                         </div>
-                        <div className="mt-3 space-y-3">
+
+                        <div className="mt-4 space-y-3">
                           <div>
-                            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
                               Kargo firması
                             </label>
-                          <input
-                            className="form-input text-xs text-slate-700"
-                            value={draftTracking[order.id]?.carrier || ''}
-                            onChange={(e) =>
-                              setDraftTracking((prev) => ({
-                                ...prev,
-                                [order.id]: {
-                                  carrier: e.target.value,
-                                  number: prev[order.id]?.number || '',
-                                  url: prev[order.id]?.url || '',
-                                },
-                              }))
-                            }
-                          />
+                            <input
+                              className="mt-2 w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-xs font-semibold text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--admin-accent)]/30"
+                              value={draftTracking[order.id]?.carrier || ''}
+                              onChange={(e) =>
+                                setDraftTracking((prev) => ({
+                                  ...prev,
+                                  [order.id]: {
+                                    carrier: e.target.value,
+                                    number: prev[order.id]?.number || '',
+                                    url: prev[order.id]?.url || '',
+                                  },
+                                }))
+                              }
+                            />
                           </div>
                           <div>
-                            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
                               Takip no
                             </label>
-                          <input
-                            className="form-input text-xs text-slate-700"
-                            value={draftTracking[order.id]?.number || ''}
-                            onChange={(e) =>
-                              setDraftTracking((prev) => ({
-                                ...prev,
-                                [order.id]: {
-                                  carrier: prev[order.id]?.carrier || '',
-                                  number: e.target.value,
-                                  url: prev[order.id]?.url || '',
-                                },
-                              }))
-                            }
-                          />
+                            <input
+                              className="mt-2 w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-xs font-semibold text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--admin-accent)]/30"
+                              value={draftTracking[order.id]?.number || ''}
+                              onChange={(e) =>
+                                setDraftTracking((prev) => ({
+                                  ...prev,
+                                  [order.id]: {
+                                    carrier: prev[order.id]?.carrier || '',
+                                    number: e.target.value,
+                                    url: prev[order.id]?.url || '',
+                                  },
+                                }))
+                              }
+                            />
                           </div>
                           <div>
-                            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
                               Takip linki
                             </label>
                             <input
-                              className="form-input text-xs text-slate-700"
+                              className="mt-2 w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 text-xs font-semibold text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--admin-accent)]/30"
                               value={draftTracking[order.id]?.url || ''}
                               onChange={(e) =>
                                 setDraftTracking((prev) => ({
@@ -689,15 +748,17 @@ export default function OrdersAdminManager() {
                             />
                           </div>
                         </div>
-                        <div className="mt-3 text-[11px] text-slate-500">
+
+                        <div className="mt-3 text-[11px] text-[var(--admin-muted)]">
                           Kargo bilgisi kaydedildiğinde müşteriye e-posta gider ve sipariş detayında görünür.
                         </div>
+
                         {(draftTracking[order.id]?.carrier ||
                           draftTracking[order.id]?.number ||
                           draftTracking[order.id]?.url) && (
-                          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-600">
-                            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                              Kargo Özeti
+                          <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-3 text-xs text-[var(--admin-muted)]">
+                            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                              Kargo özeti
                             </div>
                             <div className="mt-2 space-y-1">
                               {draftTracking[order.id]?.carrier && <div>Firma: {draftTracking[order.id].carrier}</div>}
@@ -707,10 +768,9 @@ export default function OrdersAdminManager() {
                                   href={draftTracking[order.id].url}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="inline-flex items-center gap-1 text-indigo-700 hover:text-indigo-800"
+                                  className="inline-flex items-center gap-1 font-semibold text-indigo-700 hover:text-indigo-800"
                                 >
-                                  Takip linkini aç
-                                  <span>-&gt;</span>
+                                  Takip linkini aç <span>-&gt;</span>
                                 </a>
                               )}
                             </div>
@@ -729,9 +789,9 @@ export default function OrdersAdminManager() {
       </div>
 
       <div className="sticky bottom-4 z-30">
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-xs text-slate-600 shadow-lg backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)]/90 px-4 py-3 text-xs text-[var(--admin-muted)] shadow-lg backdrop-blur">
           <div className="flex items-center gap-2">
-            <AdminBadge tone="slate">{filteredOrders.length} kayit</AdminBadge>
+            <AdminBadge tone="slate">{filteredOrders.length} kayıt</AdminBadge>
             <span>Filtre: {statusFilter === 'ALL' ? 'Tüm siparişler' : statusLabel[statusFilter]}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">

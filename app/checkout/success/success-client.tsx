@@ -177,33 +177,35 @@ export default function CheckoutSuccessClient() {
   }, [sessionId]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 text-center">
-        <div className="text-2xl font-semibold text-gray-900 dark:text-white">Ödeme başarılı</div>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          Siparişiniz alınmıştır. Detayları ´Siparişlerim´ sayfasından takip edebilirsiniz.
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+      <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 lg:px-8">
+        <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Checkout</div>
+        <div className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">Ödeme başarılı</div>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          Siparişin alındı. Detayları <span className="font-semibold text-slate-900 dark:text-white">Siparişlerim</span>{' '}
+          sayfasından takip edebilirsin.
         </p>
 
         {orderInfo && (
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-left dark:border-gray-700 dark:bg-gray-800">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+            <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-left shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                 Sipariş no
               </div>
-              <div className="mt-1 text-sm font-bold text-gray-900 dark:text-white">#{orderInfo.id.slice(0, 8)}</div>
+              <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">#{orderInfo.id.slice(0, 8)}</div>
             </div>
-            <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-left dark:border-gray-700 dark:bg-gray-800">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+            <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-left shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                 Toplam
               </div>
-              <div className="mt-1 text-sm font-bold text-gray-900 dark:text-white">
+              <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">
                 {formatPriceTry(orderInfo.totalCents)}
               </div>
             </div>
           </div>
         )}
 
-        <div className="mt-4 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+        <div className="mt-4 rounded-[28px] border border-slate-200/70 bg-white/90 px-4 py-3 text-sm text-slate-600 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-slate-300">
           İade veya değişim talebiniz olursa{' '}
           <Link href="/returns-request" className="font-semibold text-indigo-600 hover:text-indigo-700">
             iade formunu
@@ -223,7 +225,7 @@ export default function CheckoutSuccessClient() {
           </Link>
           <Link
             href="/spare-parts"
-            className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
+            className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-200 dark:hover:bg-slate-900/60"
           >
             Alışverişe devam et
           </Link>
@@ -238,16 +240,16 @@ export default function CheckoutSuccessClient() {
         </div>
 
         {(recStatus === 'loading' || recStatus === 'error' || recommended.length > 0) && (
-          <div className="mt-10 rounded-3xl border border-gray-200 bg-white p-6 text-left shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <div className="mt-10 rounded-[28px] border border-slate-200/70 bg-white/90 p-6 text-left shadow-xl dark:border-slate-800/70 dark:bg-slate-950/40">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                   Tamamlayıcı parçalar
                 </div>
-                <div className="mt-2 text-lg font-bold text-gray-900 dark:text-white">
+                <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
                   Sık birlikte alınan öneriler
                 </div>
-                <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
                   İstersen bu siparişe ek olarak hızlıca sepet oluşturabilirsin.
                 </div>
               </div>
@@ -261,19 +263,19 @@ export default function CheckoutSuccessClient() {
                 {[0, 1, 2].map((key) => (
                   <div
                     key={key}
-                    className="rounded-2xl border border-gray-200 bg-gray-50/60 p-4 dark:border-gray-700 dark:bg-gray-900/40"
+                    className="rounded-2xl border border-slate-200/70 bg-slate-50/70 p-4 dark:border-slate-800/70 dark:bg-slate-900/30"
                   >
-                    <div className="h-28 w-full rounded-xl bg-gray-200/70 dark:bg-gray-700/40" />
-                    <div className="mt-3 h-4 w-4/5 rounded bg-gray-200/70 dark:bg-gray-700/40" />
-                    <div className="mt-2 h-3 w-2/5 rounded bg-gray-200/70 dark:bg-gray-700/40" />
-                    <div className="mt-3 h-9 w-full rounded-xl bg-gray-200/70 dark:bg-gray-700/40" />
+                    <div className="h-28 w-full rounded-xl bg-slate-200/70 dark:bg-slate-800/60" />
+                    <div className="mt-3 h-4 w-4/5 rounded bg-slate-200/70 dark:bg-slate-800/60" />
+                    <div className="mt-2 h-3 w-2/5 rounded bg-slate-200/70 dark:bg-slate-800/60" />
+                    <div className="mt-3 h-9 w-full rounded-xl bg-slate-200/70 dark:bg-slate-800/60" />
                   </div>
                 ))}
               </div>
             )}
 
             {recStatus === 'error' && (
-              <div className="mt-5 text-sm text-gray-600 dark:text-gray-300">{recError || 'Öneriler yüklenemedi.'}</div>
+              <div className="mt-5 text-sm text-slate-600 dark:text-slate-300">{recError || 'Öneriler yüklenemedi.'}</div>
             )}
 
             {recStatus !== 'loading' && recommended.length > 0 && (
@@ -281,10 +283,10 @@ export default function CheckoutSuccessClient() {
                 {recommended.map((item) => (
                   <div
                     key={item.id}
-                    className="group overflow-hidden rounded-2xl border border-gray-200 bg-gray-50/60 p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900/40"
+                    className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-slate-50/70 p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-900/30"
                   >
                     <Link href={`/spare-parts/${item.id}`} className="block">
-                      <div className="relative h-28 w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-950">
+                      <div className="relative h-28 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-950/60">
                         <Image
                           src={item.imageUrl || '/images/1.jpg'}
                           alt={item.name}
@@ -296,9 +298,9 @@ export default function CheckoutSuccessClient() {
                         />
                       </div>
                       <div className="mt-3">
-                        <div className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2">{item.name}</div>
-                        <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 dark:text-gray-300">
-                          <span className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                        <div className="line-clamp-2 text-sm font-semibold text-slate-900 dark:text-white">{item.name}</div>
+                        <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-300">
+                          <span className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-200">
                             {item.category?.name || 'Yedek parça'}
                           </span>
                           {item.ratingCount > 0 && (
@@ -307,7 +309,7 @@ export default function CheckoutSuccessClient() {
                             </span>
                           )}
                         </div>
-                        <div className="mt-2 text-sm font-bold text-gray-900 dark:text-white">{formatPriceTry(item.priceCents)}</div>
+                        <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">{formatPriceTry(item.priceCents)}</div>
                       </div>
                     </Link>
 
