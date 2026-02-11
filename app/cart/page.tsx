@@ -3,11 +3,24 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
+import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
+
+type RecommendedItem = {
+  id: string;
+  name: string;
+  priceCents: number;
+  currency: string;
+  imageUrl: string | null;
+  stockOnHand: number;
+  category: { name: string; slug: string };
+  ratingAverage: number;
+  ratingCount: number;
+};
 
 function formatPriceTry(priceCents: number) {
   try {
@@ -38,6 +51,16 @@ function CartPageContent() {
   const [recoveryStatus, setRecoveryStatus] = useState<'idle' | 'restoring' | 'restored' | 'error'>('idle');
   const [recoveryError, setRecoveryError] = useState('');
   const [whatsAppHref, setWhatsAppHref] = useState('https://wa.me/905368316787');
+  const [recommended, setRecommended] = useState<RecommendedItem[]>([]);
+  const [recommendedStatus, setRecommendedStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+  const [recommendedError, setRecommendedError] = useState('');
+
+  const cartIdsKey = useMemo(() => {
+    if (!items.length) return '';
+    const ids = Array.from(new Set(items.map((item) => item.id))).filter(Boolean);
+    ids.sort();
+    return ids.join(',');
+  }, [items]);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -66,6 +89,45 @@ function CartPageContent() {
 
     setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
   }, [items, subtotalCents]);
+
+  useEffect(() => {
+    if (!cartIdsKey) {
+      setRecommended([]);
+      setRecommendedStatus('idle');
+      setRecommendedError('');
+      return;
+    }
+
+    const controller = new AbortController();
+    setRecommendedStatus('loading');
+    setRecommendedError('');
+
+    const run = async () => {
+      try {
+        const res = await fetch(
+          `/api/spare-parts/recommendations?ids=${encodeURIComponent(cartIdsKey)}&limit=3`,
+          { cache: 'no-store', signal: controller.signal },
+        );
+        const data = (await res.json().catch(() => ({}))) as { items?: unknown; error?: unknown };
+        if (!res.ok) {
+          throw new Error(typeof data?.error === 'string' ? data.error : 'Öneriler yüklenemedi.');
+        }
+
+        const cartIdSet = new Set(cartIdsKey.split(',').filter(Boolean));
+        const next = Array.isArray(data?.items) ? (data.items as RecommendedItem[]) : [];
+        setRecommended(next.filter((item) => item && typeof item.id === 'string' && !cartIdSet.has(item.id)));
+        setRecommendedStatus('idle');
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        setRecommended([]);
+        setRecommendedStatus('error');
+        setRecommendedError(err instanceof Error ? err.message : 'Öneriler yüklenemedi.');
+      }
+    };
+
+    run();
+    return () => controller.abort();
+  }, [cartIdsKey]);
 
   useEffect(() => {
     if (!recoverToken) return;
@@ -335,8 +397,8 @@ function CartPageContent() {
             </Link>
           </div>
         ) : (
-          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="lg:col-span-2 space-y-4">
+          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-start">
+            <div className="space-y-4">
               {items.map((x) => (
                 <div
                   key={x.id}
@@ -401,9 +463,105 @@ function CartPageContent() {
                   </div>
                 </div>
               ))}
+
+              {(recommendedStatus === 'loading' || recommendedStatus === 'error' || recommended.length > 0) && (
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                        Tamamlayıcı parçalar
+                      </div>
+                      <div className="mt-2 text-lg font-bold text-gray-900 dark:text-white">
+                        Sık birlikte alınan öneriler
+                      </div>
+                      <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                        Sepetine uygun 3 ürünü hızlıca ekleyebilirsin.
+                      </div>
+                    </div>
+                    <Link href="/spare-parts?sort=recommended" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                      Tümünü gör
+                    </Link>
+                  </div>
+
+                  {recommendedStatus === 'loading' && (
+                    <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                      {[0, 1, 2].map((key) => (
+                        <div
+                          key={key}
+                          className="rounded-2xl border border-gray-200 bg-gray-50/60 p-4 dark:border-gray-700 dark:bg-gray-900/40"
+                        >
+                          <div className="h-28 w-full rounded-xl bg-gray-200/70 dark:bg-gray-700/40" />
+                          <div className="mt-3 h-4 w-4/5 rounded bg-gray-200/70 dark:bg-gray-700/40" />
+                          <div className="mt-2 h-3 w-2/5 rounded bg-gray-200/70 dark:bg-gray-700/40" />
+                          <div className="mt-3 h-9 w-full rounded-xl bg-gray-200/70 dark:bg-gray-700/40" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {recommendedStatus === 'error' && (
+                    <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+                      {recommendedError || 'Öneriler şu an yüklenemedi.'}
+                    </div>
+                  )}
+
+                  {recommendedStatus !== 'loading' && recommended.length > 0 && (
+                    <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                      {recommended.map((item) => (
+                        <div
+                          key={item.id}
+                          className="group rounded-2xl border border-gray-200 bg-gray-50/60 p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900/40"
+                        >
+                          <Link href={`/spare-parts/${item.id}`} className="block">
+                            <div className="relative h-28 w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-950">
+                              <Image
+                                src={item.imageUrl || '/images/1.jpg'}
+                                alt={item.name}
+                                fill
+                                sizes="(max-width: 640px) 100vw, 33vw"
+                                className="object-cover transition-transform group-hover:scale-[1.03]"
+                                loading="lazy"
+                                unoptimized
+                              />
+                            </div>
+                            <div className="mt-3">
+                              <div className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2">
+                                {item.name}
+                              </div>
+                              <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 dark:text-gray-300">
+                                <span className="rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                                  {item.category?.name || 'Yedek parça'}
+                                </span>
+                                {item.ratingCount > 0 && (
+                                  <span className="font-semibold text-amber-700 dark:text-amber-300">
+                                    ★ {item.ratingAverage.toFixed(1)} ({item.ratingCount})
+                                  </span>
+                                )}
+                              </div>
+                              <div className="mt-2 text-sm font-bold text-gray-900 dark:text-white">
+                                {formatPriceTry(item.priceCents)}
+                              </div>
+                            </div>
+                          </Link>
+
+                          <div className="mt-3">
+                            <AddToCartButton
+                              id={item.id}
+                              name={item.name}
+                              priceCents={item.priceCents}
+                              imageUrl={item.imageUrl}
+                              className="w-full inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-70"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 h-fit">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 h-fit lg:sticky lg:top-24">
               <div className="text-lg font-bold text-gray-900 dark:text-white">Özet</div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="text-sm text-gray-600 dark:text-gray-300">Ara Toplam</div>
