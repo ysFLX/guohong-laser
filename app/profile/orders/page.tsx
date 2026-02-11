@@ -114,7 +114,7 @@ export default async function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_.bg-white\\/90]:bg-slate-900/70 dark:[&_.bg-white\\/80]:bg-slate-900/70 dark:[&_.bg-slate-50\\/70]:bg-slate-900/60 dark:[&_.border-slate-200\\/70]:border-white/10 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_[class*='bg-white/90']]:bg-slate-900/70 dark:[&_[class*='bg-white/80']]:bg-slate-900/70 dark:[&_[class*='bg-slate-50/70']]:bg-slate-900/60 dark:[&_[class*='border-slate-200/70']]:border-white/10 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300">
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-indigo-200/40 blur-3xl dark:bg-indigo-500/10" />
         <div className="pointer-events-none absolute -left-32 top-48 h-72 w-72 rounded-full bg-slate-200/70 blur-3xl dark:bg-slate-800/60" />
@@ -127,7 +127,7 @@ export default async function OrdersPage() {
                   {(session.user.name?.[0] || session.user.email?.[0] || 'U').toUpperCase()}
                 </div>
                 <div>
-                  <h1 className="text-2xl font-semibold">Hesabim</h1>
+                  <h1 className="text-2xl font-semibold">Hesabım</h1>
                   <div className="mt-1 text-sm text-white/70">
                     {session.user.email ?? ''}
                     {session.user.role === 'ADMIN' ? ' - Admin' : ''}
