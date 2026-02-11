@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { prisma } from '@/lib/prisma';
+import { machineProducts } from '@/lib/machineCatalog';
 
 const getBaseUrl = () =>
   process.env.NEXT_PUBLIC_SITE_URL ||
@@ -43,6 +44,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.7,
   }));
 
+  const machineEntries: MetadataRoute.Sitemap = machineProducts.map((product) => ({
+    url: `${baseUrl}/products/${product.id}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
   const prismaAny = prisma as unknown as {
     sparePart: {
       findMany: (args: unknown) => Promise<{ id: string; updatedAt: Date }[]>;
@@ -60,5 +68,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticEntries, ...sparePartEntries];
+  return [...staticEntries, ...machineEntries, ...sparePartEntries];
 }

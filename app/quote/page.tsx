@@ -1,15 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProductNames } from '@/lib/machineCatalog';
 import { trackEvent } from '@/lib/analytics';
 
-export default function QuotePage() {
+function QuotePageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -24,6 +25,14 @@ export default function QuotePage() {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'details' | 'verify'>('details');
   const [info, setInfo] = useState('');
+
+  const preselectedProduct = useMemo(() => (searchParams.get('product') ?? '').trim(), [searchParams]);
+
+  useEffect(() => {
+    if (!preselectedProduct) return;
+    if (!machineProductNames.includes(preselectedProduct)) return;
+    setFormData((prev) => (prev.product ? prev : { ...prev, product: preselectedProduct }));
+  }, [preselectedProduct]);
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
@@ -294,4 +303,10 @@ export default function QuotePage() {
   );
 }
 
-
+export default function QuotePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+      <QuotePageContent />
+    </Suspense>
+  );
+}

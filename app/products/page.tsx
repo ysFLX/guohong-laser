@@ -38,7 +38,7 @@ const itemListSchema = {
     '@type': 'ListItem',
     position: index + 1,
     name: product.name,
-    url: baseUrl ? `${baseUrl}/products#product-${product.id}` : `/products#product-${product.id}`,
+    url: baseUrl ? `${baseUrl}/products/${product.id}` : `/products/${product.id}`,
   })),
 };
 
@@ -75,7 +75,7 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'Tumu' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'Tümü' || product.category === selectedCategory;
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -390,7 +390,12 @@ export default function ProductsPage() {
                     <span className="inline-flex w-fit rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-indigo-700">
                       Fiyat teklif ile
                     </span>
-                    <h3 className="text-lg font-semibold text-slate-900">{product.name}</h3>
+                    <Link
+                      href={`/products/${product.id}`}
+                      className="text-lg font-semibold text-slate-900 underline-offset-4 hover:text-slate-950 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    >
+                      {product.name}
+                    </Link>
                     <p className="text-sm text-slate-600">{product.description}</p>
                     <div className="grid gap-2 text-xs text-slate-600">
                       <div className="flex items-center justify-between">
@@ -418,6 +423,12 @@ export default function ProductsPage() {
                       >
                         {compareIds.includes(product.id) ? 'Seçildi' : 'Karşılaştır'}
                       </button>
+                      <Link
+                        href={`/products/${product.id}`}
+                        className="rounded-full border border-slate-200 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
+                      >
+                        Detay
+                      </Link>
                       <button
                         type="button"
                         onClick={() => openQuoteModal(product.name)}
@@ -773,6 +784,3 @@ export default function ProductsPage() {
     </div>
   );
 }
-
-
-

@@ -1,6 +1,6 @@
 'use client';
 
-import { type ChangeEvent, useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import Reveal from '@/components/home/Reveal';
@@ -29,6 +29,20 @@ export default function BulkQuotePage() {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'details' | 'verify'>('details');
   const [info, setInfo] = useState('');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const preselected = (new URLSearchParams(window.location.search).get('product') ?? '').trim();
+    if (!preselected) return;
+    if (!machineProductNames.includes(preselected)) return;
+    setItems((prev) => {
+      if (prev.length === 0) return [{ name: preselected, quantity: '1', note: '' }];
+      if (prev[0]?.name?.trim()) return prev;
+      const next = [...prev];
+      next[0] = { ...next[0], name: preselected };
+      return next;
+    });
+  }, []);
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
