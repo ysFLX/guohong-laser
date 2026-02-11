@@ -1,8 +1,8 @@
 'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Footer() {
   const pathname = usePathname();
@@ -18,11 +18,13 @@ export default function Footer() {
     setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
   }, [pathname]);
 
+  const year = new Date().getFullYear();
+
   const accent = {
     glow: isHome ? 'bg-amber-200/70' : 'bg-indigo-200/70',
     glowMuted: isHome ? 'bg-amber-200/60' : 'bg-indigo-200/60',
     border: isHome ? 'border-amber-300/50' : 'border-indigo-300/50',
-    primaryBtn: isHome ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-indigo-600 hover:bg-indigo-700',
+    primaryBtn: 'bg-indigo-600 hover:bg-indigo-700',
     outlineBtn: isHome
       ? 'border-indigo-200 text-indigo-700 hover:bg-indigo-50'
       : 'border-indigo-200 text-indigo-700 hover:bg-indigo-50',
@@ -88,7 +90,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hızlı Linkler</div>
               <div className="mt-4 grid gap-2 text-sm">
@@ -98,6 +100,20 @@ export default function Footer() {
                 <Link href="/gallery" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Galeri</Link>
                 <Link href="/references" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Referanslar</Link>
                 <Link href="/contact" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>İletişim</Link>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/70">
+              <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Politikalar</div>
+              <div className="mt-4 grid gap-2 text-sm">
+                <Link href="/shipping" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Kargo & Teslimat</Link>
+                <Link href="/returns" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>İade & Garanti</Link>
+                <Link href="/distance-sales" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Mesafeli Satış</Link>
+                <Link href="/payment-security" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Ödeme Güvenliği</Link>
+                <Link href="/privacy" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Gizlilik</Link>
+                <Link href="/cookies" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Çerez Politikası</Link>
+                <Link href="/kvkk" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>KVKK</Link>
+                <Link href="/legal" className={`text-slate-700 ${accent.linkHover} dark:text-slate-200`}>Yasal Merkez</Link>
               </div>
             </div>
 
@@ -174,19 +190,13 @@ export default function Footer() {
 
         <div className="border-t border-slate-200/70 dark:border-slate-800/60 py-5">
           <div className="flex flex-col gap-3 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-            <div>&copy; {new Date().getFullYear()} Guohong Lazer. Tüm hakları saklıdır.</div>
+            <div>&copy; {year} Guohong Lazer. Tüm hakları saklıdır.</div>
             <div className="flex flex-wrap gap-3">
               <Link href="/privacy" className={accent.linkHover}>Gizlilik</Link>
+              <Link href="/cookies" className={accent.linkHover}>Çerez</Link>
               <Link href="/kvkk" className={accent.linkHover}>KVKK</Link>
-              <Link href="/cookies" className={accent.linkHover}>Çerez Politikası</Link>
               <Link href="/distance-sales" className={accent.linkHover}>Mesafeli Satış</Link>
-              <Link href="/legal" className={accent.linkHover}>Yasal Merkez</Link>
-              <Link href="/returns" className={accent.linkHover}>İade & Garanti</Link>
-              <Link href="/faq" className={accent.linkHover}>SSS</Link>
-              <Link href="/shipping" className={accent.linkHover}>Kargo & Teslimat</Link>
-              <Link href="/payment-security" className={accent.linkHover}>Ödeme Güvenliği</Link>
-              <Link href="/company" className={accent.linkHover}>Firma Bilgileri</Link>
-              <Link href="/contact" className={accent.linkHover}>Destek</Link>
+              <Link href="/returns" className={accent.linkHover}>İade</Link>
             </div>
           </div>
         </div>

@@ -266,23 +266,30 @@ export default function CheckoutAddressPage() {
 
   if (!items.length) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="mx-auto max-w-3xl px-4 py-12 text-center">
-          <h1 className="text-2xl font-semibold text-gray-900">Sepet boş</h1>
-          <p className="mt-2 text-sm text-gray-600">Ödeme için önce ürün eklemelisin.</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/spare-parts"
-              className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
-            >
-              Ürünlere git
-            </Link>
-            <Link
-              href="/cart"
-              className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-            >
-              Sepete dön
-            </Link>
+      <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+        <div className="mx-auto max-w-3xl px-4 py-12">
+          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-8 text-center shadow-xl dark:border-slate-800/70 dark:bg-slate-950/40">
+            <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+              Checkout
+            </div>
+            <h1 className="mt-3 text-2xl font-semibold">Sepet boş</h1>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Ödeme için önce ürün eklemelisin.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <Link
+                href="/spare-parts"
+                className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+              >
+                Ürünlere git
+              </Link>
+              <Link
+                href="/cart"
+                className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
+              >
+                Sepete dön
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -290,42 +297,88 @@ export default function CheckoutAddressPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Link href="/cart" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+            <Link
+              href="/cart"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+            >
+              <span aria-hidden>←</span>
               Sepete geri dön
             </Link>
-            <h1 className="mt-3 text-2xl font-semibold text-gray-900">Teslimat adresi</h1>
-            <p className="mt-1 text-sm text-gray-600">Ödeme öncesi adres seçimini tamamla.</p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">Teslimat adresi</h1>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+              Ödeme öncesi adres seçimini tamamla.
+            </p>
           </div>
-          <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900">
-            {cartItemCount} ürün - {formatPriceTry(subtotalCents)}
+          <div className="space-y-2 sm:text-right">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-600 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-200">
+              <span className="grid h-5 w-5 place-items-center rounded-full bg-slate-900 text-[10px] text-white">
+                1
+              </span>
+              Sepet
+              <span className="text-slate-300 dark:text-slate-600">/</span>
+              <span className="grid h-5 w-5 place-items-center rounded-full bg-indigo-600 text-[10px] text-white">
+                2
+              </span>
+              Adres
+              <span className="text-slate-300 dark:text-slate-600">/</span>
+              <span className="grid h-5 w-5 place-items-center rounded-full border border-slate-200 bg-white text-[10px] text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
+                3
+              </span>
+              Ödeme
+            </div>
+
+            <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-white">
+              {cartItemCount} ürün • {formatPriceTry(subtotalCents)}
+            </div>
           </div>
         </div>
 
+        {checkoutError && (
+          <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200">
+            {checkoutError}
+          </div>
+        )}
+
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="h-fit rounded-3xl border border-gray-200 bg-white p-6 shadow-lg lg:sticky lg:top-24">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">Adres seç</h2>
-              <button
-                type="button"
-                onClick={() => {
-                  if (showForm && formTarget === 'shipping') {
-                    setShowForm(false);
-                    return;
-                  }
-                  setFormTarget('shipping');
-                  setShowForm(true);
-                }}
-                className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
-              >
-                {showForm && formTarget === 'shipping' ? 'Vazgeç' : 'Yeni adres ekle'}
-              </button>
+          <div className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/40">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Teslimat adresi</h2>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                  Siparişi teslim edeceğimiz adresi seç.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <Link
+                  href="/profile/addresses"
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
+                >
+                  Adresleri yönet
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (showForm && formTarget === 'shipping') {
+                      setShowForm(false);
+                      return;
+                    }
+                    setFormTarget('shipping');
+                    setShowForm(true);
+                  }}
+                  className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
+                >
+                  {showForm && formTarget === 'shipping' ? 'Vazgeç' : 'Yeni adres ekle'}
+                </button>
+              </div>
             </div>
 
-            {loadingAddresses && <div className="mt-6 text-sm text-gray-500">Adresler yükleniyor...</div>}
+            {loadingAddresses && (
+              <div className="mt-6 text-sm text-slate-500 dark:text-slate-300">Adresler yükleniyor...</div>
+            )}
             {!loadingAddresses && addresses.length > 0 && (
               <div className="mt-6 space-y-3">
                 {addresses.map((address) => (
@@ -333,26 +386,36 @@ export default function CheckoutAddressPage() {
                     key={address.id}
                     className={`flex cursor-pointer flex-col gap-2 rounded-2xl border px-4 py-4 text-sm transition ${
                       selectedId === address.id
-                        ? 'border-indigo-500 bg-indigo-50'
-                        : 'border-gray-200 bg-white hover:border-indigo-300'
+                        ? 'border-indigo-500 bg-indigo-50 shadow-sm dark:border-indigo-400/60 dark:bg-indigo-500/10'
+                        : 'border-slate-200 bg-white hover:border-indigo-200 dark:border-slate-800 dark:bg-slate-950/30 dark:hover:border-indigo-400/40'
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="font-semibold text-gray-900">{address.label || 'Adres'}</div>
-                          <input
-                            type="radio"
-                            name="address"
-                            checked={selectedId === address.id}
-                            onChange={() => {
-                              setSelectedId(address.id);
-                              if (useBillingSame) {
-                                setSelectedBillingId(address.id);
-                              }
-                            }}
-                          />
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex min-w-0 items-center gap-2">
+                        <div className="truncate font-semibold text-slate-900 dark:text-white">
+                          {address.label || 'Adres'}
+                        </div>
+                        {address.isDefault && (
+                          <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white dark:bg-white/10">
+                            Varsayılan
+                          </span>
+                        )}
+                      </div>
+                      <input
+                        type="radio"
+                        name="address"
+                        checked={selectedId === address.id}
+                        onChange={() => {
+                          setSelectedId(address.id);
+                          if (useBillingSame) {
+                            setSelectedBillingId(address.id);
+                          }
+                        }}
+                        className="h-4 w-4 accent-indigo-600"
+                      />
                     </div>
-                    <div className="text-gray-700">{address.fullName || '-'}</div>
-                    <div className="text-gray-500">
+                    <div className="text-slate-700 dark:text-slate-200">{address.fullName || '-'}</div>
+                    <div className="text-slate-500 dark:text-slate-400">
                       {address.line1 || '-'}
                       {address.line2 ? `, ${address.line2}` : ''}
                       <br />
@@ -360,29 +423,41 @@ export default function CheckoutAddressPage() {
                       {address.state ? ` / ${address.state}` : ''} {address.postalCode || ''}{' '}
                       {address.country || ''}
                     </div>
-                    <div className="text-gray-500">{address.phone || '-'}</div>
+                    <div className="text-slate-500 dark:text-slate-400">{address.phone || '-'}</div>
                   </label>
                 ))}
               </div>
             )}
 
             {!loadingAddresses && addresses.length === 0 && (
-              <div className="mt-6 rounded-2xl border border-dashed border-gray-200 p-5 text-sm text-gray-600">
+              <div className="mt-6 rounded-2xl border border-dashed border-slate-200 bg-white/70 p-5 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-300">
                 Kayıtlı adres bulunamadı. Devam etmek için yeni adres ekle.
               </div>
             )}
 
             {showForm && formTarget === 'shipping' && (
-              <form onSubmit={submitAddress} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <div className="form-label">Etiket</div>
-                  <input
-                    className="form-input"
-                    placeholder="Etiket (Ev, Is)"
-                    value={form.label}
-                    onChange={(e) => setForm({ ...form, label: e.target.value })}
-                  />
+              <div className="mt-6 rounded-2xl border border-slate-200/70 bg-white/80 p-5 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      Yeni adres
+                    </div>
+                    <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">
+                      Teslimat için yeni adres ekle
+                    </div>
+                  </div>
                 </div>
+
+                <form onSubmit={submitAddress} className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <div className="form-label">Etiket</div>
+                    <input
+                      className="form-input"
+                      placeholder="Etiket (Ev, İş)"
+                      value={form.label}
+                      onChange={(e) => setForm({ ...form, label: e.target.value })}
+                    />
+                  </div>
 
                 <div className="space-y-2">
                   <div className="form-label">Ad</div>
@@ -442,7 +517,7 @@ export default function CheckoutAddressPage() {
                     disabled={loadingCities}
                   >
                     <option value="" disabled>
-                      Il sec
+                      İl seç
                     </option>
                     {cities.map((city) => (
                       <option key={city.code} value={city.code}>
@@ -450,7 +525,9 @@ export default function CheckoutAddressPage() {
                       </option>
                     ))}
                   </select>
-                  {loadingCities && <div className="text-xs text-gray-500">Iller yukleniyor...</div>}
+                  {loadingCities && (
+                    <div className="text-xs text-slate-500 dark:text-slate-400">İller yükleniyor...</div>
+                  )}
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
@@ -462,7 +539,7 @@ export default function CheckoutAddressPage() {
                     disabled={!form.cityCode || loadingDistricts}
                   >
                     <option value="" disabled>
-                      Ilce sec
+                      İlçe seç
                     </option>
                     {districts.map((district) => (
                       <option key={district} value={district}>
@@ -470,7 +547,9 @@ export default function CheckoutAddressPage() {
                       </option>
                     ))}
                   </select>
-                  {loadingDistricts && <div className="text-xs text-gray-500">İlçeler yükleniyor...</div>}
+                  {loadingDistricts && (
+                    <div className="text-xs text-slate-500 dark:text-slate-400">İlçeler yükleniyor...</div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -518,14 +597,16 @@ export default function CheckoutAddressPage() {
                     Adresi Kaydet
                   </button>
                 </div>
-              </form>
+                </form>
+              </div>
             )}
 
-            <div className="mt-8 border-t border-gray-200 pt-6">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+            <div className="mt-8 border-t border-slate-200/70 pt-6 dark:border-slate-800/70">
+              <label className="flex items-start gap-3 text-sm font-semibold text-slate-900 dark:text-white">
                 <input
                   type="checkbox"
                   checked={useBillingSame}
+                  className="mt-1 h-4 w-4 accent-indigo-600"
                   onChange={(e) => {
                     const checked = e.target.checked;
                     setUseBillingSame(checked);
@@ -535,14 +616,24 @@ export default function CheckoutAddressPage() {
                     }
                   }}
                 />
-                Fatura adresi teslimat adresi ile ayni
+                <span>
+                  Fatura adresi teslimat adresi ile aynı
+                  <span className="mt-1 block text-xs font-normal text-slate-500 dark:text-slate-400">
+                    Kurumsal fatura için farklı adres seçebilirsin.
+                  </span>
+                </span>
               </label>
             </div>
 
             {!useBillingSame && (
-              <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold text-gray-900">Fatura Adresi</h3>
+              <div className="mt-6 rounded-2xl border border-slate-200/70 bg-white/70 p-5 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white">Fatura adresi</h3>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                      Fatura bilgileri için farklı adres seç.
+                    </p>
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
@@ -553,7 +644,7 @@ export default function CheckoutAddressPage() {
                       setFormTarget('billing');
                       setShowForm(true);
                     }}
-                    className="text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+                    className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
                   >
                     {showForm && formTarget === 'billing' ? 'Vazgeç' : 'Yeni adres ekle'}
                   </button>
@@ -566,21 +657,31 @@ export default function CheckoutAddressPage() {
                         key={`billing-${address.id}`}
                         className={`flex cursor-pointer flex-col gap-2 rounded-2xl border px-4 py-4 text-sm transition ${
                           selectedBillingId === address.id
-                            ? 'border-indigo-500 bg-indigo-50'
-                            : 'border-gray-200 bg-white hover:border-indigo-300'
+                            ? 'border-indigo-500 bg-indigo-50 shadow-sm dark:border-indigo-400/60 dark:bg-indigo-500/10'
+                            : 'border-slate-200 bg-white hover:border-indigo-200 dark:border-slate-800 dark:bg-slate-950/30 dark:hover:border-indigo-400/40'
                         }`}
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="font-semibold text-gray-900">{address.label || 'Adres'}</div>
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex min-w-0 items-center gap-2">
+                            <div className="truncate font-semibold text-slate-900 dark:text-white">
+                              {address.label || 'Adres'}
+                            </div>
+                            {address.isDefault && (
+                              <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white dark:bg-white/10">
+                                Varsayılan
+                              </span>
+                            )}
+                          </div>
                           <input
                             type="radio"
                             name="billingAddress"
                             checked={selectedBillingId === address.id}
                             onChange={() => setSelectedBillingId(address.id)}
+                            className="h-4 w-4 accent-indigo-600"
                           />
                         </div>
-                        <div className="text-gray-700">{address.fullName || '-'}</div>
-                        <div className="text-gray-500">
+                        <div className="text-slate-700 dark:text-slate-200">{address.fullName || '-'}</div>
+                        <div className="text-slate-500 dark:text-slate-400">
                           {address.line1 || '-'}
                           {address.line2 ? `, ${address.line2}` : ''}
                           <br />
@@ -588,29 +689,37 @@ export default function CheckoutAddressPage() {
                           {address.state ? ` / ${address.state}` : ''} {address.postalCode || ''}{' '}
                           {address.country || ''}
                         </div>
-                        <div className="text-gray-500">{address.phone || '-'}</div>
+                        <div className="text-slate-500 dark:text-slate-400">{address.phone || '-'}</div>
                       </label>
                     ))}
                   </div>
                 )}
 
                 {addresses.length === 0 && (
-                  <div className="mt-4 rounded-2xl border border-dashed border-gray-200 p-4 text-sm text-gray-600">
+                  <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-white/70 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-300">
                     Fatura adresi için önce yeni adres ekle.
                   </div>
                 )}
 
                 {showForm && formTarget === 'billing' && (
-                  <form onSubmit={submitAddress} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <div className="form-label">Etiket</div>
-                      <input
-                        className="form-input"
-                        placeholder="Etiket (Ev, Is)"
-                        value={form.label}
-                        onChange={(e) => setForm({ ...form, label: e.target.value })}
-                      />
+                  <div className="mt-6 rounded-2xl border border-slate-200/70 bg-white/80 p-5 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30">
+                    <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      Yeni adres
                     </div>
+                    <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">
+                      Fatura için yeni adres ekle
+                    </div>
+
+                    <form onSubmit={submitAddress} className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <div className="form-label">Etiket</div>
+                        <input
+                          className="form-input"
+                          placeholder="Etiket (Ev, İş)"
+                          value={form.label}
+                          onChange={(e) => setForm({ ...form, label: e.target.value })}
+                        />
+                      </div>
 
                     <div className="space-y-2">
                       <div className="form-label">Ad</div>
@@ -670,7 +779,7 @@ export default function CheckoutAddressPage() {
                         disabled={loadingCities}
                       >
                         <option value="" disabled>
-                          Il sec
+                          İl seç
                         </option>
                         {cities.map((city) => (
                           <option key={city.code} value={city.code}>
@@ -678,7 +787,9 @@ export default function CheckoutAddressPage() {
                           </option>
                         ))}
                       </select>
-                      {loadingCities && <div className="text-xs text-gray-500">İller yükleniyor...</div>}
+                      {loadingCities && (
+                        <div className="text-xs text-slate-500 dark:text-slate-400">İller yükleniyor...</div>
+                      )}
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
@@ -690,7 +801,7 @@ export default function CheckoutAddressPage() {
                         disabled={!form.cityCode || loadingDistricts}
                       >
                         <option value="" disabled>
-                          Ilce sec
+                          İlçe seç
                         </option>
                         {districts.map((district) => (
                           <option key={district} value={district}>
@@ -698,7 +809,9 @@ export default function CheckoutAddressPage() {
                           </option>
                         ))}
                       </select>
-                      {loadingDistricts && <div className="text-xs text-gray-500">İlçeler yükleniyor...</div>}
+                      {loadingDistricts && (
+                        <div className="text-xs text-slate-500 dark:text-slate-400">İlçeler yükleniyor...</div>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -746,75 +859,88 @@ export default function CheckoutAddressPage() {
                         Adresi Kaydet
                       </button>
                     </div>
-                  </form>
+                    </form>
+                  </div>
                 )}
               </div>
             )}
           </div>
 
-          <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
-            <div className="text-lg font-semibold text-gray-900">Sipariş Özeti</div>
-            <div className="mt-4 space-y-3 text-sm text-gray-600">
+          <div className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl backdrop-blur lg:sticky lg:top-24 dark:border-slate-800/70 dark:bg-slate-950/40">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Özet</div>
+              <div className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">Sipariş özeti</div>
+            </div>
+            <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <div className="truncate font-semibold text-gray-900">{item.name}</div>
-                    <div className="text-xs text-gray-500">{item.quantity} adet</div>
+                    <div className="truncate font-semibold text-slate-900 dark:text-white">{item.name}</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{item.quantity} adet</div>
                   </div>
-                  <div className="font-semibold text-gray-900">
+                  <div className="font-semibold text-slate-900 dark:text-white">
                     {formatPriceTry(item.priceCents * item.quantity)}
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-4 text-sm">
-              <span className="text-gray-600">Toplam</span>
-              <span className="font-semibold text-gray-900">{formatPriceTry(subtotalCents)}</span>
+            <div className="mt-6 flex items-center justify-between border-t border-slate-200/70 pt-4 text-sm dark:border-slate-800/70">
+              <span className="text-slate-600 dark:text-slate-300">Toplam</span>
+              <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(subtotalCents)}</span>
             </div>
-            <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
+            <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
               <span>Kargo</span>
-              <span className="font-semibold text-gray-900">Adresle birlikte hesaplanır</span>
+              <span className="font-semibold text-slate-900 dark:text-white">Adresle birlikte hesaplanır</span>
             </div>
-            <div className="mt-3 flex items-center justify-between text-sm text-gray-600">
+            <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
               <span>Teslimat</span>
-              <span className="font-semibold text-gray-900">2-5 iş günü (stokta)</span>
+              <span className="font-semibold text-slate-900 dark:text-white">2-5 iş günü (stokta)</span>
             </div>
-            <div className="mt-3 text-xs text-gray-500">
+            <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
               Kargo ücreti ve süre, seçilen adrese göre netleşir.
             </div>
-            <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+            <div className="mt-4 rounded-2xl border border-slate-200/70 bg-slate-50 px-4 py-4 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/30 dark:text-slate-200">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                 Güven rozetleri
               </div>
               <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">SSL</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">PCI-DSS</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">3D Secure</span>
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-1">İade garantisi</span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
+                  SSL
+                </span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
+                  PCI-DSS
+                </span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
+                  3D Secure
+                </span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
+                  İade garantisi
+                </span>
               </div>
             </div>
 
-            <div className="mt-4 rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs text-gray-600">
+            <div className="mt-4 rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-950/30 dark:text-slate-200">
               <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   checked={acceptedTerms}
                   onChange={(e) => setAcceptedTerms(e.target.checked)}
-                  className="mt-1"
+                  className="mt-1 h-4 w-4 accent-indigo-600"
                 />
                 <span>
-                  <span className="font-semibold text-gray-900">Mesafeli satış</span> ve{' '}
-                  <span className="font-semibold text-gray-900">iade koşullarını</span> okudum, kabul ediyorum.{' '}
-                  <Link href="/distance-sales" className="text-indigo-600 hover:text-indigo-700">
+                  <span className="font-semibold text-slate-900 dark:text-white">Mesafeli satış</span> ve{' '}
+                  <span className="font-semibold text-slate-900 dark:text-white">iade koşullarını</span> okudum,
+                  kabul ediyorum.{' '}
+                  <Link href="/distance-sales" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-200">
                     Mesafeli satış
                   </Link>
                   {' / '}
-                  <Link href="/returns" className="text-indigo-600 hover:text-indigo-700">
+                  <Link href="/returns" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-200">
                     İade
                   </Link>
                   {' / '}
-                  <Link href="/privacy" className="text-indigo-600 hover:text-indigo-700">
+                  <Link href="/privacy" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-200">
                     Gizlilik
                   </Link>
                 </span>
@@ -829,8 +955,6 @@ export default function CheckoutAddressPage() {
             >
               {loadingCheckout ? 'Yönlendiriliyor...' : 'Ödemeye devam et'}
             </button>
-
-            {checkoutError && <div className="mt-3 text-xs text-red-600">{checkoutError}</div>}
           </div>
         </div>
       </div>

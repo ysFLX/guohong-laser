@@ -52,7 +52,7 @@ export default function SparePartImageSlider({
   return (
     <div>
       <div
-        className="relative w-full aspect-[4/3] touch-pan-y overflow-hidden rounded-2xl border border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800"
+        className="relative aspect-[4/3] w-full touch-pan-y overflow-hidden rounded-2xl border border-slate-200/70 bg-white/90 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30"
         role="region"
         aria-label="Ürün görselleri"
         tabIndex={items.length > 1 ? 0 : -1}
@@ -135,15 +135,17 @@ export default function SparePartImageSlider({
       </div>
 
       {items.length > 1 && (
-        <div className="mt-4 flex gap-2 overflow-x-auto">
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
           {items.map((img, i) => (
             <button
               key={img.id}
               type="button"
               onClick={() => setIndex(i)}
               aria-current={i === index ? 'true' : 'false'}
-              className={`relative h-16 w-20 shrink-0 overflow-hidden rounded-lg border ${
-                i === index ? 'border-indigo-500' : 'border-gray-200 dark:border-gray-700'
+              className={`relative h-16 w-20 shrink-0 overflow-hidden rounded-lg border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 ${
+                i === index
+                  ? 'border-indigo-500 ring-1 ring-indigo-500/20'
+                  : 'border-slate-200 dark:border-slate-800'
               }`}
             >
               <Image
@@ -162,7 +164,6 @@ export default function SparePartImageSlider({
     </div>
   );
 }
-
 
 
 

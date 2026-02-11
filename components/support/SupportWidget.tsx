@@ -206,8 +206,14 @@ export default function SupportWidget() {
             <div className="flex items-center justify-between gap-3">
               <div className="text-xs uppercase tracking-[0.3em] text-indigo-100">Canlı Destek</div>
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-white/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.15em]">
-                  {supportOnline ? 'Çevrimiçi' : 'Meşgul'}
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.15em]">
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      initialized ? (supportOnline ? 'bg-emerald-300' : 'bg-amber-300') : 'bg-white/60'
+                    }`}
+                    aria-hidden="true"
+                  />
+                  {supportOnline ? 'Çevrimiçi' : 'Çevrimdışı'}
                 </span>
                 <button
                   type="button"
@@ -347,9 +353,15 @@ export default function SupportWidget() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl ring-1 ring-white/20 transition hover:scale-[1.03] hover:bg-indigo-700"
+        className="relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl ring-1 ring-white/20 transition hover:scale-[1.03] hover:bg-indigo-700"
         aria-label={open ? 'Canlı destek penceresini kapat' : 'Canlı destek penceresini aç'}
       >
+        <span
+          className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white/50 ${
+            initialized ? (supportOnline ? 'bg-emerald-400' : 'bg-amber-400') : 'bg-white/70'
+          }`}
+          aria-hidden="true"
+        />
         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
           <path d="M2 12a10 10 0 1118.22 5.56L22 22l-4.7-1.57A10 10 0 012 12zm6.5-1.25a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" />
         </svg>
