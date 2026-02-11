@@ -37,12 +37,35 @@ function CartPageContent() {
   const [reminderError, setReminderError] = useState('');
   const [recoveryStatus, setRecoveryStatus] = useState<'idle' | 'restoring' | 'restored' | 'error'>('idle');
   const [recoveryError, setRecoveryError] = useState('');
+  const [whatsAppHref, setWhatsAppHref] = useState('https://wa.me/905368316787');
 
   useEffect(() => {
     if (session?.user?.email) {
       setReminderEmail(session.user.email);
     }
   }, [session?.user?.email]);
+
+  useEffect(() => {
+    if (!items.length) {
+      setWhatsAppHref('https://wa.me/905368316787');
+      return;
+    }
+
+    const maxItems = 5;
+    const preview = items
+      .slice(0, maxItems)
+      .map((item) => {
+        const name = item.name.length > 64 ? `${item.name.slice(0, 61)}...` : item.name;
+        return `- ${name} x${item.quantity}`;
+      })
+      .join('\n');
+    const extra = items.length > maxItems ? `\n+${items.length - maxItems} ürün daha` : '';
+    const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+    const message = `Merhaba, sepetimdeki ürünler için sipariş desteği rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam: ${formatPriceTry(subtotalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
+
+    setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
+  }, [items, subtotalCents]);
 
   useEffect(() => {
     if (!recoverToken) return;
@@ -446,6 +469,20 @@ function CartPageContent() {
                 >
                   Adres seçerek devam et
                 </button>
+              </div>
+
+              <div className="mt-3">
+                <a
+                  href={whatsAppHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-emerald-200 bg-emerald-50 text-emerald-900 hover:border-emerald-300 hover:bg-emerald-100/70 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-200"
+                >
+                  WhatsApp&apos;tan sipariş desteği
+                </a>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Sepetindeki ürünler otomatik mesaj olarak eklenir.
+                </div>
               </div>
 
               {checkoutError && (

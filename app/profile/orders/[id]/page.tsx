@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
+import BuyAgainButton from '@/components/profile/BuyAgainButton';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -433,12 +434,23 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                         >
                           Detay
                         </Link>
-                        <Link
-                          href={item.sparePartId ? `/spare-parts/${item.sparePartId}` : '/spare-parts'}
-                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
-                        >
-                          Tekrar satin al
-                        </Link>
+                        <BuyAgainButton
+                          items={
+                            item.sparePartId
+                              ? [
+                                  {
+                                    id: item.sparePartId,
+                                    name: item.name,
+                                    priceCents: item.priceCents,
+                                    quantity: item.quantity,
+                                    imageUrl: item.imageUrl,
+                                  },
+                                ]
+                              : []
+                          }
+                          label="Tekrar satın al"
+                          className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                        />
                       </div>
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import BuyAgainButton, { type BuyAgainItem } from '@/components/profile/BuyAgainButton';
 
 type OrderItem = {
   id: string;
@@ -216,6 +217,15 @@ export default async function OrdersPage() {
                 {orders.map((order) => {
                   const displayStatus = normalizeStatus(order.status);
                   const hasTracking = Boolean(order.shippingCarrier || order.trackingNumber || order.trackingUrl);
+                  const buyAgainItems: BuyAgainItem[] = order.items
+                    .filter((item) => typeof item.sparePartId === 'string' && item.sparePartId.length > 0)
+                    .map((item) => ({
+                      id: item.sparePartId as string,
+                      name: item.name,
+                      priceCents: item.priceCents,
+                      quantity: item.quantity,
+                      imageUrl: item.imageUrl,
+                    }));
                   const returnParams = new URLSearchParams({
                     orderId: order.id,
                     itemName: order.items[0]?.name || '',
@@ -256,7 +266,7 @@ export default async function OrdersPage() {
                         href={`/profile/orders/${order.id}`}
                         className="text-sm font-semibold text-slate-900 hover:text-indigo-600"
                       >
-                        Siparis #{order.id.slice(0, 8)}
+                        Sipariş #{order.id.slice(0, 8)}
                       </Link>
                       <div className="mt-1 text-xs text-slate-500">{formatDate(order.createdAt)}</div>
                     </div>
@@ -265,7 +275,7 @@ export default async function OrdersPage() {
                   {typeof statusToStep[displayStatus] === 'number' && (
                     <div className="mt-5">
                       <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-slate-400">
-                        <span>Durum akisi</span>
+                        <span>Durum akışı</span>
                         <span>{progressSteps[statusToStep[displayStatus]].label}</span>
                       </div>
                       <div className="mt-3">
@@ -391,6 +401,10 @@ export default async function OrdersPage() {
                     )}
 
                     <div className="mt-5 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                      <BuyAgainButton
+                        items={buyAgainItems}
+                        className="rounded-full bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                      />
                       <Link
                         href={`/returns-request?${returnParams}`}
                         className="rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:border-slate-300 hover:text-slate-900"
@@ -427,4 +441,3 @@ export default async function OrdersPage() {
     </div>
   );
 }
-
