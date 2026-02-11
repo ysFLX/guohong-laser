@@ -34,9 +34,11 @@ const machineModels = [
   { id: 'Tümü', label: 'Tüm modeller', categories: ['Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'] },
   { id: 'GL-3015', label: 'GL-3015 (Sac Kesim)', categories: ['Sac Kesim'] },
   { id: 'GL-6020', label: 'GL-6020 (Sac Kesim)', categories: ['Sac Kesim'] },
+  { id: 'GL-9025', label: 'GL-9025 (Sac Kesim)', categories: ['Sac Kesim'] },
   { id: 'GT-6020', label: 'GT-6020 (Boru Kesim)', categories: ['Boru Kesim'] },
   { id: 'GT-12030', label: 'GT-12030 (Boru Kesim)', categories: ['Boru Kesim'] },
   { id: 'GL-COMB-1500', label: 'GL-Comb 1500 (Kombine)', categories: ['Kombine Kesim'] },
+  { id: 'GL-COMB-3000', label: 'GL-Comb 3000 (Kombine)', categories: ['Kombine Kesim'] },
   { id: 'GL-9000', label: 'GL-9000 (Özel Kesim)', categories: ['Özel Kesim'] },
 ];
 

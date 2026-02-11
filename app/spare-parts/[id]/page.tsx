@@ -63,6 +63,13 @@ const compatibilityByCategory: Record<string, string[]> = {
   'Özel Kesim': ['GL-9000'],
 };
 
+const modelIdByLabel: Record<string, string> = {
+  'GL-Comb 1500': 'GL-COMB-1500',
+  'GL-Comb 3000': 'GL-COMB-3000',
+};
+
+const getModelId = (label: string) => modelIdByLabel[label] ?? label;
+
 const CRITICAL_STOCK_LEVEL = 5;
 
 const faqItems = [
@@ -516,9 +523,13 @@ export default async function SparePartDetailPage({
               {compatibility.length > 0 ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {compatibility.map((model) => (
-                    <span key={model} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700">
+                    <Link
+                      key={model}
+                      href={`/spare-parts?model=${encodeURIComponent(getModelId(model))}`}
+                      className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100"
+                    >
                       {model}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               ) : (

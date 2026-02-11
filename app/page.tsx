@@ -307,6 +307,8 @@ type QuickShowcaseItem = {
   imageUrl?: string | null;
   stockOnHand?: number;
   inStock?: boolean;
+  ratingAverage?: number;
+  ratingCount?: number;
 };
 
 const process = [
@@ -412,21 +414,44 @@ export default async function Home() {
     }
   }
   const pickedParts = Array.from(byCategory.values()).slice(0, 3);
+  const pickedPartIds = pickedParts.map((part) => part.id);
+  const pickedRatings = pickedPartIds.length
+    ? await prisma.sparePartReview.groupBy({
+        by: ['sparePartId'],
+        where: { sparePartId: { in: pickedPartIds }, isApproved: true },
+        _avg: { rating: true },
+        _count: { rating: true },
+      })
+    : [];
+  const pickedRatingMap = new Map(
+    pickedRatings.map((row) => [
+      row.sparePartId,
+      {
+        average: Number(row._avg.rating ?? 0),
+        count: row._count.rating,
+      },
+    ]),
+  );
   const quickShowcase: QuickShowcaseItem[] = [
-    ...pickedParts.map((part) => ({
-      title: part.name,
-      description: trimText(part.description, 90),
-      price: formatPrice(part.priceCents / 100, part.currency),
-      tag: part.category.name,
-      href: `/spare-parts/${part.id}`,
-      image: part.imageUrl ?? part.images[0]?.url ?? '/images/2.jpg',
-      id: part.id,
-      priceCents: part.priceCents,
-      currency: part.currency,
-      imageUrl: part.imageUrl ?? part.images[0]?.url ?? null,
-      stockOnHand: part.stockOnHand,
-      inStock: part.stockOnHand > 0,
-    })),
+    ...pickedParts.map((part) => {
+      const rating = pickedRatingMap.get(part.id) ?? { average: 0, count: 0 };
+      return {
+        title: part.name,
+        description: trimText(part.description, 90),
+        price: formatPrice(part.priceCents / 100, part.currency),
+        tag: part.category.name,
+        href: `/spare-parts/${part.id}`,
+        image: part.imageUrl ?? part.images[0]?.url ?? '/images/2.jpg',
+        id: part.id,
+        priceCents: part.priceCents,
+        currency: part.currency,
+        imageUrl: part.imageUrl ?? part.images[0]?.url ?? null,
+        stockOnHand: part.stockOnHand,
+        inStock: part.stockOnHand > 0,
+        ratingAverage: rating.average,
+        ratingCount: rating.count,
+      };
+    }),
   ];
   if (quickShowcase.length < 3) {
     const existing = new Set(quickShowcase.map((item) => item.title));
@@ -637,6 +662,12 @@ export default async function Home() {
                         <div>
                           <p className="text-sm font-semibold text-slate-900">{item.title}</p>
                           <p className="mt-1 text-xs text-slate-500">{item.description}</p>
+                          {typeof item.ratingCount === 'number' && item.ratingCount > 0 && (
+                            <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
+                              <span className="text-amber-600">★ {Number(item.ratingAverage ?? 0).toFixed(1)}</span>
+                              <span className="text-slate-400">({item.ratingCount} yorum)</span>
+                            </div>
+                          )}
                         </div>
                         <span className="text-sm font-semibold text-indigo-600">{item.price}</span>
                       </div>
@@ -1123,5 +1154,3 @@ export default async function Home() {
     </div>
   );
 }
-
-
