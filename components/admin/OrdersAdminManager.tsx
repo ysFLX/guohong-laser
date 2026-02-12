@@ -91,7 +91,7 @@ const statusAccent = (value: string) => {
     case 'CANCELED':
       return 'border-l-rose-500';
     default:
-      return 'border-l-slate-300';
+      return 'border-l-[var(--admin-border)]';
   }
 };
 
@@ -307,9 +307,9 @@ export default function OrdersAdminManager() {
       <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Sipariş yönetimi</p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900">Operasyon merkezi</h2>
-            <p className="mt-1 text-sm text-slate-500">Tüm siparişleri tek ekrandan takip et.</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Sipariş yönetimi</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">Operasyon merkezi</h2>
+            <p className="mt-1 text-sm text-[var(--admin-muted)]">Tüm siparişleri tek ekrandan takip et.</p>
           </div>
           <div className="flex items-center gap-2">
             <AdminButton onClick={loadOrders} tone="slate" variant="outline">
@@ -320,7 +320,7 @@ export default function OrdersAdminManager() {
         </div>
         <div className="mt-5 grid gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4 md:grid-cols-[1.2fr_2fr]">
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Hızlı arama</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">Hızlı arama</div>
             <div className="mt-2 flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-2 shadow-sm">
               <svg
                 viewBox="0 0 20 20"
@@ -353,7 +353,7 @@ export default function OrdersAdminManager() {
             </div>
           </div>
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">Durum filtre</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">Durum filtre</div>
             <div className="mt-2 flex flex-wrap gap-2">
               {[
                 { value: 'ALL', label: 'Hepsi' },
@@ -376,44 +376,48 @@ export default function OrdersAdminManager() {
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Toplam</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{totalOrders}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Toplam</div>
+            <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{totalOrders}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Alındı</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.RECEIVED || 0}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Alındı</div>
+            <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.RECEIVED || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Hazırlanıyor</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.IN_TRANSIT || 0}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Hazırlanıyor</div>
+            <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.IN_TRANSIT || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Kargoda</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.SHIPPED || 0}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Kargoda</div>
+            <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.SHIPPED || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Teslim</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.DELIVERED || 0}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Teslim</div>
+            <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.DELIVERED || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">İptal</div>
-            <div className="mt-2 text-2xl font-semibold text-slate-900">{statusCounts.CANCELED || 0}</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">İptal</div>
+            <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.CANCELED || 0}</div>
           </div>
         </div>
         {latestOrder && (
-          <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 text-xs text-slate-600 shadow-sm">
-            Son sipariş: <span className="font-semibold text-slate-900">#{latestOrder.id.slice(0, 8)}</span> -{' '}
+          <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 text-xs text-[var(--admin-muted)] shadow-sm">
+            Son sipariş: <span className="font-semibold text-[var(--admin-text)]">#{latestOrder.id.slice(0, 8)}</span> -{' '}
             {formatDate(latestOrder.createdAt)}
           </div>
         )}
       </div>
 
       <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
-        {loading && <div className="mt-6 text-sm text-slate-500">Yükleniyor...</div>}
-        {error && <div className="mt-4 text-sm text-rose-600">{error}</div>}
+        {loading && <div className="mt-6 text-sm text-[var(--admin-muted)]">Yükleniyor...</div>}
+        {error && (
+          <div className="mt-4 rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-700">
+            {error}
+          </div>
+        )}
 
         {!loading && filteredOrders.length === 0 && (
-          <div className="mt-6 rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+          <div className="mt-6 rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-4 text-sm text-[var(--admin-muted)] shadow-sm">
             Filtreye uygun sipariş yok.
           </div>
         )}
@@ -427,55 +431,52 @@ export default function OrdersAdminManager() {
                 <div>Durum</div>
                 <div className="text-right">Tutar</div>
               </div>
-              {filteredOrders.map((order, index) => {
-                const displayStatus = normalizeStatus(order.status);
-                const rowTone = index % 2 === 0 ? 'bg-[var(--admin-surface)]' : 'bg-[var(--admin-card-muted)]';
-                const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
-                return (
-                <div
-                  key={order.id}
-                  className={`${rowBorder} border-[var(--admin-border)] ${rowTone} ${statusAccent(displayStatus)} border-l-4`}
-                >
-                <button
-                  type="button"
-                  onClick={() => toggleExpanded(order.id)}
-                  aria-expanded={expandedIds.has(order.id)}
-                  className="grid w-full gap-4 border-b border-[var(--admin-border)] px-6 py-4 text-left transition hover:bg-[var(--admin-card-muted)] md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
-                >
-                  <div className="min-w-0">
-                    <div className="text-lg font-semibold text-[var(--admin-text)]">#{order.id.slice(0, 8)}</div>
-                    <div className="mt-1 text-xs text-[var(--admin-muted)]">{formatDate(order.createdAt)}</div>
-                  </div>
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold text-[var(--admin-text)]">
-                      {order.user?.name || order.user?.email || 'Misafir'}
-                    </div>
-                    <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{order.user?.email || '-'}</div>
-                  </div>
-                  <div className="flex items-start md:items-center">
-                    <AdminBadge tone={statusTone(displayStatus)}>
-                      {statusLabel[displayStatus] || displayStatus}
-                    </AdminBadge>
-                  </div>
-                  <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
-                    <div className="text-lg font-semibold text-[var(--admin-text)]">{formatPriceTry(order.totalCents)}</div>
-                    <div className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--admin-muted)]">
-                      Detay
-                      <svg
-                        viewBox="0 0 20 20"
-                        className={`h-4 w-4 transition-transform ${expandedIds.has(order.id) ? 'rotate-180' : ''}`}
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
+              <div className="divide-y divide-[var(--admin-border)]">
+                {filteredOrders.map((order, index) => {
+                  const displayStatus = normalizeStatus(order.status);
+                  const rowTone = index % 2 === 0 ? 'bg-[var(--admin-surface)]' : 'bg-[var(--admin-card-muted)]';
+                  return (
+                    <div key={order.id} className={`${rowTone} ${statusAccent(displayStatus)} border-l-4`}>
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(order.id)}
+                        aria-expanded={expandedIds.has(order.id)}
+                        className="grid w-full gap-4 px-6 py-4 text-left transition hover:bg-[var(--admin-card-muted)] md:grid-cols-[1.1fr_1.2fr_0.8fr_0.7fr]"
                       >
-                        <path d="M6 8l4 4 4-4" />
-                      </svg>
-                    </div>
-                  </div>
-                </button>
+                        <div className="min-w-0">
+                          <div className="text-lg font-semibold text-[var(--admin-text)]">#{order.id.slice(0, 8)}</div>
+                          <div className="mt-1 text-xs text-[var(--admin-muted)]">{formatDate(order.createdAt)}</div>
+                        </div>
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-semibold text-[var(--admin-text)]">
+                            {order.user?.name || order.user?.email || 'Misafir'}
+                          </div>
+                          <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{order.user?.email || '-'}</div>
+                        </div>
+                        <div className="flex items-start md:items-center">
+                          <AdminBadge tone={statusTone(displayStatus)}>
+                            {statusLabel[displayStatus] || displayStatus}
+                          </AdminBadge>
+                        </div>
+                        <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
+                          <div className="text-lg font-semibold text-[var(--admin-text)]">{formatPriceTry(order.totalCents)}</div>
+                          <div className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--admin-muted)]">
+                            Detay
+                            <svg
+                              viewBox="0 0 20 20"
+                              className={`h-4 w-4 transition-transform ${expandedIds.has(order.id) ? 'rotate-180' : ''}`}
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path d="M6 8l4 4 4-4" />
+                            </svg>
+                          </div>
+                        </div>
+                      </button>
 
-                {expandedIds.has(order.id) && (
-                  <div className="grid gap-6 border-t border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
+                      {expandedIds.has(order.id) && (
+                        <div className="grid gap-6 border-t border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-6 py-6 lg:grid-cols-[1.1fr_0.9fr]">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
                         <div className="flex items-start gap-3">
@@ -780,8 +781,10 @@ export default function OrdersAdminManager() {
                     </div>
                   </div>
                 )}
+                      </div>
+                  );
+                })}
               </div>
-            )})}
             </div>
           </div>
         )}
