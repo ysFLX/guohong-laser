@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 
 import Reveal from '@/components/home/Reveal';
@@ -209,11 +210,12 @@ export default function GalleryPage() {
                 className="group relative w-full overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={item.src}
                     alt={item.alt}
-                    loading="lazy"
+                    width={1200}
+                    height={900}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="w-full rounded-[28px] object-cover transition duration-500 group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 rounded-[28px] bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
@@ -256,8 +258,14 @@ export default function GalleryPage() {
             </div>
 
             <div className="mt-5 overflow-hidden rounded-[28px] bg-white p-3 shadow-2xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={activeImage.src} alt={activeImage.alt} className="max-h-[70vh] w-full object-contain" />
+              <Image
+                src={activeImage.src}
+                alt={activeImage.alt}
+                width={1600}
+                height={1200}
+                sizes="100vw"
+                className="max-h-[70vh] w-full object-contain"
+              />
             </div>
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-white/70">
@@ -294,8 +302,14 @@ export default function GalleryPage() {
                       : 'border-white/20 opacity-70 hover:opacity-100'
                   }`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.src} alt={item.alt} className="h-full w-full object-cover" />
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={112}
+                    height={80}
+                    sizes="112px"
+                    className="h-full w-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -305,4 +319,3 @@ export default function GalleryPage() {
     </div>
   );
 }
-
