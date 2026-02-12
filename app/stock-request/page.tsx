@@ -8,8 +8,8 @@ export default function StockRequestPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
-          <div className="mx-auto max-w-6xl rounded-[28px] border border-slate-200/70 bg-white p-6 text-sm text-slate-600">
+        <div className="min-h-screen bg-[var(--background)] px-4 py-10 text-[var(--foreground)] sm:px-8">
+          <div className="card-surface mx-auto max-w-6xl p-6 text-sm text-[var(--gray-500)]">
             Yükleniyor...
           </div>
         </div>

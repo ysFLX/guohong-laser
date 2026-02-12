@@ -132,7 +132,7 @@ export default function StockRequestClient() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+    <div className="min-h-screen bg-[var(--background)] px-4 py-10 text-[var(--foreground)] sm:px-8">
       <div className="mx-auto max-w-6xl space-y-10">
         <section className="relative overflow-hidden rounded-[32px] border border-slate-900/10 bg-slate-950 px-6 py-10 text-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.35),_transparent_60%)] opacity-80" />
@@ -235,7 +235,7 @@ export default function StockRequestClient() {
 
               {step === 'verify' && (
                 <div className="space-y-2">
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-[var(--gray-500)]">
                     Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
                   </div>
                   <input
@@ -260,24 +260,33 @@ export default function StockRequestClient() {
           </section>
 
           <aside className="space-y-4">
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Neden talep bırakmalıyım?</div>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-600">
+            <div className="card-surface p-6">
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Neden talep bırakmalıyım?</div>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-[var(--gray-500)]">
                 <li>Stok girişi olduğunda önce size haber verilir.</li>
                 <li>Tedarik sürecinde önceliklendirme sağlanır.</li>
                 <li>Alternatif parça önerileri paylaşılır.</li>
               </ul>
             </div>
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Bağlantılar</div>
-              <div className="mt-4 grid gap-2 text-sm text-slate-700">
-                <Link href="/spare-parts" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
+            <div className="card-surface p-6">
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Bağlantılar</div>
+              <div className="mt-4 grid gap-2 text-sm">
+                <Link
+                  href="/spare-parts"
+                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+                >
                   Yedek parçalara dön
                 </Link>
-                <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
+                <Link
+                  href="/returns"
+                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+                >
                   İade ve garanti
                 </Link>
-                <Link href="/contact?subject=Stok+Talebi" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
+                <Link
+                  href="/contact?subject=Stok+Talebi"
+                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+                >
                   Destek iletişimi
                 </Link>
               </div>

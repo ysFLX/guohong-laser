@@ -7,22 +7,18 @@ const teamMembers = [
   {
     name: 'Fatih Turgut Polat',
     role: 'Satış Müdürü',
-    image: 'https://randomuser.me/api/portraits/men/1.jpg',
   },
   {
     name: 'Arafat Uygur',
     role: 'Satış Müdürü',
-    image: 'https://randomuser.me/api/portraits/men/2.jpg',
   },
   {
     name: 'Yusuf Can Gördebil',
     role: 'Yazılım Geliştiricisi',
-    image: 'https://randomuser.me/api/portraits/men/3.jpg',
   },
   {
     name: 'Yusuf Küçüktongarlak',
     role: 'Sosyal Medya Yöneticisi',
-    image: 'https://randomuser.me/api/portraits/men/4.jpg',
   },
 ];
 
@@ -426,13 +422,18 @@ export default function AboutPage() {
               key={member.name}
               className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_20px_48px_-28px_rgba(15,23,42,0.45)]"
             >
-              <div className="relative h-52 w-full">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-[1.05]"
-                />
+              <div className="relative h-52 w-full overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.25),_transparent_55%)]">
+                <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(255,255,255,0.35),_transparent)] dark:bg-[linear-gradient(120deg,_rgba(15,23,42,0.35),_transparent)]" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="grid h-20 w-20 place-items-center rounded-3xl border border-slate-200/70 bg-white/80 text-3xl font-semibold text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-100">
+                    {member.name
+                      .split(' ')
+                      .filter(Boolean)
+                      .slice(0, 2)
+                      .map((part) => part[0]?.toUpperCase())
+                      .join('')}
+                  </div>
+                </div>
               </div>
               <div className="p-4 text-center">
                 <p className="text-base font-semibold text-slate-900">{member.name}</p>
