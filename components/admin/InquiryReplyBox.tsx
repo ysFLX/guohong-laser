@@ -8,10 +8,12 @@ export default function InquiryReplyBox({
   inquiryId,
   existingResponse,
   canReply = true,
+  onSaved,
 }: {
   inquiryId: string;
   existingResponse: string | null;
   canReply?: boolean;
+  onSaved?: (updated: { adminResponse: string | null; respondedAt: string | null; status: 'READ' }) => void;
 }) {
   const [value, setValue] = useState(existingResponse || '');
   const [isSaving, setIsSaving] = useState(false);
@@ -19,9 +21,9 @@ export default function InquiryReplyBox({
   const [success, setSuccess] = useState('');
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="text-sm font-semibold text-slate-900">Admin yanıtı</div>
-      <div className="mt-1 text-xs text-slate-500">
+    <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] p-4 shadow-sm">
+      <div className="text-sm font-semibold text-[var(--admin-text)]">Admin yanıtı</div>
+      <div className="mt-1 text-xs text-[var(--admin-muted)]">
         Kullanıcı bu alana cevap yazamaz. Örnek: &quot;Daha fazla bilgi için ... numaradan arayın&quot;.
       </div>
 
@@ -34,7 +36,7 @@ export default function InquiryReplyBox({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!canReply}
-        className="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-200/60 disabled:opacity-60"
+        className="mt-3 w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 text-sm text-[var(--admin-text)] placeholder:text-[var(--admin-muted)] focus:border-[var(--admin-accent)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--admin-accent)]/20 disabled:opacity-60"
         placeholder="Yanıt metni..."
       />
 
@@ -47,13 +49,20 @@ export default function InquiryReplyBox({
             setError('');
             setSuccess('');
             try {
+              const trimmed = value.trim();
               const res = await fetch(`/api/admin/inquiries/${inquiryId}/reply`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminResponse: value, status: 'READ' }),
+                body: JSON.stringify({ adminResponse: trimmed, status: 'READ' }),
               });
               const data = await res.json();
               if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
+              const respondedAt = typeof data?.item?.respondedAt === 'string' ? data.item.respondedAt : null;
+              onSaved?.({
+                adminResponse: trimmed ? trimmed : null,
+                respondedAt,
+                status: 'READ',
+              });
               setSuccess('Yanıt kaydedildi');
             } catch (e: unknown) {
               setError(e instanceof Error ? e.message : 'Kaydedilemedi');

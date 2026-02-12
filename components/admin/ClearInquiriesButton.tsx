@@ -4,7 +4,13 @@ import { useState } from 'react';
 
 import { AdminButton } from '@/components/admin/AdminUi';
 
-export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOTE' }) {
+export default function ClearInquiriesButton({
+  type,
+  label = 'Temizle',
+}: {
+  type: 'CONTACT' | 'QUOTE';
+  label?: string;
+}) {
   const [isClearing, setIsClearing] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -30,7 +36,7 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-              throw new Error(data?.error || 'Temizleme basarısız');
+              throw new Error(data?.error || 'Temizleme başarısız');
             }
 
             const count = typeof data?.count === 'number' ? data.count : 0;
@@ -44,12 +50,11 @@ export default function ClearInquiriesButton({ type }: { type: 'CONTACT' | 'QUOT
           }
         }}
       >
-        {isClearing ? 'Temizleniyor...' : 'Temizle'}
+        {isClearing ? 'Temizleniyor...' : label}
       </AdminButton>
       {success && <div className="mt-2 text-xs text-indigo-600">{success}</div>}
       {error && <div className="mt-2 text-xs text-rose-600">{error}</div>}
     </div>
   );
 }
-
 
