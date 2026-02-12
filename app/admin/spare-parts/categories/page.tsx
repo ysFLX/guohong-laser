@@ -35,7 +35,7 @@ export default async function AdminSparePartCategoriesPage() {
       />
 
       <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
-        <div className="text-sm font-semibold text-slate-900">Yeni kategori</div>
+        <div className="text-sm font-semibold text-[var(--admin-text)]">Yeni kategori</div>
         <div className="mt-3">
           <AdminSparePartCategoryForm />
         </div>
@@ -49,19 +49,19 @@ export default async function AdminSparePartCategoriesPage() {
           >
             <div className="grid gap-4 md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr]">
               <div>
-                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Kategori</div>
-                <div className="mt-2 text-sm font-semibold text-slate-900">{c.name}</div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Kategori</div>
+                <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{c.name}</div>
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Slug</div>
-                <div className="mt-2 text-sm text-slate-600">{c.slug}</div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Slug</div>
+                <div className="mt-2 text-sm text-[var(--admin-muted)]">{c.slug}</div>
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Ürün sayısı</div>
-                <div className="mt-2 text-sm font-semibold text-slate-900">{c._count.spareParts}</div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Ürün sayısı</div>
+                <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{c._count.spareParts}</div>
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Durum</div>
                 <div className="mt-2">
                   {c.isActive ? (
                     <AdminBadge tone="emerald">Aktif</AdminBadge>
@@ -82,4 +82,3 @@ export default async function AdminSparePartCategoriesPage() {
     </div>
   );
 }
-

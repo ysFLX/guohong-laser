@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import { AdminButton } from '@/components/admin/AdminUi';
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -14,6 +16,8 @@ function slugify(value: string) {
 
 export default function AdminSparePartCategoryForm() {
   const router = useRouter();
+  const inputClassName =
+    'mt-2 w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]';
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [isActive, setIsActive] = useState(true);
@@ -22,15 +26,23 @@ export default function AdminSparePartCategoryForm() {
   const [success, setSuccess] = useState('');
 
   return (
-    <div className="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
-      <div className="text-sm font-semibold text-gray-900 dark:text-white">Yeni Kategori</div>
+    <div className="space-y-4">
+      {error ? (
+        <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-700">
+          {error}
+        </div>
+      ) : null}
+      {success ? (
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-800">
+          {success}
+        </div>
+      ) : null}
 
-      {error && <div className="mt-2 text-sm text-red-600">{error}</div>}
-      {success && <div className="mt-2 text-sm text-green-700">{success}</div>}
-
-      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="sm:col-span-1">
-          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200">Kategori Adı</label>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
+        <div>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+            Kategori adı
+          </label>
           <input
             value={name}
             onChange={(e) => {
@@ -39,27 +51,28 @@ export default function AdminSparePartCategoryForm() {
                 setSlug(slugify(e.target.value));
               }
             }}
-            className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
+            className={inputClassName}
           />
         </div>
-        <div className="sm:col-span-1">
-          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200">Slug</label>
-          <input
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white"
-          />
+
+        <div>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+            Slug
+          </label>
+          <input value={slug} onChange={(e) => setSlug(e.target.value)} className={inputClassName} />
+          <div className="mt-2 text-xs text-[var(--admin-muted)]">Boş bırakırsan otomatik oluşturulur.</div>
         </div>
-        <div className="sm:col-span-1 flex items-end">
-          <label className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+
+        <div className="flex items-center gap-3">
+          <label className="inline-flex items-center gap-2 rounded-full border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
             <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
             Aktif
           </label>
         </div>
       </div>
 
-      <div className="mt-4">
-        <button
+      <div className="flex flex-wrap gap-3 pt-2">
+        <AdminButton
           type="button"
           disabled={isSaving}
           onClick={async () => {
@@ -101,10 +114,10 @@ export default function AdminSparePartCategoryForm() {
               setIsSaving(false);
             }
           }}
-          className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="px-6 py-3"
         >
-          {isSaving ? 'Kaydediliyor...' : 'Kategori Ekle'}
-        </button>
+          {isSaving ? 'Kaydediliyor...' : 'Kategori ekle'}
+        </AdminButton>
       </div>
     </div>
   );

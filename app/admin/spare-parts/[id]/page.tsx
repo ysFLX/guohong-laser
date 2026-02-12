@@ -104,15 +104,15 @@ export default async function AdminSparePartDetailPage({
           </div>
           <div className="grid gap-4 px-6 py-5 sm:grid-cols-2">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Fiyat</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{formatPriceTry(part.priceCents)}</div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Fiyat</div>
+              <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">{formatPriceTry(part.priceCents)}</div>
             </div>
             <div>
-              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Stok</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{part.stockOnHand}</div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Stok</div>
+              <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">{part.stockOnHand}</div>
             </div>
             <div>
-              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Durum</div>
               <div className="mt-2">
                 {part.isActive ? (
                   <AdminBadge tone="emerald">Aktif</AdminBadge>
@@ -122,15 +122,15 @@ export default async function AdminSparePartDetailPage({
               </div>
             </div>
             <div>
-              <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Boyut</div>
-              <div className="mt-2 text-sm text-slate-600">{part.dimensions || '-'}</div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Boyut</div>
+              <div className="mt-2 text-sm text-[var(--admin-muted)]">{part.dimensions || '-'}</div>
             </div>
           </div>
         </div>
 
         <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
-          <div className="text-sm font-semibold text-slate-900">Görseller</div>
-          <p className="mt-2 text-sm text-slate-500">
+          <div className="text-sm font-semibold text-[var(--admin-text)]">Görseller</div>
+          <p className="mt-2 text-sm text-[var(--admin-muted)]">
             Ürün galerisi ve vitrin görselini buradan güncelleyebilirsin.
           </p>
           <div className="mt-4">

@@ -52,6 +52,8 @@ export default async function AdminSparePartsPage({
 }: {
   searchParams: { page?: string; q?: string; category?: string; status?: string };
 }) {
+  const inputClassName =
+    'mt-2 w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]';
   const page = getPageNumber(searchParams);
   const skip = (page - 1) * PAGE_SIZE;
   const query = typeof searchParams.q === 'string' ? searchParams.q.trim() : '';
@@ -145,22 +147,20 @@ export default async function AdminSparePartsPage({
         <form className="grid grid-cols-1 gap-4 md:grid-cols-[1.5fr_1fr_1fr_auto] md:items-end">
           <div>
             <label className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-muted)]">Arama</label>
-            <div className="mt-2 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2">
-              <input
-                type="text"
-                name="q"
-                defaultValue={query}
-                placeholder="Ürün adı veya açıklama ara"
-                className="w-full bg-transparent text-sm text-[var(--admin-text)] placeholder:text-slate-400 focus:outline-none"
-              />
-            </div>
+            <input
+              type="text"
+              name="q"
+              defaultValue={query}
+              placeholder="Ürün adı veya açıklama ara"
+              className={inputClassName}
+            />
           </div>
           <div>
             <label className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-muted)]">Kategori</label>
             <select
               name="category"
               defaultValue={categoryId}
-              className="form-input mt-2 text-sm text-slate-700"
+              className={inputClassName}
             >
               <option value="">Tüm kategoriler</option>
               {categories.map((c) => (
@@ -175,7 +175,7 @@ export default async function AdminSparePartsPage({
             <select
               name="status"
               defaultValue={status}
-              className="form-input mt-2 text-sm text-slate-700"
+              className={inputClassName}
             >
               <option value="all">Tüm durumlar</option>
               <option value="active">Aktif</option>
@@ -207,41 +207,39 @@ export default async function AdminSparePartsPage({
               ? 'border-l-amber-400'
               : p.isFeatured
                 ? 'border-l-indigo-400'
-                : 'border-l-slate-200';
+                : 'border-l-[var(--admin-border)]';
           return (
             <div
               key={p.id}
-              className={`rounded-2xl border border-slate-200 bg-white shadow-sm ${accent} border-l-4`}
+              className={`rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm ${accent} border-l-4`}
             >
-              <div className="grid gap-4 border-b border-slate-100 px-6 py-4 md:grid-cols-[1.4fr_1fr_0.9fr_0.7fr_0.7fr]">
+              <div className="grid gap-4 border-b border-[var(--admin-border)] px-6 py-4 md:grid-cols-[1.4fr_1fr_0.9fr_0.7fr_0.7fr]">
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Ürün</div>
-                  <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-900">
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Ürün</div>
+                  <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-[var(--admin-text)]">
                     {p.name}
                     {p.isFeatured && (
-                      <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
-                        Vitrin
-                      </span>
+                      <AdminBadge tone="indigo">Vitrin</AdminBadge>
                     )}
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Kategori</div>
-                  <div className="mt-2 text-sm text-slate-700">{p.category.name}</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Kategori</div>
+                  <div className="mt-2 text-sm text-[var(--admin-muted)]">{p.category.name}</div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Fiyat</div>
-                  <div className="mt-2 text-sm font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Fiyat</div>
+                  <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{formatPriceTry(p.priceCents)}</div>
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Stok</div>
-                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-700">
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Stok</div>
+                  <div className="mt-2 flex items-center gap-2 text-sm font-semibold text-[var(--admin-text)]">
                     {p.stockOnHand}
                     {isCritical && <AdminBadge tone="amber">Kritik</AdminBadge>}
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Durum</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Durum</div>
                   <div className="mt-2">
                     {p.isActive ? (
                       <AdminBadge tone="emerald">Aktif</AdminBadge>
@@ -251,10 +249,10 @@ export default async function AdminSparePartsPage({
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-xs text-slate-500">
+              <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-xs text-[var(--admin-muted)]">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-slate-400">İşlem</span>
-                  <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-[var(--admin-muted)]">İşlem</span>
+                  <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-[var(--admin-accent)] hover:opacity-90">
                     Düzenle
                   </Link>
                 </div>
@@ -265,13 +263,13 @@ export default async function AdminSparePartsPage({
         })}
 
         {items.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-sm text-slate-600">
+          <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-sm">
             Henüz ürün yok.
           </div>
         )}
       </div>
 
-      <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm text-slate-600">
+      <div className="flex items-center justify-between rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-6 py-4 text-sm text-[var(--admin-muted)] shadow-sm">
         <div>
           Sayfa {page} / {totalPages}
         </div>
@@ -280,7 +278,9 @@ export default async function AdminSparePartsPage({
             href={prevPage ? `/admin/spare-parts?page=${prevPage}&q=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryId)}&status=${encodeURIComponent(status)}` : '#'}
             aria-disabled={!prevPage}
             className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-              prevPage ? 'border border-slate-200 text-slate-700 hover:border-slate-300' : 'border border-slate-100 text-slate-400 cursor-not-allowed'
+              prevPage
+                ? 'border border-[var(--admin-border)] bg-[var(--admin-card)] text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]'
+                : 'cursor-not-allowed border border-[var(--admin-border)]/50 bg-[var(--admin-card)]/60 text-[var(--admin-muted)]'
             }`}
           >
             Önceki
@@ -289,7 +289,9 @@ export default async function AdminSparePartsPage({
             href={nextPage ? `/admin/spare-parts?page=${nextPage}&q=${encodeURIComponent(query)}&category=${encodeURIComponent(categoryId)}&status=${encodeURIComponent(status)}` : '#'}
             aria-disabled={!nextPage}
             className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-              nextPage ? 'border border-slate-200 text-slate-700 hover:border-slate-300' : 'border border-slate-100 text-slate-400 cursor-not-allowed'
+              nextPage
+                ? 'border border-[var(--admin-border)] bg-[var(--admin-card)] text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]'
+                : 'cursor-not-allowed border border-[var(--admin-border)]/50 bg-[var(--admin-card)]/60 text-[var(--admin-muted)]'
             }`}
           >
             Sonraki
@@ -299,4 +301,3 @@ export default async function AdminSparePartsPage({
     </div>
   );
 }
-

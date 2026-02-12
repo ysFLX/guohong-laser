@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
+import { AdminButton } from '@/components/admin/AdminUi';
+
 type SparePartImage = {
   id: string;
   url: string;
@@ -37,15 +39,19 @@ export default function AdminImageUpload({
   if (!isAdmin) return null;
 
   return (
-    <div className="mt-6 rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-800">
-      <div className="text-sm font-semibold text-gray-900 dark:text-white">Admin: Resim Yükle</div>
-      <div className="mt-1 text-xs text-gray-600 dark:text-gray-300">
-        JPG/PNG/WEBP önerilir. Yükleme doğrudan Supabase Storage (bucket: spare-parts) içine yapılır.
+    <div className="space-y-4">
+      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-3 text-xs text-[var(--admin-muted)]">
+        JPG/PNG/WEBP önerilir. Yükleme doğrudan Supabase Storage (bucket: <span className="font-semibold">spare-parts</span>)
+        içine yapılır.
       </div>
 
-      {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
+      {error ? (
+        <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-700">
+          {error}
+        </div>
+      ) : null}
 
-      <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <input
           type="file"
           accept="image/*"
@@ -55,10 +61,10 @@ export default function AdminImageUpload({
             const list = Array.from(e.target.files || []);
             setFiles(list);
           }}
-          className="block w-full text-sm text-gray-700 dark:text-gray-200"
+          className="block w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--admin-card-muted)] file:px-4 file:py-2 file:text-xs file:font-semibold file:text-[var(--admin-text)] hover:file:bg-[var(--admin-surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]"
         />
 
-        <button
+        <AdminButton
           type="button"
           disabled={files.length === 0 || isUploading}
           onClick={async () => {
@@ -98,7 +104,7 @@ export default function AdminImageUpload({
                   });
                   const saveData = await saveRes.json();
                   if (!saveRes.ok) throw new Error(saveData?.error || 'Kaydedilemedi');
-                })
+                }),
               );
               setFiles([]);
               router.refresh();
@@ -108,18 +114,22 @@ export default function AdminImageUpload({
               setIsUploading(false);
             }
           }}
-          className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-60"
+          className="px-6 py-3"
         >
-          {isUploading ? 'Yükleniyor...' : 'yükle'}
-        </button>
+          {isUploading ? 'Yükleniyor...' : 'Yükle'}
+        </AdminButton>
       </div>
 
-      {images.length > 0 && (
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {images.length > 0 ? (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {images.map((img) => (
-            <div key={img.id} className="relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+            <div
+              key={img.id}
+              className="group relative overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm"
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={img.url} alt="Ürün görseli" className="h-28 w-full object-cover" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 transition group-hover:opacity-100" />
               <button
                 type="button"
                 disabled={deletingId === img.id}
@@ -137,14 +147,14 @@ export default function AdminImageUpload({
                     setDeletingId(null);
                   }
                 }}
-                className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-1 text-xs font-semibold text-white hover:bg-black/80 disabled:opacity-60"
+                className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-black/80 disabled:opacity-60"
               >
-                Sil
+                {deletingId === img.id ? 'Siliniyor…' : 'Sil'}
               </button>
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
