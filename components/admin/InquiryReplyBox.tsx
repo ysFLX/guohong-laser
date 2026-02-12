@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { AdminButton } from '@/components/admin/AdminUi';
 
@@ -19,6 +19,23 @@ export default function InquiryReplyBox({
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const typingPingAtRef = useRef(0);
+
+  async function pingTyping() {
+    const now = Date.now();
+    if (now - typingPingAtRef.current < 2500) return;
+    typingPingAtRef.current = now;
+
+    try {
+      await fetch(`/api/admin/inquiries/${inquiryId}/reply`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'READ' }),
+      });
+    } catch {
+      // no-op
+    }
+  }
 
   return (
     <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] p-4 shadow-sm">
@@ -34,7 +51,13 @@ export default function InquiryReplyBox({
       <textarea
         rows={4}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          const next = e.target.value;
+          setValue(next);
+          if (!canReply) return;
+          if (!next.trim()) return;
+          void pingTyping();
+        }}
         disabled={!canReply}
         className="mt-3 w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 text-sm text-[var(--admin-text)] placeholder:text-[var(--admin-muted)] focus:border-[var(--admin-accent)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--admin-accent)]/20 disabled:opacity-60"
         placeholder="Yanıt metni..."

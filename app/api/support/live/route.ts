@@ -44,6 +44,7 @@ function splitInquiryToMessages(inquiry: {
 }
 
 const SUPPORT_AGENT_FALLBACK = 'Guohong Destek';
+const AGENT_TYPING_WINDOW_MS = 12_000;
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -68,6 +69,7 @@ export async function GET() {
       id: true,
       message: true,
       createdAt: true,
+      updatedAt: true,
       status: true,
       adminResponse: true,
       respondedAt: true,
@@ -83,11 +85,21 @@ export async function GET() {
     .flatMap(splitInquiryToMessages)
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
 
-  const latestAnswered = inquiries.find((item) => Boolean(item.adminResponse));
-  const supportAgentName = latestAnswered?.respondedByUser?.name || SUPPORT_AGENT_FALLBACK;
+  const openInquiries = inquiries.filter((item) => !item.adminResponse && item.status !== 'CLOSED');
+  const latestOpen = openInquiries[0] ?? null;
 
-  const waitingReply = inquiries.some((item) => !item.adminResponse && item.status !== 'CLOSED');
-  const agentTyping = inquiries.some((item) => !item.adminResponse && item.status === 'READ');
+  const latestAnswered = inquiries.find((item) => Boolean(item.adminResponse));
+  const supportAgentName =
+    latestAnswered?.respondedByUser?.name
+    || latestOpen?.respondedByUser?.name
+    || SUPPORT_AGENT_FALLBACK;
+
+  const waitingReply = openInquiries.length > 0;
+  const agentTyping = Boolean(
+    latestOpen
+      && latestOpen.status === 'READ'
+      && Date.now() - new Date(latestOpen.updatedAt).getTime() <= AGENT_TYPING_WINDOW_MS,
+  );
 
   return NextResponse.json({
     authenticated: true,

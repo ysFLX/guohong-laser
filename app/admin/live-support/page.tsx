@@ -43,11 +43,28 @@ export default function AdminLiveSupportPage() {
   const [threadQuery, setThreadQuery] = useState('');
   const [threadFilter, setThreadFilter] = useState<'ALL' | 'UNREAD'>('ALL');
   const messagesRef = useRef<HTMLDivElement | null>(null);
+  const typingPingAtRef = useRef(0);
 
   const selectedThreadInfo = useMemo(
     () => threads.find((x) => x.key === selectedThread) || null,
     [threads, selectedThread],
   );
+
+  async function pingTyping(inquiryId: string) {
+    const now = Date.now();
+    if (now - typingPingAtRef.current < 2500) return;
+    typingPingAtRef.current = now;
+
+    try {
+      await fetch(`/api/admin/inquiries/${inquiryId}/reply`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'READ' }),
+      });
+    } catch {
+      // no-op
+    }
+  }
 
   const filteredThreads = useMemo(() => {
     const query = threadQuery.trim().toLocaleLowerCase('tr-TR').replaceAll('ı', 'i');
@@ -276,13 +293,19 @@ export default function AdminLiveSupportPage() {
           <div className="border-t border-[var(--admin-border)] p-4">
             {error && <div className="mb-2 text-xs font-medium text-rose-600">{error}</div>}
             <div className="flex items-center gap-2">
-              <input
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') handleSend();
-                }}
-                placeholder={replyTargetInquiryId ? 'Yanıt yaz...' : 'Yanıtlanacak mesaj yok'}
+                <input
+                  value={input}
+                  onChange={(event) => {
+                    const next = event.target.value;
+                    setInput(next);
+                    if (!replyTargetInquiryId) return;
+                    if (!next.trim()) return;
+                    void pingTyping(replyTargetInquiryId);
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') handleSend();
+                  }}
+                  placeholder={replyTargetInquiryId ? 'Yanıt yaz...' : 'Yanıtlanacak mesaj yok'}
                 disabled={!replyTargetInquiryId || saving}
                 className="h-11 w-full rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 text-sm text-[var(--admin-text)] outline-none focus:border-[var(--admin-accent)] disabled:opacity-60"
               />
