@@ -85,11 +85,11 @@ export default async function OrdersPage() {
   };
 
   const statusTone: Record<string, string> = {
-    RECEIVED: 'bg-indigo-500/15 text-indigo-700',
-    SHIPPED: 'bg-amber-500/15 text-amber-700',
-    IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
-    DELIVERED: 'bg-indigo-500/15 text-indigo-700',
-    CANCELED: 'bg-slate-500/15 text-slate-700',
+    RECEIVED: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-200',
+    IN_TRANSIT: 'bg-amber-500/15 text-amber-700 dark:text-amber-200',
+    SHIPPED: 'bg-sky-500/15 text-sky-700 dark:text-sky-200',
+    DELIVERED: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-200',
+    CANCELED: 'bg-rose-500/15 text-rose-700 dark:text-rose-200',
   };
 
   const progressSteps = [
@@ -101,10 +101,10 @@ export default async function OrdersPage() {
   const lineLeftPercent = 100 / (progressSteps.length * 2);
   const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
-    RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    IN_TRANSIT: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
-    SHIPPED: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
-    DELIVERED: { dot: 'bg-indigo-500', line: 'bg-indigo-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
+    RECEIVED: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(99,102,241,0.22)]' },
+    IN_TRANSIT: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(245,158,11,0.22)]' },
+    SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.22)]' },
+    DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.22)]' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
@@ -232,6 +232,7 @@ export default async function OrdersPage() {
                   }).toString();
                   const invoiceParams = new URLSearchParams({
                     subject: `Fatura Talebi - ${order.id.slice(0, 8)}`,
+                    message: `Merhaba,\n\n${order.id} numaralı siparişim için fatura talep ediyorum.\n\nTeşekkürler.`,
                   }).toString();
                   return (
                   <div
@@ -251,13 +252,14 @@ export default async function OrdersPage() {
                           Kargo takip
                         </a>
                       ) : null}
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                          statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-                        }`}
-                      >
-                        {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
-                      </span>
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                           statusTone[displayStatus as keyof typeof statusTone] ||
+                           'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-200'
+                         }`}
+                       >
+                         {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                       </span>
                     </div>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">

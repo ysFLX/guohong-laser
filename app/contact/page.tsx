@@ -1,11 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import Reveal from '@/components/home/Reveal';
 import { trackEvent } from '@/lib/analytics';
 
-export default function ContactPage() {
+function ContactPageInner() {
+  const searchParams = useSearchParams();
+  const { data: session } = useSession();
+  const subjectParam = searchParams.get('subject')?.trim() ?? '';
+  const messageParam = searchParams.get('message')?.trim() ?? '';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,6 +25,25 @@ export default function ContactPage() {
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'details' | 'verify'>('details');
   const [info, setInfo] = useState('');
+
+  useEffect(() => {
+    if (!subjectParam && !messageParam) return;
+    setFormData((prev) => ({
+      ...prev,
+      subject: subjectParam || prev.subject,
+      message: messageParam || prev.message,
+    }));
+  }, [subjectParam, messageParam]);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    setFormData((prev) => ({
+      ...prev,
+      name: prev.name || session.user.name || '',
+      email: prev.email || session.user.email || '',
+      phone: prev.phone || session.user.phone || '',
+    }));
+  }, [session?.user?.email, session?.user?.name, session?.user?.phone]);
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
@@ -339,3 +364,10 @@ export default function ContactPage() {
   );
 }
 
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8" />}>
+      <ContactPageInner />
+    </Suspense>
+  );
+}

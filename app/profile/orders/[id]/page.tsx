@@ -179,11 +179,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   };
 
   const statusTone: Record<string, string> = {
-    RECEIVED: 'bg-indigo-500/15 text-indigo-700',
-    SHIPPED: 'bg-amber-500/15 text-amber-700',
-    IN_TRANSIT: 'bg-blue-500/15 text-blue-700',
-    DELIVERED: 'bg-indigo-500/15 text-indigo-700',
-    CANCELED: 'bg-slate-500/15 text-slate-700',
+    RECEIVED: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-200',
+    IN_TRANSIT: 'bg-amber-500/15 text-amber-700 dark:text-amber-200',
+    SHIPPED: 'bg-sky-500/15 text-sky-700 dark:text-sky-200',
+    DELIVERED: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-200',
+    CANCELED: 'bg-rose-500/15 text-rose-700 dark:text-rose-200',
   };
 
   const progressSteps = [
@@ -195,10 +195,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const lineLeftPercent = 100 / (progressSteps.length * 2);
   const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
-    RECEIVED: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(251,191,36,0.2)]' },
-    IN_TRANSIT: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(249,115,22,0.2)]' },
-    SHIPPED: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.2)]' },
-    DELIVERED: { dot: 'bg-indigo-500', line: 'bg-indigo-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.2)]' },
+    RECEIVED: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(99,102,241,0.22)]' },
+    IN_TRANSIT: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(245,158,11,0.22)]' },
+    SHIPPED: { dot: 'bg-sky-500', line: 'bg-sky-400', glow: 'shadow-[0_0_0_4px_rgba(14,165,233,0.22)]' },
+    DELIVERED: { dot: 'bg-emerald-500', line: 'bg-emerald-500', glow: 'shadow-[0_0_0_4px_rgba(16,185,129,0.22)]' },
   };
   const statusToStep: Record<string, number> = {
     RECEIVED: 0,
@@ -230,6 +230,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   );
   const invoiceParams = new URLSearchParams({
     subject: `Fatura Talebi - ${safeOrder.id.slice(0, 8)}`,
+    message: `Merhaba,\n\n${safeOrder.id} numaralı siparişim için fatura talep ediyorum.\n\nTeşekkürler.`,
+  }).toString();
+  const supportParams = new URLSearchParams({
+    subject: `Sipariş desteği - ${safeOrder.id.slice(0, 8)}`,
+    message: `Merhaba,\n\n${safeOrder.id} numaralı siparişimde teslimat adresi bilgisi görünmüyor. Kontrol edebilir misiniz?\n\nTeşekkürler.`,
   }).toString();
   const itemCount = safeOrder.items.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -264,11 +269,22 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               <div className="flex flex-wrap items-center gap-3">
                 <div
                   className={`inline-flex rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] ${
-                    statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
+                    statusTone[displayStatus as keyof typeof statusTone] ||
+                    'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-200'
                   }`}
                 >
                   {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
                 </div>
+                {safeOrder.trackingUrl ? (
+                  <a
+                    href={safeOrder.trackingUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm hover:bg-indigo-700"
+                  >
+                    Kargo takip
+                  </a>
+                ) : null}
                 <Link
                   href={`/contact?${invoiceParams}`}
                   className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:bg-slate-50 dark:text-slate-200"
@@ -309,6 +325,23 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="mt-1 text-xs text-slate-500">{shippingView?.fullName || '-'}</div>
               </div>
             </div>
+
+            {!shippingView && (
+              <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/70 px-5 py-4 text-sm text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-700 dark:text-amber-200">
+                  Adres bilgisi bekleniyor
+                </div>
+                <p className="mt-2 text-sm text-amber-800 dark:text-amber-100/90">
+                  Sipariş yeni oluşturulduysa teslimat adresi birkaç dakika içinde güncellenebilir. Hâlâ görünmüyorsa destek ekibi hızlıca kontrol eder.
+                </p>
+                <Link
+                  href={`/contact?${supportParams}`}
+                  className="mt-4 inline-flex items-center justify-center rounded-full border border-amber-200 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-800 hover:bg-white dark:border-amber-400/30 dark:bg-white/10 dark:text-amber-100 dark:hover:bg-white/15"
+                >
+                  Destekle iletişime geç
+                </Link>
+              </div>
+            )}
           </div>
 
           {typeof statusToStep[displayStatus] === 'number' && (
@@ -566,13 +599,14 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   Sipariş durumu
                 </div>
                 <div className="mt-2">
-                  <span
-                    className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
-                      statusTone[displayStatus as keyof typeof statusTone] || 'bg-slate-200 text-slate-700'
-                    }`}
-                  >
-                    {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
-                  </span>
+                    <span
+                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
+                      statusTone[displayStatus as keyof typeof statusTone] ||
+                      'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-200'
+                      }`}
+                    >
+                      {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                    </span>
                 </div>
               </div>
 
@@ -589,7 +623,13 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     <div>{shippingView.phone}</div>
                   </div>
                 ) : (
-                  <div className="mt-2 text-slate-600">Adres bilgisi bulunamadı.</div>
+                  <div className="mt-2 text-slate-600">
+                    Adres bilgisi henüz görünmüyor.{' '}
+                    <Link href={`/contact?${supportParams}`} className="font-semibold text-indigo-600 hover:text-indigo-700">
+                      Destek ekibiyle iletişime geç
+                    </Link>
+                    .
+                  </div>
                 )}
               </div>
 
