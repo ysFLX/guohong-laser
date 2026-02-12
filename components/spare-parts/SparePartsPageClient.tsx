@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, type ChangeEvent, type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
@@ -843,6 +843,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                     <div
                       key={p.id}
                       className="group relative overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)] dark:border-slate-800/70 dark:bg-slate-950/40"
+                      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 560px' } as CSSProperties}
                     >
                       <Link href={getPartHref(p.id)} className="block">
                         <div className="relative h-64 w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
@@ -863,7 +864,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                                 Vitrin
                               </span>
                             )}
-                            <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 shadow-sm ring-1 ring-slate-900/5 backdrop-blur dark:bg-slate-950/70 dark:text-slate-200 dark:ring-white/10">
+                            <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-950/70 dark:text-slate-200 dark:ring-white/10">
                               {p.category.name}
                             </span>
                           </div>
@@ -883,7 +884,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                             {isCritical && (
                               <span className="inline-flex items-center gap-2 rounded-full bg-amber-200/90 px-3 py-1 text-amber-900 dark:bg-amber-500/15 dark:text-amber-200">
                                 <span className="relative flex h-2 w-2">
-                                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-600/60 dark:bg-amber-400/40" />
+                                  <span className="absolute inline-flex h-full w-full rounded-full bg-amber-600/60 dark:bg-amber-400/40 motion-safe:group-hover:animate-ping" />
                                   <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700 dark:bg-amber-300" />
                                 </span>
                                 Stok azalıyor
