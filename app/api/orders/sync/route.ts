@@ -6,6 +6,7 @@ import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
+import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
 
 export const runtime = 'nodejs';
 
@@ -394,6 +395,13 @@ export async function POST(req: Request) {
     console.error('Sipariş e-postası gönderilemedi:', error);
   }
 
+  try {
+    if (created?.id) {
+      await enqueueInvoiceForOrder({ orderId: created.id });
+    }
+  } catch (error) {
+    console.error('[orders/sync] invoice enqueue failed:', error);
+  }
+
   return NextResponse.json({ ok: true });
 }
-

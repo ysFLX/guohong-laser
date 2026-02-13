@@ -18,6 +18,11 @@ type Address = {
   state: string | null;
   postalCode: string | null;
   country: string | null;
+  invoiceType?: 'INDIVIDUAL' | 'COMPANY';
+  companyName?: string | null;
+  taxOffice?: string | null;
+  taxNumber?: string | null;
+  identityNumber?: string | null;
   isDefault: boolean;
 };
 
@@ -38,6 +43,11 @@ const emptyForm = {
   district: '',
   postalCode: '',
   country: 'Turkiye',
+  invoiceType: 'INDIVIDUAL' as 'INDIVIDUAL' | 'COMPANY',
+  companyName: '',
+  taxOffice: '',
+  taxNumber: '',
+  identityNumber: '',
 };
 
 function formatPriceTry(priceCents: number) {
@@ -160,7 +170,18 @@ export default function CheckoutAddressPage() {
       return;
     }
 
-    const payload = {
+    const invoiceType = form.invoiceType === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL';
+    const companyName = form.companyName.trim();
+    const taxOffice = form.taxOffice.trim();
+    const taxNumber = form.taxNumber.trim();
+    const identityNumber = form.identityNumber.trim();
+
+    if (formTarget === 'billing' && invoiceType === 'COMPANY' && (!companyName || !taxNumber)) {
+      setCheckoutError('Kurumsal fatura için Firma ünvanı ve VKN zorunludur');
+      return;
+    }
+
+    const payload: Record<string, unknown> = {
       label: form.label.trim() || 'Ev',
       fullName,
       phone: form.phone.trim(),
@@ -171,6 +192,14 @@ export default function CheckoutAddressPage() {
       postalCode: form.postalCode.trim() || null,
       country: form.country.trim() || 'Turkiye',
     };
+
+    if (formTarget === 'billing') {
+      payload.invoiceType = invoiceType;
+      payload.companyName = companyName || null;
+      payload.taxOffice = taxOffice || null;
+      payload.taxNumber = taxNumber || null;
+      payload.identityNumber = identityNumber || null;
+    }
 
     try {
       const res = await fetch('/api/profile/addresses', {
@@ -367,6 +396,7 @@ export default function CheckoutAddressPage() {
                       return;
                     }
                     setFormTarget('shipping');
+                    setForm({ ...emptyForm });
                     setShowForm(true);
                   }}
                   className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
@@ -642,6 +672,7 @@ export default function CheckoutAddressPage() {
                         return;
                       }
                       setFormTarget('billing');
+                      setForm({ ...emptyForm });
                       setShowForm(true);
                     }}
                     className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
@@ -842,6 +873,77 @@ export default function CheckoutAddressPage() {
                         value={form.country}
                         onChange={(e) => setForm({ ...form, country: e.target.value })}
                       />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <div className="rounded-2xl border border-slate-200/70 bg-slate-50/70 p-4 text-sm text-slate-700 dark:border-slate-800/70 dark:bg-slate-900/40 dark:text-slate-200">
+                        <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">
+                          Fatura bilgileri
+                        </div>
+                        <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div className="space-y-2 md:col-span-2">
+                            <div className="form-label">Fatura tipi</div>
+                            <select
+                              className="form-input"
+                              value={form.invoiceType}
+                              onChange={(e) =>
+                                setForm((prev) => ({
+                                  ...prev,
+                                  invoiceType: e.target.value === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL',
+                                }))
+                              }
+                            >
+                              <option value="INDIVIDUAL">Bireysel</option>
+                              <option value="COMPANY">Kurumsal</option>
+                            </select>
+                            <div className="text-xs text-slate-500 dark:text-slate-400">
+                              Kurumsal fatura için firma ünvanı ve VKN girilmelidir.
+                            </div>
+                          </div>
+
+                          {form.invoiceType === 'COMPANY' ? (
+                            <>
+                              <div className="space-y-2 md:col-span-2">
+                                <div className="form-label">Firma ünvanı</div>
+                                <input
+                                  className="form-input"
+                                  placeholder="Örn: Guohong Lazer Sanayi"
+                                  value={form.companyName}
+                                  onChange={(e) => setForm({ ...form, companyName: e.target.value })}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <div className="form-label">Vergi dairesi</div>
+                                <input
+                                  className="form-input"
+                                  placeholder="Örn: Meram"
+                                  value={form.taxOffice}
+                                  onChange={(e) => setForm({ ...form, taxOffice: e.target.value })}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <div className="form-label">VKN</div>
+                                <input
+                                  className="form-input"
+                                  placeholder="Vergi numarası"
+                                  value={form.taxNumber}
+                                  onChange={(e) => setForm({ ...form, taxNumber: e.target.value })}
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            <div className="space-y-2 md:col-span-2">
+                              <div className="form-label">TCKN (opsiyonel)</div>
+                              <input
+                                className="form-input"
+                                placeholder="Kimlik numarası"
+                                value={form.identityNumber}
+                                onChange={(e) => setForm({ ...form, identityNumber: e.target.value })}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
 
                     <div className="md:col-span-2 flex flex-wrap justify-end gap-3">

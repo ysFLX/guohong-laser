@@ -30,6 +30,15 @@ type OrderAddress = {
   country: string | null;
 };
 
+type OrderInvoice = {
+  id: string;
+  status: string;
+  issuedAt: string | null;
+  invoiceNumber: string | null;
+  ettn: string | null;
+  errorMessage: string | null;
+} | null;
+
 type AdminOrder = {
   id: string;
   status: string;
@@ -42,6 +51,7 @@ type AdminOrder = {
   user: OrderUser | null;
   shippingAddress: OrderAddress | null;
   billingAddress: OrderAddress | null;
+  invoice: OrderInvoice;
   items: OrderItem[];
 };
 
@@ -95,6 +105,35 @@ const statusAccent = (value: string) => {
   }
 };
 
+const invoiceLabel = (value?: string | null) => {
+  switch (value) {
+    case 'ISSUED':
+      return 'Fatura hazır';
+    case 'PROCESSING':
+      return 'Fatura işleniyor';
+    case 'PENDING':
+      return 'Fatura sırada';
+    case 'FAILED':
+      return 'Fatura hata';
+    default:
+      return 'Fatura yok';
+  }
+};
+
+const invoiceTone = (value?: string | null) => {
+  switch (value) {
+    case 'ISSUED':
+      return 'emerald';
+    case 'FAILED':
+      return 'rose';
+    case 'PROCESSING':
+    case 'PENDING':
+      return 'amber';
+    default:
+      return 'slate';
+  }
+};
+
 function formatPriceTry(priceCents: number) {
   try {
     return new Intl.NumberFormat('tr-TR', {
@@ -134,7 +173,9 @@ export default function OrdersAdminManager() {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [savingId, setSavingId] = useState<string | null>(null);
+  const [invoicingId, setInvoicingId] = useState<string | null>(null);
   const [draftStatus, setDraftStatus] = useState<Record<string, string>>({});
   const [draftTracking, setDraftTracking] = useState<Record<string, { carrier: string; number: string; url: string }>>(
     {},
@@ -187,7 +228,13 @@ export default function OrdersAdminManager() {
     }
   }, [searchParams]);
 
-  async function loadOrders() {
+  useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(''), 4500);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
+  async function loadOrders(options?: { expandId?: string }) {
     setLoading(true);
     setError('');
     try {
@@ -196,7 +243,8 @@ export default function OrdersAdminManager() {
       if (!res.ok) throw new Error(data?.error || 'Siparişler yüklenemedi');
       const list = (data.items || []) as AdminOrder[];
       setOrders(list);
-      setExpandedIds(new Set(list.length ? [list[0].id] : []));
+      const initialExpand = options?.expandId || list[0]?.id || '';
+      setExpandedIds(new Set(initialExpand ? [initialExpand] : []));
       setDraftStatus(
         list.reduce<Record<string, string>>((acc, item) => {
           acc[item.id] = normalizeStatus(item.status);
@@ -217,6 +265,32 @@ export default function OrdersAdminManager() {
       setError(err instanceof Error ? err.message : 'Siparişler yüklenemedi');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function generateInvoice(orderId: string) {
+    if (invoicingId) return;
+    setInvoicingId(orderId);
+    setError('');
+    setNotice('');
+
+    try {
+      const res = await fetch(`/api/admin/orders/${orderId}/invoice`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ processNow: false }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || 'Fatura oluşturulamadı');
+      }
+      setNotice(data?.item?.status === 'ISSUED' ? 'Fatura oluşturuldu.' : 'Fatura sıraya alındı.');
+      await loadOrders({ expandId: orderId });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Fatura oluşturulamadı';
+      setError(message);
+    } finally {
+      setInvoicingId(null);
     }
   }
 
@@ -312,7 +386,7 @@ export default function OrdersAdminManager() {
             <p className="mt-1 text-sm text-[var(--admin-muted)]">Tüm siparişleri tek ekrandan takip et.</p>
           </div>
           <div className="flex items-center gap-2">
-            <AdminButton onClick={loadOrders} tone="slate" variant="outline">
+            <AdminButton onClick={() => loadOrders()} tone="slate" variant="outline">
               Yenile
             </AdminButton>
             <AdminBadge tone="slate">{totalOrders} sipariş</AdminBadge>
@@ -415,6 +489,11 @@ export default function OrdersAdminManager() {
             {error}
           </div>
         )}
+        {notice && (
+          <div className="mt-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700">
+            {notice}
+          </div>
+        )}
 
         {!loading && filteredOrders.length === 0 && (
           <div className="mt-6 rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-4 text-sm text-[var(--admin-muted)] shadow-sm">
@@ -453,10 +532,11 @@ export default function OrdersAdminManager() {
                           </div>
                           <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{order.user?.email || '-'}</div>
                         </div>
-                        <div className="flex items-start md:items-center">
+                        <div className="flex flex-col items-start gap-2 md:items-center">
                           <AdminBadge tone={statusTone(displayStatus)}>
                             {statusLabel[displayStatus] || displayStatus}
                           </AdminBadge>
+                          <AdminBadge tone={invoiceTone(order.invoice?.status)}>{invoiceLabel(order.invoice?.status)}</AdminBadge>
                         </div>
                         <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
                           <div className="text-lg font-semibold text-[var(--admin-text)]">{formatPriceTry(order.totalCents)}</div>
@@ -566,6 +646,73 @@ export default function OrdersAdminManager() {
                                 </div>
                               );
                             })()}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="flex items-start gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] text-[var(--admin-accent)]">
+                            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                              <path d="M14 2v6h6" />
+                              <path d="M9 13h6" />
+                              <path d="M9 17h6" />
+                            </svg>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                                Fatura
+                              </div>
+                              <AdminBadge tone={invoiceTone(order.invoice?.status)}>{invoiceLabel(order.invoice?.status)}</AdminBadge>
+                            </div>
+
+                            {order.invoice?.invoiceNumber && (
+                              <div className="mt-2 text-xs text-[var(--admin-muted)]">
+                                No: <span className="font-semibold text-[var(--admin-text)]">{order.invoice.invoiceNumber}</span>
+                              </div>
+                            )}
+                            {order.invoice?.issuedAt && (
+                              <div className="mt-1 text-xs text-[var(--admin-muted)]">Tarih: {formatDate(order.invoice.issuedAt)}</div>
+                            )}
+                            {order.invoice?.ettn && (
+                              <div className="mt-1 truncate font-mono text-[11px] text-[var(--admin-muted)]">
+                                ETTN: {order.invoice.ettn}
+                              </div>
+                            )}
+                            {order.invoice?.status === 'FAILED' && order.invoice.errorMessage && (
+                              <div className="mt-2 rounded-xl border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-xs text-rose-700">
+                                {order.invoice.errorMessage}
+                              </div>
+                            )}
+
+                            <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+                              <AdminButton
+                                tone="indigo"
+                                onClick={() => generateInvoice(order.id)}
+                                disabled={invoicingId === order.id}
+                              >
+                                {invoicingId === order.id ? 'İşleniyor' : 'Fatura oluştur'}
+                              </AdminButton>
+
+                              {order.invoice?.status === 'ISSUED' ? (
+                                <>
+                                  <a
+                                    href={`/api/invoices/${order.invoice.id}/download?file=pdf`}
+                                    className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-1 text-[var(--admin-muted)] transition hover:bg-[var(--admin-card-muted)] hover:text-[var(--admin-text)]"
+                                  >
+                                    PDF indir
+                                  </a>
+                                  <a
+                                    href={`/api/invoices/${order.invoice.id}/download?file=xml`}
+                                    className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-card)] px-3 py-1 text-[var(--admin-muted)] transition hover:bg-[var(--admin-card-muted)] hover:text-[var(--admin-text)]"
+                                  >
+                                    XML indir
+                                  </a>
+                                </>
+                              ) : null}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -798,7 +945,7 @@ export default function OrdersAdminManager() {
             <span>Filtre: {statusFilter === 'ALL' ? 'Tüm siparişler' : statusLabel[statusFilter]}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <AdminButton tone="slate" variant="outline" onClick={loadOrders}>
+            <AdminButton tone="slate" variant="outline" onClick={() => loadOrders()}>
               Yenile
             </AdminButton>
             <AdminButton tone="slate" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>

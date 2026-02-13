@@ -13,6 +13,11 @@ type Address = {
   state: string | null;
   postalCode: string | null;
   country: string | null;
+  invoiceType?: "INDIVIDUAL" | "COMPANY";
+  companyName?: string | null;
+  taxOffice?: string | null;
+  taxNumber?: string | null;
+  identityNumber?: string | null;
   isDefault: boolean;
 };
 
@@ -68,6 +73,11 @@ const emptyForm = {
   district: "",
   postalCode: "",
   country: "Türkiye",
+  invoiceType: "INDIVIDUAL" as "INDIVIDUAL" | "COMPANY",
+  companyName: "",
+  taxOffice: "",
+  taxNumber: "",
+  identityNumber: "",
   isDefault: false,
 };
 
@@ -176,6 +186,11 @@ export default function AddressesManager() {
       district: address.state ?? "",
       postalCode: address.postalCode ?? "",
       country: address.country ?? "Türkiye",
+      invoiceType: address.invoiceType === "COMPANY" ? "COMPANY" : "INDIVIDUAL",
+      companyName: address.companyName ?? "",
+      taxOffice: address.taxOffice ?? "",
+      taxNumber: address.taxNumber ?? "",
+      identityNumber: address.identityNumber ?? "",
       isDefault: address.isDefault ?? false,
     });
     setShowForm(true);
@@ -199,6 +214,15 @@ export default function AddressesManager() {
         throw new Error("İlçe seçimi zorunludur");
       }
 
+      const invoiceType = form.invoiceType === "COMPANY" ? "COMPANY" : "INDIVIDUAL";
+      const companyName = form.companyName.trim();
+      const taxNumber = form.taxNumber.trim();
+      const identityNumber = form.identityNumber.trim();
+
+      if (invoiceType === "COMPANY" && (!companyName || !taxNumber)) {
+        throw new Error("Kurumsal fatura için Firma ünvanı ve VKN zorunludur");
+      }
+
       const payload = {
         label: form.label.trim() || "Ev",
         fullName,
@@ -209,6 +233,11 @@ export default function AddressesManager() {
         state: districtValue,
         postalCode: form.postalCode.trim() || null,
         country: form.country.trim() || "Türkiye",
+        invoiceType,
+        companyName: companyName || null,
+        taxOffice: form.taxOffice.trim() || null,
+        taxNumber: taxNumber || null,
+        identityNumber: identityNumber || null,
         isDefault: form.isDefault,
       };
 
@@ -314,6 +343,11 @@ export default function AddressesManager() {
                 {a.isDefault && (
                   <span className="px-2 py-0.5 text-xs rounded-full bg-indigo-50 text-indigo-700">
                     Varsayılan
+                  </span>
+                )}
+                {a.invoiceType === "COMPANY" && (
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-700">
+                    Kurumsal
                   </span>
                 )}
               </div>
@@ -495,6 +529,77 @@ export default function AddressesManager() {
               value={form.country}
               onChange={(e) => setForm({ ...form, country: e.target.value })}
             />
+          </div>
+
+          <div className="md:col-span-2">
+            <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                Fatura bilgileri
+              </div>
+              <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="space-y-2 md:col-span-2">
+                  <div className="form-label">Fatura tipi</div>
+                  <select
+                    className="form-input"
+                    value={form.invoiceType}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        invoiceType: e.target.value === "COMPANY" ? "COMPANY" : "INDIVIDUAL",
+                      }))
+                    }
+                  >
+                    <option value="INDIVIDUAL">Bireysel</option>
+                    <option value="COMPANY">Kurumsal</option>
+                  </select>
+                  <div className="text-xs text-gray-500">
+                    Kurumsal fatura için firma ünvanı ve VKN girilmelidir.
+                  </div>
+                </div>
+
+                {form.invoiceType === "COMPANY" ? (
+                  <>
+                    <div className="space-y-2 md:col-span-2">
+                      <div className="form-label">Firma ünvanı</div>
+                      <input
+                        className="form-input"
+                        placeholder="Örn: Guohong Lazer Sanayi"
+                        value={form.companyName}
+                        onChange={(e) => setForm({ ...form, companyName: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="form-label">Vergi dairesi</div>
+                      <input
+                        className="form-input"
+                        placeholder="Örn: Meram"
+                        value={form.taxOffice}
+                        onChange={(e) => setForm({ ...form, taxOffice: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="form-label">VKN</div>
+                      <input
+                        className="form-input"
+                        placeholder="Vergi numarası"
+                        value={form.taxNumber}
+                        onChange={(e) => setForm({ ...form, taxNumber: e.target.value })}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="space-y-2 md:col-span-2">
+                    <div className="form-label">TCKN (opsiyonel)</div>
+                    <input
+                      className="form-input"
+                      placeholder="Kimlik numarası"
+                      value={form.identityNumber}
+                      onChange={(e) => setForm({ ...form, identityNumber: e.target.value })}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           <label className="md:col-span-2 inline-flex items-center gap-2 text-sm font-medium text-gray-700">
