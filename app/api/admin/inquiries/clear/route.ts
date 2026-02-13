@@ -23,7 +23,14 @@ function getClearWhere(type: Payload['type']) {
       status: { not: 'CLOSED' },
       OR: [
         { subject: null },
-        { subject: { not: { contains: 'canli destek', mode: 'insensitive' } } },
+        {
+          AND: [
+            { NOT: { subject: { contains: 'canli destek', mode: 'insensitive' } } },
+            { NOT: { subject: { contains: 'canlı destek', mode: 'insensitive' } } },
+            { NOT: { subject: { contains: 'live support', mode: 'insensitive' } } },
+            { NOT: { subject: { contains: 'canli-destek', mode: 'insensitive' } } },
+          ],
+        },
       ],
     };
   }
@@ -64,12 +71,18 @@ async function handleClear(req: Request) {
     return NextResponse.json({ error: 'type gerekli (CONTACT|QUOTE)' }, { status: 400 });
   }
 
-  const result = await prismaInquiry.inquiry.updateMany({
-    where: getClearWhere(payloadType),
-    data: { status: 'CLOSED' },
-  });
+  try {
+    const result = await prismaInquiry.inquiry.updateMany({
+      where: getClearWhere(payloadType),
+      data: { status: 'CLOSED' },
+    });
 
-  return NextResponse.json({ ok: true, count: result.count });
+    return NextResponse.json({ ok: true, count: result.count });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'İşlem başarısız';
+    console.error('[inquiries-clear] failed:', message);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
 
 export async function DELETE(req: Request) {
