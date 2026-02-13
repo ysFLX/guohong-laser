@@ -234,9 +234,19 @@ function ensureSpace(doc: PDFKit.PDFDocument, y: number, needed: number) {
 }
 
 export async function createProformaPdf(params: { order: ProformaOrder; invoiceNumber: string; issuedAtIso: string }) {
+  const { regularPath, boldPath } = getFontPaths();
+  const hasFonts = fs.existsSync(regularPath) && fs.existsSync(boldPath);
+
+  if (!hasFonts) {
+    throw new Error(
+      'Proforma font dosyaları bulunamadı. `assets/fonts/NotoSans-Regular.ttf` ve `assets/fonts/NotoSans-Bold.ttf` gerekli.',
+    );
+  }
+
   const doc = new PDFDocument({
     size: 'A4',
     margin: 48,
+    font: regularPath,
     info: {
       Title: `Proforma ${params.invoiceNumber}`,
       Author: 'Guohong Lazer',
@@ -251,14 +261,10 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
     doc.on('error', (err) => reject(err));
   });
 
-  const { regularPath, boldPath } = getFontPaths();
-  const hasFonts = fs.existsSync(regularPath) && fs.existsSync(boldPath);
-  if (hasFonts) {
-    doc.registerFont('NotoRegular', regularPath);
-    doc.registerFont('NotoBold', boldPath);
-  }
-  const fontRegular = hasFonts ? 'NotoRegular' : 'Helvetica';
-  const fontBold = hasFonts ? 'NotoBold' : 'Helvetica-Bold';
+  doc.registerFont('NotoRegular', regularPath);
+  doc.registerFont('NotoBold', boldPath);
+  const fontRegular = 'NotoRegular';
+  const fontBold = 'NotoBold';
 
   addWatermark(doc, 'PROFORMA', fontBold);
 
