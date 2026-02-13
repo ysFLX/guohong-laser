@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { trackEvent } from '@/lib/analytics';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 
 type QuickBuyItem = {
   id: string;
@@ -12,7 +13,7 @@ type QuickBuyItem = {
   imageUrl: string | null;
 };
 
-export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
+function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
@@ -155,4 +156,12 @@ export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
       )}
     </div>
   );
+}
+
+export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
+  if (!isPaymentCheckoutEnabled()) {
+    return null;
+  }
+
+  return <QuickBuyButtonEnabled item={item} />;
 }

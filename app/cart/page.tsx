@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 
 type RecommendedItem = {
   id: string;
@@ -66,6 +67,28 @@ function CartPageContent() {
     ids.sort();
     return ids.join(',');
   }, [items]);
+
+  const paymentsEnabled = isPaymentCheckoutEnabled();
+
+  const cartQuoteHref = useMemo(() => {
+    if (!items.length) return '/quote';
+    const maxItems = 10;
+    const preview = items
+      .slice(0, maxItems)
+      .map((item) => {
+        const name = item.name.length > 64 ? `${item.name.slice(0, 61)}...` : item.name;
+        return `- ${name} x${item.quantity}`;
+      })
+      .join('\n');
+    const extra = items.length > maxItems ? `\n+${items.length - maxItems} ürün daha` : '';
+    const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const message = `Sepetimdeki ürünler için fiyat teklifi rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam: ${formatPriceTry(subtotalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
+    const params = new URLSearchParams({
+      product: 'Sepet Teklifi',
+      message,
+    });
+    return `/quote?${params.toString()}`;
+  }, [items, subtotalCents]);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -279,6 +302,10 @@ function CartPageContent() {
   const handleCheckout = () => {
     if (!items.length) return;
     setCheckoutError('');
+    if (!paymentsEnabled) {
+      router.push(cartQuoteHref);
+      return;
+    }
     trackEvent('begin_checkout', {
       currency: 'TRY',
       value: subtotalCents / 100,
@@ -295,6 +322,10 @@ function CartPageContent() {
   const handleQuickBuy = async () => {
     if (!items.length || isQuickBuying) return;
     setCheckoutError('');
+    if (!paymentsEnabled) {
+      router.push(cartQuoteHref);
+      return;
+    }
     setIsQuickBuying(true);
     try {
       const profileRes = await fetch('/api/profile');
@@ -648,7 +679,9 @@ function CartPageContent() {
                 </div>
               )}
 
-              <div className="mt-6">
+              {paymentsEnabled ? (
+                <>
+                  <div className="mt-6">
                 <button
                   type="button"
                   className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-70 dark:bg-white/10 dark:hover:bg-white/20"
@@ -672,6 +705,20 @@ function CartPageContent() {
                   Adres seçerek devam et
                 </button>
               </div>
+                </>
+              ) : (
+                <div className="mt-6 space-y-3">
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-200">
+                    Ödeme altyapısı hazırlanıyor. Şimdilik sepetin için teklif isteyebilir veya WhatsApp hattından sipariş desteği alabilirsin.
+                  </div>
+                  <Link
+                    href={cartQuoteHref}
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                  >
+                    Sepet için teklif iste
+                  </Link>
+                </div>
+              )}
 
               <div className="mt-3">
                 <a
@@ -693,7 +740,9 @@ function CartPageContent() {
                     Sepet kurtarma
                   </div>
                   <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                    24 saat sonra ödemeyi tamamlamadıysanız sepetinizi hatırlatırız.
+                    {paymentsEnabled
+                      ? '24 saat sonra ödemeyi tamamlamadıysanız sepetinizi hatırlatırız.'
+                      : '24 saat sonra sepetinizi hatırlatırız.'}
                   </div>
                   <div className="mt-3">
                     <label className="sr-only" htmlFor="reminder-email">

@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
@@ -220,6 +221,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
 
+  if (!isPaymentCheckoutEnabled()) {
+    return NextResponse.json(
+      {
+        error: 'Ödeme altyapısı kapalı olduğu için sipariş senkronize edilemiyor.',
+        code: 'PAYMENTS_DISABLED',
+      },
+      { status: 503 },
+    );
+  }
+
   const { searchParams } = new URL(req.url);
   const sessionId = searchParams.get('session_id');
   if (!sessionId) {
@@ -235,10 +246,35 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const stripe = getStripe();
-  const checkout = await stripe.checkout.sessions.retrieve(sessionId, {
-    expand: ['line_items.data.price.product'],
-  });
+  let stripe;
+  try {
+    stripe = getStripe();
+  } catch (error) {
+    console.error('[orders/sync] stripe init failed:', error);
+    return NextResponse.json(
+      {
+        error: 'Ödeme altyapısı şu an hazır değil.',
+        code: 'PAYMENTS_NOT_CONFIGURED',
+      },
+      { status: 503 },
+    );
+  }
+
+  let checkout;
+  try {
+    checkout = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items.data.price.product'],
+    });
+  } catch (error) {
+    console.error('[orders/sync] stripe retrieve failed:', error);
+    return NextResponse.json(
+      {
+        error: 'Sipariş bilgisi alınamadı. Lütfen birkaç dakika sonra tekrar deneyin.',
+        code: 'SYNC_FAILED',
+      },
+      { status: 500 },
+    );
+  }
 
   const userId =
     checkout.metadata?.userId ||

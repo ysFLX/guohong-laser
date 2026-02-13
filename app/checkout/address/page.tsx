@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 
 type Address = {
   id: string;
@@ -62,7 +63,7 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-export default function CheckoutAddressPage() {
+function CheckoutAddressEnabled() {
   const router = useRouter();
   const { items, subtotalCents } = useCart();
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -1062,6 +1063,44 @@ export default function CheckoutAddressPage() {
       </div>
     </div>
   );
+}
+
+function CheckoutAddressDisabled() {
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+      <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)] dark:border-slate-800/70 dark:bg-slate-900/30">
+          <div className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">
+            Ödeme kapalı
+          </div>
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight">Şimdilik teklif ile ilerliyoruz</h1>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            Ödeme altyapısı hazırlanıyor. Sepetiniz için teklif isteyebilir veya WhatsApp hattından sipariş desteği
+            alabilirsiniz.
+          </p>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/cart"
+              className="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40 dark:text-white dark:hover:bg-slate-950/70"
+            >
+              Sepete dön
+            </Link>
+            <Link
+              href="/quote?product=Sepet%20Teklifi"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
+            >
+              Teklif iste
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function CheckoutAddressPage() {
+  return isPaymentCheckoutEnabled() ? <CheckoutAddressEnabled /> : <CheckoutAddressDisabled />;
 }
 
 

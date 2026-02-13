@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 
 type CheckoutItem = {
   id: string;
@@ -17,6 +18,16 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+  }
+
+  if (!isPaymentCheckoutEnabled()) {
+    return NextResponse.json(
+      {
+        error: 'Ödeme altyapısı şu an kapalı. Lütfen “Teklif iste” veya WhatsApp hattını kullanın.',
+        code: 'PAYMENTS_DISABLED',
+      },
+      { status: 503 },
+    );
   }
 
   let payload: { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
@@ -74,41 +85,62 @@ export async function POST(req: Request) {
     process.env.NEXT_PUBLIC_SITE_URL ||
     'http://localhost:3000';
 
-  const stripe = getStripe();
-  const sessionData = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    payment_method_types: ['card'],
-    locale: 'tr',
-    line_items: cleanItems.map((item) => ({
-      quantity: item.quantity,
-      price_data: {
-        currency: 'try',
-        unit_amount: item.priceCents,
-        product_data: {
-          name: item.name,
-          images: item.imageUrl ? [item.imageUrl] : undefined,
-        },
+  let stripe;
+  try {
+    stripe = getStripe();
+  } catch (error) {
+    console.error('[checkout] stripe init failed:', error);
+    return NextResponse.json(
+      {
+        error: 'Ödeme altyapısı şu an hazır değil. Lütfen “Teklif iste” üzerinden devam edin.',
+        code: 'PAYMENTS_NOT_CONFIGURED',
       },
-    })),
-    success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${appUrl}/checkout/cancel`,
-    client_reference_id: session.user.id,
-    customer_email: session.user.email || undefined,
-    metadata: {
-      userId: session.user.id,
-      addressId,
-      billingAddressId: billingAddressId || addressId,
-      cart: JSON.stringify(
-        cleanItems.map((item) => ({
-          id: item.id,
-          name: item.name,
-          priceCents: item.priceCents,
-          quantity: item.quantity,
-          imageUrl: item.imageUrl,
-        })),
-      ),
-    },
-  });
+      { status: 503 },
+    );
+  }
 
-  return NextResponse.json({ url: sessionData.url });
+  try {
+    const sessionData = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      locale: 'tr',
+      line_items: cleanItems.map((item) => ({
+        quantity: item.quantity,
+        price_data: {
+          currency: 'try',
+          unit_amount: item.priceCents,
+          product_data: {
+            name: item.name,
+            images: item.imageUrl ? [item.imageUrl] : undefined,
+          },
+        },
+      })),
+      success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${appUrl}/checkout/cancel`,
+      client_reference_id: session.user.id,
+      customer_email: session.user.email || undefined,
+      metadata: {
+        userId: session.user.id,
+        addressId,
+        billingAddressId: billingAddressId || addressId,
+        cart: JSON.stringify(
+          cleanItems.map((item) => ({
+            id: item.id,
+            name: item.name,
+            priceCents: item.priceCents,
+            quantity: item.quantity,
+            imageUrl: item.imageUrl,
+          })),
+        ),
+      },
+    });
+
+    return NextResponse.json({ url: sessionData.url });
+  } catch (error) {
+    console.error('[checkout] stripe checkout create failed:', error);
+    return NextResponse.json(
+      { error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
+      { status: 500 },
+    );
+  }
 }

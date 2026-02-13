@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 import BuyAgainButton from '@/components/profile/BuyAgainButton';
@@ -170,7 +171,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  if (!order.shippingAddressId && order.stripeSessionId) {
+  if (isPaymentCheckoutEnabled() && !order.shippingAddressId && order.stripeSessionId) {
     try {
       const stripe = getStripe();
       const checkout = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
