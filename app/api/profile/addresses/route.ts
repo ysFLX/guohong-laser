@@ -1,6 +1,7 @@
 ﻿import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import type { AddressInvoiceType } from '@/lib/invoicing/types';
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -8,10 +9,10 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ error: 'Kayıt sırasında hata' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
-  const body = await request.json();
+  const body = (await request.json()) as Record<string, unknown>;
 
   const invoiceTypeRaw = typeof body.invoiceType === 'string' ? body.invoiceType.trim().toUpperCase() : '';
-  const invoiceType = invoiceTypeRaw === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL';
+  const invoiceType: AddressInvoiceType = invoiceTypeRaw === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL';
 
   const baseData = {
     label: typeof body.label === 'string' ? body.label.trim() : null,
