@@ -176,6 +176,7 @@ export default function OrdersAdminManager() {
   const [notice, setNotice] = useState('');
   const [savingId, setSavingId] = useState<string | null>(null);
   const [invoicingId, setInvoicingId] = useState<string | null>(null);
+  const [batchInvoicing, setBatchInvoicing] = useState(false);
   const [draftStatus, setDraftStatus] = useState<Record<string, string>>({});
   const [draftTracking, setDraftTracking] = useState<Record<string, { carrier: string; number: string; url: string }>>(
     {},
@@ -201,6 +202,13 @@ export default function OrdersAdminManager() {
       acc[normalized] = (acc[normalized] || 0) + 1;
       return acc;
     }, {});
+  }, [orders]);
+  const queuedInvoiceCount = useMemo(() => {
+    return orders.reduce((acc, order) => {
+      const status = order.invoice?.status;
+      if (status === 'PENDING' || status === 'FAILED') return acc + 1;
+      return acc;
+    }, 0);
   }, [orders]);
   const filteredOrders = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -291,6 +299,53 @@ export default function OrdersAdminManager() {
       setError(message);
     } finally {
       setInvoicingId(null);
+    }
+  }
+
+  async function generateQueuedInvoices() {
+    if (batchInvoicing) return;
+    if (queuedInvoiceCount === 0) {
+      setNotice('Sırada fatura yok.');
+      return;
+    }
+
+    const limit = Math.min(25, Math.max(1, queuedInvoiceCount));
+    const ok = window.confirm(
+      `Sıradaki ${limit} proforma faturayı oluşturup müşterilerin e-posta adresine göndereyim mi?`,
+    );
+    if (!ok) return;
+
+    setBatchInvoicing(true);
+    setError('');
+    setNotice('');
+
+    try {
+      const res = await fetch('/api/admin/invoices/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ limit }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || 'Faturalar oluşturulamadı');
+      }
+
+      const issued = Number(data?.issuedCount || 0);
+      const emailed = Number(data?.emailedCount || 0);
+      const errorCount = Number(data?.errorCount || 0);
+
+      setNotice(
+        [`${issued} fatura oluşturuldu`, `${emailed} e-posta gönderildi`, errorCount ? `${errorCount} hata` : null]
+          .filter(Boolean)
+          .join(' • '),
+      );
+
+      await loadOrders();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Faturalar oluşturulamadı';
+      setError(message);
+    } finally {
+      setBatchInvoicing(false);
     }
   }
 
@@ -388,6 +443,13 @@ export default function OrdersAdminManager() {
           <div className="flex items-center gap-2">
             <AdminButton onClick={() => loadOrders()} tone="slate" variant="outline">
               Yenile
+            </AdminButton>
+            <AdminButton
+              onClick={generateQueuedInvoices}
+              tone="indigo"
+              disabled={batchInvoicing || queuedInvoiceCount === 0}
+            >
+              {batchInvoicing ? 'Oluşturuluyor…' : 'Faturaları oluştur'}
             </AdminButton>
             <AdminBadge tone="slate">{totalOrders} sipariş</AdminBadge>
           </div>
