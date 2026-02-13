@@ -75,3 +75,14 @@ Admin panelinde siparişte **Fatura oluştur** butonu sadece kuyruğa alır.
 Connector çalışıyorsa birkaç saniye içinde:
 - Admin’de ve “Siparişlerim > Sipariş detayı”nda **PDF indir / XML indir** görünür.
 
+## Test (Mikro’ya bağlanmadan)
+
+Gerçek fatura kesmeden akışın çalıştığını görmek için mock connector ile 1 faturayı “ISSUED” yapabilirsin:
+
+```bash
+APP_BASE_URL=https://guohong-laser.vercel.app
+INVOICE_CRON_SECRET=...
+npx tsx script/mock-invoice-connector.ts
+```
+
+Bu, kuyruğun ilk elemanını alır ve **test PDF/XML** yükleyerek faturayı tamamlar (MikroAPI çağrısı yapmaz).
