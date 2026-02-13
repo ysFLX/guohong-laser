@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
+import { createProformaPdf } from '@/lib/invoicing/proformaPdf';
 import { prisma } from '@/lib/prisma';
 import { completeLeasedInvoice, leasePendingInvoices } from '@/lib/invoicing/service';
 
@@ -12,57 +13,6 @@ export const runtime = 'nodejs';
 type Body = {
   limit?: number;
 };
-
-function escapePdfText(input: string) {
-  return input.replaceAll('\\', '\\\\').replaceAll('(', '\\(').replaceAll(')', '\\)');
-}
-
-function createMinimalPdf(lines: string[]) {
-  const safeLines = lines.map((line) => escapePdfText(line)).slice(0, 40);
-
-  const chunks: string[] = [];
-  const offsets: number[] = [];
-  let offset = 0;
-
-  const push = (value: string) => {
-    chunks.push(value);
-    offset += Buffer.byteLength(value, 'utf8');
-  };
-
-  push('%PDF-1.4\n');
-
-  offsets[1] = offset;
-  push('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
-
-  offsets[2] = offset;
-  push('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
-
-  offsets[3] = offset;
-  push(
-    '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>\nendobj\n',
-  );
-
-  const contentLines = safeLines.length ? safeLines : ['PROFORMA'];
-  const content = `BT\n/F1 12 Tf\n16 TL\n72 760 Td\n${contentLines
-    .map((line, idx) => `${idx === 0 ? '' : 'T*\\n'}(${line}) Tj`)
-    .join('\\n')}\nET\n`;
-
-  offsets[4] = offset;
-  push(`4 0 obj\n<< /Length ${Buffer.byteLength(content, 'utf8')} >>\nstream\n${content}endstream\nendobj\n`);
-
-  offsets[5] = offset;
-  push('5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n');
-
-  const xrefOffset = offset;
-  push('xref\n0 6\n0000000000 65535 f \n');
-  for (let i = 1; i <= 5; i += 1) {
-    const pos = String(offsets[i] || 0).padStart(10, '0');
-    push(`${pos} 00000 n \n`);
-  }
-  push(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`);
-
-  return Buffer.from(chunks.join(''), 'utf8');
-}
 
 function getEmailTransporter() {
   const smtpUser = process.env.SMTP_USER;
@@ -212,11 +162,48 @@ export async function POST(req: Request) {
           where: { id: orderId },
           select: {
             id: true,
+            status: true,
             createdAt: true,
             totalCents: true,
             currency: true,
             user: { select: { name: true, email: true } },
             items: { select: { name: true, quantity: true, priceCents: true } },
+            billingAddress: {
+              select: {
+                label: true,
+                fullName: true,
+                phone: true,
+                line1: true,
+                line2: true,
+                city: true,
+                state: true,
+                postalCode: true,
+                country: true,
+                invoiceType: true,
+                companyName: true,
+                taxOffice: true,
+                taxNumber: true,
+                identityNumber: true,
+              },
+            },
+            shippingAddress: {
+              select: {
+                label: true,
+                fullName: true,
+                phone: true,
+                line1: true,
+                line2: true,
+                city: true,
+                state: true,
+                postalCode: true,
+                country: true,
+                invoiceType: true,
+                companyName: true,
+                taxOffice: true,
+                taxNumber: true,
+                identityNumber: true,
+              },
+            },
           },
         });
 
@@ -226,27 +213,7 @@ export async function POST(req: Request) {
         }
 
         const invoiceNumber = `PROFORMA-${order.id.slice(0, 8)}`;
-        const createdAt = order.createdAt ? new Date(order.createdAt).toLocaleString('tr-TR') : '';
-        const totalTry = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(
-          (order.totalCents || 0) / 100,
-        );
-
-        const lines: string[] = [
-          'PROFORMA / GEÇİCİ BELGE',
-          `Belge no: ${invoiceNumber}`,
-          `Sipariş: #${order.id.slice(0, 8)}`,
-          createdAt ? `Tarih: ${createdAt}` : '',
-          order.user?.name ? `Müşteri: ${order.user.name}` : `Müşteri: ${to}`,
-          '',
-          'Ürünler:',
-          ...(order.items || []).map((it) => `- ${it.name} x${it.quantity} (${(it.priceCents / 100).toFixed(2)} TL)`),
-          '',
-          `Toplam: ${totalTry}`,
-          '',
-          'Not: Resmi e-Fatura ayrı iletilecektir.',
-        ].filter(Boolean);
-
-        const pdfBuffer = createMinimalPdf(lines);
+        const pdfBuffer = await createProformaPdf({ order, invoiceNumber, issuedAtIso: nowIso });
         const xmlBuffer = Buffer.from(
           `<?xml version="1.0" encoding="UTF-8"?><Proforma orderId="${order.id}" issuedAt="${nowIso}" />`,
           'utf8',
