@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-700">Yükleniyor...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#050914] text-white/70">Yukleniyor...</div>}>
       <LoginClient />
     </Suspense>
   );
