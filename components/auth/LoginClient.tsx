@@ -112,6 +112,9 @@ export default function LoginClient() {
       </div>
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
+        <div className="lg:col-span-2 rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
+          Premium Test Build - 2026-02-17
+        </div>
         <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(20,18,13,0.96)_0%,rgba(10,10,10,0.94)_45%,rgba(30,24,15,0.95)_100%)] p-9 lg:flex lg:flex-col">
           <div className="pointer-events-none absolute -top-16 right-0 h-48 w-48 rounded-full bg-amber-200/20 blur-3xl" />
           <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 rounded-full bg-yellow-500/20 blur-3xl" />

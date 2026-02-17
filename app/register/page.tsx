@@ -128,6 +128,9 @@ function RegisterPageContent() {
       </div>
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
+        <div className="lg:col-span-2 rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
+          Premium Test Build - 2026-02-17
+        </div>
         <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(22,18,11,0.96)_0%,rgba(10,10,10,0.94)_46%,rgba(30,22,12,0.95)_100%)] p-9 lg:flex lg:flex-col">
           <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100">
             Executive Onboarding
