@@ -558,8 +558,11 @@ export default async function Home() {
   }
 
   return (
-    <div className={`${space.className} bg-[#f3f5fb] text-slate-900 dark:bg-slate-950 dark:text-slate-100`}>
+    <div className={`${space.className} bg-[#070707] text-amber-50`}>
       <div className="relative overflow-hidden">
+        <div className="mx-auto mb-6 mt-4 w-full rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
+          Premium Homepage Build - 2026-02-17
+        </div>
         <div
           className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-indigo-500/15 glow-drift"
           style={{ animationDelay: '0ms' }}
@@ -571,9 +574,9 @@ export default async function Home() {
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px] dark:opacity-20 dark:[background-image:linear-gradient(120deg,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.12)_1px,transparent_1px)]" />
 
         <Reveal as="section" className="relative mx-auto w-full px-0 pb-12 pt-12">
-          <div className="relative overflow-hidden rounded-[44px] bg-gradient-to-br from-indigo-950 via-slate-950 to-indigo-900 text-white shadow-[0_50px_140px_rgba(15,23,42,0.45)]">
-            <div className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-indigo-500/25 blur-[140px]" />
-            <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-indigo-400/20 blur-[160px]" />
+          <div className="relative overflow-hidden rounded-[44px] bg-gradient-to-br from-[#171108] via-[#0b0b0b] to-[#2a1d0f] text-white shadow-[0_50px_140px_rgba(0,0,0,0.6)]">
+            <div className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-amber-500/25 blur-[140px]" />
+            <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-amber-400/20 blur-[160px]" />
             <div className="relative grid gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-14 lg:py-14">
               <div className="space-y-6">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.4em] text-white/70">
@@ -581,7 +584,7 @@ export default async function Home() {
                 </div>
                 <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
                   Üretim hatlarını
-                  <span className="block text-indigo-300">tek panelde yönet</span>
+                  <span className="block text-amber-300">tek panelde yönet</span>
                 </h1>
                 <p className="max-w-xl text-base text-white/70">
                   Makine, yedek parça ve teknik destek tek sistemde. Hattını hızlandıran, servis akışını netleştiren
@@ -596,7 +599,7 @@ export default async function Home() {
                 </Link>
                 <Link
                   href="/spare-parts"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-indigo-400 px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-300 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-amber-400 px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-amber-500/25 transition hover:-translate-y-0.5 hover:bg-amber-300 sm:w-auto"
                 >
                   Yedek parça al
                 </Link>
@@ -655,17 +658,17 @@ export default async function Home() {
       </div>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[32px] border border-indigo-100/80 bg-white/95 p-6 shadow-xl dark:border-slate-800/70 dark:bg-slate-900/70 ambient-pulse gradient-shift bg-[linear-gradient(120deg,rgba(20,184,166,0.08),rgba(255,255,255,0.95),rgba(250,204,21,0.12))]">
+        <div className="rounded-[32px] border border-amber-200/30 bg-[#121212] p-6 shadow-xl ambient-pulse gradient-shift bg-[linear-gradient(120deg,rgba(251,191,36,0.12),rgba(18,18,18,0.95),rgba(250,204,21,0.14))]">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-300">Video galerisi</p>
-              <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Video galerisi</p>
+              <h2 className="mt-2 text-2xl font-semibold text-amber-50">
                 Sac, boru ve demir kesim hatları
               </h2>
             </div>
             <Link
               href="/gallery"
-              className="rounded-full border border-indigo-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700 hover:border-indigo-300 dark:border-indigo-500/40 dark:text-indigo-200"
+              className="rounded-full border border-amber-200/40 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-100 hover:border-amber-300/60"
             >
               Galeriye Git
             </Link>
@@ -1249,7 +1252,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0 pb-16">
-        <div className="grid gap-6 rounded-[36px] border border-white/10 bg-gradient-to-r from-slate-900 via-indigo-900/60 to-slate-900 p-8 text-white shadow-2xl">
+        <div className="grid gap-6 rounded-[36px] border border-amber-200/20 bg-gradient-to-r from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi baslayalim</p>
