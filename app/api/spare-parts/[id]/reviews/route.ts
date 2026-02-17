@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { revalidateTag, unstable_cache } from 'next/cache';
 
 import { prisma } from '@/lib/prisma';
 import { OrderStatus } from '@prisma/client';
 import { authOptions } from '@/auth';
+
+const REVIEWS_CACHE_TAG = 'spare-part-reviews';
 
 const allowedStatuses: OrderStatus[] = [
   OrderStatus.PAID,
@@ -85,13 +88,8 @@ const buildSummary = (ratings: number[]): ReviewSummary => {
   return { count, average, breakdown };
 };
 
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id: sparePartId } = await params;
-
+const loadApprovedReviews = unstable_cache(
+  async (sparePartId: string) => {
     const reviews = await prisma.sparePartReview.findMany({
       where: { sparePartId, isApproved: true },
       orderBy: { createdAt: 'desc' },
@@ -103,6 +101,24 @@ export async function GET(
     });
 
     const summary = buildSummary(reviews.map((review) => review.rating));
+
+    return {
+      reviews,
+      summary,
+    };
+  },
+  ['spare-part:reviews:v1'],
+  { revalidate: 60, tags: [REVIEWS_CACHE_TAG] },
+);
+
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id: sparePartId } = await params;
+
+    const { reviews, summary } = await loadApprovedReviews(sparePartId);
 
     const session = await getServerSession(authOptions);
     let reviewStatus = { canReview: false, hasReviewed: false };
@@ -179,6 +195,8 @@ export async function POST(
         },
       },
     });
+
+    revalidateTag(REVIEWS_CACHE_TAG, 'max');
 
     return NextResponse.json({
       item: {

@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
+import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
 
 export const runtime = 'nodejs';
 
@@ -527,6 +528,12 @@ export async function POST(req: Request) {
       }
 
       if (created?.id && nextStatus === 'RECEIVED') {
+        try {
+          await enqueueInvoiceForOrder({ orderId: created.id });
+        } catch (error) {
+          console.error('[stripe/webhook] invoice enqueue failed:', error);
+        }
+
         await notifyStatus(
           userId,
           nextStatus,
@@ -614,6 +621,11 @@ export async function POST(req: Request) {
       );
       try {
         await sendOrderEmailForOrder(existing.id);
+        try {
+          await enqueueInvoiceForOrder({ orderId: existing.id });
+        } catch (error) {
+          console.error('[stripe/webhook] invoice enqueue failed:', error);
+        }
       } catch (error) {
         console.error('Sipariş e-postası gönderilemedi:', error);
       }
@@ -753,6 +765,11 @@ export async function POST(req: Request) {
       if (intentStatus === 'RECEIVED') {
         try {
           await sendOrderEmailForOrder(existing.id);
+          try {
+            await enqueueInvoiceForOrder({ orderId: existing.id });
+          } catch (error) {
+            console.error('[stripe/webhook] invoice enqueue failed:', error);
+          }
         } catch (error) {
           console.error('Sipariş e-postası gönderilemedi:', error);
         }

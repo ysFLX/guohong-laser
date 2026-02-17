@@ -126,6 +126,7 @@ export default function ProfilePage() {
   const [returnRequests, setReturnRequests] = useState<ReturnRequestItem[]>([]);
   const [returnsLoading, setReturnsLoading] = useState(false);
   const [returnsError, setReturnsError] = useState('');
+  const [activeTab, setActiveTab] = useState<'account' | 'returns' | 'security' | 'notifications'>('account');
 
   useEffect(() => {
     if (!prefsReady) return;
@@ -445,6 +446,12 @@ export default function ProfilePage() {
       ? 'Customer'
       : 'Müşteri';
   const hasAddress = showAddress;
+  const tabs = [
+    { id: 'account', label: 'Hesap' },
+    { id: 'returns', label: 'İadeler' },
+    { id: 'security', label: 'Güvenlik' },
+    { id: 'notifications', label: 'Bildirimler' },
+  ] as const;
 
   return (
     <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_[class*='border-slate-200/70']]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
@@ -509,6 +516,27 @@ export default function ProfilePage() {
 
       {loadError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{loadError}</div>}
 
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200/70 bg-white/90 p-2 shadow-sm dark:border-white/10 dark:bg-slate-900/40">
+        {tabs.map((tab) => {
+          const active = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
+                active
+                  ? 'bg-indigo-600 text-white shadow-[0_10px_30px_rgba(79,70,229,0.35)]'
+                  : 'text-slate-600 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/60'
+              }`}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {(activeTab === 'account' || activeTab === 'returns') ? (
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[340px_1fr]">
         <div className="space-y-4">
           <ProfileAvatarUploader
@@ -541,6 +569,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="space-y-6">
+          {activeTab === 'account' ? (
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-white/5">
             <div>
               <div className="text-sm font-semibold text-slate-900">Kişisel bilgiler</div>
@@ -611,7 +640,9 @@ export default function ProfilePage() {
               </button>
             </div>
           </div>
+          ) : null}
 
+          {activeTab === 'returns' ? (
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -669,12 +700,16 @@ export default function ProfilePage() {
               </div>
             )}
           </div>
+          ) : null}
 
         </div>
 
       </div>
+      ) : null}
 
+      {(activeTab === 'security' || activeTab === 'notifications') ? (
       <div className="grid gap-6 lg:grid-cols-2">
+        {activeTab === 'security' ? (
         <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.securityTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.securityBody}</p>
@@ -707,6 +742,9 @@ export default function ProfilePage() {
           </div>
           <div className="mt-4 text-[11px] uppercase tracking-[0.2em] text-slate-400">{copy.securityNote}</div>
         </div>
+        ) : null}
+
+        {activeTab === 'notifications' ? (
         <div className="rounded-[24px] border border-slate-200/70 bg-white p-5 shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)]">
           <div className="text-sm font-semibold text-slate-900">{copy.notifyTitle}</div>
           <p className="mt-2 text-sm text-slate-600">{copy.notifyBody}</p>
@@ -777,7 +815,9 @@ export default function ProfilePage() {
             {prefsSaving ? 'Kaydediliyor...' : copy.savedNote}
           </div>
         </div>
+        ) : null}
       </div>
+      ) : null}
 
       {saveError && <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{saveError}</div>}
       {saveSuccess && (

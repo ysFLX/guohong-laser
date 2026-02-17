@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
@@ -138,10 +139,13 @@ export default function Header() {
         <div className="flex h-16 items-center gap-3">
           <Link href="/" className="inline-flex items-center gap-3">
             {!logoError ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={logoSrc}
                 alt="Guohong Lazer"
+                width={180}
+                height={48}
+                sizes="(max-width: 640px) 160px, 180px"
+                priority
                 className="h-10 w-auto sm:h-12"
                 onError={() => setLogoError(true)}
               />

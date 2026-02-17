@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProductNames } from '@/lib/machineCatalog';
@@ -11,6 +12,7 @@ import { trackEvent } from '@/lib/analytics';
 function QuotePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -27,12 +29,27 @@ function QuotePageContent() {
   const [info, setInfo] = useState('');
 
   const preselectedProduct = useMemo(() => (searchParams.get('product') ?? '').trim(), [searchParams]);
+  const preselectedMessage = useMemo(() => (searchParams.get('message') ?? '').trim(), [searchParams]);
 
   useEffect(() => {
     if (!preselectedProduct) return;
-    if (!machineProductNames.includes(preselectedProduct)) return;
     setFormData((prev) => (prev.product ? prev : { ...prev, product: preselectedProduct }));
   }, [preselectedProduct]);
+
+  useEffect(() => {
+    if (!preselectedMessage) return;
+    setFormData((prev) => (prev.message ? prev : { ...prev, message: preselectedMessage }));
+  }, [preselectedMessage]);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    setFormData((prev) => ({
+      ...prev,
+      name: prev.name || session.user.name || '',
+      email: prev.email || session.user.email || '',
+      phone: prev.phone || session.user.phone || '',
+    }));
+  }, [session?.user?.email, session?.user?.name, session?.user?.phone]);
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
@@ -225,6 +242,9 @@ function QuotePageContent() {
                   className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                 >
                   <option value="">Ürün seçiniz</option>
+                  {formData.product && !machineProductNames.includes(formData.product) ? (
+                    <option value={formData.product}>{formData.product}</option>
+                  ) : null}
                   {machineProductNames.map((product) => (
                     <option key={product} value={product}>
                       {product}

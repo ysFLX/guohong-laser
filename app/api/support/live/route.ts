@@ -43,7 +43,7 @@ function splitInquiryToMessages(inquiry: {
   return result;
 }
 
-const SUPPORT_AGENT_FALLBACK = 'Guohong Destek';
+const SUPPORT_AGENT_FALLBACK = 'Müşteri Hizmetleri';
 const AGENT_TYPING_WINDOW_MS = 12_000;
 
 export async function GET() {
@@ -73,11 +73,6 @@ export async function GET() {
       status: true,
       adminResponse: true,
       respondedAt: true,
-      respondedByUser: {
-        select: {
-          name: true,
-        },
-      },
     },
   });
 
@@ -87,12 +82,6 @@ export async function GET() {
 
   const openInquiries = inquiries.filter((item) => !item.adminResponse && item.status !== 'CLOSED');
   const latestOpen = openInquiries[0] ?? null;
-
-  const latestAnswered = inquiries.find((item) => Boolean(item.adminResponse));
-  const supportAgentName =
-    latestAnswered?.respondedByUser?.name
-    || latestOpen?.respondedByUser?.name
-    || SUPPORT_AGENT_FALLBACK;
 
   const waitingReply = openInquiries.length > 0;
   const agentTyping = Boolean(
@@ -104,7 +93,7 @@ export async function GET() {
   return NextResponse.json({
     authenticated: true,
     messages,
-    supportAgentName,
+    supportAgentName: SUPPORT_AGENT_FALLBACK,
     supportOnline: true,
     waitingReply,
     agentTyping,

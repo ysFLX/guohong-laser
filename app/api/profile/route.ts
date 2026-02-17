@@ -13,24 +13,66 @@ export async function GET() {
     });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      firstName: true,
-      lastName: true,
-      phone: true,
-      image: true,
-      twoFactorEnabled: true,
-      role: true,
-      notificationPrefs: true,
-      addresses: {
-        orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
-      },
-    } as unknown as Prisma.UserSelect,
-  });
+  const addressSelectBase = {
+    id: true,
+    label: true,
+    fullName: true,
+    phone: true,
+    line1: true,
+    line2: true,
+    city: true,
+    state: true,
+    postalCode: true,
+    country: true,
+    isDefault: true,
+  };
+
+  const addressSelectInvoice = {
+    ...addressSelectBase,
+    invoiceType: true,
+    companyName: true,
+    taxOffice: true,
+    taxNumber: true,
+    identityNumber: true,
+  };
+
+  const userSelectBase = {
+    id: true,
+    email: true,
+    name: true,
+    firstName: true,
+    lastName: true,
+    phone: true,
+    image: true,
+    twoFactorEnabled: true,
+    role: true,
+    notificationPrefs: true,
+    addresses: {
+      orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
+      select: addressSelectBase,
+    },
+  };
+
+  const userSelectInvoice = {
+    ...userSelectBase,
+    addresses: {
+      orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
+      select: addressSelectInvoice,
+    },
+  };
+
+  let user = null;
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: userSelectInvoice as unknown as Prisma.UserSelect,
+    });
+  } catch {
+    user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: userSelectBase as unknown as Prisma.UserSelect,
+    });
+  }
 
   return new Response(JSON.stringify({ user }), {
     status: 200,
@@ -115,10 +157,42 @@ export async function PUT(request: Request) {
       });
     }
 
-    const addresses = await tx.address.findMany({
-      where: { userId: session.user.id },
-      orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
-    });
+    const addressSelectBase = {
+      id: true,
+      label: true,
+      fullName: true,
+      phone: true,
+      line1: true,
+      line2: true,
+      city: true,
+      state: true,
+      postalCode: true,
+      country: true,
+      isDefault: true,
+    };
+    const addressSelectInvoice = {
+      ...addressSelectBase,
+      invoiceType: true,
+      companyName: true,
+      taxOffice: true,
+      taxNumber: true,
+      identityNumber: true,
+    };
+
+    let addresses = [];
+    try {
+      addresses = await tx.address.findMany({
+        where: { userId: session.user.id },
+        orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
+        select: addressSelectInvoice,
+      });
+    } catch {
+      addresses = await tx.address.findMany({
+        where: { userId: session.user.id },
+        orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
+        select: addressSelectBase,
+      });
+    }
 
     return { user, addresses };
   });

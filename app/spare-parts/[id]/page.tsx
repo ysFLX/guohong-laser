@@ -3,7 +3,12 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { prisma } from '@/lib/prisma';
+import {
+  getBoughtTogetherSpareParts,
+  getRelatedSpareParts,
+  getSparePartById,
+  getSparePartReviewSummary,
+} from '@/lib/sparePartsData';
 
 import ViewItemEvent from '@/components/analytics/ViewItemEvent';
 import AddToCartButton from '@/components/cart/AddToCartButton';
@@ -25,35 +30,12 @@ type SparePartDetail = {
   category: { id: string; name: string; slug: string };
 };
 
-type SparePartFindUniqueResult = {
-  id: string;
-  name: string;
-  description: string;
-  dimensions: string | null;
-  priceCents: number;
-  currency: string;
-  imageUrl: string | null;
-  images: Array<{ id: string; url: string }>;
-  stockOnHand: number;
-  isFeatured: boolean;
-  category: { id: string; name: string; slug: string };
-} | null;
-
 type RelatedPart = {
   id: string;
   name: string;
   priceCents: number;
   imageUrl: string | null;
   category: { name: string };
-};
-
-type SparePartFindManyResult = RelatedPart[];
-
-const prismaSpareParts = prisma as unknown as {
-  sparePart: {
-    findUnique: (args: unknown) => Promise<SparePartFindUniqueResult>;
-    findMany: (args: unknown) => Promise<SparePartFindManyResult>;
-  };
 };
 
 const compatibilityByCategory: Record<string, string[]> = {
@@ -103,20 +85,12 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const part = await prismaSpareParts.sparePart.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      imageUrl: true,
-      images: { select: { url: true } },
-      category: { select: { name: true } },
-      priceCents: true,
-      currency: true,
-      stockOnHand: true,
-    },
-  });
+  let part: Awaited<ReturnType<typeof getSparePartById>> | null = null;
+  try {
+    part = await getSparePartById(id);
+  } catch {
+    part = null;
+  }
 
   if (!part) {
     return {
@@ -207,31 +181,16 @@ const renderStars = (average: number) =>
 
 export default async function SparePartDetailPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { id } = await params;
-  const sp = (await searchParams) ?? {};
-  const rawFrom = sp.from;
-  const from = (typeof rawFrom === 'string' ? rawFrom : Array.isArray(rawFrom) ? rawFrom[0] : '').trim();
-  const backHref =
-    from &&
-    from.length < 800 &&
-    from.startsWith('/spare-parts') &&
-    !from.startsWith('//') &&
-    !from.includes('://')
-      ? from
-      : '/spare-parts';
+  const backHref = '/spare-parts';
 
-  const part = await prismaSpareParts.sparePart.findUnique({
-    where: { id },
-    include: {
-      category: true,
-      images: { orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }] },
-    },
-  });
+  const [part, review] = await Promise.all([
+    getSparePartById(id).catch(() => null),
+    getSparePartReviewSummary(id),
+  ]);
 
   if (!part) notFound();
 
@@ -253,77 +212,18 @@ export default async function SparePartDetailPage({
     },
   };
 
-  const reviewSummary = await prisma.sparePartReview.aggregate({
-    where: { sparePartId: id, isApproved: true },
-    _avg: { rating: true },
-    _count: { rating: true },
-  });
-  const ratingCount = reviewSummary._count.rating ?? 0;
-  const ratingAverage = Number(reviewSummary._avg.rating ?? 0);
+  const ratingCount = review.ratingCount;
+  const ratingAverage = review.ratingAverage;
 
   const baseUrl = getBaseUrl().replace(/\/$/, '');
   const productUrl = `${baseUrl}/spare-parts/${p.id}`;
   const whatsAppText = `Merhaba, ${p.name} yedek parçası hakkında bilgi almak istiyorum.\nLink: ${productUrl}`;
   const whatsAppHref = `https://wa.me/905368316787?text=${encodeURIComponent(whatsAppText)}`;
 
-  const related = await prismaSpareParts.sparePart.findMany({
-    where: {
-      category: { id: part.category.id },
-      NOT: { id },
-    },
-    take: 3,
-    select: {
-      id: true,
-      name: true,
-      priceCents: true,
-      imageUrl: true,
-      category: { select: { name: true } },
-    },
-  });
-
-  const orderIdRows = await prisma.orderItem.findMany({
-    where: { sparePartId: id },
-    select: { orderId: true },
-  });
-  const orderIds = Array.from(new Set(orderIdRows.map((row) => row.orderId)));
-  let boughtTogether: RelatedPart[] = [];
-
-  if (orderIds.length > 0) {
-    const coItems = await prisma.orderItem.findMany({
-      where: {
-        orderId: { in: orderIds },
-        sparePartId: { not: id },
-      },
-      select: {
-        sparePartId: true,
-        sparePart: {
-          select: {
-            id: true,
-            name: true,
-            priceCents: true,
-            imageUrl: true,
-            category: { select: { name: true } },
-          },
-        },
-      },
-    });
-
-    const counts = new Map<string, { item: RelatedPart; count: number }>();
-    for (const item of coItems) {
-      if (!item.sparePartId || !item.sparePart) continue;
-      const existing = counts.get(item.sparePartId);
-      if (existing) {
-        existing.count += 1;
-      } else {
-        counts.set(item.sparePartId, { item: item.sparePart, count: 1 });
-      }
-    }
-
-    boughtTogether = Array.from(counts.values())
-      .sort((a, b) => b.count - a.count)
-      .map((entry) => entry.item)
-      .slice(0, 3);
-  }
+  const [related, boughtTogether] = await Promise.all([
+    getRelatedSpareParts(part.category.id, id),
+    getBoughtTogetherSpareParts(id),
+  ]);
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const inStock = p.stockOnHand > 0;

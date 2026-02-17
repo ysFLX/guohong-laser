@@ -48,6 +48,7 @@ function TypingDots() {
 
 export default function SupportWidget() {
   const pathname = usePathname();
+  const supportTitle = 'Müşteri Hizmetleri';
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -55,7 +56,6 @@ export default function SupportWidget() {
   const [authenticated, setAuthenticated] = useState(false);
   const [messages, setMessages] = useState<LiveMessage[]>([]);
   const [input, setInput] = useState('');
-  const [supportAgentName, setSupportAgentName] = useState('Guohong Destek');
   const [supportOnline, setSupportOnline] = useState(true);
   const [waitingReply, setWaitingReply] = useState(false);
   const [agentTyping, setAgentTyping] = useState(false);
@@ -105,7 +105,6 @@ export default function SupportWidget() {
       if (Array.isArray(data.messages)) {
         setMessages(data.messages);
       }
-      setSupportAgentName(data.supportAgentName || 'Guohong Destek');
       setSupportOnline(data.supportOnline !== false);
       setWaitingReply(Boolean(data.waitingReply));
       setAgentTyping(Boolean(data.agentTyping));
@@ -200,9 +199,9 @@ export default function SupportWidget() {
         <div
           role="dialog"
           aria-label="Canlı destek"
-          className="mb-3 w-[min(92vw,380px)] overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.22)] backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/95"
+          className="mb-3 w-[min(92vw,390px)] overflow-hidden rounded-3xl border border-slate-200/70 bg-white/95 shadow-[0_24px_80px_rgba(15,23,42,0.24)] backdrop-blur dark:border-slate-800/60 dark:bg-slate-950/90"
         >
-          <div className="bg-gradient-to-r from-indigo-700 to-indigo-600 px-5 py-4 text-white">
+          <div className="bg-gradient-to-r from-indigo-700 via-indigo-600 to-violet-600 px-5 py-4 text-white">
             <div className="flex items-center justify-between gap-3">
               <div className="text-xs uppercase tracking-[0.3em] text-indigo-100">Canlı Destek</div>
               <div className="flex items-center gap-2">
@@ -231,15 +230,15 @@ export default function SupportWidget() {
                 </button>
               </div>
             </div>
-            <div className="mt-2 text-sm font-semibold">{supportAgentName}</div>
+            <div className="mt-2 text-sm font-semibold">{supportTitle}</div>
             <p className="mt-1 text-xs text-indigo-100">
-              Gerçek zamanlı destek için mesajını bırak, ekip panelde anında görür.
+              Gerçek zamanlı destek için mesajını bırak, ekip kısa sürede yanıtlar.
             </p>
           </div>
 
           <div
             ref={scrollAreaRef}
-            className="max-h-[360px] space-y-3 overflow-y-auto bg-slate-50 px-5 py-4 text-sm dark:bg-slate-900/30"
+            className="max-h-[380px] space-y-3 overflow-y-auto bg-slate-50/70 px-5 py-4 text-sm dark:bg-slate-950/40"
           >
             {loading && !hasMessages && <div className="text-xs text-slate-500">Yükleniyor...</div>}
 
@@ -256,8 +255,8 @@ export default function SupportWidget() {
                     <div
                       className={
                         item.role === 'user'
-                          ? 'max-w-[85%] rounded-2xl rounded-br-md bg-indigo-600 px-3 py-2 text-xs text-white shadow-sm'
-                          : 'max-w-[85%] rounded-2xl rounded-bl-md border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 shadow-sm dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-200'
+                          ? 'max-w-[85%] rounded-2xl rounded-br-md bg-gradient-to-br from-indigo-600 to-violet-600 px-3 py-2 text-xs text-white shadow-[0_10px_25px_rgba(79,70,229,0.25)]'
+                          : 'max-w-[85%] rounded-2xl rounded-bl-md border border-slate-200/80 bg-white/95 px-3 py-2 text-xs text-slate-700 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-200'
                       }
                     >
                       <div>{item.text}</div>
@@ -277,7 +276,7 @@ export default function SupportWidget() {
                 {agentTyping && (
                   <div className="flex items-center gap-2">
                     <TypingDots />
-                    <span className="text-[10px] font-medium text-slate-500">{supportAgentName} yazıyor...</span>
+                    <span className="text-[10px] font-medium text-slate-500">{supportTitle} yazıyor...</span>
                   </div>
                 )}
 
@@ -318,13 +317,13 @@ export default function SupportWidget() {
                     if (event.key === 'Enter') sendMessage();
                   }}
                   placeholder="Mesajınızı yazın..."
-                  className="h-10 w-full rounded-full border border-slate-200 bg-white px-4 text-xs text-slate-700 outline-none focus:border-indigo-400 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-200"
+                  className="h-10 w-full rounded-full border border-slate-200/80 bg-white/95 px-4 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-200"
                 />
                 <button
                   type="button"
                   onClick={sendMessage}
                   disabled={sending || !input.trim()}
-                  className="inline-flex h-10 items-center justify-center rounded-full bg-indigo-600 px-4 text-xs font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                  className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-4 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(79,70,229,0.25)] transition hover:opacity-95 disabled:opacity-60"
                 >
                   {sending ? '...' : 'Gönder'}
                 </button>
@@ -353,7 +352,7 @@ export default function SupportWidget() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-xl ring-1 ring-white/20 transition hover:scale-[1.03] hover:bg-indigo-700"
+        className="relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-[0_18px_55px_rgba(79,70,229,0.35)] ring-1 ring-white/20 transition hover:scale-[1.03] hover:opacity-95"
         aria-label={open ? 'Canlı destek penceresini kapat' : 'Canlı destek penceresini aç'}
       >
         <span

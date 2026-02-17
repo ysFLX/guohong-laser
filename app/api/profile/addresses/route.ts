@@ -1,6 +1,7 @@
 ﻿import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import type { AddressInvoiceType } from '@/lib/invoicing/types';
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -8,9 +9,12 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ error: 'Kayıt sırasında hata' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
-  const body = await request.json();
+  const body = (await request.json()) as Record<string, unknown>;
 
-  const data = {
+  const invoiceTypeRaw = typeof body.invoiceType === 'string' ? body.invoiceType.trim().toUpperCase() : '';
+  const invoiceType: AddressInvoiceType = invoiceTypeRaw === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL';
+
+  const baseData = {
     label: typeof body.label === 'string' ? body.label.trim() : null,
     fullName: typeof body.fullName === 'string' ? body.fullName.trim() : null,
     phone: typeof body.phone === 'string' ? body.phone.trim() : null,
@@ -23,11 +27,60 @@ export async function POST(request: Request) {
     isDefault: false,
   };
 
-  try {
-    // If new address isDefault true logic not implemented in form; keep simple create
-    const created = await prisma.address.create({ data: { userId: session.user.id, ...data } });
+  const invoiceData = {
+    ...baseData,
+    invoiceType,
+    companyName: typeof body.companyName === 'string' ? body.companyName.trim() : null,
+    taxOffice: typeof body.taxOffice === 'string' ? body.taxOffice.trim() : null,
+    taxNumber: typeof body.taxNumber === 'string' ? body.taxNumber.trim() : null,
+    identityNumber: typeof body.identityNumber === 'string' ? body.identityNumber.trim() : null,
+  };
 
-    const addresses = await prisma.address.findMany({ where: { userId: session.user.id }, orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }] });
+  try {
+    const addressSelectBase = {
+      id: true,
+      label: true,
+      fullName: true,
+      phone: true,
+      line1: true,
+      line2: true,
+      city: true,
+      state: true,
+      postalCode: true,
+      country: true,
+      isDefault: true,
+    };
+
+    const addressSelectInvoice = {
+      ...addressSelectBase,
+      invoiceType: true,
+      companyName: true,
+      taxOffice: true,
+      taxNumber: true,
+      identityNumber: true,
+    };
+
+    let created;
+    try {
+      created = await prisma.address.create({ data: { userId: session.user.id, ...invoiceData } });
+    } catch {
+      created = await prisma.address.create({ data: { userId: session.user.id, ...baseData } });
+    }
+
+    let addresses = [];
+    try {
+      addresses = await prisma.address.findMany({
+        where: { userId: session.user.id },
+        orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
+        select: addressSelectInvoice,
+      });
+    } catch {
+      addresses = await prisma.address.findMany({
+        where: { userId: session.user.id },
+        orderBy: [{ isDefault: 'desc' }, { updatedAt: 'desc' }],
+        select: addressSelectBase,
+      });
+    }
 
     return new Response(JSON.stringify({ success: true, address: created, addresses }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e: unknown) {

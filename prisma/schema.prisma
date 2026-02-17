@@ -92,6 +92,11 @@ model Address {
   state      String?
   postalCode String?
   country    String?
+  invoiceType AddressInvoiceType @default(INDIVIDUAL)
+  companyName String?
+  taxOffice   String?
+  taxNumber   String?
+  identityNumber String?
   isDefault  Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -136,6 +141,11 @@ enum StockMovementReason {
   SALE
   RETURN
   DAMAGE
+}
+
+enum AddressInvoiceType {
+  INDIVIDUAL
+  COMPANY
 }
 
 model SparePartCategory {
@@ -326,12 +336,51 @@ model Order {
   shippingAddress Address? @relation("OrderShippingAddress", fields: [shippingAddressId], references: [id], onDelete: SetNull)
   billingAddress  Address? @relation("OrderBillingAddress", fields: [billingAddressId], references: [id], onDelete: SetNull)
   items OrderItem[]
+  invoice Invoice?
   notifications UserNotification[]
 
   @@index([userId])
   @@index([createdAt])
   @@index([shippingAddressId])
   @@index([billingAddressId])
+}
+
+enum InvoiceProvider {
+  MIKRO_EPORTAL
+}
+
+enum InvoiceStatus {
+  PENDING
+  PROCESSING
+  ISSUED
+  FAILED
+}
+
+model Invoice {
+  id            String @id @default(cuid())
+  orderId        String @unique
+  provider       InvoiceProvider @default(MIKRO_EPORTAL)
+  status         InvoiceStatus @default(PENDING)
+  snapshot       Json?
+  attemptCount   Int @default(0)
+  lastAttemptAt  DateTime?
+  nextAttemptAt  DateTime?
+  lockedAt       DateTime?
+  lockedBy       String?
+  errorMessage   String?
+  issuedAt       DateTime?
+  invoiceNumber  String?
+  ettn           String?
+  pdfObjectPath  String?
+  xmlObjectPath  String?
+  providerPayload Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([nextAttemptAt])
 }
 
 model CartReminder {

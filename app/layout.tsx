@@ -101,7 +101,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="tr" className="h-full bg-gray-50 dark:bg-gray-900" suppressHydrationWarning>
+    <html lang="tr" className="h-full overflow-x-hidden bg-gray-50 dark:bg-gray-900" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/images/logokoyu.png" />
         <link rel="apple-touch-icon" href="/images/logokoyu.png" />
@@ -109,7 +109,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full`} suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full overflow-x-hidden`}
+        suppressHydrationWarning
+      >
         <Analytics gaId={gaId} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
         <Providers>

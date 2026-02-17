@@ -1,91 +1,81 @@
 import Link from 'next/link';
 
+import PolicyCard from '@/components/legal/PolicyCard';
+import PolicyPageLayout from '@/components/legal/PolicyPageLayout';
+
 export default function DistanceSalesPage() {
   return (
-    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
-      <div className="mx-auto max-w-6xl space-y-10">
-        <section className="relative overflow-hidden rounded-[32px] border border-slate-900/10 bg-slate-950 px-6 py-10 text-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.35),_transparent_60%)] opacity-80" />
-          <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.25))]" />
-          <div className="relative space-y-4">
-            <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              Guven Merkezi
-            </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Mesafeli Satış Sözleşmesi</h1>
-            <p className="max-w-2xl text-base text-white/70">
-              Bu sayfa bilgilendirme amaçlıdır. Satışa konu ürün, teslimat ve cayma hakkı koşulları sipariş öncesi onay
-              adımında özetlenir.
-            </p>
-            <div className="flex flex-wrap gap-3 text-xs text-white/70">
-              <span className="rounded-full border border-white/20 px-3 py-1">Sipariş onayı</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Cayma hakkı</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Teslimat şartları</span>
-            </div>
-          </div>
-        </section>
-
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <section className="space-y-4">
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Taraflar ve Konu</div>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Satıcı: Guohong Lazer - sipariş öncesi iletişim bilgilerimiz sürekli görüntülenir.</li>
-                <li>Alıcı: Sipariş esnasında beyan ettiğiniz kullanıcı ve teslimat bilgileri esas alınır.</li>
-                <li>Konu: Ürünlerin satımı, teslimati ve satış sonrası yükümlülükler.</li>
-              </ul>
-            </div>
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Teslimat ve Ödeme</div>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Teslimat süresi stok ve kargo durumu ile sipariş öncesi bildirilir.</li>
-                <li>Ödeme, güvenli altyapı ile alınır ve ödeme onayı ardından sipariş hazırlanır.</li>
-                <li>Fatura bilgileri sipariş sırasında talep edilir ve mail ile paylaşılır.</li>
-              </ul>
-            </div>
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-sm font-semibold text-slate-900">Cayma hakkı ve İade</div>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-600">
-                <li>Cayma hakkı kapsamında iade koşulları ürün grubuna göre değişebilir.</li>
-                <li>Özel üretim, kişiselleştirilmiş veya kurulumlu ürünlerde farklı koşullar uygulanır.</li>
-                <li>İade süreci için destek ekibimizle iletişime geçilmelidir.</li>
-              </ul>
-            </div>
-          </section>
-
-          <aside className="space-y-4">
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Hızlı Bağlantılar</div>
-              <div className="mt-4 grid gap-2 text-sm text-slate-700">
-                <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  İade ve Garanti
-                </Link>
-                <Link href="/shipping" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Kargo ve teslimat
-                </Link>
-                <Link href="/payment-security" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Ödeme Güvenliği
-                </Link>
-                <Link href="/privacy" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
-                  Gizlilik Politikası
-                </Link>
-              </div>
-            </div>
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Destek İhtiyaci</div>
-              <p className="mt-3 text-sm text-slate-600">
-                Sözleşmelerle ilgili sorularınız için destek hattımız size yardımcı olur.
-              </p>
+    <PolicyPageLayout
+      eyebrow="Güven Merkezi"
+      title="Mesafeli Satış Sözleşmesi"
+      description="Bu sayfa bilgilendirme amaçlıdır. Satışa konu ürün, teslimat ve cayma hakkı koşulları sipariş öncesi onay adımında özetlenir."
+      tags={['Sipariş onayı', 'Cayma hakkı', 'Teslimat şartları']}
+      sidebar={
+        <>
+          <PolicyCard title="Hızlı bağlantılar">
+            <div className="grid gap-2">
               <Link
-                href="/contact?subject=Mesafeli+Satis"
-                className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white"
+                href="/returns"
+                className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
               >
-                İletişim Kur
+                İade ve Garanti
+              </Link>
+              <Link
+                href="/shipping"
+                className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+              >
+                Kargo ve teslimat
+              </Link>
+              <Link
+                href="/payment-security"
+                className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+              >
+                Ödeme Güvenliği
+              </Link>
+              <Link
+                href="/privacy"
+                className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+              >
+                Gizlilik Politikası
               </Link>
             </div>
-          </aside>
-        </div>
-      </div>
-    </div>
+          </PolicyCard>
+
+          <PolicyCard title="Destek ihtiyacı">
+            <p>Sözleşmelerle ilgili sorularınız için destek hattımız size yardımcı olur.</p>
+            <Link
+              href="/contact?subject=Mesafeli+Satis"
+              className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800"
+            >
+              İletişim kur
+            </Link>
+          </PolicyCard>
+        </>
+      }
+    >
+      <PolicyCard title="Taraflar ve konu">
+        <ul className="list-disc space-y-2 pl-5">
+          <li>Satıcı: Guohong Lazer - sipariş öncesi iletişim bilgilerimiz sürekli görüntülenir.</li>
+          <li>Alıcı: Sipariş esnasında beyan ettiğiniz kullanıcı ve teslimat bilgileri esas alınır.</li>
+          <li>Konu: Ürünlerin satımı, teslimatı ve satış sonrası yükümlülükler.</li>
+        </ul>
+      </PolicyCard>
+
+      <PolicyCard title="Teslimat ve ödeme">
+        <ul className="list-disc space-y-2 pl-5">
+          <li>Teslimat süresi stok ve kargo durumu ile sipariş öncesi bildirilir.</li>
+          <li>Ödeme, güvenli altyapı ile alınır ve ödeme onayı ardından sipariş hazırlanır.</li>
+          <li>Fatura bilgileri sipariş sırasında talep edilir ve e-posta ile paylaşılır.</li>
+        </ul>
+      </PolicyCard>
+
+      <PolicyCard title="Cayma hakkı ve iade">
+        <ul className="list-disc space-y-2 pl-5">
+          <li>Cayma hakkı kapsamında iade koşulları ürün grubuna göre değişebilir.</li>
+          <li>Özel üretim, kişiselleştirilmiş veya kurulumlu ürünlerde farklı koşullar uygulanır.</li>
+          <li>İade süreci için destek ekibimizle iletişime geçilmelidir.</li>
+        </ul>
+      </PolicyCard>
+    </PolicyPageLayout>
   );
 }
-

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -46,10 +47,22 @@ export default function Footer() {
         <div className="grid gap-10 py-12 lg:grid-cols-[1.1fr_1.3fr]">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logoacik.png" alt="Guohong Lazer" className="h-14 w-auto block dark:hidden" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logokoyu.png" alt="Guohong Lazer" className="h-14 w-auto hidden dark:block" />
+              <Image
+                src="/images/logoacik.png"
+                alt="Guohong Lazer"
+                width={220}
+                height={56}
+                sizes="220px"
+                className="h-14 w-auto block dark:hidden"
+              />
+              <Image
+                src="/images/logokoyu.png"
+                alt="Guohong Lazer"
+                width={220}
+                height={56}
+                sizes="220px"
+                className="h-14 w-auto hidden dark:block"
+              />
               <div>
                 <div className="text-xl font-semibold tracking-tight">Guohong Lazer</div>
                 <div className="text-sm text-slate-600 dark:text-slate-300">Lazer makineleri, yedek parça ve teknik destek.</div>

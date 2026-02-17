@@ -165,7 +165,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8">
+    <div className="min-h-screen bg-[var(--background)] px-4 py-10 text-[var(--foreground)] sm:px-8">
       <div className="mx-auto max-w-6xl space-y-10">
         <section className="relative overflow-hidden rounded-[32px] border border-slate-900/10 bg-slate-950 px-6 py-10 text-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(20,184,166,0.35),_transparent_60%)] opacity-80" />
@@ -187,7 +187,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
         </section>
 
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
+          <section className="card-surface p-6">
             {submitStatus && (
               <div className={`mb-6 form-alert ${submitStatus.success ? 'form-alert--success' : 'form-alert--error'}`}>
                 {submitStatus.message}
@@ -287,12 +287,12 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                       {evidenceUrls.map((url, index) => (
                         <div
                           key={`${url}-${index}`}
-                          className="group relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
+                          className="group relative overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)]"
                         >
                           <button
                             type="button"
                             onClick={() => setEvidenceUrls((prev) => prev.filter((_, idx) => idx !== index))}
-                            className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-600 shadow-sm"
+                            className="absolute right-2 top-2 rounded-full border border-[var(--surface-border)] bg-[var(--surface)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-600 shadow-sm"
                           >
                             Sil
                           </button>
@@ -300,12 +300,12 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={url} alt={`Kanit ${index + 1}`} className="h-36 w-full object-cover" />
                           ) : (
-                            <div className="flex h-36 w-full items-center justify-center bg-slate-100 text-xs uppercase tracking-[0.2em] text-slate-400">
+                            <div className="flex h-36 w-full items-center justify-center bg-[var(--surface)] text-xs uppercase tracking-[0.2em] text-[var(--gray-500)]">
                               PDF
                             </div>
                           )}
-                          <div className="border-t border-slate-200 px-3 py-2 text-xs text-slate-600">
-                            <a href={url} target="_blank" rel="noreferrer" className="truncate hover:text-slate-900">
+                          <div className="border-t border-[var(--surface-border)] px-3 py-2 text-xs text-[var(--gray-500)]">
+                            <a href={url} target="_blank" rel="noreferrer" className="truncate hover:text-[var(--foreground)]">
                               {extractName(url)}
                             </a>
                           </div>
@@ -318,7 +318,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
 
               {step === 'verify' && (
                 <div className="space-y-2">
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-[var(--gray-500)]">
                     Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
                   </div>
                   <input
@@ -343,24 +343,33 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
           </section>
 
           <aside className="space-y-4">
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">İade adımları</div>
-              <ol className="mt-4 space-y-3 text-sm text-slate-600">
+            <div className="card-surface p-6">
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">İade adımları</div>
+              <ol className="mt-4 space-y-3 text-sm text-[var(--gray-500)]">
                 <li>1. Talep formunu doldur ve gönder.</li>
                 <li>2. Teknik ekip ön değerlendirme yapsın.</li>
                 <li>3. Onay sonrası iade/değişim akışı başlasın.</li>
               </ol>
             </div>
-            <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.3em] text-indigo-600">Bağlantılar</div>
-              <div className="mt-4 grid gap-2 text-sm text-slate-700">
-                <Link href="/returns" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
+            <div className="card-surface p-6">
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Bağlantılar</div>
+              <div className="mt-4 grid gap-2 text-sm">
+                <Link
+                  href="/returns"
+                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+                >
                   İade ve garanti
                 </Link>
-                <Link href="/shipping" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
+                <Link
+                  href="/shipping"
+                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+                >
                   Kargo ve teslimat
                 </Link>
-                <Link href="/contact?subject=Fatura+Talebi" className="rounded-xl border border-slate-200 px-4 py-2 hover:bg-slate-50">
+                <Link
+                  href="/contact?subject=Fatura+Talebi"
+                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
+                >
                   Fatura talebi
                 </Link>
               </div>
@@ -371,4 +380,3 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
     </div>
   );
 }
-

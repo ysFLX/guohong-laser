@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
+import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 import BuyAgainButton from '@/components/profile/BuyAgainButton';
@@ -50,6 +51,17 @@ type Address = {
   country: string | null;
 };
 
+type Invoice = {
+  id: string;
+  status: string;
+  issuedAt: Date | null;
+  invoiceNumber: string | null;
+  ettn: string | null;
+  errorMessage: string | null;
+  pdfObjectPath: string | null;
+  xmlObjectPath: string | null;
+};
+
 const prismaOrders = prisma as unknown as {
   order: {
     findFirst: (args: unknown) => Promise<Order | null>;
@@ -57,6 +69,12 @@ const prismaOrders = prisma as unknown as {
   };
   address: {
     findFirst: (args: unknown) => Promise<{ id: string } | null>;
+  };
+};
+
+const prismaInvoices = prisma as unknown as {
+  invoice: {
+    findUnique: (args: unknown) => Promise<Invoice | null>;
   };
 };
 
@@ -116,14 +134,44 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
   let order = await prismaOrders.order.findFirst({
     where: { id, userId: session.user.id },
-    include: { items: true, shippingAddress: true, billingAddress: true },
+    include: {
+      items: true,
+      shippingAddress: {
+        select: {
+          id: true,
+          label: true,
+          fullName: true,
+          phone: true,
+          line1: true,
+          line2: true,
+          city: true,
+          state: true,
+          postalCode: true,
+          country: true,
+        },
+      },
+      billingAddress: {
+        select: {
+          id: true,
+          label: true,
+          fullName: true,
+          phone: true,
+          line1: true,
+          line2: true,
+          city: true,
+          state: true,
+          postalCode: true,
+          country: true,
+        },
+      },
+    },
   });
 
   if (!order) {
     notFound();
   }
 
-  if (!order.shippingAddressId && order.stripeSessionId) {
+  if (isPaymentCheckoutEnabled() && !order.shippingAddressId && order.stripeSessionId) {
     try {
       const stripe = getStripe();
       const checkout = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
@@ -157,7 +205,37 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
           order = await prismaOrders.order.findFirst({
             where: { id, userId: session.user.id },
-            include: { items: true, shippingAddress: true, billingAddress: true },
+            include: {
+              items: true,
+              shippingAddress: {
+                select: {
+                  id: true,
+                  label: true,
+                  fullName: true,
+                  phone: true,
+                  line1: true,
+                  line2: true,
+                  city: true,
+                  state: true,
+                  postalCode: true,
+                  country: true,
+                },
+              },
+              billingAddress: {
+                select: {
+                  id: true,
+                  label: true,
+                  fullName: true,
+                  phone: true,
+                  line1: true,
+                  line2: true,
+                  city: true,
+                  state: true,
+                  postalCode: true,
+                  country: true,
+                },
+              },
+            },
           });
 
           if (!order) {
@@ -169,6 +247,22 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   }
 
   const safeOrder = order!;
+  let invoice: Invoice | null = null;
+  try {
+    invoice = await prismaInvoices.invoice.findUnique({
+      where: { orderId: safeOrder.id },
+      select: {
+        id: true,
+        status: true,
+        issuedAt: true,
+        invoiceNumber: true,
+        ettn: true,
+        errorMessage: true,
+        pdfObjectPath: true,
+        xmlObjectPath: true,
+      },
+    });
+  } catch {}
 
   const statusLabel: Record<string, string> = {
     RECEIVED: 'Sipariş alındı',
@@ -689,16 +783,89 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   Fatura ve irsaliye
                 </div>
-                <div className="mt-2 text-slate-600">
-                  Fatura ve irsaliye, sipariş onayıyla birlikte e-posta ile paylaşılır. Talep etmek istersen destek ekibi
-                  hızlıca yönlendirilir.
-                </div>
-                <Link
-                  href={`/contact?${invoiceParams}`}
-                  className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-                >
-                  Fatura talebi gönder
-                </Link>
+                {invoice ? (
+                  invoice.status === 'ISSUED' ? (
+                    <div className="mt-2 space-y-3 text-slate-700">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-200">
+                          Fatura hazır
+                        </span>
+                        {invoice.invoiceNumber ? (
+                          <span className="text-xs text-slate-500">
+                            No: <span className="font-semibold text-slate-900">{invoice.invoiceNumber}</span>
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        {invoice.pdfObjectPath ? (
+                          <a
+                            href={`/api/invoices/${invoice.id}/download?file=pdf`}
+                            className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-700"
+                          >
+                            PDF indir
+                          </a>
+                        ) : null}
+                        {invoice.xmlObjectPath ? (
+                          <a
+                            href={`/api/invoices/${invoice.id}/download?file=xml`}
+                            className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                          >
+                            XML indir
+                          </a>
+                        ) : null}
+                        <Link
+                          href={`/contact?${invoiceParams}`}
+                          className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                        >
+                          Fatura desteği
+                        </Link>
+                      </div>
+
+                      {invoice.ettn ? (
+                        <div className="text-xs text-slate-500">
+                          ETTN: <span className="font-mono">{invoice.ettn}</span>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : invoice.status === 'FAILED' ? (
+                    <div className="mt-2 space-y-3">
+                      <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                        Fatura oluşturulamadı. Tekrar denenecek.
+                        {invoice.errorMessage ? <div className="mt-1">{invoice.errorMessage}</div> : null}
+                      </div>
+                      <Link
+                        href={`/contact?${invoiceParams}`}
+                        className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                      >
+                        Fatura desteği
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="mt-2 space-y-3 text-slate-600">
+                      <div>Fatura hazırlanıyor. Kısa süre içinde indirilebilir olacak.</div>
+                      <Link
+                        href={`/contact?${invoiceParams}`}
+                        className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                      >
+                        Fatura desteği
+                      </Link>
+                    </div>
+                  )
+                ) : (
+                  <div className="mt-2 space-y-3 text-slate-600">
+                    <div>
+                      Fatura ve irsaliye, sipariş onayıyla birlikte e-posta ile paylaşılır. Talep etmek istersen destek
+                      ekibi hızlıca yönlendirilir.
+                    </div>
+                    <Link
+                      href={`/contact?${invoiceParams}`}
+                      className="inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      Fatura talebi gönder
+                    </Link>
+                  </div>
+                )}
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">

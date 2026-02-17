@@ -30,7 +30,6 @@ type Props = {
 };
 
 type StatusFilter = 'ALL' | 'NEW' | 'READ';
-type TypeFilter = 'ALL' | InquiryType;
 
 const statusTone = (status: InquiryStatus) => {
   switch (status) {
@@ -54,9 +53,6 @@ const statusAccent = (status: InquiryStatus) => {
   }
 };
 
-const typeTone = (type: InquiryType) => (type === 'QUOTE' ? ('indigo' as const) : ('slate' as const));
-const typeLabel = (type: InquiryType) => (type === 'QUOTE' ? 'Teklif' : 'İletişim');
-
 const formatDate = (value: string) => {
   try {
     return new Date(value).toLocaleString('tr-TR');
@@ -74,17 +70,21 @@ export default function InquiriesAdminManager({ items }: Props) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set(items.length ? [items[0].id] : []));
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
-  const [typeFilter, setTypeFilter] = useState<TypeFilter>('ALL');
 
   useEffect(() => {
-    const applyHashFilter = () => {
+    const scrollToHash = (behavior: ScrollBehavior) => {
       const hash = window.location.hash;
-      if (hash === '#quotes') setTypeFilter('QUOTE');
-      if (hash === '#contact') setTypeFilter('CONTACT');
+      if (!hash) return;
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (!element) return;
+      element.scrollIntoView({ behavior, block: 'start' });
     };
-    applyHashFilter();
-    window.addEventListener('hashchange', applyHashFilter);
-    return () => window.removeEventListener('hashchange', applyHashFilter);
+
+    scrollToHash('auto');
+    const onHashChange = () => scrollToHash('smooth');
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   const stats = useMemo(() => {
@@ -103,9 +103,8 @@ export default function InquiriesAdminManager({ items }: Props) {
 
   const filtered = useMemo(() => {
     const query = toSearchString(searchQuery.trim());
-    return rows.filter((item) => {
+    const all = rows.filter((item) => {
       if (statusFilter !== 'ALL' && item.status !== statusFilter) return false;
-      if (typeFilter !== 'ALL' && item.type !== typeFilter) return false;
       if (!query) return true;
       const searchable = toSearchString(
         [
@@ -121,12 +120,17 @@ export default function InquiriesAdminManager({ items }: Props) {
       );
       return searchable.includes(query);
     });
-  }, [rows, searchQuery, statusFilter, typeFilter]);
 
-  const activeFilterLabel = [
-    statusFilter === 'ALL' ? 'Tüm durumlar' : statusFilter === 'NEW' ? 'Yeni' : 'Okundu',
-    typeFilter === 'ALL' ? 'Tüm tipler' : typeLabel(typeFilter),
-  ].join(' • ');
+    return {
+      all,
+      quote: all.filter((item) => item.type === 'QUOTE'),
+      contact: all.filter((item) => item.type === 'CONTACT'),
+    };
+  }, [rows, searchQuery, statusFilter]);
+
+  const statusLabel = statusFilter === 'ALL' ? 'Tüm durumlar' : statusFilter === 'NEW' ? 'Yeni' : 'Okundu';
+  const trimmedSearch = searchQuery.trim();
+  const activeFilterLabel = trimmedSearch ? `${statusLabel} • Arama: "${trimmedSearch}"` : statusLabel;
 
   const toggleExpanded = (id: string) => {
     setExpandedIds((prev) => {
@@ -143,7 +147,6 @@ export default function InquiriesAdminManager({ items }: Props) {
   const resetFilters = () => {
     setSearchQuery('');
     setStatusFilter('ALL');
-    setTypeFilter('ALL');
     try {
       window.history.replaceState(null, '', window.location.pathname);
     } catch {
@@ -151,11 +154,164 @@ export default function InquiriesAdminManager({ items }: Props) {
     }
   };
 
+  const updateRow = (id: string, updated: { adminResponse: string | null; status: InquiryStatus }) => {
+    setRows((prev) =>
+      prev.map((row) =>
+        row.id === id
+          ? {
+              ...row,
+              adminResponse: updated.adminResponse,
+              status: updated.status,
+            }
+          : row,
+      ),
+    );
+  };
+
+  const jumpToSection = (section: 'quotes' | 'contact') => {
+    const hash = `#${section}`;
+    try {
+      window.history.replaceState(null, '', `${window.location.pathname}${hash}`);
+    } catch {
+      // ignore
+    }
+
+    const element = document.getElementById(section);
+    if (!element) return;
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const renderTable = (panelItems: AdminInquiryItem[]) => {
+    return (
+      <div className="overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm">
+        <div className="hidden items-center gap-4 border-b border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)] md:grid md:grid-cols-[1fr_1.2fr_0.8fr_0.9fr]">
+          <div>Talep</div>
+          <div>Müşteri</div>
+          <div>Durum</div>
+          <div className="text-right">Tarih</div>
+        </div>
+
+        {panelItems.map((item, index) => {
+          const rowTone = index % 2 === 0 ? 'bg-[var(--admin-surface)]' : 'bg-[var(--admin-card-muted)]';
+          const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
+          const isExpanded = expandedIds.has(item.id);
+          const panelId = `inquiry-${item.id}`;
+
+          return (
+            <div
+              key={item.id}
+              className={`${rowBorder} border-[var(--admin-border)] ${rowTone} ${statusAccent(item.status)} border-l-4`}
+            >
+              <button
+                type="button"
+                onClick={() => toggleExpanded(item.id)}
+                aria-expanded={isExpanded}
+                aria-controls={panelId}
+                className="grid w-full gap-4 border-b border-[var(--admin-border)] px-6 py-4 text-left transition hover:bg-[var(--admin-card-muted)] md:grid-cols-[1fr_1.2fr_0.8fr_0.9fr]"
+              >
+                <div className="min-w-0">
+                  <div className="text-lg font-semibold text-[var(--admin-text)]">#{item.id.slice(0, 8)}</div>
+                  <div className="mt-1 text-xs text-[var(--admin-muted)] line-clamp-1">
+                    {item.subject || item.product || 'Konu yok'}
+                  </div>
+                </div>
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-semibold text-[var(--admin-text)]">{item.name}</div>
+                  <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{item.email}</div>
+                </div>
+                <div className="flex items-start md:items-center">
+                  <AdminBadge tone={statusTone(item.status)}>
+                    {item.status === 'READ' ? 'Okundu' : item.status === 'CLOSED' ? 'Silindi' : 'Yeni'}
+                  </AdminBadge>
+                </div>
+                <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
+                  <div className="text-sm font-semibold text-[var(--admin-text)] md:text-right">
+                    {formatDate(item.createdAt)}
+                  </div>
+                  <div className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--admin-muted)]">
+                    Detay
+                    <svg
+                      viewBox="0 0 20 20"
+                      className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      aria-hidden="true"
+                    >
+                      <path d="M6 8l4 4 4-4" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              {isExpanded ? (
+                <div
+                  id={panelId}
+                  className="grid gap-6 border-t border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-6 py-6 lg:grid-cols-[1.15fr_0.85fr]"
+                >
+                  <div className="space-y-4">
+                    <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                      <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                        Mesaj
+                      </div>
+                      <div className="mt-3 whitespace-pre-line text-sm text-[var(--admin-text)]">{item.message}</div>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                          İletişim
+                        </div>
+                        <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{item.email}</div>
+                        {item.phone ? <div className="mt-1 text-xs text-[var(--admin-muted)]">{item.phone}</div> : null}
+                      </div>
+                      <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                        <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Konu</div>
+                        <div className="mt-2 text-sm text-[var(--admin-text)]">
+                          {item.type === 'QUOTE'
+                            ? item.product
+                              ? `Ürün: ${item.product}`
+                              : item.subject || '-'
+                            : item.subject || '-'}
+                        </div>
+                        {item.company ? <div className="mt-1 text-xs text-[var(--admin-muted)]">{item.company}</div> : null}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                            İşlemler
+                          </div>
+                          <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">
+                            Durum: {item.status === 'READ' ? 'Okundu' : item.status === 'CLOSED' ? 'Silindi' : 'Yeni'}
+                          </div>
+                        </div>
+                        <InquiryStatusActions inquiryId={item.id} status={item.status} />
+                      </div>
+                    </div>
+
+                    <InquiryReplyBox
+                      inquiryId={item.id}
+                      existingResponse={item.adminResponse}
+                      canReply={Boolean(item.email)}
+                      onSaved={(updated) => updateRow(item.id, updated)}
+                    />
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
-      <div id="quotes" />
-      <div id="contact" />
-
       <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
@@ -230,29 +386,14 @@ export default function InquiriesAdminManager({ items }: Props) {
               </div>
             </div>
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">Tip</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">Bölüm</div>
               <div className="mt-2 flex flex-wrap gap-2">
-                {[
-                  { value: 'ALL' as const, label: 'Tümü' },
-                  { value: 'CONTACT' as const, label: 'İletişim' },
-                  { value: 'QUOTE' as const, label: 'Teklif' },
-                ].map((item) => (
-                  <AdminRadioCard
-                    key={item.value}
-                    active={typeFilter === item.value}
-                    onClick={() => {
-                      setTypeFilter(item.value);
-                      const nextHash = item.value === 'QUOTE' ? '#quotes' : item.value === 'CONTACT' ? '#contact' : '';
-                      try {
-                        window.history.replaceState(null, '', `${window.location.pathname}${nextHash}`);
-                      } catch {
-                        // ignore
-                      }
-                    }}
-                  >
-                    {item.label}
-                  </AdminRadioCard>
-                ))}
+                <AdminButton tone="slate" variant="outline" onClick={() => jumpToSection('quotes')}>
+                  Teklifler
+                </AdminButton>
+                <AdminButton tone="slate" variant="outline" onClick={() => jumpToSection('contact')}>
+                  İletişim
+                </AdminButton>
               </div>
             </div>
           </div>
@@ -260,7 +401,7 @@ export default function InquiriesAdminManager({ items }: Props) {
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] px-4 py-3 text-xs text-[var(--admin-muted)] shadow-sm">
           <div className="flex items-center gap-2">
-            <AdminBadge tone="slate">{filtered.length} kayıt</AdminBadge>
+            <AdminBadge tone="slate">{filtered.all.length} kayıt</AdminBadge>
             <span>Filtre: {activeFilterLabel}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -274,170 +415,71 @@ export default function InquiriesAdminManager({ items }: Props) {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
-        {rows.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-sm">
-            Henüz talep yok.
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-sm">
-            Filtreye uygun kayıt yok.
-          </div>
-        ) : (
-          <div className="overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm">
-            <div className="hidden items-center gap-4 border-b border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)] md:grid md:grid-cols-[1fr_1.2fr_0.8fr_0.8fr_0.9fr]">
-              <div>Talep</div>
-              <div>Müşteri</div>
-              <div>Tip</div>
-              <div>Durum</div>
-              <div className="text-right">Tarih</div>
+      {rows.length === 0 ? (
+        <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-[var(--admin-shadow)]">
+          Henüz talep yok.
+        </div>
+      ) : (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <section
+            id="quotes"
+            className="scroll-mt-24 rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">
+                  Fiyat teklifi
+                </div>
+                <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Teklif talepleri</div>
+                <div className="mt-1 text-xs text-[var(--admin-muted)]">Formdan gelen teklif isteklerini yanıtla.</div>
+              </div>
+              <AdminBadge tone="indigo">{filtered.quote.length} kayıt</AdminBadge>
             </div>
 
-            {filtered.map((item, index) => {
-              const rowTone = index % 2 === 0 ? 'bg-[var(--admin-surface)]' : 'bg-[var(--admin-card-muted)]';
-              const rowBorder = index === 0 ? 'border-t-0' : 'border-t';
-              const isExpanded = expandedIds.has(item.id);
-              const panelId = `inquiry-${item.id}`;
-
-              return (
-                <div
-                  key={item.id}
-                  className={`${rowBorder} border-[var(--admin-border)] ${rowTone} ${statusAccent(item.status)} border-l-4`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleExpanded(item.id)}
-                    aria-expanded={isExpanded}
-                    aria-controls={panelId}
-                    className="grid w-full gap-4 border-b border-[var(--admin-border)] px-6 py-4 text-left transition hover:bg-[var(--admin-card-muted)] md:grid-cols-[1fr_1.2fr_0.8fr_0.8fr_0.9fr]"
-                  >
-                    <div className="min-w-0">
-                      <div className="text-lg font-semibold text-[var(--admin-text)]">#{item.id.slice(0, 8)}</div>
-                      <div className="mt-1 text-xs text-[var(--admin-muted)] line-clamp-1">
-                        {item.subject || item.product || 'Konu yok'}
-                      </div>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="truncate text-sm font-semibold text-[var(--admin-text)]">{item.name}</div>
-                      <div className="mt-1 truncate text-xs text-[var(--admin-muted)]">{item.email}</div>
-                    </div>
-                    <div className="flex items-start md:items-center">
-                      <AdminBadge tone={typeTone(item.type)}>{typeLabel(item.type)}</AdminBadge>
-                    </div>
-                    <div className="flex items-start md:items-center">
-                      <AdminBadge tone={statusTone(item.status)}>
-                        {item.status === 'READ' ? 'Okundu' : item.status === 'CLOSED' ? 'Silindi' : 'Yeni'}
-                      </AdminBadge>
-                    </div>
-                    <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
-                      <div className="text-sm font-semibold text-[var(--admin-text)] md:text-right">
-                        {formatDate(item.createdAt)}
-                      </div>
-                      <div className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--admin-muted)]">
-                        Detay
-                        <svg
-                          viewBox="0 0 20 20"
-                          className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          aria-hidden="true"
-                        >
-                          <path d="M6 8l4 4 4-4" />
-                        </svg>
-                      </div>
-                    </div>
-                  </button>
-
-                  {isExpanded ? (
-                    <div
-                      id={panelId}
-                      className="grid gap-6 border-t border-[var(--admin-border)] bg-[var(--admin-surface-muted)] px-6 py-6 lg:grid-cols-[1.15fr_0.85fr]"
-                    >
-                      <div className="space-y-4">
-                        <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
-                          <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                            Mesaj
-                          </div>
-                          <div className="mt-3 whitespace-pre-line text-sm text-[var(--admin-text)]">{item.message}</div>
-                        </div>
-
-                        <div className="grid gap-3 sm:grid-cols-2">
-                          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
-                            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                              İletişim
-                            </div>
-                            <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{item.email}</div>
-                            {item.phone ? (
-                              <div className="mt-1 text-xs text-[var(--admin-muted)]">{item.phone}</div>
-                            ) : null}
-                          </div>
-                          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
-                            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                              Konu
-                            </div>
-                            <div className="mt-2 text-sm text-[var(--admin-text)]">
-                              {item.type === 'QUOTE'
-                                ? item.product
-                                  ? `Ürün: ${item.product}`
-                                  : item.subject || '-'
-                                : item.subject || '-'}
-                            </div>
-                            {item.company ? (
-                              <div className="mt-1 text-xs text-[var(--admin-muted)]">{item.company}</div>
-                            ) : null}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                                İşlemler
-                              </div>
-                              <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">
-                                Durum: {item.status === 'READ' ? 'Okundu' : item.status === 'CLOSED' ? 'Silindi' : 'Yeni'}
-                              </div>
-                            </div>
-                            <InquiryStatusActions inquiryId={item.id} status={item.status} />
-                          </div>
-                        </div>
-
-                        <InquiryReplyBox
-                          inquiryId={item.id}
-                          existingResponse={item.adminResponse}
-                          canReply={Boolean(item.email)}
-                          onSaved={(updated) => {
-                            setRows((prev) =>
-                              prev.map((row) =>
-                                row.id === item.id
-                                  ? {
-                                      ...row,
-                                      adminResponse: updated.adminResponse,
-                                      status: updated.status,
-                                    }
-                                  : row,
-                              ),
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                  ) : null}
+            <div className="mt-5">
+              {filtered.quote.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-sm">
+                  Filtreye uygun teklif talebi yok.
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+              ) : (
+                renderTable(filtered.quote)
+              )}
+            </div>
+          </section>
+
+          <section
+            id="contact"
+            className="scroll-mt-24 rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">
+                  İletişim
+                </div>
+                <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">İletişim talepleri</div>
+                <div className="mt-1 text-xs text-[var(--admin-muted)]">Formdan gelen iletişim mesajlarını yönet.</div>
+              </div>
+              <AdminBadge tone="slate">{filtered.contact.length} kayıt</AdminBadge>
+            </div>
+
+            <div className="mt-5">
+              {filtered.contact.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 text-sm text-[var(--admin-muted)] shadow-sm">
+                  Filtreye uygun iletişim talebi yok.
+                </div>
+              ) : (
+                renderTable(filtered.contact)
+              )}
+            </div>
+          </section>
+        </div>
+      )}
 
       {rows.length > 0 ? (
         <div className="sticky bottom-4 z-30">
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)]/90 px-4 py-3 text-xs text-[var(--admin-muted)] shadow-lg backdrop-blur">
             <div className="flex items-center gap-2">
-              <AdminBadge tone="slate">{filtered.length} kayıt</AdminBadge>
+              <AdminBadge tone="slate">{filtered.all.length} kayıt</AdminBadge>
               <span>Filtre: {activeFilterLabel}</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -454,4 +496,3 @@ export default function InquiriesAdminManager({ items }: Props) {
     </div>
   );
 }
-

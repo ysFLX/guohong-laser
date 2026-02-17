@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, type ChangeEvent, type CSSProperties, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
@@ -110,6 +111,55 @@ const renderStars = (average: number) =>
     );
   });
 
+function VirtualizedPartsGridRows({
+  items,
+  gridColumns,
+  scrollMargin,
+  renderPartCard,
+}: {
+  items: SparePart[];
+  gridColumns: number;
+  scrollMargin: number;
+  renderPartCard: (part: SparePart, index: number) => ReactNode;
+}) {
+  const rowCount = Math.ceil(items.length / gridColumns);
+  const rowVirtualizer = useWindowVirtualizer({
+    count: rowCount,
+    estimateSize: () => 620,
+    overscan: 8,
+    scrollMargin,
+  });
+
+  return (
+    <div className="relative" style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
+      {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+        const startIndex = virtualRow.index * gridColumns;
+        const rowItems = items.slice(startIndex, Math.min(startIndex + gridColumns, items.length));
+
+        return (
+          <div
+            key={virtualRow.key}
+            data-index={virtualRow.index}
+            ref={rowVirtualizer.measureElement}
+            className="pb-6"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              transform: `translateY(${virtualRow.start - scrollMargin}px)`,
+            }}
+          >
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+              {rowItems.map((part, idx) => renderPartCard(part, startIndex + idx))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -118,7 +168,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const { show } = useToast();
   const urlFilters = useMemo(() => parseFiltersFromSearchParams(searchParams), [searchParams]);
 
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
   const lowStockNotified = useRef(false);
   const viewedItemListKey = useRef('');
   const [selectedCategory, setSelectedCategory] = useState(urlFilters.category);
@@ -152,6 +202,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const [isLoading, setIsLoading] = useState(() => initialItems.length === 0);
   const [loadError, setLoadError] = useState('');
   const [favoriteError, setFavoriteError] = useState('');
+  const [virtualizeList, setVirtualizeList] = useState(false);
+  const [gridColumns, setGridColumns] = useState(2);
+  const [scrollMargin, setScrollMargin] = useState(0);
 
   const urlUpdateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevFiltersRef = useRef({
@@ -473,24 +526,33 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   }, [selectedCategory, selectedModel, searchQuery, sortOption]);
 
   useEffect(() => {
-    const target = loadMoreRef.current;
-    if (!target) return;
+    const mq = window.matchMedia('(min-width: 768px)');
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0]?.isIntersecting) return;
-        setVisibleCount((prev) => {
-          if (prev >= sorted.length) return prev;
-          return Math.min(prev + 24, sorted.length);
-        });
-      },
-      { rootMargin: '200px' },
-    );
+    const update = () => {
+      setGridColumns(mq.matches ? 2 : 1);
+      const rect = listRef.current?.getBoundingClientRect();
+      setScrollMargin(rect ? rect.top + window.scrollY : 0);
+    };
 
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, [sorted.length]);
+    update();
+    setVirtualizeList(true);
 
+    window.addEventListener('resize', update);
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', update);
+    } else if (typeof mq.addListener === 'function') {
+      mq.addListener(update);
+    }
+
+    return () => {
+      window.removeEventListener('resize', update);
+      if (typeof mq.removeEventListener === 'function') {
+        mq.removeEventListener('change', update);
+      } else if (typeof mq.removeListener === 'function') {
+        mq.removeListener(update);
+      }
+    };
+  }, []);
 
   const selectedModelInfo = useMemo(
     () => machineModels.find((model) => model.id === selectedModel),
@@ -625,6 +687,206 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     }
 
     setCompareIds((prev) => [...prev, part.id]);
+  };
+
+  const renderPartCard = (p: SparePart, index: number) => {
+    const isFavorited = favoriteIds.has(p.id);
+    const inStock = p.stockOnHand > 0;
+    const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
+    const compareSelected = compareIds.includes(p.id);
+    const compareDisabled = !compareSelected && compareIds.length >= 3;
+
+    return (
+      <div
+        key={p.id}
+        className="group relative overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)] dark:border-slate-800/70 dark:bg-slate-950/40"
+        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 560px' } as CSSProperties}
+      >
+        <Link href={getPartHref(p.id)} className="block">
+          <div className="relative h-64 w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
+            <Image
+              src={p.imageUrl || '/images/1.jpg'}
+              alt={p.name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition duration-500 group-hover:scale-[1.03]"
+              quality={70}
+              loading="lazy"
+              decoding="async"
+              priority={index < 3}
+            />
+            <div className="absolute top-4 left-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-200">
+              {p.isFeatured && (
+                <span className="rounded-full bg-indigo-100 px-3 py-1 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-200">
+                  Vitrin
+                </span>
+              )}
+              <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-950/70 dark:text-slate-200 dark:ring-white/10">
+                {p.category.name}
+              </span>
+            </div>
+            <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-[11px] font-semibold text-slate-700 dark:text-slate-200">
+              <span
+                className={`rounded-full px-3 py-1 ${
+                  inStock
+                    ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-500/15 dark:text-indigo-200'
+                    : 'bg-amber-100 text-amber-900 dark:bg-amber-500/15 dark:text-amber-200'
+                }`}
+              >
+                {inStock ? 'Stokta' : 'Siparişle'}
+              </span>
+              <span className="rounded-full bg-slate-100/80 px-3 py-1 text-slate-700 dark:bg-slate-950/60 dark:text-slate-200">
+                {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
+              </span>
+              {isCritical && (
+                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200/90 px-3 py-1 text-amber-900 dark:bg-amber-500/15 dark:text-amber-200">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-amber-600/60 dark:bg-amber-400/40 motion-safe:group-hover:animate-ping" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700 dark:bg-amber-300" />
+                  </span>
+                  Stok azalıyor
+                </span>
+              )}
+            </div>
+          </div>
+        </Link>
+
+        <div className="space-y-4 px-5 pb-5 pt-5">
+          <div className="flex items-start justify-between gap-3">
+            <Link href={getPartHref(p.id)} className="min-w-0">
+              <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">{p.name}</h3>
+            </Link>
+            <div className="flex flex-col items-end gap-2">
+              <div className="text-sm font-bold text-slate-900 whitespace-nowrap dark:text-white">
+                {formatPriceTry(p.priceCents)}
+              </div>
+              <button
+                type="button"
+                onClick={() => handleToggleCompare(p)}
+                disabled={compareDisabled}
+                className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
+                  compareSelected
+                    ? 'bg-slate-900 text-white dark:bg-white/10 dark:text-white'
+                    : compareDisabled
+                      ? 'cursor-not-allowed border border-slate-200/70 text-slate-400 opacity-60 dark:border-slate-700 dark:text-slate-500'
+                      : 'border border-slate-200/70 text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200 dark:hover:border-slate-600'
+                }`}
+              >
+                {compareSelected ? 'Seçildi' : 'Karşılaştır'}
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+            <div className="flex items-center gap-1">{renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}</div>
+            {p.ratingCount > 0 && (
+              <span>
+                {p.ratingAverage.toFixed(1)} ({p.ratingCount})
+              </span>
+            )}
+          </div>
+
+          <p className="text-sm text-slate-600 line-clamp-1 dark:text-slate-300">{p.description}</p>
+
+          <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/80 px-4 py-3 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/40 dark:text-slate-300">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Stok</div>
+              <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Kategori</div>
+              <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.category.name}</div>
+            </div>
+          </div>
+
+          {selectedModel !== 'Tümü' && (
+            <div className="text-xs text-indigo-700 dark:text-indigo-300">{selectedModelInfo?.label} ile uyumlu</div>
+          )}
+
+          <div className="flex items-center gap-2 text-xs">
+            <Link
+              href={getPartHref(p.id)}
+              className="rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-200 dark:hover:border-slate-600"
+            >
+              Detay gör
+            </Link>
+            <Link
+              href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+              className="rounded-full border border-indigo-200/70 bg-indigo-50/70 px-3 py-1 font-semibold uppercase tracking-[0.2em] text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-50 dark:border-indigo-400/30 dark:bg-indigo-500/10 dark:text-indigo-200"
+            >
+              Teklif iste
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {inStock ? (
+              <div className="flex flex-1 flex-col gap-2">
+                <AddToCartButton
+                  id={p.id}
+                  name={p.name}
+                  priceCents={p.priceCents}
+                  imageUrl={p.imageUrl}
+                  className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                />
+                <QuickBuyButton
+                  item={{
+                    id: p.id,
+                    name: p.name,
+                    priceCents: p.priceCents,
+                    imageUrl: p.imageUrl,
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-1 flex-col gap-2">
+                <Link
+                  href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                  className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-slate-800"
+                >
+                  Teklif iste
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => openStockRequest(p)}
+                  className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
+                >
+                  Hızlı stok talebi
+                </button>
+                <Link
+                  href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                  className="rounded-xl border border-slate-200 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                >
+                  Detaylı talep formu
+                </Link>
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={() => toggleFavorite(p.id)}
+              disabled={favoriteLoading.has(p.id)}
+              aria-pressed={isFavorited}
+              aria-label={isFavorited ? 'Favoriden kaldır' : 'Favorilere ekle'}
+              className={`inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border transition-colors ${
+                isFavorited
+                  ? 'border-red-200 bg-red-50 text-red-600 dark:border-red-400/30 dark:bg-red-500/10 dark:text-red-200'
+                  : 'border-slate-200/70 bg-white/80 text-slate-600 hover:text-red-600 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-200 dark:hover:text-red-200'
+              } ${favoriteLoading.has(p.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="h-5 w-5"
+                fill={isFavorited ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path d="M12 21s-6.716-4.35-9.192-7.1C1.01 11.92 1 8.905 3.05 6.857 4.7 5.21 7.2 5 9 6.3 10 7.02 11 8.2 12 9.2c1-1 2-2.18 3-2.9 1.8-1.3 4.3-1.09 5.95.557 2.05 2.048 2.04 5.063.242 7.043C18.716 16.65 12 21 12 21z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   const crossSell = useMemo(() => {
@@ -795,7 +1057,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
         </aside>
 
-          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/40">
+          <div className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] dark:border-slate-800/70 dark:bg-slate-950/40">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
@@ -831,7 +1093,16 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           )}
 
             {!loadError && (
-              <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+              <div ref={listRef}>
+                {virtualizeList ? (
+                  <VirtualizedPartsGridRows
+                    items={sorted}
+                    gridColumns={gridColumns}
+                    scrollMargin={scrollMargin}
+                    renderPartCard={renderPartCard}
+                  />
+                ) : (
+                  <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
                 {visibleItems.map((p, index) => {
                   const isFavorited = favoriteIds.has(p.id);
                   const inStock = p.stockOnHand > 0;
@@ -843,6 +1114,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                     <div
                       key={p.id}
                       className="group relative overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)] dark:border-slate-800/70 dark:bg-slate-950/40"
+                      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 560px' } as CSSProperties}
                     >
                       <Link href={getPartHref(p.id)} className="block">
                         <div className="relative h-64 w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
@@ -863,7 +1135,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                                 Vitrin
                               </span>
                             )}
-                            <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 shadow-sm ring-1 ring-slate-900/5 backdrop-blur dark:bg-slate-950/70 dark:text-slate-200 dark:ring-white/10">
+                            <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700 shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-950/70 dark:text-slate-200 dark:ring-white/10">
                               {p.category.name}
                             </span>
                           </div>
@@ -883,7 +1155,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                             {isCritical && (
                               <span className="inline-flex items-center gap-2 rounded-full bg-amber-200/90 px-3 py-1 text-amber-900 dark:bg-amber-500/15 dark:text-amber-200">
                                 <span className="relative flex h-2 w-2">
-                                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-600/60 dark:bg-amber-400/40" />
+                                  <span className="absolute inline-flex h-full w-full rounded-full bg-amber-600/60 dark:bg-amber-400/40 motion-safe:group-hover:animate-ping" />
                                   <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700 dark:bg-amber-300" />
                                 </span>
                                 Stok azalıyor
@@ -1033,8 +1305,10 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   </div>
                 );
               })}
-            </section>
-          )}
+                  </section>
+                )}
+              </div>
+            )}
 
           {!isLoading && !loadError && filtered.length === 0 && (
             <div className="py-14 text-center text-slate-600 dark:text-slate-300">
@@ -1045,7 +1319,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
       </section>
 
       {compareIds.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 text-sm shadow-2xl backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/80">
+        <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 text-sm shadow-2xl dark:border-slate-800/70 dark:bg-slate-950/80">
           <div>
             <div className="text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-slate-400">Karşılaştırma</div>
             <div className="font-semibold text-slate-900 dark:text-white">
@@ -1298,10 +1572,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             </div>
           </div>
         </div>
-      )}
-
-      {!isLoading && !loadError && visibleCount < sorted.length && (
-        <div ref={loadMoreRef} aria-hidden className="h-1" />
       )}
 
       {crossSell.length > 0 && (

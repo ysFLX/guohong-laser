@@ -2,6 +2,7 @@
 
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProductNames } from '@/lib/machineCatalog';
@@ -15,6 +16,7 @@ type QuoteItem = {
 
 export default function BulkQuotePage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -34,7 +36,6 @@ export default function BulkQuotePage() {
     if (typeof window === 'undefined') return;
     const preselected = (new URLSearchParams(window.location.search).get('product') ?? '').trim();
     if (!preselected) return;
-    if (!machineProductNames.includes(preselected)) return;
     setItems((prev) => {
       if (prev.length === 0) return [{ name: preselected, quantity: '1', note: '' }];
       if (prev[0]?.name?.trim()) return prev;
@@ -43,6 +44,16 @@ export default function BulkQuotePage() {
       return next;
     });
   }, []);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    setFormData((prev) => ({
+      ...prev,
+      name: prev.name || session.user.name || '',
+      email: prev.email || session.user.email || '',
+      phone: prev.phone || session.user.phone || '',
+    }));
+  }, [session?.user?.email, session?.user?.name, session?.user?.phone]);
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
