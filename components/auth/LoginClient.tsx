@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
@@ -13,16 +13,10 @@ function sanitizeNext(value: string | null) {
   return value;
 }
 
-const trustItems = [
-  '2 adimli kimlik dogrulama',
-  'Kurumsal veri gizliligi standartlari',
-  '7/24 siparis ve teklif takibi',
-];
-
-const metricCards = [
-  { value: '< 2 sn', label: 'Oturum acilis ortalamasi' },
-  { value: '%99.9', label: 'Servis ulasilabilirligi' },
-  { value: 'SSL', label: 'Guvenli veri katmani' },
+const highlights = [
+  'Executive access katmani',
+  'Canli siparis ritmi takibi',
+  '2FA + kurumsal guvenlik duvari',
 ];
 
 export default function LoginClient() {
@@ -58,7 +52,7 @@ export default function LoginClient() {
       if (result?.error) {
         if (result.error === '2FA_REQUIRED') {
           setStep('otp');
-          setInfo('E-posta adresinize dogrulama kodu gonderildi. Kod 10 dakika gecerlidir.');
+          setInfo('Dogrulama kodu e-posta adresinize gonderildi. Kod 10 dakika gecerlidir.');
         } else if (result.error === '2FA_INVALID') {
           setError('Dogrulama kodu hatali. Lutfen tekrar deneyin.');
         } else if (result.error === '2FA_EXPIRED') {
@@ -111,61 +105,61 @@ export default function LoginClient() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#050914] px-4 py-8 text-white sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-hidden bg-[#070707] px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(56,189,248,0.18),transparent_42%),radial-gradient(circle_at_86%_20%,rgba(99,102,241,0.2),transparent_48%),radial-gradient(circle_at_50%_100%,rgba(34,197,94,0.14),transparent_46%)]" />
-        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-cyan-400/10 blur-[130px]" />
-        <div className="absolute -right-28 top-20 h-96 w-96 rounded-full border border-white/10 bg-white/[0.03] blur-2xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_18%,rgba(255,210,120,0.2),transparent_38%),radial-gradient(circle_at_85%_16%,rgba(175,140,86,0.22),transparent_42%),linear-gradient(130deg,#080808_18%,#111111_46%,#080808_84%)]" />
+        <div className="absolute left-1/2 top-0 h-[540px] w-[540px] -translate-x-1/2 rounded-full border border-amber-100/10 bg-amber-200/10 blur-[140px]" />
       </div>
 
-      <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[34px] border border-white/10 bg-white/[0.04] p-3 shadow-[0_30px_120px_rgba(4,9,20,0.75)] backdrop-blur-2xl lg:grid-cols-[1.1fr_0.9fr] lg:gap-7 lg:p-6">
-        <section className="relative hidden overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(145deg,rgba(12,23,44,0.94)_0%,rgba(11,17,32,0.92)_46%,rgba(9,16,36,0.9)_100%)] p-9 lg:flex lg:flex-col">
-          <div className="pointer-events-none absolute -left-16 top-10 h-40 w-40 rounded-full bg-cyan-400/25 blur-3xl" />
-          <div className="pointer-events-none absolute bottom-0 right-0 h-44 w-44 rounded-full bg-indigo-500/30 blur-3xl" />
+      <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
+        <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(20,18,13,0.96)_0%,rgba(10,10,10,0.94)_45%,rgba(30,24,15,0.95)_100%)] p-9 lg:flex lg:flex-col">
+          <div className="pointer-events-none absolute -top-16 right-0 h-48 w-48 rounded-full bg-amber-200/20 blur-3xl" />
+          <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 rounded-full bg-yellow-500/20 blur-3xl" />
 
-          <span className="inline-flex w-fit items-center rounded-full border border-cyan-200/30 bg-cyan-300/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100">
-            Enterprise Access
+          <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100">
+            Private Control Panel
           </span>
 
-          <h1 className="mt-6 max-w-md text-[2.25rem] font-semibold leading-[1.12] text-white">
-            Uretim operasyonuna premium hizda, tek noktadan erisim.
+          <h1 className="mt-6 max-w-md text-[2.35rem] font-semibold leading-[1.08] text-amber-50">
+            Giris deneyimi artik net sekilde premium.
           </h1>
 
-          <p className="mt-4 max-w-lg text-sm leading-6 text-slate-300">
-            Siparisler, teklifler ve teknik operasyonlariniz icin olusturulan profesyonel panelinize guvenli sekilde giris yapin.
+          <p className="mt-4 max-w-lg text-sm leading-6 text-amber-100/80">
+            Siparis, teklif ve teknik surecleri yonettiginiz panel icin daha ust segment bir kurumsal arayuz olusturuldu.
           </p>
 
           <div className="mt-9 grid gap-3">
-            {trustItems.map((item) => (
-              <div key={item} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-slate-100">
-                <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_0_4px_rgba(110,231,183,0.2)]" />
+            {highlights.map((item) => (
+              <div key={item} className="rounded-2xl border border-amber-100/20 bg-amber-100/5 px-4 py-3 text-sm text-amber-50">
                 {item}
               </div>
             ))}
           </div>
 
-          <div className="mt-8 grid grid-cols-3 gap-3">
-            {metricCards.map((card) => (
-              <div key={card.label} className="rounded-2xl border border-white/10 bg-black/20 p-3.5">
-                <div className="text-xl font-semibold text-white">{card.value}</div>
-                <div className="mt-1 text-[11px] leading-4 text-slate-300">{card.label}</div>
-              </div>
-            ))}
+          <div className="mt-8 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-amber-100/20 bg-black/30 p-4">
+              <p className="text-2xl font-semibold text-amber-50">Aurum</p>
+              <p className="mt-1 text-xs text-amber-100/70">Yeni premium tema dili</p>
+            </div>
+            <div className="rounded-2xl border border-amber-100/20 bg-black/30 p-4">
+              <p className="text-2xl font-semibold text-amber-50">2 Adim</p>
+              <p className="mt-1 text-xs text-amber-100/70">Dogrulama akisi aktif</p>
+            </div>
           </div>
 
-          <div className="mt-auto rounded-2xl border border-indigo-200/20 bg-indigo-400/10 p-4 text-sm leading-6 text-indigo-100">
-            Tasarim dili, karar alma anlarini hizlandiracak sekilde sade ve net kurgulandi.
+          <div className="mt-auto rounded-2xl border border-amber-200/25 bg-amber-200/10 p-4 text-sm text-amber-100">
+            Tasarim dili: obsidian yuzey + altin vurgu + yuksek kontrast.
           </div>
         </section>
 
-        <section className="rounded-[28px] border border-white/10 bg-[linear-gradient(175deg,rgba(10,18,34,0.95)_0%,rgba(9,16,28,0.92)_100%)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-8">
+        <section className="rounded-[30px] border border-amber-100/20 bg-[linear-gradient(160deg,rgba(16,14,10,0.96)_0%,rgba(10,10,10,0.94)_100%)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Sign In</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Hesabina giris yap</h2>
-              <p className="mt-2 text-sm text-slate-300">Kurumsal paneline devam etmek icin bilgilerini kullan.</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-amber-100/60">Executive Sign In</p>
+              <h2 className="mt-2 text-3xl font-semibold text-amber-50">Hesabina giris yap</h2>
+              <p className="mt-2 text-sm text-amber-100/75">Yeni premium panel deneyimi ile devam et.</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-gradient-to-br from-cyan-300 to-indigo-400 font-bold text-slate-900 shadow-[0_12px_30px_rgba(34,211,238,0.3)]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-300 to-yellow-500 font-bold text-black shadow-[0_14px_30px_rgba(245,158,11,0.35)]">
               GL
             </div>
           </div>
@@ -185,22 +179,22 @@ export default function LoginClient() {
                   callbackUrl: `/complete-profile?next=${encodeURIComponent(next)}`,
                 })
               }
-              className="w-full rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.14]"
+              className="w-full rounded-2xl border border-amber-100/30 bg-amber-100/10 px-4 py-3 text-sm font-semibold text-amber-50 transition hover:bg-amber-100/20"
             >
               Google ile devam et
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.2em] text-slate-500">
-            <span className="h-px flex-1 bg-white/10" />
+          <div className="mt-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] text-amber-100/45">
+            <span className="h-px flex-1 bg-amber-100/20" />
             veya
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-amber-100/20" />
           </div>
 
           <form className="mt-7 space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-200">
+                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-amber-100">
                   E-posta
                 </label>
                 <input
@@ -212,13 +206,13 @@ export default function LoginClient() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isOtpStep}
-                  className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25 disabled:cursor-not-allowed disabled:opacity-60"
                   placeholder="ornek@email.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-slate-200">
+                <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-amber-100">
                   Sifre
                 </label>
                 <input
@@ -230,14 +224,14 @@ export default function LoginClient() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={isOtpStep}
-                  className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25 disabled:cursor-not-allowed disabled:opacity-60"
                   placeholder="********"
                 />
               </div>
 
               {isOtpStep && (
-                <div className="rounded-2xl border border-cyan-300/25 bg-cyan-400/10 p-4">
-                  <label htmlFor="otp" className="mb-1.5 block text-sm font-medium text-cyan-100">
+                <div className="rounded-2xl border border-amber-200/35 bg-amber-200/10 p-4">
+                  <label htmlFor="otp" className="mb-1.5 block text-sm font-medium text-amber-50">
                     Dogrulama kodu
                   </label>
                   <input
@@ -248,10 +242,10 @@ export default function LoginClient() {
                     autoComplete="one-time-code"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="block w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                    className="block w-full rounded-xl border border-amber-100/30 bg-black/30 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                     placeholder="6 haneli kod"
                   />
-                  <div className="mt-3 flex items-center justify-between text-xs text-cyan-100/85">
+                  <div className="mt-3 flex items-center justify-between text-xs text-amber-100/90">
                     <button
                       type="button"
                       onClick={() => {
@@ -274,18 +268,18 @@ export default function LoginClient() {
             {error && <div className="form-alert form-alert--error">{error}</div>}
 
             <div className="space-y-3">
-              <button type="submit" disabled={isLoading} className="btn-primary w-full rounded-2xl py-3.5">
+              <button type="submit" disabled={isLoading} className="w-full rounded-2xl bg-gradient-to-r from-amber-300 to-yellow-500 px-4 py-3.5 text-sm font-semibold text-black shadow-[0_18px_36px_rgba(245,158,11,0.3)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60">
                 {isLoading ? 'Islem suruyor...' : isOtpStep ? 'Kodu dogrula' : 'Giris yap'}
               </button>
-              <Link href="/forgot-password" className="block text-center text-sm font-medium text-cyan-200 transition hover:text-cyan-100">
+              <Link href="/forgot-password" className="block text-center text-sm font-medium text-amber-100 transition hover:text-white">
                 Parolami unuttum
               </Link>
             </div>
           </form>
 
-          <div className="mt-6 border-t border-white/10 pt-5 text-center text-sm text-slate-300">
+          <div className="mt-6 border-t border-amber-100/20 pt-5 text-center text-sm text-amber-100/80">
             Hesabin yok mu?{' '}
-            <Link href={registerHref} className="font-semibold text-cyan-200 hover:text-cyan-100">
+            <Link href={registerHref} className="font-semibold text-amber-200 hover:text-white">
               Kayit ol
             </Link>
           </div>

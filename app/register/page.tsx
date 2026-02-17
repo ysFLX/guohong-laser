@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Suspense, useState } from 'react';
 import { signIn } from 'next-auth/react';
@@ -13,11 +13,7 @@ function sanitizeNext(value: string | null) {
   return value;
 }
 
-const valueCards = [
-  { value: '1 panel', label: 'Tum operasyonlar tek noktada' },
-  { value: '2 adim', label: 'E-posta ile guvenli dogrulama' },
-  { value: 'Anlik', label: 'Siparis ve teklif gorunurlugu' },
-];
+const premiumPoints = ['Kurumsal onboarding paneli', 'Dogrulama kodu ile guvenli acilis', 'Operasyon odakli hesap altyapisi'];
 
 function RegisterPageContent() {
   const [firstName, setFirstName] = useState('');
@@ -126,72 +122,57 @@ function RegisterPageContent() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#050914] px-4 py-8 text-white sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-hidden bg-[#070707] px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_14%,rgba(99,102,241,0.2),transparent_42%),radial-gradient(circle_at_84%_22%,rgba(6,182,212,0.2),transparent_48%),radial-gradient(circle_at_50%_100%,rgba(16,185,129,0.15),transparent_48%)]" />
-        <div className="absolute -left-20 top-12 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl" />
-        <div className="absolute right-0 top-28 h-96 w-96 rounded-full border border-white/10 bg-white/[0.03] blur-2xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_16%,rgba(255,214,140,0.2),transparent_38%),radial-gradient(circle_at_86%_20%,rgba(188,143,75,0.2),transparent_44%),linear-gradient(130deg,#090909_16%,#141414_48%,#090909_82%)]" />
       </div>
 
-      <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[34px] border border-white/10 bg-white/[0.04] p-3 shadow-[0_30px_120px_rgba(4,9,20,0.75)] backdrop-blur-2xl lg:grid-cols-[1.1fr_0.9fr] lg:gap-7 lg:p-6">
-        <section className="relative hidden overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(145deg,rgba(13,23,45,0.95)_0%,rgba(10,18,34,0.92)_46%,rgba(8,15,31,0.9)_100%)] p-9 lg:flex lg:flex-col">
-          <div className="pointer-events-none absolute -left-12 top-10 h-44 w-44 rounded-full bg-indigo-400/30 blur-3xl" />
-          <div className="pointer-events-none absolute bottom-0 right-0 h-44 w-44 rounded-full bg-cyan-500/30 blur-3xl" />
-
-          <span className="inline-flex w-fit items-center rounded-full border border-indigo-200/30 bg-indigo-300/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-100">
-            Professional Onboarding
+      <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
+        <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(22,18,11,0.96)_0%,rgba(10,10,10,0.94)_46%,rgba(30,22,12,0.95)_100%)] p-9 lg:flex lg:flex-col">
+          <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100">
+            Executive Onboarding
           </span>
 
-          <h1 className="mt-6 max-w-md text-[2.2rem] font-semibold leading-[1.12] text-white">
-            Hesabini dakikalar icinde ac, tum surecleri tek panelden yonet.
+          <h1 className="mt-6 max-w-md text-[2.3rem] font-semibold leading-[1.08] text-amber-50">
+            Kayit deneyimini premium seviyeye tasidik.
           </h1>
 
-          <p className="mt-4 max-w-lg text-sm leading-6 text-slate-300">
-            Yeni kayitla birlikte teklif, siparis ve teknik destek operasyonlarinizi daha duzenli bir deneyime tasiyin.
+          <p className="mt-4 max-w-lg text-sm leading-6 text-amber-100/80">
+            Daha guclu kontrast, daha net adimlar ve daha kaliteli bir yuzey diliyle kayit akisiniz yeniden tasarlandi.
           </p>
 
-          <div className="mt-8 grid grid-cols-3 gap-3">
-            {valueCards.map((card) => (
-              <div key={card.label} className="rounded-2xl border border-white/10 bg-black/20 p-3.5">
-                <div className="text-lg font-semibold text-white">{card.value}</div>
-                <div className="mt-1 text-[11px] leading-4 text-slate-300">{card.label}</div>
-              </div>
-            ))}
-          </div>
-
           <div className="mt-8 space-y-3">
-            {['Kurumsal profil yapisi', 'E-posta dogrulama guvencesi', 'Anlik siparis gorunurlugu'].map((item) => (
-              <div key={item} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-slate-100">
-                <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_0_4px_rgba(103,232,249,0.2)]" />
+            {premiumPoints.map((item) => (
+              <div key={item} className="rounded-2xl border border-amber-100/20 bg-amber-100/5 px-4 py-3 text-sm text-amber-50">
                 {item}
               </div>
             ))}
           </div>
 
-          <div className="mt-auto rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-6 text-cyan-100">
-            Kayit adimlari sadelestirildi: once bilgiler, sonra hizli kod dogrulama.
+          <div className="mt-auto rounded-2xl border border-amber-200/25 bg-amber-200/10 p-4 text-sm text-amber-100">
+            Temel konu: ayni islev, cok daha premium gorunum.
           </div>
         </section>
 
-        <section className="rounded-[28px] border border-white/10 bg-[linear-gradient(175deg,rgba(10,18,34,0.95)_0%,rgba(9,16,28,0.92)_100%)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-8">
+        <section className="rounded-[30px] border border-amber-100/20 bg-[linear-gradient(160deg,rgba(16,14,10,0.96)_0%,rgba(10,10,10,0.94)_100%)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Create Account</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Yeni hesap olustur</h2>
-              <p className="mt-2 text-sm text-slate-300">Bilgilerini gir, kodu dogrula ve panele hemen basla.</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-amber-100/60">Create Account</p>
+              <h2 className="mt-2 text-3xl font-semibold text-amber-50">Yeni hesap olustur</h2>
+              <p className="mt-2 text-sm text-amber-100/75">Daha ust segment bir onboarding deneyimi.</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-gradient-to-br from-indigo-300 to-cyan-400 font-bold text-slate-900 shadow-[0_12px_30px_rgba(129,140,248,0.3)]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-300 to-yellow-500 font-bold text-black shadow-[0_14px_30px_rgba(245,158,11,0.35)]">
               GL
             </div>
           </div>
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-3 text-xs text-slate-300">
+          <div className="mt-6 rounded-2xl border border-amber-100/20 bg-black/35 p-3 text-xs text-amber-100/75">
             <div className="flex items-center justify-between">
-              <span className={!isVerifyStep ? 'font-semibold text-white' : 'text-slate-400'}>1. Bilgiler</span>
-              <span className={isVerifyStep ? 'font-semibold text-white' : 'text-slate-400'}>2. Dogrulama</span>
+              <span className={!isVerifyStep ? 'font-semibold text-amber-50' : 'text-amber-100/55'}>1. Bilgiler</span>
+              <span className={isVerifyStep ? 'font-semibold text-amber-50' : 'text-amber-100/55'}>2. Dogrulama</span>
             </div>
-            <div className="mt-3 h-1.5 rounded-full bg-white/10">
-              <div className={`h-full rounded-full bg-gradient-to-r from-indigo-300 to-cyan-300 transition-all ${isVerifyStep ? 'w-full' : 'w-1/2'}`} />
+            <div className="mt-3 h-1.5 rounded-full bg-amber-100/15">
+              <div className={`h-full rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 transition-all ${isVerifyStep ? 'w-full' : 'w-1/2'}`} />
             </div>
           </div>
 
@@ -203,16 +184,16 @@ function RegisterPageContent() {
                   callbackUrl: `/complete-profile?next=${encodeURIComponent(next)}`,
                 })
               }
-              className="w-full rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.14]"
+              className="w-full rounded-2xl border border-amber-100/30 bg-amber-100/10 px-4 py-3 text-sm font-semibold text-amber-50 transition hover:bg-amber-100/20"
             >
               Google ile kayit ol
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.2em] text-slate-500">
-            <span className="h-px flex-1 bg-white/10" />
+          <div className="mt-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] text-amber-100/45">
+            <span className="h-px flex-1 bg-amber-100/20" />
             veya
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-amber-100/20" />
           </div>
 
           <form className="mt-7 space-y-5" onSubmit={handleSubmit}>
@@ -220,7 +201,7 @@ function RegisterPageContent() {
               <div className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-slate-200">
+                    <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-amber-100">
                       Ad
                     </label>
                     <input
@@ -230,13 +211,13 @@ function RegisterPageContent() {
                       required
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                      className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                       placeholder="Adiniz"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-slate-200">
+                    <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-amber-100">
                       Soyad
                     </label>
                     <input
@@ -246,14 +227,14 @@ function RegisterPageContent() {
                       required
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                      className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                       placeholder="Soyadiniz"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-200">
+                  <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-amber-100">
                     E-posta
                   </label>
                   <input
@@ -264,13 +245,13 @@ function RegisterPageContent() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                    className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                     placeholder="ornek@email.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-slate-200">
+                  <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-amber-100">
                     Telefon
                   </label>
                   <input
@@ -281,13 +262,13 @@ function RegisterPageContent() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                    className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                     placeholder="05xx xxx xx xx"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-slate-200">
+                  <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-amber-100">
                     Sifre
                   </label>
                   <input
@@ -298,7 +279,7 @@ function RegisterPageContent() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                    className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                     placeholder="********"
                     minLength={6}
                   />
@@ -307,13 +288,13 @@ function RegisterPageContent() {
             )}
 
             {isVerifyStep && (
-              <div className="space-y-4 rounded-2xl border border-cyan-300/25 bg-cyan-400/10 p-4">
-                <div className="text-center text-base font-semibold text-white">E-posta dogrulama</div>
-                <div className="rounded-xl border border-cyan-100/20 bg-black/20 px-4 py-3 text-sm text-cyan-100">
+              <div className="space-y-4 rounded-2xl border border-amber-200/35 bg-amber-200/10 p-4">
+                <div className="text-center text-base font-semibold text-amber-50">E-posta dogrulama</div>
+                <div className="rounded-xl border border-amber-100/25 bg-black/30 px-4 py-3 text-sm text-amber-100">
                   Kod <span className="font-semibold">{email}</span> adresine gonderildi.
                 </div>
                 <div>
-                  <label htmlFor="verificationCode" className="mb-1.5 block text-sm font-medium text-cyan-100">
+                  <label htmlFor="verificationCode" className="mb-1.5 block text-sm font-medium text-amber-50">
                     Dogrulama kodu
                   </label>
                   <input
@@ -324,7 +305,7 @@ function RegisterPageContent() {
                     required
                     value={verificationCode}
                     onChange={(e) => setVerificationCode(e.target.value)}
-                    className="block w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-center text-sm text-white placeholder:text-slate-500 focus:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/30"
+                    className="block w-full rounded-xl border border-amber-100/30 bg-black/30 px-4 py-3 text-center text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
                     placeholder="000000"
                     maxLength={6}
                   />
@@ -336,7 +317,7 @@ function RegisterPageContent() {
             {error && <div className="form-alert form-alert--error">{error}</div>}
 
             <div className="space-y-3">
-              <button type="submit" disabled={!isVerifyStep ? isSendingCode : isVerifying} className="btn-primary w-full rounded-2xl py-3.5">
+              <button type="submit" disabled={!isVerifyStep ? isSendingCode : isVerifying} className="w-full rounded-2xl bg-gradient-to-r from-amber-300 to-yellow-500 px-4 py-3.5 text-sm font-semibold text-black shadow-[0_18px_36px_rgba(245,158,11,0.3)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60">
                 {!isVerifyStep ? (isSendingCode ? 'Kod gonderiliyor...' : 'Dogrulama kodu gonder') : isVerifying ? 'Kayit tamamlanıyor...' : 'Kaydi tamamla'}
               </button>
 
@@ -345,7 +326,7 @@ function RegisterPageContent() {
                   type="button"
                   onClick={sendVerificationCode}
                   disabled={isSendingCode}
-                  className="w-full rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.14]"
+                  className="w-full rounded-2xl border border-amber-100/30 bg-amber-100/10 px-4 py-3 text-sm font-semibold text-amber-50 transition hover:bg-amber-100/20"
                 >
                   {isSendingCode ? 'Kod tekrar gonderiliyor...' : 'Kodu tekrar gonder'}
                 </button>
@@ -353,9 +334,9 @@ function RegisterPageContent() {
             </div>
           </form>
 
-          <div className="mt-6 border-t border-white/10 pt-5 text-center text-sm text-slate-300">
+          <div className="mt-6 border-t border-amber-100/20 pt-5 text-center text-sm text-amber-100/80">
             Zaten hesabin var mi?{' '}
-            <Link href={loginHref} className="font-semibold text-cyan-200 hover:text-cyan-100">
+            <Link href={loginHref} className="font-semibold text-amber-200 hover:text-white">
               Giris yap
             </Link>
           </div>
@@ -367,7 +348,7 @@ function RegisterPageContent() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#050914] text-white/70">Yukleniyor...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#070707] text-amber-100/70">Yukleniyor...</div>}>
       <RegisterPageContent />
     </Suspense>
   );
