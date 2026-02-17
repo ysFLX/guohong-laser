@@ -94,16 +94,16 @@ export default function Header() {
   };
 
   const desktopLinkClass = (href: string) => {
-    const active = 'text-slate-900 dark:text-white';
-    const idle = 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white';
+    const active = 'text-amber-100';
+    const idle = 'text-amber-100/70 hover:text-amber-50';
     return `relative text-xs font-semibold uppercase tracking-[0.18em] transition ${
       isActive(href) ? active : idle
     }`;
   };
 
   const mobileLinkClass = (href: string) => {
-    const active = 'bg-indigo-600 text-white';
-    const idle = 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/60';
+    const active = 'bg-amber-500 text-black';
+    const idle = 'text-amber-100 hover:bg-[#1a1a1a]';
     return `flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold transition ${
       isActive(href) ? active : idle
     }`;
@@ -112,7 +112,7 @@ export default function Header() {
   const cartBadge = useMemo(() => {
     if (!mounted || itemCount <= 0) return null;
     return (
-      <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-indigo-600 px-1 text-[11px] font-bold text-white">
+      <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber-500 px-1 text-[11px] font-bold text-black">
         {itemCount}
       </span>
     );
@@ -121,17 +121,17 @@ export default function Header() {
   const notificationsBadge = useMemo(() => {
     if (!mounted || unreadCount <= 0) return null;
     return (
-      <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-indigo-600 px-1 text-[11px] font-bold text-white">
+      <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber-500 px-1 text-[11px] font-bold text-black">
         {unreadCount}
       </span>
     );
   }, [mounted, unreadCount]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-950/60">
+    <header className="sticky top-0 z-50 border-b border-amber-200/20 bg-[#0b0b0b]/90 backdrop-blur-xl">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-24 top-0 h-56 w-56 rounded-full bg-indigo-200/60 blur-[140px] dark:bg-indigo-500/15" />
-        <div className="absolute -right-24 top-8 h-56 w-56 rounded-full bg-indigo-100/80 blur-[160px] dark:bg-indigo-500/10" />
+        <div className="absolute -left-24 top-0 h-56 w-56 rounded-full bg-amber-300/25 blur-[140px]" />
+        <div className="absolute -right-24 top-8 h-56 w-56 rounded-full bg-amber-200/20 blur-[160px]" />
         <div className="absolute inset-0 opacity-40 dark:opacity-20 bg-[linear-gradient(90deg,_rgba(15,23,42,0.06)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.06)_1px,_transparent_1px)] bg-[size:72px_72px]" />
       </div>
 
@@ -150,14 +150,14 @@ export default function Header() {
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <span className="text-base font-semibold tracking-tight text-slate-900 dark:text-white">
+              <span className="text-base font-semibold tracking-tight text-amber-50">
                 Guohong Lazer
               </span>
             )}
           </Link>
 
           <nav className="hidden lg:flex flex-1 justify-center" aria-label="Ana menü">
-            <div className="flex items-center gap-7 rounded-full border border-slate-200/70 bg-white/70 px-6 py-2 shadow-sm backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/50">
+            <div className="flex items-center gap-7 rounded-full border border-amber-200/25 bg-[#151515]/90 px-6 py-2 shadow-sm backdrop-blur">
               {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.href}
@@ -174,7 +174,7 @@ export default function Header() {
           <div className="ml-auto flex items-center gap-2">
             <Link
               href="/quote"
-              className="hidden sm:inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-[0_14px_40px_rgba(79,70,229,0.28)] transition hover:bg-indigo-700"
+              className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black shadow-[0_14px_40px_rgba(251,191,36,0.25)] transition hover:bg-amber-400"
             >
               Teklif Al
             </Link>
@@ -183,7 +183,7 @@ export default function Header() {
               href={whatsAppHref}
               target="_blank"
               rel="noreferrer"
-              className="hidden xl:inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 transition hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-200 dark:hover:bg-slate-900/50"
+              className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:border-amber-300/50 hover:bg-[#1e1e1e]"
             >
               WhatsApp
             </a>
@@ -191,7 +191,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-slate-200 bg-white/50 p-2 text-slate-600 transition hover:bg-white hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-white"
+              className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1e1e1e] hover:text-amber-50"
               aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
@@ -219,7 +219,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={openNotifications}
-                className="relative inline-flex items-center justify-center rounded-full border border-transparent bg-transparent p-2 text-slate-500 transition hover:bg-white hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-white"
+                className="relative inline-flex items-center justify-center rounded-full border border-transparent bg-transparent p-2 text-amber-100/80 transition hover:bg-[#1a1a1a] hover:text-amber-50"
                 aria-label="Bildirimleri aç"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -237,7 +237,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleCart}
-              className="relative inline-flex items-center justify-center rounded-full border border-transparent bg-transparent p-2 text-slate-500 transition hover:bg-white hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-900/50 dark:hover:text-white"
+              className="relative inline-flex items-center justify-center rounded-full border border-transparent bg-transparent p-2 text-amber-100/80 transition hover:bg-[#1a1a1a] hover:text-amber-50"
               aria-label="Sepeti aç"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -255,7 +255,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setProfileOpen(true)}
-                className="hidden sm:inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/50 p-1.5 text-slate-500 transition hover:bg-white dark:border-slate-800 dark:bg-slate-950/30 dark:hover:bg-slate-900/50"
+                className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-1.5 text-amber-100 transition hover:bg-[#1f1f1f]"
                 aria-label="Profil"
               >
                 {avatarUrl ? (
@@ -276,13 +276,13 @@ export default function Header() {
               <div className="hidden sm:flex items-center gap-2">
                 <Link
                   href={loginHref}
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 transition hover:bg-white dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-200 dark:hover:bg-slate-900/50"
+                  className="inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#1f1f1f]"
                 >
                   Giriş
                 </Link>
                 <Link
                   href={registerHref}
-                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+                  className="inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black transition hover:bg-amber-400"
                 >
                   Kayıt
                 </Link>
@@ -292,7 +292,7 @@ export default function Header() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className="hidden md:inline-flex items-center justify-center rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700 transition hover:border-indigo-300 dark:border-indigo-400/30 dark:bg-indigo-500/10 dark:text-indigo-200"
+                className="hidden md:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-amber-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200 transition hover:border-amber-300/50"
               >
                 Admin
               </Link>
@@ -300,7 +300,7 @@ export default function Header() {
 
             <button
               type="button"
-              className="lg:hidden inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/50 p-2 text-slate-700 transition hover:bg-white dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-200 dark:hover:bg-slate-900/50"
+              className="lg:hidden inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1f1f1f]"
               onClick={() => setMobileMenuOpen(true)}
               aria-expanded={mobileMenuOpen}
               aria-label="Menüyü aç"
@@ -325,21 +325,21 @@ export default function Header() {
           <aside
             role="dialog"
             aria-label="Mobil menü"
-            className="absolute right-0 top-0 h-full w-[min(92vw,420px)] overflow-hidden border-l border-slate-200 bg-white/95 shadow-2xl backdrop-blur dark:border-slate-800 dark:bg-slate-950/95"
+            className="absolute right-0 top-0 h-full w-[min(92vw,420px)] overflow-hidden border-l border-amber-200/20 bg-[#0e0e0e]/95 shadow-2xl backdrop-blur"
           >
-            <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-slate-800">
+            <div className="flex items-center justify-between gap-3 border-b border-amber-200/20 px-5 py-4">
               <div className="min-w-0">
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-300">
+                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-100/60">
                   Menü
                 </div>
-                <div className="mt-1 text-base font-semibold tracking-tight text-slate-900 dark:text-white">
+                <div className="mt-1 text-base font-semibold tracking-tight text-amber-50">
                   Guohong Lazer
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/20 bg-[#171717] text-amber-100 transition hover:bg-[#1f1f1f]"
                 aria-label="Menüyü kapat"
               >
                 <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -370,15 +370,15 @@ export default function Header() {
                 ))}
               </div>
 
-              <div className="rounded-3xl border border-slate-200 bg-white/70 p-4 dark:border-slate-800 dark:bg-slate-950/40">
-                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-300">
+              <div className="rounded-3xl border border-amber-200/20 bg-[#161616] p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-100/65">
                   Hızlı işlemler
                 </div>
                 <div className="mt-3 grid gap-2">
                   <Link
                     href="/quote"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                    className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400"
                   >
                     Teklif Al
                   </Link>

@@ -550,5 +550,55 @@ select:focus-visible {
   }
 }
 
+/* Global premium palette applied by PageShell (.premium-palette). */
+.premium-palette .bg-white,
+.premium-palette .bg-white\/95,
+.premium-palette .bg-white\/90,
+.premium-palette .bg-white\/80,
+.premium-palette .bg-white\/70,
+.premium-palette .bg-white\/60,
+.premium-palette .bg-slate-50,
+.premium-palette .bg-slate-50\/70,
+.premium-palette .bg-slate-100 {
+  background-color: #131313 !important;
+}
+
+.premium-palette .text-slate-900,
+.premium-palette .text-slate-800,
+.premium-palette .text-slate-700,
+.premium-palette .text-slate-600,
+.premium-palette .text-slate-500,
+.premium-palette .text-slate-400 {
+  color: #f5e6bf !important;
+}
+
+.premium-palette .border-slate-200,
+.premium-palette .border-slate-300,
+.premium-palette .border-indigo-100,
+.premium-palette .border-indigo-200 {
+  border-color: rgba(251, 191, 36, 0.24) !important;
+}
+
+.premium-palette .bg-indigo-600,
+.premium-palette .bg-indigo-500,
+.premium-palette .bg-indigo-400 {
+  background-color: #f59e0b !important;
+  color: #090909 !important;
+}
+
+.premium-palette .hover\:bg-indigo-700:hover,
+.premium-palette .hover\:bg-indigo-600:hover,
+.premium-palette .hover\:bg-indigo-500:hover {
+  background-color: #fbbf24 !important;
+}
+
+.premium-palette .text-indigo-700,
+.premium-palette .text-indigo-600,
+.premium-palette .text-indigo-500,
+.premium-palette .text-indigo-400,
+.premium-palette .text-indigo-300 {
+  color: #fbbf24 !important;
+}
+
 
 
