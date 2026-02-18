@@ -560,9 +560,6 @@ export default async function Home() {
   return (
     <div className={`${space.className} bg-[#070707] text-amber-50`}>
       <div className="relative overflow-hidden">
-        <div className="mx-auto mb-6 mt-4 w-full rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
-          Premium Homepage Build - 2026-02-17
-        </div>
         <div
           className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-amber-500/15 glow-drift"
           style={{ animationDelay: '0ms' }}
