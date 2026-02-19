@@ -238,10 +238,8 @@ export default function Header() {
           role="dialog"
           aria-label="Mobil menü"
           aria-modal="true"
-          className={`absolute inset-x-0 bottom-0 z-10 max-h-[82vh] overflow-y-auto rounded-t-[28px] border-t border-amber-200/25 bg-[#0d0d0d]/95 px-5 pb-6 pt-2 shadow-[0_-30px_90px_rgba(0,0,0,0.65)] backdrop-blur transition-transform duration-300 ${mobileMenuOpen ? 'translate-y-0' : 'translate-y-full'}`}
+          className={`absolute right-0 top-0 z-10 h-full w-[min(90vw,420px)] overflow-y-auto border-l border-amber-200/20 bg-[#0d0d0d]/95 px-5 pb-6 pt-4 shadow-2xl backdrop-blur transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
-          <div className="mx-auto mb-3 h-1.5 w-14 rounded-full bg-amber-100/35" />
-
           <div className="mb-4 flex items-center justify-between gap-3">
             <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-100/60">Menü</div>
@@ -257,10 +255,6 @@ export default function Header() {
                 <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
             </button>
-          </div>
-
-          <div className="mb-4 rounded-2xl border border-amber-200/10 bg-[#151515] p-3 text-[11px] uppercase tracking-[0.2em] text-amber-100/65">
-            Menü seçenekleri aşağıda
           </div>
 
           <div className="grid gap-2">
