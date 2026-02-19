@@ -230,17 +230,16 @@ export default function Header() {
 
       <ProfileDrawer isOpen={profileOpen} close={() => setProfileOpen(false)} />
 
-      <div className={`fixed inset-0 z-[110] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-        <div className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setMobileMenuOpen(false)} aria-hidden="true" />
+      <div className={`fixed inset-0 z-[120] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
 
         <aside
           ref={mobileMenuRef}
           role="dialog"
-          aria-label="Mobil menü"
+          aria-label="Mobil menü paneli"
           aria-modal="true"
-          className={`absolute right-0 top-0 z-10 h-full w-[min(90vw,420px)] overflow-y-auto border-l border-amber-200/20 bg-[#0d0d0d]/95 px-5 pb-6 pt-4 shadow-2xl backdrop-blur transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`absolute inset-0 z-10 overflow-y-auto bg-[#0a0a0a] px-5 pb-8 pt-4 transition-all duration-200 ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
         >
-          <div className="mb-4 flex items-center justify-between gap-3">
+          <div className="mb-4 flex items-center justify-between gap-3 border-b border-amber-200/15 pb-4">
             <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-100/60">Menü</div>
               <div className="mt-1 text-base font-semibold tracking-tight text-amber-50">Guohong Lazer</div>
