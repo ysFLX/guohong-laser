@@ -6,6 +6,7 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
+    "deploy:prod": "bash ./deploy.sh",
     "lint": "eslint",
     "postinstall": "prisma generate",
     "seed": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" prisma/seed.ts"
