@@ -194,7 +194,7 @@ export default function SupportWidget() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 sm:right-6">
+    <div className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+14px)] z-40 sm:right-6 sm:bottom-4">
       {open && (
         <div
           role="dialog"
@@ -352,7 +352,7 @@ export default function SupportWidget() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-[0_18px_55px_rgba(79,70,229,0.35)] ring-1 ring-white/20 transition hover:scale-[1.03] hover:opacity-95"
+        className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-[0_18px_55px_rgba(79,70,229,0.35)] ring-1 ring-white/20 transition hover:scale-[1.03] hover:opacity-95 sm:h-14 sm:w-14"
         aria-label={open ? 'Canlı destek penceresini kapat' : 'Canlı destek penceresini aç'}
       >
         <span

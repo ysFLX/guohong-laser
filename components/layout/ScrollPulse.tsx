@@ -63,7 +63,7 @@ export default function ScrollPulse() {
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`group fixed bottom-6 left-4 z-[80] inline-flex items-center gap-3 rounded-full border border-amber-200/35 bg-[#0d0d0d]/90 px-3 py-2 text-amber-100 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur transition-all duration-300 sm:left-6 ${
+        className={`group fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] left-3 z-[80] hidden items-center gap-3 rounded-full border border-amber-200/35 bg-[#0d0d0d]/90 px-3 py-2 text-amber-100 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur transition-all duration-300 sm:inline-flex sm:left-6 sm:bottom-6 ${
           showElevator ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
         }`}
         aria-label="Sayfanın en üstüne çık"
