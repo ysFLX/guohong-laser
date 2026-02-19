@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import ProfileDrawer from '@/components/profile/ProfileDrawer';
-
 import { useCart } from '@/components/cart/CartProvider';
 import { useNotifications } from '@/components/notifications/NotificationsProvider';
 import { useTheme } from '@/components/theme/ThemeProvider';
@@ -77,13 +76,20 @@ export default function Header() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setMobileMenuOpen(false);
     };
+
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setMobileMenuOpen(false);
+    };
+
     window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('resize', onResize);
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     return () => {
       window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('resize', onResize);
       document.body.style.overflow = prevOverflow;
     };
   }, [mobileMenuOpen]);
@@ -136,27 +142,25 @@ export default function Header() {
       </div>
 
       <div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center gap-3">
-          <Link href="/" className="inline-flex items-center gap-3">
+        <div className="flex h-16 items-center gap-2 sm:gap-3">
+          <Link href="/" className="inline-flex min-w-0 items-center gap-3">
             {!logoError ? (
               <Image
                 src={logoSrc}
                 alt="Guohong Lazer"
                 width={180}
                 height={48}
-                sizes="(max-width: 640px) 160px, 180px"
+                sizes="(max-width: 640px) 150px, 180px"
                 priority
-                className="h-10 w-auto sm:h-12"
+                className="h-9 w-auto sm:h-12"
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <span className="text-base font-semibold tracking-tight text-amber-50">
-                Guohong Lazer
-              </span>
+              <span className="text-base font-semibold tracking-tight text-amber-50">Guohong Lazer</span>
             )}
           </Link>
 
-          <nav className="hidden lg:flex flex-1 justify-center" aria-label="Ana menü">
+          <nav className="hidden flex-1 justify-center lg:flex" aria-label="Ana menü">
             <div className="flex items-center gap-7 rounded-full border border-amber-200/25 bg-[#151515]/90 px-6 py-2 shadow-sm backdrop-blur">
               {NAV_ITEMS.map((item) => (
                 <Link
@@ -171,7 +175,7 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
             <Link
               href="/quote"
               className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black shadow-[0_14px_40px_rgba(251,191,36,0.25)] transition hover:bg-amber-400"
@@ -191,7 +195,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="hidden sm:inline-flex relative items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1e1e1e] hover:text-amber-50"
+              className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1e1e1e] hover:text-amber-50"
               aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
@@ -219,7 +223,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={openNotifications}
-                className="relative inline-flex items-center justify-center rounded-full border border-transparent bg-transparent p-2 text-amber-100/80 transition hover:bg-[#1a1a1a] hover:text-amber-50"
+                className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#1a1a1a] hover:text-amber-50"
                 aria-label="Bildirimleri aç"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -237,7 +241,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleCart}
-              className="relative inline-flex items-center justify-center rounded-full border border-transparent bg-transparent p-2 text-amber-100/80 transition hover:bg-[#1a1a1a] hover:text-amber-50"
+              className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#1a1a1a] hover:text-amber-50"
               aria-label="Sepeti aç"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -273,7 +277,7 @@ export default function Header() {
                 )}
               </button>
             ) : (
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="hidden items-center gap-2 sm:flex">
                 <Link
                   href={loginHref}
                   className="inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#1f1f1f]"
@@ -300,10 +304,10 @@ export default function Header() {
 
             <button
               type="button"
-              className="lg:hidden inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1f1f1f]"
-              onClick={() => setMobileMenuOpen(true)}
+              className="z-10 shrink-0 inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1f1f1f] lg:hidden"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-expanded={mobileMenuOpen}
-              aria-label="Menüyü aç"
+              aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -315,179 +319,171 @@ export default function Header() {
 
       <ProfileDrawer isOpen={profileOpen} close={() => setProfileOpen(false)} />
 
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[60]">
-          <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
-          <aside
-            role="dialog"
-            aria-label="Mobil menü"
-            className="absolute right-0 top-0 h-full w-[min(92vw,420px)] overflow-hidden border-l border-amber-200/20 bg-[#0e0e0e]/95 shadow-2xl backdrop-blur"
-          >
-            <div className="flex items-center justify-between gap-3 border-b border-amber-200/20 px-5 py-4">
-              <div className="min-w-0">
-                <div className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-100/60">
-                  Menü
-                </div>
-                <div className="mt-1 text-base font-semibold tracking-tight text-amber-50">
-                  Guohong Lazer
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/20 bg-[#171717] text-amber-100 transition hover:bg-[#1f1f1f]"
-                aria-label="Menüyü kapat"
-              >
-                <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+      <div className={`fixed inset-0 z-[110] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        <div
+          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+
+        <aside
+          role="dialog"
+          aria-label="Mobil menü"
+          aria-modal="true"
+          className={`absolute right-0 top-0 z-10 h-full w-[min(92vw,420px)] overflow-y-auto border-l border-amber-200/20 bg-[#0e0e0e]/95 shadow-2xl backdrop-blur transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <div className="flex items-center justify-between gap-3 border-b border-amber-200/20 px-5 py-4">
+            <div className="min-w-0">
+              <div className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-100/60">Menü</div>
+              <div className="mt-1 text-base font-semibold tracking-tight text-amber-50">Guohong Lazer</div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/20 bg-[#171717] text-amber-100 transition hover:bg-[#1f1f1f]"
+              aria-label="Menüyü kapat"
+            >
+              <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div className="grid gap-4 px-5 py-5">
+            <div className="grid gap-2">
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  className={mobileLinkClass(item.href)}
+                >
+                  <span>{item.label}</span>
+                  <span className={isActive(item.href) ? 'text-black/70' : 'text-amber-100/70'}>→</span>
+                </Link>
+              ))}
             </div>
 
-            <div className="grid gap-4 px-5 py-5">
+            <div className="rounded-3xl border border-amber-200/20 bg-[#161616] p-4">
+              <div className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-100/65">Hızlı işlemler</div>
+              <div className="mt-3 grid gap-2">
+                <Link
+                  href="/quote"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400"
+                >
+                  Teklif Al
+                </Link>
+                <a
+                  href={whatsAppHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+                >
+                  WhatsApp hattı
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    toggleTheme();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+                >
+                  Tema: {theme === 'dark' ? 'Koyu' : 'Açık'}
+                </button>
+              </div>
+            </div>
+
+            <div className="grid gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  toggleCart();
+                }}
+                className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+              >
+                <span>Sepet</span>
+                <span className="text-amber-100/70">{mounted && itemCount > 0 ? itemCount : ''}</span>
+              </button>
+
+              {isAuthed && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openNotifications();
+                  }}
+                  className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+                >
+                  <span>Bildirimler</span>
+                  <span className="text-amber-100/70">{mounted && unreadCount > 0 ? unreadCount : ''}</span>
+                </button>
+              )}
+
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+                >
+                  <span>Admin Paneli</span>
+                  <span>→</span>
+                </Link>
+              )}
+            </div>
+
+            {!isAuthed ? (
               <div className="grid gap-2">
-                {NAV_ITEMS.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-current={isActive(item.href) ? 'page' : undefined}
-                    className={mobileLinkClass(item.href)}
-                  >
-                    <span>{item.label}</span>
-                    <span className={isActive(item.href) ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}>
-                      →
-                    </span>
-                  </Link>
-                ))}
+                <Link
+                  href={loginHref}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+                >
+                  Giriş Yap
+                </Link>
+                <Link
+                  href={registerHref}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400"
+                >
+                  Kayıt Ol
+                </Link>
               </div>
-
-              <div className="rounded-3xl border border-amber-200/20 bg-[#161616] p-4">
-                <div className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-100/65">
-                  Hızlı işlemler
-                </div>
-                <div className="mt-3 grid gap-2">
-                  <Link
-                    href="/quote"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400"
-                  >
-                    Teklif Al
-                  </Link>
-                  <a
-                    href={whatsAppHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                  >
-                    WhatsApp hattı
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      toggleTheme();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                  >
-                    Tema: {theme === 'dark' ? 'Koyu' : 'Açık'}
-                  </button>
-                </div>
-              </div>
-
+            ) : (
               <div className="grid gap-2">
                 <button
                   type="button"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    toggleCart();
+                    setProfileOpen(true);
                   }}
-                  className="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
+                  className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
                 >
-                  <span>Sepet</span>
-                  <span className="text-slate-400 dark:text-slate-500">{mounted && itemCount > 0 ? itemCount : ''}</span>
+                  Profili Aç
                 </button>
-
-                {isAuthed && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      openNotifications();
-                    }}
-                    className="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                  >
-                    <span>Bildirimler</span>
-                    <span className="text-slate-400 dark:text-slate-500">{mounted && unreadCount > 0 ? unreadCount : ''}</span>
-                  </button>
-                )}
-
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-between rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm font-semibold text-indigo-700 dark:border-indigo-400/30 dark:bg-indigo-500/10 dark:text-indigo-200"
-                  >
-                    <span>Admin Paneli</span>
-                    <span>→</span>
-                  </Link>
-                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    signOut({ callbackUrl: '/' });
+                  }}
+                  className="inline-flex items-center justify-center rounded-2xl border border-rose-300/40 bg-rose-900/20 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-900/30"
+                >
+                  Çıkış Yap
+                </button>
               </div>
-
-              {!isAuthed ? (
-                <div className="grid gap-2">
-                  <Link
-                    href={loginHref}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                  >
-                    Giriş Yap
-                  </Link>
-                  <Link
-                    href={registerHref}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
-                  >
-                    Kayıt Ol
-                  </Link>
-                </div>
-              ) : (
-                <div className="grid gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setProfileOpen(true);
-                    }}
-                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                  >
-                    Profili Aç
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      signOut({ callbackUrl: '/' });
-                    }}
-                    className="inline-flex items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 transition hover:border-rose-300 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200"
-                  >
-                    Çıkış Yap
-                  </button>
-                </div>
-              )}
-            </div>
-          </aside>
-        </div>
-      )}
+            )}
+          </div>
+        </aside>
+      </div>
     </header>
   );
 }
