@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import ProfileDrawer from '@/components/profile/ProfileDrawer';
@@ -43,6 +43,7 @@ export default function Header() {
   const [loginHref, setLoginHref] = useState('/login');
   const [registerHref, setRegisterHref] = useState('/register');
   const [whatsAppHref, setWhatsAppHref] = useState(buildWhatsAppHref());
+  const mobileMenuRef = useRef<HTMLElement | null>(null);
 
   const isAuthed = mounted && status === 'authenticated';
   const isAdmin = mounted && data?.user?.role === 'ADMIN';
@@ -92,6 +93,11 @@ export default function Header() {
       window.removeEventListener('resize', onResize);
       document.body.style.overflow = prevOverflow;
     };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    mobileMenuRef.current?.scrollTo({ top: 0, behavior: 'auto' });
   }, [mobileMenuOpen]);
 
   const isActive = (href: string) => {
@@ -327,6 +333,7 @@ export default function Header() {
         />
 
         <aside
+          ref={mobileMenuRef}
           role="dialog"
           aria-label="Mobil menü"
           aria-modal="true"
@@ -351,6 +358,9 @@ export default function Header() {
                 />
               </svg>
             </button>
+          </div>
+          <div className="border-b border-amber-200/10 px-5 py-2 text-[11px] uppercase tracking-[0.2em] text-amber-100/60">
+            Menü seçenekleri aşağıda
           </div>
 
           <div className="grid gap-4 px-5 py-5">
