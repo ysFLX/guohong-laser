@@ -231,23 +231,22 @@ export default function Header() {
       <ProfileDrawer isOpen={profileOpen} close={() => setProfileOpen(false)} />
 
       <div className={`fixed inset-0 z-[120] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-
         <aside
           ref={mobileMenuRef}
           role="dialog"
           aria-label="Mobil menü paneli"
           aria-modal="true"
-          className={`absolute inset-0 z-10 overflow-y-auto bg-[#0a0a0a] px-5 pb-8 pt-4 transition-all duration-200 ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
+          className={`absolute inset-0 z-10 overflow-y-auto bg-[#0a0a0a] px-5 pb-10 pt-5 transition-all duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
         >
-          <div className="mb-4 flex items-center justify-between gap-3 border-b border-amber-200/15 pb-4">
-            <div className="min-w-0">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-100/60">Menü</div>
-              <div className="mt-1 text-base font-semibold tracking-tight text-amber-50">Guohong Lazer</div>
+          <div className="mb-6 flex items-center justify-between border-b border-amber-200/15 pb-4">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-amber-100/60">Menü</p>
+              <p className="mt-1 text-lg font-semibold text-amber-50">Guohong Lazer</p>
             </div>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/20 bg-[#171717] text-amber-100 transition hover:bg-[#1f1f1f]"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/20 bg-[#171717] text-amber-100"
               aria-label="Menüyü kapat"
             >
               <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -256,75 +255,44 @@ export default function Header() {
             </button>
           </div>
 
-          <div className="grid gap-2">
+          <nav className="grid gap-2" aria-label="Mobil ana menü">
             {NAV_ITEMS.map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(item.href) ? 'page' : undefined} className={mobileLinkClass(item.href)}>
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                className={`${mobileLinkClass(item.href)} py-4 text-base`}
+              >
                 <span>{item.label}</span>
                 <span className={isActive(item.href) ? 'text-black/70' : 'text-amber-100/70'}>→</span>
               </Link>
             ))}
-          </div>
+          </nav>
 
-          <div className="mt-4 rounded-3xl border border-amber-200/20 bg-[#161616] p-4">
-            <div className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-100/65">Hızlı işlemler</div>
-            <div className="mt-3 grid gap-2">
-              <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400">Teklif Al</Link>
-              <a href={whatsAppHref} target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">WhatsApp hattı</a>
-              <button type="button" onClick={() => { toggleTheme(); setMobileMenuOpen(false); }} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">Tema: {theme === 'dark' ? 'Koyu' : 'Açık'}</button>
-            </div>
-          </div>
-
-          <div className="mt-4 grid gap-2">
-            <button
-              type="button"
-              onClick={() => { setMobileMenuOpen(false); toggleCart(); }}
-              className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
-            >
-              <span>Sepet</span>
-              <span className="text-amber-100/70">{mounted && itemCount > 0 ? itemCount : ''}</span>
-            </button>
-
+          <div className="mt-6 grid gap-2">
+            <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400">Teklif Al</Link>
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">WhatsApp hattı</a>
+            <button type="button" onClick={() => { toggleTheme(); setMobileMenuOpen(false); }} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">Tema: {theme === 'dark' ? 'Koyu' : 'Açık'}</button>
+            <button type="button" onClick={() => { setMobileMenuOpen(false); toggleCart(); }} className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"><span>Sepet</span><span className="text-amber-100/70">{mounted && itemCount > 0 ? itemCount : ''}</span></button>
             {isAuthed && (
-              <button
-                type="button"
-                onClick={() => { setMobileMenuOpen(false); openNotifications(); }}
-                className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
-              >
-                <span>Bildirimler</span>
-                <span className="text-amber-100/70">{mounted && unreadCount > 0 ? unreadCount : ''}</span>
-              </button>
+              <button type="button" onClick={() => { setMobileMenuOpen(false); openNotifications(); }} className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"><span>Bildirimler</span><span className="text-amber-100/70">{mounted && unreadCount > 0 ? unreadCount : ''}</span></button>
             )}
-
             {isAdmin && (
-              <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">
-                <span>Admin Paneli</span><span>→</span>
-              </Link>
+              <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-between rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"><span>Admin Paneli</span><span>→</span></Link>
+            )}
+            {!isAuthed ? (
+              <>
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">Giriş Yap</Link>
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400">Kayıt Ol</Link>
+              </>
+            ) : (
+              <>
+                <button type="button" onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">Profili Aç</button>
+                <button type="button" onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }} className="inline-flex items-center justify-center rounded-2xl border border-rose-300/40 bg-rose-900/20 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-900/30">Çıkış Yap</button>
+              </>
             )}
           </div>
-
-          {!isAuthed ? (
-            <div className="mt-4 grid gap-2">
-              <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]">Giriş Yap</Link>
-              <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400">Kayıt Ol</Link>
-            </div>
-          ) : (
-            <div className="mt-4 grid gap-2">
-              <button
-                type="button"
-                onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }}
-                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
-              >
-                Profili Aç
-              </button>
-              <button
-                type="button"
-                onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }}
-                className="inline-flex items-center justify-center rounded-2xl border border-rose-300/40 bg-rose-900/20 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-900/30"
-              >
-                Çıkış Yap
-              </button>
-            </div>
-          )}
         </aside>
       </div>
     </header>
