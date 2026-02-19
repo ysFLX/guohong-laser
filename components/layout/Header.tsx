@@ -268,6 +268,48 @@ export default function Header() {
               </Link>
             ))}
           </nav>
+
+          {!isAuthed ? (
+            <div className="mt-8 grid gap-3">
+              <Link
+                href={loginHref}
+                onClick={() => setMobileMenuOpen(false)}
+                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+              >
+                Giriş Yap
+              </Link>
+              <Link
+                href={registerHref}
+                onClick={() => setMobileMenuOpen(false)}
+                className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400"
+              >
+                Kayıt Ol
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setProfileOpen(true);
+                }}
+                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/25 bg-[#121212] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a]"
+              >
+                Profili Aç
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  signOut({ callbackUrl: '/' });
+                }}
+                className="inline-flex items-center justify-center rounded-2xl border border-rose-300/40 bg-rose-900/20 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-900/30"
+              >
+                Çıkış Yap
+              </button>
+            </div>
+          )}
         </aside>
       </div>
     </header>
