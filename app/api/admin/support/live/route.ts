@@ -42,10 +42,11 @@ export async function GET(request: Request) {
   const inquiries = await prisma.inquiry.findMany({
     where: {
       type: 'CONTACT',
-      subject: {
-        equals: 'Canli destek',
-        mode: 'insensitive',
-      },
+      OR: [
+        { subject: { equals: 'Canli destek', mode: 'insensitive' } },
+        { subject: { equals: 'CanlÄ± destek', mode: 'insensitive' } },
+        { subject: { contains: 'live support', mode: 'insensitive' } },
+      ],
     },
     orderBy: { createdAt: 'desc' },
     take: 300,
@@ -79,7 +80,7 @@ export async function GET(request: Request) {
       return {
         key,
         userId: last.userId,
-        name: last.name || 'Müşteri',
+        name: last.name || 'MÃ¼ÅŸteri',
         email: last.email,
         lastAt: last.createdAt.toISOString(),
         lastPreview: last.message.slice(0, 120),

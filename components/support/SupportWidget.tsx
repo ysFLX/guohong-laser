@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -66,6 +66,7 @@ export default function SupportWidget() {
   const [agentTyping, setAgentTyping] = useState(false);
   const [supportAgentName, setSupportAgentName] = useState('Müşteri Hizmetleri');
   const [sendError, setSendError] = useState<string | null>(null);
+  const [closing, setClosing] = useState(false);
   const [loginHref, setLoginHref] = useState(`/login?next=${encodeURIComponent(pathname || '/')}`);
   const [whatsAppHref, setWhatsAppHref] = useState('https://wa.me/905368316787');
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
@@ -219,6 +220,27 @@ export default function SupportWidget() {
     }
   }
 
+  async function closeConversation() {
+    if (closing) return;
+
+    setClosing(true);
+    setSendError(null);
+    try {
+      const response = await fetch('/api/support/live', { method: 'DELETE' });
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        setSendError(data.error || 'Sohbet kapatilamadi. Lutfen tekrar deneyin.');
+        return;
+      }
+      setInput('');
+      await loadMessages(false);
+    } catch {
+      setSendError('Baglanti sorunu nedeniyle sohbet kapatilamadi.');
+    } finally {
+      setClosing(false);
+    }
+  }
+
   return (
     <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] right-4 z-[140] sm:bottom-4 sm:right-6">
       {open && (
@@ -364,27 +386,37 @@ export default function SupportWidget() {
               )}
 
               {authenticated ? (
-                <div className="flex items-center gap-2">
-                  <input
-                    ref={inputRef}
-                    value={input}
-                    onChange={(event) => {
-                      setInput(event.target.value);
-                      if (sendError) setSendError(null);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter') sendMessage();
-                    }}
-                    placeholder="Mesajınızı yazın..."
-                    className="h-10 w-full rounded-full border border-slate-200/80 bg-white/95 px-4 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-200"
-                  />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      ref={inputRef}
+                      value={input}
+                      onChange={(event) => {
+                        setInput(event.target.value);
+                        if (sendError) setSendError(null);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') sendMessage();
+                      }}
+                      placeholder="Mesajınızı yazın..."
+                      className="h-10 w-full rounded-full border border-slate-200/80 bg-white/95 px-4 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={sendMessage}
+                      disabled={sending || !input.trim()}
+                      className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-4 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(79,70,229,0.25)] transition hover:opacity-95 disabled:opacity-60"
+                    >
+                      {sending ? '...' : 'Gönder'}
+                    </button>
+                  </div>
                   <button
                     type="button"
-                    onClick={sendMessage}
-                    disabled={sending || !input.trim()}
-                    className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-4 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(79,70,229,0.25)] transition hover:opacity-95 disabled:opacity-60"
+                    onClick={closeConversation}
+                    disabled={closing}
+                    className="inline-flex h-9 items-center justify-center rounded-full border border-slate-300 px-4 text-[11px] font-semibold text-slate-700 transition hover:bg-slate-100 disabled:opacity-60 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
                   >
-                    {sending ? '...' : 'Gönder'}
+                    {closing ? 'Kapatiliyor...' : 'Sohbeti Bitir'}
                   </button>
                 </div>
               ) : (

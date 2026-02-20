@@ -43,8 +43,52 @@ function splitInquiryToMessages(inquiry: {
   return result;
 }
 
-const SUPPORT_AGENT_FALLBACK = 'Müşteri Hizmetleri';
+const SUPPORT_AGENT_FALLBACK = 'Musteri Hizmetleri';
 const AGENT_TYPING_WINDOW_MS = 12_000;
+const HISTORY_KEEP_COUNT = 120;
+const HISTORY_HARD_DELETE_DAYS = 90;
+
+const LIVE_SUPPORT_SUBJECT_WHERE = {
+  OR: [
+    { subject: { equals: 'Canli destek', mode: 'insensitive' as const } },
+    { subject: { equals: 'Canlı destek', mode: 'insensitive' as const } },
+    { subject: { contains: 'live support', mode: 'insensitive' as const } },
+  ],
+};
+
+async function pruneSupportHistory(userId: string) {
+  const inquiries = await prisma.inquiry.findMany({
+    where: {
+      userId,
+      type: 'CONTACT',
+      ...LIVE_SUPPORT_SUBJECT_WHERE,
+    },
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      status: true,
+      adminResponse: true,
+      updatedAt: true,
+    },
+  });
+
+  const oldEnough = new Date(Date.now() - HISTORY_HARD_DELETE_DAYS * 24 * 60 * 60 * 1000);
+  const byAgeIds = inquiries
+    .filter((item) => item.status === 'CLOSED' && item.updatedAt < oldEnough)
+    .map((item) => item.id);
+
+  const overLimitIds = inquiries
+    .slice(HISTORY_KEEP_COUNT)
+    .filter((item) => item.status === 'CLOSED' || Boolean(item.adminResponse))
+    .map((item) => item.id);
+
+  const deleteIds = Array.from(new Set([...byAgeIds, ...overLimitIds]));
+  if (!deleteIds.length) return;
+
+  await prisma.inquiry.deleteMany({
+    where: { id: { in: deleteIds } },
+  });
+}
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -62,9 +106,13 @@ export async function GET() {
   }
 
   const inquiries = await prisma.inquiry.findMany({
-    where: { userId, type: 'CONTACT' },
+    where: {
+      userId,
+      type: 'CONTACT',
+      ...LIVE_SUPPORT_SUBJECT_WHERE,
+    },
     orderBy: { createdAt: 'desc' },
-    take: 20,
+    take: 60,
     select: {
       id: true,
       message: true,
@@ -132,7 +180,7 @@ export async function POST(request: Request) {
     data: {
       type: 'CONTACT',
       status: 'NEW',
-      name: user.name || 'Müşteri',
+      name: user.name || 'Musteri',
       email: user.email,
       subject: 'Canli destek',
       message,
@@ -146,6 +194,8 @@ export async function POST(request: Request) {
     },
   });
 
+  await pruneSupportHistory(userId);
+
   return NextResponse.json({
     ok: true,
     message: {
@@ -155,5 +205,33 @@ export async function POST(request: Request) {
       at: created.createdAt.toISOString(),
       status: created.status,
     } satisfies LiveMessage,
+  });
+}
+
+export async function DELETE() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return NextResponse.json({ error: 'Lutfen giris yapin.' }, { status: 401 });
+  }
+
+  const result = await prisma.inquiry.updateMany({
+    where: {
+      userId,
+      type: 'CONTACT',
+      status: { not: 'CLOSED' },
+      ...LIVE_SUPPORT_SUBJECT_WHERE,
+    },
+    data: {
+      status: 'CLOSED',
+    },
+  });
+
+  await pruneSupportHistory(userId);
+
+  return NextResponse.json({
+    ok: true,
+    closedCount: result.count,
   });
 }
