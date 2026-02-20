@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
@@ -96,6 +97,42 @@ export default function PaymentSecurityPage() {
           Ödeme işlemleri güvenli altyapı üzerinden gerçekleşir ve kart bilgileri sistemimizde tutulmaz.
         </p>
       </div>
+
+      <PolicyCard title="Ödeme sağlayıcı logoları">
+        <p className="text-sm text-[var(--gray-500)]">
+          Kartlı ödemeler güvenli altyapı üzerinden alınmakta olup iyzico, Visa ve Mastercard desteklenir.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Image
+            src="/images/payments/iyzico.svg"
+            alt="iyzico"
+            width={180}
+            height={56}
+            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
+          />
+          <Image
+            src="/images/payments/iyzico-ile-ode.svg"
+            alt="iyzico ile öde"
+            width={220}
+            height={56}
+            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
+          />
+          <Image
+            src="/images/payments/visa.svg"
+            alt="Visa"
+            width={160}
+            height={56}
+            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
+          />
+          <Image
+            src="/images/payments/mastercard.svg"
+            alt="Mastercard"
+            width={190}
+            height={56}
+            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
+          />
+        </div>
+      </PolicyCard>
     </PolicyPageLayout>
   );
 }
