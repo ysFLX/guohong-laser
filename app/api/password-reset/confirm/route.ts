@@ -3,6 +3,9 @@ import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 
 const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX = 20;
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 const normalizeEmail = (value: unknown) =>
   typeof value === 'string' ? value.trim().toLowerCase() : '';
@@ -10,11 +13,40 @@ const normalizeEmail = (value: unknown) =>
 const normalizeString = (value: unknown) =>
   typeof value === 'string' ? value.trim() : '';
 
+const getClientIp = (request: Request) => {
+  const forwarded = request.headers.get('x-forwarded-for') || '';
+  const realIp = request.headers.get('x-real-ip') || '';
+  const raw = forwarded.split(',')[0]?.trim() || realIp.trim();
+  return raw || 'unknown';
+};
+
+const hitRateLimit = (key: string) => {
+  const now = Date.now();
+  const existing = rateLimitStore.get(key);
+  if (!existing || existing.resetAt < now) {
+    rateLimitStore.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  if (existing.count >= RATE_LIMIT_MAX) {
+    return true;
+  }
+  rateLimitStore.set(key, { count: existing.count + 1, resetAt: existing.resetAt });
+  return false;
+};
+
 const hashToken = (token: string) =>
   crypto.createHash('sha256').update(token).digest('hex');
 
 export async function POST(request: Request) {
   try {
+    const ip = getClientIp(request);
+    if (hitRateLimit(`password-reset-confirm:${ip}`)) {
+      return new Response(JSON.stringify({ error: 'Cok fazla istek. Lutfen daha sonra tekrar deneyin.' }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const body = await request.json();
     const safeEmail = normalizeEmail(body.email);
     const token = normalizeString(body.token);

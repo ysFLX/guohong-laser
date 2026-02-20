@@ -5,12 +5,37 @@ import { Prisma } from '@prisma/client';
 
 const CODE_TTL_MINUTES = 10;
 const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX = 12;
+const RESEND_COOLDOWN_MS = 60 * 1000;
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 
 const normalizeEmail = (value: unknown) =>
   typeof value === 'string' ? value.trim().toLowerCase() : '';
 
 const normalizeString = (value: unknown) =>
   typeof value === 'string' ? value.trim() : '';
+
+const getClientIp = (request: Request) => {
+  const forwarded = request.headers.get('x-forwarded-for') || '';
+  const realIp = request.headers.get('x-real-ip') || '';
+  const raw = forwarded.split(',')[0]?.trim() || realIp.trim();
+  return raw || 'unknown';
+};
+
+const hitRateLimit = (key: string) => {
+  const now = Date.now();
+  const existing = rateLimitStore.get(key);
+  if (!existing || existing.resetAt < now) {
+    rateLimitStore.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  if (existing.count >= RATE_LIMIT_MAX) {
+    return true;
+  }
+  rateLimitStore.set(key, { count: existing.count + 1, resetAt: existing.resetAt });
+  return false;
+};
 
 const sanitizeAddress = (value: unknown) => {
   if (!value || typeof value !== 'object') return null;
@@ -48,6 +73,14 @@ const buildAddressData = (
 
 export async function POST(request: Request) {
   try {
+    const ip = getClientIp(request);
+    if (hitRateLimit(`register:${ip}`)) {
+      return new Response(JSON.stringify({ error: 'Cok fazla istek. Lutfen daha sonra tekrar deneyin.' }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     if (!process.env.DATABASE_URL) {
       return new Response(
         JSON.stringify({ error: 'Sunucu yapılandırması hatası: DATABASE_URL tanımlı değil' }),
@@ -220,6 +253,23 @@ export async function POST(request: Request) {
         JSON.stringify({ error: 'SMTP ayarları bulunamadı. Lütfen e-posta gönderimi için ayarlarınızı yapılandırın.' }),
         {
           status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const existingVerification = await prisma.emailVerification.findUnique({
+      where: { email: safeEmail },
+      select: { expiresAt: true },
+    });
+    if (
+      existingVerification?.expiresAt &&
+      existingVerification.expiresAt.getTime() - Date.now() > CODE_TTL_MINUTES * 60 * 1000 - RESEND_COOLDOWN_MS
+    ) {
+      return new Response(
+        JSON.stringify({ error: 'Yeni kod istemek icin lutfen kisa bir sure bekleyin.' }),
+        {
+          status: 429,
           headers: { 'Content-Type': 'application/json' },
         }
       );

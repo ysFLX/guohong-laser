@@ -53,10 +53,6 @@ export async function GET() {
     return NextResponse.json({ items: [] });
   }
 
-  await prismaInquiry.inquiry.deleteMany({
-    where: { userSeenAt: { not: null } },
-  });
-
   if (session.user.role === 'ADMIN') {
     const items = await prismaInquiry.inquiry.findMany({
       where: { status: 'NEW' },

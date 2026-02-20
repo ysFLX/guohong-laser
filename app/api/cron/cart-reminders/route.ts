@@ -116,11 +116,13 @@ async function sendReminderEmail(params: {
 
 export async function GET(req: Request) {
   const secret = process.env.CRON_SECRET;
+  if (!secret) {
+    return NextResponse.json({ error: 'CRON_SECRET tanimli degil' }, { status: 500 });
+  }
   const headerSecret = req.headers.get('x-cron-secret');
   const querySecret = new URL(req.url).searchParams.get('secret');
   const vercelCron = req.headers.get('x-vercel-cron');
-  const isAuthed =
-    !secret || headerSecret === secret || querySecret === secret || vercelCron === '1';
+  const isAuthed = headerSecret === secret || querySecret === secret || vercelCron === '1';
 
   if (!isAuthed) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });

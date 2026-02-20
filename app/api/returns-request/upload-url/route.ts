@@ -1,5 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
+import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
+
+import { authOptions } from '@/auth';
 
 const BUCKET = 'returns';
 
@@ -12,6 +15,11 @@ const getExtension = (name: string, contentType: string) => {
 
 export async function POST(req: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Dosya yuklemek icin giris yapmalisiniz.' }, { status: 401 });
+    }
+
     const body = (await req.json()) as { filename?: string; contentType?: string };
     const filename = typeof body.filename === 'string' ? body.filename.trim() : '';
     const contentType = typeof body.contentType === 'string' ? body.contentType.trim() : '';

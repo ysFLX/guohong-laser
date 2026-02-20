@@ -27,6 +27,31 @@ const getClientIp = (request: Request) => {
   return raw || 'unknown';
 };
 
+type ReturnOrderLookup = {
+  id: string;
+  userId: string;
+  user: { email: string | null } | null;
+};
+
+async function resolveOrderByInput(orderInput: string): Promise<ReturnOrderLookup | null> {
+  const exact = await prisma.order.findUnique({
+    where: { id: orderInput },
+    select: { id: true, userId: true, user: { select: { email: true } } },
+  });
+  if (exact) return exact;
+
+  if (orderInput.length < 6) return null;
+  const matches = await prisma.order.findMany({
+    where: { id: { startsWith: orderInput } },
+    select: { id: true, userId: true, user: { select: { email: true } } },
+    take: 2,
+    orderBy: { createdAt: 'desc' },
+  });
+
+  if (matches.length !== 1) return null;
+  return matches[0];
+}
+
 async function ensureEmailDomain(email: string) {
   const domain = email.split('@')[1] || '';
   if (!domain) {
@@ -162,13 +187,29 @@ export async function POST(request: Request) {
 
     await prisma.inquiryOtp.delete({ where: { email: safeEmail } });
 
+    const order = await resolveOrderByInput(orderId);
+    if (!order) {
+      return NextResponse.json({ error: 'Siparis bulunamadi.' }, { status: 400 });
+    }
+
+    if (session?.user?.id) {
+      if (order.userId !== session.user.id) {
+        return NextResponse.json({ error: 'Bu siparis size ait degil.' }, { status: 403 });
+      }
+    } else {
+      const orderEmail = (order.user?.email || '').trim().toLowerCase();
+      if (!orderEmail || orderEmail !== safeEmail) {
+        return NextResponse.json({ error: 'Siparis e-posta ile eslesmiyor.' }, { status: 403 });
+      }
+    }
+
     const created = await prisma.returnRequest.create({
       data: {
         userId: session?.user?.id ?? null,
         name,
         email: safeEmail,
         phone: phone || null,
-        orderId,
+        orderId: order.id,
         itemName: itemName || null,
         reason,
         resolution,
@@ -202,7 +243,7 @@ export async function POST(request: Request) {
         `Ad: ${name}`,
         `E-posta: ${safeEmail}`,
         phone ? `Telefon: ${phone}` : '',
-        `Sipariş: ${orderId}`,
+        `Sipariş: ${order.id}`,
         itemName ? `Ürün: ${itemName}` : '',
         `Talep: ${resolution}`,
         `Neden: ${reason}`,
@@ -218,7 +259,7 @@ export async function POST(request: Request) {
           <div><strong>Müşteri:</strong> ${name}</div>
           <div><strong>E-posta:</strong> ${safeEmail}</div>
           ${phone ? `<div><strong>Telefon:</strong> ${phone}</div>` : ''}
-          <div><strong>Sipariş:</strong> ${orderId}</div>
+          <div><strong>Sipariş:</strong> ${order.id}</div>
           ${itemName ? `<div><strong>Ürün:</strong> ${itemName}</div>` : ''}
           <div><strong>Talep:</strong> ${resolution}</div>
         </div>
@@ -252,7 +293,7 @@ export async function POST(request: Request) {
             <div style="font-size: 12px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Ozet</div>
             <div style="margin-top: 8px;"><strong>Talep:</strong> ${resolution}</div>
             ${itemName ? `<div style="margin-top: 6px;"><strong>Ürün:</strong> ${itemName}</div>` : ''}
-            <div style="margin-top: 6px;"><strong>Sipariş:</strong> ${orderId}</div>
+            <div style="margin-top: 6px;"><strong>Sipariş:</strong> ${order.id}</div>
           </div>
         `,
         primaryCta: { label: 'İade durumu', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile` },

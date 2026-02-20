@@ -3,15 +3,19 @@ import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { getStripe } from '@/lib/stripe';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import { getStripe } from '@/lib/stripe';
 
 type CheckoutItem = {
   id: string;
+  quantity: number;
+};
+
+type SparePartRow = {
+  id: string;
   name: string;
   priceCents: number;
-  quantity: number;
-  imageUrl?: string | null;
+  imageUrl: string | null;
 };
 
 export async function POST(req: Request) {
@@ -23,7 +27,7 @@ export async function POST(req: Request) {
   if (!isPaymentCheckoutEnabled()) {
     return NextResponse.json(
       {
-        error: 'Ödeme altyapısı şu an kapalı. Lütfen “Teklif iste” veya WhatsApp hattını kullanın.',
+        error: 'Odeme altyapisi su an kapali. Lutfen Teklif iste veya WhatsApp hattini kullanin.',
         code: 'PAYMENTS_DISABLED',
       },
       { status: 503 },
@@ -34,30 +38,27 @@ export async function POST(req: Request) {
   try {
     payload = (await req.json()) as { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
   } catch {
-    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
 
   const items = Array.isArray(payload.items) ? payload.items : [];
   const addressId = typeof payload.addressId === 'string' ? payload.addressId.trim() : '';
-  const billingAddressId =
-    typeof payload.billingAddressId === 'string' ? payload.billingAddressId.trim() : '';
+  const billingAddressId = typeof payload.billingAddressId === 'string' ? payload.billingAddressId.trim() : '';
+
   const cleanItems = items
-    .filter((x) => x && typeof x.name === 'string' && typeof x.priceCents === 'number' && typeof x.quantity === 'number')
+    .filter((x) => x && typeof x.id === 'string' && typeof x.quantity === 'number')
     .map((x) => ({
-      id: String(x.id),
-      name: String(x.name),
-      priceCents: Math.max(0, Math.round(x.priceCents)),
-      quantity: Math.max(1, Math.floor(x.quantity)),
-      imageUrl: typeof x.imageUrl === 'string' ? x.imageUrl : null,
+      id: String(x.id).trim(),
+      quantity: Math.max(1, Math.min(50, Math.floor(x.quantity))),
     }))
-    .filter((x) => x.priceCents > 0 && x.quantity > 0);
+    .filter((x) => x.id.length > 0);
 
   if (!cleanItems.length) {
-    return NextResponse.json({ error: 'Sepet boş' }, { status: 400 });
+    return NextResponse.json({ error: 'Sepet bos' }, { status: 400 });
   }
 
   if (!addressId) {
-    return NextResponse.json({ error: 'Adres seçilmedi' }, { status: 400 });
+    return NextResponse.json({ error: 'Adres secilmedi' }, { status: 400 });
   }
 
   const address = await prisma.address.findFirst({
@@ -66,7 +67,7 @@ export async function POST(req: Request) {
   });
 
   if (!address) {
-    return NextResponse.json({ error: 'Adres bulunamadı' }, { status: 400 });
+    return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
   }
 
   if (billingAddressId) {
@@ -76,14 +77,41 @@ export async function POST(req: Request) {
     });
 
     if (!billingAddress) {
-      return NextResponse.json({ error: 'Fatura adresi bulunamadı' }, { status: 400 });
+      return NextResponse.json({ error: 'Fatura adresi bulunamadi' }, { status: 400 });
     }
   }
 
-  const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    'http://localhost:3000';
+  const ids = Array.from(new Set(cleanItems.map((item) => item.id)));
+  const parts = (await prisma.sparePart.findMany({
+    where: { id: { in: ids }, isActive: true },
+    select: {
+      id: true,
+      name: true,
+      priceCents: true,
+      imageUrl: true,
+    },
+  })) as SparePartRow[];
+
+  const partMap = new Map(parts.map((part) => [part.id, part]));
+  const verifiedItems = cleanItems
+    .map((item) => {
+      const part = partMap.get(item.id);
+      if (!part) return null;
+      return {
+        id: part.id,
+        name: part.name,
+        priceCents: part.priceCents,
+        quantity: item.quantity,
+        imageUrl: part.imageUrl,
+      };
+    })
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+  if (verifiedItems.length !== cleanItems.length) {
+    return NextResponse.json({ error: 'Sepette gecersiz veya pasif urun var.' }, { status: 400 });
+  }
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
   let stripe;
   try {
@@ -92,7 +120,7 @@ export async function POST(req: Request) {
     console.error('[checkout] stripe init failed:', error);
     return NextResponse.json(
       {
-        error: 'Ödeme altyapısı şu an hazır değil. Lütfen “Teklif iste” üzerinden devam edin.',
+        error: 'Odeme altyapisi su an hazir degil. Lutfen Teklif iste uzerinden devam edin.',
         code: 'PAYMENTS_NOT_CONFIGURED',
       },
       { status: 503 },
@@ -104,7 +132,7 @@ export async function POST(req: Request) {
       mode: 'payment',
       payment_method_types: ['card'],
       locale: 'tr',
-      line_items: cleanItems.map((item) => ({
+      line_items: verifiedItems.map((item) => ({
         quantity: item.quantity,
         price_data: {
           currency: 'try',
@@ -124,7 +152,7 @@ export async function POST(req: Request) {
         addressId,
         billingAddressId: billingAddressId || addressId,
         cart: JSON.stringify(
-          cleanItems.map((item) => ({
+          verifiedItems.map((item) => ({
             id: item.id,
             name: item.name,
             priceCents: item.priceCents,
@@ -139,7 +167,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('[checkout] stripe checkout create failed:', error);
     return NextResponse.json(
-      { error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
+      { error: 'Odeme baslatilamadi. Lutfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
       { status: 500 },
     );
   }

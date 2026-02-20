@@ -12,6 +12,14 @@ import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
 export const runtime = 'nodejs';
 
 type OrderCreateResult = { id: string };
+type CartMetadataItem = { id: string; quantity: number };
+type VerifiedOrderItem = {
+  id: string;
+  name: string;
+  priceCents: number;
+  quantity: number;
+  imageUrl: string | null;
+};
 
 const prismaOrders = prisma as unknown as {
   order: {
@@ -38,6 +46,51 @@ const prismaNotifications = prisma as unknown as {
     } | null>;
   };
 };
+
+function parseCartMetadata(raw: string): CartMetadataItem[] {
+  try {
+    const parsed = JSON.parse(raw) as Array<{ id?: unknown; quantity?: unknown }>;
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((item) => item && typeof item.id === 'string' && typeof item.quantity === 'number')
+      .map((item) => ({
+        id: String(item.id).trim(),
+        quantity: Math.max(1, Math.min(50, Math.floor(item.quantity as number))),
+      }))
+      .filter((item) => item.id.length > 0);
+  } catch {
+    return [];
+  }
+}
+
+async function resolveVerifiedItems(cartRaw: string): Promise<VerifiedOrderItem[]> {
+  const metaItems = parseCartMetadata(cartRaw);
+  if (metaItems.length === 0) return [];
+
+  const ids = Array.from(new Set(metaItems.map((item) => item.id)));
+  const parts = await prisma.sparePart.findMany({
+    where: { id: { in: ids }, isActive: true },
+    select: { id: true, name: true, priceCents: true, imageUrl: true },
+  });
+  const partMap = new Map(parts.map((part) => [part.id, part]));
+
+  const verified = metaItems
+    .map((item) => {
+      const part = partMap.get(item.id);
+      if (!part) return null;
+      return {
+        id: part.id,
+        name: part.name,
+        priceCents: part.priceCents,
+        quantity: item.quantity,
+        imageUrl: part.imageUrl,
+      };
+    })
+    .filter((item): item is VerifiedOrderItem => Boolean(item));
+
+  if (verified.length !== metaItems.length) return [];
+  return verified;
+}
 
 function formatPriceTry(priceCents: number) {
   try {
@@ -276,6 +329,16 @@ export async function POST(req: Request) {
     );
   }
 
+  if (checkout.payment_status !== 'paid' && checkout.payment_status !== 'no_payment_required') {
+    return NextResponse.json(
+      {
+        error: 'Odeme henuz tamamlanmadi.',
+        code: 'PAYMENT_NOT_COMPLETED',
+      },
+      { status: 409 },
+    );
+  }
+
   const userId =
     checkout.metadata?.userId ||
     checkout.client_reference_id ||
@@ -290,49 +353,32 @@ export async function POST(req: Request) {
     typeof checkout.metadata?.addressId === 'string' ? checkout.metadata.addressId : null;
   const billingAddressId =
     typeof checkout.metadata?.billingAddressId === 'string' ? checkout.metadata.billingAddressId : null;
-  let cartItems: Array<{
-    id: string;
-    name: string;
-    priceCents: number;
-    quantity: number;
-    imageUrl?: string | null;
-  }> = [];
-
-  try {
-    cartItems = JSON.parse(cartRaw) as typeof cartItems;
-  } catch {
-    cartItems = [];
+  const itemsToCreate = await resolveVerifiedItems(cartRaw);
+  if (itemsToCreate.length === 0) {
+    return NextResponse.json(
+      {
+        error: 'Siparis kalemleri dogrulanamadi.',
+        code: 'INVALID_CART_METADATA',
+      },
+      { status: 400 },
+    );
   }
 
-  const lineItems = checkout.line_items?.data ?? [];
-  const fallbackItems = lineItems.map((item) => {
-    const quantity = item.quantity ?? 1;
-    const unitAmount =
-      item.price?.unit_amount ??
-      (item.amount_total ? Math.round(item.amount_total / quantity) : 0);
-    const product = typeof item.price?.product === 'object' ? item.price?.product : null;
-    const productName =
-      product && 'name' in product && typeof product.name === 'string'
-        ? product.name
-        : '';
-    const imageUrl =
-      product && 'images' in product && Array.isArray(product.images)
-        ? product.images[0] || null
-        : null;
-    return {
-      id: '',
-      name: item.description || productName || 'Urun',
-      priceCents: unitAmount,
-      quantity,
-      imageUrl,
-    };
-  });
-
-  const itemsToCreate = cartItems.length > 0 ? cartItems : fallbackItems;
   const total =
     typeof checkout.amount_total === 'number'
       ? checkout.amount_total
       : itemsToCreate.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+
+  const verifiedTotal = itemsToCreate.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+  if (typeof checkout.amount_total === 'number' && checkout.amount_total !== verifiedTotal) {
+    return NextResponse.json(
+      {
+        error: 'Odeme tutari dogrulanamadi.',
+        code: 'AMOUNT_MISMATCH',
+      },
+      { status: 400 },
+    );
+  }
 
   const createPayload = {
     userId,
@@ -345,7 +391,7 @@ export async function POST(req: Request) {
     billingAddressId: billingAddressId || shippingAddressId,
     items: {
       create: itemsToCreate.map((item) => ({
-        sparePartId: item.id || null,
+        sparePartId: item.id,
         name: item.name,
         imageUrl: item.imageUrl || null,
         quantity: item.quantity,
