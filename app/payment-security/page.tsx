@@ -100,38 +100,15 @@ export default function PaymentSecurityPage() {
 
       <PolicyCard title="Ödeme sağlayıcı logoları">
         <p className="text-sm text-[var(--gray-500)]">
-          Kartlı ödemeler güvenli altyapı üzerinden alınmakta olup iyzico, Visa ve Mastercard desteklenir.
+          Kartlı ödemeler güvenli altyapı üzerinden alınmakta olup iyzico, Visa, Mastercard ve Troy desteklenir.
         </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <Image
-            src="/images/payments/iyzico.svg"
-            alt="iyzico"
-            width={180}
-            height={56}
-            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
-          />
-          <Image
-            src="/images/payments/iyzico-ile-ode.svg"
-            alt="iyzico ile öde"
-            width={220}
-            height={56}
-            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
-          />
-          <Image
-            src="/images/payments/visa.svg"
-            alt="Visa"
-            width={160}
-            height={56}
-            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
-          />
-          <Image
-            src="/images/payments/mastercard.svg"
-            alt="Mastercard"
-            width={190}
-            height={56}
-            className="h-12 w-auto rounded-xl border border-[var(--surface-border)] bg-white p-1"
-          />
-        </div>
+        <Image
+          src="/iyzico/footer_iyzico_ile_ode/Colored/logo_band_colored.svg"
+          alt="iyzico, iyzico ile öde, Mastercard, Visa, Troy"
+          width={429}
+          height={32}
+          className="mt-4 h-auto w-full max-w-[430px] rounded-xl border border-[var(--surface-border)] bg-white p-2"
+        />
       </PolicyCard>
     </PolicyPageLayout>
   );

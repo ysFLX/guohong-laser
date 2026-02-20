@@ -57,36 +57,13 @@ export default function Footer() {
 
             <div className="rounded-2xl border border-amber-200/20 bg-[#151515] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-amber-100/60">Guvenli Odeme</div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                <Image
-                  src="/images/payments/iyzico.svg"
-                  alt="iyzico"
-                  width={180}
-                  height={56}
-                  className="h-11 w-auto rounded-lg bg-white p-1"
-                />
-                <Image
-                  src="/images/payments/iyzico-ile-ode.svg"
-                  alt="iyzico ile ode"
-                  width={220}
-                  height={56}
-                  className="h-11 w-auto rounded-lg bg-white p-1"
-                />
-                <Image
-                  src="/images/payments/visa.svg"
-                  alt="Visa"
-                  width={160}
-                  height={56}
-                  className="h-11 w-auto rounded-lg bg-white p-1"
-                />
-                <Image
-                  src="/images/payments/mastercard.svg"
-                  alt="Mastercard"
-                  width={190}
-                  height={56}
-                  className="h-11 w-auto rounded-lg bg-white p-1"
-                />
-              </div>
+              <Image
+                src="/iyzico/footer_iyzico_ile_ode/Colored/logo_band_colored.svg"
+                alt="iyzico, iyzico ile ode, Mastercard, Visa, Troy"
+                width={429}
+                height={32}
+                className="mt-3 h-auto w-full max-w-[430px] rounded-lg bg-white p-2"
+              />
             </div>
           </div>
 
