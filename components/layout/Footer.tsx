@@ -57,13 +57,16 @@ export default function Footer() {
 
             <div className="rounded-2xl border border-amber-200/20 bg-[#151515] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-amber-100/60">Guvenli Odeme</div>
-              <Image
-                src="/iyzico/footer_iyzico_ile_ode/Colored/logo_band_colored.svg"
-                alt="iyzico, iyzico ile ode, Mastercard, Visa, Troy"
-                width={429}
-                height={32}
-                className="mt-3 h-auto w-full max-w-[430px] rounded-lg bg-white p-2"
-              />
+              <p className="mt-3 text-sm text-amber-100/75">
+                Kartli odeme altyapisi basvuru surecindedir. Aktiflestiginde guvenli odeme adimlari checkout
+                ekraninda gorunecektir.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100/85">
+                <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">Visa</span>
+                <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">Mastercard</span>
+                <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">Troy</span>
+                <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">3D Secure</span>
+              </div>
             </div>
           </div>
 

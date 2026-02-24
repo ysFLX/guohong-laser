@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
@@ -98,17 +97,25 @@ export default function PaymentSecurityPage() {
         </p>
       </div>
 
-      <PolicyCard title="Ödeme sağlayıcı logoları">
+      <PolicyCard title="Odeme saglayici durumu">
         <p className="text-sm text-[var(--gray-500)]">
-          Kartlı ödemeler güvenli altyapı üzerinden alınmakta olup iyzico, Visa, Mastercard ve Troy desteklenir.
+          PAYTR basvurusu degerlendirme asamasindadir. Kartli odeme aktivasyonu tamamlandiginda bu alanda canli
+          saglayici bilgisi yayinlanacaktir.
         </p>
-        <Image
-          src="/iyzico/footer_iyzico_ile_ode/Colored/logo_band_colored.svg"
-          alt="iyzico, iyzico ile öde, Mastercard, Visa, Troy"
-          width={429}
-          height={32}
-          className="mt-4 h-auto w-full max-w-[430px] rounded-xl border border-[var(--surface-border)] bg-white p-2"
-        />
+        <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-[var(--foreground)]">
+          <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
+            Visa
+          </span>
+          <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
+            Mastercard
+          </span>
+          <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
+            Troy
+          </span>
+          <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
+            3D Secure
+          </span>
+        </div>
       </PolicyCard>
     </PolicyPageLayout>
   );
