@@ -1075,8 +1075,8 @@ function CheckoutAddressDisabled() {
           </div>
           <h1 className="mt-3 text-2xl font-semibold tracking-tight">Şimdilik teklif ile ilerliyoruz</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-            Ödeme altyapısı hazırlanıyor. Sepetiniz için teklif isteyebilir veya WhatsApp hattından sipariş desteği
-            alabilirsiniz.
+            Odeme altyapisi hazirlaniyor. PAYTR basvurusu degerlendirme asamasinda. Sepetiniz icin teklif isteyebilir
+            veya WhatsApp hattindan siparis destegi alabilirsiniz.
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
