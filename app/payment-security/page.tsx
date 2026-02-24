@@ -2,8 +2,11 @@ import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
 import PolicyPageLayout from '@/components/legal/PolicyPageLayout';
+import { getPaymentProviderName, getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
 
 export default function PaymentSecurityPage() {
+  const providerName = getPaymentProviderName();
+
   return (
     <PolicyPageLayout
       eyebrow="Güven Merkezi"
@@ -99,10 +102,13 @@ export default function PaymentSecurityPage() {
 
       <PolicyCard title="Odeme saglayici durumu">
         <p className="text-sm text-[var(--gray-500)]">
-          PAYTR basvurusu degerlendirme asamasindadir. Kartli odeme aktivasyonu tamamlandiginda bu alanda canli
-          saglayici bilgisi yayinlanacaktir.
+          {getPaymentProviderPendingNotice()} Kartli odeme aktivasyonu tamamlandiginda bu alanda canli saglayici
+          bilgisi yayinlanacaktir.
         </p>
         <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-[var(--foreground)]">
+          <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
+            {providerName}
+          </span>
           <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
             Visa
           </span>

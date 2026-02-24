@@ -10,6 +10,7 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
 
 type RecommendedItem = {
   id: string;
@@ -709,7 +710,8 @@ function CartPageContent() {
               ) : (
                 <div className="mt-6 space-y-3">
                   <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-200">
-                    Odeme altyapisi hazirlaniyor. PAYTR basvurusu degerlendirme asamasinda. Simdilik sepetin icin teklif isteyebilir veya WhatsApp hattindan siparis destegi alabilirsin.
+                    {getPaymentProviderPendingNotice()} Simdilik sepetin icin teklif isteyebilir veya WhatsApp
+                    hattindan siparis destegi alabilirsin.
                   </div>
                   <Link
                     href={cartQuoteHref}

@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
 
 type Address = {
   id: string;
@@ -1075,8 +1076,8 @@ function CheckoutAddressDisabled() {
           </div>
           <h1 className="mt-3 text-2xl font-semibold tracking-tight">Şimdilik teklif ile ilerliyoruz</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-            Odeme altyapisi hazirlaniyor. PAYTR basvurusu degerlendirme asamasinda. Sepetiniz icin teklif isteyebilir
-            veya WhatsApp hattindan siparis destegi alabilirsiniz.
+            {getPaymentProviderPendingNotice()} Sepetiniz icin teklif isteyebilir veya WhatsApp hattindan siparis
+            destegi alabilirsiniz.
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
