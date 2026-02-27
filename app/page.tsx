@@ -560,23 +560,13 @@ export default async function Home() {
   return (
     <div className={`${space.className} bg-[#070707] text-amber-50`}>
       <div className="relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute -left-24 top-20 h-64 w-64 rounded-full bg-amber-200/60 blur-[120px] dark:bg-amber-500/15 glow-drift"
-          style={{ animationDelay: '0ms' }}
-        />
-        <div
-          className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-amber-200/30 blur-[140px] dark:bg-amber-500/15 glow-drift"
-          style={{ animationDelay: '200ms' }}
-        />
-        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(120deg,rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:140px_140px] dark:opacity-20 dark:[background-image:linear-gradient(120deg,rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.12)_1px,transparent_1px)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:radial-gradient(rgba(245,158,11,0.12)_1px,transparent_1px)] [background-size:22px_22px]" />
 
-        <Reveal as="section" className="relative mx-auto w-full px-0 pb-12 pt-12">
-          <div className="relative overflow-hidden rounded-[44px] bg-gradient-to-br from-[#171108] via-[#0b0b0b] to-[#2a1d0f] text-white shadow-[0_50px_140px_rgba(0,0,0,0.6)]">
-            <div className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-amber-500/25 blur-[140px]" />
-            <div className="pointer-events-none absolute -right-32 top-0 h-80 w-80 rounded-full bg-amber-400/20 blur-[160px]" />
-            <div className="relative grid gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-14 lg:py-14">
+        <Reveal as="section" className="relative mx-auto w-full px-0 pb-10 pt-10">
+          <div className="relative overflow-hidden rounded-[34px] border border-amber-200/20 bg-[linear-gradient(160deg,#0d0d0d_0%,#17120b_55%,#111111_100%)] text-white shadow-[0_28px_90px_rgba(0,0,0,0.55)]">
+            <div className="relative grid gap-8 px-6 py-8 sm:px-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:px-12 lg:py-12">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.4em] text-white/70">
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/75">
                   Guohong Lazer
                 </div>
                 <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
@@ -590,19 +580,19 @@ export default async function Home() {
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/products"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-amber-400 px-7 py-3 text-sm font-semibold text-black transition hover:bg-amber-300 sm:w-auto"
                 >
                   Kataloğu Gör
                 </Link>
                 <Link
                   href="/spare-parts"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-amber-400 px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-amber-500/25 transition hover:-translate-y-0.5 hover:bg-amber-300 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-xl border border-amber-200/35 bg-[#121212] px-7 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a] sm:w-auto"
                 >
                   Yedek parça al
                 </Link>
                 <Link
                   href="/quote"
-                  className="inline-flex w-full items-center justify-center rounded-full border border-white/30 px-7 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-xl border border-white/25 px-7 py-3 text-sm font-semibold text-white/85 transition hover:border-white/50 sm:w-auto"
                 >
                   Teklif al
                 </Link>
@@ -616,8 +606,8 @@ export default async function Home() {
                   ))}
                 </div>
               </div>
-              <div className="space-y-5">
-                <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-white/20 bg-white/10">
+              <div className="space-y-4">
+                <div className="relative min-h-[340px] overflow-hidden rounded-[28px] border border-amber-200/25 bg-black/30">
                   <Image
                     src="/images/about-showcase.jpg"
                     alt="Guohong Lazer Hat"
@@ -640,10 +630,10 @@ export default async function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="grid gap-3 rounded-3xl border border-white/15 bg-white/10 px-5 py-4 text-sm text-white/80">
+                <div className="rounded-2xl border border-amber-200/20 bg-black/30 px-4 py-3">
                   {liveStatus.map((item) => (
-                    <div key={item.label} className="flex items-center justify-between">
-                      <span className="text-xs uppercase tracking-[0.2em] text-white/50">{item.label}</span>
+                    <div key={item.label} className="flex items-center justify-between border-b border-amber-200/10 py-2 last:border-b-0">
+                      <span className="text-xs text-amber-100/65">{item.label}</span>
                       <span className={`text-sm font-semibold ${item.tone}`}>{item.value}</span>
                     </div>
                   ))}
@@ -654,20 +644,20 @@ export default async function Home() {
         </Reveal>
       </div>
 
-      <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[32px] border border-amber-200/30 bg-[#121212] p-6 shadow-xl ambient-pulse gradient-shift bg-[linear-gradient(120deg,rgba(251,191,36,0.12),rgba(18,18,18,0.95),rgba(250,204,21,0.14))]">
+      <Reveal as="section" className="mx-auto mt-10 w-full px-0">
+        <div className="rounded-[28px] border border-amber-200/20 bg-[#101010] p-6 shadow-[0_22px_70px_rgba(0,0,0,0.45)]">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Video galerisi</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-300/90">Saha goruntuleri</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
                 Sac, boru ve demir kesim hatları
               </h2>
             </div>
             <Link
               href="/gallery"
-              className="rounded-full border border-amber-200/40 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-100 hover:border-amber-300/60"
+              className="rounded-xl border border-amber-200/35 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-amber-100 transition hover:bg-amber-200/10"
             >
-              Galeriye Git
+              Galeri
             </Link>
           </div>
           <VideoSlider items={heroVideos} />
@@ -675,19 +665,18 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto w-full px-0">
-        <div className="grid gap-4 rounded-[36px] border border-amber-200/20 bg-[#111111] p-6 shadow-[0_30px_80px_-50px_rgba(0,0,0,0.55)] md:grid-cols-3 gradient-shift">
-          {commerceTiles.map((tile) => (
+        <div className="grid gap-4 rounded-[30px] border border-amber-200/15 bg-[#101010] p-5 md:grid-cols-3">
+          {commerceTiles.map((tile, index) => (
             <Link
               key={tile.title}
               href={tile.href}
-              className="group relative overflow-hidden rounded-[26px] border border-amber-200/20 bg-[#171717] px-5 py-6 transition hover:-translate-y-1 hover:border-amber-300/50 hover:bg-[#1d1d1d] hover:shadow-xl"
+              className="group rounded-[22px] border border-amber-200/20 bg-[#151515] p-5 transition hover:border-amber-300/45 hover:bg-[#1c1c1c]"
             >
-              <div className="absolute right-4 top-4 h-10 w-10 rounded-full bg-amber-100/80 dark:bg-amber-500/20" />
-              <div className="mb-4 h-1 w-10 rounded-full bg-amber-500/70" />
+              <div className="text-xs font-semibold text-amber-300/85">0{index + 1}</div>
               <h3 className="text-lg font-semibold text-amber-50">{tile.title}</h3>
-              <p className="mt-2 text-sm text-amber-100/70">{tile.description}</p>
-              <span className="mt-6 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-                Incele
+              <p className="mt-2 text-sm leading-6 text-amber-100/70">{tile.description}</p>
+              <span className="mt-5 inline-flex items-center text-xs font-semibold uppercase tracking-[0.12em] text-amber-300">
+                Detaya git
                 <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
               </span>
             </Link>
