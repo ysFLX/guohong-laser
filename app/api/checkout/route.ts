@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
-import { getStripe } from '@/lib/stripe';
+import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 
 type CheckoutItem = {
   id: string;
@@ -112,60 +112,117 @@ export async function POST(req: Request) {
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-
-  let stripe;
-  try {
-    stripe = getStripe();
-  } catch (error) {
-    console.error('[checkout] stripe init failed:', error);
-    return NextResponse.json(
-      {
-        error: 'Odeme altyapisi su an hazir degil. Lutfen Teklif iste uzerinden devam edin.',
-        code: 'PAYMENTS_NOT_CONFIGURED',
-      },
-      { status: 503 },
-    );
+  const email = (session.user.email || '').trim();
+  if (!email) {
+    return NextResponse.json({ error: 'Odeme icin e-posta gerekli.' }, { status: 400 });
   }
 
+  const selectedAddress = await prisma.address.findFirst({
+    where: { id: addressId, userId: session.user.id },
+    select: {
+      fullName: true,
+      phone: true,
+      line1: true,
+      line2: true,
+      city: true,
+      state: true,
+      postalCode: true,
+      country: true,
+    },
+  });
+
+  if (!selectedAddress) {
+    return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
+  }
+
+  const totalCents = verifiedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+  if (totalCents <= 0) {
+    return NextResponse.json({ error: 'Sepet tutari gecersiz' }, { status: 400 });
+  }
+
+  const merchantOid = `paytr_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+  const displayName =
+    selectedAddress.fullName ||
+    (session.user.name || '').trim() ||
+    'Musteri';
+  const displayAddress = [
+    selectedAddress.line1,
+    selectedAddress.line2,
+    selectedAddress.city,
+    selectedAddress.state,
+    selectedAddress.postalCode,
+    selectedAddress.country,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+  const userPhone = (selectedAddress.phone || '').trim() || '+905000000000';
+  const userBasket = verifiedItems.map((item) => [item.name, (item.priceCents / 100).toFixed(2), item.quantity] as [string, string, number]);
+  const okUrl = `${appUrl}/checkout/success?merchant_oid=${encodeURIComponent(merchantOid)}`;
+  const failUrl = `${appUrl}/checkout/cancel?merchant_oid=${encodeURIComponent(merchantOid)}`;
+
   try {
-    const sessionData = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      payment_method_types: ['card'],
-      locale: 'tr',
-      line_items: verifiedItems.map((item) => ({
-        quantity: item.quantity,
-        price_data: {
-          currency: 'try',
-          unit_amount: item.priceCents,
-          product_data: {
-            name: item.name,
-            images: item.imageUrl ? [item.imageUrl] : undefined,
-          },
-        },
-      })),
-      success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/checkout/cancel`,
-      client_reference_id: session.user.id,
-      customer_email: session.user.email || undefined,
-      metadata: {
+    await prisma.order.create({
+      data: {
         userId: session.user.id,
-        addressId,
+        status: 'PENDING',
+        totalCents,
+        currency: 'TRY',
+        stripeSessionId: merchantOid,
+        shippingAddressId: addressId,
         billingAddressId: billingAddressId || addressId,
-        cart: JSON.stringify(
-          verifiedItems.map((item) => ({
-            id: item.id,
+        items: {
+          create: verifiedItems.map((item) => ({
+            sparePartId: item.id,
+            sku: item.id,
             name: item.name,
-            priceCents: item.priceCents,
-            quantity: item.quantity,
             imageUrl: item.imageUrl,
+            quantity: item.quantity,
+            priceCents: item.priceCents,
+            currency: 'TRY',
           })),
-        ),
+        },
       },
     });
 
-    return NextResponse.json({ url: sessionData.url });
+    const payload = buildPaytrCheckoutPayload({
+      merchantOid,
+      userIp: getUserIp(req),
+      email,
+      paymentAmount: totalCents,
+      userBasket,
+      userName: displayName,
+      userAddress: displayAddress || 'Adres bilgisi',
+      userPhone,
+      merchantOkUrl: okUrl,
+      merchantFailUrl: failUrl,
+    });
+
+    const paytrRes = await fetch('https://www.paytr.com/odeme/api/get-token', {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: payload.toString(),
+      cache: 'no-store',
+    });
+
+    const paytrJson = (await paytrRes.json().catch(() => ({}))) as { status?: string; token?: string; reason?: string };
+    if (!paytrRes.ok || paytrJson.status !== 'success' || !paytrJson.token) {
+      console.error('[checkout] PAYTR get-token failed:', paytrJson);
+      await prisma.order
+        .updateMany({
+          where: { stripeSessionId: merchantOid },
+          data: { status: 'FAILED' },
+        })
+        .catch(() => undefined);
+      return NextResponse.json(
+        { error: 'Odeme baslatilamadi. Lutfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json({ url: buildPaytrRedirectUrl(paytrJson.token), merchant_oid: merchantOid });
   } catch (error) {
-    console.error('[checkout] stripe checkout create failed:', error);
+    console.error('[checkout] PAYTR checkout create failed:', error);
     return NextResponse.json(
       { error: 'Odeme baslatilamadi. Lutfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
       { status: 500 },

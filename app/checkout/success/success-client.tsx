@@ -52,7 +52,7 @@ function formatPriceTry(priceCents: number) {
 export default function CheckoutSuccessClient() {
   const { clear } = useCart();
   const searchParams = useSearchParams();
-  const sessionId = searchParams.get('session_id');
+  const sessionId = searchParams.get('session_id') || searchParams.get('merchant_oid');
   const { status } = useSession();
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
   const [orderStatus, setOrderStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
@@ -77,7 +77,7 @@ export default function CheckoutSuccessClient() {
   const orderDetailHref = orderInfo?.id ? `/profile/orders/${orderInfo.id}` : '/profile/orders';
 
   const loginHref = useMemo(() => {
-    const next = sessionId ? `/checkout/success?session_id=${encodeURIComponent(sessionId)}` : '/checkout/success';
+    const next = sessionId ? `/checkout/success?merchant_oid=${encodeURIComponent(sessionId)}` : '/checkout/success';
     return `/login?next=${encodeURIComponent(next)}`;
   }, [sessionId]);
 
@@ -131,15 +131,9 @@ export default function CheckoutSuccessClient() {
     const delay = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
 
     const run = async () => {
-      try {
-        await fetch(`/api/orders/sync?session_id=${encodeURIComponent(sessionId)}`, { method: 'POST' });
-      } catch {
-        // no-op
-      }
-
       for (let attempt = 0; attempt < 4; attempt += 1) {
         try {
-          const res = await fetch(`/api/orders/by-session?session_id=${encodeURIComponent(sessionId)}`);
+          const res = await fetch(`/api/orders/by-session?merchant_oid=${encodeURIComponent(sessionId)}`);
           if (res.status === 401 || res.status === 403) {
             if (cancelled) return;
             setOrderStatus('error');

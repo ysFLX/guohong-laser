@@ -33,9 +33,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
 
-  const sessionId = new URL(req.url).searchParams.get('session_id') || '';
+  const search = new URL(req.url).searchParams;
+  const sessionId = search.get('session_id') || search.get('merchant_oid') || '';
   if (!sessionId) {
-    return NextResponse.json({ error: 'session_id gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'session_id veya merchant_oid gerekli' }, { status: 400 });
   }
 
   const order = await prismaOrders.order.findFirst({
@@ -75,4 +76,3 @@ export async function GET(req: Request) {
     },
   });
 }
-

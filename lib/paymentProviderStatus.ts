@@ -11,8 +11,8 @@ export function getPaymentProviderName() {
 
 export function getPaymentProviderStatus(): PaymentProviderStatus {
   const raw = normalize(process.env.NEXT_PUBLIC_PAYMENT_PROVIDER_STATUS || '');
-  if (raw === 'active') return 'active';
-  return 'pending';
+  if (raw === 'pending') return 'pending';
+  return 'active';
 }
 
 export function isPaymentProviderActive() {
@@ -20,6 +20,5 @@ export function isPaymentProviderActive() {
 }
 
 export function getPaymentProviderPendingNotice() {
-  return `Odeme altyapisi hazirlaniyor. ${getPaymentProviderName()} basvurusu degerlendirme asamasinda.`;
+  return `Odeme altyapisi hazirlaniyor. ${getPaymentProviderName()} aktivasyon sureci devam ediyor.`;
 }
-
