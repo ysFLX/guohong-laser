@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   }
 
   if (nextStatus === 'PAID') {
-    await enqueueInvoiceForOrder(order.id).catch((error) => {
+    await enqueueInvoiceForOrder({ orderId: order.id }).catch((error) => {
       console.error('[paytr-callback] invoice enqueue failed:', error);
     });
   }
