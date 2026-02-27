@@ -96,7 +96,7 @@ export function buildPaytrCheckoutPayload(params: {
 }
 
 export function buildPaytrRedirectUrl(token: string) {
-  return `https://www.paytr.com/odeme?token=${encodeURIComponent(token)}`;
+  return `https://www.paytr.com/odeme/guvenli/${encodeURIComponent(token)}`;
 }
 
 export function verifyPaytrCallbackHash(params: { merchantOid: string; status: string; totalAmount: string; hash: string }) {
