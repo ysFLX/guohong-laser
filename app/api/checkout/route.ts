@@ -173,13 +173,13 @@ export async function POST(req: Request) {
         billingAddressId: billingAddressId || addressId,
         items: {
           create: verifiedItems.map((item) => ({
-            sparePartId: item.id,
-            sku: item.id,
             name: item.name,
             imageUrl: item.imageUrl,
             quantity: item.quantity,
             priceCents: item.priceCents,
-            currency: 'TRY',
+            sparePart: {
+              connect: { id: item.id },
+            },
           })),
         },
       },
