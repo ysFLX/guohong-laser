@@ -140,7 +140,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Sepet tutari gecersiz' }, { status: 400 });
   }
 
-  const merchantOid = `paytr_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+  const merchantOid = `PAYTR${Date.now()}${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
   const displayName =
     selectedAddress.fullName ||
     (session.user.name || '').trim() ||
