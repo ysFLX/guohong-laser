@@ -389,7 +389,7 @@ function CartPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+    <div className="min-h-screen bg-slate-50 pb-28 text-slate-900 dark:bg-slate-950 dark:text-white lg:pb-0">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -685,7 +685,7 @@ function CartPageContent() {
                   <div className="mt-6">
                 <button
                   type="button"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-70 dark:bg-white/10 dark:hover:bg-white/20"
+                  className="hidden w-full items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-70 dark:bg-white/10 dark:hover:bg-white/20 lg:inline-flex"
                   onClick={handleQuickBuy}
                   disabled={!items.length || isQuickBuying}
                 >
@@ -699,7 +699,7 @@ function CartPageContent() {
               <div className="mt-4">
                 <button
                   type="button"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
+                  className="hidden w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70 lg:inline-flex"
                   onClick={handleCheckout}
                   disabled={!items.length}
                 >
@@ -790,6 +790,29 @@ function CartPageContent() {
           </div>
         )}
       </div>
+
+      {items.length > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur lg:hidden dark:border-slate-800 dark:bg-slate-950/95">
+          <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+            <div className="min-w-0">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+                Sepet Toplami
+              </div>
+              <div className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
+                {formatPriceTry(subtotalCents)}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={!items.length}
+              className="ml-auto inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
+            >
+              {paymentsEnabled ? 'Odeme Adimina Gec' : 'Teklif Ile Devam Et'}
+            </button>
+          </div>
+        </div>
+      )}
 
       {showQuickBuyPrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">

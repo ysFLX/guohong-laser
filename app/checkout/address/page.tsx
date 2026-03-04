@@ -328,7 +328,7 @@ function CheckoutAddressEnabled() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
+    <div className="min-h-screen bg-slate-50 pb-32 text-slate-900 dark:bg-slate-950 dark:text-white lg:pb-0">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -1024,7 +1024,7 @@ function CheckoutAddressEnabled() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-950/30 dark:text-slate-200">
+            <div className="mt-4 hidden rounded-2xl border border-slate-200/70 bg-white/80 px-4 py-4 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-950/30 dark:text-slate-200 lg:block">
               <label className="flex items-start gap-3">
                 <input
                   type="checkbox"
@@ -1055,9 +1055,47 @@ function CheckoutAddressEnabled() {
               type="button"
               onClick={handleCheckout}
               disabled={loadingCheckout || loadingAddresses || !acceptedTerms}
-              className="mt-6 w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-70"
+              className="mt-6 hidden w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-70 lg:block"
             >
               {loadingCheckout ? 'Yönlendiriliyor...' : 'Ödemeye devam et'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur lg:hidden dark:border-slate-800 dark:bg-slate-950/95">
+        <div className="mx-auto max-w-6xl space-y-3 px-4 py-3">
+          <label className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-indigo-600"
+            />
+            <span>
+              Mesafeli satis ve iade kosullarini kabul ediyorum.
+              {' '}
+              <Link href="/distance-sales" className="font-semibold text-indigo-600">
+                Sozlesme
+              </Link>
+            </span>
+          </label>
+          <div className="flex items-center gap-3">
+            <div className="min-w-0">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+                Toplam
+              </div>
+              <div className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
+                {formatPriceTry(subtotalCents)}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={loadingCheckout || loadingAddresses || !acceptedTerms}
+              className="ml-auto inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
+            >
+              {loadingCheckout ? 'Yonlendiriliyor...' : 'Odemeye Devam Et'}
             </button>
           </div>
         </div>

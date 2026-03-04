@@ -366,6 +366,28 @@ export default async function SparePartDetailPage({
               <p className="mt-4 text-sm leading-relaxed text-slate-700">{p.description}</p>
             </div>
 
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 lg:hidden">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                    Hizli ozet
+                  </div>
+                  <div className="mt-1 text-2xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
+                </div>
+                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
+                  {inStock ? 'Stokta' : 'Stokta yok'}
+                </span>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+                  Teslim: {inStock ? '2-3 gun' : '7-10 gun'}
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+                  Garanti: Resmi servis
+                </div>
+              </div>
+            </div>
+
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Öne çıkanlar
@@ -448,7 +470,7 @@ export default async function SparePartDetailPage({
 
           </div>
 
-          <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24">
+          <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24 lg:block">
             <div className="text-3xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
               <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
