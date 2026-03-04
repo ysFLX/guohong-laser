@@ -178,6 +178,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const [sortOption, setSortOption] = useState(urlFilters.sort);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [stockRequestOpen, setStockRequestOpen] = useState(false);
   const [stockRequestPart, setStockRequestPart] = useState<SparePart | null>(null);
   const [stockRequestForm, setStockRequestForm] = useState({
@@ -951,7 +952,31 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start">
-        <aside className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60">
+        <div className="sticky top-[66px] z-30 -mx-2 rounded-2xl border border-slate-200/70 bg-white/95 px-2 py-2 backdrop-blur lg:hidden dark:border-slate-800/70 dark:bg-slate-950/95">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setMobileFiltersOpen(true)}
+              className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+            >
+              Filtreler
+              {activeFiltersCount > 0 ? ` (${activeFiltersCount})` : ''}
+            </button>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="min-h-10 flex-1 rounded-xl border border-slate-200/70 bg-white/90 px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm focus:border-indigo-400 focus:outline-none dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
+            >
+              <option value="recommended">One Cikanlar</option>
+              <option value="price-asc">Fiyat (artan)</option>
+              <option value="price-desc">Fiyat (azalan)</option>
+              <option value="rating-desc">Puan (yuksek)</option>
+              <option value="name-asc">Isim (A-Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <aside className="hidden h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-5 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/60 lg:block">
           <div className="space-y-5">
               <div className="flex items-center justify-between gap-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
@@ -1067,7 +1092,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   {isLoading ? 'Yükleniyor...' : `${filtered.length} ürün bulundu`}
                 </p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="hidden items-center gap-3 lg:flex">
                 <label
                   htmlFor="sortSelect"
                   className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
@@ -1317,6 +1342,105 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           )}
         </div>
       </section>
+
+      {mobileFiltersOpen && (
+        <div className="fixed inset-0 z-[90] bg-black/45 px-4 py-6 backdrop-blur-sm lg:hidden">
+          <div className="mx-auto h-full w-full max-w-xl overflow-y-auto rounded-3xl border border-slate-200/70 bg-white p-5 shadow-2xl dark:border-slate-800/70 dark:bg-slate-950">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
+                Filtreler
+              </p>
+              <button
+                type="button"
+                onClick={() => setMobileFiltersOpen(false)}
+                className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+              >
+                Kapat
+              </button>
+            </div>
+
+            <div className="mt-4 space-y-5">
+              <div>
+                <label
+                  htmlFor="spSearchMobile"
+                  className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+                >
+                  Arama
+                </label>
+                <input
+                  id="spSearchMobile"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-indigo-400 dark:focus:ring-indigo-500/30"
+                  placeholder="Parca ara..."
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="modelSelectMobile"
+                  className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+                >
+                  Model uyumu
+                </label>
+                <select
+                  id="modelSelectMobile"
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  className="mt-2 block w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-indigo-400 dark:focus:ring-indigo-500/30"
+                >
+                  {machineModels.map((model) => (
+                    <option key={model.id} value={model.id}>
+                      {model.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                  Kategori
+                </label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {categories.map((c) => (
+                    <button
+                      key={`m-${c}`}
+                      type="button"
+                      onClick={() => setSelectedCategory(c)}
+                      className={`rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                        selectedCategory === c
+                          ? 'border-indigo-500/40 bg-indigo-600 text-white shadow-sm shadow-indigo-500/20'
+                          : 'border-slate-200/70 bg-white/90 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:bg-slate-800/70'
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={resetFilters}
+                disabled={activeFiltersCount === 0}
+                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+              >
+                Temizle
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileFiltersOpen(false)}
+                className="rounded-xl bg-indigo-600 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-white"
+              >
+                Sonuclari Gor
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {compareIds.length > 0 && (
         <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 text-sm shadow-2xl dark:border-slate-800/70 dark:bg-slate-950/80">
