@@ -106,9 +106,9 @@ export default function Header() {
   };
 
   const desktopLinkClass = (href: string) => {
-    const active = 'text-amber-100';
-    const idle = 'text-amber-100/70 hover:text-amber-50';
-    return `relative text-xs font-semibold uppercase tracking-[0.18em] transition ${isActive(href) ? active : idle}`;
+    const active = 'text-amber-50 bg-amber-300/10 border-amber-200/35';
+    const idle = 'text-amber-100/75 border-transparent hover:text-amber-50 hover:border-amber-200/25 hover:bg-white/[0.03]';
+    return `relative inline-flex items-center rounded-full border px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition ${isActive(href) ? active : idle}`;
   };
 
   const mobileLinkClass = (href: string) => {
@@ -136,15 +136,20 @@ export default function Header() {
   }, [mounted, unreadCount]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-amber-200/20 bg-[#0b0b0b]/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-amber-200/15 bg-[#090909]/92 backdrop-blur-2xl">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-24 top-0 h-56 w-56 rounded-full bg-amber-300/25 blur-[140px]" />
-        <div className="absolute -right-24 top-8 h-56 w-56 rounded-full bg-amber-200/20 blur-[160px]" />
-        <div className="absolute inset-0 opacity-40 dark:opacity-20 bg-[linear-gradient(90deg,_rgba(15,23,42,0.06)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(15,23,42,0.06)_1px,_transparent_1px)] bg-[size:72px_72px]" />
+        <div className="absolute -left-20 top-0 h-56 w-56 rounded-full bg-amber-300/20 blur-[120px]" />
+        <div className="absolute -right-20 top-6 h-56 w-56 rounded-full bg-orange-200/15 blur-[140px]" />
+        <div className="absolute inset-0 opacity-35 bg-[linear-gradient(90deg,_rgba(251,191,36,0.05)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(251,191,36,0.05)_1px,_transparent_1px)] bg-[size:72px_72px]" />
       </div>
 
       <div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center gap-2 sm:gap-3">
+        <div className="hidden items-center justify-between border-b border-amber-200/10 py-2 text-[11px] uppercase tracking-[0.24em] text-amber-100/60 lg:flex">
+          <span>Kurumsal lazer sistemleri</span>
+          <span>Teklif geri dönüşü: 30 dk içinde</span>
+        </div>
+
+        <div className="flex h-[72px] items-center gap-2 sm:gap-3">
           <Link href="/" className="inline-flex min-w-0 items-center gap-3">
             {!logoError ? (
               <Image
@@ -154,7 +159,7 @@ export default function Header() {
                 height={48}
                 sizes="(max-width: 640px) 150px, 180px"
                 priority
-                className="h-9 w-auto sm:h-12"
+                className="h-9 w-auto sm:h-11"
                 onError={() => setLogoError(true)}
               />
             ) : (
@@ -163,7 +168,7 @@ export default function Header() {
           </Link>
 
           <nav className="hidden flex-1 justify-center lg:flex" aria-label="Ana menü">
-            <div className="flex items-center gap-7 rounded-full border border-amber-200/25 bg-[#151515]/90 px-6 py-2 shadow-sm backdrop-blur">
+            <div className="flex items-center gap-2 rounded-full border border-amber-200/20 bg-[#121212]/90 px-3 py-2 shadow-[0_16px_60px_rgba(0,0,0,0.35)] backdrop-blur">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} className={desktopLinkClass(item.href)}>
                   {item.label}
@@ -173,15 +178,15 @@ export default function Header() {
           </nav>
 
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-            <Link href="/quote" className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black shadow-[0_14px_40px_rgba(251,191,36,0.25)] transition hover:bg-amber-400">
+            <Link href="/quote" className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black shadow-[0_12px_36px_rgba(251,191,36,0.35)] transition hover:bg-amber-400">
               Teklif Al
             </Link>
 
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:border-amber-300/50 hover:bg-[#1e1e1e]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:border-amber-300/50 hover:bg-[#1e1e1e]">
               WhatsApp
             </a>
 
-            <button type="button" onClick={toggleTheme} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1e1e1e] hover:text-amber-50" aria-label="Tema değiştir">
+            <button type="button" onClick={toggleTheme} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] p-2 text-amber-100 transition hover:bg-[#1e1e1e] hover:text-amber-50" aria-label="Tema değiştir">
               {theme === 'dark' ? (
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8-9h1M3 12H2m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
               ) : (
@@ -202,7 +207,7 @@ export default function Header() {
             </button>
 
             {isAuthed ? (
-              <button type="button" onClick={() => setProfileOpen(true)} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-1.5 text-amber-100 transition hover:bg-[#1f1f1f]" aria-label="Profil">
+              <button type="button" onClick={() => setProfileOpen(true)} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] p-1.5 text-amber-100 transition hover:bg-[#1f1f1f]" aria-label="Profil">
                 {avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={avatarUrl} alt="Profil fotoğrafı" className="h-8 w-8 rounded-full object-cover" />
@@ -212,7 +217,7 @@ export default function Header() {
               </button>
             ) : (
               <div className="hidden items-center gap-2 sm:flex">
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#1f1f1f]">Giriş</Link>
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#1f1f1f]">Giriş</Link>
                 <Link href={registerHref} className="inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black transition hover:bg-amber-400">Kayıt</Link>
               </div>
             )}
@@ -221,7 +226,7 @@ export default function Header() {
               <Link href="/admin" className="hidden md:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-amber-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200 transition hover:border-amber-300/50">Admin</Link>
             )}
 
-            <button type="button" className="z-10 shrink-0 inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#171717] p-2 text-amber-100 transition hover:bg-[#1f1f1f] lg:hidden" onClick={() => setMobileMenuOpen((prev) => !prev)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
+            <button type="button" className="z-10 shrink-0 inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] p-2 text-amber-100 transition hover:bg-[#1f1f1f] lg:hidden" onClick={() => setMobileMenuOpen((prev) => !prev)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
           </div>
