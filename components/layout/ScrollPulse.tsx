@@ -1,6 +1,6 @@
-'use client';
+﻿'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function getScrollProgress() {
   const top = window.scrollY || document.documentElement.scrollTop;
@@ -36,17 +36,7 @@ export default function ScrollPulse() {
     };
   }, []);
 
-  const progressRounded = Math.round(progress);
-  const showElevator = progressRounded > 12;
-  const circumference = 2 * Math.PI * 20;
-  const dashOffset = circumference - (progress / 100) * circumference;
-
-  const label = useMemo(() => {
-    if (progressRounded > 95) return 'Bitti';
-    if (progressRounded > 60) return 'Akışta';
-    if (progressRounded > 30) return 'İlerliyor';
-    return 'Başla';
-  }, [progressRounded]);
+  const showElevator = progress > 12;
 
   return (
     <>
@@ -63,39 +53,14 @@ export default function ScrollPulse() {
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`group fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] left-3 z-[80] hidden items-center gap-3 rounded-full border border-amber-200/35 bg-[#0d0d0d]/90 px-3 py-2 text-amber-100 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur transition-all duration-300 sm:inline-flex sm:left-6 sm:bottom-6 ${
+        className={`group fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] right-3 z-[80] grid h-12 w-12 place-items-center rounded-full border border-amber-200/35 bg-[#0d0d0d]/90 text-amber-100 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur transition-all duration-300 sm:bottom-6 sm:right-6 ${
           showElevator ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
         }`}
-        aria-label="Sayfanın en üstüne çık"
+        aria-label="Sayfanin en ustune cik"
       >
-        <span className="relative grid h-10 w-10 place-items-center">
-          <svg className="h-10 w-10 -rotate-90" viewBox="0 0 48 48" aria-hidden="true">
-            <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(251,191,36,0.2)" strokeWidth="4" />
-            <circle
-              cx="24"
-              cy="24"
-              r="20"
-              fill="none"
-              stroke="rgba(251,191,36,0.95)"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeDasharray={circumference}
-              strokeDashoffset={dashOffset}
-            />
-          </svg>
-          <span className="absolute inset-0 grid place-items-center text-[11px] font-semibold tracking-wide text-amber-100">
-            {progressRounded}
-          </span>
-        </span>
-        <span className="pr-1 text-left">
-          <span className="block text-[10px] uppercase tracking-[0.24em] text-amber-200/70">Scroll</span>
-          <span className="block text-sm font-semibold text-amber-50">{label}</span>
-        </span>
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-amber-400/15 text-amber-100 transition group-hover:bg-amber-300/20">
-          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
-            <path d="M12 5l6 6-1.5 1.5-3.5-3.5V19h-2V9l-3.5 3.5L6 11z" fill="currentColor" />
-          </svg>
-        </span>
+        <svg viewBox="0 0 24 24" className="h-5 w-5 transition group-hover:-translate-y-0.5" aria-hidden="true">
+          <path d="M12 5l6 6-1.5 1.5-3.5-3.5V19h-2V9l-3.5 3.5L6 11z" fill="currentColor" />
+        </svg>
       </button>
     </>
   );
