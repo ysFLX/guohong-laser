@@ -868,6 +868,32 @@ export default async function Home() {
         </div>
       </Reveal>
 
+      <Reveal as="section" className="mx-auto mt-10 w-full px-0 md:hidden">
+        <div className="grid gap-3 rounded-[24px] border border-amber-200/20 bg-[#111111] p-4 shadow-xl">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-amber-300">Hizli erisim</p>
+          <div className="grid gap-2">
+            <Link
+              href="/spare-parts"
+              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black"
+            >
+              Yedek Parca Ara
+            </Link>
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center rounded-xl border border-amber-200/30 px-4 py-3 text-sm font-semibold text-amber-100"
+            >
+              Makine Cozumleri
+            </Link>
+            <Link
+              href="/quote"
+              className="inline-flex items-center justify-center rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold text-white/80"
+            >
+              Teklif Baslat
+            </Link>
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="relative overflow-hidden rounded-[32px] border border-amber-200/20 bg-gradient-to-br from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-6 text-white shadow-2xl glint">
@@ -979,7 +1005,7 @@ export default async function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
+      <Reveal as="section" className="mx-auto mt-16 hidden w-full px-0 md:block">
         <div className="relative overflow-hidden rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl glint">
           {procurementImageUrl ? (
             <div className="pointer-events-none absolute inset-0">
@@ -1065,11 +1091,11 @@ export default async function Home() {
             </Link>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {supportGrid.map((item) => (
+            {supportGrid.map((item, index) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4 transition hover:-translate-y-1 hover:border-amber-300/50 hover:shadow-lg"
+                className={`group rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4 transition hover:-translate-y-1 hover:border-amber-300/50 hover:shadow-lg ${index > 1 ? 'hidden md:block' : ''}`}
               >
                 <p className="text-sm font-semibold text-amber-50">{item.title}</p>
                 <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
@@ -1100,11 +1126,11 @@ export default async function Home() {
             </Link>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {trustLinks.map((item) => (
+            {trustLinks.map((item, index) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4 transition hover:-translate-y-1 hover:border-amber-300/50 hover:shadow-lg"
+                className={`group rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4 transition hover:-translate-y-1 hover:border-amber-300/50 hover:shadow-lg ${index > 2 ? 'hidden md:block' : ''}`}
               >
                 <p className="text-sm font-semibold text-amber-50">{item.title}</p>
                 <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
@@ -1118,7 +1144,7 @@ export default async function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 grid w-full gap-6 px-0 lg:grid-cols-2">
+      <Reveal as="section" className="mx-auto mt-16 hidden w-full gap-6 px-0 md:grid lg:grid-cols-2">
         <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
           <p className="text-xs uppercase tracking-[0.3em] text-amber-300">İş akışı</p>
           <h2 className="mt-2 text-2xl font-semibold text-amber-50">4 adımda devreye alma</h2>
@@ -1163,7 +1189,7 @@ export default async function Home() {
         </div>
       </Reveal>
 
-      <Reveal as="section" className="mx-auto mt-16 grid w-full gap-5 px-0 lg:grid-cols-2">
+      <Reveal as="section" className="mx-auto mt-16 hidden w-full gap-5 px-0 md:grid lg:grid-cols-2">
         {testimonials.map((item) => (
           <div
             key={item.id}
