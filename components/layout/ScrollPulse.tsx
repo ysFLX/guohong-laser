@@ -36,7 +36,7 @@ export default function ScrollPulse() {
     };
   }, []);
 
-  const showElevator = progress > 12;
+  const showElevator = progress > 2;
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function ScrollPulse() {
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`group fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] right-3 z-[80] grid h-12 w-12 place-items-center rounded-full border border-amber-200/35 bg-[#0d0d0d]/90 text-amber-100 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur transition-all duration-300 sm:bottom-6 sm:right-6 ${
+        className={`group fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] left-3 z-[120] grid h-12 w-12 place-items-center rounded-full border border-amber-200/35 bg-[#0d0d0d]/90 text-amber-100 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur transition-all duration-300 sm:bottom-6 sm:left-6 ${
           showElevator ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
         }`}
         aria-label="Sayfanin en ustune cik"
