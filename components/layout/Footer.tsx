@@ -4,12 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getPaymentProviderName, getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
+import { getPaymentProviderName, getPaymentProviderPendingNotice, isPaymentProviderActive } from '@/lib/paymentProviderStatus';
 
 export default function Footer() {
   const pathname = usePathname();
   const [whatsAppHref, setWhatsAppHref] = useState('https://wa.me/905368316787');
   const providerName = getPaymentProviderName();
+  const providerActive = isPaymentProviderActive();
+  const paymentNotice = providerActive
+    ? `${providerName} ile guvenli odeme aktif. Kart islemleri 3D Secure ile korunur.`
+    : getPaymentProviderPendingNotice();
   const quickLinks = [
     { href: '/about', label: 'Hakkimizda' },
     { href: '/products', label: 'Makineler' },
@@ -100,10 +104,16 @@ export default function Footer() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Guvenli Odeme</p>
-                  <p className="mt-1 text-sm text-amber-100/75">{getPaymentProviderPendingNotice()}</p>
+                  <p className="mt-1 text-sm text-amber-100/75">{paymentNotice}</p>
                 </div>
-                <div className="rounded-full border border-amber-200/25 bg-[#1a1a1a] px-3 py-1 text-xs font-semibold text-amber-100/85">
-                  3D Secure
+                <div
+                  className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                    providerActive
+                      ? 'border-emerald-200/30 bg-emerald-500/10 text-emerald-200'
+                      : 'border-amber-200/25 bg-[#1a1a1a] text-amber-100/85'
+                  }`}
+                >
+                  {providerActive ? 'Odeme Aktif' : 'Aktivasyon Beklemede'}
                 </div>
               </div>
               <div className="mt-4 flex items-center gap-3 rounded-xl border border-amber-200/20 bg-[#101010] px-3 py-2">
@@ -115,13 +125,12 @@ export default function Footer() {
                   sizes="132px"
                   className="h-7 w-auto"
                 />
-                <div className="h-6 w-px bg-amber-200/20" />
-                <span className="text-xs font-semibold text-amber-100/85">{providerName}</span>
               </div>
               <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100/85">
                 <span className="rounded-full border border-amber-200/30 bg-[#171717] px-3 py-1">Visa</span>
                 <span className="rounded-full border border-amber-200/30 bg-[#171717] px-3 py-1">Mastercard</span>
                 <span className="rounded-full border border-amber-200/30 bg-[#171717] px-3 py-1">Troy</span>
+                <span className="rounded-full border border-amber-200/30 bg-[#171717] px-3 py-1">3D Secure</span>
               </div>
             </div>
           </section>
