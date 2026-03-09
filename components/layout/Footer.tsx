@@ -63,8 +63,21 @@ export default function Footer() {
                 {getPaymentProviderPendingNotice()} Aktiflestiginde guvenli odeme adimlari checkout ekraninda
                 gorunecektir.
               </p>
+              <div className="mt-3 flex items-center gap-3 rounded-xl border border-amber-200/20 bg-black/30 px-3 py-2">
+                <Image
+                  src="/paytrlogolar/paytr-logo-white.svg"
+                  alt="PayTR"
+                  width={132}
+                  height={34}
+                  sizes="132px"
+                  className="h-7 w-auto"
+                />
+                <div className="h-6 w-px bg-amber-200/20" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100/85">
+                  {providerName}
+                </span>
+              </div>
               <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100/85">
-                <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">{providerName}</span>
                 <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">Visa</span>
                 <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">Mastercard</span>
                 <span className="rounded-full border border-amber-200/30 bg-[#1d1d1d] px-3 py-1">Troy</span>
