@@ -9,21 +9,21 @@ import { machineProducts } from '@/lib/machineCatalog';
 
 const products = machineProducts;
 
-const categories = ['TÃ¼mÃ¼', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Ã–zel Kesim'];
+const categories = ['Tümü', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'];
 
 const servicePackages = [
   {
     name: 'Kurulum Paketi',
-    description: 'Yerinde kurulum, test ve operator eÄŸitimi.',
-    badge: 'BaÅŸlangÄ±Ã§',
+    description: 'Yerinde kurulum, test ve operator eğitimi.',
+    badge: 'Başlangıç',
   },
   {
     name: 'Servis Plus',
-    description: 'Periyodik bakÄ±m, hÄ±zlÄ± servis ve yedek parÃ§a Ã¶nceliÄŸi.',
-    badge: 'En Ã§ok tercih',
+    description: 'Periyodik bakım, hızlı servis ve yedek parça önceliği.',
+    badge: 'En çok tercih',
   },
   {
-    name: 'Uzaktan Ä°zleme',
+    name: 'Uzaktan İzleme',
     description: 'Performans raporu, enerji takibi ve uzaktan destek.',
     badge: 'Verimlilik',
   },
@@ -43,11 +43,11 @@ const itemListSchema = {
 };
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('TÃ¼mÃ¼');
+  const [selectedCategory, setSelectedCategory] = useState('Tümü');
   const [searchQuery, setSearchQuery] = useState('');
-  const [stockFilter, setStockFilter] = useState<'TÃ¼mÃ¼' | 'Stokta' | 'SipariÅŸle'>('TÃ¼mÃ¼');
-  const [automationFilter, setAutomationFilter] = useState<'TÃ¼mÃ¼' | 'Otomatik' | 'YarÄ± otomatik' | 'Manuel'>('TÃ¼mÃ¼');
-  const [powerFilter, setPowerFilter] = useState<'TÃ¼mÃ¼' | '3-6 kW' | '6-12 kW' | '12+ kW'>('TÃ¼mÃ¼');
+  const [stockFilter, setStockFilter] = useState<'Tümü' | 'Stokta' | 'Siparişle'>('Tümü');
+  const [automationFilter, setAutomationFilter] = useState<'Tümü' | 'Otomatik' | 'Yarı otomatik' | 'Manuel'>('Tümü');
+  const [powerFilter, setPowerFilter] = useState<'Tümü' | '3-6 kW' | '6-12 kW' | '12+ kW'>('Tümü');
   const [compareIds, setCompareIds] = useState<number[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
@@ -75,20 +75,20 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'TÃ¼mÃ¼' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'Tümü' || product.category === selectedCategory;
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStock = stockFilter === 'TÃ¼mÃ¼' || product.stockLabel === stockFilter;
+    const matchesStock = stockFilter === 'Tümü' || product.stockLabel === stockFilter;
     const automationValue = product.automation.toLowerCase();
     const matchesAutomation =
-      automationFilter === 'TÃ¼mÃ¼' ||
-      (automationFilter === 'Otomatik' && automationValue.includes('otomatik') && !automationValue.includes('yarÄ±')) ||
-      (automationFilter === 'YarÄ± otomatik' && automationValue.includes('yarÄ±')) ||
+      automationFilter === 'Tümü' ||
+      (automationFilter === 'Otomatik' && automationValue.includes('otomatik') && !automationValue.includes('yarı')) ||
+      (automationFilter === 'Yarı otomatik' && automationValue.includes('yarı')) ||
       (automationFilter === 'Manuel' && automationValue.includes('manuel'));
     const powerRange = parsePowerRange(product.power);
     const matchesPower =
-      powerFilter === 'TÃ¼mÃ¼' ||
+      powerFilter === 'Tümü' ||
       (powerFilter === '3-6 kW' && powerRange && powerRange.min >= 3 && powerRange.max <= 6) ||
       (powerFilter === '6-12 kW' && powerRange && powerRange.min <= 6 && powerRange.max >= 12) ||
       (powerFilter === '12+ kW' && powerRange && powerRange.max >= 12);
@@ -152,7 +152,7 @@ export default function ProductsPage() {
     setInfo('');
 
     if (!isEmailValid(formData.email)) {
-      setEmailError('LÃ¼tfen doÄŸru bir e-posta adresi giriniz.');
+      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
       setIsSubmitting(false);
       return;
     }
@@ -167,7 +167,7 @@ export default function ProductsPage() {
           ...formData,
           otp: step === 'verify' ? otp : undefined,
           subject: `Fiyat Teklifi Talebi - ${formData.product}`,
-          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nÃœrÃ¼n: ${formData.product}\nMesaj: ${formData.message}`,
+          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nÜrün: ${formData.product}\nMesaj: ${formData.message}`,
         }),
       });
 
@@ -175,11 +175,11 @@ export default function ProductsPage() {
 
       if (data.step === 'verify') {
         setStep('verify');
-        setInfo('DoÄŸrulama kodu e-posta adresinize gÃ¶nderildi.');
+        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
       } else if (response.ok) {
         setSubmitStatus({
           success: true,
-          message: 'Talebiniz alÄ±ndÄ±. En kÄ±sa sÃ¼rede sizinle iletiÅŸime geÃ§ilecektir.',
+          message: 'Talebiniz alındı. En kısa sürede sizinle iletişime geçilecektir.',
         });
         setFormData({
           name: '',
@@ -192,10 +192,10 @@ export default function ProductsPage() {
         setOtp('');
         setStep('details');
       } else {
-        throw new Error(data.error || 'Form gÃ¶nderilemedi');
+        throw new Error(data.error || 'Form gönderilemedi');
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata oluÅŸtu. LÃ¼tfen daha sonra tekrar deneyiniz.';
+      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.';
       setSubmitStatus({ success: false, message });
     } finally {
       setIsSubmitting(false);
@@ -216,17 +216,17 @@ export default function ProductsPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs uppercase tracking-[0.2em] text-indigo-700">
               E-katalog
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Lazer Makine KataloÄŸu</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Lazer Makine Kataloğu</h1>
             <p className="max-w-2xl text-base text-slate-600">
-              Ãœretim sÃ¼reÃ§lerinizi optimize edecek lazer makine portfÃ¶yÃ¼mÃ¼zÃ¼ tek ekranda karÅŸÄ±laÅŸtÄ±rÄ±n.
+              Üretim süreçlerinizi optimize edecek lazer makine portföyümüzü tek ekranda karşılaştırın.
             </p>
             <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em] text-indigo-500">
               <span className="rounded-full border border-indigo-200 bg-white px-4 py-2">Fiyat teklifle belirlenir</span>
-              <span className="rounded-full border border-indigo-200 bg-white px-4 py-2">Kurumsal teklif akÄ±ÅŸÄ±</span>
+              <span className="rounded-full border border-indigo-200 bg-white px-4 py-2">Kurumsal teklif akışı</span>
             </div>
           </div>
           <div className="rounded-[22px] border border-indigo-100 bg-gradient-to-br from-indigo-50 via-white to-indigo-50 p-6">
-            <p className="text-xs uppercase tracking-[0.16em] text-indigo-500">Katalog hÄ±zlÄ± bakÄ±ÅŸ</p>
+            <p className="text-xs uppercase tracking-[0.16em] text-indigo-500">Katalog hızlı bakış</p>
             <div className="mt-4 grid gap-4 text-sm text-slate-600">
               <div className="flex items-center justify-between">
                 <span>Toplam model</span>
@@ -237,8 +237,8 @@ export default function ProductsPage() {
                 <span className="font-semibold text-slate-900">{categories.length - 1}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span>Teklif cevabÄ±</span>
-                <span className="font-semibold text-slate-900">30 dk iÃ§inde</span>
+                <span>Teklif cevabı</span>
+                <span className="font-semibold text-slate-900">30 dk içinde</span>
               </div>
             </div>
           </div>
@@ -299,9 +299,9 @@ export default function ProductsPage() {
                 aria-label="Stok filtresi"
                 className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               >
-                <option value="TÃ¼mÃ¼">Stok: TÃ¼mÃ¼</option>
+                <option value="Tümü">Stok: Tümü</option>
                 <option value="Stokta">Stokta</option>
-                <option value="SipariÅŸle">SipariÅŸle</option>
+                <option value="Siparişle">Siparişle</option>
               </select>
               <select
                 value={automationFilter}
@@ -309,18 +309,18 @@ export default function ProductsPage() {
                 aria-label="Otomasyon filtresi"
                 className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               >
-                <option value="TÃ¼mÃ¼">Otomasyon: TÃ¼mÃ¼</option>
+                <option value="Tümü">Otomasyon: Tümü</option>
                 <option value="Otomatik">Otomatik</option>
-                <option value="YarÄ± otomatik">YarÄ± otomatik</option>
+                <option value="Yarı otomatik">Yarı otomatik</option>
                 <option value="Manuel">Manuel</option>
               </select>
               <select
                 value={powerFilter}
                 onChange={(e) => setPowerFilter(e.target.value as typeof powerFilter)}
-                aria-label="GÃ¼Ã§ filtresi"
+                aria-label="Güç filtresi"
                 className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
               >
-                <option value="TÃ¼mÃ¼">GÃ¼Ã§: TÃ¼mÃ¼</option>
+                <option value="Tümü">Güç: Tümü</option>
                 <option value="3-6 kW">3-6 kW</option>
                 <option value="6-12 kW">6-12 kW</option>
                 <option value="12+ kW">12+ kW</option>
@@ -329,8 +329,8 @@ export default function ProductsPage() {
             <div className="rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-4 text-sm text-indigo-900">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-500">Filtre sonucu</p>
               <p className="mt-2">
-                {filteredProducts.length} Ã¼rÃ¼n listeleniyor.{' '}
-                {selectedCategory !== 'TÃ¼mÃ¼' ? `${selectedCategory} kategorisi` : 'TÃ¼m kategoriler'}.
+                {filteredProducts.length} ürün listeleniyor.{' '}
+                {selectedCategory !== 'Tümü' ? `${selectedCategory} kategorisi` : 'Tüm kategoriler'}.
               </p>
             </div>
           </div>
@@ -343,8 +343,8 @@ export default function ProductsPage() {
               <p className="mt-1 text-lg font-semibold text-slate-900">{filteredProducts.length} model</p>
             </div>
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-slate-500">
-              <span className="rounded-full border border-slate-200 px-4 py-2">Teklif odaklÄ±</span>
-              <span className="rounded-full border border-slate-200 px-4 py-2">KÄ±yaslama aÃ§Ä±k</span>
+              <span className="rounded-full border border-slate-200 px-4 py-2">Teklif odaklı</span>
+              <span className="rounded-full border border-slate-200 px-4 py-2">Kıyaslama açık</span>
             </div>
           </div>
 
@@ -399,7 +399,7 @@ export default function ProductsPage() {
                     <p className="text-sm text-slate-600">{product.description}</p>
                     <div className="grid gap-2 text-xs text-slate-600">
                       <div className="flex items-center justify-between">
-                        <span className="uppercase tracking-[0.2em] text-slate-400">GÃ¼Ã§</span>
+                        <span className="uppercase tracking-[0.2em] text-slate-400">Güç</span>
                         <span className="font-semibold text-slate-900">{product.power}</span>
                       </div>
                       <div className="flex items-center justify-between">
@@ -421,7 +421,7 @@ export default function ProductsPage() {
                             : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
                         }`}
                       >
-                        {compareIds.includes(product.id) ? 'SeÃ§ildi' : 'KarÅŸÄ±laÅŸtÄ±r'}
+                        {compareIds.includes(product.id) ? 'Seçildi' : 'Karşılaştır'}
                       </button>
                       <Link
                         href={`/products/${product.id}`}
@@ -445,7 +445,7 @@ export default function ProductsPage() {
 
           {filteredProducts.length === 0 && (
             <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-12 text-center text-slate-600">
-              AramanÄ±za uygun Ã¼rÃ¼n bulunamadÄ±.
+              Aramanıza uygun ürün bulunamadı.
             </div>
           )}
         </div>
@@ -454,8 +454,8 @@ export default function ProductsPage() {
       {compareIds.length > 0 && (
         <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm shadow-2xl backdrop-blur">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">KarÅŸÄ±laÅŸtÄ±rma</div>
-            <div className="font-semibold text-slate-900">{compareIds.length} Ã¼rÃ¼n seÃ§ildi</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Karşılaştırma</div>
+            <div className="font-semibold text-slate-900">{compareIds.length} ürün seçildi</div>
           </div>
           <div className="flex items-center gap-2">
             <a
@@ -479,10 +479,10 @@ export default function ProductsPage() {
             <div className="relative space-y-5 p-6 sm:p-8">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">HÄ±zlÄ± teklif</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Hızlı teklif</p>
                   <h2 className="mt-2 text-2xl font-semibold text-slate-900">Makine teklifi iste</h2>
                   <p className="mt-2 text-sm text-slate-600">
-                    ÃœrÃ¼n iÃ§in teknik bilgileri iletiniz, ekibimiz size en hÄ±zlÄ± teklifi hazÄ±rlasÄ±n.
+                    Ürün için teknik bilgileri iletiniz, ekibimiz size en hızlı teklifi hazırlasın.
                   </p>
                 </div>
                 <button
@@ -517,7 +517,7 @@ export default function ProductsPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700">Firma AdÄ±</label>
+                    <label className="block text-sm font-medium text-slate-700">Firma Adı</label>
                     <input
                       type="text"
                       name="company"
@@ -550,7 +550,7 @@ export default function ProductsPage() {
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-slate-700">Ä°lgilendiÄŸiniz Ã¼rÃ¼n *</label>
+                    <label className="block text-sm font-medium text-slate-700">İlgilendiğiniz ürün *</label>
                     <input
                       type="text"
                       name="product"
@@ -575,10 +575,10 @@ export default function ProductsPage() {
                 {step === 'verify' && (
                   <div className="space-y-3">
                     <div className="text-sm text-slate-600">
-                      DoÄŸrulama kodunu e-posta adresinize gÃ¶nderdik. Kodu girip gÃ¶nderimi tamamlayÄ±nÄ±z.
+                      Doğrulama kodunu e-posta adresinize gönderdik. Kodu girip gönderimi tamamlayınız.
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700">DoÄŸrulama Kodu</label>
+                      <label className="block text-sm font-medium text-slate-700">Doğrulama Kodu</label>
                       <input
                         type="text"
                         inputMode="numeric"
@@ -599,10 +599,10 @@ export default function ProductsPage() {
                     onClick={closeQuoteModal}
                     className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                   >
-                    Ä°ptal
+                    İptal
                   </button>
                   <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
-                    {isSubmitting ? 'GÃ¶nderiliyor...' : step === 'verify' ? 'DoÄŸrula ve gÃ¶nder' : 'GÃ¶nder'}
+                    {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Gönder'}
                   </button>
                 </div>
               </form>
@@ -618,10 +618,10 @@ export default function ProductsPage() {
               Teklif merkezi
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-              Ãœretim hattÄ±na uygun makine iÃ§in hÄ±zlÄ± teklif al
+              Üretim hattına uygun makine için hızlı teklif al
             </h2>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              TÃ¼m makineler kurumsal teklif ile fiyatlanÄ±r. Teknik ekip 30 dakika iÃ§inde geri dÃ¶ner.
+              Tüm makineler kurumsal teklif ile fiyatlanır. Teknik ekip 30 dakika içinde geri döner.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -635,15 +635,15 @@ export default function ProductsPage() {
               href="/contact?subject=Makine+Teklifi"
               className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
             >
-              DanÄ±ÅŸman iste
+              Danışman iste
             </Link>
           </div>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {[
-            { title: 'HÄ±zlÄ± keÅŸif', desc: 'Ä°htiyaÃ§ analizi + kapasite hesaplama' },
-            { title: 'Teknik teklif', desc: 'GÃ¼Ã§, tabla ve otomasyon netliÄŸi' },
-            { title: 'Kurulum planÄ±', desc: 'Takvim ve servis SLA doÄŸrulama' },
+            { title: 'Hızlı keşif', desc: 'İhtiyaç analizi + kapasite hesaplama' },
+            { title: 'Teknik teklif', desc: 'Güç, tabla ve otomasyon netliği' },
+            { title: 'Kurulum planı', desc: 'Takvim ve servis SLA doğrulama' },
           ].map((item) => (
             <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4">
               <p className="text-sm font-semibold text-slate-900">{item.title}</p>
@@ -660,10 +660,10 @@ export default function ProductsPage() {
               <div className="relative max-h-[85vh] overflow-y-auto p-6 sm:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">KarÅŸÄ±laÅŸtÄ±rma paneli</p>
-                    <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gÃ¶r</h2>
+                    <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">Karşılaştırma paneli</p>
+                    <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gör</h2>
                     <p className="mt-2 text-sm text-slate-500">
-                      {selectedCompare.length || 0} model seÃ§ildi. En fazla 3 model karÅŸÄ±laÅŸtÄ±rabilirsin.
+                      {selectedCompare.length || 0} model seçildi. En fazla 3 model karşılaştırabilirsin.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -688,7 +688,7 @@ export default function ProductsPage() {
 
                 {selectedCompare.length === 0 ? (
                   <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
-                    KarÅŸÄ±laÅŸtÄ±rma iÃ§in kartlardan en az 2 Ã¼rÃ¼n seÃ§melisiniz.
+                    Karşılaştırma için kartlardan en az 2 ürün seçmelisiniz.
                   </div>
                 ) : (
                   <div className="mt-6 grid gap-5 lg:grid-cols-3">
@@ -721,7 +721,7 @@ export default function ProductsPage() {
                           </div>
                           <div className="grid gap-3 text-sm text-slate-600">
                             <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">GÃ¼Ã§</span>
+                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Güç</span>
                               <span className="font-semibold text-slate-900">{item.power}</span>
                             </div>
                             <div className="flex items-center justify-between border-b border-slate-100 pb-2">
@@ -738,7 +738,7 @@ export default function ProductsPage() {
                             </div>
                           </div>
                           <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-xs text-slate-500">
-                            Uygun konfigurasyon iÃ§in teklif isteyebiliriz.
+                            Uygun konfigurasyon için teklif isteyebiliriz.
                           </div>
                         </div>
                       </div>
@@ -784,5 +784,3 @@ export default function ProductsPage() {
     </div>
   );
 }
-
-
