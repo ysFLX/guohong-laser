@@ -106,9 +106,9 @@ export default function Header() {
   };
 
   const desktopLinkClass = (href: string) => {
-    const active = 'text-amber-50 bg-amber-300/10 border-amber-200/35';
-    const idle = 'text-amber-100/75 border-transparent hover:text-amber-50 hover:border-amber-200/25 hover:bg-white/[0.03]';
-    return `relative inline-flex items-center rounded-full border px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition ${isActive(href) ? active : idle}`;
+    const active = 'text-amber-50 bg-gradient-to-b from-amber-300/18 to-amber-300/8 border-amber-200/40 shadow-[0_10px_24px_rgba(251,191,36,0.18)]';
+    const idle = 'text-amber-100/78 border-transparent hover:text-amber-50 hover:border-amber-200/25 hover:bg-white/[0.03]';
+    return `relative inline-flex items-center rounded-full border px-3.5 py-2 text-[12px] font-medium tracking-[0.01em] transition ${isActive(href) ? active : idle}`;
   };
 
   const mobileLinkClass = (href: string) => {
@@ -136,20 +136,14 @@ export default function Header() {
   }, [mounted, unreadCount]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-amber-200/15 bg-[#090909]/92 backdrop-blur-2xl">
+    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 lg:px-8">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-20 top-0 h-56 w-56 rounded-full bg-amber-300/20 blur-[120px]" />
-        <div className="absolute -right-20 top-6 h-56 w-56 rounded-full bg-orange-200/15 blur-[140px]" />
-        <div className="absolute inset-0 opacity-35 bg-[linear-gradient(90deg,_rgba(251,191,36,0.05)_1px,_transparent_1px),_linear-gradient(0deg,_rgba(251,191,36,0.05)_1px,_transparent_1px)] bg-[size:72px_72px]" />
+        <div className="absolute -left-20 top-1 h-56 w-56 rounded-full bg-amber-300/14 blur-[130px]" />
+        <div className="absolute -right-20 top-8 h-56 w-56 rounded-full bg-orange-200/12 blur-[150px]" />
       </div>
 
-      <div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="hidden items-center justify-between border-b border-amber-200/10 py-2 text-[11px] uppercase tracking-[0.24em] text-amber-100/60 lg:flex">
-          <span>Kurumsal lazer sistemleri</span>
-          <span>Teklif geri dönüşü: 30 dk içinde</span>
-        </div>
-
-        <div className="flex h-[72px] items-center gap-2 sm:gap-3">
+      <div className="relative mx-auto max-w-screen-2xl">
+        <div className="flex h-[76px] items-center gap-2 rounded-2xl border border-amber-200/20 bg-[#0c0c0c]/90 px-3 shadow-[0_18px_55px_rgba(0,0,0,0.45)] ring-1 ring-white/5 backdrop-blur-2xl sm:gap-3 sm:px-4">
           <Link href="/" className="inline-flex min-w-0 items-center gap-3">
             {!logoError ? (
               <Image
@@ -159,7 +153,7 @@ export default function Header() {
                 height={48}
                 sizes="(max-width: 640px) 150px, 180px"
                 priority
-                className="h-9 w-auto sm:h-11"
+                className="h-8 w-auto sm:h-10"
                 onError={() => setLogoError(true)}
               />
             ) : (
@@ -168,7 +162,7 @@ export default function Header() {
           </Link>
 
           <nav className="hidden flex-1 justify-center lg:flex" aria-label="Ana menü">
-            <div className="flex items-center gap-2 rounded-full border border-amber-200/20 bg-[#121212]/90 px-3 py-2 shadow-[0_16px_60px_rgba(0,0,0,0.35)] backdrop-blur">
+            <div className="flex items-center gap-1.5 rounded-full border border-amber-200/15 bg-black/35 p-1.5">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} className={desktopLinkClass(item.href)}>
                   {item.label}
@@ -178,11 +172,11 @@ export default function Header() {
           </nav>
 
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-            <Link href="/quote" className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black shadow-[0_12px_36px_rgba(251,191,36,0.35)] transition hover:bg-amber-400">
+            <Link href="/quote" className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold tracking-[0.01em] text-black shadow-[0_12px_36px_rgba(251,191,36,0.35)] transition hover:bg-amber-400">
               Teklif Al
             </Link>
 
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:border-amber-300/50 hover:bg-[#1e1e1e]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-[#151515] px-4 py-2 text-xs font-semibold tracking-[0.01em] text-amber-100 transition hover:border-amber-300/50 hover:bg-[#1e1e1e]">
               WhatsApp
             </a>
 
