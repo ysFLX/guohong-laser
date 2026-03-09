@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
@@ -12,7 +12,7 @@ type GalleryImage = {
 };
 
 export default function GalleryPage() {
-  const tagPool = ['Kurulum', 'Uretim', 'Detay', 'Makine'];
+  const tagPool = ['Kurulum', 'Üretim', 'Detay', 'Makine'];
 
   const galleryImages = [
     {
@@ -105,7 +105,7 @@ export default function GalleryPage() {
     },
   ].map((item, index) => ({ ...item, tag: tagPool[index % tagPool.length] })) as GalleryImage[];
 
-  const [activeTag, setActiveTag] = useState('Tumu');
+  const [activeTag, setActiveTag] = useState('Tümü');
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const filteredImages = useMemo(
@@ -180,7 +180,7 @@ export default function GalleryPage() {
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          {['Tumu', ...tagPool].map((tag) => (
+          {['Tümü', ...tagPool].map((tag) => (
             <button
               key={tag}
               type="button"
@@ -193,7 +193,7 @@ export default function GalleryPage() {
             >
               {tag}
               <span className="ml-2 text-[10px] text-slate-400">
-                {tag === 'Tumu' ? galleryImages.length : tagCounts[tag] ?? 0}
+                {tag === 'Tümü' ? galleryImages.length : tagCounts[tag] ?? 0}
               </span>
             </button>
           ))}
@@ -319,3 +319,4 @@ export default function GalleryPage() {
     </div>
   );
 }
+
