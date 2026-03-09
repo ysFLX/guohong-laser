@@ -7,6 +7,7 @@ import VideoSlider from '@/components/home/VideoSlider';
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
 import { prisma } from '@/lib/prisma';
+import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 
 const space = Space_Grotesk({
   subsets: ['latin'],
@@ -420,6 +421,8 @@ const faq = [
 ];
 
 export default async function Home() {
+  const sparePartPriceVisible = isSparePartPriceVisible();
+  const sparePartDirectPurchaseEnabled = isSparePartDirectPurchaseEnabled();
   const prismaHome = prisma as unknown as {
     homePanelConfig: {
       findUnique: (args: unknown) => Promise<{
@@ -753,13 +756,15 @@ export default async function Home() {
                             </div>
                           )}
                         </div>
-                        <span className="text-sm font-semibold text-amber-300">{item.price}</span>
+                        <span className="text-sm font-semibold text-amber-300">
+                          {sparePartPriceVisible ? item.price : 'Fiyat icin teklif al'}
+                        </span>
                       </div>
                     </Link>
 
                     {isDbItem && item.id && typeof item.priceCents === 'number' && (
                       <div className="mt-4 grid gap-2">
-                        {inStock ? (
+                        {inStock && sparePartDirectPurchaseEnabled ? (
                           <AddToCartButton
                             id={item.id}
                             name={item.title}
@@ -769,10 +774,10 @@ export default async function Home() {
                           />
                         ) : (
                           <Link
-                            href={stockRequestHref}
+                            href={inStock ? `/quote?product=${encodeURIComponent(item.title)}&id=${encodeURIComponent(item.id)}` : stockRequestHref}
                             className="inline-flex items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 transition hover:border-amber-300"
                           >
-                            Stok gelince haber ver
+                            {inStock ? 'Fiyat teklifi iste' : 'Stok gelince haber ver'}
                           </Link>
                         )}
                         <Link

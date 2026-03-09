@@ -5,6 +5,7 @@ import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
+import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
 
 type CheckoutItem = {
   id: string;
@@ -29,6 +30,16 @@ export async function POST(req: Request) {
       {
         error: 'Odeme altyapisi su an kapali. Lutfen Teklif iste veya WhatsApp hattini kullanin.',
         code: 'PAYMENTS_DISABLED',
+      },
+      { status: 503 },
+    );
+  }
+
+  if (!isSparePartDirectPurchaseEnabled()) {
+    return NextResponse.json(
+      {
+        error: 'Yedek parca satisi su anda teklifle ilerliyor. Lutfen teklif olusturun.',
+        code: 'SPARE_PART_DIRECT_PURCHASE_DISABLED',
       },
       { status: 503 },
     );

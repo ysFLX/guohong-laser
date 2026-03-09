@@ -11,6 +11,7 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
+import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 
 export type SparePart = {
   id: string;
@@ -166,6 +167,8 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const searchParams = useSearchParams();
   const { status, data: session } = useSession();
   const { show } = useToast();
+  const sparePartPriceVisible = isSparePartPriceVisible();
+  const sparePartDirectPurchaseEnabled = isSparePartDirectPurchaseEnabled();
   const urlFilters = useMemo(() => parseFiltersFromSearchParams(searchParams), [searchParams]);
 
   const listRef = useRef<HTMLDivElement | null>(null);
@@ -759,7 +762,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             </Link>
             <div className="flex flex-col items-end gap-2">
               <div className="text-sm font-bold text-slate-900 whitespace-nowrap dark:text-white">
-                {formatPriceTry(p.priceCents)}
+                {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al'}
               </div>
               <button
                 type="button"
@@ -820,7 +823,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
 
           <div className="flex items-center gap-2">
-            {inStock ? (
+            {inStock && sparePartDirectPurchaseEnabled ? (
               <div className="flex flex-1 flex-col gap-2">
                 <AddToCartButton
                   id={p.id}
@@ -1199,7 +1202,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                           </Link>
                           <div className="flex flex-col items-end gap-2">
                             <div className="text-sm font-bold text-slate-900 whitespace-nowrap dark:text-white">
-                              {formatPriceTry(p.priceCents)}
+                              {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al'}
                             </div>
                             <button
                               type="button"
@@ -1262,7 +1265,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                         </div>
    
                         <div className="flex items-center gap-2">
-                          {inStock ? (
+                          {inStock && sparePartDirectPurchaseEnabled ? (
                             <div className="flex flex-1 flex-col gap-2">
                               <AddToCartButton
                                 id={p.id}
@@ -1548,7 +1551,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                         <div className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm">
                           <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Fiyat</span>
                           <span className="text-base font-semibold text-slate-900">
-                            {formatPriceTry(item.priceCents)}
+                            {sparePartPriceVisible ? formatPriceTry(item.priceCents) : 'Fiyat icin teklif al'}
                           </span>
                         </div>
                       </div>
@@ -1736,7 +1739,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
-                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{formatPriceTry(item.priceCents)}</p>
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {sparePartPriceVisible ? formatPriceTry(item.priceCents) : 'Fiyat icin teklif al'}
+                  </p>
                 </div>
                 <span className="ml-auto text-indigo-600 dark:text-indigo-300">-&gt;</span>
               </Link>

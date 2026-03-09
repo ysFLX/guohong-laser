@@ -15,6 +15,7 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import SparePartImageSlider from '@/components/spare-parts/SparePartImageSlider';
 import SparePartReviews from '@/components/spare-parts/SparePartReviews';
+import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 
 type SparePartDetail = {
   id: string;
@@ -127,8 +128,12 @@ export async function generateMetadata({
     other: {
       'product:brand': 'Guohong Lazer',
       'product:availability': part.stockOnHand > 0 ? 'in stock' : 'out of stock',
-      'product:price:amount': String((part.priceCents / 100).toFixed(2)),
-      'product:price:currency': part.currency || 'TRY',
+      ...(isSparePartPriceVisible()
+        ? {
+            'product:price:amount': String((part.priceCents / 100).toFixed(2)),
+            'product:price:currency': part.currency || 'TRY',
+          }
+        : {}),
     },
   };
 }
@@ -185,6 +190,8 @@ export default async function SparePartDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const sparePartPriceVisible = isSparePartPriceVisible();
+  const sparePartDirectPurchaseEnabled = isSparePartDirectPurchaseEnabled();
   const backHref = '/spare-parts';
 
   const [part, review] = await Promise.all([
@@ -244,8 +251,12 @@ export default async function SparePartDetailPage({
     },
     offers: {
       '@type': 'Offer',
-      priceCurrency: p.currency || 'TRY',
-      price: (p.priceCents / 100).toFixed(2),
+      ...(sparePartPriceVisible
+        ? {
+            priceCurrency: p.currency || 'TRY',
+            price: (p.priceCents / 100).toFixed(2),
+          }
+        : {}),
       availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: `${baseUrl}/spare-parts/${p.id}`,
     },
@@ -372,7 +383,9 @@ export default async function SparePartDetailPage({
                   <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
                     Hizli ozet
                   </div>
-                  <div className="mt-1 text-2xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
+                  <div className="mt-1 text-2xl font-semibold text-slate-900">
+                    {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al'}
+                  </div>
                 </div>
                 <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
                   {inStock ? 'Stokta' : 'Stokta yok'}
@@ -471,7 +484,9 @@ export default async function SparePartDetailPage({
           </div>
 
           <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24 lg:block">
-            <div className="text-3xl font-semibold text-slate-900">{formatPriceTry(p.priceCents)}</div>
+            <div className="text-3xl font-semibold text-slate-900">
+              {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al'}
+            </div>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
               <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparişle'}
@@ -504,7 +519,7 @@ export default async function SparePartDetailPage({
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-3">
-              {inStock && (
+              {inStock && sparePartDirectPurchaseEnabled && (
                 <QuickBuyButton
                   item={{
                     id: p.id,
@@ -514,7 +529,7 @@ export default async function SparePartDetailPage({
                   }}
                 />
               )}
-              {inStock ? (
+              {inStock && sparePartDirectPurchaseEnabled ? (
                 <AddToCartButton
                   id={p.id}
                   name={p.name}
@@ -525,18 +540,15 @@ export default async function SparePartDetailPage({
                 />
               ) : (
                 <div className="grid gap-2">
-                  <button
-                    type="button"
-                    disabled
-                    className="inline-flex items-center justify-center rounded-xl bg-slate-200 px-5 py-3 text-sm font-semibold text-slate-500"
-                  >
-                    Stokta yok
-                  </button>
                   <Link
-                    href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                    href={
+                      inStock
+                        ? `/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`
+                        : `/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`
+                    }
                     className="inline-flex items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-5 py-3 text-sm font-semibold text-amber-800 hover:border-amber-300"
                   >
-                    Stok gelince haber ver
+                    {inStock ? 'Fiyat teklifi iste' : 'Stok gelince haber ver'}
                   </Link>
                 </div>
               )}
@@ -633,11 +645,11 @@ export default async function SparePartDetailPage({
               {inStock ? 'Toplam' : 'Stok durumu'}
             </div>
             <div className="mt-1 text-base font-semibold text-slate-900">
-              {inStock ? formatPriceTry(p.priceCents) : 'Stokta yok'}
+              {inStock ? (sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al') : 'Stokta yok'}
             </div>
           </div>
 
-          {inStock ? (
+          {inStock && sparePartDirectPurchaseEnabled ? (
             <div className="ml-auto grid w-full max-w-[360px] grid-cols-2 gap-2">
               <AddToCartButton
                 id={p.id}
@@ -659,10 +671,14 @@ export default async function SparePartDetailPage({
           ) : (
             <div className="ml-auto w-full max-w-[360px]">
               <Link
-                href={`/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
+                href={
+                  inStock
+                    ? `/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`
+                    : `/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`
+                }
                 className="inline-flex w-full items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 hover:border-amber-300"
               >
-                Stok gelince haber ver
+                {inStock ? 'Fiyat teklifi iste' : 'Stok gelince haber ver'}
               </Link>
             </div>
           )}
