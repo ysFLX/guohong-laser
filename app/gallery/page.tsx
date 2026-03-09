@@ -1,19 +1,16 @@
 ﻿'use client';
 
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Reveal from '@/components/home/Reveal';
 
 type GalleryImage = {
   src: string;
   alt: string;
-  tag: string;
 };
 
 export default function GalleryPage() {
-  const tagPool = ['Kurulum', 'Üretim', 'Detay', 'Makine'];
-
   const galleryImages = [
     {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/1.jpg',
@@ -103,28 +100,10 @@ export default function GalleryPage() {
       src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/22.jpg',
       alt: 'Çalışma alanı',
     },
-  ].map((item, index) => ({ ...item, tag: tagPool[index % tagPool.length] })) as GalleryImage[];
-
-  const [activeTag, setActiveTag] = useState('Tümü');
+  ] as GalleryImage[];
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const filteredImages = useMemo(
-    () => (activeTag === 'Tümü' ? galleryImages : galleryImages.filter((item) => item.tag === activeTag)),
-    [activeTag, galleryImages],
-  );
-
-  const activeImage = activeIndex !== null ? filteredImages[activeIndex] : null;
-  const tagCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const image of galleryImages) {
-      counts[image.tag] = (counts[image.tag] ?? 0) + 1;
-    }
-    return counts;
-  }, [galleryImages]);
-
-  useEffect(() => {
-    setActiveIndex(null);
-  }, [activeTag]);
+  const activeImage = activeIndex !== null ? galleryImages[activeIndex] : null;
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -137,16 +116,16 @@ export default function GalleryPage() {
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [activeIndex, filteredImages.length]);
+  }, [activeIndex, galleryImages.length]);
 
   const goPrev = () => {
-    if (activeIndex === null || filteredImages.length === 0) return;
-    setActiveIndex((prev) => (prev === null ? prev : (prev - 1 + filteredImages.length) % filteredImages.length));
+    if (activeIndex === null || galleryImages.length === 0) return;
+    setActiveIndex((prev) => (prev === null ? prev : (prev - 1 + galleryImages.length) % galleryImages.length));
   };
 
   const goNext = () => {
-    if (activeIndex === null || filteredImages.length === 0) return;
-    setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % filteredImages.length));
+    if (activeIndex === null || galleryImages.length === 0) return;
+    setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % galleryImages.length));
   };
 
   return (
@@ -168,41 +147,18 @@ export default function GalleryPage() {
       <Reveal as="section" className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Filtreler</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Galeri</p>
             <h2 className="mt-2 text-xl font-semibold text-slate-900">Gerçek galeri akışı</h2>
             <p className="mt-1 text-sm text-slate-600">
-              {filteredImages.length} görsel gösteriliyor / {galleryImages.length} toplam.
+              {galleryImages.length} görsel gösteriliyor.
             </p>
           </div>
-          <div className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs uppercase tracking-[0.3em] text-slate-500">
-            {activeTag === 'Tümü' ? 'Tüm kategoriler' : activeTag}
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {['Tümü', ...tagPool].map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => setActiveTag(tag)}
-              className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
-                activeTag === tag
-                  ? 'bg-indigo-500 text-slate-900'
-                  : 'border border-slate-200 bg-white/80 text-slate-600 hover:border-slate-300 hover:text-slate-900'
-              }`}
-            >
-              {tag}
-              <span className="ml-2 text-[10px] text-slate-400">
-                {tag === 'Tümü' ? galleryImages.length : tagCounts[tag] ?? 0}
-              </span>
-            </button>
-          ))}
         </div>
       </Reveal>
 
       <Reveal as="section" className="space-y-6">
         <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
-          {filteredImages.map((item, index) => (
+          {galleryImages.map((item, index) => (
             <Reveal key={item.src} as="div" delay={120 + index * 30} className="mb-6 break-inside-avoid">
               <button
                 type="button"
@@ -219,9 +175,6 @@ export default function GalleryPage() {
                     className="w-full rounded-[28px] object-cover transition duration-500 group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 rounded-[28px] bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
-                    {item.tag}
-                  </div>
                   <div className="absolute bottom-4 left-4 right-4 opacity-0 transition group-hover:opacity-100">
                     <div className="text-sm font-semibold text-white">{item.alt}</div>
                     <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/70">Detay gör</div>
@@ -246,7 +199,6 @@ export default function GalleryPage() {
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-indigo-200">Galeri detayı</p>
                 <h3 className="mt-1 text-2xl font-semibold">{activeImage.alt}</h3>
-                <p className="mt-1 text-sm text-white/70">{activeImage.tag}</p>
               </div>
               <button
                 type="button"
@@ -270,7 +222,7 @@ export default function GalleryPage() {
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-white/70">
               <span>
-                {(activeIndex ?? 0) + 1} / {filteredImages.length}
+                {(activeIndex ?? 0) + 1} / {galleryImages.length}
               </span>
               <div className="flex items-center gap-2">
                 <button
@@ -291,7 +243,7 @@ export default function GalleryPage() {
             </div>
 
             <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
-              {filteredImages.map((item, index) => (
+              {galleryImages.map((item, index) => (
                 <button
                   key={item.src}
                   type="button"
