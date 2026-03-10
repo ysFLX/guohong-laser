@@ -438,10 +438,8 @@ export default async function Home() {
   });
   const {
     capacitySchedule,
-    priceAlertSteps,
     procurementFlow,
     capacityImageUrl,
-    priceAlertImageUrl,
     procurementImageUrl,
   } = normalizeHomePanelConfig(config ?? {});
   const spareParts = await prisma.sparePart.findMany({
@@ -801,7 +799,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
           <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
             <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Ürün spotlight</p>
             <h2 className="mt-3 text-2xl font-semibold text-amber-50">{spotlight.title}</h2>
@@ -1065,7 +1063,7 @@ export default async function Home() {
                 <p className="text-sm font-semibold text-amber-50">{item.title}</p>
                 <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
                 <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-                  Incele
+                  Detay
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
               </Link>
