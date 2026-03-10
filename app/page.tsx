@@ -15,8 +15,8 @@ const space = Space_Grotesk({
 });
 
 const heroStats = [
-  { label: 'Hat verimliliği', value: '%100' },
-  { label: 'Kurulum süresi', value: '7-12 gün' },
+  { label: 'Hat Verimliliği', value: '%100' },
+  { label: 'Makine Kurulum Süresi', value: '7-12 gün' },
 ];
 
 const heroVideos = [
@@ -35,9 +35,8 @@ const heroVideos = [
 ];
 
 const liveStatus = [
-  { label: 'Stok durumu', value: 'Stokta', tone: 'text-amber-300' },
-  { label: 'Teslimat', value: '2-3 gün', tone: 'text-amber-200' },
-  { label: 'Son güncelleme', value: '5 dk önce', tone: 'text-slate-200' },
+  { label: 'Teslimat', value: '2-3 iş günü', tone: 'text-amber-200' },
+  { label: 'Son Güncelleme', value: '5 dk önce', tone: 'text-slate-200' },
 ];
 
 const panelIcon = (name?: string) => {
@@ -568,12 +567,9 @@ export default async function Home() {
           <div className="relative overflow-hidden rounded-[34px] border border-amber-200/20 bg-[linear-gradient(160deg,#0d0d0d_0%,#17120b_55%,#111111_100%)] text-white shadow-[0_28px_90px_rgba(0,0,0,0.55)]">
             <div className="relative grid gap-8 px-6 py-8 sm:px-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:px-12 lg:py-12">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/75">
-                  Guohong Lazer
-                </div>
                 <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-                  Üretim hatlarını
-                  <span className="block text-amber-300">tek panelde yönet</span>
+                  GUOHONG LAZER
+                  <span className="block text-amber-300">Endüstriyel Fiber Lazer Kesim Çözümleri</span>
                 </h1>
                 <p className="max-w-xl text-base text-white/70">
                   Makine, yedek parça ve teknik destek tek sistemde. Hattını hızlandıran, servis akışını netleştiren
