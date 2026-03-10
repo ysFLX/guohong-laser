@@ -17,7 +17,6 @@ const space = Space_Grotesk({
 const heroStats = [
   { label: 'Hat verimliliği', value: '%100' },
   { label: 'Kurulum süresi', value: '7-12 gün' },
-  { label: 'Servis noktası', value: '24' },
 ];
 
 const heroVideos = [
