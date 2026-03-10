@@ -619,18 +619,6 @@ export default async function Home() {
                     className="object-cover"
                     quality={85}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-950/70 via-slate-900/10 to-transparent" />
-                  <div className="absolute left-6 top-6 inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-800">
-                    <span className="h-2 w-2 rounded-full bg-amber-500 shadow-[0_0_12px_rgba(251,191,36,0.9)]" />
-                    Canlı İzleme
-                  </div>
-                  <div className="absolute bottom-6 left-6 right-6 rounded-3xl border border-white/40 bg-white/90 px-5 py-4 text-sm text-slate-700 shadow-xl">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Anlık performans</div>
-                    <div className="mt-2 flex items-center justify-between text-sm font-semibold">
-                      <span>Günlük kesim raporu + uzaktan izleme</span>
-                      <span className="text-slate-400">%98</span>
-                    </div>
-                  </div>
                 </div>
                 <div className="rounded-2xl border border-amber-200/20 bg-black/30 px-4 py-3">
                   {liveStatus.map((item) => (
@@ -648,19 +636,13 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-10 w-full px-0">
         <div className="rounded-[28px] border border-amber-200/20 bg-[#101010] p-6 shadow-[0_22px_70px_rgba(0,0,0,0.45)]">
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+          <div className="mb-5 flex flex-wrap items-center gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-300/90">Saha goruntuleri</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
                 Sac, boru ve demir kesim hatları
               </h2>
             </div>
-            <Link
-              href="/gallery"
-              className="rounded-xl border border-amber-200/35 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-amber-100 transition hover:bg-amber-200/10"
-            >
-              Galeri
-            </Link>
           </div>
           <VideoSlider items={heroVideos} />
         </div>
