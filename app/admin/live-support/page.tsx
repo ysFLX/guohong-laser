@@ -34,6 +34,7 @@ type LiveSupportPayload = {
 export default function AdminLiveSupportPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deletingThread, setDeletingThread] = useState(false);
   const [selectedThread, setSelectedThread] = useState<string | null>(null);
   const [threads, setThreads] = useState<ThreadSummary[]>([]);
   const [messages, setMessages] = useState<ThreadMessage[]>([]);
@@ -161,6 +162,39 @@ export default function AdminLiveSupportPage() {
     }
   }
 
+  async function handleDeleteThread() {
+    if (!selectedThread || deletingThread) return;
+
+    const selectedName = selectedThreadInfo?.name || 'bu kullanıcı';
+    const approved = window.confirm(`${selectedName} konuşmasını kalıcı olarak silmek istiyor musun?`);
+    if (!approved) return;
+
+    setDeletingThread(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/support/live?thread=${encodeURIComponent(selectedThread)}`, {
+        method: 'DELETE',
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+
+      if (!res.ok) {
+        setError(data.error || 'Konuşma silinemedi.');
+        return;
+      }
+
+      const remaining = threads.filter((thread) => thread.key !== selectedThread);
+      const nextThread = remaining[0]?.key || null;
+
+      if (nextThread) {
+        await load(false, nextThread);
+      } else {
+        await load(false, '');
+      }
+    } finally {
+      setDeletingThread(false);
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-5 py-4 shadow-sm">
@@ -252,8 +286,22 @@ export default function AdminLiveSupportPage() {
 
         <section className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] shadow-sm">
           <div className="border-b border-[var(--admin-border)] px-4 py-3">
-            <div className="text-sm font-semibold text-[var(--admin-text)]">
-              {selectedThreadInfo ? `${selectedThreadInfo.name} ile sohbet` : 'Sohbet seç'}
+            <div className="flex items-center justify-between gap-3">
+              <div className="text-sm font-semibold text-[var(--admin-text)]">
+                {selectedThreadInfo ? `${selectedThreadInfo.name} ile sohbet` : 'Sohbet seç'}
+              </div>
+              {selectedThread ? (
+                <AdminButton
+                  type="button"
+                  onClick={handleDeleteThread}
+                  disabled={deletingThread}
+                  tone="rose"
+                  variant="outline"
+                  className="h-9 px-3 text-xs"
+                >
+                  {deletingThread ? 'Siliniyor...' : 'Sohbeti Sil'}
+                </AdminButton>
+              ) : null}
             </div>
             {selectedThreadInfo && (
               <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-[var(--admin-muted)]">

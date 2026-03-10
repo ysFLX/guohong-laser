@@ -23,8 +23,39 @@ type ThreadMessage = {
   senderName?: string;
 };
 
+const LIVE_SUPPORT_SUBJECT_WHERE = {
+  OR: [
+    { subject: { equals: 'Canli destek', mode: 'insensitive' as const } },
+    { subject: { equals: 'Canlı destek', mode: 'insensitive' as const } },
+    { subject: { contains: 'live support', mode: 'insensitive' as const } },
+  ],
+};
+
 function makeThreadKey(userId: string | null, email: string) {
   return userId ? `user:${userId}` : `email:${email.toLowerCase()}`;
+}
+
+function resolveThreadWhere(thread: string) {
+  if (thread.startsWith('user:')) {
+    const userId = thread.slice(5).trim();
+    if (!userId) return null;
+    return { userId };
+  }
+
+  if (thread.startsWith('email:')) {
+    const email = thread.slice(6).trim().toLowerCase();
+    if (!email) return null;
+    return {
+      userId: null as string | null,
+      email: { equals: email, mode: 'insensitive' as const },
+    };
+  }
+
+  return null;
+}
+
+function isAdminSession(session: Awaited<ReturnType<typeof getServerSession>>) {
+  return Boolean(session?.user?.id && session.user.role === 'ADMIN');
 }
 
 export async function GET(request: Request) {
@@ -32,7 +63,7 @@ export async function GET(request: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
-  if (session.user.role !== 'ADMIN') {
+  if (!isAdminSession(session)) {
     return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
   }
 
@@ -42,11 +73,7 @@ export async function GET(request: Request) {
   const inquiries = await prisma.inquiry.findMany({
     where: {
       type: 'CONTACT',
-      OR: [
-        { subject: { equals: 'Canli destek', mode: 'insensitive' } },
-        { subject: { equals: 'CanlÄ± destek', mode: 'insensitive' } },
-        { subject: { contains: 'live support', mode: 'insensitive' } },
-      ],
+      ...LIVE_SUPPORT_SUBJECT_WHERE,
     },
     orderBy: { createdAt: 'desc' },
     take: 300,
@@ -80,7 +107,7 @@ export async function GET(request: Request) {
       return {
         key,
         userId: last.userId,
-        name: last.name || 'MÃ¼ÅŸteri',
+        name: last.name || 'Müşteri',
         email: last.email,
         lastAt: last.createdAt.toISOString(),
         lastPreview: last.message.slice(0, 120),
@@ -129,5 +156,40 @@ export async function GET(request: Request) {
     activeThread,
     messages,
     replyTargetInquiryId,
+  });
+}
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+  }
+  if (!isAdminSession(session)) {
+    return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
+  }
+
+  const url = new URL(request.url);
+  const thread = (url.searchParams.get('thread') || '').trim();
+
+  if (!thread) {
+    return NextResponse.json({ error: 'Thread parametresi zorunlu.' }, { status: 400 });
+  }
+
+  const threadWhere = resolveThreadWhere(thread);
+  if (!threadWhere) {
+    return NextResponse.json({ error: 'Geçersiz thread anahtarı.' }, { status: 400 });
+  }
+
+  const result = await prisma.inquiry.deleteMany({
+    where: {
+      type: 'CONTACT',
+      ...LIVE_SUPPORT_SUBJECT_WHERE,
+      ...threadWhere,
+    },
+  });
+
+  return NextResponse.json({
+    ok: true,
+    deletedCount: result.count,
   });
 }

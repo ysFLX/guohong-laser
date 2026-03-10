@@ -218,22 +218,16 @@ export async function DELETE() {
     return NextResponse.json({ error: 'Lutfen giris yapin.' }, { status: 401 });
   }
 
-  const result = await prisma.inquiry.updateMany({
+  const result = await prisma.inquiry.deleteMany({
     where: {
       userId,
       type: 'CONTACT',
-      status: { not: 'CLOSED' },
       ...LIVE_SUPPORT_SUBJECT_WHERE,
-    },
-    data: {
-      status: 'CLOSED',
     },
   });
 
-  await pruneSupportHistory(userId);
-
   return NextResponse.json({
     ok: true,
-    closedCount: result.count,
+    deletedCount: result.count,
   });
 }
