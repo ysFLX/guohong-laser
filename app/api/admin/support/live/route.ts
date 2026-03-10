@@ -54,13 +54,20 @@ function resolveThreadWhere(thread: string) {
   return null;
 }
 
-function isAdminSession(session: Awaited<ReturnType<typeof getServerSession>>) {
-  return Boolean(session?.user?.id && session.user.role === 'ADMIN');
+function hasSessionUser(session: unknown): session is { user: { id: string; role?: string } } {
+  if (!session || typeof session !== 'object') return false;
+  const maybe = session as { user?: { id?: unknown; role?: unknown } };
+  return typeof maybe.user?.id === 'string' && maybe.user.id.length > 0;
+}
+
+function isAdminSession(session: unknown): session is { user: { id: string; role: 'ADMIN' } } {
+  if (!hasSessionUser(session)) return false;
+  return session.user.role === 'ADMIN';
 }
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  if (!hasSessionUser(session)) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
   if (!isAdminSession(session)) {
@@ -161,7 +168,7 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  if (!hasSessionUser(session)) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
   if (!isAdminSession(session)) {
