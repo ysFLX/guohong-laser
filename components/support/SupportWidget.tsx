@@ -446,11 +446,6 @@ export default function SupportWidget() {
       )}
 
       <div className="flex items-center justify-end gap-2">
-        {!open && (
-          <div className="hidden rounded-full border border-indigo-200/70 bg-white/90 px-3 py-2 text-[11px] font-semibold text-indigo-700 shadow-sm backdrop-blur sm:block dark:border-indigo-400/20 dark:bg-slate-950/80 dark:text-indigo-200">
-            Canlı Destek
-          </div>
-        )}
 
         <button
           type="button"
@@ -458,12 +453,6 @@ export default function SupportWidget() {
           className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-[0_18px_55px_rgba(79,70,229,0.35)] ring-1 ring-white/20 transition hover:scale-[1.03] hover:opacity-95 sm:h-14 sm:w-14"
           aria-label={open ? 'Canlı destek penceresini kapat' : 'Canlı destek penceresini aç'}
         >
-          <span
-            className={`absolute right-2 top-2 h-2.5 w-2.5 rounded-full ring-2 ring-white/50 ${
-              initialized ? (supportOnline ? 'bg-emerald-400' : 'bg-amber-400') : 'bg-white/70'
-            }`}
-            aria-hidden="true"
-          />
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
             <path d="M2 12a10 10 0 1118.22 5.56L22 22l-4.7-1.57A10 10 0 012 12zm6.5-1.25a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5zm3.5 0a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" />
           </svg>
