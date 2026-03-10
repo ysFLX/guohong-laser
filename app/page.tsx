@@ -932,58 +932,6 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl glint">
-            {priceAlertImageUrl ? (
-              <div className="pointer-events-none absolute inset-0">
-                <Image
-                  src={priceAlertImageUrl}
-                  alt="Fiyat alarmi gorseli"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover opacity-10"
-                  loading="lazy"
-                  decoding="async"
-                  quality={70}
-                />
-              </div>
-            ) : null}
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Fiyat düşüş alarmı</p>
-            <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-              Fiyat düşunce otomatik haber ver
-            </h2>
-            <p className="mt-3 text-sm text-amber-100/70">
-              Seçili ürünlerde fiyat düşüş ve stok girişi olduğunda e-posta ile otomatik bilgilendirme al.
-            </p>
-            <div className="mt-5 space-y-3">
-              {priceAlertSteps.map((step) => (
-                <div
-                  key={step.text}
-                  className="rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-3 text-sm text-amber-100/80"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-300/10 text-amber-300">
-                      {panelIcon(step.icon)}
-                    </span>
-                    <span>{step.text}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/spare-parts"
-                className="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-2.5 text-sm font-semibold text-black hover:bg-amber-400"
-              >
-                Alarm Kur
-              </Link>
-              <Link
-                href="/stock-request"
-                className="inline-flex items-center justify-center rounded-full border border-amber-200/30 px-6 py-2.5 text-sm font-semibold text-amber-100 hover:border-amber-300/60"
-              >
-                Stok İste
-              </Link>
-            </div>
-          </div>
         </div>
       </Reveal>
 
