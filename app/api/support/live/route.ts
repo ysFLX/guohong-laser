@@ -124,11 +124,13 @@ export async function GET() {
     },
   });
 
-  const messages = inquiries
+  const activeInquiries = inquiries.filter((item) => item.status !== 'CLOSED');
+
+  const messages = activeInquiries
     .flatMap(splitInquiryToMessages)
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
 
-  const openInquiries = inquiries.filter((item) => !item.adminResponse && item.status !== 'CLOSED');
+  const openInquiries = activeInquiries.filter((item) => !item.adminResponse);
   const latestOpen = openInquiries[0] ?? null;
 
   const waitingReply = openInquiries.length > 0;

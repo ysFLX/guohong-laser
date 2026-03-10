@@ -233,6 +233,9 @@ export default function SupportWidget() {
         return;
       }
       setInput('');
+      setMessages([]);
+      setWaitingReply(false);
+      setAgentTyping(false);
       await loadMessages(false);
     } catch {
       setSendError('Baglanti sorunu nedeniyle sohbet kapatilamadi.');

@@ -72,6 +72,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const showSpeedInsights = process.env.VERCEL === "1";
   const orgSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -119,7 +120,7 @@ export default function RootLayout({
           <RootChrome>{children}</RootChrome>
         </Providers>
         <CookieBanner />
-        <SpeedInsights />
+        {showSpeedInsights ? <SpeedInsights /> : null}
       </body>
     </html>
   );
