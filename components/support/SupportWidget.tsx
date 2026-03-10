@@ -237,6 +237,7 @@ export default function SupportWidget() {
       setWaitingReply(false);
       setAgentTyping(false);
       await loadMessages(false);
+      setOpen(false);
     } catch {
       setSendError('Baglanti sorunu nedeniyle sohbet kapatilamadi.');
     } finally {
