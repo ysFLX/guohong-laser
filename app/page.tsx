@@ -208,7 +208,7 @@ const supportGrid = [
   },
   {
     title: 'Bakım planla',
-    description: 'Periyodik bakım ile duruş riskini azalt.',
+    description: 'Periyodik bakım ile tüm riskleri azalt.',
     href: '/quote?type=Bakim',
   },
   {
@@ -218,7 +218,7 @@ const supportGrid = [
   },
   {
     title: 'Uzaktan destek',
-    description: 'Teknik ekip ile uzaktan bağlantı ve teşhis.',
+    description: 'Teknik ekip ile uzaktan bağlantı ve teşhis için.',
     href: '/contact?subject=Uzaktan+Destek',
   },
 ];
@@ -667,9 +667,9 @@ export default async function Home() {
           <div className="rounded-[36px] border border-amber-200/20 bg-[#111111] p-8 shadow-[0_30px_90px_rgba(0,0,0,0.55)]">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Kısa ürün vitrini</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Vitrin</p>
                 <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-                  Hemen teslim yedek parçalar
+                  Yedek Parçalar
                 </h2>
               </div>
               <Link
@@ -801,7 +801,7 @@ export default async function Home() {
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div>
           <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Ürün spotlight</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Ürün</p>
             <h2 className="mt-3 text-2xl font-semibold text-amber-50">{spotlight.title}</h2>
             <p className="mt-3 text-sm text-amber-100/70">{spotlight.description}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -951,14 +951,14 @@ export default async function Home() {
           ) : null}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Kurumsal satin alma</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Kurumsal Satın Alma</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                Tekliften teslimata tek panel akışı
+                Tekliften Teslimata Tek Akış
               </h2>
             </div>
             <div className="flex gap-2 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">
-              <span className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700">Yetkili onay</span>
-              <span className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700">SLA takip</span>
+              <span className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700">Yetkili Onay</span>
+              <span className="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700">SLA Takip</span>
             </div>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-4">
@@ -1028,7 +1028,7 @@ export default async function Home() {
                 <p className="text-sm font-semibold text-amber-50">{item.title}</p>
                 <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
                 <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-                  Ac
+                  Aç
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
               </Link>
@@ -1041,7 +1041,7 @@ export default async function Home() {
         <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Guven merkezi</p>
+              <p className="text-xs tracking-[0.3em] text-amber-300">Güven</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
                 Garanti, teslimat ve güvenli ödeme bilgileri
               </h2>
@@ -1195,9 +1195,9 @@ export default async function Home() {
         <div className="grid gap-6 rounded-[36px] border border-amber-200/20 bg-gradient-to-r from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi baslayalim</p>
-              <h2 className="mt-2 text-2xl font-semibold">Makine ve yedek parca ihtiyacin icin plan hazirlayalim</h2>
-              <p className="mt-2 text-sm text-white/70">Teklifini hizli hazirlayalim, kurulum takvimini netlestirelim.</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi başlayalım</p>
+              <h2 className="mt-2 text-2xl font-semibold">Makine ve yedek parçalar için plan hazırlayalım</h2>
+              <p className="mt-2 text-sm text-white/70">Teklifini hızlı hazırlayalım, kurulum takvimini netleştirelim.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link

@@ -68,7 +68,7 @@ export const homePanelDefaults: HomePanelConfig = {
     },
     {
       title: 'Sözleşme',
-      description: 'Maddeler ve garanti koşulları imzaya hazir.',
+      description: 'Maddeler ve garanti koşulları imzaya hazır.',
       icon: 'signature',
     },
     {
