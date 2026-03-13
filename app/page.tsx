@@ -15,7 +15,7 @@ const space = Space_Grotesk({
 });
 
 const heroStats = [
-  { label: 'Hat Verimliliği', value: '%100' },
+  { label: 'Verimlilik', value: '%100' },
   { label: 'Makine Kurulum Süresi', value: '7-12 gün' },
 ];
 
@@ -172,12 +172,12 @@ const panelIcon = (name?: string) => {
 const commerceTiles = [
   {
     title: 'Lazer Makineleri',
-    description: 'Sac, boru ve kombine hatlar için profesyonel çözümler.',
+    description: 'Sac, boru ve demir hatlar için profesyonel çözümler.',
     href: '/products',
   },
   {
     title: 'Yedek Parça',
-    description: 'Stoklu sarf ve kritik parça tedariki.',
+    description: 'İhtiyaç duyduğunuz parçaları hızlı ve kolay bir şekilde tedarik edin.',
     href: '/spare-parts',
   },
   {
@@ -578,7 +578,7 @@ export default async function Home() {
                   href="/products"
                   className="inline-flex w-full items-center justify-center rounded-xl bg-amber-400 px-7 py-3 text-sm font-semibold text-black transition hover:bg-amber-300 sm:w-auto"
                 >
-                  Kataloğu Gör
+                  Makineleri Gör
                 </Link>
                 <Link
                   href="/spare-parts"
@@ -667,7 +667,7 @@ export default async function Home() {
           <div className="rounded-[36px] border border-amber-200/20 bg-[#111111] p-8 shadow-[0_30px_90px_rgba(0,0,0,0.55)]">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Vitrin</p>
+                <p className="text-xs tracking-[0.3em] text-amber-300">Vitrin</p>
                 <h2 className="mt-2 text-2xl font-semibold text-slate-900">
                   Yedek Parçalar
                 </h2>
@@ -770,10 +770,10 @@ export default async function Home() {
           </div>
 
           <div className="rounded-[36px] border border-amber-200/20 bg-gradient-to-br from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-8 text-white shadow-[0_30px_90px_rgba(0,0,0,0.6)]">
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Hızlı teklif</p>
-            <h3 className="mt-3 text-2xl font-semibold">Teklifini 30 dakika içinde oluşturalım</h3>
+            <p className="text-xs tracking-[0.3em] text-amber-200">Hızlı teklif</p>
+            <h3 className="mt-3 text-2xl font-semibold">Teklifinizi 30 dakika içinde oluşturun</h3>
             <p className="mt-3 text-sm text-white/70">
-              Üretim hedefini, parça modelini ve teslim aciliyetini ilet. Net fiyat ve plan aynı gün geri dönsün.
+              Üretim hedefini, parça modelini ve teslim aciliyetinizi iletin. Net fiyat ve plan aynı gün içinde geri dönsün.
             </p>
             <div className="mt-5 space-y-3 text-sm text-white/80">
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">1. Model / parça bilgisi</div>
@@ -791,7 +791,7 @@ export default async function Home() {
                 href="/contact?subject=Hizli+Teklif"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80"
               >
-                E-posta gönder
+                İletişime Geç
               </Link>
             </div>
           </div>
@@ -801,7 +801,7 @@ export default async function Home() {
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div>
           <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Ürün</p>
+            <p className="text-xs tracking-[0.3em] text-amber-300">Ürün</p>
             <h2 className="mt-3 text-2xl font-semibold text-amber-50">{spotlight.title}</h2>
             <p className="mt-3 text-sm text-amber-100/70">{spotlight.description}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -850,25 +850,25 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-10 w-full px-0 md:hidden">
         <div className="grid gap-3 rounded-[24px] border border-amber-200/20 bg-[#111111] p-4 shadow-xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-amber-300">Hizli erisim</p>
+          <p className="text-[11px] uppercase tracking-[0.28em] text-amber-300">Hızlı Erişim</p>
           <div className="grid gap-2">
             <Link
               href="/spare-parts"
               className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black"
             >
-              Yedek Parca Ara
+              Yedek Parça Ara
             </Link>
             <Link
               href="/products"
               className="inline-flex items-center justify-center rounded-xl border border-amber-200/30 px-4 py-3 text-sm font-semibold text-amber-100"
             >
-              Makine Cozumleri
+              Makine Çözümleri
             </Link>
             <Link
               href="/quote"
               className="inline-flex items-center justify-center rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold text-white/80"
             >
-              Teklif Baslat
+              Teklif Al
             </Link>
           </div>
         </div>
