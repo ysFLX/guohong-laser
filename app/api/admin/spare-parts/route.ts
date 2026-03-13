@@ -3,11 +3,14 @@ import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
 
 type CreatePayload = {
   name?: string;
   description?: string;
   dimensions?: string | null;
+  hasSizeOptions?: boolean;
+  sizeOptions?: unknown;
   priceCents?: number;
   stockOnHand?: number;
   categoryId?: string;
@@ -43,12 +46,14 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as CreatePayload;
   } catch {
-    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
 
   const name = typeof body.name === 'string' ? body.name.trim() : '';
   const description = typeof body.description === 'string' ? body.description : '';
-  const dimensions = typeof body.dimensions === 'string' ? body.dimensions : null;
+  const dimensions = typeof body.dimensions === 'string' ? body.dimensions.trim() : '';
+  const hasSizeOptions = body.hasSizeOptions === true;
+  const sizeOptions = hasSizeOptions ? sanitizeSparePartSizeOptions(body.sizeOptions) : [];
   const priceCents = typeof body.priceCents === 'number' ? body.priceCents : NaN;
   const stockOnHand = typeof body.stockOnHand === 'number' ? Math.max(0, Math.floor(body.stockOnHand)) : NaN;
   const categoryId = typeof body.categoryId === 'string' ? body.categoryId : '';
@@ -56,7 +61,7 @@ export async function POST(req: Request) {
   const isActive = typeof body.isActive === 'boolean' ? body.isActive : true;
 
   if (!name) {
-    return NextResponse.json({ error: 'Ürün adı gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Urun adi gerekli' }, { status: 400 });
   }
 
   if (!categoryId) {
@@ -64,11 +69,15 @@ export async function POST(req: Request) {
   }
 
   if (!Number.isFinite(priceCents) || priceCents < 0) {
-    return NextResponse.json({ error: 'Fiyat geçersiz' }, { status: 400 });
+    return NextResponse.json({ error: 'Fiyat gecersiz' }, { status: 400 });
   }
 
   if (!Number.isFinite(stockOnHand) || stockOnHand < 0) {
-    return NextResponse.json({ error: 'Stok geçersiz' }, { status: 400 });
+    return NextResponse.json({ error: 'Stok gecersiz' }, { status: 400 });
+  }
+
+  if (hasSizeOptions && sizeOptions.length === 0) {
+    return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
   }
 
   try {
@@ -76,7 +85,9 @@ export async function POST(req: Request) {
       data: {
         name,
         description,
-        dimensions,
+        dimensions: dimensions || null,
+        hasSizeOptions,
+        sizeOptions,
         priceCents,
         stockOnHand,
         categoryId,
@@ -100,7 +111,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ item: created });
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : 'Ürün oluşturulamadı';
+    const message = e instanceof Error ? e.message : 'Urun olusturulamadi';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

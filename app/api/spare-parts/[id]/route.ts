@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
 
 type UpdatePayload = {
   imageUrl?: string | null;
@@ -11,6 +12,8 @@ type UpdatePayload = {
   name?: string;
   description?: string;
   dimensions?: string | null;
+  hasSizeOptions?: boolean;
+  sizeOptions?: unknown;
   priceCents?: number;
   categoryId?: string;
   stockOnHand?: number;
@@ -51,26 +54,38 @@ export async function PATCH(
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
 
   const payload = body as UpdatePayload;
-
-  // Only allow a safe subset to be patched from admin UI
   const data: Record<string, unknown> = {};
+
   if ('imageUrl' in payload) data.imageUrl = payload.imageUrl ?? null;
   if ('isFeatured' in payload && typeof payload.isFeatured === 'boolean') data.isFeatured = payload.isFeatured;
   if ('isActive' in payload && typeof payload.isActive === 'boolean') data.isActive = payload.isActive;
 
-  if ('name' in payload && typeof payload.name === 'string') data.name = payload.name;
+  if ('name' in payload && typeof payload.name === 'string') data.name = payload.name.trim();
   if ('description' in payload && typeof payload.description === 'string') data.description = payload.description;
-  if ('dimensions' in payload) data.dimensions = payload.dimensions ?? null;
+  if ('dimensions' in payload) data.dimensions = typeof payload.dimensions === 'string' ? payload.dimensions.trim() || null : null;
   if ('priceCents' in payload && typeof payload.priceCents === 'number') data.priceCents = payload.priceCents;
   if ('categoryId' in payload && typeof payload.categoryId === 'string') data.categoryId = payload.categoryId;
   if ('stockOnHand' in payload && typeof payload.stockOnHand === 'number') data.stockOnHand = Math.max(0, Math.floor(payload.stockOnHand));
 
+  if ('hasSizeOptions' in payload) {
+    data.hasSizeOptions = payload.hasSizeOptions === true;
+    data.sizeOptions = payload.hasSizeOptions === true ? sanitizeSparePartSizeOptions(payload.sizeOptions) : [];
+
+    if (payload.hasSizeOptions === true && Array.isArray(data.sizeOptions) && data.sizeOptions.length === 0) {
+      return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
+    }
+  } else if ('sizeOptions' in payload) {
+    const sanitizedSizeOptions = sanitizeSparePartSizeOptions(payload.sizeOptions);
+    data.sizeOptions = sanitizedSizeOptions;
+    data.hasSizeOptions = sanitizedSizeOptions.length > 0;
+  }
+
   if (Object.keys(data).length === 0) {
-    return NextResponse.json({ error: 'Güncellenecek alan yok' }, { status: 400 });
+    return NextResponse.json({ error: 'Guncellenecek alan yok' }, { status: 400 });
   }
 
   try {

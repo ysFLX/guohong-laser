@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from './CartProvider';
 import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
+import { buildSparePartCartLineId, buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 
 type Props = {
   id: string;
@@ -15,6 +16,7 @@ type Props = {
   className?: string;
   quantity?: number;
   disabled?: boolean;
+  variantValue?: string | null;
 };
 
 export default function AddToCartButton({
@@ -25,26 +27,29 @@ export default function AddToCartButton({
   className,
   quantity = 1,
   disabled = false,
+  variantValue = null,
 }: Props) {
   const { addItem } = useCart();
   const { show, dismiss } = useToast();
   const [isAdding, setIsAdding] = useState(false);
   const router = useRouter();
   const isDisabled = disabled || isAdding;
+  const lineId = buildSparePartCartLineId(id, variantValue);
+  const displayName = buildSparePartVariantName(name, variantValue);
 
   return (
     <button
       type="button"
       onClick={() => {
         setIsAdding(true);
-        addItem({ id, name, priceCents, imageUrl }, quantity);
+        addItem({ id, name, priceCents, imageUrl, variantValue }, quantity);
         trackEvent('add_to_cart', {
           currency: 'TRY',
           value: (priceCents * quantity) / 100,
           items: [
             {
-              item_id: id,
-              item_name: name,
+              item_id: lineId,
+              item_name: displayName,
               price: priceCents / 100,
               quantity,
             },
@@ -61,8 +66,8 @@ export default function AddToCartButton({
                 value: (priceCents * quantity) / 100,
                 items: [
                   {
-                    item_id: id,
-                    item_name: name,
+                    item_id: lineId,
+                    item_name: displayName,
                     price: priceCents / 100,
                     quantity,
                   },
@@ -97,6 +102,5 @@ export default function AddToCartButton({
     </button>
   );
 }
-
 
 

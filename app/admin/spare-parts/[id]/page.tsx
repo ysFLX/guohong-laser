@@ -13,6 +13,8 @@ type SparePartResult = {
   name: string;
   description: string;
   dimensions: string | null;
+  hasSizeOptions: boolean;
+  sizeOptions: string[];
   priceCents: number;
   imageUrl: string | null;
   stockOnHand: number;
@@ -125,6 +127,12 @@ export default async function AdminSparePartDetailPage({
               <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Boyut</div>
               <div className="mt-2 text-sm text-[var(--admin-muted)]">{part.dimensions || '-'}</div>
             </div>
+            <div className="sm:col-span-2">
+              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Olcu secenekleri</div>
+              <div className="mt-2 text-sm text-[var(--admin-muted)]">
+                {part.hasSizeOptions && part.sizeOptions.length > 0 ? part.sizeOptions.join(', ') : '-'}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -146,6 +154,8 @@ export default async function AdminSparePartDetailPage({
             name: part.name,
             description: part.description,
             dimensions: part.dimensions,
+            hasSizeOptions: part.hasSizeOptions,
+            sizeOptions: part.sizeOptions,
             priceCents: part.priceCents,
             stockOnHand: part.stockOnHand,
             isFeatured: part.isFeatured,

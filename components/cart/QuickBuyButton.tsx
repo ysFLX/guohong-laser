@@ -5,20 +5,23 @@ import { useState } from 'react';
 
 import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import { buildSparePartCartLineId } from '@/lib/sparePartSizeOptions';
 
 type QuickBuyItem = {
   id: string;
   name: string;
   priceCents: number;
   imageUrl: string | null;
+  variantValue?: string | null;
 };
 
-function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
+function QuickBuyButtonEnabled({ item, disabled = false }: { item: QuickBuyItem; disabled?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
+  const lineId = buildSparePartCartLineId(item.id, item.variantValue);
 
   const getLoginUrl = () => {
     if (typeof window !== 'undefined') {
@@ -29,7 +32,7 @@ function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
   };
 
   const handleQuickBuy = async () => {
-    if (isLoading) return;
+    if (isLoading || disabled) return;
     setError('');
     setIsLoading(true);
 
@@ -53,11 +56,11 @@ function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
         currency: 'TRY',
         value: item.priceCents / 100,
         items: [
-          {
-            item_id: item.id,
-            item_name: item.name,
-            price: item.priceCents / 100,
-            quantity: 1,
+            {
+              item_id: lineId,
+              item_name: item.name,
+              price: item.priceCents / 100,
+              quantity: 1,
           },
         ],
       });
@@ -70,11 +73,12 @@ function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
           billingAddressId: selected.id,
           items: [
             {
-              id: item.id,
+              id: lineId,
               name: item.name,
               priceCents: item.priceCents,
               quantity: 1,
               imageUrl: item.imageUrl,
+              variantValue: item.variantValue ?? null,
             },
           ],
         }),
@@ -104,7 +108,7 @@ function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
         type="button"
         className="inline-flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800 disabled:opacity-70"
         onClick={handleQuickBuy}
-        disabled={isLoading}
+        disabled={isLoading || disabled}
       >
         <span className="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
           {isLoading ? (
@@ -158,10 +162,10 @@ function QuickBuyButtonEnabled({ item }: { item: QuickBuyItem }) {
   );
 }
 
-export default function QuickBuyButton({ item }: { item: QuickBuyItem }) {
+export default function QuickBuyButton({ item, disabled = false }: { item: QuickBuyItem; disabled?: boolean }) {
   if (!isPaymentCheckoutEnabled()) {
     return null;
   }
 
-  return <QuickBuyButtonEnabled item={item} />;
+  return <QuickBuyButtonEnabled item={item} disabled={disabled} />;
 }

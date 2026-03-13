@@ -273,6 +273,7 @@ function CheckoutAddressEnabled() {
             priceCents: x.priceCents,
             quantity: x.quantity,
             imageUrl: x.imageUrl,
+            variantValue: x.variantValue ?? null,
           })),
         }),
       });

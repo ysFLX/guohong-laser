@@ -12,6 +12,7 @@ type CartReminderItem = {
   priceCents: number;
   quantity: number;
   imageUrl?: string | null;
+  variantValue?: string | null;
 };
 
 const prismaReminders = prisma as unknown as {
@@ -36,6 +37,7 @@ function sanitizeItems(value: unknown): CartReminderItem[] {
       priceCents: typeof item.priceCents === 'number' ? Math.max(0, Math.round(item.priceCents)) : 0,
       quantity: typeof item.quantity === 'number' ? Math.max(1, Math.round(item.quantity)) : 1,
       imageUrl: typeof item.imageUrl === 'string' ? item.imageUrl : null,
+      variantValue: typeof item.variantValue === 'string' ? item.variantValue : null,
     }));
 }
 

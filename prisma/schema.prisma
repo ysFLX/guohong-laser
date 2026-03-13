@@ -165,6 +165,8 @@ model SparePart {
   name         String
   description  String
   dimensions   String?
+  hasSizeOptions Boolean @default(false)
+  sizeOptions  String[] @default([])
   priceCents   Int
   currency     String   @default("TRY")
   imageUrl     String?

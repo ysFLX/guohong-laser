@@ -6,10 +6,14 @@ import { prisma } from '@/lib/prisma';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
+import { getSparePartProductIdFromCartLineId } from '@/lib/sparePartSizeOptions';
 
 type CheckoutItem = {
   id: string;
   quantity: number;
+  name?: string;
+  imageUrl?: string | null;
+  variantValue?: string | null;
 };
 
 type SparePartRow = {
@@ -17,6 +21,8 @@ type SparePartRow = {
   name: string;
   priceCents: number;
   imageUrl: string | null;
+  hasSizeOptions: boolean;
+  sizeOptions: string[];
 };
 
 export async function POST(req: Request) {
@@ -60,7 +66,11 @@ export async function POST(req: Request) {
     .filter((x) => x && typeof x.id === 'string' && typeof x.quantity === 'number')
     .map((x) => ({
       id: String(x.id).trim(),
+      productId: getSparePartProductIdFromCartLineId(String(x.id).trim()),
       quantity: Math.max(1, Math.min(50, Math.floor(x.quantity))),
+      name: typeof x.name === 'string' ? x.name.trim() : '',
+      imageUrl: typeof x.imageUrl === 'string' ? x.imageUrl : null,
+      variantValue: typeof x.variantValue === 'string' ? x.variantValue.trim() : '',
     }))
     .filter((x) => x.id.length > 0);
 
@@ -92,7 +102,7 @@ export async function POST(req: Request) {
     }
   }
 
-  const ids = Array.from(new Set(cleanItems.map((item) => item.id)));
+  const ids = Array.from(new Set(cleanItems.map((item) => item.productId)));
   const parts = (await prisma.sparePart.findMany({
     where: { id: { in: ids }, isActive: true },
     select: {
@@ -100,20 +110,28 @@ export async function POST(req: Request) {
       name: true,
       priceCents: true,
       imageUrl: true,
+      hasSizeOptions: true,
+      sizeOptions: true,
     },
   })) as SparePartRow[];
 
   const partMap = new Map(parts.map((part) => [part.id, part]));
   const verifiedItems = cleanItems
     .map((item) => {
-      const part = partMap.get(item.id);
+      const part = partMap.get(item.productId);
       if (!part) return null;
+      if (part.hasSizeOptions) {
+        const normalizedOptions = part.sizeOptions.map((option) => option.trim());
+        if (!item.variantValue || !normalizedOptions.includes(item.variantValue)) {
+          return null;
+        }
+      }
       return {
         id: part.id,
-        name: part.name,
+        name: item.name || part.name,
         priceCents: part.priceCents,
         quantity: item.quantity,
-        imageUrl: part.imageUrl,
+        imageUrl: item.imageUrl || part.imageUrl,
       };
     })
     .filter((item): item is NonNullable<typeof item> => Boolean(item));

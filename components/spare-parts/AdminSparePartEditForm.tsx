@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { AdminButton } from '@/components/admin/AdminUi';
+import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
 
@@ -12,12 +13,18 @@ type Initial = {
   name: string;
   description: string;
   dimensions: string | null;
+  hasSizeOptions: boolean;
+  sizeOptions: string[];
   priceCents: number;
   stockOnHand: number;
   isFeatured: boolean;
   isActive: boolean;
   categoryId: string;
 };
+
+function createEmptySizeRow() {
+  return '';
+}
 
 export default function AdminSparePartEditForm({
   initial,
@@ -33,6 +40,8 @@ export default function AdminSparePartEditForm({
   const [name, setName] = useState(initial.name);
   const [description, setDescription] = useState(initial.description);
   const [dimensions, setDimensions] = useState(initial.dimensions || '');
+  const [hasSizeOptions, setHasSizeOptions] = useState(initial.hasSizeOptions);
+  const [sizeOptions, setSizeOptions] = useState(initial.sizeOptions.length ? initial.sizeOptions : [createEmptySizeRow()]);
   const [priceTry, setPriceTry] = useState(String((initial.priceCents / 100).toFixed(2)));
   const [stockOnHand, setStockOnHand] = useState(String(initial.stockOnHand));
   const [categoryId, setCategoryId] = useState(initial.categoryId);
@@ -44,14 +53,29 @@ export default function AdminSparePartEditForm({
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const updateSizeOption = (index: number, value: string) => {
+    setSizeOptions((prev) => prev.map((item, itemIndex) => (itemIndex === index ? value : item)));
+  };
+
+  const addSizeOption = () => {
+    setSizeOptions((prev) => [...prev, createEmptySizeRow()]);
+  };
+
+  const removeSizeOption = (index: number) => {
+    setSizeOptions((prev) => {
+      const next = prev.filter((_, itemIndex) => itemIndex !== index);
+      return next.length > 0 ? next : [createEmptySizeRow()];
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
         <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">
-          Ürün bilgileri
+          Urun bilgileri
         </div>
-        <h2 className="mt-2 text-xl font-semibold text-[var(--admin-text)]">Düzenleme</h2>
-        <p className="mt-1 text-sm text-[var(--admin-muted)]">Değişiklikleri kaydetmek için “Kaydet” butonunu kullan.</p>
+        <h2 className="mt-2 text-xl font-semibold text-[var(--admin-text)]">Duzenleme</h2>
+        <p className="mt-1 text-sm text-[var(--admin-muted)]">Degisiklikleri kaydetmek icin "Kaydet" butonunu kullan.</p>
       </div>
 
       {error ? (
@@ -67,12 +91,12 @@ export default function AdminSparePartEditForm({
 
       <div className="grid grid-cols-1 gap-4">
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Ürün adı</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Urun adi</label>
           <input value={name} onChange={(e) => setName(e.target.value)} className={inputClassName} />
         </div>
 
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Açıklama</label>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Aciklama</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -83,11 +107,11 @@ export default function AdminSparePartEditForm({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Ölçüler</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Genel olcu</label>
             <input
               value={dimensions}
               onChange={(e) => setDimensions(e.target.value)}
-              placeholder="Orn: M16, D30, F125"
+              placeholder="Orn: Koruma lens"
               className={inputClassName}
             />
           </div>
@@ -127,8 +151,55 @@ export default function AdminSparePartEditForm({
               onChange={(e) => setStockOnHand(e.target.value)}
               className={inputClassName}
             />
-            <div className="mt-2 text-xs text-[var(--admin-muted)]">Stok değişince hareket kaydı oluşur.</div>
+            <div className="mt-2 text-xs text-[var(--admin-muted)]">Stok degisince hareket kaydi olusur.</div>
           </div>
+        </div>
+
+        <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4">
+          <label className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+            <input
+              type="checkbox"
+              checked={hasSizeOptions}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                setHasSizeOptions(checked);
+                if (checked && sizeOptions.length === 0) {
+                  setSizeOptions([createEmptySizeRow()]);
+                }
+              }}
+            />
+            Olcu secenegi var mi?
+          </label>
+
+          {hasSizeOptions ? (
+            <div className="mt-4 space-y-3">
+              <div className="text-xs text-[var(--admin-muted)]">
+                Her olcuyu ayri satir olarak gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
+              </div>
+              {sizeOptions.map((value, index) => (
+                <div key={`size-option-${index}`} className="flex gap-2">
+                  <input
+                    value={value}
+                    onChange={(e) => updateSizeOption(index, e.target.value)}
+                    placeholder={`Olcu ${index + 1}`}
+                    className={`${inputClassName} mt-0`}
+                  />
+                  <AdminButton
+                    type="button"
+                    variant="outline"
+                    tone="rose"
+                    className="shrink-0 px-4"
+                    onClick={() => removeSizeOption(index)}
+                  >
+                    Sil
+                  </AdminButton>
+                </div>
+              ))}
+              <AdminButton type="button" variant="outline" className="px-4" onClick={addSizeOption}>
+                Olcu ekle
+              </AdminButton>
+            </div>
+          ) : null}
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -153,21 +224,28 @@ export default function AdminSparePartEditForm({
 
               const parsedPrice = Number(String(priceTry).replace(',', '.'));
               const parsedStock = Number(stockOnHand);
+              const sanitizedSizeOptions = hasSizeOptions ? sanitizeSparePartSizeOptions(sizeOptions) : [];
 
               if (!name.trim()) {
-                setError('Ürün adı boş olamaz');
+                setError('Urun adi bos olamaz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
-                setError('Fiyat geçersiz');
+                setError('Fiyat gecersiz');
                 setIsSaving(false);
                 return;
               }
 
               if (!Number.isFinite(parsedStock) || parsedStock < 0) {
-                setError('Stok geçersiz');
+                setError('Stok gecersiz');
+                setIsSaving(false);
+                return;
+              }
+
+              if (hasSizeOptions && sanitizedSizeOptions.length === 0) {
+                setError('Olculu urunler icin en az bir olcu gir.');
                 setIsSaving(false);
                 return;
               }
@@ -180,6 +258,8 @@ export default function AdminSparePartEditForm({
                     name: name.trim(),
                     description,
                     dimensions: dimensions.trim() ? dimensions.trim() : null,
+                    hasSizeOptions,
+                    sizeOptions: sanitizedSizeOptions,
                     priceCents: Math.round(parsedPrice * 100),
                     stockOnHand: Math.floor(parsedStock),
                     categoryId,
@@ -207,7 +287,7 @@ export default function AdminSparePartEditForm({
             type="button"
             disabled={isDeleting}
             onClick={async () => {
-              const ok = window.confirm('Ürünü silmek istiyor musun? Bu işlem geri alınamaz.');
+              const ok = window.confirm('Urunu silmek istiyor musun? Bu islem geri alinamaz.');
               if (!ok) return;
               setIsDeleting(true);
               setError('');
@@ -228,7 +308,7 @@ export default function AdminSparePartEditForm({
             variant="outline"
             className="px-6 py-3"
           >
-            {isDeleting ? 'Siliniyor...' : 'Ürünü sil'}
+            {isDeleting ? 'Siliniyor...' : 'Urunu sil'}
           </AdminButton>
         </div>
       </div>

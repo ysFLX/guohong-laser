@@ -10,6 +10,8 @@ type SparePartListRow = {
   name: string;
   description: string;
   dimensions: string | null;
+  hasSizeOptions: boolean;
+  sizeOptions: string[];
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -24,6 +26,8 @@ type SparePartDetailRow = {
   name: string;
   description: string;
   dimensions: string | null;
+  hasSizeOptions: boolean;
+  sizeOptions: string[];
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -90,6 +94,8 @@ export const getActiveSparePartsWithRatings = unstable_cache(
         name: p.name,
         description: p.description,
         dimensions: p.dimensions,
+        hasSizeOptions: p.hasSizeOptions,
+        sizeOptions: p.sizeOptions,
         priceCents: p.priceCents,
         currency: p.currency,
         imageUrl: p.imageUrl,

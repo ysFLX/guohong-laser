@@ -10,6 +10,7 @@ import React, {
   useSyncExternalStore,
 } from 'react';
 import { useSession } from 'next-auth/react';
+import { buildSparePartCartLineId, buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 
 type CartItem = {
   id: string;
@@ -17,6 +18,7 @@ type CartItem = {
   priceCents: number;
   imageUrl: string | null;
   quantity: number;
+  variantValue?: string | null;
 };
 
 type CartContextValue = {
@@ -57,6 +59,7 @@ function safeParseCart(value: string | null): CartItem[] {
         priceCents: x.priceCents as number,
         imageUrl: typeof x.imageUrl === 'string' ? x.imageUrl : null,
         quantity: clampQuantity(typeof x.quantity === 'number' ? x.quantity : 1),
+        variantValue: typeof x.variantValue === 'string' ? x.variantValue : null,
       }));
   } catch {
     return [];
@@ -180,12 +183,34 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = useCallback(
     (item: Omit<CartItem, 'quantity'>, quantity = 1) => {
       const q = clampQuantity(quantity);
+      const variantValue = typeof item.variantValue === 'string' ? item.variantValue.trim() : '';
+      const lineId = buildSparePartCartLineId(item.id, variantValue);
+      const lineName = buildSparePartVariantName(item.name, variantValue);
+
       updateItems((prev) => {
-        const existing = prev.find((x) => x.id === item.id);
+        const existing = prev.find((x) => x.id === lineId);
         if (existing) {
-          return prev.map((x) => (x.id === item.id ? { ...x, quantity: clampQuantity(x.quantity + q) } : x));
+          return prev.map((x) =>
+            x.id === lineId
+              ? {
+                  ...x,
+                  name: lineName,
+                  variantValue: variantValue || null,
+                  quantity: clampQuantity(x.quantity + q),
+                }
+              : x,
+          );
         }
-        return [...prev, { ...item, quantity: q }];
+        return [
+          ...prev,
+          {
+            ...item,
+            id: lineId,
+            name: lineName,
+            quantity: q,
+            variantValue: variantValue || null,
+          },
+        ];
       });
     },
     [updateItems],

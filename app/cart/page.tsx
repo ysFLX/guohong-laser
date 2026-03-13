@@ -11,6 +11,7 @@ import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
+import { getSparePartProductIdFromCartLineId } from '@/lib/sparePartSizeOptions';
 
 type RecommendedItem = {
   id: string;
@@ -64,7 +65,7 @@ function CartPageContent() {
 
   const cartIdsKey = useMemo(() => {
     if (!items.length) return '';
-    const ids = Array.from(new Set(items.map((item) => item.id))).filter(Boolean);
+    const ids = Array.from(new Set(items.map((item) => getSparePartProductIdFromCartLineId(item.id)))).filter(Boolean);
     ids.sort();
     return ids.join(',');
   }, [items]);
@@ -183,6 +184,7 @@ function CartPageContent() {
             priceCents: unknown;
             quantity: unknown;
             imageUrl: unknown;
+            variantValue: unknown;
           }>;
 
           if (typeof x.id !== 'string' || typeof x.name !== 'string') continue;
@@ -192,6 +194,7 @@ function CartPageContent() {
               name: x.name,
               priceCents: typeof x.priceCents === 'number' ? x.priceCents : 0,
               imageUrl: typeof x.imageUrl === 'string' ? x.imageUrl : null,
+              variantValue: typeof x.variantValue === 'string' ? x.variantValue : null,
             },
             typeof x.quantity === 'number' ? x.quantity : 1,
           );
@@ -272,6 +275,7 @@ function CartPageContent() {
             priceCents: item.priceCents,
             quantity: item.quantity,
             imageUrl: item.imageUrl,
+            variantValue: item.variantValue ?? null,
           })),
         }),
       });
