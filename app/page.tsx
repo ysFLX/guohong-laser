@@ -383,16 +383,16 @@ const process = [
 const staticTestimonials: HomeTestimonial[] = [
   {
     id: 'static-1',
-    name: 'Ahmet Yılmaz',
-    role: 'Üretim Müdürü',
+    name: 'Fatih Turgut Polat',
+    role: 'Satış Müdürü',
     quote:
       'Kurulum süreci net planlandı, kesim kalitesi ve servis hızı beklentimizin üstünde.',
     image: '/images/avatar1.jpg',
   },
   {
     id: 'static-2',
-    name: 'Ayşe Kaya',
-    role: 'İşletme sahibi',
+    name: 'Arafat Uygur',
+    role: 'Satış Müdürü',
     quote:
       'Yedek parça hızı sayesinde duruş süreleri ciddi şekilde azaldı.',
     image: '/images/avatar2.jpg',
@@ -1167,7 +1167,7 @@ export default async function Home() {
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-amber-300">SSS</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                Karar sürecini hızlandıran cevaplar
+                Sıkça Sorulan Sorular
               </h2>
             </div>
             <Link

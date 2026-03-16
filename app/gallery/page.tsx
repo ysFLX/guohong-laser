@@ -148,7 +148,7 @@ export default function GalleryPage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Galeri</p>
-            <h2 className="mt-2 text-xl font-semibold text-slate-900">Gerçek galeri akışı</h2>
+            <h2 className="mt-2 text-xl font-semibold text-slate-900">Fotoğraf Galerisi</h2>
             <p className="mt-1 text-sm text-slate-600">
               {galleryImages.length} görsel gösteriliyor.
             </p>

@@ -5,16 +5,16 @@ import Link from 'next/link';
 
 const teamMembers = [
   {
-    name: 'Fatih Turgut Polat',
-    role: 'Satış Müdürü',
+    name: 'Merdan Karaşehir',
+    role: 'Tekniker',
   },
   {
-    name: 'Arafat Uygur',
-    role: 'Satış Müdürü',
+    name: 'Li Chang Hao',
+    role: 'Tekniker',
   },
   {
     name: 'Yusuf Can Gördebil',
-    role: 'Yazılım Geliştiricisi',
+    role: 'Yazılım Geliştirici',
   },
   {
     name: 'Yusuf Küçüktongarlak',
@@ -264,7 +264,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Degerler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Değerler</p>
           <div className="mt-4 space-y-4">
             {values.map((item) => (
               <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4 ">
@@ -279,7 +279,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="lg:max-w-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Neler yapiyoruz</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Neler yapıyoruz</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">
               Üretim hatlarınızı uçtan uca destekliyoruz
             </h2>
@@ -312,8 +312,8 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
           <div className="lg:w-1/2">
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Yol haritasi</p>
-            <h2 className="mt-3 text-2xl font-semibold text-slate-900">Buyume adımlarımız</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Yol Haritası</p>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-900">Büyüme adımlarımız</h2>
             <p className="mt-2 text-sm text-slate-600">
               Saha tecrübesini her yıl güçlendiren süreçlerle ilerliyoruz.
             </p>
@@ -338,7 +338,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
-          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sektorler</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sektörler</p>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900">
             Çözüm sunduğumuz alanlar
           </h2>
@@ -449,7 +449,7 @@ export default function AboutPage() {
       <section className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sik sorulanlar</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Sık sorulanlar</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Saha ekiplerinden gelen sorular</h2>
             <p className="mt-2 text-sm text-slate-600">
               Kurulum, servis ve yedek parça süreçlerinde merak edilenleri netleştiriyoruz.
@@ -468,7 +468,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-indigo-100">Birlikte calisalim</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-indigo-100">Birlikte çalışalım</p>
           <h2 className="mt-3 text-2xl font-semibold">Üretiminizi güçlendirecek çözümleri birlikte planlayalım</h2>
           <p className="mt-2 text-sm text-indigo-100">
             Kurulum ve servis süreçlerini hızlı planlamak için bizimle iletişime geçin.
