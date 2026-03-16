@@ -468,7 +468,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 rounded-[32px] border border-white/10 bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-500 p-8 text-white lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-indigo-100">Birlikte çalışalım</p>
+          <p className="text-xs tracking-[0.3em] text-indigo-100">Birlikte çalışalım</p>
           <h2 className="mt-3 text-2xl font-semibold">Üretiminizi güçlendirecek çözümleri birlikte planlayalım</h2>
           <p className="mt-2 text-sm text-indigo-100">
             Kurulum ve servis süreçlerini hızlı planlamak için bizimle iletişime geçin.
