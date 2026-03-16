@@ -12,20 +12,20 @@ export default function Footer() {
   const providerName = getPaymentProviderName();
   const providerActive = isPaymentProviderActive();
   const paymentNotice = providerActive
-    ? `${providerName} ile guvenli odeme aktif. Kart islemleri 3D Secure ile korunur.`
+    ? `${providerName} ile güvenli ödeme aktif. Kart işlemleri 3D Secure ile korunur.`
     : getPaymentProviderPendingNotice();
   const quickLinks = [
-    { href: '/about', label: 'Hakkimizda' },
+    { href: '/about', label: 'Hakkımızda' },
     { href: '/products', label: 'Makineler' },
-    { href: '/spare-parts', label: 'Yedek Parcalar' },
+    { href: '/spare-parts', label: 'Yedek Parçalar' },
     { href: '/gallery', label: 'Galeri' },
-    { href: '/contact', label: 'Iletisim' },
+    { href: '/contact', label: 'İletişim' },
   ];
   const policyLinks = [
     { href: '/shipping', label: 'Kargo ve Teslimat' },
-    { href: '/returns', label: 'Iade ve Garanti' },
-    { href: '/distance-sales', label: 'Mesafeli Satis' },
-    { href: '/payment-security', label: 'Odeme Guvenligi' },
+    { href: '/returns', label: 'İade ve Garanti' },
+    { href: '/distance-sales', label: 'Mesafeli Satış' },
+    { href: '/payment-security', label: 'Ödeme Güvenliği' },
     { href: '/privacy', label: 'Gizlilik' },
     { href: '/kvkk', label: 'KVKK' },
   ];
@@ -34,8 +34,8 @@ export default function Footer() {
     if (typeof window === 'undefined') return;
     const pageUrl = window.location.href;
     const message = pageUrl
-      ? `Merhaba, Guohong Lazer sitesinden yaziyorum. Su sayfa hakkinda bilgi almak istiyorum:\n${pageUrl}`
-      : 'Merhaba, Guohong Lazer sitesinden yaziyorum. Bilgi almak istiyorum.';
+      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Şu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
+      : 'Merhaba, Guohong Lazer sitesinden yazıyorum. Bilgi almak istiyorum.';
     setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
   }, [pathname]);
 
@@ -63,18 +63,18 @@ export default function Footer() {
                   className="h-12 w-auto sm:h-14"
                 />
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-amber-100/60">Guvenilir Partner</p>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-amber-100/60">Güvenilir Partner</p>
                   <h3 className="mt-1 text-xl font-semibold tracking-tight text-amber-50">Guohong Lazer</h3>
                 </div>
               </div>
               <div className="rounded-full border border-emerald-200/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-200">
-                Cevap suresi: 30 dk
+                Cevap süresi: 30 dk
               </div>
             </div>
 
             <p className="mt-5 max-w-2xl text-sm leading-6 text-amber-100/78">
-              Uretim hattinizi hizlandiran lazer teknolojileri, guvenilir servis ve hizli yedek parca tedariki ile
-              tum sureci tek noktadan yonetiyoruz.
+              Üretim hattınızı hızlandıran lazer teknolojileri, güvenilir servis ve hızlı yedek parça tedariki ile
+              tüm süreci tek noktadan yönetiyoruz.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
@@ -88,7 +88,7 @@ export default function Footer() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-amber-200/30 px-5 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-white/5"
               >
-                Iletisime Gec
+                İletişime Geç
               </Link>
               <a
                 href={whatsAppHref}
@@ -96,14 +96,14 @@ export default function Footer() {
                 rel="noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-amber-200/30 px-5 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-amber-300/10"
               >
-                WhatsApp Hatti
+                WhatsApp Hattı
               </a>
             </div>
 
             <div className="mt-7 rounded-2xl border border-amber-200/20 bg-black/30 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Guvenli Odeme</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Güvenli Ödeme</p>
                   <p className="mt-1 text-sm text-amber-100/75">{paymentNotice}</p>
                 </div>
                 <div
@@ -137,7 +137,7 @@ export default function Footer() {
 
           <section className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-amber-200/20 bg-[#121212] p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Hizli Linkler</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Hızlı Linkler</p>
               <div className="mt-4 grid gap-2 text-sm">
                 {quickLinks.map((item) => (
                   <Link key={item.href} href={item.href} className="text-amber-100/80 transition hover:text-amber-200">
@@ -159,12 +159,12 @@ export default function Footer() {
             </div>
 
             <div className="rounded-2xl border border-amber-200/20 bg-[#121212] p-6 sm:col-span-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Iletisim</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">İletişim</p>
               <div className="mt-4 grid gap-3 text-sm text-amber-100/80 sm:grid-cols-2">
                 <div className="rounded-xl border border-amber-200/15 bg-[#171717] px-4 py-3">Telefon: +90 536 831 67 87</div>
                 <div className="rounded-xl border border-amber-200/15 bg-[#171717] px-4 py-3">E-posta: guohonglazerinfo@gmail.com</div>
-                <div className="rounded-xl border border-amber-200/15 bg-[#171717] px-4 py-3">Adres: Konya / Karatay 42210</div>
-                <div className="rounded-xl border border-amber-200/15 bg-[#171717] px-4 py-3">Pazartesi - Cumartesi 09:00 - 18:00</div>
+                <div className="rounded-xl border border-amber-200/15 bg-[#171717] px-4 py-3">Adres: Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210</div>
+                <div className="rounded-xl border border-amber-200/15 bg-[#171717] px-4 py-3">Pazartesi - Cuma 09:00 - 17:00</div>
               </div>
             </div>
           </section>
@@ -172,12 +172,12 @@ export default function Footer() {
 
         <div className="border-t border-amber-200/20 py-6">
           <div className="flex flex-col gap-3 text-xs text-amber-100/60 sm:flex-row sm:items-center sm:justify-between">
-            <div>&copy; {year} Guohong Lazer. Tum haklari saklidir.</div>
+            <div>&copy; {year} Guohong Lazer. Tüm hakları saklıdır.</div>
             <div className="flex flex-wrap gap-3">
               <Link href="/privacy" className="transition hover:text-amber-200">Gizlilik</Link>
-              <Link href="/cookies" className="transition hover:text-amber-200">Cerez</Link>
+              <Link href="/cookies" className="transition hover:text-amber-200">Çerez</Link>
               <Link href="/kvkk" className="transition hover:text-amber-200">KVKK</Link>
-              <Link href="/returns" className="transition hover:text-amber-200">Iade</Link>
+              <Link href="/returns" className="transition hover:text-amber-200">İade</Link>
             </div>
           </div>
         </div>
