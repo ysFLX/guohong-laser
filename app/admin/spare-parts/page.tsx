@@ -50,15 +50,16 @@ function getPageNumber(searchParams: { page?: string }) {
 export default async function AdminSparePartsPage({
   searchParams,
 }: {
-  searchParams: { page?: string; q?: string; category?: string; status?: string };
+  searchParams: Promise<{ page?: string; q?: string; category?: string; status?: string }>;
 }) {
+  const resolvedSearchParams = await searchParams;
   const inputClassName =
     'mt-2 w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]';
-  const page = getPageNumber(searchParams);
+  const page = getPageNumber(resolvedSearchParams);
   const skip = (page - 1) * PAGE_SIZE;
-  const query = typeof searchParams.q === 'string' ? searchParams.q.trim() : '';
-  const categoryId = typeof searchParams.category === 'string' ? searchParams.category.trim() : '';
-  const status = typeof searchParams.status === 'string' ? searchParams.status : 'all';
+  const query = typeof resolvedSearchParams.q === 'string' ? resolvedSearchParams.q.trim() : '';
+  const categoryId = typeof resolvedSearchParams.category === 'string' ? resolvedSearchParams.category.trim() : '';
+  const status = typeof resolvedSearchParams.status === 'string' ? resolvedSearchParams.status : 'all';
 
   const where: Record<string, unknown> = {};
   if (query) {
