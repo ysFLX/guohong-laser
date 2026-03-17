@@ -3,7 +3,11 @@ import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
+import {
+  buildSparePartSizeOptionPricesMap,
+  sanitizeSparePartSizeOptionEntries,
+  sanitizeSparePartSizeOptions,
+} from '@/lib/sparePartSizeOptions';
 
 type CreatePayload = {
   name?: string;
@@ -11,6 +15,7 @@ type CreatePayload = {
   dimensions?: string | null;
   hasSizeOptions?: boolean;
   sizeOptions?: unknown;
+  sizeOptionEntries?: unknown;
   priceCents?: number;
   stockOnHand?: number;
   categoryId?: string;
@@ -53,8 +58,21 @@ export async function POST(req: Request) {
   const description = typeof body.description === 'string' ? body.description : '';
   const dimensions = typeof body.dimensions === 'string' ? body.dimensions.trim() : '';
   const hasSizeOptions = body.hasSizeOptions === true;
-  const sizeOptions = hasSizeOptions ? sanitizeSparePartSizeOptions(body.sizeOptions) : [];
   const priceCents = typeof body.priceCents === 'number' ? body.priceCents : NaN;
+  const fallbackPriceCents = Number.isFinite(priceCents) ? Math.max(0, Math.round(priceCents)) : 0;
+  const sizeOptionEntries = hasSizeOptions
+    ? sanitizeSparePartSizeOptionEntries(body.sizeOptionEntries, fallbackPriceCents)
+    : [];
+  const sizeOptions =
+    sizeOptionEntries.length > 0
+      ? sizeOptionEntries.map((entry) => entry.value)
+      : hasSizeOptions
+      ? sanitizeSparePartSizeOptions(body.sizeOptions)
+      : [];
+  const sizeOptionPrices =
+    sizeOptionEntries.length > 0
+      ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
+      : Object.fromEntries(sizeOptions.map((option) => [option, fallbackPriceCents]));
   const stockOnHand = typeof body.stockOnHand === 'number' ? Math.max(0, Math.floor(body.stockOnHand)) : NaN;
   const categoryId = typeof body.categoryId === 'string' ? body.categoryId : '';
   const isFeatured = typeof body.isFeatured === 'boolean' ? body.isFeatured : false;
@@ -88,6 +106,7 @@ export async function POST(req: Request) {
         dimensions: dimensions || null,
         hasSizeOptions,
         sizeOptions,
+        sizeOptionPrices,
         priceCents,
         stockOnHand,
         categoryId,

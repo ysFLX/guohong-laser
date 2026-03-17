@@ -4,9 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { AdminButton } from '@/components/admin/AdminUi';
-import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
+import {
+  buildSparePartSizeOptionEntries,
+  sanitizeSparePartSizeOptionEntries,
+} from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
+type SizeOptionRow = { value: string; priceTry: string };
 
 type Initial = {
   id: string;
@@ -15,6 +19,7 @@ type Initial = {
   dimensions: string | null;
   hasSizeOptions: boolean;
   sizeOptions: string[];
+  sizeOptionPrices: Record<string, unknown>;
   priceCents: number;
   stockOnHand: number;
   isFeatured: boolean;
@@ -22,8 +27,12 @@ type Initial = {
   categoryId: string;
 };
 
-function createEmptySizeRow() {
-  return '';
+function createEmptySizeRow(): SizeOptionRow {
+  return { value: '', priceTry: '' };
+}
+
+function toTryPrice(priceCents: number) {
+  return String((priceCents / 100).toFixed(2)).replace('.', ',');
 }
 
 export default function AdminSparePartEditForm({
@@ -41,7 +50,15 @@ export default function AdminSparePartEditForm({
   const [description, setDescription] = useState(initial.description);
   const [dimensions, setDimensions] = useState(initial.dimensions || '');
   const [hasSizeOptions, setHasSizeOptions] = useState(initial.hasSizeOptions);
-  const [sizeOptions, setSizeOptions] = useState(initial.sizeOptions.length ? initial.sizeOptions : [createEmptySizeRow()]);
+  const [sizeOptionRows, setSizeOptionRows] = useState<SizeOptionRow>(() => {
+    const entries = buildSparePartSizeOptionEntries(
+      initial.sizeOptions,
+      initial.sizeOptionPrices,
+      initial.priceCents,
+    );
+    if (entries.length === 0) return [createEmptySizeRow()];
+    return entries.map((entry) => ({ value: entry.value, priceTry: toTryPrice(entry.priceCents) }));
+  });
   const [priceTry, setPriceTry] = useState(String((initial.priceCents / 100).toFixed(2)));
   const [stockOnHand, setStockOnHand] = useState(String(initial.stockOnHand));
   const [categoryId, setCategoryId] = useState(initial.categoryId);
@@ -53,17 +70,19 @@ export default function AdminSparePartEditForm({
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const updateSizeOption = (index: number, value: string) => {
-    setSizeOptions((prev) => prev.map((item, itemIndex) => (itemIndex === index ? value : item)));
+  const updateSizeRow = (index: number, next: Partial<SizeOptionRow>) => {
+    setSizeOptionRows((prev) =>
+      prev.map((row, rowIndex) => (rowIndex === index ? { ...row, ...next } : row)),
+    );
   };
 
-  const addSizeOption = () => {
-    setSizeOptions((prev) => [...prev, createEmptySizeRow()]);
+  const addSizeOptionRow = () => {
+    setSizeOptionRows((prev) => [...prev, createEmptySizeRow()]);
   };
 
-  const removeSizeOption = (index: number) => {
-    setSizeOptions((prev) => {
-      const next = prev.filter((_, itemIndex) => itemIndex !== index);
+  const removeSizeOptionRow = (index: number) => {
+    setSizeOptionRows((prev) => {
+      const next = prev.filter((_, rowIndex) => rowIndex !== index);
       return next.length > 0 ? next : [createEmptySizeRow()];
     });
   };
@@ -134,7 +153,7 @@ export default function AdminSparePartEditForm({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Fiyat (TL)</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Varsayilan fiyat (TL)</label>
             <input
               value={priceTry}
               inputMode="decimal"
@@ -163,8 +182,8 @@ export default function AdminSparePartEditForm({
               onChange={(e) => {
                 const checked = e.target.checked;
                 setHasSizeOptions(checked);
-                if (checked && sizeOptions.length === 0) {
-                  setSizeOptions([createEmptySizeRow()]);
+                if (checked && sizeOptionRows.length === 0) {
+                  setSizeOptionRows([createEmptySizeRow()]);
                 }
               }}
             />
@@ -174,28 +193,35 @@ export default function AdminSparePartEditForm({
           {hasSizeOptions ? (
             <div className="mt-4 space-y-3">
               <div className="text-xs text-[var(--admin-muted)]">
-                Her olcuyu ayri satir olarak gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
+                Her satirda olcu ve fiyat gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
               </div>
-              {sizeOptions.map((value, index) => (
-                <div key={`size-option-${index}`} className="flex gap-2">
+              {sizeOptionRows.map((row, index) => (
+                <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
                   <input
-                    value={value}
-                    onChange={(e) => updateSizeOption(index, e.target.value)}
+                    value={row.value}
+                    onChange={(e) => updateSizeRow(index, { value: e.target.value })}
                     placeholder={`Olcu ${index + 1}`}
+                    className={`${inputClassName} mt-0`}
+                  />
+                  <input
+                    value={row.priceTry}
+                    inputMode="decimal"
+                    onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
+                    placeholder="Fiyat (TL)"
                     className={`${inputClassName} mt-0`}
                   />
                   <AdminButton
                     type="button"
                     variant="outline"
                     tone="rose"
-                    className="shrink-0 px-4"
-                    onClick={() => removeSizeOption(index)}
+                    className="shrink-0 px-4 sm:self-end"
+                    onClick={() => removeSizeOptionRow(index)}
                   >
                     Sil
                   </AdminButton>
                 </div>
               ))}
-              <AdminButton type="button" variant="outline" className="px-4" onClick={addSizeOption}>
+              <AdminButton type="button" variant="outline" className="px-4" onClick={addSizeOptionRow}>
                 Olcu ekle
               </AdminButton>
             </div>
@@ -224,7 +250,15 @@ export default function AdminSparePartEditForm({
 
               const parsedPrice = Number(String(priceTry).replace(',', '.'));
               const parsedStock = Number(stockOnHand);
-              const sanitizedSizeOptions = hasSizeOptions ? sanitizeSparePartSizeOptions(sizeOptions) : [];
+              const basePriceCents =
+                Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+
+              const hasBlankSizeRow = hasSizeOptions
+                ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceTry.trim().length === 0)
+                : false;
+              const sizeOptionEntries = hasSizeOptions
+                ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents)
+                : [];
 
               if (!name.trim()) {
                 setError('Urun adi bos olamaz');
@@ -244,7 +278,13 @@ export default function AdminSparePartEditForm({
                 return;
               }
 
-              if (hasSizeOptions && sanitizedSizeOptions.length === 0) {
+              if (hasSizeOptions && hasBlankSizeRow) {
+                setError('Olculu urunde her satir icin olcu ve fiyat gir.');
+                setIsSaving(false);
+                return;
+              }
+
+              if (hasSizeOptions && sizeOptionEntries.length === 0) {
                 setError('Olculu urunler icin en az bir olcu gir.');
                 setIsSaving(false);
                 return;
@@ -259,7 +299,7 @@ export default function AdminSparePartEditForm({
                     description,
                     dimensions: dimensions.trim() ? dimensions.trim() : null,
                     hasSizeOptions,
-                    sizeOptions: sanitizedSizeOptions,
+                    sizeOptionEntries,
                     priceCents: Math.round(parsedPrice * 100),
                     stockOnHand: Math.floor(parsedStock),
                     categoryId,

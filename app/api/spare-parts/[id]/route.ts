@@ -3,7 +3,11 @@ import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
-import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
+import {
+  buildSparePartSizeOptionPricesMap,
+  sanitizeSparePartSizeOptionEntries,
+  sanitizeSparePartSizeOptions,
+} from '@/lib/sparePartSizeOptions';
 
 type UpdatePayload = {
   imageUrl?: string | null;
@@ -14,6 +18,7 @@ type UpdatePayload = {
   dimensions?: string | null;
   hasSizeOptions?: boolean;
   sizeOptions?: unknown;
+  sizeOptionEntries?: unknown;
   priceCents?: number;
   categoryId?: string;
   stockOnHand?: number;
@@ -72,15 +77,44 @@ export async function PATCH(
   if ('stockOnHand' in payload && typeof payload.stockOnHand === 'number') data.stockOnHand = Math.max(0, Math.floor(payload.stockOnHand));
 
   if ('hasSizeOptions' in payload) {
+    const fallbackPriceCents =
+      typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
+        ? Math.max(0, Math.round(payload.priceCents))
+        : 0;
+    const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents);
+    const sizeOptionsFromEntries = sizeOptionEntries.map((entry) => entry.value);
+    const sizeOptionsFromStrings = sanitizeSparePartSizeOptions(payload.sizeOptions);
+    const resolvedSizeOptions =
+      sizeOptionsFromEntries.length > 0 ? sizeOptionsFromEntries : sizeOptionsFromStrings;
+
     data.hasSizeOptions = payload.hasSizeOptions === true;
-    data.sizeOptions = payload.hasSizeOptions === true ? sanitizeSparePartSizeOptions(payload.sizeOptions) : [];
+    data.sizeOptions = payload.hasSizeOptions === true ? resolvedSizeOptions : [];
+    data.sizeOptionPrices =
+      payload.hasSizeOptions === true
+        ? sizeOptionEntries.length > 0
+          ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
+          : Object.fromEntries(resolvedSizeOptions.map((option) => [option, fallbackPriceCents]))
+        : {};
 
     if (payload.hasSizeOptions === true && Array.isArray(data.sizeOptions) && data.sizeOptions.length === 0) {
       return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
     }
+  } else if ('sizeOptionEntries' in payload) {
+    const fallbackPriceCents =
+      typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
+        ? Math.max(0, Math.round(payload.priceCents))
+        : 0;
+    const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents);
+    const sizeOptions = sizeOptionEntries.map((entry) => entry.value);
+    data.sizeOptions = sizeOptions;
+    data.sizeOptionPrices = buildSparePartSizeOptionPricesMap(sizeOptionEntries);
+    data.hasSizeOptions = sizeOptions.length > 0;
   } else if ('sizeOptions' in payload) {
     const sanitizedSizeOptions = sanitizeSparePartSizeOptions(payload.sizeOptions);
     data.sizeOptions = sanitizedSizeOptions;
+    if (sanitizedSizeOptions.length === 0) {
+      data.sizeOptionPrices = {};
+    }
     data.hasSizeOptions = sanitizedSizeOptions.length > 0;
   }
 

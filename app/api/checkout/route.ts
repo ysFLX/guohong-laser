@@ -6,7 +6,10 @@ import { prisma } from '@/lib/prisma';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
-import { getSparePartProductIdFromCartLineId } from '@/lib/sparePartSizeOptions';
+import {
+  getSparePartProductIdFromCartLineId,
+  normalizeSparePartSizeOptionPricesMap,
+} from '@/lib/sparePartSizeOptions';
 
 type CheckoutItem = {
   id: string;
@@ -23,6 +26,7 @@ type SparePartRow = {
   imageUrl: string | null;
   hasSizeOptions: boolean;
   sizeOptions: string[];
+  sizeOptionPrices: unknown;
 };
 
 export async function POST(req: Request) {
@@ -112,6 +116,7 @@ export async function POST(req: Request) {
       imageUrl: true,
       hasSizeOptions: true,
       sizeOptions: true,
+      sizeOptionPrices: true,
     },
   })) as SparePartRow[];
 
@@ -120,16 +125,25 @@ export async function POST(req: Request) {
     .map((item) => {
       const part = partMap.get(item.productId);
       if (!part) return null;
+      const sizeOptionPrices = normalizeSparePartSizeOptionPricesMap(
+        part.sizeOptionPrices,
+        part.sizeOptions,
+        part.priceCents,
+      );
       if (part.hasSizeOptions) {
         const normalizedOptions = part.sizeOptions.map((option) => option.trim());
         if (!item.variantValue || !normalizedOptions.includes(item.variantValue)) {
           return null;
         }
       }
+      const resolvedPriceCents =
+        part.hasSizeOptions && item.variantValue
+          ? (sizeOptionPrices[item.variantValue] ?? part.priceCents)
+          : part.priceCents;
       return {
         id: part.id,
         name: item.name || part.name,
-        priceCents: part.priceCents,
+        priceCents: resolvedPriceCents,
         quantity: item.quantity,
         imageUrl: item.imageUrl || part.imageUrl,
       };

@@ -16,7 +16,7 @@ type Props = {
   isCritical: boolean;
   showPrice: boolean;
   sparePartDirectPurchaseEnabled: boolean;
-  sizeOptions: string[];
+  sizeOptionEntries: Array<{ value: string; priceCents: number }>;
 };
 
 export default function SparePartPurchaseClient({
@@ -28,12 +28,17 @@ export default function SparePartPurchaseClient({
   isCritical,
   showPrice,
   sparePartDirectPurchaseEnabled,
-  sizeOptions,
+  sizeOptionEntries,
 }: Props) {
-  const hasSizeOptions = sizeOptions.length > 0;
-  const [selectedSize, setSelectedSize] = useState<string>(sizeOptions[0] ?? '');
+  const hasSizeOptions = sizeOptionEntries.length > 0;
+  const [selectedSize, setSelectedSize] = useState<string>(sizeOptionEntries[0]?.value ?? '');
 
   const resolvedSize = hasSizeOptions ? selectedSize : '';
+  const selectedEntry = useMemo(
+    () => sizeOptionEntries.find((entry) => entry.value === resolvedSize) ?? null,
+    [resolvedSize, sizeOptionEntries],
+  );
+  const resolvedPriceCents = selectedEntry?.priceCents ?? priceCents;
   const displayName = useMemo(() => buildSparePartVariantName(name, resolvedSize), [name, resolvedSize]);
   const selectionDisabled = hasSizeOptions && !resolvedSize;
   const canQuickBuy = showPrice && sparePartDirectPurchaseEnabled;
@@ -52,9 +57,9 @@ export default function SparePartPurchaseClient({
         <option value="" disabled>
           Olcu seciniz
         </option>
-        {sizeOptions.map((sizeOption) => (
-          <option key={sizeOption} value={sizeOption}>
-            {sizeOption}
+        {sizeOptionEntries.map((entry) => (
+          <option key={entry.value} value={entry.value}>
+            {entry.value}
           </option>
         ))}
       </select>
@@ -68,7 +73,7 @@ export default function SparePartPurchaseClient({
           item={{
             id,
             name: displayName,
-            priceCents,
+            priceCents: resolvedPriceCents,
             imageUrl,
             variantValue: resolvedSize || null,
           }}
@@ -79,7 +84,7 @@ export default function SparePartPurchaseClient({
         <AddToCartButton
           id={id}
           name={name}
-          priceCents={priceCents}
+          priceCents={resolvedPriceCents}
           imageUrl={imageUrl}
           variantValue={resolvedSize || null}
           className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
@@ -119,7 +124,7 @@ export default function SparePartPurchaseClient({
             </div>
             <div className="mt-1 text-2xl font-semibold text-slate-900">
               {showPrice
-                ? `${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
+                ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
                 : 'Fiyat icin teklif al'}
             </div>
           </div>
@@ -141,7 +146,7 @@ export default function SparePartPurchaseClient({
       <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24 lg:block">
         <div className="text-3xl font-semibold text-slate-900">
           {showPrice
-            ? `${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
+            ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
             : 'Fiyat icin teklif al'}
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
@@ -201,9 +206,9 @@ export default function SparePartPurchaseClient({
                 <option value="" disabled>
                   Olcu seciniz
                 </option>
-                {sizeOptions.map((sizeOption) => (
-                  <option key={sizeOption} value={sizeOption}>
-                    {sizeOption}
+                {sizeOptionEntries.map((entry) => (
+                  <option key={entry.value} value={entry.value}>
+                    {entry.value}
                   </option>
                 ))}
               </select>
@@ -216,7 +221,7 @@ export default function SparePartPurchaseClient({
               </div>
               <div className="mt-1 text-base font-semibold text-slate-900">
                 {inStock
-                  ? `${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
+                  ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
                   : 'Stokta yok'}
               </div>
             </div>
@@ -230,7 +235,7 @@ export default function SparePartPurchaseClient({
                 <AddToCartButton
                   id={id}
                   name={name}
-                  priceCents={priceCents}
+                  priceCents={resolvedPriceCents}
                   imageUrl={imageUrl}
                   variantValue={resolvedSize || null}
                   className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
@@ -242,7 +247,7 @@ export default function SparePartPurchaseClient({
                     item={{
                       id,
                       name: displayName,
-                      priceCents,
+                      priceCents: resolvedPriceCents,
                       imageUrl,
                       variantValue: resolvedSize || null,
                     }}

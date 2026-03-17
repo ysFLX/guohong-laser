@@ -7,6 +7,7 @@ import AdminSparePartEditForm from '@/components/spare-parts/AdminSparePartEditF
 import AdminImageUpload from '@/components/spare-parts/AdminImageUpload';
 import { prisma } from '@/lib/prisma';
 import { AdminBadge } from '@/components/admin/AdminUi';
+import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type SparePartResult = {
   id: string;
@@ -15,6 +16,7 @@ type SparePartResult = {
   dimensions: string | null;
   hasSizeOptions: boolean;
   sizeOptions: string[];
+  sizeOptionPrices: Record<string, unknown>;
   priceCents: number;
   imageUrl: string | null;
   stockOnHand: number;
@@ -82,6 +84,11 @@ export default async function AdminSparePartDetailPage({
   }
 
   const previewUrl = part.images[0]?.url || part.imageUrl || '/images/1.jpg';
+  const sizeOptionEntries = buildSparePartSizeOptionEntries(
+    part.sizeOptions,
+    part.sizeOptionPrices,
+    part.priceCents,
+  );
 
   return (
     <div className="space-y-6">
@@ -130,7 +137,11 @@ export default async function AdminSparePartDetailPage({
             <div className="sm:col-span-2">
               <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Olcu secenekleri</div>
               <div className="mt-2 text-sm text-[var(--admin-muted)]">
-                {part.hasSizeOptions && part.sizeOptions.length > 0 ? part.sizeOptions.join(', ') : '-'}
+                {part.hasSizeOptions && sizeOptionEntries.length > 0
+                  ? sizeOptionEntries
+                      .map((entry) => `${entry.value} (${formatPriceTry(entry.priceCents)})`)
+                      .join(', ')
+                  : '-'}
               </div>
             </div>
           </div>
@@ -156,6 +167,7 @@ export default async function AdminSparePartDetailPage({
             dimensions: part.dimensions,
             hasSizeOptions: part.hasSizeOptions,
             sizeOptions: part.sizeOptions,
+            sizeOptionPrices: part.sizeOptionPrices,
             priceCents: part.priceCents,
             stockOnHand: part.stockOnHand,
             isFeatured: part.isFeatured,

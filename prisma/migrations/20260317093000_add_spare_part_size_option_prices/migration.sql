@@ -1,0 +1,2 @@
+ALTER TABLE "SparePart"
+ADD COLUMN "sizeOptionPrices" JSONB NOT NULL DEFAULT '{}';

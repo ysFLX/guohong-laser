@@ -15,6 +15,7 @@ import SparePartPurchaseClient from '@/components/spare-parts/SparePartPurchaseC
 import SparePartImageSlider from '@/components/spare-parts/SparePartImageSlider';
 import SparePartReviews from '@/components/spare-parts/SparePartReviews';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
+import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type SparePartDetail = {
   id: string;
@@ -23,6 +24,7 @@ type SparePartDetail = {
   dimensions: string | null;
   hasSizeOptions: boolean;
   sizeOptions: string[];
+  sizeOptionPrices: unknown;
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -209,6 +211,7 @@ export default async function SparePartDetailPage({
     dimensions: part.dimensions,
     hasSizeOptions: part.hasSizeOptions,
     sizeOptions: part.sizeOptions,
+    sizeOptionPrices: part.sizeOptionPrices,
     priceCents: part.priceCents,
     currency: part.currency,
     imageUrl: part.imageUrl,
@@ -236,6 +239,9 @@ export default async function SparePartDetailPage({
   ]);
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
+  const sizeOptionEntries = p.hasSizeOptions
+    ? buildSparePartSizeOptionEntries(p.sizeOptions, p.sizeOptionPrices, p.priceCents)
+    : [];
   const inStock = p.stockOnHand > 0;
   const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
   const imageUrls = (p.images?.length ? p.images.map((img) => img.url) : [p.imageUrl]).filter(
@@ -471,7 +477,7 @@ export default async function SparePartDetailPage({
             isCritical={isCritical}
             showPrice={sparePartPriceVisible}
             sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
-            sizeOptions={p.hasSizeOptions ? p.sizeOptions : []}
+            sizeOptionEntries={sizeOptionEntries}
           />
         </div>
 

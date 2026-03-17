@@ -4,12 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { AdminButton } from '@/components/admin/AdminUi';
-import { sanitizeSparePartSizeOptions } from '@/lib/sparePartSizeOptions';
+import { sanitizeSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
+type SizeOptionRow = { value: string; priceTry: string };
 
-function createEmptySizeRow() {
-  return '';
+function createEmptySizeRow(): SizeOptionRow {
+  return { value: '', priceTry: '' };
 }
 
 export default function AdminSparePartCreateForm({ categories }: { categories: Category[] }) {
@@ -21,7 +22,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
   const [description, setDescription] = useState('');
   const [dimensions, setDimensions] = useState('');
   const [hasSizeOptions, setHasSizeOptions] = useState(false);
-  const [sizeOptions, setSizeOptions] = useState<string[]>([createEmptySizeRow()]);
+  const [sizeOptionRows, setSizeOptionRows] = useState<SizeOptionRow[]>([createEmptySizeRow()]);
   const [priceTry, setPriceTry] = useState('');
   const [stockOnHand, setStockOnHand] = useState('');
   const [categoryId, setCategoryId] = useState(categories[0]?.id ?? '');
@@ -32,17 +33,19 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const updateSizeOption = (index: number, value: string) => {
-    setSizeOptions((prev) => prev.map((item, itemIndex) => (itemIndex === index ? value : item)));
+  const updateSizeRow = (index: number, next: Partial<SizeOptionRow>) => {
+    setSizeOptionRows((prev) =>
+      prev.map((row, rowIndex) => (rowIndex === index ? { ...row, ...next } : row)),
+    );
   };
 
-  const addSizeOption = () => {
-    setSizeOptions((prev) => [...prev, createEmptySizeRow()]);
+  const addSizeOptionRow = () => {
+    setSizeOptionRows((prev) => [...prev, createEmptySizeRow()]);
   };
 
-  const removeSizeOption = (index: number) => {
-    setSizeOptions((prev) => {
-      const next = prev.filter((_, itemIndex) => itemIndex !== index);
+  const removeSizeOptionRow = (index: number) => {
+    setSizeOptionRows((prev) => {
+      const next = prev.filter((_, rowIndex) => rowIndex !== index);
       return next.length > 0 ? next : [createEmptySizeRow()];
     });
   };
@@ -122,7 +125,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                Fiyat (TL)
+                Varsayilan fiyat (TL)
               </label>
               <input value={priceTry} inputMode="decimal" onChange={(e) => setPriceTry(e.target.value)} className={inputClassName} />
               <div className="mt-2 text-xs text-[var(--admin-muted)]">Orn: 1299,90</div>
@@ -145,8 +148,8 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                 onChange={(e) => {
                   const checked = e.target.checked;
                   setHasSizeOptions(checked);
-                  if (checked && sizeOptions.length === 0) {
-                    setSizeOptions([createEmptySizeRow()]);
+                  if (checked && sizeOptionRows.length === 0) {
+                    setSizeOptionRows([createEmptySizeRow()]);
                   }
                 }}
               />
@@ -156,28 +159,35 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
             {hasSizeOptions ? (
               <div className="mt-4 space-y-3">
                 <div className="text-xs text-[var(--admin-muted)]">
-                  Olculeri tek tek gir. Ornek: `20 mm`, `24.9 mm`, `27.9 mm`
+                  Her satirda olcu ve fiyat gir. Ornek: 20 mm - 1299,90 TL
                 </div>
-                {sizeOptions.map((value, index) => (
-                  <div key={`size-option-${index}`} className="flex gap-2">
+                {sizeOptionRows.map((row, index) => (
+                  <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
                     <input
-                      value={value}
-                      onChange={(e) => updateSizeOption(index, e.target.value)}
+                      value={row.value}
+                      onChange={(e) => updateSizeRow(index, { value: e.target.value })}
                       placeholder={`Olcu ${index + 1}`}
+                      className={`${inputClassName} mt-0`}
+                    />
+                    <input
+                      value={row.priceTry}
+                      inputMode="decimal"
+                      onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
+                      placeholder="Fiyat (TL)"
                       className={`${inputClassName} mt-0`}
                     />
                     <AdminButton
                       type="button"
                       variant="outline"
                       tone="rose"
-                      className="shrink-0 px-4"
-                      onClick={() => removeSizeOption(index)}
+                      className="shrink-0 px-4 sm:self-end"
+                      onClick={() => removeSizeOptionRow(index)}
                     >
                       Sil
                     </AdminButton>
                   </div>
                 ))}
-                <AdminButton type="button" variant="outline" className="px-4" onClick={addSizeOption}>
+                <AdminButton type="button" variant="outline" className="px-4" onClick={addSizeOptionRow}>
                   Olcu ekle
                 </AdminButton>
               </div>
@@ -206,7 +216,15 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
 
                 const parsedPrice = Number(String(priceTry).replace(',', '.'));
                 const parsedStock = Number(stockOnHand);
-                const sanitizedSizeOptions = hasSizeOptions ? sanitizeSparePartSizeOptions(sizeOptions) : [];
+                const basePriceCents =
+                  Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+
+                const hasBlankSizeRow = hasSizeOptions
+                  ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceTry.trim().length === 0)
+                  : false;
+                const sizeOptionEntries = hasSizeOptions
+                  ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents)
+                  : [];
 
                 if (!name.trim()) {
                   setError('Urun adi bos olamaz');
@@ -232,7 +250,13 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                   return;
                 }
 
-                if (hasSizeOptions && sanitizedSizeOptions.length === 0) {
+                if (hasSizeOptions && hasBlankSizeRow) {
+                  setError('Olculu urunde her satir icin olcu ve fiyat gir.');
+                  setIsSaving(false);
+                  return;
+                }
+
+                if (hasSizeOptions && sizeOptionEntries.length === 0) {
                   setError('Olculu urunler icin en az bir olcu gir.');
                   setIsSaving(false);
                   return;
@@ -247,7 +271,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                       description,
                       dimensions: dimensions.trim() ? dimensions.trim() : null,
                       hasSizeOptions,
-                      sizeOptions: sanitizedSizeOptions,
+                      sizeOptionEntries,
                       priceCents: Math.round(parsedPrice * 100),
                       stockOnHand: Math.floor(parsedStock),
                       categoryId,
