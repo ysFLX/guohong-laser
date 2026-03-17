@@ -36,7 +36,8 @@ export default function SparePartPurchaseClient({
   const resolvedSize = hasSizeOptions ? selectedSize : '';
   const displayName = useMemo(() => buildSparePartVariantName(name, resolvedSize), [name, resolvedSize]);
   const selectionDisabled = hasSizeOptions && !resolvedSize;
-  const canDirectPurchase = showPrice && sparePartDirectPurchaseEnabled;
+  const canQuickBuy = showPrice && sparePartDirectPurchaseEnabled;
+  const canAddToCart = inStock;
 
   const selector = hasSizeOptions ? (
     <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
@@ -62,7 +63,7 @@ export default function SparePartPurchaseClient({
 
   const actionButtons = (
     <div className="mt-4 flex flex-col gap-3">
-      {inStock && canDirectPurchase && (
+      {canQuickBuy && (
         <QuickBuyButton
           item={{
             id,
@@ -74,7 +75,7 @@ export default function SparePartPurchaseClient({
           disabled={selectionDisabled}
         />
       )}
-      {inStock && canDirectPurchase ? (
+      {canAddToCart ? (
         <AddToCartButton
           id={id}
           name={name}
@@ -220,8 +221,12 @@ export default function SparePartPurchaseClient({
               </div>
             </div>
 
-            {inStock && canDirectPurchase ? (
-              <div className="ml-auto grid w-full max-w-[360px] grid-cols-2 gap-2">
+            {inStock ? (
+              <div
+                className={`ml-auto grid w-full max-w-[360px] gap-2 ${
+                  canQuickBuy ? 'grid-cols-2' : 'grid-cols-1'
+                }`}
+              >
                 <AddToCartButton
                   id={id}
                   name={name}
@@ -232,16 +237,18 @@ export default function SparePartPurchaseClient({
                   quantity={1}
                   disabled={selectionDisabled}
                 />
-                <QuickBuyButton
-                  item={{
-                    id,
-                    name: displayName,
-                    priceCents,
-                    imageUrl,
-                    variantValue: resolvedSize || null,
-                  }}
-                  disabled={selectionDisabled}
-                />
+                {canQuickBuy ? (
+                  <QuickBuyButton
+                    item={{
+                      id,
+                      name: displayName,
+                      priceCents,
+                      imageUrl,
+                      variantValue: resolvedSize || null,
+                    }}
+                    disabled={selectionDisabled}
+                  />
+                ) : null}
               </div>
             ) : (
               <div className="ml-auto w-full max-w-[360px]">
