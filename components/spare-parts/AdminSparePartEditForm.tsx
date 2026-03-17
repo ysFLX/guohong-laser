@@ -50,7 +50,7 @@ export default function AdminSparePartEditForm({
   const [description, setDescription] = useState(initial.description);
   const [dimensions, setDimensions] = useState(initial.dimensions || '');
   const [hasSizeOptions, setHasSizeOptions] = useState(initial.hasSizeOptions);
-  const [sizeOptionRows, setSizeOptionRows] = useState<SizeOptionRow>(() => {
+  const [sizeOptionRows, setSizeOptionRows] = useState<SizeOptionRow[]>(() => {
     const entries = buildSparePartSizeOptionEntries(
       initial.sizeOptions,
       initial.sizeOptionPrices,
