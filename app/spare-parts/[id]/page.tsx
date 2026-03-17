@@ -462,64 +462,17 @@ export default async function SparePartDetailPage({
 
           </div>
 
-          {sparePartPriceVisible ? (
-            <SparePartPurchaseClient
-              id={p.id}
-              name={p.name}
-              priceCents={p.priceCents}
-              imageUrl={p.imageUrl}
-              inStock={inStock}
-              isCritical={isCritical}
-              sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
-              sizeOptions={p.hasSizeOptions ? p.sizeOptions : []}
-            />
-          ) : (
-            <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24 lg:block">
-              <div className="text-3xl font-semibold text-slate-900">Fiyat için teklif al</div>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-                <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-                  {inStock ? 'Stokta' : 'Siparişle'}
-                </span>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                  {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
-                </span>
-              </div>
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
-                <div className="flex items-center justify-between">
-                  <span>Gönderen</span>
-                  <span className="font-semibold text-slate-900">Guohong Lazer</span>
-                </div>
-                <div className="mt-2 flex items-center justify-between">
-                  <span>Garanti</span>
-                  <span className="font-semibold text-slate-900">Resmi servis</span>
-                </div>
-                <div className="mt-2 flex items-center justify-between">
-                  <span>İade</span>
-                  <span className="font-semibold text-slate-900">14 gün</span>
-                </div>
-              </div>
-              <div className="mt-4 grid gap-3">
-                <Link
-                  href={
-                    inStock
-                      ? `/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`
-                      : `/stock-request?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`
-                  }
-                  className="inline-flex items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-5 py-3 text-sm font-semibold text-amber-800 hover:border-amber-300"
-                >
-                  {inStock ? 'Fiyat teklifi iste' : 'Stok gelince haber ver'}
-                </Link>
-                <a
-                  href={whatsAppHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  WhatsApp&apos;tan sor
-                </a>
-              </div>
-            </aside>
-          )}
+          <SparePartPurchaseClient
+            id={p.id}
+            name={p.name}
+            priceCents={p.priceCents}
+            imageUrl={p.imageUrl}
+            inStock={inStock}
+            isCritical={isCritical}
+            showPrice={sparePartPriceVisible}
+            sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
+            sizeOptions={p.hasSizeOptions ? p.sizeOptions : []}
+          />
         </div>
 
         {(boughtTogether.length > 0 || related.length > 0) && (

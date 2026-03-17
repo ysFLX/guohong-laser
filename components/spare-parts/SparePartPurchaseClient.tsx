@@ -14,6 +14,7 @@ type Props = {
   imageUrl: string | null;
   inStock: boolean;
   isCritical: boolean;
+  showPrice: boolean;
   sparePartDirectPurchaseEnabled: boolean;
   sizeOptions: string[];
 };
@@ -25,6 +26,7 @@ export default function SparePartPurchaseClient({
   imageUrl,
   inStock,
   isCritical,
+  showPrice,
   sparePartDirectPurchaseEnabled,
   sizeOptions,
 }: Props) {
@@ -34,6 +36,7 @@ export default function SparePartPurchaseClient({
   const resolvedSize = hasSizeOptions ? selectedSize : '';
   const displayName = useMemo(() => buildSparePartVariantName(name, resolvedSize), [name, resolvedSize]);
   const selectionDisabled = hasSizeOptions && !resolvedSize;
+  const canDirectPurchase = showPrice && sparePartDirectPurchaseEnabled;
 
   const selector = hasSizeOptions ? (
     <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
@@ -59,7 +62,7 @@ export default function SparePartPurchaseClient({
 
   const actionButtons = (
     <div className="mt-4 flex flex-col gap-3">
-      {inStock && sparePartDirectPurchaseEnabled && (
+      {inStock && canDirectPurchase && (
         <QuickBuyButton
           item={{
             id,
@@ -71,7 +74,7 @@ export default function SparePartPurchaseClient({
           disabled={selectionDisabled}
         />
       )}
-      {inStock && sparePartDirectPurchaseEnabled ? (
+      {inStock && canDirectPurchase ? (
         <AddToCartButton
           id={id}
           name={name}
@@ -114,7 +117,9 @@ export default function SparePartPurchaseClient({
               Hizli ozet
             </div>
             <div className="mt-1 text-2xl font-semibold text-slate-900">
-              {`${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`}
+              {showPrice
+                ? `${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
+                : 'Fiyat icin teklif al'}
             </div>
           </div>
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -134,7 +139,9 @@ export default function SparePartPurchaseClient({
 
       <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24 lg:block">
         <div className="text-3xl font-semibold text-slate-900">
-          {`${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`}
+          {showPrice
+            ? `${(priceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
+            : 'Fiyat icin teklif al'}
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
           <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -213,7 +220,7 @@ export default function SparePartPurchaseClient({
               </div>
             </div>
 
-            {inStock && sparePartDirectPurchaseEnabled ? (
+            {inStock && canDirectPurchase ? (
               <div className="ml-auto grid w-full max-w-[360px] grid-cols-2 gap-2">
                 <AddToCartButton
                   id={id}
