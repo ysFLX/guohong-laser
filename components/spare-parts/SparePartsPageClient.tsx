@@ -151,7 +151,7 @@ function VirtualizedPartsGridRows({
               transform: `translateY(${virtualRow.start - scrollMargin}px)`,
             }}
           >
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {rowItems.map((part, idx) => renderPartCard(part, startIndex + idx))}
             </div>
           </div>
@@ -1130,7 +1130,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                     renderPartCard={renderPartCard}
                   />
                 ) : (
-                  <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+                  <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {visibleItems.map((p, index) => {
                   const isFavorited = favoriteIds.has(p.id);
                   const inStock = p.stockOnHand > 0;
