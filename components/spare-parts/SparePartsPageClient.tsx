@@ -207,7 +207,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const [loadError, setLoadError] = useState('');
   const [favoriteError, setFavoriteError] = useState('');
   const [virtualizeList, setVirtualizeList] = useState(false);
-  const [gridColumns, setGridColumns] = useState(2);
+  const [gridColumns, setGridColumns] = useState(1);
   const [scrollMargin, setScrollMargin] = useState(0);
 
   const urlUpdateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -530,10 +530,15 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   }, [selectedCategory, selectedModel, searchQuery, sortOption]);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)');
-
     const update = () => {
-      setGridColumns(mq.matches ? 2 : 1);
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setGridColumns(4);
+      } else if (width >= 768) {
+        setGridColumns(2);
+      } else {
+        setGridColumns(1);
+      }
       const rect = listRef.current?.getBoundingClientRect();
       setScrollMargin(rect ? rect.top + window.scrollY : 0);
     };
@@ -542,19 +547,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     setVirtualizeList(true);
 
     window.addEventListener('resize', update);
-    if (typeof mq.addEventListener === 'function') {
-      mq.addEventListener('change', update);
-    } else if (typeof mq.addListener === 'function') {
-      mq.addListener(update);
-    }
 
     return () => {
       window.removeEventListener('resize', update);
-      if (typeof mq.removeEventListener === 'function') {
-        mq.removeEventListener('change', update);
-      } else if (typeof mq.removeListener === 'function') {
-        mq.removeListener(update);
-      }
     };
   }, []);
 
