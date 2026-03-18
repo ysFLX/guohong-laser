@@ -85,13 +85,20 @@ export default function VideoSlider({
   };
 
   const handleFullscreen = async () => {
-    const target = containerRef.current;
+    const activeVideo = videoRefs.current[index];
+    const target = activeVideo ?? containerRef.current;
     if (!target) return;
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
-      } else if (target.requestFullscreen) {
+      } else if ('requestFullscreen' in target && typeof target.requestFullscreen === 'function') {
         await target.requestFullscreen();
+      } else if (
+        activeVideo &&
+        'webkitEnterFullscreen' in activeVideo &&
+        typeof (activeVideo as HTMLVideoElement & { webkitEnterFullscreen?: () => void }).webkitEnterFullscreen === 'function'
+      ) {
+        (activeVideo as HTMLVideoElement & { webkitEnterFullscreen: () => void }).webkitEnterFullscreen();
       }
     } catch {
       // ignore if fullscreen is blocked

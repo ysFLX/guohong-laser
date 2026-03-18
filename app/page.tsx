@@ -638,7 +638,55 @@ export default async function Home() {
               </h2>
             </div>
           </div>
-          <VideoSlider items={heroVideos} />
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_320px]">
+            <VideoSlider items={heroVideos} />
+            <div className="grid gap-4">
+              <div className="rounded-[24px] border border-amber-200/15 bg-[#171717] p-5">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-300/80">
+                  Kontrol merkezi
+                </div>
+                <div className="mt-3 space-y-3 text-sm text-amber-100/75">
+                  <p>Alt bardan sureyi gorebilir, videoyu istedigin noktaya sarabilirsin.</p>
+                  <p>Tam ekran butonu artik aktif videonun kendisini aciyor; tarayici izin verirse direkt buyur.</p>
+                </div>
+              </div>
+              <div className="rounded-[24px] border border-amber-200/15 bg-[#151515] p-5">
+                <div className="flex items-center justify-between border-b border-amber-200/10 pb-3">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-300/75">Hat ozeti</span>
+                  <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-[11px] font-semibold text-emerald-300">
+                    Canli akis
+                  </span>
+                </div>
+                <div className="mt-4 space-y-3">
+                  {heroVideos.map((item, idx) => (
+                    <div
+                      key={item.src}
+                      className="rounded-2xl border border-amber-200/10 bg-black/20 px-4 py-3"
+                    >
+                      <div className="text-[11px] uppercase tracking-[0.22em] text-amber-300/55">
+                        0{idx + 1}
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-amber-50">{item.title}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-[24px] border border-amber-200/15 bg-[linear-gradient(180deg,#191919_0%,#121212_100%)] p-5">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-300/75">Saha notlari</div>
+                <div className="mt-4 grid gap-3">
+                  {liveStatus.map((item) => (
+                    <div
+                      key={item.label}
+                      className="flex items-center justify-between rounded-2xl border border-amber-200/10 bg-black/20 px-4 py-3"
+                    >
+                      <span className="text-xs text-amber-100/60">{item.label}</span>
+                      <span className={`text-sm font-semibold ${item.tone}`}>{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Reveal>
 
