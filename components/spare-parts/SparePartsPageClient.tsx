@@ -172,7 +172,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const urlFilters = useMemo(() => parseFiltersFromSearchParams(searchParams), [searchParams]);
 
   const listRef = useRef<HTMLDivElement | null>(null);
-  const lowStockNotified = useRef(false);
   const viewedItemListKey = useRef('');
   const [selectedCategory, setSelectedCategory] = useState(urlFilters.category);
   const [selectedModel, setSelectedModel] = useState(urlFilters.model);
@@ -257,8 +256,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     load();
   }, [initialItems.length]);
 
+  /*
   useEffect(() => {
-    if (lowStockNotified.current) return;
+    return;
     if (!items.length) return;
 
     const lowStockItems = items.filter(
@@ -275,6 +275,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     const extra = lowStockItems.length > 2 ? ` +${lowStockItems.length - 2}` : '';
     show(`Stok hızla azalıyor: ${preview}${extra}`, undefined, 'error');
   }, [items, show]);
+  */
 
   // Load favorites
   useEffect(() => {

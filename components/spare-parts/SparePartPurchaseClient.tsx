@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
+import { useToast } from '@/components/ui/ToastProvider';
 import { buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
   imageUrl: string | null;
   inStock: boolean;
   isCritical: boolean;
+  stockOnHand: number;
   showPrice: boolean;
   sparePartDirectPurchaseEnabled: boolean;
   sizeOptionEntries: Array<{ value: string; priceCents: number }>;
@@ -26,10 +28,13 @@ export default function SparePartPurchaseClient({
   imageUrl,
   inStock,
   isCritical,
+  stockOnHand,
   showPrice,
   sparePartDirectPurchaseEnabled,
   sizeOptionEntries,
 }: Props) {
+  const { show } = useToast();
+  const lowStockToastShown = useRef(false);
   const hasSizeOptions = sizeOptionEntries.length > 0;
   const [selectedSize, setSelectedSize] = useState<string>(sizeOptionEntries[0]?.value ?? '');
 
@@ -43,6 +48,13 @@ export default function SparePartPurchaseClient({
   const selectionDisabled = hasSizeOptions && !resolvedSize;
   const canQuickBuy = showPrice && sparePartDirectPurchaseEnabled;
   const canAddToCart = inStock;
+
+  useEffect(() => {
+    if (!isCritical || lowStockToastShown.current) return;
+
+    lowStockToastShown.current = true;
+    show(`Stok hizla azalıyor: ${name} icin son ${stockOnHand} adet`, undefined, 'error');
+  }, [isCritical, name, show, stockOnHand]);
 
   const selector = hasSizeOptions ? (
     <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">

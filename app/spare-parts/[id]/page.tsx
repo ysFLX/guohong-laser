@@ -468,17 +468,18 @@ export default async function SparePartDetailPage({
 
           </div>
 
-          <SparePartPurchaseClient
-            id={p.id}
-            name={p.name}
-            priceCents={p.priceCents}
-            imageUrl={p.imageUrl}
-            inStock={inStock}
-            isCritical={isCritical}
-            showPrice={sparePartPriceVisible}
-            sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
-            sizeOptionEntries={sizeOptionEntries}
-          />
+            <SparePartPurchaseClient
+              id={p.id}
+              name={p.name}
+              priceCents={p.priceCents}
+              imageUrl={p.imageUrl}
+              inStock={inStock}
+              isCritical={isCritical}
+              stockOnHand={p.stockOnHand}
+              showPrice={sparePartPriceVisible}
+              sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
+              sizeOptionEntries={sizeOptionEntries}
+            />
         </div>
 
         {(boughtTogether.length > 0 || related.length > 0) && (
