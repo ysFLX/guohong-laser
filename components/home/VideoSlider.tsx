@@ -47,6 +47,7 @@ export default function VideoSlider({
       }
     });
     setIsPlaying(false);
+    setPlayBlocked(false);
   }, [index]);
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function VideoSlider({
   const handleUserPlay = () => {
     const video = videoRefs.current[index];
     if (!video) return;
-    video.play().catch(() => setPlayBlocked(true));
+    video.play().then(() => setIsPlaying(true)).catch(() => setPlayBlocked(true));
   };
 
   const handleToggle = () => {
@@ -100,32 +101,27 @@ export default function VideoSlider({
   return (
     <div className="relative">
       <div
-        className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-2xl"
+        className="relative h-[260px] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-2xl sm:h-[340px] lg:h-[430px] xl:h-[480px]"
         ref={containerRef}
-        role="button"
-        tabIndex={0}
-        onClick={handleToggle}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            handleToggle();
-          }
-        }}
       >
         {items.map((item, i) => (
           <div
             key={item.src}
             className={`absolute inset-0 transition-opacity duration-700 ${
-              i === index ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none'
+              i === index ? 'pointer-events-auto z-10 opacity-100' : 'pointer-events-none opacity-0'
             }`}
           >
+            <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-black/70 via-black/20 to-transparent sm:w-28" />
+            <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-black/70 via-black/20 to-transparent sm:w-28" />
             <video
               ref={(el) => {
                 videoRefs.current[i] = el;
               }}
               src={item.src}
               poster={item.poster}
-              className="h-full w-full object-cover"
+              className="h-full w-full bg-black object-cover"
+              controls={i === index}
+              controlsList="nodownload"
               muted={false}
               playsInline
               preload="metadata"
@@ -135,11 +131,6 @@ export default function VideoSlider({
                 if (i === index) {
                   video.muted = muted;
                   video.volume = volume;
-                  try {
-                    video.currentTime = 0.1;
-                  } catch {
-                    // ignore if the browser blocks seeking
-                  }
                 }
               }}
               onPlay={() => setIsPlaying(true)}
@@ -148,18 +139,27 @@ export default function VideoSlider({
             />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/40 pointer-events-none" />
+
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 via-black/20 to-transparent sm:h-28" />
 
         {!isPlaying && (
-          <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white shadow-lg backdrop-blur">
-              ▶
-            </div>
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleToggle();
+              }}
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white shadow-lg backdrop-blur transition hover:scale-105 hover:bg-black/55"
+              aria-label={isPlaying ? 'Videoyu duraklat' : 'Videoyu oynat'}
+            >
+              <span className="ml-0.5 text-lg">{'>'}</span>
+            </button>
           </div>
         )}
 
         <div
-          className="absolute bottom-4 right-4 z-30 flex items-center gap-3 rounded-full border border-white/20 bg-black/40 px-3 py-2 text-xs text-white backdrop-blur"
+          className="absolute right-4 top-4 z-30 flex items-center gap-3 rounded-full border border-white/20 bg-black/40 px-3 py-2 text-xs text-white backdrop-blur"
           onClick={(event) => event.stopPropagation()}
         >
           <button
@@ -188,7 +188,7 @@ export default function VideoSlider({
           </button>
         </div>
 
-        <div className="absolute top-5 left-5 right-5 z-20 flex items-start justify-between gap-4">
+        <div className="pointer-events-none absolute left-5 right-5 top-5 z-20 flex items-start justify-between gap-4">
           <div>
             <div className="mt-2 text-2xl font-semibold text-white">
               {items[index]?.title ?? `Video ${index + 1}`}
@@ -197,9 +197,9 @@ export default function VideoSlider({
               <button
                 type="button"
                 onClick={handleUserPlay}
-                className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur hover:bg-white/20"
+                className="pointer-events-auto mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur hover:bg-white/20"
               >
-                Sesi aç ve oynat
+                Sesi ac ve oynat
               </button>
             )}
           </div>
@@ -208,18 +208,18 @@ export default function VideoSlider({
         <button
           type="button"
           onClick={() => goTo(index - 1)}
-          className="absolute left-4 top-1/2 z-20 -translate-y-1/2 h-11 w-11 rounded-full border border-white/30 text-white backdrop-blur hover:bg-white/10"
-          aria-label="Önceki video"
+          className="absolute left-4 top-1/2 z-20 h-11 w-11 -translate-y-1/2 rounded-full border border-white/30 text-white backdrop-blur hover:bg-white/10"
+          aria-label="Onceki video"
         >
-          ‹
+          {'<'}
         </button>
         <button
           type="button"
           onClick={() => goTo(index + 1)}
-          className="absolute right-4 top-1/2 z-20 -translate-y-1/2 h-11 w-11 rounded-full border border-white/30 text-white backdrop-blur hover:bg-white/10"
+          className="absolute right-4 top-1/2 z-20 h-11 w-11 -translate-y-1/2 rounded-full border border-white/30 text-white backdrop-blur hover:bg-white/10"
           aria-label="Sonraki video"
         >
-          ›
+          {'>'}
         </button>
       </div>
 
@@ -237,4 +237,3 @@ export default function VideoSlider({
     </div>
   );
 }
-
