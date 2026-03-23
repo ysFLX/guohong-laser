@@ -699,7 +699,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     return (
       <article
         key={p.id}
-        className="group relative overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-950"
+        className="group relative overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"
         style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 430px' } as CSSProperties}
       >
         <div className="relative">
@@ -710,7 +710,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                 alt={p.name}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                className="object-contain p-5 transition duration-500 group-hover:scale-[1.02]"
                 quality={70}
                 loading="lazy"
                 decoding="async"
@@ -736,15 +736,11 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             disabled={favoriteLoading.has(p.id)}
             aria-pressed={isFavorited}
             aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-            className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-500 shadow-sm transition hover:text-rose-600"
+            className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-500 shadow-sm transition hover:border-rose-200 hover:text-rose-600"
           >
             <svg
               viewBox="0 0 24 24"
               className="h-5 w-5"
-
-
-
-
               fill={isFavorited ? 'currentColor' : 'none'}
               stroke="currentColor"
               strokeWidth={2}
@@ -766,9 +762,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col p-3">
+        <div className="flex flex-1 flex-col p-4">
           <Link href={getPartHref(p.id)} className="block min-h-[52px]">
-            <h3 className="line-clamp-2 text-[15px] font-medium leading-6 text-slate-900 dark:text-white">{p.name}</h3>
+            <h3 className="line-clamp-2 text-[17px] font-medium leading-6 text-slate-900 dark:text-white">{p.name}</h3>
           </Link>
 
           <div className="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
@@ -776,9 +772,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             <span>{p.ratingCount > 0 ? `${p.ratingAverage.toFixed(1)} (${p.ratingCount})` : 'Degerlendirme yok'}</span>
           </div>
 
-          <div className="mt-3">
-            <div className="text-[12px] text-slate-500 dark:text-slate-400">{p.category.name}</div>
-            <div className="mt-1 text-[28px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
+          <div className="mt-3 rounded-2xl bg-slate-50 px-3 py-3 dark:bg-slate-900/60">
+            <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{p.category.name}</div>
+            <div className="mt-1 text-[30px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
               {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
             </div>
             <div className="mt-1 text-[11px] text-slate-400">KDV dahil</div>
@@ -1102,33 +1098,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                     scrollMargin={scrollMargin}
                     renderPartCard={renderPartCard}
                   />
-                ) : (
-                  <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                {visibleItems.map((p, index) => {
-                  const isFavorited = favoriteIds.has(p.id);
-                  const inStock = p.stockOnHand > 0;
-                  const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
-                  const compareSelected = compareIds.includes(p.id);
-                  const compareDisabled = !compareSelected && compareIds.length >= 3;
-   
-                  return (
-                    <div
-                      key={p.id}
-                      className="group relative overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(15,23,42,0.14)] dark:border-slate-800 dark:bg-slate-950"
-                      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 500px' } as CSSProperties}
-                    >
-                      <Link href={getPartHref(p.id)} className="block">
-                        <div className="relative aspect-square w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
-                          <Image
-                            src={p.imageUrl || '/images/1.jpg'}
-                            alt={p.name}
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                            className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                            quality={70}
-                            loading="lazy"
-                            decoding="async"
-                            priority={index < 3}
                 ) : (
                   <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {visibleItems.map((p, index) => renderPartCard(p, index))}
