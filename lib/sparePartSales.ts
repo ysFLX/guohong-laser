@@ -4,6 +4,7 @@ function normalize(value: string) {
 
 export function isSparePartPriceVisible() {
   const raw = normalize(process.env.NEXT_PUBLIC_SPARE_PART_PRICE_VISIBILITY || '');
+  if (!raw) return true;
   return raw === 'visible';
 }
 

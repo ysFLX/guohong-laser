@@ -699,11 +699,11 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     return (
       <div
         key={p.id}
-        className="group relative overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)] dark:border-slate-800/70 dark:bg-slate-950/40"
-        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 560px' } as CSSProperties}
+        className="group relative overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(15,23,42,0.14)] dark:border-slate-800 dark:bg-slate-950"
+        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 500px' } as CSSProperties}
       >
         <Link href={getPartHref(p.id)} className="block">
-          <div className="relative h-64 w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
+          <div className="relative aspect-square w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
             <Image
               src={p.imageUrl || '/images/1.jpg'}
               alt={p.name}
@@ -751,14 +751,17 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
         </Link>
 
-        <div className="space-y-4 px-5 pb-5 pt-5">
+        <div className="space-y-3 px-4 pb-4 pt-4">
           <div className="flex items-start justify-between gap-3">
             <Link href={getPartHref(p.id)} className="min-w-0">
               <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">{p.name}</h3>
             </Link>
             <div className="flex flex-col items-end gap-2">
-              <div className="text-sm font-bold text-slate-900 whitespace-nowrap dark:text-white">
-                {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al'}
+              <div className="rounded-xl bg-amber-50 px-3 py-2 text-right dark:bg-amber-500/10">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-700/80">Fiyat</div>
+                <div className="mt-1 text-lg font-bold whitespace-nowrap text-[#f27a1a] dark:text-amber-300">
+                  {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
+                </div>
               </div>
               <button
                 type="button"
@@ -786,7 +789,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             )}
           </div>
 
-          <p className="text-sm text-slate-600 line-clamp-1 dark:text-slate-300">{p.description}</p>
+          <p className="text-sm text-slate-600 line-clamp-2 dark:text-slate-300">{p.description}</p>
 
           <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/80 px-4 py-3 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/40 dark:text-slate-300">
             <div>
@@ -841,14 +844,14 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
               <div className="flex flex-1 flex-col gap-2">
                 <Link
                   href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                  className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-slate-800"
+                  className="rounded-xl bg-[#f27a1a] px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
                 >
                   Teklif iste
                 </Link>
                 <button
                   type="button"
                   onClick={() => openStockRequest(p)}
-                  className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
+                  className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 transition hover:border-amber-300"
                 >
                   Hızlı stok talebi
                 </button>
@@ -1137,11 +1140,11 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   return (
                     <div
                       key={p.id}
-                      className="group relative overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.16)] dark:border-slate-800/70 dark:bg-slate-950/40"
-                      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 560px' } as CSSProperties}
+                      className="group relative overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(15,23,42,0.14)] dark:border-slate-800 dark:bg-slate-950"
+                      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 500px' } as CSSProperties}
                     >
                       <Link href={getPartHref(p.id)} className="block">
-                        <div className="relative h-64 w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
+                        <div className="relative aspect-square w-full overflow-hidden bg-slate-50 dark:bg-slate-900/60">
                           <Image
                             src={p.imageUrl || '/images/1.jpg'}
                             alt={p.name}
@@ -1189,7 +1192,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                         </div>
                       </Link>
    
-                      <div className="space-y-4 px-5 pb-5 pt-5">
+                      <div className="space-y-3 px-4 pb-4 pt-4">
                         <div className="flex items-start justify-between gap-3">
                           <Link href={getPartHref(p.id)} className="min-w-0">
                             <h3 className="text-lg font-semibold text-slate-900 line-clamp-2">
@@ -1197,8 +1200,11 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                             </h3>
                           </Link>
                           <div className="flex flex-col items-end gap-2">
-                            <div className="text-sm font-bold text-slate-900 whitespace-nowrap dark:text-white">
-                              {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Fiyat icin teklif al'}
+                            <div className="rounded-xl bg-amber-50 px-3 py-2 text-right dark:bg-amber-500/10">
+                              <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-700/80">Fiyat</div>
+                              <div className="mt-1 text-lg font-bold whitespace-nowrap text-[#f27a1a] dark:text-amber-300">
+                                {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
+                              </div>
                             </div>
                             <button
                               type="button"
@@ -1226,7 +1232,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-slate-600 line-clamp-1 dark:text-slate-300">{p.description}</p>
+                        <p className="text-sm text-slate-600 line-clamp-2 dark:text-slate-300">{p.description}</p>
    
                         <div className="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/80 px-4 py-3 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/40 dark:text-slate-300">
                           <div>
@@ -1283,14 +1289,14 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                             <div className="flex flex-1 flex-col gap-2">
                               <Link
                                 href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                                className="rounded-xl bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-slate-800"
+                                className="rounded-xl bg-[#f27a1a] px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
                               >
                                 Teklif iste
                               </Link>
                               <button
                                 type="button"
                                 onClick={() => openStockRequest(p)}
-                                className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300"
+                                className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 transition hover:border-amber-300"
                               >
                                 Hızlı stok talebi
                               </button>
