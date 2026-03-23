@@ -698,7 +698,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
       <article
         key={p.id}
         className="group relative overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"
-        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 360px' } as CSSProperties}
+        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 320px' } as CSSProperties}
         onClick={() => router.push(getPartHref(p.id))}
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') {
@@ -769,8 +769,8 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col p-4">
-          <Link href={getPartHref(p.id)} className="block min-h-[48px]">
+        <div className="flex flex-1 flex-col p-3.5">
+          <Link href={getPartHref(p.id)} className="block min-h-[42px]">
             <h3 className="line-clamp-2 text-[16px] font-medium leading-6 text-slate-900 dark:text-white">{p.name}</h3>
           </Link>
 
@@ -779,22 +779,20 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             <span>{p.ratingCount > 0 ? `${p.ratingAverage.toFixed(1)} (${p.ratingCount})` : 'Degerlendirme yok'}</span>
           </div>
 
-          <div className="mt-2.5 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-slate-900/60">
+          <div className="mt-2 rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/60">
             <div className="mt-1 text-[25px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
               {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
             </div>
             <div className="mt-1 text-[11px] text-slate-400">KDV dahil</div>
           </div>
 
-          <p className="mt-2.5 line-clamp-1 text-sm leading-5 text-slate-600 dark:text-slate-300">{p.description}</p>
-
           {selectedModel !== 'Tümü' ? (
-            <div className="mt-2 rounded-lg bg-indigo-50 px-3 py-2 text-xs font-medium text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
+            <div className="mt-1.5 rounded-lg bg-indigo-50 px-3 py-2 text-[11px] font-medium text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
               {selectedModelInfo?.label} ile uyumlu
             </div>
           ) : null}
 
-          <div className="relative z-10 mt-3" onClick={(event) => event.stopPropagation()}>
+          <div className="relative z-10 mt-2.5" onClick={(event) => event.stopPropagation()}>
             {inStock && sparePartDirectPurchaseEnabled ? (
               <div className="grid gap-2">
                 <AddToCartButton
