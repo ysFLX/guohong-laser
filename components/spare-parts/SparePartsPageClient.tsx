@@ -699,6 +699,15 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
         key={p.id}
         className="group relative overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"
         style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 360px' } as CSSProperties}
+        onClick={() => router.push(getPartHref(p.id))}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            router.push(getPartHref(p.id));
+          }
+        }}
+        role="link"
+        tabIndex={0}
       >
         <div className="relative">
           <Link href={getPartHref(p.id)} className="block">
@@ -723,18 +732,18 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                 Vitrin
               </span>
             ) : null}
-            <span className="rounded-full bg-white/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-700 shadow-sm">
-              {p.category.name}
-            </span>
           </div>
 
           <button
             type="button"
-            onClick={() => toggleFavorite(p.id)}
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleFavorite(p.id);
+            }}
             disabled={favoriteLoading.has(p.id)}
             aria-pressed={isFavorited}
             aria-label={isFavorited ? 'Favoriden kaldir' : 'Favorilere ekle'}
-            className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-500 shadow-sm transition hover:border-rose-200 hover:text-rose-600"
+            className="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-500 shadow-sm transition hover:border-rose-200 hover:text-rose-600"
           >
             <svg
               viewBox="0 0 24 24"
@@ -771,7 +780,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
 
           <div className="mt-2.5 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-slate-900/60">
-            <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{p.category.name}</div>
             <div className="mt-1 text-[25px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
               {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
             </div>
@@ -786,16 +794,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             </div>
           ) : null}
 
-          <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-300">
-            <span>Stok: {p.stockOnHand}</span>
-            <Link href={getPartHref(p.id)} className="font-semibold transition hover:text-[#f27a1a]">
-              Detay
-            </Link>
-          </div>
-
-          <div className="mt-3">
+          <div className="relative z-10 mt-3" onClick={(event) => event.stopPropagation()}>
             {inStock && sparePartDirectPurchaseEnabled ? (
-              <div className="grid grid-cols-[1fr_auto] gap-2">
+              <div className="grid gap-2">
                 <AddToCartButton
                   id={p.id}
                   name={p.name}
@@ -803,26 +804,14 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   imageUrl={p.imageUrl}
                   className="rounded-xl bg-[#f27a1a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
                 />
-                <Link
-                  href={getPartHref(p.id)}
-                  className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                >
-                  Git
-                </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-[1fr_auto] gap-2">
+              <div className="grid gap-2">
                 <Link
                   href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
                   className="rounded-xl bg-[#f27a1a] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
                 >
-                  Teklif al
-                </Link>
-                <Link
-                  href={getPartHref(p.id)}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
-                >
-                  Detay
+                  Satin al
                 </Link>
               </div>
             )}
