@@ -693,14 +693,12 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     const isFavorited = favoriteIds.has(p.id);
     const inStock = p.stockOnHand > 0;
     const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
-    const compareSelected = compareIds.includes(p.id);
-    const compareDisabled = !compareSelected && compareIds.length >= 3;
 
     return (
       <article
         key={p.id}
         className="group relative overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"
-        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 430px' } as CSSProperties}
+        style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 360px' } as CSSProperties}
       >
         <div className="relative">
           <Link href={getPartHref(p.id)} className="block">
@@ -763,24 +761,24 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
         </div>
 
         <div className="flex flex-1 flex-col p-4">
-          <Link href={getPartHref(p.id)} className="block min-h-[52px]">
-            <h3 className="line-clamp-2 text-[17px] font-medium leading-6 text-slate-900 dark:text-white">{p.name}</h3>
+          <Link href={getPartHref(p.id)} className="block min-h-[48px]">
+            <h3 className="line-clamp-2 text-[16px] font-medium leading-6 text-slate-900 dark:text-white">{p.name}</h3>
           </Link>
 
-          <div className="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+          <div className="mt-1.5 flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-300">
             <div className="flex items-center gap-1">{renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}</div>
             <span>{p.ratingCount > 0 ? `${p.ratingAverage.toFixed(1)} (${p.ratingCount})` : 'Degerlendirme yok'}</span>
           </div>
 
-          <div className="mt-3 rounded-2xl bg-slate-50 px-3 py-3 dark:bg-slate-900/60">
+          <div className="mt-2.5 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-slate-900/60">
             <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{p.category.name}</div>
-            <div className="mt-1 text-[30px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
+            <div className="mt-1 text-[25px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
               {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
             </div>
             <div className="mt-1 text-[11px] text-slate-400">KDV dahil</div>
           </div>
 
-          <p className="mt-3 line-clamp-2 text-sm leading-5 text-slate-600 dark:text-slate-300">{p.description}</p>
+          <p className="mt-2.5 line-clamp-1 text-sm leading-5 text-slate-600 dark:text-slate-300">{p.description}</p>
 
           {selectedModel !== 'Tümü' ? (
             <div className="mt-2 rounded-lg bg-indigo-50 px-3 py-2 text-xs font-medium text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
@@ -788,36 +786,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             </div>
           ) : null}
 
-          <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-            <div className="rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-900/60">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-slate-400">Stok</div>
-              <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.stockOnHand}</div>
-            </div>
-            <div className="rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-900/60">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-slate-400">Kategori</div>
-              <div className="mt-1 font-semibold text-slate-900 dark:text-white">{p.category.name}</div>
-            </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => handleToggleCompare(p)}
-              disabled={compareDisabled}
-              className={`rounded-full border px-3 py-1.5 font-semibold uppercase tracking-[0.14em] transition ${
-                compareSelected
-                  ? 'border-slate-900 bg-slate-900 text-white dark:bg-white/10 dark:text-white'
-                  : compareDisabled
-                    ? 'cursor-not-allowed border-slate-200 text-slate-400 opacity-60 dark:border-slate-700'
-                    : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200'
-              }`}
-            >
-              {compareSelected ? 'Secildi' : 'Karsilastir'}
-            </button>
-            <Link
-              href={getPartHref(p.id)}
-              className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-[#f27a1a] dark:text-slate-300"
-            >
+          <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-300">
+            <span>Stok: {p.stockOnHand}</span>
+            <Link href={getPartHref(p.id)} className="font-semibold transition hover:text-[#f27a1a]">
               Detay
             </Link>
           </div>
@@ -830,30 +801,29 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   name={p.name}
                   priceCents={p.priceCents}
                   imageUrl={p.imageUrl}
-                  className="rounded-xl bg-[#f27a1a] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
+                  className="rounded-xl bg-[#f27a1a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
                 />
                 <Link
                   href={getPartHref(p.id)}
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900/60"
+                  className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-900/60"
                 >
                   Git
                 </Link>
               </div>
             ) : (
-              <div className="grid gap-2">
+              <div className="grid grid-cols-[1fr_auto] gap-2">
                 <Link
                   href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                  className="rounded-xl bg-[#f27a1a] px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
+                  className="rounded-xl bg-[#f27a1a] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
                 >
                   Teklif al
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => openStockRequest(p)}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
+                <Link
+                  href={getPartHref(p.id)}
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
                 >
-                  Hizli stok talebi
-                </button>
+                  Detay
+                </Link>
               </div>
             )}
           </div>
