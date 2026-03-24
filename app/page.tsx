@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
@@ -9,6 +10,17 @@ import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceC
 import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
 import { prisma } from '@/lib/prisma';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  title: 'Guohong Lazer | Fiber Lazer Kesim Makineleri, Teknik Servis ve Yedek Parca',
+  description:
+    'Guohong Lazer Konya merkezli fiber lazer kesim makineleri, teknik servis, yedek parca ve endustriyel cozumler sunar. Türkiye geneli destek ve teklif hizmeti.',
+  alternates: {
+    canonical: siteUrl,
+  },
+};
 
 const space = Space_Grotesk({
   subsets: ['latin'],

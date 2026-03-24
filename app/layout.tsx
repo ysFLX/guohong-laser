@@ -1,39 +1,54 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import "./globals.css";
-import RootChrome from "@/components/layout/RootChrome";
-import Providers from "./providers";
-import Analytics from "@/components/analytics/Analytics";
-import CookieBanner from "@/components/legal/CookieBanner";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
+import Analytics from '@/components/analytics/Analytics';
+import CookieBanner from '@/components/legal/CookieBanner';
+import RootChrome from '@/components/layout/RootChrome';
+
+import './globals.css';
+import Providers from './providers';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000";
-const siteName = "Guohong Lazer";
-const defaultTitle = "Guohong Lazer - Lazer Makineleri ve Yedek Parçalar";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+const siteName = 'Guohong Lazer';
+const defaultTitle = 'Guohong Lazer | Fiber Lazer Kesim Makineleri ve Yedek Parca';
 const defaultDescription =
-  "Yüksek kaliteli lazer makineleri ve yedek parçalar için doğru adres. En iyi fiyat ve kalite garantisi ile hizmetinizdeyiz.";
+  'Guohong Lazer Konya merkezli fiber lazer kesim makinesi, yedek parca, teknik servis ve endustriyel cozumler sunar. Türkiye geneli satis, destek ve yedek parca hizmeti.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: defaultTitle,
-    template: "%s | Guohong Lazer",
+    template: '%s | Guohong Lazer',
   },
   description: defaultDescription,
-  keywords: "lazer makinesi, yedek parça, lazer kesim, lazer kazima, endustriyel lazer",
+  keywords: [
+    'guohong lazer',
+    'guohong lazer konya',
+    'guohong yedek parca',
+    'fiber lazer kesim makinesi',
+    'lazer kesim makinesi',
+    'konya lazer makinesi',
+    'lazer kafasi',
+    'koruma lens',
+    'lazer nozul',
+    'teknik servis',
+  ],
   alternates: {
     canonical: siteUrl,
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
   },
   robots: {
     index: true,
@@ -44,25 +59,25 @@ export const metadata: Metadata = {
     description: defaultDescription,
     url: siteUrl,
     siteName,
-    type: "website",
-    locale: "tr_TR",
+    type: 'website',
+    locale: 'tr_TR',
     images: [
       {
-        url: "/images/og-cover.svg",
-        alt: `${siteName} OG`,
+        url: '/images/og-cover.svg',
+        alt: 'Guohong Lazer',
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     title: defaultTitle,
     description: defaultDescription,
-    images: ["/images/og-cover.svg"],
+    images: ['/images/og-cover.svg'],
   },
   icons: {
-    icon: "/images/logokoyu.png",
-    shortcut: "/images/logokoyu.png",
-    apple: "/images/logokoyu.png",
+    icon: '/images/logokoyu.png',
+    shortcut: '/images/logokoyu.png',
+    apple: '/images/logokoyu.png',
   },
 };
 
@@ -72,33 +87,63 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  const showSpeedInsights = process.env.VERCEL === "1";
-  const orgSchema = {
+  const showSpeedInsights = process.env.VERCEL === '1';
+
+  const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${siteUrl}#organization`,
     name: siteName,
     url: siteUrl,
     logo: `${siteUrl}/images/logokoyu.png`,
-    contactPoint: [
-      {
-        '@type': 'ContactPoint',
-        telephone: '+90 536 831 67 87',
-        contactType: 'customer service',
-        areaServed: 'TR',
-        availableLanguage: ['tr'],
-      },
-    ],
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Konya',
-      addressRegion: 'Karatay',
-      addressCountry: 'TR',
-    },
     sameAs: [
       'https://www.facebook.com/profile.php?id=61584746766233&locale=tr_TR',
       'https://www.instagram.com/gu0honglaser/',
       'https://wa.me/905368316787',
     ],
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+90 536 831 67 87',
+        contactType: 'sales',
+        areaServed: 'TR',
+        availableLanguage: ['tr'],
+      },
+    ],
+  };
+
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${siteUrl}#localbusiness`,
+    name: siteName,
+    url: siteUrl,
+    image: [`${siteUrl}/images/logokoyu.png`],
+    telephone: '+90 536 831 67 87',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Fevzi Cakmak Mah. Aksaray Cevre Yolu Cad. Akasya Sanayi Sitesi A Blok No:18 T',
+      addressLocality: 'Karatay',
+      addressRegion: 'Konya',
+      postalCode: '42210',
+      addressCountry: 'TR',
+    },
+    areaServed: 'TR',
+    sameAs: organizationSchema.sameAs,
+  };
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}#website`,
+    name: siteName,
+    url: siteUrl,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${siteUrl}/spare-parts?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
   };
 
   return (
@@ -111,11 +156,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-full overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col overflow-x-hidden`}
         suppressHydrationWarning
       >
         <Analytics gaId={gaId} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <Providers>
           <RootChrome>{children}</RootChrome>
         </Providers>

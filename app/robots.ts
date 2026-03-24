@@ -16,6 +16,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin', '/profile', '/checkout', '/cart'],
       },
     ],
+    host: baseUrl,
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
