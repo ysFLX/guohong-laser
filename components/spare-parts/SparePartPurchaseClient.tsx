@@ -99,7 +99,7 @@ export default function SparePartPurchaseClient({
           priceCents={resolvedPriceCents}
           imageUrl={imageUrl}
           variantValue={resolvedSize || null}
-          className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center justify-center rounded-xl bg-[#f59e0b] px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#e58d07] disabled:cursor-not-allowed disabled:opacity-60"
           quantity={1}
           disabled={selectionDisabled}
         />
@@ -155,8 +155,11 @@ export default function SparePartPurchaseClient({
         {selector}
       </div>
 
-      <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] lg:sticky lg:top-24 lg:block">
-        <div className="text-3xl font-semibold text-slate-900">
+      <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24 lg:block">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400">
+          Satin alma
+        </div>
+        <div className="mt-2 text-3xl font-semibold text-slate-900">
           {showPrice
             ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
             : 'Fiyat icin teklif al'}
@@ -196,9 +199,9 @@ export default function SparePartPurchaseClient({
         {actionButtons}
         <div className="mt-5 border-t border-slate-200 pt-4 text-xs text-slate-500">
           <ul className="space-y-2">
-            <li>Guvenli odeme altyapisi</li>
-            <li>Fatura ve garanti destegi</li>
-            <li>Teknik ekipten hizli destek</li>
+            <li>Guvenli odeme</li>
+            <li>Fatura destekli satis</li>
+            <li>Teknik destek hattı</li>
           </ul>
         </div>
       </aside>

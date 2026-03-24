@@ -284,8 +284,8 @@ export default async function SparePartDetailPage({
     <div className="min-h-screen bg-slate-50 pb-24 text-slate-900">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <ViewItemEvent id={p.id} name={p.name} priceCents={p.priceCents} currency={p.currency || 'TRY'} />
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">
             <Link href="/" className="hover:text-slate-900">
               Ana sayfa
@@ -312,9 +312,9 @@ export default async function SparePartDetailPage({
           </div>
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_0.9fr] lg:items-start">
-          <div className="space-y-5">
-            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-[0_25px_60px_rgba(15,23,42,0.08)]">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr_0.85fr] lg:items-start">
+          <div className="space-y-4">
+            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm">
               <SparePartImageSlider
                 images={p.images}
                 fallbackUrl={p.imageUrl || '/images/1.jpg'}
@@ -322,9 +322,6 @@ export default async function SparePartDetailPage({
               />
             </div>
             <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1">
-                {p.category.name}
-              </span>
               <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
                 {inStock ? 'Stokta' : 'Siparişle'}
               </span>
@@ -357,7 +354,7 @@ export default async function SparePartDetailPage({
             </div>
           </div>
 
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
                 <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
                   {p.name}
@@ -378,72 +375,35 @@ export default async function SparePartDetailPage({
                     </Link>
                   </div>
                 )}
-                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
-                  <span>Kategori: {p.category.name}</span>
-                  <span>Stok: {p.stockOnHand}</span>
-                  <span>Ölçü: {p.dimensions || '-'}</span>
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                  <span className="rounded-full bg-white px-3 py-1 border border-slate-200">{p.category.name}</span>
+                  {p.dimensions ? <span className="rounded-full bg-white px-3 py-1 border border-slate-200">Olcu: {p.dimensions}</span> : null}
+                  <span className="rounded-full bg-white px-3 py-1 border border-slate-200">Stok: {p.stockOnHand}</span>
                 </div>
-              <p className="mt-4 text-sm leading-relaxed text-slate-700">{p.description}</p>
+              <p className="mt-4 text-sm leading-7 text-slate-700">{p.description}</p>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Öne çıkanlar
+                Kisa bilgi
               </p>
-              <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                <li>Model uyumluluğu ve teknik destek dahil.</li>
-                <li>Fatura ve garanti belgesi otomatik oluşur.</li>
-                <li>Stoklu ürünlerde hızlı sevkiyat.</li>
-              </ul>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Güven paketi</p>
-                  <h3 className="mt-2 text-lg font-semibold text-slate-900">
-                    Sertifika + servis + garanti tek ekranda
-                  </h3>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Teslim</div>
+                  <div className="mt-1 font-semibold text-slate-900">{inStock ? '2-3 gün' : '7-10 gün'}</div>
                 </div>
-                <span className="rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-semibold text-indigo-700">
-                  Kurumsal garanti
-                </span>
-              </div>
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                  {[
-                    { title: 'Sertifikalı kalite', detail: 'CE, ISO 9001 ve uyum testleri.' },
-                    { title: 'Orijinal tedarik', detail: 'Resmi servis ve orijinallik teyidi.' },
-                    { title: 'Hızlı destek', detail: '24 saat içinde teknik geri dönüş.' },
-                  ].map((item) => (
-                    <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{item.title}</div>
-                    <p className="mt-2 text-xs text-slate-600">{item.detail}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-500">
-                <span className="rounded-full border border-slate-200 px-3 py-1">SSL korumalı ödeme</span>
-                <span className="rounded-full border border-slate-200 px-3 py-1">Yetkili servis</span>
-                <span className="rounded-full border border-slate-200 px-3 py-1">Fatura garantisi</span>
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</p>
-                <p className="mt-1 font-semibold text-slate-900">{inStock ? '2-3 gün' : '7-10 gün'}</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Durum</p>
-                <p className="mt-1 font-semibold text-slate-900">{inStock ? 'Stokta' : 'Siparişle'}</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Ölçü</p>
-                <p className="mt-1 font-semibold text-slate-900">{p.dimensions || '-'}</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Kategori</p>
-                <p className="mt-1 font-semibold text-slate-900">{p.category.name}</p>
+                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Garanti</div>
+                  <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
+                </div>
+                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Iade</div>
+                  <div className="mt-1 font-semibold text-slate-900">14 gün</div>
+                </div>
+                <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Satici</div>
+                  <div className="mt-1 font-semibold text-slate-900">Guohong Lazer</div>
+                </div>
               </div>
             </div>
 
