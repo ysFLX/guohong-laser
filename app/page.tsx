@@ -374,7 +374,7 @@ const getReviewName = (review: {
   return displayName;
 };
 
-const process = [
+const processSteps = [
   {
     title: 'Keşif ve Analiz',
     description: 'Saha ihtiyaçları ve kapasite hedefleri netleşir.',
@@ -1141,7 +1141,7 @@ export default async function Home() {
           <p className="text-xs uppercase tracking-[0.3em] text-amber-300">İş akışı</p>
           <h2 className="mt-2 text-2xl font-semibold text-amber-50">4 adımda devreye alma</h2>
           <div className="mt-6 space-y-4">
-            {process.map((step, index) => (
+            {processSteps.map((step, index) => (
               <div
                 key={step.title}
                 className="rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4"
