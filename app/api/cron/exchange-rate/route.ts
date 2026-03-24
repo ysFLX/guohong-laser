@@ -83,7 +83,7 @@ export async function GET(req: Request) {
     const result = await fetchUsdTryRateFromTcmb();
     await saveUsdTryExchangeRate(result);
 
-    revalidateTag('exchange-rate-usd-try');
+    revalidateTag('exchange-rate-usd-try', 'max');
 
     return NextResponse.json({
       ok: true,
