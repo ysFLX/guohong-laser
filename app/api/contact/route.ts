@@ -21,6 +21,14 @@ const normalizeEmail = (value: unknown) =>
 const normalizeString = (value: unknown) =>
   typeof value === 'string' ? value.trim() : '';
 
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
 const getClientIp = (request: Request) => {
   const forwarded = request.headers.get('x-forwarded-for') || '';
   const realIp = request.headers.get('x-real-ip') || '';
@@ -62,6 +70,9 @@ export async function POST(request: Request) {
     const message = normalizeString(formData.message);
     const safeEmail = normalizeEmail(formData.email);
     const otp = normalizeString(formData.otp);
+    const safePhone = normalizeString(formData.phone);
+    const safeCompany = normalizeString(formData.company);
+    const safeProduct = normalizeString(formData.product);
 
     if (!name || !safeEmail || !message) {
       return NextResponse.json({ error: 'Eksik alanlar var.' }, { status: 400 });
@@ -155,7 +166,7 @@ export async function POST(request: Request) {
 
     await prisma.inquiryOtp.delete({ where: { email: safeEmail } });
 
-    const inferredType = formData.company || formData.product ? 'QUOTE' : 'CONTACT';
+    const inferredType = safeCompany || safeProduct ? 'QUOTE' : 'CONTACT';
 
     try {
       await (prisma as unknown as { inquiry: { create: (args: unknown) => Promise<unknown> } }).inquiry.create({
@@ -163,10 +174,10 @@ export async function POST(request: Request) {
           type: inferredType,
           name: String(name),
           email: safeEmail,
-          phone: formData.phone ? String(formData.phone) : null,
-          company: formData.company ? String(formData.company) : null,
+          phone: safePhone || null,
+          company: safeCompany || null,
           subject: subject ? String(subject) : null,
-          product: formData.product ? String(formData.product) : null,
+          product: safeProduct || null,
           message: String(message),
           userId: session?.user?.id ?? null,
         },
@@ -192,6 +203,14 @@ export async function POST(request: Request) {
       },
     });
 
+    const escapedName = escapeHtml(name);
+    const escapedEmail = escapeHtml(safeEmail);
+    const escapedSubject = escapeHtml(subject || 'Iletisim');
+    const escapedMessage = escapeHtml(message);
+    const escapedPhone = safePhone ? escapeHtml(safePhone) : '';
+    const escapedCompany = safeCompany ? escapeHtml(safeCompany) : '';
+    const escapedProduct = safeProduct ? escapeHtml(safeProduct) : '';
+
     const mailOptions = {
       from: `"${name}" <${smtpUser}>`,
       to: smtpUser,
@@ -200,18 +219,18 @@ export async function POST(request: Request) {
       text: message,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-        <h2 style="color: #1e40af; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">${subject || 'İletişim'}</h2>
+        <h2 style="color: #1e40af; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">${escapedSubject}</h2>
         <div style="margin: 15px 0; padding: 15px; background-color: #f8fafc; border-radius: 6px;">
-          <p><strong>Gonderen:</strong> ${name}</p>
-          <p><strong>E-posta:</strong> ${safeEmail}</p>
-          ${formData.phone ? `<p><strong>Telefon:</strong> ${formData.phone}</p>` : ''}
-          ${formData.company ? `<p><strong>Firma:</strong> ${formData.company}</p>` : ''}
-          ${formData.product ? `<p><strong>Urun:</strong> ${formData.product}</p>` : ''}
+          <p><strong>Gonderen:</strong> ${escapedName}</p>
+          <p><strong>E-posta:</strong> ${escapedEmail}</p>
+          ${escapedPhone ? `<p><strong>Telefon:</strong> ${escapedPhone}</p>` : ''}
+          ${escapedCompany ? `<p><strong>Firma:</strong> ${escapedCompany}</p>` : ''}
+          ${escapedProduct ? `<p><strong>Urun:</strong> ${escapedProduct}</p>` : ''}
         </div>
 
         <div style="background-color: #f1f5f9; padding: 15px; border-radius: 6px; margin: 15px 0;">
           <h3 style="color: #1e40af; margin-top: 0;">Mesaj Icerigi:</h3>
-          <p style="white-space: pre-line; margin: 0;">${message}</p>
+          <p style="white-space: pre-line; margin: 0;">${escapedMessage}</p>
         </div>
       </div>
       `,
@@ -230,13 +249,13 @@ export async function POST(request: Request) {
         badge: inferredType === 'QUOTE' ? 'Fiyat teklifi' : 'İletişim',
         preheader: 'Talebinizi aldık. En kısa sürede dönüş yapacağız.',
         bodyHtml: `
-          <div>Merhaba <strong>${String(name)}</strong>,</div>
+          <div>Merhaba <strong>${escapedName}</strong>,</div>
           <div style="margin-top: 8px; color:#475569;">Talebinizi aldık. En kısa sürede sizinle iletisime geçeceğiz.</div>
           <div style="margin-top: 14px; padding: 14px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
             <div style="font-size: 12px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Ozet</div>
             <div style="margin-top: 8px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'İletişim'}</div>
-            ${formData.product ? `<div style="margin-top: 6px;"><strong>Urun:</strong> ${formData.product}</div>` : ''}
-            ${subject ? `<div style="margin-top: 6px;"><strong>Konu:</strong> ${subject}</div>` : ''}
+            ${escapedProduct ? `<div style="margin-top: 6px;"><strong>Urun:</strong> ${escapedProduct}</div>` : ''}
+            ${subject ? `<div style="margin-top: 6px;"><strong>Konu:</strong> ${escapedSubject}</div>` : ''}
           </div>
         `,
         primaryCta: { label: 'Destek iletişimi', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/contact` },
@@ -253,3 +272,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
+
