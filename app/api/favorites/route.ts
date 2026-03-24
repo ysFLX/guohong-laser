@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
 
 const prismaAny = prisma as unknown as { favorite?: unknown };
@@ -25,6 +26,7 @@ export async function GET() {
   }
 
   try {
+    const exchangeRate = await getUsdTryExchangeRate();
     const favorites = await prisma.favorite.findMany({
       where: { userId: session.user.id },
       include: {
@@ -35,7 +37,18 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ items: favorites });
+    return NextResponse.json({
+      items: favorites.map((item) => ({
+        ...item,
+        sparePart: item.sparePart
+          ? {
+              ...item.sparePart,
+              priceCents: resolveDisplayedPriceCents(item.sparePart.priceCents, item.sparePart.currency, exchangeRate.rate),
+              currency: resolveDisplayedCurrency(item.sparePart.currency),
+            }
+          : item.sparePart,
+      })),
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Favoriler alınamadı';
     return NextResponse.json({ error: message }, { status: 500 });

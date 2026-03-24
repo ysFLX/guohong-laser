@@ -64,6 +64,8 @@ export function sanitizeSparePartSizeOptionEntries(
     const parsedPrice =
       coercePriceCents(row.priceCents) ??
       coercePriceCents(row.priceTry) ??
+      coercePriceCents(row.priceUsd) ??
+      coercePriceCents(row.priceInput) ??
       clampPriceCents(fallbackPriceCents);
 
     seen.add(dedupeKey);

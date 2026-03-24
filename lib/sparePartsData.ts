@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache';
 
 import type { SparePart } from '@/components/spare-parts/SparePartsPageClient';
+import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents, resolveDisplayedSizeOptionPrices } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
 
 type RatingMapValue = { average: number; count: number };
@@ -43,6 +44,7 @@ type RelatedPart = {
   id: string;
   name: string;
   priceCents: number;
+  currency: string;
   imageUrl: string | null;
   category: { name: string };
 };
@@ -74,6 +76,7 @@ function toRatingMap(
 
 export const getActiveSparePartsWithRatings = unstable_cache(
   async (): Promise<SparePart[]> => {
+    const exchangeRate = await getUsdTryExchangeRate();
     const [ratingRows, parts] = await Promise.all([
       prisma.sparePartReview.groupBy({
         by: ['sparePartId'],
@@ -98,9 +101,9 @@ export const getActiveSparePartsWithRatings = unstable_cache(
         dimensions: p.dimensions,
         hasSizeOptions: p.hasSizeOptions,
         sizeOptions: p.sizeOptions,
-        sizeOptionPrices: p.sizeOptionPrices,
-        priceCents: p.priceCents,
-        currency: p.currency,
+        sizeOptionPrices: resolveDisplayedSizeOptionPrices(p.sizeOptionPrices, p.currency, exchangeRate.rate),
+        priceCents: resolveDisplayedPriceCents(p.priceCents, p.currency, exchangeRate.rate),
+        currency: resolveDisplayedCurrency(p.currency),
         imageUrl: p.imageUrl,
         stockOnHand: p.stockOnHand,
         isFeatured: p.isFeatured,
@@ -115,11 +118,12 @@ export const getActiveSparePartsWithRatings = unstable_cache(
     });
   },
   ['spare-parts:list:v1'],
-  { revalidate: 60, tags: ['spare-part-reviews'] },
+  { revalidate: 60, tags: ['spare-part-reviews', 'exchange-rate-usd-try'] },
 );
 
 export const getSparePartById = unstable_cache(
   async (id: string): Promise<NonNullable<SparePartDetailRow>> => {
+    const exchangeRate = await getUsdTryExchangeRate();
     const part = await prismaSpareParts.sparePart.findUnique({
       where: { id },
       include: {
@@ -132,10 +136,15 @@ export const getSparePartById = unstable_cache(
       throw new Error('Spare part not found');
     }
 
-    return part;
+    return {
+      ...part,
+      sizeOptionPrices: resolveDisplayedSizeOptionPrices(part.sizeOptionPrices, part.currency, exchangeRate.rate),
+      priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
+      currency: resolveDisplayedCurrency(part.currency),
+    };
   },
   ['spare-parts:detail:v1'],
-  { revalidate: 60 },
+  { revalidate: 60, tags: ['exchange-rate-usd-try'] },
 );
 
 export const getSparePartReviewSummary = unstable_cache(
@@ -157,7 +166,8 @@ export const getSparePartReviewSummary = unstable_cache(
 
 export const getRelatedSpareParts = unstable_cache(
   async (categoryId: string, excludeId: string) => {
-    return prismaSpareParts.sparePart.findMany({
+    const exchangeRate = await getUsdTryExchangeRate();
+    const parts = await prismaSpareParts.sparePart.findMany({
       where: {
         category: { id: categoryId },
         NOT: { id: excludeId },
@@ -167,17 +177,25 @@ export const getRelatedSpareParts = unstable_cache(
         id: true,
         name: true,
         priceCents: true,
+        currency: true,
         imageUrl: true,
         category: { select: { name: true } },
       },
     });
+
+    return parts.map((part) => ({
+      ...part,
+      priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
+      currency: resolveDisplayedCurrency(part.currency),
+    }));
   },
   ['spare-parts:related:v1'],
-  { revalidate: 300 },
+  { revalidate: 300, tags: ['exchange-rate-usd-try'] },
 );
 
 export const getBoughtTogetherSpareParts = unstable_cache(
   async (sparePartId: string) => {
+    const exchangeRate = await getUsdTryExchangeRate();
     const orderIdRows = await prisma.orderItem.findMany({
       where: { sparePartId },
       select: { orderId: true },
@@ -201,6 +219,7 @@ export const getBoughtTogetherSpareParts = unstable_cache(
             id: true,
             name: true,
             priceCents: true,
+            currency: true,
             imageUrl: true,
             category: { select: { name: true } },
           },
@@ -222,9 +241,13 @@ export const getBoughtTogetherSpareParts = unstable_cache(
 
     return Array.from(counts.values())
       .sort((a, b) => b.count - a.count)
-      .map((entry) => entry.item)
+      .map((entry) => ({
+        ...entry.item,
+        priceCents: resolveDisplayedPriceCents(entry.item.priceCents, entry.item.currency, exchangeRate.rate),
+        currency: resolveDisplayedCurrency(entry.item.currency),
+      }))
       .slice(0, 3);
   },
   ['spare-parts:bought-together:v1'],
-  { revalidate: 600 },
+  { revalidate: 600, tags: ['exchange-rate-usd-try'] },
 );

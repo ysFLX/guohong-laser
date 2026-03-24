@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
+import { getUsdTryExchangeRate, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { getStripe } from '@/lib/stripe';
 import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
 
@@ -114,9 +115,10 @@ async function resolveVerifiedItems(cartRaw: string): Promise<VerifiedOrderItem[
   if (metaItems.length === 0) return [];
 
   const ids = Array.from(new Set(metaItems.map((item) => item.id)));
+  const exchangeRate = await getUsdTryExchangeRate();
   const parts = await prisma.sparePart.findMany({
     where: { id: { in: ids }, isActive: true },
-    select: { id: true, name: true, priceCents: true, imageUrl: true },
+    select: { id: true, name: true, priceCents: true, currency: true, imageUrl: true },
   });
   const partMap = new Map(parts.map((part) => [part.id, part]));
 
@@ -127,7 +129,7 @@ async function resolveVerifiedItems(cartRaw: string): Promise<VerifiedOrderItem[
       return {
         id: part.id,
         name: part.name,
-        priceCents: part.priceCents,
+        priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
         quantity: item.quantity,
         imageUrl: part.imageUrl,
       };

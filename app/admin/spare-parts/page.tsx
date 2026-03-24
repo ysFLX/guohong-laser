@@ -8,6 +8,7 @@ type SparePartsResult = Array<{
   id: string;
   name: string;
   priceCents: number;
+  currency: string;
   stockOnHand: number;
   isFeatured: boolean;
   isActive: boolean;
@@ -29,15 +30,15 @@ const prismaSpareParts = prisma as unknown as PrismaClientLike;
 const PAGE_SIZE = 20;
 const CRITICAL_STOCK_LEVEL = 5;
 
-function formatPriceTry(priceCents: number) {
+function formatPrice(priceCents: number, currency: string) {
   try {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
-      currency: 'TRY',
+      currency,
       maximumFractionDigits: 2,
     }).format(priceCents / 100);
   } catch {
-    return `${(priceCents / 100).toFixed(2)} TL`;
+    return `${(priceCents / 100).toFixed(2)} ${currency}`;
   }
 }
 
@@ -230,7 +231,7 @@ export default async function AdminSparePartsPage({
                 </div>
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Fiyat</div>
-                  <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{formatPriceTry(p.priceCents)}</div>
+                  <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{formatPrice(p.priceCents, p.currency || 'TRY')}</div>
                 </div>
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Stok</div>

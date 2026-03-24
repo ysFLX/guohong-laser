@@ -5,6 +5,7 @@ import { Space_Grotesk } from 'next/font/google';
 import Reveal from '@/components/home/Reveal';
 import VideoSlider from '@/components/home/VideoSlider';
 import AddToCartButton from '@/components/cart/AddToCartButton';
+import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
 import { prisma } from '@/lib/prisma';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
@@ -442,6 +443,7 @@ export default async function Home() {
     capacityImageUrl,
     procurementImageUrl,
   } = normalizeHomePanelConfig(config ?? {});
+  const exchangeRate = await getUsdTryExchangeRate();
   const spareParts = await prisma.sparePart.findMany({
     where: { isActive: true },
     orderBy: [{ isFeatured: 'desc' }, { createdAt: 'desc' }],
@@ -487,16 +489,18 @@ export default async function Home() {
   const quickShowcase: QuickShowcaseItem[] = [
     ...pickedParts.map((part) => {
       const rating = pickedRatingMap.get(part.id) ?? { average: 0, count: 0 };
+      const displayedPriceCents = resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate);
+      const displayedCurrency = resolveDisplayedCurrency(part.currency);
       return {
         title: part.name,
         description: trimText(part.description, 90),
-        price: formatPrice(part.priceCents / 100, part.currency),
+        price: formatPrice(displayedPriceCents / 100, displayedCurrency),
         tag: part.category.name,
         href: `/spare-parts/${part.id}`,
         image: part.imageUrl ?? part.images[0]?.url ?? '/images/2.jpg',
         id: part.id,
-        priceCents: part.priceCents,
-        currency: part.currency,
+        priceCents: displayedPriceCents,
+        currency: displayedCurrency,
         imageUrl: part.imageUrl ?? part.images[0]?.url ?? null,
         stockOnHand: part.stockOnHand,
         inStock: part.stockOnHand > 0,

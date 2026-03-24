@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import { getUsdTryExchangeRate, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
 import {
@@ -23,6 +24,7 @@ type SparePartRow = {
   id: string;
   name: string;
   priceCents: number;
+  currency: string;
   imageUrl: string | null;
   hasSizeOptions: boolean;
   sizeOptions: string[];
@@ -113,12 +115,14 @@ export async function POST(req: Request) {
       id: true,
       name: true,
       priceCents: true,
+      currency: true,
       imageUrl: true,
       hasSizeOptions: true,
       sizeOptions: true,
       sizeOptionPrices: true,
     },
   })) as SparePartRow[];
+  const exchangeRate = await getUsdTryExchangeRate();
 
   const partMap = new Map(parts.map((part) => [part.id, part]));
   const verifiedItems = cleanItems
@@ -143,7 +147,7 @@ export async function POST(req: Request) {
       return {
         id: part.id,
         name: item.name || part.name,
-        priceCents: resolvedPriceCents,
+        priceCents: resolveDisplayedPriceCents(resolvedPriceCents, part.currency, exchangeRate.rate),
         quantity: item.quantity,
         imageUrl: item.imageUrl || part.imageUrl,
       };

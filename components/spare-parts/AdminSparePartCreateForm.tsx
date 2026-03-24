@@ -7,10 +7,10 @@ import { AdminButton } from '@/components/admin/AdminUi';
 import { sanitizeSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
-type SizeOptionRow = { value: string; priceTry: string };
+type SizeOptionRow = { value: string; priceUsd: string };
 
 function createEmptySizeRow(): SizeOptionRow {
-  return { value: '', priceTry: '' };
+  return { value: '', priceUsd: '' };
 }
 
 export default function AdminSparePartCreateForm({ categories }: { categories: Category[] }) {
@@ -23,7 +23,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
   const [dimensions, setDimensions] = useState('');
   const [hasSizeOptions, setHasSizeOptions] = useState(false);
   const [sizeOptionRows, setSizeOptionRows] = useState<SizeOptionRow[]>([createEmptySizeRow()]);
-  const [priceTry, setPriceTry] = useState('');
+  const [priceUsd, setPriceUsd] = useState('');
   const [stockOnHand, setStockOnHand] = useState('');
   const [categoryId, setCategoryId] = useState(categories[0]?.id ?? '');
   const [isFeatured, setIsFeatured] = useState(false);
@@ -125,10 +125,10 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                Varsayilan fiyat (TL)
+                Varsayilan fiyat (USD)
               </label>
-              <input value={priceTry} inputMode="decimal" onChange={(e) => setPriceTry(e.target.value)} className={inputClassName} />
-              <div className="mt-2 text-xs text-[var(--admin-muted)]">Orn: 1299,90</div>
+              <input value={priceUsd} inputMode="decimal" onChange={(e) => setPriceUsd(e.target.value)} className={inputClassName} />
+              <div className="mt-2 text-xs text-[var(--admin-muted)]">Orn: 129,90 USD</div>
             </div>
 
             <div>
@@ -159,7 +159,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
             {hasSizeOptions ? (
               <div className="mt-4 space-y-3">
                 <div className="text-xs text-[var(--admin-muted)]">
-                  Her satirda olcu ve fiyat gir. Ornek: 20 mm - 1299,90 TL
+                  Her satirda olcu ve fiyat gir. Ornek: 20 mm - 39,90 USD
                 </div>
                 {sizeOptionRows.map((row, index) => (
                   <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
@@ -170,10 +170,10 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                       className={`${inputClassName} mt-0`}
                     />
                     <input
-                      value={row.priceTry}
+                      value={row.priceUsd}
                       inputMode="decimal"
-                      onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
-                      placeholder="Fiyat (TL)"
+                      onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
+                      placeholder="Fiyat (USD)"
                       className={`${inputClassName} mt-0`}
                     />
                     <AdminButton
@@ -214,13 +214,13 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                 setError('');
                 setSuccess('');
 
-                const parsedPrice = Number(String(priceTry).replace(',', '.'));
+                const parsedPrice = Number(String(priceUsd).replace(',', '.'));
                 const parsedStock = Number(stockOnHand);
                 const basePriceCents =
                   Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
 
                 const hasBlankSizeRow = hasSizeOptions
-                  ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceTry.trim().length === 0)
+                  ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceUsd.trim().length === 0)
                   : false;
                 const sizeOptionEntries = hasSizeOptions
                   ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents)

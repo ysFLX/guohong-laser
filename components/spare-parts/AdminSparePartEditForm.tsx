@@ -10,7 +10,7 @@ import {
 } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
-type SizeOptionRow = { value: string; priceTry: string };
+type SizeOptionRow = { value: string; priceInput: string };
 
 type Initial = {
   id: string;
@@ -21,6 +21,7 @@ type Initial = {
   sizeOptions: string[];
   sizeOptionPrices: Record<string, unknown>;
   priceCents: number;
+  currency: string;
   stockOnHand: number;
   isFeatured: boolean;
   isActive: boolean;
@@ -28,10 +29,10 @@ type Initial = {
 };
 
 function createEmptySizeRow(): SizeOptionRow {
-  return { value: '', priceTry: '' };
+  return { value: '', priceInput: '' };
 }
 
-function toTryPrice(priceCents: number) {
+function toPriceInput(priceCents: number) {
   return String((priceCents / 100).toFixed(2)).replace('.', ',');
 }
 
@@ -57,9 +58,9 @@ export default function AdminSparePartEditForm({
       initial.priceCents,
     );
     if (entries.length === 0) return [createEmptySizeRow()];
-    return entries.map((entry) => ({ value: entry.value, priceTry: toTryPrice(entry.priceCents) }));
+    return entries.map((entry) => ({ value: entry.value, priceInput: toPriceInput(entry.priceCents) }));
   });
-  const [priceTry, setPriceTry] = useState(String((initial.priceCents / 100).toFixed(2)));
+  const [priceInput, setPriceInput] = useState(String((initial.priceCents / 100).toFixed(2)));
   const [stockOnHand, setStockOnHand] = useState(String(initial.stockOnHand));
   const [categoryId, setCategoryId] = useState(initial.categoryId);
   const [isFeatured, setIsFeatured] = useState(initial.isFeatured);
@@ -153,11 +154,11 @@ export default function AdminSparePartEditForm({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Varsayilan fiyat (TL)</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">{`Varsayilan fiyat (${initial.currency || 'TRY'})`}</label>
             <input
-              value={priceTry}
+              value={priceInput}
               inputMode="decimal"
-              onChange={(e) => setPriceTry(e.target.value)}
+              onChange={(e) => setPriceInput(e.target.value)}
               className={inputClassName}
             />
           </div>
@@ -204,10 +205,10 @@ export default function AdminSparePartEditForm({
                     className={`${inputClassName} mt-0`}
                   />
                   <input
-                    value={row.priceTry}
+                    value={row.priceInput}
                     inputMode="decimal"
-                    onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
-                    placeholder="Fiyat (TL)"
+                    onChange={(e) => updateSizeRow(index, { priceInput: e.target.value })}
+                    placeholder={`Fiyat (${initial.currency || 'TRY'})`}
                     className={`${inputClassName} mt-0`}
                   />
                   <AdminButton
@@ -248,13 +249,13 @@ export default function AdminSparePartEditForm({
               setError('');
               setSuccess('');
 
-              const parsedPrice = Number(String(priceTry).replace(',', '.'));
+              const parsedPrice = Number(String(priceInput).replace(',', '.'));
               const parsedStock = Number(stockOnHand);
               const basePriceCents =
                 Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
 
               const hasBlankSizeRow = hasSizeOptions
-                ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceTry.trim().length === 0)
+                ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceInput.trim().length === 0)
                 : false;
               const sizeOptionEntries = hasSizeOptions
                 ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents)

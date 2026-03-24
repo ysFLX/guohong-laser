@@ -108,6 +108,7 @@ export async function POST(req: Request) {
         sizeOptions,
         sizeOptionPrices,
         priceCents,
+        currency: 'USD',
         stockOnHand,
         categoryId,
         isFeatured,

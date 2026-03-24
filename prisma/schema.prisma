@@ -461,6 +461,20 @@ model HomePanelConfig {
   updatedAt        DateTime @updatedAt
 }
 
+model ExchangeRate {
+  id            String   @id @default(cuid())
+  baseCurrency  String
+  quoteCurrency String
+  rate          Float
+  source        String
+  effectiveDate String?
+  fetchedAt     DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([baseCurrency, quoteCurrency])
+}
+
 model OrderItem {
   id          String   @id @default(cuid())
   orderId     String

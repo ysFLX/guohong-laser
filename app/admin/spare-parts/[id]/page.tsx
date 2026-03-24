@@ -18,6 +18,7 @@ type SparePartResult = {
   sizeOptions: string[];
   sizeOptionPrices: Record<string, unknown>;
   priceCents: number;
+  currency: string;
   imageUrl: string | null;
   stockOnHand: number;
   isFeatured: boolean;
@@ -38,15 +39,15 @@ const prismaSpareParts = prisma as unknown as {
   };
 };
 
-function formatPriceTry(priceCents: number) {
+function formatPrice(priceCents: number, currency: string) {
   try {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
-      currency: 'TRY',
+      currency,
       maximumFractionDigits: 2,
     }).format(priceCents / 100);
   } catch {
-    return `${(priceCents / 100).toFixed(2)} TL`;
+    return `${(priceCents / 100).toFixed(2)} ${currency}`;
   }
 }
 
@@ -114,7 +115,7 @@ export default async function AdminSparePartDetailPage({
           <div className="grid gap-4 px-6 py-5 sm:grid-cols-2">
             <div>
               <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Fiyat</div>
-              <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">{formatPriceTry(part.priceCents)}</div>
+              <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">{formatPrice(part.priceCents, part.currency || 'TRY')}</div>
             </div>
             <div>
               <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Stok</div>
@@ -139,7 +140,7 @@ export default async function AdminSparePartDetailPage({
               <div className="mt-2 text-sm text-[var(--admin-muted)]">
                 {part.hasSizeOptions && sizeOptionEntries.length > 0
                   ? sizeOptionEntries
-                      .map((entry) => `${entry.value} (${formatPriceTry(entry.priceCents)})`)
+                      .map((entry) => `${entry.value} (${formatPrice(entry.priceCents, part.currency || 'TRY')})`)
                       .join(', ')
                   : '-'}
               </div>
@@ -169,6 +170,7 @@ export default async function AdminSparePartDetailPage({
             sizeOptions: part.sizeOptions,
             sizeOptionPrices: part.sizeOptionPrices,
             priceCents: part.priceCents,
+            currency: part.currency,
             stockOnHand: part.stockOnHand,
             isFeatured: part.isFeatured,
             isActive: part.isActive,
