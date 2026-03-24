@@ -28,20 +28,33 @@ export function getFallbackUsdTryRate() {
 }
 
 export async function getUsdTryExchangeRate() {
-  const current = await prismaExchangeRates.exchangeRate.findUnique({
-    where: {
-      baseCurrency_quoteCurrency: {
-        baseCurrency: 'USD',
-        quoteCurrency: 'TRY',
+  let current: ExchangeRateRow = null;
+
+  try {
+    current = await prismaExchangeRates.exchangeRate.findUnique({
+      where: {
+        baseCurrency_quoteCurrency: {
+          baseCurrency: 'USD',
+          quoteCurrency: 'TRY',
+        },
       },
-    },
-    select: {
-      rate: true,
-      effectiveDate: true,
-      fetchedAt: true,
-      source: true,
-    },
-  });
+      select: {
+        rate: true,
+        effectiveDate: true,
+        fetchedAt: true,
+        source: true,
+      },
+    });
+  } catch (error: unknown) {
+    const code =
+      typeof error === 'object' && error !== null && 'code' in error
+        ? String((error as { code?: unknown }).code || '')
+        : '';
+
+    if (code !== 'P2021') {
+      throw error;
+    }
+  }
 
   if (current && Number.isFinite(current.rate) && current.rate > 0) {
     return current;
@@ -101,26 +114,39 @@ export async function saveUsdTryExchangeRate(params: {
     throw new Error('Kur gecersiz');
   }
 
-  await prismaExchangeRates.exchangeRate.upsert({
-    where: {
-      baseCurrency_quoteCurrency: {
+  try {
+    await prismaExchangeRates.exchangeRate.upsert({
+      where: {
+        baseCurrency_quoteCurrency: {
+          baseCurrency: 'USD',
+          quoteCurrency: 'TRY',
+        },
+      },
+      create: {
         baseCurrency: 'USD',
         quoteCurrency: 'TRY',
+        rate: safeRate,
+        source: params.source,
+        effectiveDate: params.effectiveDate ?? null,
+        fetchedAt: new Date(),
       },
-    },
-    create: {
-      baseCurrency: 'USD',
-      quoteCurrency: 'TRY',
-      rate: safeRate,
-      source: params.source,
-      effectiveDate: params.effectiveDate ?? null,
-      fetchedAt: new Date(),
-    },
-    update: {
-      rate: safeRate,
-      source: params.source,
-      effectiveDate: params.effectiveDate ?? null,
-      fetchedAt: new Date(),
-    },
-  });
+      update: {
+        rate: safeRate,
+        source: params.source,
+        effectiveDate: params.effectiveDate ?? null,
+        fetchedAt: new Date(),
+      },
+    });
+  } catch (error: unknown) {
+    const code =
+      typeof error === 'object' && error !== null && 'code' in error
+        ? String((error as { code?: unknown }).code || '')
+        : '';
+
+    if (code === 'P2021') {
+      throw new Error('ExchangeRate tablosu bulunamadi. Once migration deploy et.');
+    }
+
+    throw error;
+  }
 }
