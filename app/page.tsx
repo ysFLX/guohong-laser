@@ -431,6 +431,29 @@ const faq = [
   },
 ];
 
+const seoLandingLinks = [
+  {
+    title: 'Guohong Lazer',
+    description: 'Marka, makine, servis ve yedek parça hizmetlerimizin genel özeti.',
+    href: '/guohong-lazer',
+  },
+  {
+    title: 'Guohong Lazer Konya',
+    description: 'Konya merkezli servis, kurulum ve üretim hattı desteği hakkında detaylar.',
+    href: '/guohong-lazer-konya',
+  },
+  {
+    title: 'Guohong Yedek Parça',
+    description: 'Lazer kafa, lens, nozul ve sarf malzemeler için hızlı tedarik bilgileri.',
+    href: '/guohong-yedek-parca',
+  },
+  {
+    title: 'Lazer Kesim Makinesi Konya',
+    description: 'Konya ve çevre iller için fiber lazer kesim makinesi çözümleri ve teklif akışı.',
+    href: '/lazer-kesim-makinesi-konya',
+  },
+];
+
 export default async function Home() {
   const sparePartPriceVisible = isSparePartPriceVisible();
   const sparePartDirectPurchaseEnabled = isSparePartDirectPurchaseEnabled();
@@ -1223,6 +1246,39 @@ export default async function Home() {
             )}
           </div>
         ))}
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-16 w-full px-0">
+        <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Marka rehberi</p>
+              <h2 className="mt-2 text-2xl font-semibold text-amber-50">
+                Guohong Lazer, Konya ve yedek parça sayfaları
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm text-amber-100/70">
+                Google ve ziyaretçiler için en önemli başlıkları ayrı sayfalarda topladık. Marka, lokasyon, makine ve
+                yedek parça içeriklerine buradan doğrudan ulaşılabilir.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {seoLandingLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4 transition hover:-translate-y-1 hover:border-amber-300/50 hover:shadow-lg"
+              >
+                <p className="text-sm font-semibold text-amber-50">{item.title}</p>
+                <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
+                <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+                  Sayfayı aç
+                  <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">

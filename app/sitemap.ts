@@ -20,6 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/gallery',
     '/guohong-lazer',
     '/guohong-lazer-konya',
+    '/guohong-yedek-parca',
+    '/lazer-kesim-makinesi-konya',
     '/products',
     '/spare-parts',
     '/quote',

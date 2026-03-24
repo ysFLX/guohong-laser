@@ -21,6 +21,12 @@ export default function Footer() {
     { href: '/gallery', label: 'Galeri' },
     { href: '/contact', label: 'İletişim' },
   ];
+  const seoLinks = [
+    { href: '/guohong-lazer', label: 'Guohong Lazer' },
+    { href: '/guohong-lazer-konya', label: 'Guohong Lazer Konya' },
+    { href: '/guohong-yedek-parca', label: 'Guohong Yedek Parça' },
+    { href: '/lazer-kesim-makinesi-konya', label: 'Lazer Kesim Makinesi Konya' },
+  ];
   const policyLinks = [
     { href: '/shipping', label: 'Kargo ve Teslimat' },
     { href: '/returns', label: 'İade ve Garanti' },
@@ -75,6 +81,10 @@ export default function Footer() {
             <p className="mt-5 max-w-2xl text-sm leading-6 text-amber-100/78">
               Üretim hattınızı hızlandıran lazer teknolojileri, güvenilir servis ve hızlı yedek parça tedariki ile
               tüm süreci tek noktadan yönetiyoruz.
+            </p>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-amber-100/65">
+              Guohong Lazer Konya merkezli fiber lazer kesim makineleri, teknik servis, kurulum, bakım ve yedek
+              parça tedariki sunar. Türkiye geneline teklif, satış sonrası destek ve hızlı parça erişimi sağlıyoruz.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
@@ -151,6 +161,17 @@ export default function Footer() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Politikalar</p>
               <div className="mt-4 grid gap-2 text-sm">
                 {policyLinks.map((item) => (
+                  <Link key={item.href} href={item.href} className="text-amber-100/80 transition hover:text-amber-200">
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-amber-200/20 bg-[#121212] p-6 sm:col-span-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Popüler Aramalar</p>
+              <div className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+                {seoLinks.map((item) => (
                   <Link key={item.href} href={item.href} className="text-amber-100/80 transition hover:text-amber-200">
                     {item.label}
                   </Link>
