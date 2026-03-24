@@ -72,7 +72,10 @@ export async function PATCH(
   if ('name' in payload && typeof payload.name === 'string') data.name = payload.name.trim();
   if ('description' in payload && typeof payload.description === 'string') data.description = payload.description;
   if ('dimensions' in payload) data.dimensions = typeof payload.dimensions === 'string' ? payload.dimensions.trim() || null : null;
-  if ('priceCents' in payload && typeof payload.priceCents === 'number') data.priceCents = payload.priceCents;
+  if ('priceCents' in payload && typeof payload.priceCents === 'number') {
+    data.priceCents = payload.priceCents;
+    data.currency = 'USD';
+  }
   if ('categoryId' in payload && typeof payload.categoryId === 'string') data.categoryId = payload.categoryId;
   if ('stockOnHand' in payload && typeof payload.stockOnHand === 'number') data.stockOnHand = Math.max(0, Math.floor(payload.stockOnHand));
 
@@ -88,6 +91,7 @@ export async function PATCH(
       sizeOptionsFromEntries.length > 0 ? sizeOptionsFromEntries : sizeOptionsFromStrings;
 
     data.hasSizeOptions = payload.hasSizeOptions === true;
+    data.currency = 'USD';
     data.sizeOptions = payload.hasSizeOptions === true ? resolvedSizeOptions : [];
     data.sizeOptionPrices =
       payload.hasSizeOptions === true
@@ -109,6 +113,7 @@ export async function PATCH(
     data.sizeOptions = sizeOptions;
     data.sizeOptionPrices = buildSparePartSizeOptionPricesMap(sizeOptionEntries);
     data.hasSizeOptions = sizeOptions.length > 0;
+    data.currency = 'USD';
   } else if ('sizeOptions' in payload) {
     const sanitizedSizeOptions = sanitizeSparePartSizeOptions(payload.sizeOptions);
     data.sizeOptions = sanitizedSizeOptions;
