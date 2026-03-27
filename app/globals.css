@@ -4,18 +4,18 @@
 
 @theme {
   --color-white: #fdf9f6;
-  --color-black: #142862;
+  --color-black: #05005c;
 
   --color-amber-50: #fdf9f6;
   --color-amber-100: #fdf9f6;
-  --color-amber-200: #fedfd3;
-  --color-amber-300: #fe9c79;
-  --color-amber-400: #fe9c79;
-  --color-amber-500: #fe9c79;
-  --color-amber-600: #eb8f70;
-  --color-amber-700: #ce7d63;
-  --color-amber-800: #9a604d;
-  --color-amber-900: #6b4437;
+  --color-amber-200: #ff6a0d;
+  --color-amber-300: #ff6a0d;
+  --color-amber-400: #ff6a0d;
+  --color-amber-500: #ff6a0d;
+  --color-amber-600: #ff6a0d;
+  --color-amber-700: #ff6a0d;
+  --color-amber-800: #ff6a0d;
+  --color-amber-900: #ff6a0d;
 
   --color-slate-50: #fdf9f6;
   --color-slate-100: #f4ede8;
@@ -26,31 +26,31 @@
   --color-slate-600: #7e706c;
   --color-slate-700: #5f5452;
   --color-slate-800: #2d3f72;
-  --color-slate-900: #142862;
-  --color-slate-950: #0f1f4f;
+  --color-slate-900: #05005c;
+  --color-slate-950: #05005c;
 
   --color-indigo-50: #fff2ed;
   --color-indigo-100: #ffe8df;
   --color-indigo-200: #fed8ca;
   --color-indigo-300: #febba2;
-  --color-indigo-400: #fe9c79;
-  --color-indigo-500: #fe9c79;
-  --color-indigo-600: #eb8f70;
-  --color-indigo-700: #ce7d63;
-  --color-indigo-800: #9a604d;
-  --color-indigo-900: #6b4437;
+  --color-indigo-400: #ff6a0d;
+  --color-indigo-500: #ff6a0d;
+  --color-indigo-600: #ff6a0d;
+  --color-indigo-700: #ff6a0d;
+  --color-indigo-800: #ff6a0d;
+  --color-indigo-900: #ff6a0d;
 
-  --color-violet-400: #fe9c79;
-  --color-violet-500: #fe9c79;
-  --color-violet-600: #eb8f70;
+  --color-violet-400: #ff6a0d;
+  --color-violet-500: #ff6a0d;
+  --color-violet-600: #ff6a0d;
 }
 
 :root {
   --background: #fdf9f6;
-  --foreground: #142862;
+  --foreground: #05005c;
   --surface: #ffffff;
   --surface-muted: #f7f1ee;
-  --surface-border: color-mix(in srgb, #fe9c79 34%, #fdf9f6);
+  --surface-border: color-mix(in srgb, #ff6a0d 34%, #fdf9f6);
   --surface-shadow: 0 18px 45px rgba(20, 40, 98, 0.12);
   --gray-100: #f5f5f5;
   --gray-200: #e5e5e5;
@@ -60,16 +60,16 @@
   --gray-600: #4d4d4d;
   --gray-700: #333333;
   --gray-800: #1b1b1b;
-  --gray-900: #142862;
+  --gray-900: #05005c;
   --indigo-100: #ffe8df;
   --indigo-200: #fed8ca;
   --indigo-300: #febba2;
-  --indigo-400: #fe9c79;
-  --indigo-500: #fe9c79;
-  --indigo-600: #eb8f70;
-  --indigo-700: #ce7d63;
-  --indigo-800: #9a604d;
-  --indigo-900: #6b4437;
+  --indigo-400: #ff6a0d;
+  --indigo-500: #ff6a0d;
+  --indigo-600: #ff6a0d;
+  --indigo-700: #ff6a0d;
+  --indigo-800: #ff6a0d;
+  --indigo-900: #ff6a0d;
   --green-100: #f0fff4;
   --green-200: #c6f6d5;
   --green-300: #9ae6b4;
@@ -100,11 +100,11 @@
 }
 
 :root.dark {
-  --background: #142862;
+  --background: #05005c;
   --foreground: #fdf9f6;
-  --surface: color-mix(in srgb, #142862 88%, #fdf9f6);
-  --surface-muted: color-mix(in srgb, #142862 82%, #fdf9f6);
-  --surface-border: color-mix(in srgb, #fe9c79 48%, #142862);
+  --surface: color-mix(in srgb, #05005c 88%, #fdf9f6);
+  --surface-muted: color-mix(in srgb, #05005c 82%, #fdf9f6);
+  --surface-border: color-mix(in srgb, #ff6a0d 48%, #05005c);
   --surface-shadow: 0 20px 60px rgba(8, 18, 50, 0.46);
   --gray-100: #333333;
   --gray-200: #555555;
@@ -118,12 +118,12 @@
   --indigo-100: #ffe8df;
   --indigo-200: #fed8ca;
   --indigo-300: #febba2;
-  --indigo-400: #fe9c79;
-  --indigo-500: #fe9c79;
-  --indigo-600: #eb8f70;
-  --indigo-700: #ce7d63;
-  --indigo-800: #9a604d;
-  --indigo-900: #6b4437;
+  --indigo-400: #ff6a0d;
+  --indigo-500: #ff6a0d;
+  --indigo-600: #ff6a0d;
+  --indigo-700: #ff6a0d;
+  --indigo-800: #ff6a0d;
+  --indigo-900: #ff6a0d;
   --green-100: #212121;
   --green-200: #333333;
   --green-300: #444444;
@@ -223,14 +223,14 @@ select:focus-visible {
   padding: 12px 16px;
   font-size: 0.875rem;
   font-weight: 600;
-  background: #fe9c79;
-  color: #142862;
+  background: #ff6a0d;
+  color: #05005c;
   box-shadow: 0 12px 30px rgba(254, 156, 121, 0.28);
   transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
 
 .btn-primary:hover {
-  background: #eb8f70;
+  background: #ff6a0d;
   transform: translateY(-1px);
 }
 
@@ -400,8 +400,8 @@ select:focus-visible {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #6366f1;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  background: #ff6a0d;
+  box-shadow: 0 0 0 4px rgba(255, 106, 13, 0.15);
 }
 
 .ping-dot::after {
@@ -411,7 +411,7 @@ select:focus-visible {
   width: 16px;
   height: 16px;
   border-radius: 999px;
-  border: 1px solid rgba(99, 102, 241, 0.5);
+  border: 1px solid rgba(255, 106, 13, 0.5);
   animation: ping-dot 2.4s ease-out infinite;
 }
 
@@ -603,7 +603,12 @@ select:focus-visible {
 .premium-palette .bg-slate-50,
 .premium-palette .bg-slate-50\/70,
 .premium-palette .bg-slate-100 {
-  background-color: #131313 !important;
+  background-color: #fdf9f6 !important;
+}
+
+.premium-palette .bg-slate-900,
+.premium-palette .bg-slate-950 {
+  background-color: #05005c !important;
 }
 
 .premium-palette .text-slate-900,
@@ -612,27 +617,27 @@ select:focus-visible {
 .premium-palette .text-slate-600,
 .premium-palette .text-slate-500,
 .premium-palette .text-slate-400 {
-  color: #f5e6bf !important;
+  color: #05005c !important;
 }
 
 .premium-palette .border-slate-200,
 .premium-palette .border-slate-300,
 .premium-palette .border-indigo-100,
 .premium-palette .border-indigo-200 {
-  border-color: rgba(251, 191, 36, 0.24) !important;
+  border-color: rgba(5, 0, 92, 0.2) !important;
 }
 
 .premium-palette .bg-indigo-600,
 .premium-palette .bg-indigo-500,
 .premium-palette .bg-indigo-400 {
-  background-color: #f59e0b !important;
-  color: #090909 !important;
+  background-color: #ff6a0d !important;
+  color: #05005c !important;
 }
 
 .premium-palette .hover\:bg-indigo-700:hover,
 .premium-palette .hover\:bg-indigo-600:hover,
 .premium-palette .hover\:bg-indigo-500:hover {
-  background-color: #fbbf24 !important;
+  background-color: #ff6a0d !important;
 }
 
 .premium-palette .text-indigo-700,
@@ -640,6 +645,33 @@ select:focus-visible {
 .premium-palette .text-indigo-500,
 .premium-palette .text-indigo-400,
 .premium-palette .text-indigo-300 {
-  color: #fbbf24 !important;
+  color: #ff6a0d !important;
 }
 
+:root.dark .premium-palette .bg-white,
+:root.dark .premium-palette .bg-white\/95,
+:root.dark .premium-palette .bg-white\/90,
+:root.dark .premium-palette .bg-white\/80,
+:root.dark .premium-palette .bg-white\/70,
+:root.dark .premium-palette .bg-white\/60,
+:root.dark .premium-palette .bg-slate-50,
+:root.dark .premium-palette .bg-slate-50\/70,
+:root.dark .premium-palette .bg-slate-100 {
+  background-color: color-mix(in srgb, #05005c 88%, #fdf9f6) !important;
+}
+
+:root.dark .premium-palette .text-slate-900,
+:root.dark .premium-palette .text-slate-800,
+:root.dark .premium-palette .text-slate-700,
+:root.dark .premium-palette .text-slate-600,
+:root.dark .premium-palette .text-slate-500,
+:root.dark .premium-palette .text-slate-400 {
+  color: #fdf9f6 !important;
+}
+
+:root.dark .premium-palette .border-slate-200,
+:root.dark .premium-palette .border-slate-300,
+:root.dark .premium-palette .border-indigo-100,
+:root.dark .premium-palette .border-indigo-200 {
+  border-color: rgba(253, 249, 246, 0.2) !important;
+}

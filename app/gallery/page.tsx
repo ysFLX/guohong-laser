@@ -110,8 +110,14 @@ export default function GalleryPage() {
 
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setActiveIndex(null);
-      if (event.key === 'ArrowLeft') goPrev();
-      if (event.key === 'ArrowRight') goNext();
+      if (event.key === 'ArrowLeft') {
+        setActiveIndex((prev) =>
+          prev === null ? prev : (prev - 1 + galleryImages.length) % galleryImages.length,
+        );
+      }
+      if (event.key === 'ArrowRight') {
+        setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % galleryImages.length));
+      }
     };
 
     window.addEventListener('keydown', handleKey);
@@ -131,8 +137,8 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen space-y-16">
       <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.32),_transparent_55%)] opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(5,0,92,0.86),_rgba(5,0,92,0.3))]" />
         <div className="relative space-y-4">
           <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
             Galeri
@@ -271,4 +277,3 @@ export default function GalleryPage() {
     </div>
   );
 }
-

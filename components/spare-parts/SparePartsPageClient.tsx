@@ -728,7 +728,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
 
           <div className="absolute left-3 top-3 flex flex-wrap gap-2">
             {p.isFeatured ? (
-              <span className="rounded-full bg-[#6941c6] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+              <span className="rounded-full bg-[#05005c] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
                 Vitrin
               </span>
             ) : null}
@@ -780,7 +780,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
           </div>
 
           <div className="mt-2 rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/60">
-            <div className="mt-1 text-[25px] font-bold leading-none text-[#f27a1a] dark:text-amber-300">
+            <div className="mt-1 text-[25px] font-bold leading-none text-[#ff6a0d] dark:text-amber-300">
               {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
             </div>
             <div className="mt-1 text-[11px] text-slate-400">KDV dahil</div>
@@ -800,14 +800,14 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   name={p.name}
                   priceCents={p.priceCents}
                   imageUrl={p.imageUrl}
-                  className="rounded-xl bg-[#f27a1a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
+                  className="rounded-xl bg-[#ff6a0d] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#ff6a0d]"
                 />
               </div>
             ) : (
               <div className="grid gap-2">
                 <Link
                   href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
-                  className="rounded-xl bg-[#f27a1a] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#dd6d16]"
+                  className="rounded-xl bg-[#ff6a0d] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#ff6a0d]"
                 >
                   Satin al
                 </Link>

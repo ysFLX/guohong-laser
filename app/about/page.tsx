@@ -192,9 +192,9 @@ export default function AboutPage() {
     <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 lg:px-12 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_[class*='border-slate-200/70']]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-indigo-600]:text-indigo-200">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="mx-auto w-full max-w-screen-2xl space-y-12">
-      <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white border border-slate-900/10 shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
+      <section className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white border border-slate-900/10 shadow-[0_40px_120px_-60px_rgba(5,0,92,0.45)] sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.32),_transparent_55%)] opacity-70" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(5,0,92,0.88),_rgba(5,0,92,0.35))]" />
         <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-6">
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
@@ -422,8 +422,8 @@ export default function AboutPage() {
               key={member.name}
               className="group overflow-hidden rounded-[24px] border border-slate-200/70 bg-white shadow-[0_16px_40px_-28px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_20px_48px_-28px_rgba(15,23,42,0.45)]"
             >
-              <div className="relative h-52 w-full overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.25),_transparent_55%)]">
-                <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(255,255,255,0.35),_transparent)] dark:bg-[linear-gradient(120deg,_rgba(15,23,42,0.35),_transparent)]" />
+              <div className="relative h-52 w-full overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.25),_transparent_55%)]">
+                <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(255,255,255,0.35),_transparent)] dark:bg-[linear-gradient(120deg,_rgba(5,0,92,0.35),_transparent)]" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="grid h-20 w-20 place-items-center rounded-3xl border border-slate-200/70 bg-white/80 text-3xl font-semibold text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-100">
                     {member.name
@@ -493,6 +493,5 @@ export default function AboutPage() {
     </div>
   );
 }
-
 
 

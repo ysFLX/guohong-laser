@@ -209,8 +209,8 @@ export default function ProductsPage() {
         as="section"
         className="relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white px-6 py-10 text-slate-900 shadow-lg sm:px-10 lg:px-12"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.10),_transparent_65%)]" />
-        <div className="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_20%_30%,_rgba(14,165,233,0.08),_transparent_68%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.10),_transparent_65%)]" />
+        <div className="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_20%_30%,_rgba(5,0,92,0.08),_transparent_68%)]" />
         <div className="relative grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <div className="space-y-4">
             <p className="inline-flex items-center gap-3 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs uppercase tracking-[0.2em] text-indigo-700">

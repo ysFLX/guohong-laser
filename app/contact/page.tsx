@@ -123,9 +123,9 @@ function ContactPageInner() {
   return (
     <div className="min-h-screen bg-slate-50/80 px-4 py-10 sm:px-8 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_[class*='border-slate-200/70']]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
       <div className="mx-auto max-w-6xl space-y-10">
-        <Reveal as="section" className="relative overflow-hidden rounded-[36px] border border-slate-900/10 bg-slate-950 px-6 py-12 text-white shadow-[0_40px_120px_-60px_rgba(15,23,42,0.8)] sm:px-10 lg:px-14">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.4),_transparent_55%)] opacity-80" />
-          <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.25))]" />
+        <Reveal as="section" className="relative overflow-hidden rounded-[36px] border border-slate-900/10 bg-slate-950 px-6 py-12 text-white shadow-[0_40px_120px_-60px_rgba(5,0,92,0.45)] sm:px-10 lg:px-14">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,106,13,0.32),_transparent_55%)] opacity-80" />
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(5,0,92,0.9),_rgba(5,0,92,0.28))]" />
           <div className="relative grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="space-y-4">
               <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
