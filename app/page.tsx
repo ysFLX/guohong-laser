@@ -348,12 +348,12 @@ type HomeTestimonial = {
 const getDisplayName = (user: { name: string | null; firstName: string | null; lastName: string | null }) => {
   if (user.name) return user.name;
   const composed = [user.firstName, user.lastName].filter(Boolean).join(' ');
-  return composed || 'MÃ¼ÅŸteri';
+  return composed || 'Müşteri';
 };
 
 const maskName = (value: string) => {
   const trimmed = value.trim();
-  if (!trimmed || trimmed === 'MÃ¼ÅŸteri' || trimmed === 'Musteri') return 'Gizli MÃ¼ÅŸteri';
+  if (!trimmed || trimmed === 'Müşteri' || trimmed === 'Musteri') return 'Gizli Müşteri';
   const parts = trimmed.split(/\s+/).filter(Boolean);
   const masked = parts
     .map((part) => {
@@ -362,7 +362,7 @@ const maskName = (value: string) => {
       return `${part[0]}${stars}`;
     })
     .join(' ');
-  return masked || 'Gizli MÃ¼ÅŸteri';
+  return masked || 'Gizli Müşteri';
 };
 
 const getReviewName = (review: {
@@ -376,20 +376,20 @@ const getReviewName = (review: {
 
 const processSteps = [
   {
-    title: 'KeÅŸif ve Analiz',
-    description: 'Saha ihtiyaÃ§larÄ± ve kapasite hedefleri netleÅŸir.',
+    title: 'Keşif ve Analiz',
+    description: 'Saha ihtiyaçları ve kapasite hedefleri netleşir.',
   },
   {
     title: 'Teknik Teklif',
-    description: 'Uygun makine konfigÃ¼rasyonu ve plan paylaÅŸÄ±lÄ±r.',
+    description: 'Uygun makine konfigürasyonu ve plan paylaşılır.',
   },
   {
-    title: 'Kurulum ve EÄŸitim',
-    description: 'Kurulum, test, operatÃ¶r ve bakÄ±m eÄŸitimi tamamlanÄ±r.',
+    title: 'Kurulum ve Eğitim',
+    description: 'Kurulum, test, operatör ve bakım eğitimi tamamlanır.',
   },
   {
-    title: 'SÃ¼rekli Destek',
-    description: 'Raporlama, uzaktan takip ve servis sÃ¼reci devrede olur.',
+    title: 'Sürekli Destek',
+    description: 'Raporlama, uzaktan takip ve servis süreci devrede olur.',
   },
 ];
 
@@ -397,59 +397,59 @@ const staticTestimonials: HomeTestimonial[] = [
   {
     id: 'static-1',
     name: 'Fatih Turgut Polat',
-    role: 'SatÄ±ÅŸ MÃ¼dÃ¼rÃ¼',
+    role: 'Satış Müdürü',
     quote:
-      'Kurulum sÃ¼reci net planlandÄ±, kesim kalitesi ve servis hÄ±zÄ± beklentimizin Ã¼stÃ¼nde.',
+      'Kurulum süreci net planlandı, kesim kalitesi ve servis hızı beklentimizin üstünde.',
     image: '/images/avatar1.jpg',
   },
   {
     id: 'static-2',
     name: 'Arafat Uygur',
-    role: 'SatÄ±ÅŸ MÃ¼dÃ¼rÃ¼',
+    role: 'Satış Müdürü',
     quote:
-      'Yedek parÃ§a hÄ±zÄ± sayesinde duruÅŸ sÃ¼releri ciddi ÅŸekilde azaldÄ±.',
+      'Yedek parça hızı sayesinde duruş süreleri ciddi şekilde azaldı.',
     image: '/images/avatar2.jpg',
   },
 ];
 
 const faq = [
   {
-    q: 'Makine seÃ§iminde nasÄ±l ilerliyorsunuz?',
-    a: 'Ãœcretsiz keÅŸif ve hat analizi ile uygun konfigurasyon belirliyoruz.',
+    q: 'Makine seçiminde nasıl ilerliyorsunuz?',
+    a: 'Ücretsiz keşif ve hat analizi ile uygun konfigurasyon belirliyoruz.',
   },
   {
-    q: 'Servis sÃ¼reci ne kadar hÄ±zlÄ±?',
-    a: 'Uzaktan destekle hÄ±zlÄ± teÅŸhis, gerekirse saha ekibi yÃ¶nlendirme saÄŸlanÄ±yor.',
+    q: 'Servis süreci ne kadar hızlı?',
+    a: 'Uzaktan destekle hızlı teşhis, gerekirse saha ekibi yönlendirme sağlanıyor.',
   },
   {
-    q: 'Yedek parÃ§a stoklarÄ± hazÄ±r mÄ±?',
-    a: 'Kritik parÃ§alar stoklu, diÄŸerleri iÃ§in hÄ±zlÄ± tedarik hattÄ± mevcut.',
+    q: 'Yedek parça stokları hazır mı?',
+    a: 'Kritik parçalar stoklu, diğerleri için hızlı tedarik hattı mevcut.',
   },
   {
-    q: 'EÄŸitim veriliyor mu?',
-    a: 'Kurulum sonrasÄ± operator ve bakÄ±m ekibine kapsamlÄ± eÄŸitim verilir.',
+    q: 'Eğitim veriliyor mu?',
+    a: 'Kurulum sonrası operator ve bakım ekibine kapsamlı eğitim verilir.',
   },
 ];
 
 const seoLandingLinks = [
   {
     title: 'Guohong Lazer',
-    description: 'Marka, makine, servis ve yedek parÃ§a hizmetlerimizin genel Ã¶zeti.',
+    description: 'Marka, makine, servis ve yedek parça hizmetlerimizin genel özeti.',
     href: '/guohong-lazer',
   },
   {
     title: 'Guohong Lazer Konya',
-    description: 'Konya merkezli servis, kurulum ve Ã¼retim hattÄ± desteÄŸi hakkÄ±nda detaylar.',
+    description: 'Konya merkezli servis, kurulum ve üretim hattı desteği hakkında detaylar.',
     href: '/guohong-lazer-konya',
   },
   {
     title: 'Guohong Yedek Parça',
-    description: 'Lazer kafa, lens, nozul ve sarf malzemeler iÃ§in hÄ±zlÄ± tedarik bilgileri.',
+    description: 'Lazer kafa, lens, nozul ve sarf malzemeler için hızlı tedarik bilgileri.',
     href: '/guohong-yedek-parca',
   },
   {
     title: 'Lazer Kesim Makinesi Konya',
-    description: 'Konya ve Ã§evre iller iÃ§in fiber lazer kesim makinesi Ã§Ã¶zÃ¼mleri ve teklif akÄ±ÅŸÄ±.',
+    description: 'Konya ve çevre iller için fiber lazer kesim makinesi çözümleri ve teklif akışı.',
     href: '/lazer-kesim-makinesi-konya',
   },
 ];
@@ -579,7 +579,7 @@ export default async function Home() {
       fromReviews.push({
         id: review.id,
         name: getReviewName(review),
-        role: 'DoÄŸrulanmÄ±ÅŸ mÃ¼ÅŸteri',
+        role: 'Doğrulanmış müşteri',
         quote: trimText(quoteSource, 170),
         image: null,
         rating: review.rating,
@@ -673,7 +673,7 @@ export default async function Home() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-300/90">Saha goruntuleri</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                Sac, boru ve demir kesim hatlarÄ±
+                Sac, boru ve demir kesim hatları
               </h2>
             </div>
           </div>
@@ -763,14 +763,14 @@ export default async function Home() {
                 href="/spare-parts"
                 className="rounded-full border border-amber-200/30 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-100 hover:border-amber-300/60"
               >
-                TÃ¼mÃ¼nÃ¼ GÃ¶r
+                Tümünü Gör
               </Link>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               {quickShowcase.map((item) => {
                 const isDbItem = typeof item.id === 'string';
                 const inStock = Boolean(item.inStock);
-                const stockLabel = isDbItem ? (inStock ? 'Stokta' : 'SipariÅŸle') : null;
+                const stockLabel = isDbItem ? (inStock ? 'Stokta' : 'Siparişle') : null;
                 const stockRequestHref =
                   isDbItem && item.id
                     ? `/stock-request?product=${encodeURIComponent(item.title)}&id=${encodeURIComponent(item.id)}`
@@ -846,7 +846,7 @@ export default async function Home() {
                           href={item.href}
                           className="inline-flex items-center justify-center rounded-xl border border-amber-200/30 bg-[#0f0f0f] px-4 py-2 text-sm font-semibold text-amber-100 transition hover:bg-[#1b1b1b]"
                         >
-                          Detay gÃ¶r
+                          Detay gör
                         </Link>
                       </div>
                     )}
@@ -857,15 +857,15 @@ export default async function Home() {
           </div>
 
           <div className="rounded-[36px] border border-amber-200/20 bg-gradient-to-br from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-8 text-white shadow-[0_30px_90px_rgba(0,0,0,0.6)]">
-            <p className="text-xs tracking-[0.3em] text-amber-200">HÄ±zlÄ± teklif</p>
-            <h3 className="mt-3 text-2xl font-semibold">Teklifinizi 30 dakika iÃ§inde oluÅŸturun</h3>
+            <p className="text-xs tracking-[0.3em] text-amber-200">Hızlı teklif</p>
+            <h3 className="mt-3 text-2xl font-semibold">Teklifinizi 30 dakika içinde oluşturun</h3>
             <p className="mt-3 text-sm text-white/70">
-              Ãœretim hedefini, parÃ§a modelini ve teslim aciliyetinizi iletin. Net fiyat ve plan aynÄ± gÃ¼n iÃ§inde geri dÃ¶nsÃ¼n.
+              Üretim hedefini, parça modelini ve teslim aciliyetinizi iletin. Net fiyat ve plan aynı gün içinde geri dönsün.
             </p>
             <div className="mt-5 space-y-3 text-sm text-white/80">
-              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">1. Model / parÃ§a bilgisi</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">1. Model / parça bilgisi</div>
               <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">2. Adet ve teslim tarihi</div>
-              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">3. Ä°letiÅŸim e-posta adresi</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">3. İletişim e-posta adresi</div>
             </div>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -878,7 +878,7 @@ export default async function Home() {
                 href="/contact?subject=Hizli+Teklif"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80"
               >
-                Ä°letiÅŸime GeÃ§
+                İletişime Geç
               </Link>
             </div>
           </div>
@@ -888,7 +888,7 @@ export default async function Home() {
       <Reveal as="section" className="mx-auto mt-16 w-full px-0">
         <div>
           <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
-            <p className="text-xs tracking-[0.3em] text-amber-300">ÃœrÃ¼n</p>
+            <p className="text-xs tracking-[0.3em] text-amber-300">Ürün</p>
             <h2 className="mt-3 text-2xl font-semibold text-amber-50">{spotlight.title}</h2>
             <p className="mt-3 text-sm text-amber-100/70">{spotlight.description}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -909,13 +909,13 @@ export default async function Home() {
                 href="/products"
                 className="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-2.5 text-sm font-semibold text-black hover:bg-amber-400"
               >
-                DetaylarÄ± GÃ¶r
+                Detayları Gör
               </Link>
               <Link
                 href="/quote"
                 className="inline-flex items-center justify-center rounded-full border border-amber-200/30 px-6 py-2.5 text-sm font-semibold text-amber-100 hover:border-amber-300/60"
               >
-                Teklif Ä°ste
+                Teklif İste
               </Link>
             </div>
           </div>
@@ -937,7 +937,7 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-10 w-full px-0 md:hidden">
         <div className="grid gap-3 rounded-[24px] border border-amber-200/20 bg-[#111111] p-4 shadow-xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-amber-300">HÄ±zlÄ± EriÅŸim</p>
+          <p className="text-[11px] uppercase tracking-[0.28em] text-amber-300">Hızlı Erişim</p>
           <div className="grid gap-2">
             <Link
               href="/spare-parts"
@@ -949,7 +949,7 @@ export default async function Home() {
               href="/products"
               className="inline-flex items-center justify-center rounded-xl border border-amber-200/30 px-4 py-3 text-sm font-semibold text-amber-100"
             >
-              Makine Ã‡Ã¶zÃ¼mleri
+              Makine Çözümleri
             </Link>
             <Link
               href="/quote"
@@ -979,10 +979,10 @@ export default async function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/60 to-[#2a1d0f]/70" />
               </div>
             ) : null}
-            <p className="text-xs uppercase tracking-[0.3em] text-amber-200">CanlÄ± kapasite takvimi</p>
-            <h2 className="mt-2 text-2xl font-semibold">Ãœretim + servis randevu paneli</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Canlı kapasite takvimi</p>
+            <h2 className="mt-2 text-2xl font-semibold">Üretim + servis randevu paneli</h2>
             <p className="mt-3 text-sm text-white/70">
-              KeÅŸif, kurulum ve servis slotlarÄ±nÄ± canlÄ± takip et. Takvim doluluÄŸuna gÃ¶re otomatik Ã¶nceliklendirme al.
+              Keşif, kurulum ve servis slotlarını canlı takip et. Takvim doluluğuna göre otomatik önceliklendirme al.
             </p>
             <div className="mt-6 grid gap-3">
               {capacitySchedule.map((slot) => (
@@ -1006,13 +1006,13 @@ export default async function Home() {
                 href="/contact?subject=Kesif+Randevusu"
                 className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
               >
-                KeÅŸif randevusu al
+                Keşif randevusu al
               </Link>
               <Link
                 href="/quote"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80"
               >
-                Teslim planÄ±nÄ± sor
+                Teslim planını sor
               </Link>
             </div>
           </div>
@@ -1102,9 +1102,9 @@ export default async function Home() {
           ) : null}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Kurumsal SatÄ±n Alma</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Kurumsal Satın Alma</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                Tekliften Teslimata Tek AkÄ±ÅŸ
+                Tekliften Teslimata Tek Akış
               </h2>
             </div>
             <div className="flex gap-2 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">
@@ -1119,7 +1119,7 @@ export default async function Home() {
                 className="rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4"
               >
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-amber-300">
-                  <span>AdÄ±m {index + 1}</span>
+                  <span>Adım {index + 1}</span>
                   <span className="rounded-full bg-amber-300/10 px-2 py-1 text-[10px] font-semibold text-amber-200">
                     {step.title}
                   </span>
@@ -1141,13 +1141,13 @@ export default async function Home() {
               href="/quote"
               className="inline-flex items-center justify-center rounded-full bg-amber-500 px-6 py-2.5 text-sm font-semibold text-black shadow-lg shadow-amber-500/25"
             >
-              Kurumsal teklif baÅŸlat
+              Kurumsal teklif başlat
             </Link>
             <Link
               href="/contact?subject=Kurumsal+Satin+Alma"
               className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300 dark:border-slate-700 dark:text-slate-200"
             >
-              SatÄ±n alma desteÄŸi
+              Satın alma desteği
             </Link>
           </div>
         </div>
@@ -1179,7 +1179,7 @@ export default async function Home() {
                 <p className="text-sm font-semibold text-amber-50">{item.title}</p>
                 <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
                 <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-                  AÃ§
+                  Aç
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
               </Link>
@@ -1192,9 +1192,9 @@ export default async function Home() {
         <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs tracking-[0.3em] text-amber-300">GÃ¼ven</p>
+              <p className="text-xs tracking-[0.3em] text-amber-300">Güven</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                Garanti, teslimat ve gÃ¼venli Ã¶deme bilgileri
+                Garanti, teslimat ve güvenli ödeme bilgileri
               </h2>
             </div>
             <Link
@@ -1225,8 +1225,8 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-16 hidden w-full gap-6 px-0 md:grid lg:grid-cols-2">
         <div className="rounded-[32px] border border-amber-200/20 bg-[#111111] p-6 shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Ä°ÅŸ akÄ±ÅŸÄ±</p>
-          <h2 className="mt-2 text-2xl font-semibold text-amber-50">4 adÄ±mda devreye alma</h2>
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-300">İş akışı</p>
+          <h2 className="mt-2 text-2xl font-semibold text-amber-50">4 adımda devreye alma</h2>
           <div className="mt-6 space-y-4">
             {processSteps.map((step, index) => (
               <div
@@ -1247,13 +1247,13 @@ export default async function Home() {
           </div>
         </div>
         <div className="rounded-[32px] border border-amber-200/20 bg-gradient-to-br from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-6 text-white shadow-xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Uyumluluk ve gÃ¼ven</p>
-          <h2 className="mt-2 text-2xl font-semibold">Model - ParÃ§a uyumu tek ekranda</h2>
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-200">Uyumluluk ve güven</p>
+          <h2 className="mt-2 text-2xl font-semibold">Model - Parça uyumu tek ekranda</h2>
           <p className="mt-3 text-sm text-white/70">
-            Makine modeline gÃ¶re uyumlu yedek parÃ§alarÄ± anÄ±nda gÃ¶ster, stok ve teslim bilgisiyle karar ver.
+            Makine modeline göre uyumlu yedek parçaları anında göster, stok ve teslim bilgisiyle karar ver.
           </p>
           <div className="mt-6 grid gap-3">
-            {['Model seÃ§imi', 'Uyumlu parÃ§a listesi', 'HÄ±zlÄ± teslim bilgisi', 'Teknik onay'].map((item) => (
+            {['Model seçimi', 'Uyumlu parça listesi', 'Hızlı teslim bilgisi', 'Teknik onay'].map((item) => (
               <div key={item} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm">
                 {item}
               </div>
@@ -1263,7 +1263,7 @@ export default async function Home() {
             href="/spare-parts"
             className="mt-6 inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-900"
           >
-            Yedek parÃ§a arat
+            Yedek parça arat
           </Link>
         </div>
       </Reveal>
@@ -1318,11 +1318,11 @@ export default async function Home() {
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-amber-300">Marka rehberi</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                Guohong Lazer, Konya ve yedek parÃ§a sayfalarÄ±
+                Guohong Lazer, Konya ve yedek parça sayfaları
               </h2>
               <p className="mt-3 max-w-3xl text-sm text-amber-100/70">
-                Google ve ziyaretÃ§iler iÃ§in en Ã¶nemli baÅŸlÄ±klarÄ± ayrÄ± sayfalarda topladÄ±k. Marka, lokasyon, makine ve
-                yedek parÃ§a iÃ§eriklerine buradan doÄŸrudan ulaÅŸÄ±labilir.
+                Google ve ziyaretçiler için en önemli başlıkları ayrı sayfalarda topladık. Marka, lokasyon, makine ve
+                yedek parça içeriklerine buradan doğrudan ulaşılabilir.
               </p>
             </div>
           </div>
@@ -1336,7 +1336,7 @@ export default async function Home() {
                 <p className="text-sm font-semibold text-amber-50">{item.title}</p>
                 <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
                 <span className="mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-                  SayfayÄ± aÃ§
+                  Sayfayı aç
                   <span className="ml-2 transition group-hover:translate-x-1">-&gt;</span>
                 </span>
               </Link>
@@ -1351,7 +1351,7 @@ export default async function Home() {
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-amber-300">SSS</p>
               <h2 className="mt-2 text-2xl font-semibold text-amber-50">
-                SÄ±kÃ§a Sorulan Sorular
+                Sıkça Sorulan Sorular
               </h2>
             </div>
             <Link
@@ -1379,9 +1379,9 @@ export default async function Home() {
         <div className="grid gap-6 rounded-[36px] border border-amber-200/20 bg-gradient-to-r from-[#171108] via-[#0b0b0b] to-[#2a1d0f] p-8 text-white shadow-2xl">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi baÅŸlayalÄ±m</p>
-              <h2 className="mt-2 text-2xl font-semibold">Makine ve yedek parÃ§alar iÃ§in plan hazÄ±rlayalÄ±m</h2>
-              <p className="mt-2 text-sm text-white/70">Teklifini hÄ±zlÄ± hazÄ±rlayalÄ±m, kurulum takvimini netleÅŸtirelim.</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/70">Hadi başlayalım</p>
+              <h2 className="mt-2 text-2xl font-semibold">Makine ve yedek parçalar için plan hazırlayalım</h2>
+              <p className="mt-2 text-sm text-white/70">Teklifini hızlı hazırlayalım, kurulum takvimini netleştirelim.</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
@@ -1394,7 +1394,7 @@ export default async function Home() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80"
               >
-                Ä°letiÅŸime GeÃ§
+                İletişime Geç
               </Link>
             </div>
           </div>
