@@ -5,6 +5,7 @@ import { Space_Grotesk } from 'next/font/google';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import Reveal from '@/components/home/Reveal';
+import VideoSlider from '@/components/home/VideoSlider';
 import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
@@ -43,6 +44,21 @@ const serviceCards = [
     description: 'Kurulum, bakim, ariza ve uzaktan destek sureclerinde teknik ekip destegi.',
     href: '/contact?subject=Teknik+Destek',
     cta: 'Teknik destek al',
+  },
+];
+
+const heroVideos = [
+  {
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584816/sackesim_m6icrx.mp4',
+    title: 'Lazer Sac Kesimi',
+  },
+  {
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584806/borukesim_dd8a5f.mp4',
+    title: 'Lazer Boru Kesimi',
+  },
+  {
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584837/demirkesim_kbwzy2.mp4',
+    title: 'Lazer Profil Kesimi',
   },
 ];
 
@@ -193,6 +209,16 @@ export default async function Home() {
               />
             </div>
           </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-8 w-full px-0">
+        <div className="rounded-[28px] border border-amber-200/20 bg-[#111111] p-5">
+          <div className="mb-4">
+            <p className="text-xs uppercase tracking-[0.26em] text-amber-300">Saha Goruntuleri</p>
+            <h2 className="mt-2 text-2xl font-semibold text-amber-50">Uygulama ornekleri</h2>
+          </div>
+          <VideoSlider items={heroVideos} />
         </div>
       </Reveal>
 
