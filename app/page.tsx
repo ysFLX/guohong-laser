@@ -606,24 +606,24 @@ export default async function Home() {
               <div className="space-y-6">
                 <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
                   GUOHONG LAZER
-                  <span className="block text-amber-300">EndÃ¼striyel Fiber Lazer Kesim Ã‡Ã¶zÃ¼mleri</span>
+                  <span className="block text-amber-300">Endüstriyel Fiber Kesim Malzemeleri</span>
                 </h1>
                 <p className="max-w-xl text-base text-white/70">
-                  Makine, yedek parÃ§a ve teknik destek tek sistemde. HattÄ±nÄ± hÄ±zlandÄ±ran, servis akÄ±ÅŸÄ±nÄ± netleÅŸtiren
-                  premium operasyon altyapÄ±sÄ±.
+                  Makine, yedek parça ve teknik destek tek sistemde. Hattını hızlandıran, servis akışını netleştiren
+                  premium operasyon altyapısı.
                 </p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/products"
                   className="inline-flex w-full items-center justify-center rounded-xl bg-amber-400 px-7 py-3 text-sm font-semibold text-black transition hover:bg-amber-300 sm:w-auto"
                 >
-                  Makineleri GÃ¶r
+                  Makineleri Gör
                 </Link>
                 <Link
                   href="/spare-parts"
                   className="inline-flex w-full items-center justify-center rounded-xl border border-amber-200/35 bg-[#121212] px-7 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#1a1a1a] sm:w-auto"
                 >
-                  Yedek parÃ§a al
+                  Yedek parça al
                 </Link>
                 <Link
                   href="/quote"
@@ -1403,5 +1403,4 @@ export default async function Home() {
     </div>
   );
 }
-
 
