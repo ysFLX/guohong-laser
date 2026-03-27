@@ -165,7 +165,7 @@ export default async function Home() {
   });
 
   return (
-    <div className={`${space.className} bg-[#142862] text-[#fdf9f6]`}>
+    <div className={`${space.className} bg-[var(--background)] text-[var(--foreground)]`}>
       <Reveal as="section" className="mx-auto w-full px-0 pb-8 pt-10">
         <div className="overflow-hidden rounded-[30px] border border-[#fe9c79]/35 bg-[#142862]">
           <div className="grid gap-8 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-12 lg:py-12">

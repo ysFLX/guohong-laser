@@ -147,7 +147,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="tr" className="h-full overflow-x-hidden bg-gray-50 dark:bg-gray-900" suppressHydrationWarning>
+    <html lang="tr" className="h-full overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/images/logokoyu.png" />
         <link rel="apple-touch-icon" href="/images/logokoyu.png" />
@@ -156,7 +156,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
       >
         <Analytics gaId={gaId} />

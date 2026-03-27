@@ -132,7 +132,7 @@ export default function VideoSlider({
   return (
     <div className="relative">
       <div
-        className="relative h-[260px] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-2xl sm:h-[340px] lg:h-[430px] xl:h-[480px]"
+        className="relative h-[260px] w-full overflow-hidden rounded-3xl border border-amber-200/25 bg-slate-900 shadow-2xl sm:h-[340px] lg:h-[430px] xl:h-[480px]"
         ref={containerRef}
       >
         {items.map((item, i) => (
@@ -142,15 +142,15 @@ export default function VideoSlider({
               i === index ? 'pointer-events-auto z-10 opacity-100' : 'pointer-events-none opacity-0'
             }`}
           >
-            <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-black/70 via-black/20 to-transparent sm:w-28" />
-            <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-black/70 via-black/20 to-transparent sm:w-28" />
+            <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
+            <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
             <video
               ref={(el) => {
                 videoRefs.current[i] = el;
               }}
               src={item.src}
               poster={item.poster}
-              className="h-full w-full bg-black object-cover"
+              className="h-full w-full bg-slate-900 object-cover"
               muted={false}
               playsInline
               preload="metadata"
@@ -177,8 +177,8 @@ export default function VideoSlider({
           </div>
         ))}
 
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 via-black/20 to-transparent sm:h-28" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 via-black/35 to-transparent sm:h-32" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-slate-950/55 via-slate-900/20 to-transparent sm:h-28" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/80 via-slate-900/35 to-transparent sm:h-32" />
 
         {!isPlaying && (
           <div className="absolute inset-0 z-20 flex items-center justify-center">
@@ -188,7 +188,7 @@ export default function VideoSlider({
                 event.stopPropagation();
                 handleToggle();
               }}
-              className="flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white shadow-lg backdrop-blur transition hover:scale-105 hover:bg-black/55"
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-amber-100/40 bg-slate-900/40 text-white shadow-lg backdrop-blur transition hover:scale-105 hover:bg-slate-900/55"
               aria-label={isPlaying ? 'Videoyu duraklat' : 'Videoyu oynat'}
             >
               <span className="ml-0.5 text-lg">{'>'}</span>
@@ -232,7 +232,7 @@ export default function VideoSlider({
 
         <div className="absolute inset-x-0 bottom-0 z-30 px-4 pb-4">
           <div
-            className="rounded-[22px] border border-white/15 bg-black/55 px-4 py-3 text-white shadow-[0_18px_40px_rgba(0,0,0,0.35)] backdrop-blur"
+            className="rounded-[22px] border border-amber-100/20 bg-slate-900/55 px-4 py-3 text-white shadow-[0_18px_40px_rgba(8,18,50,0.35)] backdrop-blur"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center gap-3">
