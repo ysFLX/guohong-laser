@@ -165,40 +165,40 @@ export default async function Home() {
   });
 
   return (
-    <div className={`${space.className} bg-[#0b0b0b] text-amber-50`}>
+    <div className={`${space.className} bg-[#142862] text-[#fdf9f6]`}>
       <Reveal as="section" className="mx-auto w-full px-0 pb-8 pt-10">
-        <div className="overflow-hidden rounded-[30px] border border-amber-200/20 bg-[linear-gradient(165deg,#111111_0%,#171108_48%,#121212_100%)]">
+        <div className="overflow-hidden rounded-[30px] border border-[#fe9c79]/35 bg-[#142862]">
           <div className="grid gap-8 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-12 lg:py-12">
             <div>
-              <p className="text-xs uppercase tracking-[0.28em] text-amber-300">Guohong Lazer</p>
+              <p className="text-xs uppercase tracking-[0.28em] text-[#fe9c79]">Guohong Lazer</p>
               <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-5xl">
                 Fiber lazer kesim, yedek parca ve teknik servis
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-amber-100/75 sm:text-base">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#fdf9f6]/85 sm:text-base">
                 Makine satin alma sureci, yedek parca tedariği ve teknik destek operasyonunu tek bir merkezden
                 yonetmenizi saglayan kurumsal hizmet yapisi.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/products"
-                  className="inline-flex items-center justify-center rounded-xl bg-amber-400 px-6 py-3 text-sm font-semibold text-black hover:bg-amber-300"
+                  className="inline-flex items-center justify-center rounded-xl bg-[#fe9c79] px-6 py-3 text-sm font-semibold text-[#142862] hover:bg-[#fe9c79]/90"
                 >
                   Urunleri incele
                 </Link>
                 <Link
                   href="/quote"
-                  className="inline-flex items-center justify-center rounded-xl border border-amber-200/35 px-6 py-3 text-sm font-semibold text-amber-100 hover:border-amber-300/60"
+                  className="inline-flex items-center justify-center rounded-xl border border-[#fe9c79]/45 px-6 py-3 text-sm font-semibold text-[#fdf9f6] hover:border-[#fe9c79]/80"
                 >
                   Teklif talep et
                 </Link>
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                <div className="rounded-xl border border-amber-200/20 bg-black/20 px-4 py-2 text-sm text-amber-100/80">
-                  Aktif yedek parca urunu: <span className="font-semibold text-amber-200">{activePartCount}</span>
+                <div className="rounded-xl border border-[#fe9c79]/35 bg-[#142862]/70 px-4 py-2 text-sm text-[#fdf9f6]/85">
+                  Aktif yedek parca urunu: <span className="font-semibold text-[#fe9c79]">{activePartCount}</span>
                 </div>
               </div>
             </div>
-            <div className="relative min-h-[320px] overflow-hidden rounded-[24px] border border-amber-200/20 bg-black/20">
+            <div className="relative min-h-[320px] overflow-hidden rounded-[24px] border border-[#fe9c79]/35 bg-[#142862]/70">
               <Image
                 src="/images/about-showcase.jpg"
                 alt="Guohong Lazer uretim ve servis alani"
@@ -213,26 +213,26 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-8 w-full px-0">
-        <div className="rounded-[28px] border border-amber-200/20 bg-[#111111] p-5">
+        <div className="rounded-[28px] border border-[#fe9c79]/35 bg-[#142862]/75 p-5">
           <div className="mb-4">
-            <p className="text-xs uppercase tracking-[0.26em] text-amber-300">Saha Goruntuleri</p>
-            <h2 className="mt-2 text-2xl font-semibold text-amber-50">Uygulama ornekleri</h2>
+            <p className="text-xs uppercase tracking-[0.26em] text-[#fe9c79]">Saha Goruntuleri</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Uygulama ornekleri</h2>
           </div>
           <VideoSlider items={heroVideos} />
         </div>
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-8 w-full px-0">
-        <div className="grid gap-4 rounded-[28px] border border-amber-200/20 bg-[#111111] p-5 md:grid-cols-3">
+        <div className="grid gap-4 rounded-[28px] border border-[#fe9c79]/35 bg-[#142862]/75 p-5 md:grid-cols-3">
           {serviceCards.map((card) => (
             <Link
               key={card.title}
               href={card.href}
-              className="rounded-[20px] border border-amber-200/20 bg-[#171717] p-5 transition hover:border-amber-300/45"
+              className="rounded-[20px] border border-[#fe9c79]/35 bg-[#142862]/80 p-5 transition hover:border-[#fe9c79]/70"
             >
-              <h2 className="text-lg font-semibold text-amber-50">{card.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-amber-100/70">{card.description}</p>
-              <span className="mt-5 inline-flex text-xs font-semibold uppercase tracking-[0.14em] text-amber-300">
+              <h2 className="text-lg font-semibold text-[#fdf9f6]">{card.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-[#fdf9f6]/80">{card.description}</p>
+              <span className="mt-5 inline-flex text-xs font-semibold uppercase tracking-[0.14em] text-[#fe9c79]">
                 {card.cta}
               </span>
             </Link>
@@ -241,15 +241,15 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[30px] border border-amber-200/20 bg-[#111111] p-6">
+        <div className="rounded-[30px] border border-[#fe9c79]/35 bg-[#142862]/75 p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.26em] text-amber-300">Yedek Parca</p>
-              <h2 className="mt-2 text-2xl font-semibold text-amber-50">Guncel urun vitrini</h2>
+              <p className="text-xs uppercase tracking-[0.26em] text-[#fe9c79]">Yedek Parca</p>
+              <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Guncel urun vitrini</h2>
             </div>
             <Link
               href="/spare-parts"
-              className="rounded-full border border-amber-200/30 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 hover:border-amber-300/60"
+              className="rounded-full border border-[#fe9c79]/45 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#fdf9f6] hover:border-[#fe9c79]/80"
             >
               Tum urunleri gor
             </Link>
@@ -258,21 +258,21 @@ export default async function Home() {
           {showcase.length ? (
             <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {showcase.map((item) => (
-                <div key={item.id} className="rounded-[22px] border border-amber-200/20 bg-[#171717] p-4">
+                <div key={item.id} className="rounded-[22px] border border-[#fe9c79]/35 bg-[#142862]/80 p-4">
                   <Link href={item.href} className="block">
                     <div className="relative h-40 w-full overflow-hidden rounded-xl">
                       <Image src={item.image} alt={item.name} fill className="object-cover" loading="lazy" />
                     </div>
                     <div className="mt-4">
-                      <p className="text-xs uppercase tracking-[0.18em] text-amber-300/80">{item.categoryName}</p>
-                      <h3 className="mt-2 text-base font-semibold text-amber-50">{item.name}</h3>
-                      <p className="mt-2 text-sm text-amber-100/70">{item.description}</p>
+                      <p className="text-xs uppercase tracking-[0.18em] text-[#fe9c79]/90">{item.categoryName}</p>
+                      <h3 className="mt-2 text-base font-semibold text-[#fdf9f6]">{item.name}</h3>
+                      <p className="mt-2 text-sm text-[#fdf9f6]/80">{item.description}</p>
                     </div>
                   </Link>
 
                   <div className="mt-4 flex items-center justify-between gap-3">
-                    <span className="text-xs text-amber-100/70">{item.inStock ? 'Stokta' : 'Siparisle tedarik'}</span>
-                    <span className="text-sm font-semibold text-amber-300">
+                    <span className="text-xs text-[#fdf9f6]/80">{item.inStock ? 'Stokta' : 'Siparisle tedarik'}</span>
+                    <span className="text-sm font-semibold text-[#fe9c79]">
                       {sparePartPriceVisible ? item.displayedPrice : 'Fiyat icin teklif isteyin'}
                     </span>
                   </div>
@@ -284,19 +284,19 @@ export default async function Home() {
                         name={item.name}
                         priceCents={item.priceCents}
                         imageUrl={item.imageUrl}
-                        className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-4 py-2 text-sm font-semibold text-black hover:bg-amber-400"
+                        className="inline-flex items-center justify-center rounded-xl bg-[#fe9c79] px-4 py-2 text-sm font-semibold text-[#142862] hover:bg-[#fe9c79]/90"
                       />
                     ) : (
                       <Link
                         href={`/quote?product=${encodeURIComponent(item.name)}&id=${encodeURIComponent(item.id)}`}
-                        className="inline-flex items-center justify-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-900"
+                        className="inline-flex items-center justify-center rounded-xl border border-[#fe9c79]/60 bg-[#fdf9f6] px-4 py-2 text-sm font-semibold text-[#142862]"
                       >
                         Teklif iste
                       </Link>
                     )}
                     <Link
                       href={item.href}
-                      className="inline-flex items-center justify-center rounded-xl border border-amber-200/30 px-4 py-2 text-sm font-semibold text-amber-100 hover:border-amber-300/60"
+                      className="inline-flex items-center justify-center rounded-xl border border-[#fe9c79]/45 px-4 py-2 text-sm font-semibold text-[#fdf9f6] hover:border-[#fe9c79]/80"
                     >
                       Urun detayina git
                     </Link>
@@ -305,7 +305,7 @@ export default async function Home() {
               ))}
             </div>
           ) : (
-            <div className="mt-6 rounded-2xl border border-amber-200/20 bg-[#171717] px-5 py-4 text-sm text-amber-100/75">
+            <div className="mt-6 rounded-2xl border border-[#fe9c79]/35 bg-[#142862]/80 px-5 py-4 text-sm text-[#fdf9f6]/85">
               Vitrinde gosterilecek aktif urun bulunamadi. Tum urunler icin lutfen yedek parca sayfasina gidin.
             </div>
           )}
@@ -314,24 +314,24 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[28px] border border-amber-200/20 bg-[#111111] p-6">
-            <p className="text-xs uppercase tracking-[0.26em] text-amber-300">Calisma Modeli</p>
-            <h2 className="mt-2 text-2xl font-semibold text-amber-50">Tekliften teslimata surec</h2>
+          <div className="rounded-[28px] border border-[#fe9c79]/35 bg-[#142862]/75 p-6">
+            <p className="text-xs uppercase tracking-[0.26em] text-[#fe9c79]">Calisma Modeli</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Tekliften teslimata surec</h2>
             <div className="mt-5 grid gap-3">
               {workflow.map((step, index) => (
-                <div key={step.title} className="rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-300">Adim {index + 1}</p>
-                  <p className="mt-1 text-sm font-semibold text-amber-50">{step.title}</p>
-                  <p className="mt-1 text-sm text-amber-100/70">{step.description}</p>
+                <div key={step.title} className="rounded-2xl border border-[#fe9c79]/35 bg-[#142862]/80 px-4 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#fe9c79]">Adim {index + 1}</p>
+                  <p className="mt-1 text-sm font-semibold text-[#fdf9f6]">{step.title}</p>
+                  <p className="mt-1 text-sm text-[#fdf9f6]/80">{step.description}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-amber-200/20 bg-[#111111] p-6">
-            <p className="text-xs uppercase tracking-[0.26em] text-amber-300">Kurumsal Bilgiler</p>
-            <h2 className="mt-2 text-2xl font-semibold text-amber-50">Guven ve yasal sayfalar</h2>
-            <p className="mt-3 text-sm text-amber-100/70">
+          <div className="rounded-[28px] border border-[#fe9c79]/35 bg-[#142862]/75 p-6">
+            <p className="text-xs uppercase tracking-[0.26em] text-[#fe9c79]">Kurumsal Bilgiler</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Guven ve yasal sayfalar</h2>
+            <p className="mt-3 text-sm text-[#fdf9f6]/80">
               Siparis, odeme, teslimat ve veri guvenligi sureclerine ait tum temel bilgilere asagidaki sayfalardan
               ulasabilirsiniz.
             </p>
@@ -340,7 +340,7 @@ export default async function Home() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-xl border border-amber-200/20 bg-[#171717] px-4 py-3 text-sm text-amber-100/80 transition hover:border-amber-300/50"
+                  className="rounded-xl border border-[#fe9c79]/35 bg-[#142862]/80 px-4 py-3 text-sm text-[#fdf9f6]/85 transition hover:border-[#fe9c79]/75"
                 >
                   {item.title}
                 </Link>
@@ -351,24 +351,24 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[28px] border border-amber-200/20 bg-[#111111] p-6">
+        <div className="rounded-[28px] border border-[#fe9c79]/35 bg-[#142862]/75 p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.26em] text-amber-300">SSS</p>
-              <h2 className="mt-2 text-2xl font-semibold text-amber-50">Sikca sorulan sorular</h2>
+              <p className="text-xs uppercase tracking-[0.26em] text-[#fe9c79]">SSS</p>
+              <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Sikca sorulan sorular</h2>
             </div>
             <Link
               href="/contact"
-              className="rounded-full border border-amber-200/30 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 hover:border-amber-300/60"
+              className="rounded-full border border-[#fe9c79]/45 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#fdf9f6] hover:border-[#fe9c79]/80"
             >
               Iletisime gec
             </Link>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {faq.map((item) => (
-              <div key={item.q} className="rounded-2xl border border-amber-200/20 bg-[#171717] px-4 py-4">
-                <p className="text-sm font-semibold text-amber-50">{item.q}</p>
-                <p className="mt-2 text-sm text-amber-100/70">{item.a}</p>
+              <div key={item.q} className="rounded-2xl border border-[#fe9c79]/35 bg-[#142862]/80 px-4 py-4">
+                <p className="text-sm font-semibold text-[#fdf9f6]">{item.q}</p>
+                <p className="mt-2 text-sm text-[#fdf9f6]/80">{item.a}</p>
               </div>
             ))}
           </div>
@@ -376,21 +376,21 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0 pb-14">
-        <div className="rounded-[28px] border border-amber-200/20 bg-[linear-gradient(165deg,#171108_0%,#111111_55%,#141414_100%)] p-7">
-          <h2 className="text-2xl font-semibold text-amber-50">Projeniz icin goruselim</h2>
-          <p className="mt-2 max-w-2xl text-sm text-amber-100/75">
+        <div className="rounded-[28px] border border-[#fe9c79]/35 bg-[#142862] p-7">
+          <h2 className="text-2xl font-semibold text-[#fdf9f6]">Projeniz icin goruselim</h2>
+          <p className="mt-2 max-w-2xl text-sm text-[#fdf9f6]/85">
             Makine secimi, yedek parca tedariği veya teknik servis sureci icin bize ulasin.
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/quote"
-              className="inline-flex items-center justify-center rounded-xl bg-amber-400 px-6 py-3 text-sm font-semibold text-black hover:bg-amber-300"
+              className="inline-flex items-center justify-center rounded-xl bg-[#fe9c79] px-6 py-3 text-sm font-semibold text-[#142862] hover:bg-[#fe9c79]/90"
             >
               Teklif talep et
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-xl border border-amber-200/35 px-6 py-3 text-sm font-semibold text-amber-100 hover:border-amber-300/60"
+              className="inline-flex items-center justify-center rounded-xl border border-[#fe9c79]/45 px-6 py-3 text-sm font-semibold text-[#fdf9f6] hover:border-[#fe9c79]/80"
             >
               Iletisime gec
             </Link>
