@@ -48,7 +48,7 @@ export default function Header() {
   const isAuthed = mounted && status === 'authenticated';
   const isAdmin = mounted && data?.user?.role === 'ADMIN';
   const avatarUrl = data?.user?.image;
-  const logoSrc = theme === 'dark' ? '/images/logoacik-crop.png' : '/images/logokoyu-crop.png';
+  const logoSrc = '/images/logokoyu-crop.png';
 
   useEffect(() => {
     setMounted(true);
