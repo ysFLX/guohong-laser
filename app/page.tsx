@@ -5,6 +5,7 @@ import { Space_Grotesk } from 'next/font/google';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import Reveal from '@/components/home/Reveal';
+import StatsOverview from '@/components/home/StatsOverview';
 import VideoSlider from '@/components/home/VideoSlider';
 import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
@@ -91,10 +92,10 @@ const trustLinks = [
 ];
 
 const statsOverview = [
-  { value: '4', label: 'Uretim Tesisi' },
-  { value: '10+', label: 'Yil Mekanik Ar-Ge Deneyimi' },
-  { value: '120.000 m²', label: 'Toplam Fabrika Alani' },
-  { value: '100+', label: 'Ulke ve Bolgeye Sevkiyat' },
+  { value: 4, label: 'Uretim Tesisi' },
+  { value: 10, suffix: '+', label: 'Yil Mekanik Ar-Ge Deneyimi' },
+  { value: 120000, suffix: ' m²', label: 'Toplam Fabrika Alani' },
+  { value: 100, suffix: '+', label: 'Ulke ve Bolgeye Sevkiyat' },
 ] as const;
 
 const applicationAreas = [
@@ -288,14 +289,7 @@ export default async function Home() {
               <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Uretim gucu ve operasyon olcegi</h2>
             </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {statsOverview.map((item) => (
-              <div key={item.label} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-5">
-                <p className="text-2xl font-semibold text-[#ff6a0d]">{item.value}</p>
-                <p className="mt-1 text-sm text-[#fdf9f6]/85">{item.label}</p>
-              </div>
-            ))}
-          </div>
+          <StatsOverview items={statsOverview} />
         </div>
       </Reveal>
 
