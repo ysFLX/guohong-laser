@@ -165,52 +165,58 @@ export default async function Home() {
   });
 
   return (
-    <div className={`${space.className} bg-[var(--background)] text-[var(--foreground)]`}>
-      <Reveal as="section" className="mx-auto w-full px-0 pb-8 pt-10">
-        <div className="overflow-hidden rounded-[30px] border border-[#ff6a0d]/35 bg-[#05005c]">
-          <div className="grid gap-8 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-12 lg:py-12">
-            <div>
-              <p className="text-xs uppercase tracking-[0.28em] text-[#ff6a0d]">Guohong Lazer</p>
-              <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-5xl">
-                Fiber lazer kesim, yedek parca ve teknik servis
-              </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#fdf9f6]/85 sm:text-base">
-                Makine satin alma sureci, yedek parca tedariği ve teknik destek operasyonunu tek bir merkezden
-                yonetmenizi saglayan kurumsal hizmet yapisi.
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center rounded-xl bg-[#ff6a0d] px-6 py-3 text-sm font-semibold text-[#05005c] hover:bg-[#ff6a0d]/90"
-                >
-                  Urunleri incele
-                </Link>
-                <Link
-                  href="/quote"
-                  className="inline-flex items-center justify-center rounded-xl border border-[#ff6a0d]/45 px-6 py-3 text-sm font-semibold text-[#fdf9f6] hover:border-[#ff6a0d]/80"
-                >
-                  Teklif talep et
-                </Link>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <div className="rounded-xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-2 text-sm text-[#fdf9f6]/85">
-                  Aktif yedek parca urunu: <span className="font-semibold text-[#ff6a0d]">{activePartCount}</span>
+    <div className={`${space.className} relative overflow-hidden bg-[var(--background)] text-[var(--foreground)]`}>
+      <div className="pointer-events-none absolute inset-0 -z-0" aria-hidden="true">
+        <div className="modern-orb modern-orb-a" />
+        <div className="modern-orb modern-orb-b" />
+        <div className="modern-grid-mask" />
+      </div>
+      <div className="relative z-[1]">
+        <Reveal as="section" className="mx-auto w-full px-0 pb-8 pt-10">
+          <div className="spotlight-card overflow-hidden rounded-[30px] border border-[#ff6a0d]/35 bg-[#05005c]">
+            <div className="grid gap-8 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-12 lg:py-12">
+              <div>
+                <p className="text-xs uppercase tracking-[0.28em] text-[#ff6a0d]">Guohong Lazer</p>
+                <h1 className="mt-3 text-4xl font-semibold leading-tight sm:text-5xl">
+                  Fiber lazer kesim, yedek parca ve teknik servis
+                </h1>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-[#fdf9f6]/85 sm:text-base">
+                  Makine satin alma sureci, yedek parca tedariği ve teknik destek operasyonunu tek bir merkezden
+                  yonetmenizi saglayan kurumsal hizmet yapisi.
+                </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/products"
+                    className="btn-glow inline-flex items-center justify-center rounded-xl bg-[#ff6a0d] px-6 py-3 text-sm font-semibold text-[#05005c] hover:bg-[#ff6a0d]/90"
+                  >
+                    Urunleri incele
+                  </Link>
+                  <Link
+                    href="/quote"
+                    className="inline-flex items-center justify-center rounded-xl border border-[#ff6a0d]/45 px-6 py-3 text-sm font-semibold text-[#fdf9f6] transition hover:border-[#ff6a0d]/80 hover:bg-white/[0.04]"
+                  >
+                    Teklif talep et
+                  </Link>
+                </div>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <div className="rounded-xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-2 text-sm text-[#fdf9f6]/85">
+                    Aktif yedek parca urunu: <span className="font-semibold text-[#ff6a0d]">{activePartCount}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="relative min-h-[320px] overflow-hidden rounded-[24px] border border-[#ff6a0d]/35 bg-[#05005c]">
-              <Image
-                src="/images/about-showcase.jpg"
-                alt="Guohong Lazer uretim ve servis alani"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
-              />
+              <div className="spotlight-card relative min-h-[320px] overflow-hidden rounded-[24px] border border-[#ff6a0d]/35 bg-[#05005c]">
+                <Image
+                  src="/images/about-showcase.jpg"
+                  alt="Guohong Lazer uretim ve servis alani"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover transition duration-900 ease-out hover:scale-[1.03]"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
 
       <Reveal as="section" className="mx-auto mt-8 w-full px-0">
         <div className="rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-5">
@@ -228,7 +234,7 @@ export default async function Home() {
             <Link
               key={card.title}
               href={card.href}
-              className="rounded-[20px] border border-[#ff6a0d]/35 bg-[#05005c] p-5 transition hover:border-[#ff6a0d]/70"
+              className="spotlight-card rounded-[20px] border border-[#ff6a0d]/35 bg-[#05005c] p-5 transition hover:-translate-y-1 hover:border-[#ff6a0d]/70"
             >
               <h2 className="text-lg font-semibold text-[#fdf9f6]">{card.title}</h2>
               <p className="mt-2 text-sm leading-6 text-[#fdf9f6]/80">{card.description}</p>
@@ -258,10 +264,10 @@ export default async function Home() {
           {showcase.length ? (
             <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {showcase.map((item) => (
-                <div key={item.id} className="rounded-[22px] border border-[#ff6a0d]/35 bg-[#05005c] p-4">
+                <div key={item.id} className="spotlight-card group rounded-[22px] border border-[#ff6a0d]/35 bg-[#05005c] p-4">
                   <Link href={item.href} className="block">
                     <div className="relative h-40 w-full overflow-hidden rounded-xl">
-                      <Image src={item.image} alt={item.name} fill className="object-cover" loading="lazy" />
+                      <Image src={item.image} alt={item.name} fill className="object-cover transition duration-700 ease-out group-hover:scale-105" loading="lazy" />
                     </div>
                     <div className="mt-4">
                       <p className="text-xs uppercase tracking-[0.18em] text-[#ff6a0d]/90">{item.categoryName}</p>
@@ -314,12 +320,12 @@ export default async function Home() {
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-6">
+          <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-6">
             <p className="text-xs uppercase tracking-[0.26em] text-[#ff6a0d]">Calisma Modeli</p>
             <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Tekliften teslimata surec</h2>
             <div className="mt-5 grid gap-3">
               {workflow.map((step, index) => (
-                <div key={step.title} className="rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-4">
+                <div key={step.title} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#ff6a0d]">Adim {index + 1}</p>
                   <p className="mt-1 text-sm font-semibold text-[#fdf9f6]">{step.title}</p>
                   <p className="mt-1 text-sm text-[#fdf9f6]/80">{step.description}</p>
@@ -328,7 +334,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-6">
+          <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-6">
             <p className="text-xs uppercase tracking-[0.26em] text-[#ff6a0d]">Kurumsal Bilgiler</p>
             <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Guven ve yasal sayfalar</h2>
             <p className="mt-3 text-sm text-[#fdf9f6]/80">
@@ -340,7 +346,7 @@ export default async function Home() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-3 text-sm text-[#fdf9f6]/85 transition hover:border-[#ff6a0d]/75"
+                  className="spotlight-card rounded-xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-3 text-sm text-[#fdf9f6]/85 transition hover:border-[#ff6a0d]/75"
                 >
                   {item.title}
                 </Link>
@@ -351,7 +357,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0">
-        <div className="rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-6">
+        <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.26em] text-[#ff6a0d]">SSS</p>
@@ -366,7 +372,7 @@ export default async function Home() {
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {faq.map((item) => (
-              <div key={item.q} className="rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-4">
+              <div key={item.q} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-4">
                 <p className="text-sm font-semibold text-[#fdf9f6]">{item.q}</p>
                 <p className="mt-2 text-sm text-[#fdf9f6]/80">{item.a}</p>
               </div>
@@ -376,7 +382,7 @@ export default async function Home() {
       </Reveal>
 
       <Reveal as="section" className="mx-auto mt-12 w-full px-0 pb-14">
-        <div className="rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-7">
+        <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-7">
           <h2 className="text-2xl font-semibold text-[#fdf9f6]">Projeniz icin goruselim</h2>
           <p className="mt-2 max-w-2xl text-sm text-[#fdf9f6]/85">
             Makine secimi, yedek parca tedariği veya teknik servis sureci icin bize ulasin.
@@ -384,7 +390,7 @@ export default async function Home() {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/quote"
-              className="inline-flex items-center justify-center rounded-xl bg-[#ff6a0d] px-6 py-3 text-sm font-semibold text-[#05005c] hover:bg-[#ff6a0d]/90"
+              className="btn-glow inline-flex items-center justify-center rounded-xl bg-[#ff6a0d] px-6 py-3 text-sm font-semibold text-[#05005c] hover:bg-[#ff6a0d]/90"
             >
               Teklif talep et
             </Link>
@@ -397,6 +403,7 @@ export default async function Home() {
           </div>
         </div>
       </Reveal>
+      </div>
     </div>
   );
 }

@@ -351,6 +351,76 @@ select:focus-visible {
   filter: blur(0);
 }
 
+.modern-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.32;
+  animation: orb-float 14s ease-in-out infinite;
+}
+
+.modern-orb-a {
+  top: -120px;
+  left: -70px;
+  height: 320px;
+  width: 320px;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 106, 13, 0.62), rgba(255, 106, 13, 0.08) 70%);
+}
+
+.modern-orb-b {
+  right: -120px;
+  top: 220px;
+  height: 360px;
+  width: 360px;
+  animation-delay: -5s;
+  background: radial-gradient(circle at 60% 40%, rgba(253, 249, 246, 0.28), rgba(255, 106, 13, 0.08) 65%);
+}
+
+.modern-grid-mask {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(253, 249, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(253, 249, 246, 0.03) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse at 50% 20%, rgba(0, 0, 0, 0.8), transparent 70%);
+}
+
+.spotlight-card {
+  position: relative;
+  transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 106, 13, 0.16), transparent 50%);
+  transition: opacity 280ms ease;
+}
+
+.spotlight-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 52px rgba(5, 0, 92, 0.26);
+}
+
+.spotlight-card:hover::after {
+  opacity: 1;
+}
+
+.btn-glow {
+  box-shadow: 0 12px 26px rgba(255, 106, 13, 0.28);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.btn-glow:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 40px rgba(255, 106, 13, 0.38);
+}
+
 .pulse-ring {
   position: relative;
 }
@@ -467,9 +537,15 @@ select:focus-visible {
   .float-tilt,
   .glow-drift,
   .cta-breathe,
+  .modern-orb,
   .ambient-pulse,
   .gradient-shift {
     animation: none;
+  }
+
+  .spotlight-card,
+  .btn-glow {
+    transition: none;
   }
 
   .glint::after {
@@ -489,6 +565,16 @@ select:focus-visible {
   to {
     transform: scale(1.25);
     opacity: 0;
+  }
+}
+
+@keyframes orb-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -22px, 0) scale(1.06);
   }
 }
 
