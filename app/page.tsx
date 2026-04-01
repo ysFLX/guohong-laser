@@ -200,13 +200,7 @@ export default async function Home() {
   });
 
   return (
-    <div className={`${space.className} relative overflow-hidden bg-[var(--background)] text-[var(--foreground)]`}>
-      <div className="pointer-events-none absolute inset-0 -z-0" aria-hidden="true">
-        <div className="modern-orb modern-orb-a" />
-        <div className="modern-orb modern-orb-b" />
-        <div className="modern-grid-mask" />
-      </div>
-      <div className="relative z-[1]">
+    <div className={`${space.className} bg-[var(--background)] text-[var(--foreground)]`}>
         <Reveal as="section" className="mx-auto w-full px-0 pb-8 pt-10">
           <div className="spotlight-card overflow-hidden rounded-[30px] border border-[#ff6a0d]/35 bg-[#05005c]">
             <div className="grid gap-8 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-12 lg:py-12">
@@ -498,7 +492,6 @@ export default async function Home() {
           </div>
         </div>
       </Reveal>
-      </div>
     </div>
   );
 }
