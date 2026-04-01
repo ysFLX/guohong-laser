@@ -73,3 +73,13 @@ powershell -ExecutionPolicy Bypass -File .\script\smoke-test.ps1 -BaseUrl "https
 - Canliya cikistan once son calisan release tag/commit not edilmeli.
 - Kritik hata durumunda onceki release'e rollback proseduru hazir olmali.
 - DB migration varsa rollback stratejisi dokumante edilmeli.
+
+## 9) Acil durum kapatma (kill switch)
+
+- `EMERGENCY_LOCKDOWN_ENABLED=1` yapildiginda tum site ve API endpointleri `503` doner.
+- Bu modda sadece `GET /api/health` acik kalir.
+- Iceriye sadece bypass token ile girilebilir:
+  - `EMERGENCY_BYPASS_TOKEN` tanimla.
+  - URL'e tek seferlik `?emergency_bypass=<TOKEN>` ekle.
+  - Sistem `emergency_bypass` cookie'si olusturur ve normal gezinmeye izin verir.
+- Acil durum kapatmak icin `EMERGENCY_LOCKDOWN_ENABLED=0` (veya degiskeni kaldir) yap.
