@@ -90,6 +90,40 @@ const trustLinks = [
   { title: 'KVKK Aydinlatma', href: '/kvkk' },
 ];
 
+const statsOverview = [
+  { value: '4', label: 'Uretim Tesisi' },
+  { value: '10+', label: 'Yil Mekanik Ar-Ge Deneyimi' },
+  { value: '120.000 m²', label: 'Toplam Fabrika Alani' },
+  { value: '100+', label: 'Ulke ve Bolgeye Sevkiyat' },
+] as const;
+
+const applicationAreas = [
+  'Metal isleme',
+  'Celik konstruksiyon',
+  'Ev aletleri',
+  'Otomotiv sanayi',
+  'Mutfak ve banyo',
+  'Insaat makinalari',
+  'Fitness ekipmanlari',
+  'Sac metal isleme',
+  'Bakir ve aluminyum',
+] as const;
+
+const trendHighlights = [
+  {
+    title: 'Lazer kesicide toplam sahip olma maliyeti nasil dusurulur?',
+    date: '26 Kasim 2024',
+  },
+  {
+    title: 'Fiber lazer kesimde marka seciminde kritik kriterler',
+    date: '26 Kasim 2024',
+  },
+  {
+    title: 'Reklam tabela sektorunde fiber lazer kullanim senaryolari',
+    date: '26 Kasim 2024',
+  },
+] as const;
+
 const faq = [
   {
     q: 'Makine secim surecinde nasil ilerliyorsunuz?',
@@ -243,6 +277,73 @@ export default async function Home() {
               </span>
             </Link>
           ))}
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-8 w-full px-0" distance={32}>
+        <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-5 sm:p-6">
+          <div className="mb-4 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.26em] text-[#ff6a0d]">Rakamlarla Guohong</p>
+              <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Uretim gucu ve operasyon olcegi</h2>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {statsOverview.map((item) => (
+              <div key={item.label} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-5">
+                <p className="text-2xl font-semibold text-[#ff6a0d]">{item.value}</p>
+                <p className="mt-1 text-sm text-[#fdf9f6]/85">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-8 w-full px-0" distance={34}>
+        <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-5 sm:p-6">
+          <div className="mb-5">
+            <p className="text-xs uppercase tracking-[0.26em] text-[#ff6a0d]">Uygulama Alanlari</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Farkli sektorler icin tek platform</h2>
+            <p className="mt-2 text-sm text-[#fdf9f6]/80">
+              Farkli uretim senaryolari icin dogru makine, yedek parca ve teknik destek kombinasyonunu tek akista yonetiyoruz.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {applicationAreas.map((area, index) => (
+              <div
+                key={area}
+                className="spotlight-card rounded-xl border border-[#ff6a0d]/35 bg-[#05005c] px-4 py-3 text-sm font-medium text-[#fdf9f6]/90"
+              >
+                <span className="mr-2 text-xs font-semibold text-[#ff6a0d]">{String(index + 1).padStart(2, '0')}</span>
+                {area}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="mx-auto mt-8 w-full px-0" distance={34}>
+        <div className="spotlight-card rounded-[28px] border border-[#ff6a0d]/35 bg-[#05005c] p-5 sm:p-6">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.26em] text-[#ff6a0d]">Sektor Trendleri</p>
+              <h2 className="mt-2 text-2xl font-semibold text-[#fdf9f6]">Pazardaki gelismeleri takip edin</h2>
+            </div>
+            <Link
+              href="/about"
+              className="rounded-full border border-[#ff6a0d]/45 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#fdf9f6] transition hover:border-[#ff6a0d]/80 hover:bg-white/[0.04]"
+            >
+              Daha fazlasi
+            </Link>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {trendHighlights.map((item) => (
+              <article key={item.title} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#05005c] p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#ff6a0d]">{item.date}</p>
+                <h3 className="mt-2 text-sm font-semibold leading-6 text-[#fdf9f6]">{item.title}</h3>
+              </article>
+            ))}
+          </div>
         </div>
       </Reveal>
 
