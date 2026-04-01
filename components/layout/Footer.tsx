@@ -48,7 +48,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden border-t border-amber-200/25 bg-[#05005c] text-amber-100">
+    <footer className="relative overflow-hidden border-t border-amber-200/25 bg-[#0b0a72] text-amber-100">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 right-4 h-64 w-64 rounded-full bg-amber-300/20 blur-[140px]" />
         <div className="absolute -bottom-24 left-4 h-72 w-72 rounded-full bg-amber-200/10 blur-[160px]" />
@@ -57,7 +57,7 @@ export default function Footer() {
 
       <div className="relative mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 py-12 lg:grid-cols-[1.25fr_1fr]">
-          <section className="rounded-3xl border border-amber-200/25 bg-[#05005c] p-6 shadow-[0_22px_60px_rgba(5,0,92,0.45)] sm:p-8">
+          <section className="rounded-3xl border border-amber-200/25 bg-[#0b0a72] p-6 shadow-[0_22px_60px_rgba(5,0,92,0.45)] sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex min-w-0 items-center gap-4">
                 <Image
@@ -96,7 +96,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full border border-amber-200/35 px-5 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-[#05005c]"
+                className="inline-flex items-center justify-center rounded-full border border-amber-200/35 px-5 py-2.5 text-sm font-semibold text-amber-100 transition hover:bg-[#0b0a72]"
               >
                 İletişime Geç
               </Link>
@@ -110,7 +110,7 @@ export default function Footer() {
               </a>
             </div>
 
-            <div className="mt-7 rounded-2xl border border-amber-200/25 bg-[#05005c] p-4">
+            <div className="mt-7 rounded-2xl border border-amber-200/25 bg-[#0b0a72] p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Güvenli Ödeme</p>
@@ -120,13 +120,13 @@ export default function Footer() {
                   className={`rounded-full border px-3 py-1 text-xs font-semibold ${
                     providerActive
                       ? 'border-amber-200/35 bg-amber-300/10 text-amber-100'
-                      : 'border-amber-200/30 bg-[#05005c] text-amber-100/90'
+                      : 'border-amber-200/30 bg-[#0b0a72] text-amber-100/90'
                   }`}
                 >
                   {providerActive ? 'Odeme Aktif' : 'Aktivasyon Beklemede'}
                 </div>
               </div>
-              <div className="mt-4 flex items-center gap-3 rounded-xl border border-amber-200/25 bg-[#05005c] px-3 py-2">
+              <div className="mt-4 flex items-center gap-3 rounded-xl border border-amber-200/25 bg-[#0b0a72] px-3 py-2">
                 <Image
                   src="/paytrlogolar/paytr-logo-white.svg"
                   alt="PayTR"
@@ -137,16 +137,16 @@ export default function Footer() {
                 />
               </div>
               <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100/85">
-                <span className="rounded-full border border-amber-200/35 bg-[#05005c] px-3 py-1">Visa</span>
-                <span className="rounded-full border border-amber-200/35 bg-[#05005c] px-3 py-1">Mastercard</span>
-                <span className="rounded-full border border-amber-200/35 bg-[#05005c] px-3 py-1">Troy</span>
-                <span className="rounded-full border border-amber-200/35 bg-[#05005c] px-3 py-1">3D Secure</span>
+                <span className="rounded-full border border-amber-200/35 bg-[#0b0a72] px-3 py-1">Visa</span>
+                <span className="rounded-full border border-amber-200/35 bg-[#0b0a72] px-3 py-1">Mastercard</span>
+                <span className="rounded-full border border-amber-200/35 bg-[#0b0a72] px-3 py-1">Troy</span>
+                <span className="rounded-full border border-amber-200/35 bg-[#0b0a72] px-3 py-1">3D Secure</span>
               </div>
             </div>
           </section>
 
           <section className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-amber-200/25 bg-[#05005c] p-6">
+            <div className="rounded-2xl border border-amber-200/25 bg-[#0b0a72] p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Hızlı Linkler</p>
               <div className="mt-4 grid gap-2 text-sm">
                 {quickLinks.map((item) => (
@@ -157,7 +157,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-amber-200/25 bg-[#05005c] p-6">
+            <div className="rounded-2xl border border-amber-200/25 bg-[#0b0a72] p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Politikalar</p>
               <div className="mt-4 grid gap-2 text-sm">
                 {policyLinks.map((item) => (
@@ -168,7 +168,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-amber-200/25 bg-[#05005c] p-6 sm:col-span-2">
+            <div className="rounded-2xl border border-amber-200/25 bg-[#0b0a72] p-6 sm:col-span-2">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">Popüler Aramalar</p>
               <div className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
                 {seoLinks.map((item) => (
@@ -179,13 +179,13 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-amber-200/25 bg-[#05005c] p-6 sm:col-span-2">
+            <div className="rounded-2xl border border-amber-200/25 bg-[#0b0a72] p-6 sm:col-span-2">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-100/60">İletişim</p>
               <div className="mt-4 grid gap-3 text-sm text-amber-100/80 sm:grid-cols-2">
-                <div className="rounded-xl border border-amber-200/20 bg-[#05005c] px-4 py-3">Telefon: +90 536 831 67 87</div>
-                <div className="rounded-xl border border-amber-200/20 bg-[#05005c] px-4 py-3">E-posta: guohonglazerinfo@gmail.com</div>
-                <div className="rounded-xl border border-amber-200/20 bg-[#05005c] px-4 py-3">Adres: Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210</div>
-                <div className="rounded-xl border border-amber-200/20 bg-[#05005c] px-4 py-3">Pazartesi - Cuma 09:00 - 17:00</div>
+                <div className="rounded-xl border border-amber-200/20 bg-[#0b0a72] px-4 py-3">Telefon: +90 536 831 67 87</div>
+                <div className="rounded-xl border border-amber-200/20 bg-[#0b0a72] px-4 py-3">E-posta: guohonglazerinfo@gmail.com</div>
+                <div className="rounded-xl border border-amber-200/20 bg-[#0b0a72] px-4 py-3">Adres: Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210</div>
+                <div className="rounded-xl border border-amber-200/20 bg-[#0b0a72] px-4 py-3">Pazartesi - Cuma 09:00 - 17:00</div>
               </div>
             </div>
           </section>

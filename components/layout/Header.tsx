@@ -113,7 +113,7 @@ export default function Header() {
 
   const mobileLinkClass = (href: string) => {
     const active = 'bg-amber-500 text-black';
-    const idle = 'text-amber-100 hover:bg-[#05005c]';
+    const idle = 'text-amber-100 hover:bg-[#0b0a72]';
     return `flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold transition ${isActive(href) ? active : idle}`;
   };
 
@@ -143,7 +143,7 @@ export default function Header() {
       </div>
 
       <div className="relative mx-auto max-w-screen-2xl">
-        <div className="flex h-[88px] items-center gap-2 rounded-2xl border border-amber-200/25 bg-[#05005c] px-3 shadow-[0_18px_55px_rgba(5,0,92,0.5)] ring-1 ring-amber-100/10 backdrop-blur-2xl sm:gap-3 sm:px-4">
+        <div className="flex h-[88px] items-center gap-2 rounded-2xl border border-amber-200/25 bg-[#0b0a72] px-3 shadow-[0_18px_55px_rgba(5,0,92,0.5)] ring-1 ring-amber-100/10 backdrop-blur-2xl sm:gap-3 sm:px-4">
           <Link href="/" className="inline-flex min-w-0 items-center gap-3">
             {!logoError ? (
               <Image
@@ -162,7 +162,7 @@ export default function Header() {
           </Link>
 
           <nav className="hidden flex-1 justify-center lg:flex" aria-label="Ana menü">
-            <div className="flex items-center gap-1.5 rounded-full border border-amber-200/25 bg-[#05005c] p-1.5">
+            <div className="flex items-center gap-1.5 rounded-full border border-amber-200/25 bg-[#0b0a72] p-1.5">
               {NAV_ITEMS.map((item) => (
                 <Link key={item.href} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} className={desktopLinkClass(item.href)}>
                   {item.label}
@@ -176,11 +176,11 @@ export default function Header() {
               Teklif Al
             </Link>
 
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#05005c] px-4 py-2 text-xs font-semibold tracking-[0.01em] text-amber-100 transition hover:border-amber-300/70 hover:bg-[#05005c]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#0b0a72] px-4 py-2 text-xs font-semibold tracking-[0.01em] text-amber-100 transition hover:border-amber-300/70 hover:bg-[#0b0a72]">
               WhatsApp
             </a>
 
-            <button type="button" onClick={toggleTheme} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#05005c] p-2 text-amber-100 transition hover:bg-[#05005c] hover:text-amber-50" aria-label="Tema değiştir">
+            <button type="button" onClick={toggleTheme} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#0b0a72] p-2 text-amber-100 transition hover:bg-[#0b0a72] hover:text-amber-50" aria-label="Tema değiştir">
               {theme === 'dark' ? (
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8-9h1M3 12H2m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
               ) : (
@@ -189,19 +189,19 @@ export default function Header() {
             </button>
 
             {isAuthed && (
-              <button type="button" onClick={openNotifications} className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#05005c] hover:text-amber-50" aria-label="Bildirimleri aç">
+              <button type="button" onClick={openNotifications} className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#0b0a72] hover:text-amber-50" aria-label="Bildirimleri aç">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
                 {notificationsBadge}
               </button>
             )}
 
-            <button type="button" onClick={toggleCart} className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#05005c] hover:text-amber-50" aria-label="Sepeti aç">
+            <button type="button" onClick={toggleCart} className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#0b0a72] hover:text-amber-50" aria-label="Sepeti aç">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               {cartBadge}
             </button>
 
             {isAuthed ? (
-              <button type="button" onClick={() => setProfileOpen(true)} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#05005c] p-1.5 text-amber-100 transition hover:bg-[#05005c]" aria-label="Profil">
+              <button type="button" onClick={() => setProfileOpen(true)} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#0b0a72] p-1.5 text-amber-100 transition hover:bg-[#0b0a72]" aria-label="Profil">
                 {avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={avatarUrl} alt="Profil fotoğrafı" className="h-8 w-8 rounded-full object-cover" />
@@ -211,7 +211,7 @@ export default function Header() {
               </button>
             ) : (
               <div className="hidden items-center gap-2 sm:flex">
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#05005c] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#05005c]">Giriş</Link>
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#0b0a72] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#0b0a72]">Giriş</Link>
                 <Link href={registerHref} className="inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black transition hover:bg-amber-400">Kayıt</Link>
               </div>
             )}
@@ -220,7 +220,7 @@ export default function Header() {
               <Link href="/admin" className="hidden md:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-amber-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200 transition hover:border-amber-300/50">Admin</Link>
             )}
 
-            <button type="button" className="z-10 shrink-0 inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#05005c] p-2 text-amber-100 transition hover:bg-[#05005c] lg:hidden" onClick={() => setMobileMenuOpen((prev) => !prev)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
+            <button type="button" className="z-10 shrink-0 inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#0b0a72] p-2 text-amber-100 transition hover:bg-[#0b0a72] lg:hidden" onClick={() => setMobileMenuOpen((prev) => !prev)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
           </div>
@@ -234,7 +234,7 @@ export default function Header() {
           role="dialog"
           aria-label="Mobil menü paneli"
           aria-modal="true"
-          className={`absolute inset-0 h-dvh overflow-y-auto bg-[#05005c] px-6 pb-10 pt-6 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 h-dvh overflow-y-auto bg-[#0b0a72] px-6 pb-10 pt-6 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
         >
           <div className="mb-8 flex items-center justify-between border-b border-amber-200/15 pb-5">
             <div>
@@ -244,7 +244,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/30 bg-[#05005c] text-amber-100"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/30 bg-[#0b0a72] text-amber-100"
               aria-label="Menüyü kapat"
             >
               <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -273,7 +273,7 @@ export default function Header() {
               <Link
                 href={loginHref}
                 onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/35 bg-[#05005c] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#05005c]"
+                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/35 bg-[#0b0a72] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#0b0a72]"
               >
                 Giriş Yap
               </Link>
@@ -293,7 +293,7 @@ export default function Header() {
                   setMobileMenuOpen(false);
                   setProfileOpen(true);
                 }}
-                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/35 bg-[#05005c] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#05005c]"
+                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/35 bg-[#0b0a72] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#0b0a72]"
               >
                 Profili Aç
               </button>
