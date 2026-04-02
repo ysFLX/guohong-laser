@@ -4,7 +4,7 @@
 
 @theme {
   --color-white: #fdf9f6;
-  --color-black: #0b0a72;
+  --color-black: #15148c;
 
   --color-amber-50: #fdf9f6;
   --color-amber-100: #fdf9f6;
@@ -26,8 +26,8 @@
   --color-slate-600: #7e706c;
   --color-slate-700: #5f5452;
   --color-slate-800: #2d3f72;
-  --color-slate-900: #0b0a72;
-  --color-slate-950: #0b0a72;
+  --color-slate-900: #15148c;
+  --color-slate-950: #15148c;
 
   --color-indigo-50: #fff2ed;
   --color-indigo-100: #ffe8df;
@@ -47,7 +47,7 @@
 
 :root {
   --background: #fdf9f6;
-  --foreground: #0b0a72;
+  --foreground: #15148c;
   --surface: #ffffff;
   --surface-muted: #f7f1ee;
   --surface-border: color-mix(in srgb, #ff6a0d 34%, #fdf9f6);
@@ -60,7 +60,7 @@
   --gray-600: #4d4d4d;
   --gray-700: #333333;
   --gray-800: #1b1b1b;
-  --gray-900: #0b0a72;
+  --gray-900: #15148c;
   --indigo-100: #ffe8df;
   --indigo-200: #fed8ca;
   --indigo-300: #febba2;
@@ -100,11 +100,11 @@
 }
 
 :root.dark {
-  --background: #0b0a72;
+  --background: #15148c;
   --foreground: #fdf9f6;
-  --surface: color-mix(in srgb, #0b0a72 88%, #fdf9f6);
-  --surface-muted: color-mix(in srgb, #0b0a72 82%, #fdf9f6);
-  --surface-border: color-mix(in srgb, #ff6a0d 48%, #0b0a72);
+  --surface: color-mix(in srgb, #15148c 88%, #fdf9f6);
+  --surface-muted: color-mix(in srgb, #15148c 82%, #fdf9f6);
+  --surface-border: color-mix(in srgb, #ff6a0d 48%, #15148c);
   --surface-shadow: 0 20px 60px rgba(8, 18, 50, 0.46);
   --gray-100: #333333;
   --gray-200: #555555;
@@ -224,7 +224,7 @@ select:focus-visible {
   font-size: 0.875rem;
   font-weight: 600;
   background: #ff6a0d;
-  color: #0b0a72;
+  color: #15148c;
   box-shadow: 0 12px 30px rgba(254, 156, 121, 0.28);
   transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
@@ -636,7 +636,7 @@ select:focus-visible {
 
 .premium-palette .bg-slate-900,
 .premium-palette .bg-slate-950 {
-  background-color: #0b0a72 !important;
+  background-color: #15148c !important;
 }
 
 .premium-palette .text-slate-900,
@@ -645,7 +645,7 @@ select:focus-visible {
 .premium-palette .text-slate-600,
 .premium-palette .text-slate-500,
 .premium-palette .text-slate-400 {
-  color: #0b0a72 !important;
+  color: #15148c !important;
 }
 
 .premium-palette .border-slate-200,
@@ -659,7 +659,7 @@ select:focus-visible {
 .premium-palette .bg-indigo-500,
 .premium-palette .bg-indigo-400 {
   background-color: #ff6a0d !important;
-  color: #0b0a72 !important;
+  color: #15148c !important;
 }
 
 .premium-palette .hover\:bg-indigo-700:hover,
@@ -685,7 +685,7 @@ select:focus-visible {
 :root.dark .premium-palette .bg-slate-50,
 :root.dark .premium-palette .bg-slate-50\/70,
 :root.dark .premium-palette .bg-slate-100 {
-  background-color: color-mix(in srgb, #0b0a72 88%, #fdf9f6) !important;
+  background-color: color-mix(in srgb, #15148c 88%, #fdf9f6) !important;
 }
 
 :root.dark .premium-palette .text-slate-900,

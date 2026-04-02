@@ -75,7 +75,7 @@ export default function StatsOverview({ items }: StatsOverviewProps) {
   return (
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => (
-        <div key={item.label} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#0b0a72] px-4 py-5">
+        <div key={item.label} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#15148c] px-4 py-5">
           <AnimatedValue value={item.value} suffix={item.suffix} />
           <p className="mt-1 text-sm text-[#fdf9f6]/85">{item.label}</p>
         </div>

@@ -727,7 +727,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
 
           <div className="absolute left-3 top-3 flex flex-wrap gap-2">
             {p.isFeatured ? (
-              <span className="rounded-full bg-[#0b0a72] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+              <span className="rounded-full bg-[#15148c] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
                 Vitrin
               </span>
             ) : null}
