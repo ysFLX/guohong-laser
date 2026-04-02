@@ -258,17 +258,17 @@ export default async function SparePartDetailPage({
       '@type': 'Organization',
       name: 'Guohong Lazer',
     },
-    offers: {
-      '@type': 'Offer',
-      ...(sparePartPriceVisible
-        ? {
+    ...(sparePartPriceVisible
+      ? {
+          offers: {
+            '@type': 'Offer',
             priceCurrency: p.currency || 'TRY',
             price: (p.priceCents / 100).toFixed(2),
-          }
-        : {}),
-      availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-      url: `${baseUrl}/spare-parts/${p.id}`,
-    },
+            availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            url: `${baseUrl}/spare-parts/${p.id}`,
+          },
+        }
+      : {}),
     ...(ratingCount > 0
       ? {
           aggregateRating: {
