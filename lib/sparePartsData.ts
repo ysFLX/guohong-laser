@@ -121,7 +121,7 @@ export const getActiveSparePartsWithRatings = unstable_cache(
     });
   },
   ['spare-parts:list:v1'],
-  { revalidate: 60, tags: ['spare-part-reviews', 'exchange-rate-usd-try'] },
+  { revalidate: 60, tags: ['spare-parts', 'spare-part-reviews', 'exchange-rate-usd-try'] },
 );
 
 export const getSparePartById = unstable_cache(
@@ -148,7 +148,7 @@ export const getSparePartById = unstable_cache(
     };
   },
   ['spare-parts:detail:v1'],
-  { revalidate: 60, tags: ['exchange-rate-usd-try'] },
+  { revalidate: 60, tags: ['spare-parts', 'exchange-rate-usd-try'] },
 );
 
 export const getSparePartReviewSummary = unstable_cache(
@@ -194,7 +194,7 @@ export const getRelatedSpareParts = unstable_cache(
     }));
   },
   ['spare-parts:related:v1'],
-  { revalidate: 300, tags: ['exchange-rate-usd-try'] },
+  { revalidate: 300, tags: ['spare-parts', 'exchange-rate-usd-try'] },
 );
 
 export const getBoughtTogetherSpareParts = unstable_cache(
@@ -253,5 +253,5 @@ export const getBoughtTogetherSpareParts = unstable_cache(
       .slice(0, 3);
   },
   ['spare-parts:bought-together:v1'],
-  { revalidate: 600, tags: ['exchange-rate-usd-try'] },
+  { revalidate: 600, tags: ['spare-parts', 'exchange-rate-usd-try'] },
 );

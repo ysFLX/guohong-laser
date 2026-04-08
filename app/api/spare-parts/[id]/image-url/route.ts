@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -74,6 +75,12 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       select: { id: true, imageUrl: true },
     });
   }
+
+  revalidateTag('spare-parts', 'max');
+  revalidatePath('/');
+  revalidatePath('/spare-parts');
+  revalidatePath(`/spare-parts/${id}`);
+  revalidatePath(`/admin/spare-parts/${id}`);
 
   return NextResponse.json({ item: created });
 }

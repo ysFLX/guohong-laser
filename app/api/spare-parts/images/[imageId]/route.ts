@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -104,6 +105,12 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ imageId: str
       select: { id: true, imageUrl: true },
     });
   }
+
+  revalidateTag('spare-parts', 'max');
+  revalidatePath('/');
+  revalidatePath('/spare-parts');
+  revalidatePath(`/spare-parts/${image.sparePartId}`);
+  revalidatePath(`/admin/spare-parts/${image.sparePartId}`);
 
   return NextResponse.json({ ok: true });
 }
