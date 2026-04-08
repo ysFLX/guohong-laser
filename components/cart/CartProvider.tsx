@@ -30,6 +30,7 @@ type CartContextValue = {
   closeCart: () => void;
   toggleCart: () => void;
   addItem: (item: Omit<CartItem, 'quantity'>, quantity?: number) => void;
+  replaceItems: (items: CartItem[]) => void;
   removeItem: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
   clear: () => void;
@@ -216,6 +217,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [updateItems],
   );
 
+  const replaceItems = useCallback(
+    (nextItems: CartItem[]) => {
+      writeCart(storageKey, nextItems.map((item) => ({
+        ...item,
+        quantity: clampQuantity(item.quantity),
+        imageUrl: typeof item.imageUrl === 'string' ? item.imageUrl : null,
+        variantValue: typeof item.variantValue === 'string' ? item.variantValue : null,
+      })));
+    },
+    [storageKey],
+  );
+
   const removeItem = useCallback(
     (id: string) => {
       updateItems((prev) => prev.filter((x) => x.id !== id));
@@ -248,11 +261,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       closeCart,
       toggleCart,
       addItem,
+      replaceItems,
       removeItem,
       setQuantity,
       clear,
     }),
-    [items, isOpen, itemCount, subtotalCents, openCart, closeCart, toggleCart, addItem, removeItem, setQuantity, clear],
+    [items, isOpen, itemCount, subtotalCents, openCart, closeCart, toggleCart, addItem, replaceItems, removeItem, setQuantity, clear],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

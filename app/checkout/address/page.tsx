@@ -66,7 +66,7 @@ function formatPriceTry(priceCents: number) {
 
 function CheckoutAddressEnabled() {
   const router = useRouter();
-  const { items, subtotalCents } = useCart();
+  const { items, subtotalCents, replaceItems } = useCart();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedBillingId, setSelectedBillingId] = useState<string | null>(null);
@@ -82,6 +82,7 @@ function CheckoutAddressEnabled() {
   const [districts, setDistricts] = useState<string[]>([]);
   const [loadingCities, setLoadingCities] = useState(false);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
+  const [repricing, setRepricing] = useState(false);
 
   const cartItemCount = useMemo(
     () => items.reduce((acc, item) => acc + item.quantity, 0),
@@ -100,6 +101,67 @@ function CheckoutAddressEnabled() {
     }
     loadDistricts(form.cityCode);
   }, [form.cityCode]);
+
+  useEffect(() => {
+    if (!items.length || repricing) return;
+
+    let cancelled = false;
+    const run = async () => {
+      setRepricing(true);
+      try {
+        const res = await fetch('/api/cart/reprice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: items.map((item) => ({
+              id: item.id,
+              quantity: item.quantity,
+              name: item.name,
+              imageUrl: item.imageUrl,
+              variantValue: item.variantValue ?? null,
+            })),
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !Array.isArray(data?.items)) return;
+
+        const normalizedItems = data.items as Array<{
+          id: string;
+          name: string;
+          priceCents: number;
+          imageUrl: string | null;
+          quantity: number;
+          variantValue?: string | null;
+        }>;
+
+        const changed =
+          normalizedItems.length === items.length &&
+          normalizedItems.some((item, index) => {
+            const current = items[index];
+            return (
+              current.id !== item.id ||
+              current.priceCents !== item.priceCents ||
+              current.quantity !== item.quantity ||
+              current.name !== item.name ||
+              (current.imageUrl ?? null) !== (item.imageUrl ?? null) ||
+              (current.variantValue ?? null) !== (item.variantValue ?? null)
+            );
+          });
+
+        if (!cancelled && changed) {
+          replaceItems(normalizedItems);
+          setCheckoutError('Sepetteki fiyatlar guncellendi. Siparis ozeti son tutarlara gore yenilendi.');
+        }
+      } finally {
+        if (!cancelled) setRepricing(false);
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [items, replaceItems, repricing]);
 
   async function loadAddresses() {
     setLoadingAddresses(true);
