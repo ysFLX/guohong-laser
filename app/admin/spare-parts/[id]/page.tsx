@@ -156,7 +156,7 @@ export default async function AdminSparePartDetailPage({
             Ürün galerisi ve vitrin görselini buradan güncelleyebilirsin.
           </p>
           <div className="mt-4">
-            <AdminImageUpload sparePartId={part.id} images={part.images} />
+            <AdminImageUpload sparePartId={part.id} images={part.images} sizeOptionEntries={sizeOptionEntries} />
           </div>
         </div>
       </div>
