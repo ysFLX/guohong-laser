@@ -11,8 +11,7 @@ import {
 } from '@/lib/sparePartsData';
 
 import ViewItemEvent from '@/components/analytics/ViewItemEvent';
-import SparePartPurchaseClient from '@/components/spare-parts/SparePartPurchaseClient';
-import SparePartImageSlider from '@/components/spare-parts/SparePartImageSlider';
+import SparePartDetailExperience from '@/components/spare-parts/SparePartDetailExperience';
 import SparePartReviews from '@/components/spare-parts/SparePartReviews';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
@@ -25,6 +24,7 @@ type SparePartDetail = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: unknown;
+  sizeOptionImages: unknown;
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -212,6 +212,7 @@ export default async function SparePartDetailPage({
     hasSizeOptions: part.hasSizeOptions,
     sizeOptions: part.sizeOptions,
     sizeOptionPrices: part.sizeOptionPrices,
+    sizeOptionImages: part.sizeOptionImages,
     priceCents: part.priceCents,
     currency: part.currency,
     imageUrl: part.imageUrl,
@@ -240,7 +241,7 @@ export default async function SparePartDetailPage({
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const sizeOptionEntries = p.hasSizeOptions
-    ? buildSparePartSizeOptionEntries(p.sizeOptions, p.sizeOptionPrices, p.priceCents)
+    ? buildSparePartSizeOptionEntries(p.sizeOptions, p.sizeOptionPrices, p.sizeOptionImages, p.priceCents)
     : [];
   const inStock = p.stockOnHand > 0;
   const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
@@ -312,47 +313,20 @@ export default async function SparePartDetailPage({
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr_0.85fr] lg:items-start">
-          <div className="space-y-4">
-            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm">
-              <SparePartImageSlider
-                images={p.images}
-                fallbackUrl={p.imageUrl || '/images/1.jpg'}
-                name={p.name}
-              />
-            </div>
-            <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-              <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-                {inStock ? 'Stokta' : 'Siparişle'}
-              </span>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-                {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
-              </span>
-              {isCritical && (
-                <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
-                  </span>
-                  Stok azalıyor
-                </span>
-              )}
-            </div>
-            <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-600 sm:grid-cols-3">
-              <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Güvenli ödeme</div>
-                <div className="mt-1 font-semibold text-slate-900">SSL korumalı</div>
-              </div>
-              <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Garanti</div>
-                <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
-              </div>
-              <div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">İade</div>
-                <div className="mt-1 font-semibold text-slate-900">14 gün</div>
-              </div>
-            </div>
-          </div>
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_1.15fr] lg:items-start">
+          <SparePartDetailExperience
+            id={p.id}
+            name={p.name}
+            priceCents={p.priceCents}
+            imageUrl={p.imageUrl}
+            images={p.images}
+            inStock={inStock}
+            isCritical={isCritical}
+            stockOnHand={p.stockOnHand}
+            showPrice={sparePartPriceVisible}
+            sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
+            sizeOptionEntries={sizeOptionEntries}
+          />
 
             <div className="space-y-5">
               <div>
@@ -427,19 +401,6 @@ export default async function SparePartDetailPage({
             </div>
 
           </div>
-
-            <SparePartPurchaseClient
-              id={p.id}
-              name={p.name}
-              priceCents={p.priceCents}
-              imageUrl={p.imageUrl}
-              inStock={inStock}
-              isCritical={isCritical}
-              stockOnHand={p.stockOnHand}
-              showPrice={sparePartPriceVisible}
-              sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
-              sizeOptionEntries={sizeOptionEntries}
-            />
         </div>
 
         {(boughtTogether.length > 0 || related.length > 0) && (

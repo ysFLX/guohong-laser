@@ -14,6 +14,7 @@ type SparePartListRow = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: unknown;
+  sizeOptionImages: unknown;
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -31,6 +32,7 @@ type SparePartDetailRow = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: unknown;
+  sizeOptionImages: unknown;
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -102,6 +104,7 @@ export const getActiveSparePartsWithRatings = unstable_cache(
         hasSizeOptions: p.hasSizeOptions,
         sizeOptions: p.sizeOptions,
         sizeOptionPrices: resolveDisplayedSizeOptionPrices(p.sizeOptionPrices, p.currency, exchangeRate.rate),
+        sizeOptionImages: p.sizeOptionImages,
         priceCents: resolveDisplayedPriceCents(p.priceCents, p.currency, exchangeRate.rate),
         currency: resolveDisplayedCurrency(p.currency),
         imageUrl: p.imageUrl,
@@ -139,6 +142,7 @@ export const getSparePartById = unstable_cache(
     return {
       ...part,
       sizeOptionPrices: resolveDisplayedSizeOptionPrices(part.sizeOptionPrices, part.currency, exchangeRate.rate),
+      sizeOptionImages: part.sizeOptionImages,
       priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
       currency: resolveDisplayedCurrency(part.currency),
     };

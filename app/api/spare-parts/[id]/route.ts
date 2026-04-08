@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import {
+  buildSparePartSizeOptionImagesMap,
   buildSparePartSizeOptionPricesMap,
   sanitizeSparePartSizeOptionEntries,
   sanitizeSparePartSizeOptions,
@@ -99,6 +100,10 @@ export async function PATCH(
           ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
           : Object.fromEntries(resolvedSizeOptions.map((option) => [option, fallbackPriceCents]))
         : {};
+    data.sizeOptionImages =
+      payload.hasSizeOptions === true && sizeOptionEntries.length > 0
+        ? buildSparePartSizeOptionImagesMap(sizeOptionEntries)
+        : {};
 
     if (payload.hasSizeOptions === true && Array.isArray(data.sizeOptions) && data.sizeOptions.length === 0) {
       return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
@@ -112,6 +117,7 @@ export async function PATCH(
     const sizeOptions = sizeOptionEntries.map((entry) => entry.value);
     data.sizeOptions = sizeOptions;
     data.sizeOptionPrices = buildSparePartSizeOptionPricesMap(sizeOptionEntries);
+    data.sizeOptionImages = buildSparePartSizeOptionImagesMap(sizeOptionEntries);
     data.hasSizeOptions = sizeOptions.length > 0;
     data.currency = 'USD';
   } else if ('sizeOptions' in payload) {
@@ -119,6 +125,7 @@ export async function PATCH(
     data.sizeOptions = sanitizedSizeOptions;
     if (sanitizedSizeOptions.length === 0) {
       data.sizeOptionPrices = {};
+      data.sizeOptionImages = {};
     }
     data.hasSizeOptions = sanitizedSizeOptions.length > 0;
   }

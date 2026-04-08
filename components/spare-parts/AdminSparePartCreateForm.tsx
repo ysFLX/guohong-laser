@@ -7,10 +7,10 @@ import { AdminButton } from '@/components/admin/AdminUi';
 import { sanitizeSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
-type SizeOptionRow = { value: string; priceUsd: string };
+type SizeOptionRow = { value: string; priceUsd: string; imageUrl: string };
 
 function createEmptySizeRow(): SizeOptionRow {
-  return { value: '', priceUsd: '' };
+  return { value: '', priceUsd: '', imageUrl: '' };
 }
 
 export default function AdminSparePartCreateForm({ categories }: { categories: Category[] }) {
@@ -159,10 +159,10 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
             {hasSizeOptions ? (
               <div className="mt-4 space-y-3">
                 <div className="text-xs text-[var(--admin-muted)]">
-                  Her satirda olcu ve fiyat gir. Ornek: 20 mm - 39,90 USD
+                  Her satirda olcu, fiyat ve istersen o olcuye ozel gorsel URL gir.
                 </div>
                 {sizeOptionRows.map((row, index) => (
-                  <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
+                  <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_1fr_auto]">
                     <input
                       value={row.value}
                       onChange={(e) => updateSizeRow(index, { value: e.target.value })}
@@ -174,6 +174,12 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                       inputMode="decimal"
                       onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
                       placeholder="Fiyat (USD)"
+                      className={`${inputClassName} mt-0`}
+                    />
+                    <input
+                      value={row.imageUrl}
+                      onChange={(e) => updateSizeRow(index, { imageUrl: e.target.value })}
+                      placeholder="Gorsel URL (opsiyonel)"
                       className={`${inputClassName} mt-0`}
                     />
                     <AdminButton

@@ -17,6 +17,7 @@ type SparePartResult = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: Record<string, unknown>;
+  sizeOptionImages: Record<string, unknown>;
   priceCents: number;
   currency: string;
   imageUrl: string | null;
@@ -88,6 +89,7 @@ export default async function AdminSparePartDetailPage({
   const sizeOptionEntries = buildSparePartSizeOptionEntries(
     part.sizeOptions,
     part.sizeOptionPrices,
+    part.sizeOptionImages,
     part.priceCents,
   );
 
@@ -169,6 +171,7 @@ export default async function AdminSparePartDetailPage({
             hasSizeOptions: part.hasSizeOptions,
             sizeOptions: part.sizeOptions,
             sizeOptionPrices: part.sizeOptionPrices,
+            sizeOptionImages: part.sizeOptionImages,
             priceCents: part.priceCents,
             currency: part.currency,
             stockOnHand: part.stockOnHand,

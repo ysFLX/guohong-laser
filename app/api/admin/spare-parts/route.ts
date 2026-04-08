@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import {
+  buildSparePartSizeOptionImagesMap,
   buildSparePartSizeOptionPricesMap,
   sanitizeSparePartSizeOptionEntries,
   sanitizeSparePartSizeOptions,
@@ -73,6 +74,8 @@ export async function POST(req: Request) {
     sizeOptionEntries.length > 0
       ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
       : Object.fromEntries(sizeOptions.map((option) => [option, fallbackPriceCents]));
+  const sizeOptionImages =
+    sizeOptionEntries.length > 0 ? buildSparePartSizeOptionImagesMap(sizeOptionEntries) : {};
   const stockOnHand = typeof body.stockOnHand === 'number' ? Math.max(0, Math.floor(body.stockOnHand)) : NaN;
   const categoryId = typeof body.categoryId === 'string' ? body.categoryId : '';
   const isFeatured = typeof body.isFeatured === 'boolean' ? body.isFeatured : false;
@@ -107,6 +110,7 @@ export async function POST(req: Request) {
         hasSizeOptions,
         sizeOptions,
         sizeOptionPrices,
+        sizeOptionImages,
         priceCents,
         currency: 'USD',
         stockOnHand,

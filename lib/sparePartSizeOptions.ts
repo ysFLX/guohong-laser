@@ -24,6 +24,7 @@ export function sanitizeSparePartSizeOptions(value: unknown): string[] {
 export type SparePartSizeOptionEntry = {
   value: string;
   priceCents: number;
+  imageUrl: string | null;
 };
 
 function clampPriceCents(value: number) {
@@ -40,6 +41,12 @@ function coercePriceCents(value: unknown) {
     return clampPriceCents(parsed * 100);
   }
   return null;
+}
+
+function coerceImageUrl(value: unknown) {
+  if (typeof value !== 'string') return null;
+  const normalized = value.trim();
+  return normalized ? normalized : null;
 }
 
 export function sanitizeSparePartSizeOptionEntries(
@@ -72,6 +79,11 @@ export function sanitizeSparePartSizeOptionEntries(
     result.push({
       value: normalizedValue,
       priceCents: parsedPrice,
+      imageUrl:
+        coerceImageUrl(row.imageUrl) ??
+        coerceImageUrl(row.variantImageUrl) ??
+        coerceImageUrl(row.sizeImageUrl) ??
+        coerceImageUrl(row.image),
     });
 
     if (result.length >= 100) break;
@@ -84,6 +96,16 @@ export function buildSparePartSizeOptionPricesMap(entries: SparePartSizeOptionEn
   const map: Record<string, number> = {};
   for (const entry of entries) {
     map[entry.value] = clampPriceCents(entry.priceCents);
+  }
+  return map;
+}
+
+export function buildSparePartSizeOptionImagesMap(entries: SparePartSizeOptionEntry[]) {
+  const map: Record<string, string> = {};
+  for (const entry of entries) {
+    if (entry.imageUrl) {
+      map[entry.value] = entry.imageUrl;
+    }
   }
   return map;
 }
@@ -105,15 +127,29 @@ export function normalizeSparePartSizeOptionPricesMap(
   return map;
 }
 
+export function normalizeSparePartSizeOptionImagesMap(value: unknown, sizeOptions: string[]) {
+  const map: Record<string, string | null> = {};
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+
+  for (const option of sizeOptions) {
+    map[option] = coerceImageUrl(source[option]);
+  }
+
+  return map;
+}
+
 export function buildSparePartSizeOptionEntries(
   sizeOptions: string[],
   sizeOptionPrices: unknown,
+  sizeOptionImages: unknown,
   fallbackPriceCents: number,
 ) {
   const map = normalizeSparePartSizeOptionPricesMap(sizeOptionPrices, sizeOptions, fallbackPriceCents);
+  const imageMap = normalizeSparePartSizeOptionImagesMap(sizeOptionImages, sizeOptions);
   return sizeOptions.map((value) => ({
     value,
     priceCents: map[value] ?? clampPriceCents(fallbackPriceCents),
+    imageUrl: imageMap[value] ?? null,
   }));
 }
 

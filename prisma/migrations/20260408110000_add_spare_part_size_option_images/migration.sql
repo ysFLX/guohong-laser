@@ -1,0 +1,2 @@
+ALTER TABLE "SparePart"
+ADD COLUMN "sizeOptionImages" JSONB NOT NULL DEFAULT '{}';

@@ -10,7 +10,7 @@ import {
 } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
-type SizeOptionRow = { value: string; priceInput: string };
+type SizeOptionRow = { value: string; priceInput: string; imageUrl: string };
 
 type Initial = {
   id: string;
@@ -20,6 +20,7 @@ type Initial = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: Record<string, unknown>;
+  sizeOptionImages: Record<string, unknown>;
   priceCents: number;
   currency: string;
   stockOnHand: number;
@@ -29,7 +30,7 @@ type Initial = {
 };
 
 function createEmptySizeRow(): SizeOptionRow {
-  return { value: '', priceInput: '' };
+  return { value: '', priceInput: '', imageUrl: '' };
 }
 
 function toPriceInput(priceCents: number) {
@@ -55,10 +56,15 @@ export default function AdminSparePartEditForm({
     const entries = buildSparePartSizeOptionEntries(
       initial.sizeOptions,
       initial.sizeOptionPrices,
+      initial.sizeOptionImages,
       initial.priceCents,
     );
     if (entries.length === 0) return [createEmptySizeRow()];
-    return entries.map((entry) => ({ value: entry.value, priceInput: toPriceInput(entry.priceCents) }));
+    return entries.map((entry) => ({
+      value: entry.value,
+      priceInput: toPriceInput(entry.priceCents),
+      imageUrl: entry.imageUrl || '',
+    }));
   });
   const [priceInput, setPriceInput] = useState(String((initial.priceCents / 100).toFixed(2)));
   const [stockOnHand, setStockOnHand] = useState(String(initial.stockOnHand));
@@ -194,10 +200,10 @@ export default function AdminSparePartEditForm({
           {hasSizeOptions ? (
             <div className="mt-4 space-y-3">
               <div className="text-xs text-[var(--admin-muted)]">
-                Her satirda olcu ve fiyat gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
+                Her satirda olcu, fiyat ve istersen o olcuye ozel gorsel URL gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
               </div>
               {sizeOptionRows.map((row, index) => (
-                <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
+                <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_1fr_auto]">
                   <input
                     value={row.value}
                     onChange={(e) => updateSizeRow(index, { value: e.target.value })}
@@ -209,6 +215,12 @@ export default function AdminSparePartEditForm({
                     inputMode="decimal"
                     onChange={(e) => updateSizeRow(index, { priceInput: e.target.value })}
                     placeholder={`Fiyat (${initial.currency || 'TRY'})`}
+                    className={`${inputClassName} mt-0`}
+                  />
+                  <input
+                    value={row.imageUrl}
+                    onChange={(e) => updateSizeRow(index, { imageUrl: e.target.value })}
+                    placeholder="Gorsel URL (opsiyonel)"
                     className={`${inputClassName} mt-0`}
                   />
                   <AdminButton

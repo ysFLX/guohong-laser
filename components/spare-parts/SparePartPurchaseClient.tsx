@@ -18,7 +18,9 @@ type Props = {
   stockOnHand: number;
   showPrice: boolean;
   sparePartDirectPurchaseEnabled: boolean;
-  sizeOptionEntries: Array<{ value: string; priceCents: number }>;
+  sizeOptionEntries: Array<{ value: string; priceCents: number; imageUrl: string | null }>;
+  selectedSize?: string;
+  onSelectedSizeChange?: (value: string) => void;
 };
 
 export default function SparePartPurchaseClient({
@@ -32,11 +34,14 @@ export default function SparePartPurchaseClient({
   showPrice,
   sparePartDirectPurchaseEnabled,
   sizeOptionEntries,
+  selectedSize: controlledSelectedSize,
+  onSelectedSizeChange,
 }: Props) {
   const { show } = useToast();
   const lowStockToastShown = useRef(false);
   const hasSizeOptions = sizeOptionEntries.length > 0;
-  const [selectedSize, setSelectedSize] = useState<string>(sizeOptionEntries[0]?.value ?? '');
+  const [uncontrolledSelectedSize, setUncontrolledSelectedSize] = useState<string>(sizeOptionEntries[0]?.value ?? '');
+  const selectedSize = controlledSelectedSize ?? uncontrolledSelectedSize;
 
   const resolvedSize = hasSizeOptions ? selectedSize : '';
   const selectedEntry = useMemo(
@@ -44,10 +49,19 @@ export default function SparePartPurchaseClient({
     [resolvedSize, sizeOptionEntries],
   );
   const resolvedPriceCents = selectedEntry?.priceCents ?? priceCents;
+  const resolvedImageUrl = selectedEntry?.imageUrl ?? imageUrl;
   const displayName = useMemo(() => buildSparePartVariantName(name, resolvedSize), [name, resolvedSize]);
   const selectionDisabled = hasSizeOptions && !resolvedSize;
   const canQuickBuy = showPrice && sparePartDirectPurchaseEnabled;
   const canAddToCart = inStock;
+
+  const handleSizeChange = (value: string) => {
+    if (onSelectedSizeChange) {
+      onSelectedSizeChange(value);
+      return;
+    }
+    setUncontrolledSelectedSize(value);
+  };
 
   useEffect(() => {
     if (!isCritical || lowStockToastShown.current) return;
@@ -63,7 +77,7 @@ export default function SparePartPurchaseClient({
       </label>
       <select
         value={resolvedSize}
-        onChange={(event) => setSelectedSize(event.target.value)}
+        onChange={(event) => handleSizeChange(event.target.value)}
         className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-900 outline-none transition focus:border-indigo-400"
       >
         <option value="" disabled>
@@ -86,7 +100,7 @@ export default function SparePartPurchaseClient({
             id,
             name: displayName,
             priceCents: resolvedPriceCents,
-            imageUrl,
+            imageUrl: resolvedImageUrl,
             variantValue: resolvedSize || null,
           }}
           disabled={selectionDisabled}
@@ -97,7 +111,7 @@ export default function SparePartPurchaseClient({
           id={id}
           name={name}
           priceCents={resolvedPriceCents}
-          imageUrl={imageUrl}
+          imageUrl={resolvedImageUrl}
           variantValue={resolvedSize || null}
           className="inline-flex items-center justify-center rounded-xl bg-[#f59e0b] px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#e58d07] disabled:cursor-not-allowed disabled:opacity-60"
           quantity={1}
@@ -215,7 +229,7 @@ export default function SparePartPurchaseClient({
               </label>
               <select
                 value={resolvedSize}
-                onChange={(event) => setSelectedSize(event.target.value)}
+                onChange={(event) => handleSizeChange(event.target.value)}
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-900 outline-none transition focus:border-indigo-400"
               >
                 <option value="" disabled>
@@ -251,7 +265,7 @@ export default function SparePartPurchaseClient({
                   id={id}
                   name={name}
                   priceCents={resolvedPriceCents}
-                  imageUrl={imageUrl}
+                  imageUrl={resolvedImageUrl}
                   variantValue={resolvedSize || null}
                   className="inline-flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
                   quantity={1}
@@ -263,7 +277,7 @@ export default function SparePartPurchaseClient({
                       id,
                       name: displayName,
                       priceCents: resolvedPriceCents,
-                      imageUrl,
+                      imageUrl: resolvedImageUrl,
                       variantValue: resolvedSize || null,
                     }}
                     disabled={selectionDisabled}

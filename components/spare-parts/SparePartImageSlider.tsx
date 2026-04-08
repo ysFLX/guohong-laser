@@ -29,6 +29,10 @@ export default function SparePartImageSlider({
     setIndex(0);
   }, [index, items.length]);
 
+  useEffect(() => {
+    setIndex(0);
+  }, [items]);
+
   const goTo = useCallback(
     (next: number) => {
       const clamped = (next + items.length) % items.length;
