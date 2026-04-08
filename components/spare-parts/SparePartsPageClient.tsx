@@ -793,13 +793,22 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
 
           <div className="relative z-10 mt-2.5" onClick={(event) => event.stopPropagation()}>
             {inStock && sparePartDirectPurchaseEnabled ? (
-              <div className="grid gap-2">
+              <div className="grid grid-cols-2 gap-2">
+                <QuickBuyButton
+                  item={{
+                    id: p.id,
+                    name: p.name,
+                    priceCents: p.priceCents,
+                    imageUrl: p.imageUrl,
+                  }}
+                  label="Satin al"
+                />
                 <AddToCartButton
                   id={p.id}
                   name={p.name}
                   priceCents={p.priceCents}
                   imageUrl={p.imageUrl}
-                  className="rounded-xl bg-[#ff6a0d] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#ff6a0d]"
+                  className="rounded-xl border border-[#ff6a0d] bg-white px-4 py-2.5 text-sm font-semibold text-[#ff6a0d] transition hover:bg-orange-50"
                 />
               </div>
             ) : (

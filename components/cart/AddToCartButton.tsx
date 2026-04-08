@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { useCart } from './CartProvider';
 import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
 import { buildSparePartCartLineId, buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
+import { useCart } from './CartProvider';
 
 type Props = {
   id: string;
@@ -55,10 +55,11 @@ export default function AddToCartButton({
             },
           ],
         });
+
         let toastId = '';
         toastId = show('Sepetinize eklendi', [
           {
-            label: 'Ödemeye geç',
+            label: 'Adres secmeye devam et',
             onClick: () => {
               dismiss(toastId);
               trackEvent('begin_checkout', {
@@ -84,23 +85,22 @@ export default function AddToCartButton({
             },
           },
           {
-            label: 'Alışverişe devam et',
+            label: 'Alisverise devam et',
             onClick: () => {
               dismiss(toastId);
             },
           },
         ]);
+
         window.setTimeout(() => setIsAdding(false), 350);
       }}
       disabled={isDisabled}
       className={
         className ||
-        'inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60'
+        'inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60'
       }
     >
       {isAdding ? 'Ekleniyor...' : 'Sepete Ekle'}
     </button>
   );
 }
-
-
