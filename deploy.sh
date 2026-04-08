@@ -34,6 +34,9 @@ fi
 echo "==> Installing dependencies"
 npm install
 
+echo "==> Applying database migrations"
+npx prisma migrate deploy
+
 echo "==> Building app"
 npm run build
 
