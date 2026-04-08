@@ -1,3 +1,4 @@
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -26,7 +27,12 @@ type UpdatePayload = {
 };
 
 type SparePartUpdateDelegate = {
-  findUnique: (args: unknown) => Promise<{ id: string; stockOnHand: number } | null>;
+  findUnique: (args: unknown) => Promise<{
+    id: string;
+    stockOnHand: number;
+    sizeOptions?: string[];
+    sizeOptionImages?: unknown;
+  } | null>;
   update: (args: unknown) => Promise<{ id: string; imageUrl: string | null; isFeatured: boolean; isActive: boolean }>;
   delete: (args: unknown) => Promise<{ id: string }>;
 };
@@ -39,6 +45,23 @@ const prismaSpareParts = prisma as unknown as {
   sparePart: SparePartUpdateDelegate;
   stockMovement: StockMovementCreateDelegate;
 };
+
+function normalizeExistingSizeOptionImages(value: unknown, allowedSizeOptions: string[]) {
+  if (!value || typeof value !== 'object') return {} as Record<string, string>;
+
+  const allowed = new Set(allowedSizeOptions);
+  const source = value as Record<string, unknown>;
+  const next: Record<string, string> = {};
+
+  for (const [key, rawValue] of Object.entries(source)) {
+    if (!allowed.has(key) || typeof rawValue !== 'string') continue;
+    const normalized = rawValue.trim();
+    if (!normalized) continue;
+    next[key] = normalized;
+  }
+
+  return next;
+}
 
 export async function PATCH(
   req: Request,
@@ -136,9 +159,24 @@ export async function PATCH(
 
   try {
     const requestedStock = typeof data.stockOnHand === 'number' ? (data.stockOnHand as number) : null;
-    const existing = requestedStock !== null
-      ? await prismaSpareParts.sparePart.findUnique({ where: { id }, select: { id: true, stockOnHand: true } })
+    const shouldLoadExisting =
+      requestedStock !== null || 'hasSizeOptions' in payload || 'sizeOptionEntries' in payload || 'sizeOptions' in payload;
+    const existing = shouldLoadExisting
+      ? await prismaSpareParts.sparePart.findUnique({
+          where: { id },
+          select: { id: true, stockOnHand: true, sizeOptions: true, sizeOptionImages: true },
+        })
       : null;
+
+    if (existing && 'sizeOptionImages' in data && Array.isArray(data.sizeOptions)) {
+      const resolvedSizeOptions = data.sizeOptions as string[];
+      const nextImages = data.sizeOptionImages as Record<string, unknown>;
+      const hasIncomingImageAssignments = Object.keys(nextImages).length > 0;
+
+      data.sizeOptionImages = hasIncomingImageAssignments
+        ? nextImages
+        : normalizeExistingSizeOptionImages(existing.sizeOptionImages, resolvedSizeOptions);
+    }
 
     const updated = await prismaSpareParts.sparePart.update({
       where: { id },
@@ -157,6 +195,12 @@ export async function PATCH(
         },
       });
     }
+
+    revalidateTag('spare-parts', 'max');
+    revalidatePath('/');
+    revalidatePath('/spare-parts');
+    revalidatePath(`/spare-parts/${id}`);
+    revalidatePath(`/admin/spare-parts/${id}`);
 
     return NextResponse.json({ item: updated });
   } catch (e: unknown) {
