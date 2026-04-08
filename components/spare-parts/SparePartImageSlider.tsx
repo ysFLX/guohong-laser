@@ -18,8 +18,19 @@ export default function SparePartImageSlider({
   name: string;
 }) {
   const items = useMemo(() => {
-    if (images.length > 0) return images;
-    return [{ id: 'fallback', url: fallbackUrl }];
+    const normalizedImages = images.filter(
+      (image): image is ImageItem =>
+        Boolean(image) && typeof image.id === 'string' && typeof image.url === 'string' && image.url.trim().length > 0,
+    );
+
+    if (normalizedImages.length > 0) return normalizedImages;
+
+    const normalizedFallbackUrl = typeof fallbackUrl === 'string' ? fallbackUrl.trim() : '';
+    if (normalizedFallbackUrl) {
+      return [{ id: 'fallback', url: normalizedFallbackUrl }];
+    }
+
+    return [];
   }, [images, fallbackUrl]);
 
   const [index, setIndex] = useState(0);
@@ -51,7 +62,13 @@ export default function SparePartImageSlider({
 
   const swipeRef = useRef<{ startX: number; active: boolean }>({ startX: 0, active: false });
 
-  const active = items[index];
+  const active = items[index] ?? items[0] ?? null;
+
+  if (!active) {
+    return (
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200/70 bg-white/90 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30" />
+    );
+  }
 
   return (
     <div>
