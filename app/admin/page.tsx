@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
 
 const quickLinks = [
@@ -89,6 +90,17 @@ function formatDateTime(date: Date) {
   }
 }
 
+function formatExchangeRate(rate: number) {
+  try {
+    return new Intl.NumberFormat('tr-TR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4,
+    }).format(rate);
+  } catch {
+    return rate.toFixed(4);
+  }
+}
+
 export default async function AdminHomePage() {
   const [
     totalParts,
@@ -102,6 +114,7 @@ export default async function AdminHomePage() {
     latestParts,
     recentInquiries,
     homePanels,
+    usdTryExchangeRate,
   ] = await Promise.all([
     prismaAdmin.sparePart.count(),
     prismaAdmin.sparePart.count({ where: { isActive: true } }),
@@ -130,6 +143,7 @@ export default async function AdminHomePage() {
       },
     }),
     prismaAdmin.homePanelConfig.findUnique({ where: { id: 'home' }, select: { updatedAt: true } }),
+    getUsdTryExchangeRate(),
   ]);
 
   const stats = [
@@ -268,6 +282,30 @@ export default async function AdminHomePage() {
             >
               Panelleri düzenle
             </Link>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">Dolar kuru</div>
+              <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">
+                1 USD = {formatExchangeRate(usdTryExchangeRate.rate)} TL
+              </div>
+              <div className="mt-1 text-sm text-[var(--admin-muted)]">
+                Son guncelleme:{' '}
+                {usdTryExchangeRate.fetchedAt.getTime() > 0
+                  ? formatDateTime(usdTryExchangeRate.fetchedAt)
+                  : 'Henuz canli veri alinmadi'}
+              </div>
+              <div className="mt-1 text-xs text-[var(--admin-muted)]">
+                Kaynak: {usdTryExchangeRate.source}
+                {usdTryExchangeRate.effectiveDate ? ` - Tarih: ${usdTryExchangeRate.effectiveDate}` : ''}
+              </div>
+            </div>
+            <div className="rounded-full border border-[var(--admin-border)] bg-[var(--admin-surface)] px-3 py-2 text-xs font-semibold tracking-[0.18em] text-[var(--admin-text)]">
+              {usdTryExchangeRate.source === 'fallback' ? 'FALLBACK KUR' : 'CRON GUNCEL'}
+            </div>
           </div>
         </div>
       </div>
