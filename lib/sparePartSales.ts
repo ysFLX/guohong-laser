@@ -10,5 +10,6 @@ export function isSparePartPriceVisible() {
 
 export function isSparePartDirectPurchaseEnabled() {
   const raw = normalize(process.env.NEXT_PUBLIC_SPARE_PART_DIRECT_PURCHASE || '');
+  if (!raw) return true;
   return raw === '1' || raw === 'true' || raw === 'enabled' || raw === 'active';
 }

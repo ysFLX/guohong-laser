@@ -6,8 +6,8 @@ function normalize(value: string) {
 
 export function getCheckoutMode(): CheckoutMode {
   const raw = normalize(process.env.NEXT_PUBLIC_CHECKOUT_MODE || '');
-  if (raw === 'payment') return 'payment';
-  return 'quote';
+  if (raw === 'quote') return 'quote';
+  return 'payment';
 }
 
 export function isPaymentCheckoutEnabled() {
