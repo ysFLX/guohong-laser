@@ -60,15 +60,37 @@ export default function SparePartImageSlider({
     setIndex((prev) => (prev + 1) % items.length);
   }, [items.length]);
 
-  const swipeRef = useRef<{ startX: number; active: boolean }>({ startX: 0, active: false });
-
   const active = items[index] ?? items[0] ?? null;
+  const swipeRef = useRef<{ startX: number; active: boolean }>({ startX: 0, active: false });
+  const [isFading, setIsFading] = useState(false);
+  const prevActiveUrlRef = useRef('');
 
   if (!active) {
     return (
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200/70 bg-white/90 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30" />
     );
   }
+
+  useEffect(() => {
+    const nextUrl = active.url;
+    if (!nextUrl) return;
+
+    if (!prevActiveUrlRef.current) {
+      prevActiveUrlRef.current = nextUrl;
+      return;
+    }
+
+    if (prevActiveUrlRef.current === nextUrl) return;
+
+    prevActiveUrlRef.current = nextUrl;
+    setIsFading(true);
+
+    const timer = window.setTimeout(() => {
+      setIsFading(false);
+    }, 220);
+
+    return () => window.clearTimeout(timer);
+  }, [active.url]);
 
   return (
     <div>
@@ -109,11 +131,12 @@ export default function SparePartImageSlider({
         }}
       >
         <Image
+          key={active.url}
           src={active.url}
           alt={name}
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
+          className={`object-cover transition-opacity duration-200 ${isFading ? 'opacity-0' : 'opacity-100'}`}
           priority
           unoptimized
         />
