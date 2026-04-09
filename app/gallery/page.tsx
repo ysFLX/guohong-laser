@@ -135,7 +135,7 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="min-h-screen space-y-16">
+    <div className="space-y-16 pb-16">
       <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.32),_transparent_55%)] opacity-70" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(5,0,92,0.86),_rgba(5,0,92,0.3))]" />
