@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist_Mono, Poppins } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import Analytics from '@/components/analytics/Analytics';
@@ -9,9 +9,10 @@ import RootChrome from '@/components/layout/RootChrome';
 import './globals.css';
 import Providers from './providers';
 
-const geistSans = Geist({
+const poppins = Poppins({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
 });
 
 const geistMono = Geist_Mono({
@@ -152,11 +153,13 @@ export default function RootLayout({
         <link rel="icon" href="/images/logokoyu.png" />
         <link rel="apple-touch-icon" href="/images/logokoyu.png" />
         <link rel="shortcut icon" href="/images/logokoyu.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]`}
+        className={`${poppins.variable} ${geistMono.variable} flex min-h-full flex-col overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
       >
         <Analytics gaId={gaId} />
