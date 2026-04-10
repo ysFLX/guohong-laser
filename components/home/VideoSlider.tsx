@@ -310,8 +310,8 @@ export default function VideoSlider({
               <button
                 type="button"
                 onClick={handleToggleMute}
-                className="hidden rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10 sm:inline-flex"
-                style={{ color: '#fff' }}
+                className="hidden rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-white/10 sm:inline-flex"
+                style={{ color: '#fff', opacity: 1, textShadow: '0 1px 8px rgba(0,0,0,0.85)' }}
               >
                 {muted || volume === 0 ? 'Sessiz' : 'Ses'}
               </button>
@@ -328,8 +328,8 @@ export default function VideoSlider({
               <button
                 type="button"
                 onClick={handleFullscreen}
-                className="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10"
-                style={{ color: '#fff' }}
+                className="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-white/10"
+                style={{ color: '#fff', opacity: 1, textShadow: '0 1px 8px rgba(0,0,0,0.85)' }}
               >
                 Tam ekran
               </button>
