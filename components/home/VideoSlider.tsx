@@ -153,21 +153,21 @@ export default function VideoSlider({
               <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
               <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
             {failedSources[item.src] ? (
-              <div className="relative h-full w-full">
+              <div className="relative h-full w-full cursor-pointer" onClick={handleToggle} role="button" tabIndex={0}>
                 <Image src={item.poster ?? '/images/8.jpg'} alt={item.title ?? `Video ${i + 1}`} fill className="object-cover" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(8,15,35,0.1),_rgba(8,15,35,0.72))]" />
                 <div
-                  className="absolute left-5 top-5 rounded-full border border-white/20 bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] shadow-lg backdrop-blur"
-                  style={{ color: '#fff' }}
+                  className="absolute left-5 top-5 rounded-full border border-white/20 bg-slate-950/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] shadow-lg backdrop-blur"
+                  style={{ color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.9)' }}
                 >
                   Video {String(i + 1).padStart(2, '0')}
                 </div>
                 <div className="absolute inset-x-0 bottom-0 p-5" style={{ color: '#fff' }}>
-                  <div className="max-w-[min(80vw,520px)] rounded-2xl border border-white/15 bg-slate-950/90 px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur">
-                    <div className="text-lg font-semibold sm:text-2xl" style={{ color: '#fff' }}>
+                  <div className="max-w-[min(80vw,520px)] rounded-2xl border border-white/15 bg-slate-950/95 px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur">
+                    <div className="text-lg font-semibold sm:text-2xl" style={{ color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.9)' }}>
                       {item.title ?? `Video ${i + 1}`}
                     </div>
-                    <p className="mt-2 text-sm" style={{ color: '#fff' }}>
+                    <p className="mt-2 text-sm" style={{ color: '#fff', textShadow: '0 1px 8px rgba(0,0,0,0.75)' }}>
                       Video kaynagi yuklenemedi. Poster goruntu ile alan korunuyor.
                     </p>
                   </div>
@@ -180,10 +180,11 @@ export default function VideoSlider({
                 }}
                 src={item.src}
                 poster={item.poster}
-                className="h-full w-full bg-slate-900 object-cover"
+                className="h-full w-full cursor-pointer bg-slate-900 object-cover"
                 muted={false}
                 playsInline
                 preload="metadata"
+                onClick={handleToggle}
                 onLoadedMetadata={(event) => {
                   const video = event.currentTarget;
                   video.muted = muted;
@@ -237,14 +238,14 @@ export default function VideoSlider({
         <div className="pointer-events-none absolute left-5 right-5 top-5 z-20 flex items-start justify-between gap-4">
           <div>
             <div
-              className="inline-flex rounded-full border border-white/20 bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] shadow-lg backdrop-blur"
-              style={{ color: '#fff' }}
+              className="inline-flex rounded-full border border-white/20 bg-slate-950/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] shadow-lg backdrop-blur"
+              style={{ color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.9)' }}
             >
               Video {String(index + 1).padStart(2, '0')}
             </div>
             <div
-              className="mt-3 max-w-[min(78vw,520px)] rounded-2xl border border-white/15 bg-slate-950/90 px-4 py-3 text-lg font-semibold shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur sm:text-2xl"
-              style={{ color: '#fff' }}
+              className="mt-3 max-w-[min(78vw,520px)] rounded-2xl border border-white/15 bg-slate-950/95 px-4 py-3 text-lg font-semibold shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur sm:text-2xl"
+              style={{ color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.9)' }}
             >
               {items[index]?.title ?? `Video ${index + 1}`}
             </div>
@@ -279,7 +280,7 @@ export default function VideoSlider({
 
         <div className="absolute inset-x-0 bottom-0 z-30 px-4 pb-4">
           <div
-            className="rounded-[22px] border border-amber-100/20 bg-slate-900/55 px-4 py-3 text-white shadow-[0_18px_40px_rgba(8,18,50,0.35)] backdrop-blur"
+            className="rounded-[22px] border border-white/15 bg-slate-950/80 px-4 py-3 text-white shadow-[0_18px_40px_rgba(8,18,50,0.5)] backdrop-blur"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center gap-3">
@@ -291,7 +292,7 @@ export default function VideoSlider({
               >
                 {isPlaying ? '||' : '>'}
               </button>
-              <div className="min-w-[88px] text-sm font-medium tabular-nums text-white/85">
+              <div className="min-w-[88px] text-sm font-medium tabular-nums text-white">
                 {formatTime(currentTime)} / {formatTime(duration)}
               </div>
               <input
@@ -307,7 +308,7 @@ export default function VideoSlider({
               <button
                 type="button"
                 onClick={handleToggleMute}
-                className="hidden rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-white/10 sm:inline-flex"
+                className="hidden rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10 sm:inline-flex"
               >
                 {muted || volume === 0 ? 'Sessiz' : 'Ses'}
               </button>
@@ -324,7 +325,7 @@ export default function VideoSlider({
               <button
                 type="button"
                 onClick={handleFullscreen}
-                className="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] hover:bg-white/10"
+                className="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10"
               >
                 Tam ekran
               </button>
