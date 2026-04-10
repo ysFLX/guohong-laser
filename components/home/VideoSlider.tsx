@@ -282,6 +282,7 @@ export default function VideoSlider({
           <div
             className="rounded-[22px] border border-white/15 bg-slate-950/80 px-4 py-3 text-white shadow-[0_18px_40px_rgba(8,18,50,0.5)] backdrop-blur"
             onClick={(event) => event.stopPropagation()}
+            style={{ color: '#fff' }}
           >
             <div className="flex items-center gap-3">
               <button
@@ -289,10 +290,11 @@ export default function VideoSlider({
                 onClick={handleToggle}
                 className="inline-flex h-10 min-w-10 items-center justify-center rounded-full border border-white/20 px-3 text-sm font-semibold hover:bg-white/10"
                 aria-label={isPlaying ? 'Duraklat' : 'Oynat'}
+                style={{ color: '#fff' }}
               >
-                {isPlaying ? '||' : '>'}
+                <span style={{ color: '#fff' }}>{isPlaying ? '||' : '>'}</span>
               </button>
-              <div className="min-w-[88px] text-sm font-medium tabular-nums text-white">
+              <div className="min-w-[88px] text-sm font-medium tabular-nums" style={{ color: '#fff' }}>
                 {formatTime(currentTime)} / {formatTime(duration)}
               </div>
               <input
@@ -309,6 +311,7 @@ export default function VideoSlider({
                 type="button"
                 onClick={handleToggleMute}
                 className="hidden rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10 sm:inline-flex"
+                style={{ color: '#fff' }}
               >
                 {muted || volume === 0 ? 'Sessiz' : 'Ses'}
               </button>
@@ -326,6 +329,7 @@ export default function VideoSlider({
                 type="button"
                 onClick={handleFullscreen}
                 className="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/10"
+                style={{ color: '#fff' }}
               >
                 Tam ekran
               </button>
