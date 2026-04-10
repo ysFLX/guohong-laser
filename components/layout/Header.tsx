@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,12 +11,51 @@ import { useCart } from '@/components/cart/CartProvider';
 import { useNotifications } from '@/components/notifications/NotificationsProvider';
 import { useTheme } from '@/components/theme/ThemeProvider';
 
-const NAV_ITEMS = [
+type NavChild = {
+  href: string;
+  label: string;
+};
+
+type NavItem = {
+  href: string;
+  label: string;
+  children?: NavChild[];
+};
+
+const PRIMARY_NAV: NavItem[] = [
+  { href: '/about', label: 'Hakkımızda' },
+  {
+    href: '/products',
+    label: 'Ürünler',
+    children: [
+      { href: '/products', label: 'Plaka Lazer Kesim Makinesi' },
+      { href: '/products', label: 'Tüp Lazer Kesim Makinesi' },
+      { href: '/products', label: 'Plaka ve Boru Lazer Kesim Makinesi' },
+      { href: '/products', label: 'Tüp Otomatik Beslemeli Lazer Kesim Makinesi' },
+      { href: '/products', label: 'El Tipi Lazer Kaynak Makinesi' },
+      { href: '/products', label: 'Lazer Temizleme Makinesi' },
+    ],
+  },
+  {
+    href: '/contact',
+    label: 'Hizmet',
+    children: [
+      { href: '/contact?subject=Teknik+Destek', label: 'Teknik Destek' },
+      { href: '/quote', label: 'Başvuru' },
+      { href: '/gallery', label: 'Müşteri Davası' },
+      { href: '/faq', label: 'SSS' },
+    ],
+  },
+  { href: '/gallery', label: 'Haberler' },
+  { href: '/contact', label: 'Bize Ulaşın' },
+] ;
+
+const MOBILE_LINKS = [
   { href: '/', label: 'Ana Sayfa' },
-  { href: '/products', label: 'Makineler' },
+  { href: '/about', label: 'Hakkımızda' },
+  { href: '/products', label: 'Ürünler' },
   { href: '/spare-parts', label: 'Yedek Parçalar' },
   { href: '/gallery', label: 'Galeri' },
-  { href: '/about', label: 'Hakkımızda' },
   { href: '/contact', label: 'İletişim' },
 ] as const;
 
@@ -30,25 +69,23 @@ function buildWhatsAppHref(pageUrl?: string) {
 }
 
 export default function Header() {
-  const { status, data } = useSession();
   const pathname = usePathname();
+  const { status, data } = useSession();
   const { toggleCart, itemCount } = useCart();
   const { open: openNotifications, unreadCount } = useNotifications();
   const { theme, toggle: toggleTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
-  const [logoError, setLogoError] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [whatsAppHref, setWhatsAppHref] = useState(buildWhatsAppHref());
   const [loginHref, setLoginHref] = useState('/login');
   const [registerHref, setRegisterHref] = useState('/register');
-  const [whatsAppHref, setWhatsAppHref] = useState(buildWhatsAppHref());
   const mobileMenuRef = useRef<HTMLElement | null>(null);
 
   const isAuthed = mounted && status === 'authenticated';
   const isAdmin = mounted && data?.user?.role === 'ADMIN';
   const avatarUrl = data?.user?.image;
-  const logoSrc = '/images/logokoyu-crop.png';
 
   useEffect(() => {
     setMounted(true);
@@ -78,20 +115,13 @@ export default function Header() {
       if (event.key === 'Escape') setMobileMenuOpen(false);
     };
 
-    const onResize = () => {
-      if (window.innerWidth >= 1024) setMobileMenuOpen(false);
-    };
-
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('resize', onResize);
-
-    const prevOverflow = document.body.style.overflow;
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
 
     return () => {
+      document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('resize', onResize);
-      document.body.style.overflow = prevOverflow;
     };
   }, [mobileMenuOpen]);
 
@@ -105,82 +135,100 @@ export default function Header() {
     return pathname?.startsWith(href);
   };
 
-  const desktopLinkClass = (href: string) => {
-    const active = 'text-amber-50 bg-gradient-to-b from-amber-300/18 to-amber-300/8 border-amber-200/40 shadow-[0_10px_24px_rgba(251,191,36,0.18)]';
-    const idle = 'text-amber-100/78 border-transparent hover:text-amber-50 hover:border-amber-200/25 hover:bg-white/[0.03]';
-    return `relative inline-flex items-center rounded-full border px-3.5 py-2 text-[12px] font-medium tracking-[0.01em] transition ${isActive(href) ? active : idle}`;
-  };
-
-  const mobileLinkClass = (href: string) => {
-    const active = 'bg-amber-500 text-black';
-    const idle = 'text-amber-100 hover:bg-[#15148c]';
-    return `flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold transition ${isActive(href) ? active : idle}`;
-  };
-
   const cartBadge = useMemo(() => {
     if (!mounted || itemCount <= 0) return null;
     return (
-      <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber-500 px-1 text-[11px] font-bold text-black">
+      <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-[#ff6a0d] px-1 text-[11px] font-bold text-[#15148c]">
         {itemCount}
       </span>
     );
-  }, [mounted, itemCount]);
+  }, [itemCount, mounted]);
 
   const notificationsBadge = useMemo(() => {
     if (!mounted || unreadCount <= 0) return null;
     return (
-      <span className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-amber-500 px-1 text-[11px] font-bold text-black">
+      <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-[#ff6a0d] px-1 text-[11px] font-bold text-[#15148c]">
         {unreadCount}
       </span>
     );
   }, [mounted, unreadCount]);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 lg:px-8">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-20 top-1 h-56 w-56 rounded-full bg-amber-300/14 blur-[130px]" />
-        <div className="absolute -right-20 top-8 h-56 w-56 rounded-full bg-amber-300/14 blur-[150px]" />
+    <header className="sticky top-0 z-50 border-b border-white/8 bg-[#15148c]/95 text-white backdrop-blur-xl">
+      <div className="border-b border-white/8 bg-[#0b0b66]">
+        <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-xs text-white/72 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center gap-4">
+            <a href="mailto:sales@guohonglaser.com" className="transition hover:text-[#ff6a0d]">
+              E-posta: sales@guohonglaser.com
+            </a>
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="transition hover:text-[#ff6a0d]">
+              Whatsapp: +90 536 831 67 87
+            </a>
+          </div>
+          <div className="hidden items-center gap-4 md:flex">
+            <span>Turkish</span>
+            <span className="text-white/35">|</span>
+            <span className="text-white/55">English</span>
+            <span className="text-white/55">Russian</span>
+          </div>
+        </div>
       </div>
 
-      <div className="relative mx-auto max-w-screen-2xl">
-        <div className="flex h-[88px] items-center gap-2 rounded-2xl border border-amber-200/25 bg-[#15148c] px-3 shadow-[0_18px_55px_rgba(5,0,92,0.5)] ring-1 ring-amber-100/10 backdrop-blur-2xl sm:gap-3 sm:px-4">
-          <Link href="/" className="inline-flex min-w-0 items-center gap-3">
-            {!logoError ? (
-              <Image
-                src={logoSrc}
-                alt="Guohong Lazer"
-                width={300}
-                height={154}
-                sizes="(max-width: 640px) 220px, 300px"
-                priority
-                className="h-[62px] w-auto sm:h-[68px]"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <span className="text-base font-semibold tracking-tight text-amber-50">Guohong Lazer</span>
-            )}
+      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-[92px] items-center gap-4">
+          <Link href="/" className="inline-flex items-center gap-3">
+            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={220} height={90} priority className="h-[58px] w-auto sm:h-[64px]" />
           </Link>
 
-          <nav className="hidden flex-1 justify-center lg:flex" aria-label="Ana menü">
-            <div className="flex items-center gap-1.5 rounded-full border border-amber-200/25 bg-[#15148c] p-1.5">
-              {NAV_ITEMS.map((item) => (
-                <Link key={item.href} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} className={desktopLinkClass(item.href)}>
-                  {item.label}
-                </Link>
+          <nav className="hidden flex-1 items-center justify-center lg:flex">
+            <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/4 px-2 py-2">
+              {PRIMARY_NAV.map((item) => (
+                <div key={item.label} className="group relative">
+                  <Link
+                    href={item.href}
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
+                      isActive(item.href) ? 'bg-white/10 text-white' : 'text-white/74 hover:bg-white/8 hover:text-white'
+                    }`}
+                  >
+                    {item.label}
+                    {item.children ? (
+                      <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clipRule="evenodd" />
+                      </svg>
+                    ) : null}
+                  </Link>
+
+                  {item.children ? (
+                    <div className="pointer-events-none absolute left-1/2 top-full z-20 hidden w-[340px] -translate-x-1/2 pt-4 group-hover:block group-hover:pointer-events-auto">
+                      <div className="rounded-[28px] border border-white/10 bg-[#0e0e75] p-4 shadow-[0_28px_70px_rgba(5,0,92,0.55)]">
+                        <div className="grid gap-2">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              className="rounded-2xl px-4 py-3 text-sm font-medium text-white/76 transition hover:bg-white/8 hover:text-white"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               ))}
             </div>
           </nav>
 
-          <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-            <Link href="/quote" className="hidden sm:inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold tracking-[0.01em] text-black shadow-[0_12px_36px_rgba(251,191,36,0.35)] transition hover:bg-amber-400">
+          <div className="ml-auto hidden items-center gap-2 lg:flex">
+            <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-5 py-3 text-sm font-semibold text-[#15148c] transition hover:brightness-105">
               Teklif Al
             </Link>
+            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-white/80 transition hover:bg-white/8 hover:text-white">
+              Yedek Parçalar
+            </Link>
 
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="hidden xl:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#15148c] px-4 py-2 text-xs font-semibold tracking-[0.01em] text-amber-100 transition hover:border-amber-300/70 hover:bg-[#15148c]">
-              WhatsApp
-            </a>
-
-            <button type="button" onClick={toggleTheme} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#15148c] p-2 text-amber-100 transition hover:bg-[#15148c] hover:text-amber-50" aria-label="Tema değiştir">
+            <button type="button" onClick={toggleTheme} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/82 transition hover:bg-white/8 hover:text-white" aria-label="Tema değiştir">
               {theme === 'dark' ? (
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8-9h1M3 12H2m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
               ) : (
@@ -188,127 +236,116 @@ export default function Header() {
               )}
             </button>
 
-            {isAuthed && (
-              <button type="button" onClick={openNotifications} className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#15148c] hover:text-amber-50" aria-label="Bildirimleri aç">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                {notificationsBadge}
-              </button>
+            {isAuthed ? (
+              <>
+                <button type="button" onClick={openNotifications} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/82 transition hover:bg-white/8 hover:text-white" aria-label="Bildirimleri aç">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                  {notificationsBadge}
+                </button>
+                <button type="button" onClick={toggleCart} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/82 transition hover:bg-white/8 hover:text-white" aria-label="Sepeti aç">
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  {cartBadge}
+                </button>
+                <button type="button" onClick={() => setProfileOpen(true)} className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-2 py-2 text-sm font-semibold text-white transition hover:bg-white/8" aria-label="Profili aç">
+                  {avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={avatarUrl} alt="Profil fotoğrafı" className="h-8 w-8 rounded-full object-cover" />
+                  ) : (
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10">G</span>
+                  )}
+                  <span className="pr-2">Profil</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-white/12 px-4 py-3 text-sm font-semibold text-white/82 transition hover:bg-white/8 hover:text-white">
+                  Giriş
+                </Link>
+                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-white/12 px-4 py-3 text-sm font-semibold text-white/82 transition hover:bg-white/8 hover:text-white">
+                  Kayıt
+                </Link>
+              </>
             )}
 
-            <button type="button" onClick={toggleCart} className="relative inline-flex items-center justify-center rounded-full p-2 text-amber-100/80 transition hover:bg-[#15148c] hover:text-amber-50" aria-label="Sepeti aç">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            {isAdmin ? (
+              <Link href="/admin" className="inline-flex items-center justify-center rounded-full border border-[#ff6a0d]/35 bg-[#ff6a0d]/10 px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#ff6a0d]">
+                Admin
+              </Link>
+            ) : null}
+          </div>
+
+          <div className="ml-auto flex items-center gap-2 lg:hidden">
+            <button type="button" onClick={toggleCart} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/82" aria-label="Sepeti aç">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               {cartBadge}
             </button>
-
-            {isAuthed ? (
-              <button type="button" onClick={() => setProfileOpen(true)} className="hidden sm:inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#15148c] p-1.5 text-amber-100 transition hover:bg-[#15148c]" aria-label="Profil">
-                {avatarUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={avatarUrl} alt="Profil fotoğrafı" className="h-8 w-8 rounded-full object-cover" />
-                ) : (
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                )}
-              </button>
-            ) : (
-              <div className="hidden items-center gap-2 sm:flex">
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#15148c] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100 transition hover:bg-[#15148c]">Giriş</Link>
-                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black transition hover:bg-amber-400">Kayıt</Link>
-              </div>
-            )}
-
-            {isAdmin && (
-              <Link href="/admin" className="hidden md:inline-flex items-center justify-center rounded-full border border-amber-200/25 bg-amber-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200 transition hover:border-amber-300/50">Admin</Link>
-            )}
-
-            <button type="button" className="z-10 shrink-0 inline-flex items-center justify-center rounded-full border border-amber-200/35 bg-[#15148c] p-2 text-amber-100 transition hover:bg-[#15148c] lg:hidden" onClick={() => setMobileMenuOpen((prev) => !prev)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <button type="button" onClick={() => setMobileMenuOpen((prev) => !prev)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/5 text-white/82" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
           </div>
         </div>
       </div>
 
       <ProfileDrawer isOpen={profileOpen} close={() => setProfileOpen(false)} />
+
       <div className={`fixed inset-0 z-[150] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        <div className={`absolute inset-0 bg-[#050038]/70 backdrop-blur-sm transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setMobileMenuOpen(false)} />
         <aside
           ref={mobileMenuRef}
           role="dialog"
-          aria-label="Mobil menü paneli"
           aria-modal="true"
-          className={`absolute inset-0 h-dvh overflow-y-auto bg-[#15148c] px-6 pb-10 pt-6 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          aria-label="Mobil menü"
+          className={`absolute right-0 top-0 h-dvh w-full max-w-sm overflow-y-auto border-l border-white/10 bg-[#0b0b66] px-6 pb-8 pt-6 text-white transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
-          <div className="mb-8 flex items-center justify-between border-b border-amber-200/15 pb-5">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.35em] text-amber-100/60">MENÜ</p>
-              <p className="mt-2 text-xl font-semibold text-amber-50">Guohong Lazer</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/30 bg-[#15148c] text-amber-100"
-              aria-label="Menüyü kapat"
-            >
-              <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
-                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
+          <div className="flex items-center justify-between border-b border-white/10 pb-5">
+            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={180} height={74} className="h-12 w-auto" />
+            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/5">
+              <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
             </button>
           </div>
 
-          <nav className="grid gap-3" aria-label="Mobil ana menü">
-            {NAV_ITEMS.map((item) => (
+          <div className="mt-6 grid gap-3">
+            {MOBILE_LINKS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                aria-current={isActive(item.href) ? 'page' : undefined}
-                className={`${mobileLinkClass(item.href)} py-4 text-[1.05rem]`}
+                className={`rounded-2xl px-4 py-3 text-sm font-semibold transition ${
+                  isActive(item.href) ? 'bg-[#ff6a0d] text-[#15148c]' : 'bg-white/5 text-white/82 hover:bg-white/8'
+                }`}
               >
-                <span>{item.label}</span>
-                <span className={isActive(item.href) ? 'text-black/70' : 'text-amber-100/70'}>→</span>
+                {item.label}
               </Link>
             ))}
-          </nav>
+          </div>
 
-          {!isAuthed ? (
-            <div className="mt-8 grid gap-3">
-              <Link
-                href={loginHref}
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/35 bg-[#15148c] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#15148c]"
-              >
-                Giriş Yap
-              </Link>
-              <Link
-                href={registerHref}
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-amber-400"
-              >
-                Kayıt Ol
-              </Link>
-            </div>
-          ) : (
-            <div className="mt-8 grid gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setProfileOpen(true);
-                }}
-                className="inline-flex items-center justify-center rounded-2xl border border-amber-200/35 bg-[#15148c] px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-[#15148c]"
-              >
-                Profili Aç
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  signOut({ callbackUrl: '/' });
-                }}
-                className="inline-flex items-center justify-center rounded-2xl border border-rose-300/40 bg-rose-900/20 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-900/30"
-              >
-                Çıkış Yap
-              </button>
-            </div>
-          )}
+          <div className="mt-8 grid gap-3">
+            <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-[#ff6a0d] px-4 py-3 text-sm font-semibold text-[#15148c]">
+              Teklif Al
+            </Link>
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white">
+              WhatsApp
+            </a>
+            {!isAuthed ? (
+              <>
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white">
+                  Giriş Yap
+                </Link>
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white">
+                  Kayıt Ol
+                </Link>
+              </>
+            ) : (
+              <>
+                <button type="button" onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }} className="inline-flex items-center justify-center rounded-2xl border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white">
+                  Profili Aç
+                </button>
+                <button type="button" onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }} className="inline-flex items-center justify-center rounded-2xl border border-rose-300/20 bg-rose-500/10 px-4 py-3 text-sm font-semibold text-rose-100">
+                  Çıkış Yap
+                </button>
+              </>
+            )}
+          </div>
         </aside>
       </div>
     </header>
