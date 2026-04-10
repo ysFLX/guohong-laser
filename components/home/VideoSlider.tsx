@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 type VideoItem = {
@@ -29,10 +30,9 @@ export default function VideoSlider({
   const [volume, setVolume] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [failedSources, setFailedSources] = useState<Record<string, boolean>>({});
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const activeVideo = videoRefs.current[index];
 
   const goTo = (next: number) => {
     const clamped = (next + items.length) % items.length;
@@ -49,18 +49,23 @@ export default function VideoSlider({
   }, [autoAdvanceMs, isPlaying, items.length]);
 
   useEffect(() => {
-    videoRefs.current.forEach((video, i) => {
-      if (!video) return;
-      if (i === index) {
-        video.currentTime = 0;
-      } else {
-        video.pause();
-      }
-    });
-    setIsPlaying(false);
-    setPlayBlocked(false);
-    setCurrentTime(0);
-    setDuration(videoRefs.current[index]?.duration ?? 0);
+    const nextDuration = videoRefs.current[index]?.duration ?? 0;
+    const timer = window.setTimeout(() => {
+      videoRefs.current.forEach((video, i) => {
+        if (!video) return;
+        if (i === index) {
+          video.currentTime = 0;
+        } else {
+          video.pause();
+        }
+      });
+      setIsPlaying(false);
+      setPlayBlocked(false);
+      setCurrentTime(0);
+      setDuration(nextDuration);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [index]);
 
   useEffect(() => {
@@ -86,6 +91,9 @@ export default function VideoSlider({
       setIsPlaying(false);
     }
   };
+
+  const activeItem = items[index];
+  const activeVideoFailed = !!activeItem && failedSources[activeItem.src];
 
   const handleVolumeChange = (nextVolume: number) => {
     setVolume(nextVolume);
@@ -141,46 +149,66 @@ export default function VideoSlider({
             className={`absolute inset-0 transition-opacity duration-700 ${
               i === index ? 'pointer-events-auto z-10 opacity-100' : 'pointer-events-none opacity-0'
             }`}
-          >
-            <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
-            <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
-            <video
-              ref={(el) => {
-                videoRefs.current[i] = el;
-              }}
-              src={item.src}
-              poster={item.poster}
-              className="h-full w-full bg-slate-900 object-cover"
-              muted={false}
-              playsInline
-              preload="metadata"
-              onLoadedMetadata={(event) => {
-                const video = event.currentTarget;
-                video.muted = muted;
-                video.volume = volume;
-                if (i === index) {
-                  setDuration(video.duration || 0);
-                }
-              }}
-              onTimeUpdate={(event) => {
-                if (i !== index) return;
-                setCurrentTime(event.currentTarget.currentTime);
-              }}
-              onDurationChange={(event) => {
-                if (i !== index) return;
-                setDuration(event.currentTarget.duration || 0);
-              }}
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-              onEnded={() => setIsPlaying(false)}
-            />
+            >
+              <div className="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
+              <div className="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-slate-950/70 via-slate-900/20 to-transparent sm:w-28" />
+            {failedSources[item.src] ? (
+              <div className="relative h-full w-full">
+                <Image src={item.poster ?? '/images/8.jpg'} alt={item.title ?? `Video ${i + 1}`} fill className="object-cover" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(8,15,35,0.1),_rgba(8,15,35,0.72))]" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                  <div className="text-2xl font-semibold">{item.title ?? `Video ${i + 1}`}</div>
+                  <p className="mt-2 max-w-xl text-sm text-white/75">
+                    Video kaynagi yuklenemedi. Poster goruntu ile alan korunuyor.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <video
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                src={item.src}
+                poster={item.poster}
+                className="h-full w-full bg-slate-900 object-cover"
+                muted={false}
+                playsInline
+                preload="metadata"
+                onLoadedMetadata={(event) => {
+                  const video = event.currentTarget;
+                  video.muted = muted;
+                  video.volume = volume;
+                  if (i === index) {
+                    setDuration(video.duration || 0);
+                  }
+                }}
+                onError={() => {
+                  setFailedSources((current) => ({ ...current, [item.src]: true }));
+                  if (i === index) {
+                    setIsPlaying(false);
+                    setPlayBlocked(true);
+                  }
+                }}
+                onTimeUpdate={(event) => {
+                  if (i !== index) return;
+                  setCurrentTime(event.currentTarget.currentTime);
+                }}
+                onDurationChange={(event) => {
+                  if (i !== index) return;
+                  setDuration(event.currentTarget.duration || 0);
+                }}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onEnded={() => setIsPlaying(false)}
+              />
+            )}
           </div>
         ))}
 
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-slate-950/55 via-slate-900/20 to-transparent sm:h-28" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-slate-950/80 via-slate-900/35 to-transparent sm:h-32" />
 
-        {!isPlaying && (
+        {(!isPlaying || activeVideoFailed) && (
           <div className="absolute inset-0 z-20 flex items-center justify-center">
             <button
               type="button"
