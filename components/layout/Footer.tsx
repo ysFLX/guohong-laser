@@ -50,7 +50,7 @@ export default function Footer() {
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-5 py-3 text-sm font-semibold text-[#15148c]">
+                <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white">
                   Sorgulama İçin Tıklayınız
                 </Link>
                 <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-5 py-3 text-sm font-semibold text-[#15327f]">

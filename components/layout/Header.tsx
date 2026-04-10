@@ -158,10 +158,10 @@ export default function Header() {
       <div className="border-b border-[#15327f]/10 bg-[#15327f]">
         <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-xs text-white/82 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-4">
-            <a href="mailto:sales@guohonglaser.com" className="transition hover:text-[#ff6a0d]">
+            <a href="mailto:sales@guohonglaser.com" className="transition hover:text-white">
               E-posta: sales@guohonglaser.com
             </a>
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="transition hover:text-[#ff6a0d]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="transition hover:text-white">
               Whatsapp: +90 536 831 67 87
             </a>
           </div>
@@ -246,7 +246,7 @@ export default function Header() {
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   {cartBadge}
                 </button>
-                <button type="button" onClick={() => setProfileOpen(true)} className="inline-flex items-center gap-2 rounded-full border border-[#15327f]/12 bg-[#f7f9ff] px-2 py-2 text-sm font-semibold text-white transition hover:bg-white/8" aria-label="Profili aç">
+                <button type="button" onClick={() => setProfileOpen(true)} className="inline-flex items-center gap-2 rounded-full border border-[#15327f]/12 bg-[#f7f9ff] px-2 py-2 text-sm font-semibold text-[#15327f] transition hover:bg-[#edf2ff]" aria-label="Profili aç">
                   {avatarUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={avatarUrl} alt="Profil fotoğrafı" className="h-8 w-8 rounded-full object-cover" />
@@ -258,10 +258,10 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-white/12 px-4 py-3 text-sm font-semibold text-white/82 transition hover:bg-white/8 hover:text-white">
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
                   Giriş
                 </Link>
-                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-white/12 px-4 py-3 text-sm font-semibold text-white/82 transition hover:bg-white/8 hover:text-white">
+                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
                   Kayıt
                 </Link>
               </>
@@ -275,11 +275,11 @@ export default function Header() {
           </div>
 
           <div className="ml-auto flex items-center gap-2 lg:hidden">
-            <button type="button" onClick={toggleCart} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-white/82" aria-label="Sepeti aç">
+            <button type="button" onClick={toggleCart} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]" aria-label="Sepeti aç">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               {cartBadge}
             </button>
-            <button type="button" onClick={() => setMobileMenuOpen((prev) => !prev)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-white/82" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
+            <button type="button" onClick={() => setMobileMenuOpen((prev) => !prev)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
           </div>
@@ -320,24 +320,24 @@ export default function Header() {
           </div>
 
           <div className="mt-8 grid gap-3">
-            <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-[#ff6a0d] px-4 py-3 text-sm font-semibold text-[#15148c]">
+            <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-[#15327f] px-4 py-3 text-sm font-semibold text-white">
               Teklif Al
             </Link>
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-white">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
               WhatsApp
             </a>
             {!isAuthed ? (
               <>
-                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-white">
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
                   Giriş Yap
                 </Link>
-                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-white">
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
                   Kayıt Ol
                 </Link>
               </>
             ) : (
               <>
-                <button type="button" onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-white">
+                <button type="button" onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
                   Profili Aç
                 </button>
                 <button type="button" onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }} className="inline-flex items-center justify-center rounded-2xl border border-rose-300/30 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
