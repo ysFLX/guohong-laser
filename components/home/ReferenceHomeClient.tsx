@@ -630,9 +630,9 @@ export default function ReferenceHomeClient({
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Saha videolari</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Eski 3 videolu alan geri geldi</h2>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Uretim sahasindan video goruntuleri</h2>
             <p className="mt-3 max-w-3xl text-base leading-8 text-white/74">
-              Kaydirdikca animasyonlara ek olarak, artik anasayfada kendi icinde kayan video slider da var.
+              Kaydirdikca otomatik ilerleyen video slider ile saha goruntulerini tek alanda gezebilirsiniz.
             </p>
           </div>
         </div>
