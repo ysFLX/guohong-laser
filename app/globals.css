@@ -688,6 +688,18 @@ select:focus-visible {
   color: #15327f !important;
 }
 
+.premium-palette .hero-contrast [class*='text-white'],
+.premium-palette .hero-contrast .text-white,
+.premium-palette .hero-contrast .text-white\/80,
+.premium-palette .hero-contrast .text-white\/70,
+.premium-palette .hero-contrast .text-white\/45 {
+  color: #ffffff !important;
+}
+
+.premium-palette .hero-contrast .text-\[\#d8e2ff\] {
+  color: #d8e2ff !important;
+}
+
 .premium-palette [class*='shadow-[0_40px_120px_-60px_rgba(5,0,92,0.95)]'],
 .premium-palette [class*='shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]'] {
   box-shadow: 0 24px 60px rgba(21, 50, 127, 0.08) !important;
