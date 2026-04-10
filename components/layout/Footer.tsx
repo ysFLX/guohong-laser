@@ -97,8 +97,8 @@ export default function Footer() {
                 </div>
                 <div className="rounded-[24px] border border-[#15327f]/12 bg-[#f7f9ff] p-4">
                   <div className="text-[#333333]/45">E-posta</div>
-                  <a href="mailto:sales@guohonglaser.com" className="mt-2 block font-semibold text-[#333333] transition hover:text-[#15327f]">
-                    sales@guohonglaser.com
+                  <a href="mailto:guohonglazerinfo@gmail.com" className="mt-2 block font-semibold text-[#333333] transition hover:text-[#15327f]">
+                    guohonglazerinfo@gmail.com
                   </a>
                 </div>
                 <div className="rounded-[24px] border border-[#15327f]/12 bg-[#f7f9ff] p-4">

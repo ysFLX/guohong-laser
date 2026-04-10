@@ -158,8 +158,8 @@ export default function Header() {
       <div className="border-b border-[#15327f]/10 bg-[#15327f]">
         <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-xs text-white/82 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-4">
-            <a href="mailto:sales@guohonglaser.com" className="transition hover:text-white">
-              E-posta: sales@guohonglaser.com
+            <a href="mailto:guohonglazerinfo@gmail.com" className="transition hover:text-white">
+              E-posta: guohonglazerinfo@gmail.com
             </a>
             <a href={whatsAppHref} target="_blank" rel="noreferrer" className="transition hover:text-white">
               Whatsapp: +90 536 831 67 87
