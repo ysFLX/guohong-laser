@@ -156,13 +156,18 @@ export default function VideoSlider({
               <div className="relative h-full w-full">
                 <Image src={item.poster ?? '/images/8.jpg'} alt={item.title ?? `Video ${i + 1}`} fill className="object-cover" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(8,15,35,0.1),_rgba(8,15,35,0.72))]" />
-                <div className="absolute left-5 top-5 rounded-full border border-white/20 bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white shadow-lg backdrop-blur">
+                <div
+                  className="absolute left-5 top-5 rounded-full border border-white/20 bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] shadow-lg backdrop-blur"
+                  style={{ color: '#fff' }}
+                >
                   Video {String(i + 1).padStart(2, '0')}
                 </div>
-                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                <div className="absolute inset-x-0 bottom-0 p-5" style={{ color: '#fff' }}>
                   <div className="max-w-[min(80vw,520px)] rounded-2xl border border-white/15 bg-slate-950/90 px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur">
-                    <div className="text-lg font-semibold text-white sm:text-2xl">{item.title ?? `Video ${i + 1}`}</div>
-                    <p className="mt-2 text-sm text-white">
+                    <div className="text-lg font-semibold sm:text-2xl" style={{ color: '#fff' }}>
+                      {item.title ?? `Video ${i + 1}`}
+                    </div>
+                    <p className="mt-2 text-sm" style={{ color: '#fff' }}>
                       Video kaynagi yuklenemedi. Poster goruntu ile alan korunuyor.
                     </p>
                   </div>
@@ -231,10 +236,16 @@ export default function VideoSlider({
 
         <div className="pointer-events-none absolute left-5 right-5 top-5 z-20 flex items-start justify-between gap-4">
           <div>
-            <div className="inline-flex rounded-full border border-white/20 bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white shadow-lg backdrop-blur">
+            <div
+              className="inline-flex rounded-full border border-white/20 bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] shadow-lg backdrop-blur"
+              style={{ color: '#fff' }}
+            >
               Video {String(index + 1).padStart(2, '0')}
             </div>
-            <div className="mt-3 max-w-[min(78vw,520px)] rounded-2xl border border-white/15 bg-slate-950/90 px-4 py-3 text-lg font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur sm:text-2xl">
+            <div
+              className="mt-3 max-w-[min(78vw,520px)] rounded-2xl border border-white/15 bg-slate-950/90 px-4 py-3 text-lg font-semibold shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur sm:text-2xl"
+              style={{ color: '#fff' }}
+            >
               {items[index]?.title ?? `Video ${index + 1}`}
             </div>
             {playBlocked && (
