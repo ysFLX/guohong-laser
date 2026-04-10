@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -10,270 +10,86 @@ type GalleryImage = {
   alt: string;
 };
 
-export default function GalleryPage() {
-  const galleryImages = [
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/1.jpg',
-      alt: 'Lazer kesim atölye',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/2.jpg',
-      alt: 'Üretim hattı detay',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/3.jpg',
-      alt: 'Metal işleme',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/4.jpg',
-      alt: 'Makine detay',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/5.jpg',
-      alt: 'Atölye görünümü',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/6.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/7.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/8.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/9.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/10.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/11.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/12.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/13.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/14.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/15.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/16.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/17.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/18.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/19.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/20.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/21.jpg',
-      alt: 'Çalışma alanı',
-    },
-    {
-      src: 'https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/22.jpg',
-      alt: 'Çalışma alanı',
-    },
-  ] as GalleryImage[];
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+const galleryImages: GalleryImage[] = Array.from({ length: 22 }, (_, index) => ({
+  src: `https://bhicsl4oxabnqqnk.public.blob.vercel-storage.com/${index + 1}.jpg`,
+  alt: `Guohong saha uygulaması ${String(index + 1).padStart(2, '0')}`,
+}));
 
+export default function GalleryPage() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const activeImage = activeIndex !== null ? galleryImages[activeIndex] : null;
 
   useEffect(() => {
     if (activeIndex === null) return;
-
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setActiveIndex(null);
-      if (event.key === 'ArrowLeft') {
-        setActiveIndex((prev) =>
-          prev === null ? prev : (prev - 1 + galleryImages.length) % galleryImages.length,
-        );
-      }
-      if (event.key === 'ArrowRight') {
-        setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % galleryImages.length));
-      }
+      if (event.key === 'ArrowLeft') setActiveIndex((prev) => (prev === null ? prev : (prev - 1 + galleryImages.length) % galleryImages.length));
+      if (event.key === 'ArrowRight') setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % galleryImages.length));
     };
-
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [activeIndex, galleryImages.length]);
-
-  const goPrev = () => {
-    if (activeIndex === null || galleryImages.length === 0) return;
-    setActiveIndex((prev) => (prev === null ? prev : (prev - 1 + galleryImages.length) % galleryImages.length));
-  };
-
-  const goNext = () => {
-    if (activeIndex === null || galleryImages.length === 0) return;
-    setActiveIndex((prev) => (prev === null ? prev : (prev + 1) % galleryImages.length));
-  };
+  }, [activeIndex]);
 
   return (
-    <div className="space-y-16 pb-16">
-      <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.32),_transparent_55%)] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(5,0,92,0.86),_rgba(5,0,92,0.3))]" />
-        <div className="relative space-y-4">
-          <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-            Galeri
-          </p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Saha kurulumları ve üretim</h1>
-          <p className="max-w-2xl text-base text-white/70">
-            Lazer kesim hatlarından gerçek kurulum fotoğrafları ve çalışma sahalarından kareler.
+    <div className="space-y-14 pb-16 text-white">
+      <Reveal as="section" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#15148c] shadow-[0_40px_120px_-60px_rgba(5,0,92,0.95)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,106,13,0.24),_transparent_30%),linear-gradient(120deg,_rgba(5,0,92,0.2),_rgba(5,0,92,0.92))]" />
+        <div className="relative px-6 py-12 lg:px-14 lg:py-16">
+          <p className="text-sm font-semibold uppercase tracking-[0.38em] text-[#ff6a0d]">Galeri</p>
+          <h1 className="mt-5 text-4xl font-semibold leading-tight text-white sm:text-5xl">Saha kurulumları ve üretim</h1>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
+            Referans sitenin galeri ve müşteri davası mantığına yakın biçimde, gerçek saha karelerini büyük görsel bloklar halinde sunuyoruz.
           </p>
         </div>
       </Reveal>
 
-      <Reveal as="section" className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-lg">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Galeri</p>
-            <h2 className="mt-2 text-xl font-semibold text-slate-900">Fotoğraf Galerisi</h2>
-            <p className="mt-1 text-sm text-slate-600">
-              {galleryImages.length} görsel gösteriliyor.
-            </p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Fotoğraf galerisi</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">{galleryImages.length} görsel gösteriliyor</h2>
           </div>
         </div>
-      </Reveal>
 
-      <Reveal as="section" className="space-y-6">
-        <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
+        <div className="mt-8 columns-1 gap-6 sm:columns-2 lg:columns-3">
           {galleryImages.map((item, index) => (
-            <Reveal key={item.src} as="div" delay={120 + index * 30} className="mb-6 break-inside-avoid">
-              <button
-                type="button"
-                onClick={() => setActiveIndex(index)}
-                className="group relative w-full overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="relative">
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={1200}
-                    height={900}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="w-full rounded-[28px] object-cover transition duration-500 group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 rounded-[28px] bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-                  <div className="absolute bottom-4 left-4 right-4 opacity-0 transition group-hover:opacity-100">
-                    <div className="text-sm font-semibold text-white">{item.alt}</div>
-                    <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/70">Detay gör</div>
-                  </div>
+            <button
+              key={item.src}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className="group mb-6 block w-full break-inside-avoid overflow-hidden rounded-[28px] border border-white/10 bg-white/6 text-left transition hover:-translate-y-1 hover:border-[#ff6a0d]/55"
+            >
+              <div className="relative">
+                <Image src={item.src} alt={item.alt} width={1200} height={900} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="h-auto w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#15148c]/80 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                <div className="absolute bottom-4 left-4 right-4 opacity-0 transition group-hover:opacity-100">
+                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#ff6a0d]">{String(index + 1).padStart(2, '0')}</div>
+                  <div className="mt-2 text-sm font-semibold text-white">{item.alt}</div>
                 </div>
-              </button>
-            </Reveal>
+              </div>
+            </button>
           ))}
         </div>
       </Reveal>
 
-      {activeImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4 py-6"
-          onClick={() => setActiveIndex(null)}
-        >
-          <div
-            className="relative z-10 w-full max-w-6xl"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="flex flex-wrap items-center justify-between gap-4 text-white">
+      {activeImage ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#050038]/88 px-4 py-6" onClick={() => setActiveIndex(null)}>
+          <div className="relative w-full max-w-6xl" onClick={(event) => event.stopPropagation()}>
+            <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-indigo-200">Galeri detayı</p>
-                <h3 className="mt-1 text-2xl font-semibold">{activeImage.alt}</h3>
+                <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[#ff6a0d]">Galeri detayı</div>
+                <div className="mt-2 text-2xl font-semibold text-white">{activeImage.alt}</div>
               </div>
-              <button
-                type="button"
-                onClick={() => setActiveIndex(null)}
-                className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
-              >
+              <button type="button" onClick={() => setActiveIndex(null)} className="rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white">
                 Kapat
               </button>
             </div>
-
-            <div className="mt-5 overflow-hidden rounded-[28px] bg-white p-3 shadow-2xl">
-              <Image
-                src={activeImage.src}
-                alt={activeImage.alt}
-                width={1600}
-                height={1200}
-                sizes="100vw"
-                className="max-h-[70vh] w-full object-contain"
-              />
-            </div>
-
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.2em] text-white/70">
-              <span>
-                {(activeIndex ?? 0) + 1} / {galleryImages.length}
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={goPrev}
-                  className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
-                >
-                  Önceki
-                </button>
-                <button
-                  type="button"
-                  onClick={goNext}
-                  className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 hover:border-white/60"
-                >
-                  Sonraki
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
-              {galleryImages.map((item, index) => (
-                <button
-                  key={item.src}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  className={`h-20 w-28 shrink-0 overflow-hidden rounded-2xl border transition ${
-                    index === activeIndex
-                      ? 'border-indigo-300 shadow-lg'
-                      : 'border-white/20 opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={112}
-                    height={80}
-                    sizes="112px"
-                    className="h-full w-full object-cover"
-                  />
-                </button>
-              ))}
+            <div className="mt-5 overflow-hidden rounded-[30px] border border-white/10 bg-white/6 p-3">
+              <Image src={activeImage.src} alt={activeImage.alt} width={1600} height={1200} sizes="100vw" className="max-h-[72vh] w-full object-contain" />
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

@@ -1,782 +1,155 @@
-﻿'use client';
+'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useMemo, useState } from 'react';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProducts } from '@/lib/machineCatalog';
 
-const products = machineProducts;
+const tabs = ['Tümü', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'] as const;
 
-const categories = ['Tümü', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'];
-
-const servicePackages = [
-  {
-    name: 'Kurulum Paketi',
-    description: 'Yerinde kurulum, test ve operator eğitimi.',
-    badge: 'Başlangıç',
-  },
-  {
-    name: 'Servis Plus',
-    description: 'Periyodik bakım, hızlı servis ve yedek parça önceliği.',
-    badge: 'En çok tercih',
-  },
-  {
-    name: 'Uzaktan İzleme',
-    description: 'Performans raporu, enerji takibi ve uzaktan destek.',
-    badge: 'Verimlilik',
-  },
-];
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
-const itemListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Guohong Lazer urunleri',
-  itemListElement: products.map((product, index) => ({
-    '@type': 'ListItem',
-    position: index + 1,
-    name: product.name,
-    url: baseUrl ? `${baseUrl}/products/${product.id}` : `/products/${product.id}`,
-  })),
-};
+const sectors = [
+  'Metal işleme',
+  'Çelik yapı',
+  'Ev aletleri',
+  'Otomotiv sanayi',
+  'Mutfak ekipmanları',
+  'Reklam ve tabela',
+] as const;
 
 export default function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('Tümü');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [stockFilter, setStockFilter] = useState<'Tümü' | 'Stokta' | 'Siparişle'>('Tümü');
-  const [automationFilter, setAutomationFilter] = useState<'Tümü' | 'Otomatik' | 'Yarı otomatik' | 'Manuel'>('Tümü');
-  const [powerFilter, setPowerFilter] = useState<'Tümü' | '3-6 kW' | '6-12 kW' | '12+ kW'>('Tümü');
-  const [compareIds, setCompareIds] = useState<number[]>([]);
-  const [compareOpen, setCompareOpen] = useState(false);
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    email: '',
-    phone: '',
-    product: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
-  const [emailError, setEmailError] = useState('');
-  const [otp, setOtp] = useState('');
-  const [step, setStep] = useState<'details' | 'verify'>('details');
-  const [info, setInfo] = useState('');
+  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('Tümü');
 
-  const parsePowerRange = (value: string) => {
-    const matches = value.match(/\d+/g)?.map((n) => Number(n)).filter((n) => Number.isFinite(n)) ?? [];
-    if (matches.length === 0) return null;
-    const min = Math.min(...matches);
-    const max = Math.max(...matches);
-    return { min, max };
-  };
-
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'Tümü' || product.category === selectedCategory;
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStock = stockFilter === 'Tümü' || product.stockLabel === stockFilter;
-    const automationValue = product.automation.toLowerCase();
-    const matchesAutomation =
-      automationFilter === 'Tümü' ||
-      (automationFilter === 'Otomatik' && automationValue.includes('otomatik') && !automationValue.includes('yarı')) ||
-      (automationFilter === 'Yarı otomatik' && automationValue.includes('yarı')) ||
-      (automationFilter === 'Manuel' && automationValue.includes('manuel'));
-    const powerRange = parsePowerRange(product.power);
-    const matchesPower =
-      powerFilter === 'Tümü' ||
-      (powerFilter === '3-6 kW' && powerRange && powerRange.min >= 3 && powerRange.max <= 6) ||
-      (powerFilter === '6-12 kW' && powerRange && powerRange.min <= 6 && powerRange.max >= 12) ||
-      (powerFilter === '12+ kW' && powerRange && powerRange.max >= 12);
-
-    return matchesCategory && matchesSearch && matchesStock && matchesAutomation && matchesPower;
-  });
-
-  const selectedCompare = compareIds
-    .map((id) => products.find((product) => product.id === id))
-    .filter((item): item is (typeof products)[number] => Boolean(item));
-
-  const toggleCompare = (id: number) => {
-    setCompareIds((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
-      }
-      if (prev.length >= 3) {
-        return prev;
-      }
-      return [...prev, id];
-    });
-  };
-
-  const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (name === 'email' && emailError) {
-      setEmailError('');
-    }
-  };
-
-  const openQuoteModal = (productName: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      product: productName,
-    }));
-    setSubmitStatus(null);
-    setEmailError('');
-    setOtp('');
-    setStep('details');
-    setInfo('');
-    setQuoteOpen(true);
-  };
-
-  const closeQuoteModal = () => {
-    setQuoteOpen(false);
-    setSubmitStatus(null);
-    setEmailError('');
-    setOtp('');
-    setStep('details');
-    setInfo('');
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    setEmailError('');
-    setInfo('');
-
-    if (!isEmailValid(formData.email)) {
-      setEmailError('Lütfen doğru bir e-posta adresi giriniz.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          otp: step === 'verify' ? otp : undefined,
-          subject: `Fiyat Teklifi Talebi - ${formData.product}`,
-          message: `Fiyat Teklifi Talep Formu:\n-------------------------\nAd Soyad: ${formData.name}\nFirma: ${formData.company}\nE-posta: ${formData.email}\nTelefon: ${formData.phone}\nÜrün: ${formData.product}\nMesaj: ${formData.message}`,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.step === 'verify') {
-        setStep('verify');
-        setInfo('Doğrulama kodu e-posta adresinize gönderildi.');
-      } else if (response.ok) {
-        setSubmitStatus({
-          success: true,
-          message: 'Talebiniz alındı. En kısa sürede sizinle iletişime geçilecektir.',
-        });
-        setFormData({
-          name: '',
-          company: '',
-          email: '',
-          phone: '',
-          product: formData.product,
-          message: '',
-        });
-        setOtp('');
-        setStep('details');
-      } else {
-        throw new Error(data.error || 'Form gönderilemedi');
-      }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.';
-      setSubmitStatus({ success: false, message });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const products = useMemo(() => {
+    if (activeTab === 'Tümü') return machineProducts;
+    return machineProducts.filter((item) => item.category === activeTab);
+  }, [activeTab]);
 
   return (
-    <div className="min-h-screen space-y-14 bg-slate-50 px-4 pb-16 pt-6 sm:px-6 lg:px-10 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/70 dark:[&_[class*='border-slate-200/70']]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
-      <Reveal
-        as="section"
-        className="relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white px-6 py-10 text-slate-900 shadow-lg sm:px-10 lg:px-12"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,106,13,0.10),_transparent_65%)]" />
-        <div className="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_20%_30%,_rgba(5,0,92,0.08),_transparent_68%)]" />
-        <div className="relative grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="inline-flex items-center gap-3 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs uppercase tracking-[0.2em] text-indigo-700">
-              E-katalog
+    <div className="space-y-14 pb-16 text-white">
+      <Reveal as="section" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#15148c] shadow-[0_40px_120px_-60px_rgba(5,0,92,0.95)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,106,13,0.25),_transparent_30%),linear-gradient(120deg,_rgba(5,0,92,0.2),_rgba(5,0,92,0.92))]" />
+        <div className="relative grid gap-8 px-6 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:px-14 lg:py-16">
+          <div className="flex flex-col justify-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.38em] text-[#ff6a0d]">Ürünler</p>
+            <h1 className="mt-5 text-4xl font-semibold leading-tight text-white sm:text-5xl">
+              Endüstriyel lazer makine portföyü
+            </h1>
+            <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
+              Referans sitedeki ürün vitrini mantığıyla sac, boru, kombine ve özel kesim çözümlerini kategori bazlı tek ekranda sunuyoruz.
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Lazer Makine Kataloğu</h1>
-            <p className="max-w-2xl text-base text-slate-600">
-              Üretim süreçlerinizi optimize edecek lazer makine portföyümüzü tek ekranda karşılaştırın.
-            </p>
-            <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em] text-indigo-500">
-              <span className="rounded-full border border-indigo-200 bg-white px-4 py-2">Fiyat teklifle belirlenir</span>
-              <span className="rounded-full border border-indigo-200 bg-white px-4 py-2">Kurumsal teklif akışı</span>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-7 py-3 text-sm font-semibold text-[#15148c]">
+                Daha Fazlasını Gör
+              </Link>
+              <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white">
+                Teknik Destek
+              </Link>
             </div>
           </div>
-          <div className="rounded-[22px] border border-indigo-100 bg-gradient-to-br from-indigo-50 via-white to-indigo-50 p-6">
-            <p className="text-xs uppercase tracking-[0.16em] text-indigo-500">Katalog hızlı bakış</p>
-            <div className="mt-4 grid gap-4 text-sm text-slate-600">
-              <div className="flex items-center justify-between">
-                <span>Toplam model</span>
-                <span className="font-semibold text-slate-900">{products.length}</span>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              { label: '12+', text: 'Hazır katalog modeli' },
+              { label: '60 kW', text: 'Maksimum güç skalası' },
+              { label: '4', text: 'Ana ürün grubu' },
+              { label: '100+', text: 'Ülke ve bölgeye teslimat' },
+            ].map((item) => (
+              <div key={item.text} className="rounded-[26px] border border-white/10 bg-white/6 p-5 backdrop-blur">
+                <div className="text-3xl font-semibold text-[#ff6a0d]">{item.label}</div>
+                <div className="mt-2 text-sm text-white/72">{item.text}</div>
               </div>
-              <div className="flex items-center justify-between">
-                <span>Kategoriler</span>
-                <span className="font-semibold text-slate-900">{categories.length - 1}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Teklif cevabı</span>
-                <span className="font-semibold text-slate-900">30 dk içinde</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal as="section" className="grid gap-6 lg:grid-cols-[290px_1fr] xl:grid-cols-[330px_1fr]">
-        <aside className="h-fit rounded-[22px] border border-slate-200/70 bg-white/90 p-5 shadow-md lg:sticky lg:top-24">
-          <div className="space-y-5">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Katalog filtreleri</p>
-              <label htmlFor="search" className="sr-only">
-                Ara
-              </label>
-              <div className="relative mt-3">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <svg className="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  id="search"
-                  className="block w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                  placeholder="Model veya kategori ara..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Kategori</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors ${
-                      selectedCategory === category
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-white text-slate-600 hover:bg-slate-100'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Detay filtreleri</p>
-              <select
-                value={stockFilter}
-                onChange={(e) => setStockFilter(e.target.value as typeof stockFilter)}
-                aria-label="Stok filtresi"
-                className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-              >
-                <option value="Tümü">Stok: Tümü</option>
-                <option value="Stokta">Stokta</option>
-                <option value="Siparişle">Siparişle</option>
-              </select>
-              <select
-                value={automationFilter}
-                onChange={(e) => setAutomationFilter(e.target.value as typeof automationFilter)}
-                aria-label="Otomasyon filtresi"
-                className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-              >
-                <option value="Tümü">Otomasyon: Tümü</option>
-                <option value="Otomatik">Otomatik</option>
-                <option value="Yarı otomatik">Yarı otomatik</option>
-                <option value="Manuel">Manuel</option>
-              </select>
-              <select
-                value={powerFilter}
-                onChange={(e) => setPowerFilter(e.target.value as typeof powerFilter)}
-                aria-label="Güç filtresi"
-                className="block w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-              >
-                <option value="Tümü">Güç: Tümü</option>
-                <option value="3-6 kW">3-6 kW</option>
-                <option value="6-12 kW">6-12 kW</option>
-                <option value="12+ kW">12+ kW</option>
-              </select>
-            </div>
-            <div className="rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-4 text-sm text-indigo-900">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-500">Filtre sonucu</p>
-              <p className="mt-2">
-                {filteredProducts.length} ürün listeleniyor.{' '}
-                {selectedCategory !== 'Tümü' ? `${selectedCategory} kategorisi` : 'Tüm kategoriler'}.
-              </p>
-            </div>
-          </div>
-        </aside>
-
-        <div className="space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-slate-200/70 bg-white/90 px-5 py-4 shadow-sm">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Katalog listesi</p>
-              <p className="mt-1 text-lg font-semibold text-slate-900">{filteredProducts.length} model</p>
-            </div>
-            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-slate-500">
-              <span className="rounded-full border border-slate-200 px-4 py-2">Teklif odaklı</span>
-              <span className="rounded-full border border-slate-200 px-4 py-2">Kıyaslama açık</span>
-            </div>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredProducts.map((product, index) => (
-              <Reveal key={product.id} as="div" delay={120 + index * 60}>
-                <div
-                  id={`product-${product.id}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200/70 bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)]"
-                >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-50">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 1280px) 100vw, 25vw"
-                      className="object-cover"
-                      priority={index < 2}
-                    />
-                    <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em]">
-                      <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 text-slate-700">
-                        E-katalog
-                      </span>
-                      <span className="rounded-full bg-indigo-100 px-3 py-1 text-indigo-700">
-                        {product.category}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-4 left-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em]">
-                      <span
-                        className={`rounded-full px-3 py-1 ${
-                          product.stockLabel === 'Stokta' ? 'bg-indigo-500 text-white' : 'bg-amber-200 text-amber-900'
-                        }`}
-                      >
-                        {product.stockLabel}
-                      </span>
-                      <span className="rounded-full bg-white/90 px-3 py-1 text-slate-700">
-                        {product.deliveryLabel}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-1 flex-col gap-3 p-5">
-                    <span className="inline-flex w-fit rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-indigo-700">
-                      Fiyat teklif ile
-                    </span>
-                    <Link
-                      href={`/products/${product.id}`}
-                      className="text-lg font-semibold text-slate-900 underline-offset-4 hover:text-slate-950 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-                    >
-                      {product.name}
-                    </Link>
-                    <p className="text-sm text-slate-600">{product.description}</p>
-                    <div className="grid gap-2 text-xs text-slate-600">
-                      <div className="flex items-center justify-between">
-                        <span className="uppercase tracking-[0.2em] text-slate-400">Güç</span>
-                        <span className="font-semibold text-slate-900">{product.power}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="uppercase tracking-[0.2em] text-slate-400">Tabla</span>
-                        <span className="font-semibold text-slate-900">{product.workArea}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
-                        <span className="font-semibold text-slate-900">{product.automation}</span>
-                      </div>
-                    </div>
-                    <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-                      <button
-                        type="button"
-                        onClick={() => toggleCompare(product.id)}
-                        className={`rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] transition ${
-                          compareIds.includes(product.id)
-                            ? 'bg-slate-900 text-white'
-                            : 'border border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900'
-                        }`}
-                      >
-                        {compareIds.includes(product.id) ? 'Seçildi' : 'Karşılaştır'}
-                      </button>
-                      <Link
-                        href={`/products/${product.id}`}
-                        className="rounded-full border border-slate-200 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-                      >
-                        Detay
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={() => openQuoteModal(product.name)}
-                        className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white shadow-sm transition hover:bg-slate-800"
-                      >
-                        Teklif iste
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
             ))}
           </div>
-
-          {filteredProducts.length === 0 && (
-            <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-12 text-center text-slate-600">
-              Aramanıza uygun ürün bulunamadı.
-            </div>
-          )}
         </div>
       </Reveal>
 
-      {compareIds.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 z-40 flex w-[92%] max-w-2xl -translate-x-1/2 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm shadow-2xl backdrop-blur">
+      <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Karşılaştırma</div>
-            <div className="font-semibold text-slate-900">{compareIds.length} ürün seçildi</div>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Kategori seçimi</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Sektörümüzde birçok ürün çeşidi vardır</h2>
           </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="#compare"
-              onClick={(event) => {
-                event.preventDefault();
-                setCompareOpen(true);
-              }}
-              className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
-            >
-              Tabloya git
-            </a>
-          </div>
+          <div className="text-sm text-white/55">{products.length} model listeleniyor</div>
         </div>
-      )}
 
-      {quoteOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-4 py-6 backdrop-blur">
-          <div className="relative w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/20 bg-white shadow-[0_30px_120px_rgba(15,23,42,0.3)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.08),_transparent_60%)]" />
-            <div className="relative space-y-5 p-6 sm:p-8">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Hızlı teklif</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-900">Makine teklifi iste</h2>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Ürün için teknik bilgileri iletiniz, ekibimiz size en hızlı teklifi hazırlasın.
-                  </p>
+        <div className="mt-7 flex flex-wrap gap-3">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => setActiveTab(tab)}
+              className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+                activeTab === tab
+                  ? 'bg-[#ff6a0d] text-[#15148c]'
+                  : 'border border-white/15 bg-white/6 text-white/82 hover:bg-white/10'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {products.map((product, index) => (
+            <article key={product.id} className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/6 transition hover:-translate-y-1 hover:border-[#ff6a0d]/55">
+              <div className="relative h-64 overflow-hidden">
+                <Image src={product.image} alt={product.name} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
+                <div className="absolute left-5 top-5 rounded-full bg-[#ff6a0d] px-3 py-1 text-xs font-semibold text-[#15148c]">
+                  {String(index + 1).padStart(2, '0')}
                 </div>
-                <button
-                  type="button"
-                  onClick={closeQuoteModal}
-                  className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-                >
-                  Kapat
-                </button>
+                <div className="absolute bottom-5 left-5 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.18em]">
+                  <span className="rounded-full bg-white/90 px-3 py-1 text-[#15148c]">{product.stockLabel}</span>
+                  <span className="rounded-full bg-[#15148c]/80 px-3 py-1 text-white">{product.deliveryLabel}</span>
+                </div>
               </div>
-
-              {submitStatus && (
-                <div
-                  className={`form-alert ${submitStatus.success ? 'form-alert--success' : 'form-alert--error'}`}
-                >
-                  {submitStatus.message}
-                </div>
-              )}
-              {info && <div className="form-alert form-alert--info text-center">{info}</div>}
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700">Ad Soyad *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                    />
+              <div className="p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">{product.category}</p>
+                <h3 className="mt-3 text-xl font-semibold text-white">{product.name}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/72">{product.description}</p>
+                <div className="mt-4 grid gap-2 text-sm text-white/72">
+                  <div className="flex items-center justify-between">
+                    <span>Güç</span>
+                    <span className="font-semibold text-white">{product.power}</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700">Firma Adı</label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                    />
+                  <div className="flex items-center justify-between">
+                    <span>Çalışma alanı</span>
+                    <span className="font-semibold text-white">{product.workArea}</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700">E-posta *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                    />
-                    {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700">Telefon *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-slate-700">İlgilendiğiniz ürün *</label>
-                    <input
-                      type="text"
-                      name="product"
-                      readOnly
-                      value={formData.product}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-slate-700">Ek bilgiler</label>
-                    <textarea
-                      name="message"
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                      placeholder="Eklemek istediginiz notlar veya ozel istekleriniz..."
-                    />
+                  <div className="flex items-center justify-between">
+                    <span>Otomasyon</span>
+                    <span className="font-semibold text-white">{product.automation}</span>
                   </div>
                 </div>
-
-                {step === 'verify' && (
-                  <div className="space-y-3">
-                    <div className="text-sm text-slate-600">
-                      Doğrulama kodunu e-posta adresinize gönderdik. Kodu girip gönderimi tamamlayınız.
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700">Doğrulama Kodu</label>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        required
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                        placeholder="000000"
-                        maxLength={6}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex items-center justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={closeQuoteModal}
-                    className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-                  >
-                    İptal
-                  </button>
-                  <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
-                    {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Gönder'}
-                  </button>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <Link href={`/products/${product.id}`} className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#15148c]">
+                    Ayrıntıyı Görüntüle
+                  </Link>
+                  <Link href={`/quote?product=${encodeURIComponent(product.name)}`} className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+                    Teklif Al
+                  </Link>
                 </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <Reveal as="section" className="rounded-[32px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-200">
-              Teklif merkezi
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-              Üretim hattına uygun makine için hızlı teklif al
-            </h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Tüm makineler kurumsal teklif ile fiyatlanır. Teknik ekip 30 dakika içinde geri döner.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/quote"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm"
-            >
-              Teklif formu
-            </Link>
-            <Link
-              href="/contact?subject=Makine+Teklifi"
-              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-            >
-              Danışman iste
-            </Link>
-          </div>
-        </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {[
-            { title: 'Hızlı keşif', desc: 'İhtiyaç analizi + kapasite hesaplama' },
-            { title: 'Teknik teklif', desc: 'Güç, tabla ve otomasyon netliği' },
-            { title: 'Kurulum planı', desc: 'Takvim ve servis SLA doğrulama' },
-          ].map((item) => (
-            <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white px-4 py-4">
-              <p className="text-sm font-semibold text-slate-900">{item.title}</p>
-              <p className="mt-2 text-sm text-slate-600">{item.desc}</p>
-            </div>
+              </div>
+            </article>
           ))}
         </div>
       </Reveal>
 
-        {compareOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-4 py-6 backdrop-blur">
-            <div className="relative w-full max-w-6xl overflow-hidden rounded-[36px] border border-white/20 bg-white shadow-[0_30px_120px_rgba(15,23,42,0.35)]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(20,184,166,0.15),_transparent_55%)]" />
-              <div className="relative max-h-[85vh] overflow-y-auto p-6 sm:p-8">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.35em] text-indigo-600">Karşılaştırma paneli</p>
-                    <h2 className="mt-2 text-2xl font-semibold text-slate-900">Modelleri yan yana gör</h2>
-                    <p className="mt-2 text-sm text-slate-500">
-                      {selectedCompare.length || 0} model seçildi. En fazla 3 model karşılaştırabilirsin.
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href="/quote"
-                      className="rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-                    >
-                      Teknik teklif iste
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCompareOpen(false);
-                        setCompareIds([]);
-                      }}
-                      className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
-                    >
-                      Kapat
-                    </button>
-                  </div>
-                </div>
-
-                {selectedCompare.length === 0 ? (
-                  <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-8 text-sm text-slate-600">
-                    Karşılaştırma için kartlardan en az 2 ürün seçmelisiniz.
-                  </div>
-                ) : (
-                  <div className="mt-6 grid gap-5 lg:grid-cols-3">
-                    {selectedCompare.map((item) => (
-                      <div
-                        key={item.id}
-                        className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"
-                      >
-                        <div className="relative h-48 w-full overflow-hidden bg-slate-100">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 320px"
-                            className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                          />
-                          <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
-                            <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
-                              {item.category}
-                            </span>
-                            <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1">
-                              {item.stockLabel}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="space-y-4 p-5">
-                          <div>
-                            <div className="text-xs uppercase tracking-[0.3em] text-slate-400">Model</div>
-                            <div className="mt-2 text-lg font-semibold text-slate-900">{item.name}</div>
-                          </div>
-                          <div className="grid gap-3 text-sm text-slate-600">
-                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Güç</span>
-                              <span className="font-semibold text-slate-900">{item.power}</span>
-                            </div>
-                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Tabla/Boru</span>
-                              <span className="font-semibold text-slate-900">{item.workArea}</span>
-                            </div>
-                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Otomasyon</span>
-                              <span className="font-semibold text-slate-900">{item.automation}</span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Teslim</span>
-                              <span className="font-semibold text-slate-900">{item.deliveryLabel}</span>
-                            </div>
-                          </div>
-                          <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-xs text-slate-500">
-                            Uygun konfigurasyon için teklif isteyebiliriz.
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-200">
-              Servis paketleri
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
-              Kurulum ve destek paketleri
-            </h2>
-          </div>
-          <Link
-            href="/contact"
-            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
-          >
-            Destek al
-          </Link>
+      <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
+        <div className="max-w-4xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Uygulama alanları</p>
+          <h2 className="mt-3 text-3xl font-semibold text-white">Ürünlerimiz çeşitli endüstrilerde uygulanmaktadır</h2>
+          <p className="mt-4 text-base leading-8 text-white/74">
+            Referans sitedeki uygulama kartlarının karşılığı olarak ürünlerimizin en sık kullanıldığı ana sektörleri burada sunuyoruz.
+          </p>
         </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-2">
-          {servicePackages.map((pkg) => (
-            <div key={pkg.name} className="rounded-2xl border border-slate-200/70 bg-white/80 px-5 py-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-slate-900">{pkg.name}</p>
-                <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
-                  {pkg.badge}
-                </span>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {sectors.map((sector, index) => (
+            <div key={sector} className="rounded-[24px] border border-white/10 bg-white/6 p-4">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#ff6a0d]">
+                {String(index + 1).padStart(2, '0')}
               </div>
-              <p className="mt-2 text-sm text-slate-600">{pkg.description}</p>
+              <div className="mt-3 text-lg font-semibold text-white">{sector}</div>
             </div>
           ))}
         </div>
