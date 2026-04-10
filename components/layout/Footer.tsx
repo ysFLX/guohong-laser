@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -32,7 +33,11 @@ export default function Footer() {
     const message = pageUrl
       ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Şu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
       : 'Merhaba, Guohong Lazer sitesinden yazıyorum. Bilgi almak istiyorum.';
-    setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
+    const timer = window.setTimeout(() => {
+      setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [pathname]);
 
   return (
@@ -103,6 +108,23 @@ export default function Footer() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-[28px] border border-[#15327f]/12 bg-[#f7f9ff] px-5 py-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-[0.28em] text-[#15327f]">Guvenli odeme</div>
+                <div className="mt-1 text-sm text-[#333333]/68">PayTR altyapisiyla odeme ve tahsilat destegi</div>
+              </div>
+              <Image
+                src="/paytrlogolar/paytr-logo-color.svg"
+                alt="PayTR"
+                width={132}
+                height={34}
+                sizes="132px"
+                className="h-7 w-auto"
+              />
             </div>
           </div>
 
