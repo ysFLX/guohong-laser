@@ -219,19 +219,19 @@ const statsOverview = [
 
 const homeVideos = [
   {
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584816/sackesim_m6icrx.mp4',
     poster: '/images/8.jpg',
-    title: 'Saha kurulumu ve uretim hatti',
+    title: 'Lazer Sac Kesimi',
   },
   {
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584806/borukesim_dd8a5f.mp4',
     poster: '/images/9.jpg',
-    title: 'Kesim performansi ve makine akisi',
+    title: 'Lazer Boru Kesimi',
   },
   {
-    src: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584837/demirkesim_kbwzy2.mp4',
     poster: '/images/10.jpg',
-    title: 'Teslimat sonrasi kullanim goruntuleri',
+    title: 'Lazer Profil Kesimi',
   },
 ] as const;
 
@@ -359,7 +359,11 @@ export default function ReferenceHomeClient({
   const maxShowcaseIndex = Math.max(showcase.length - cardsPerView, 0);
 
   useEffect(() => {
-    setShowcaseIndex((current) => Math.min(current, maxShowcaseIndex));
+    const timer = window.setTimeout(() => {
+      setShowcaseIndex((current) => Math.min(current, maxShowcaseIndex));
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [maxShowcaseIndex]);
 
   useEffect(() => {
