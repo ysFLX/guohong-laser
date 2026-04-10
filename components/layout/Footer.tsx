@@ -104,7 +104,7 @@ export default function Footer() {
                 <div className="rounded-[24px] border border-[#15327f]/12 bg-[#f7f9ff] p-4">
                   <div className="text-[#333333]/45">Adres</div>
                   <div className="mt-2 font-semibold text-[#333333]">
-                    Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210
+                    Fevziçakmak Mahallesi Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210
                   </div>
                 </div>
               </div>
