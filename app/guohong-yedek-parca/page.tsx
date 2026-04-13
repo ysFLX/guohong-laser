@@ -4,9 +4,9 @@ import Link from 'next/link';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
-  title: 'Guohong Yedek Parca',
+  title: 'Guohong Yedek Parça',
   description:
-    'Guohong yedek parca sayfasinda lazer kafasi, lens, nozul, seramik govde ve kritik sarf malzemeler icin tedarik, stok ve teknik destek bilgileri yer alir.',
+    'Guohong yedek parça sayfasında lazer kafası, lens, nozul, seramik gövde ve kritik sarf malzemeler için tedarik, stok ve teknik destek bilgileri yer alır.',
   alternates: {
     canonical: `${siteUrl}/guohong-yedek-parca`,
   },
@@ -16,10 +16,10 @@ export default function GuohongYedekParcaPage() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Guohong Yedek Parca',
+    name: 'Guohong Yedek Parça',
     url: `${siteUrl}/guohong-yedek-parca`,
     description:
-      'Guohong yedek parca, fiber lazer kesim makineleri icin lens, nozul, lazer kafasi ve sarf malzemelerin tedarik sayfasidir.',
+      'Guohong yedek parça, fiber lazer kesim makineleri için lens, nozul, lazer kafası ve sarf malzemelerin tedarik sayfasıdır.',
   };
 
   return (
@@ -27,12 +27,12 @@ export default function GuohongYedekParcaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
         <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-600">Yedek Parca</p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Guohong yedek parca tedarigi</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-600">Yedek Parça</p>
+          <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Guohong yedek parça tedariki</h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600">
-            Guohong Lazer; fiber lazer kesim makineleri icin lazer kafasi, koruma lensi, nozul, seramik govde, conta
-            ve diger kritik yedek parcalari tedarik eder. Konya merkezli operasyonumuzla stoklu urunler, uyumluluk
-            kontrolu ve teknik geri donus surecini tek noktadan yonetiyoruz.
+            Guohong Lazer; fiber lazer kesim makineleri için lazer kafası, koruma lensi, nozul, seramik gövde, conta
+            ve diğer kritik yedek parçaları tedarik eder. Konya merkezli operasyonumuzla stoklu ürünler, uyumluluk
+            kontrolü ve teknik geri dönüş sürecini tek noktadan yönetiyoruz.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
@@ -53,18 +53,18 @@ export default function GuohongYedekParcaPage() {
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Stok ve Tedarik</div>
-            <h2 className="mt-3 text-lg font-semibold">Kritik parcalarda hizli erisim</h2>
+            <h2 className="mt-3 text-lg font-semibold">Kritik parçalarda hızlı erişim</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Stokta bulunan urunler hizli sevk edilir. Ozel parca talepleri icin teknik ekip model uyumlulugunu
-              kontrol ederek teklif ve teslim bilgisi paylasir.
+              Stokta bulunan ürünler hızlı sevk edilir. Özel parça talepleri için teknik ekip model uyumluluğunu
+              kontrol ederek teklif ve teslim bilgisi paylaşır.
             </p>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Teknik Destek</div>
-            <h2 className="mt-3 text-lg font-semibold">Model ve kullanim uyumlulugu</h2>
+            <h2 className="mt-3 text-lg font-semibold">Model ve kullanım uyumluluğu</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Lazer kafa modeli, makine tipi ve kullanim amacina gore dogru yedek parcayi secmeniz icin ekibimiz
-              destek verir. Boylece yanlis urun siparisi ve durus riski azalir.
+              Lazer kafa modeli, makine tipi ve kullanım amacına göre doğru yedek parçayı seçmeniz için ekibimiz
+              destek verir. Böylece yanlış ürün siparişi ve duruş riski azalır.
             </p>
           </div>
         </div>

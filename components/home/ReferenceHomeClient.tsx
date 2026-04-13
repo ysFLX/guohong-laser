@@ -40,17 +40,17 @@ const heroSlides = [
     id: 'slide-1',
     image: '/images/about-showcase.jpg',
     eyebrow: 'Profesyonel uretim ve hizmet saglayicilari',
-    title: 'Guohong Laser Group metal lazer kesim teknolojilerinde kuresel cozum ortagidir.',
+    title: 'Guohong Laser Group, metal lazer kesim teknolojilerinde küresel çözüm ortağınızdır.',
     description:
-      'Ar-Ge, uretim ve satis sureclerini tek cati altinda toplayan yapi ile sac, boru, kaynak ve temizleme cozumlerini kurulumdan satis sonrasina kadar uctan uca sunuyoruz.',
+      'Ar-Ge, üretim ve satış süreçlerini tek çatı altında toplayan yapımızla sac, boru, kaynak ve temizleme çözümlerini kurulumdan satış sonrasına kadar uçtan uca sunuyoruz.',
   },
   {
     id: 'slide-2',
     image: '/images/7.jpg',
-    eyebrow: 'Akilli fabrika ve uygulama sahasi',
-    title: '1 kW ile 60 kW arasindaki guc secenekleri farkli uretim hatlarina hizla uyarlanir.',
+    eyebrow: 'Akıllı fabrika ve uygulama sahası',
+    title: '1 kW ile 60 kW arasındaki güç seçenekleri farklı üretim hatlarına hızla uyarlanır.',
     description:
-      'Yuksek guclu fiber lazer sistemleri; metal isleme, otomotiv, celik yapi ve reklam sektorlerinde hassas, hizli ve istikrarli kesim performansi saglar.',
+      'Yüksek güçlü fiber lazer sistemleri; metal işleme, otomotiv, çelik yapı ve reklam sektörlerinde hassas, hızlı ve istikrarlı kesim performansı sağlar.',
   },
 ];
 
@@ -166,10 +166,10 @@ const productCategories: ProductCategory[] = [
 ];
 
 const solutionHighlights = [
-  { label: '4', description: 'Modern uretim tesisi' },
-  { label: '10+', description: 'Yil mekanik Ar-Ge ve uretim deneyimi' },
-  { label: '120000 m2', description: 'Toplam fabrika alani' },
-  { label: '100+', description: 'Ulke ve bolgeye sevkiyat' },
+  { label: '4', description: 'Modern üretim tesisi' },
+  { label: '10+', description: 'Yıl mekanik Ar-Ge ve üretim deneyimi' },
+  { label: '120000 m2', description: 'Toplam fabrika alanı' },
+  { label: '100+', description: 'Ülke ve bölgeye sevkiyat' },
 ];
 
 const applicationAreas = [
@@ -189,49 +189,49 @@ const applicationAreas = [
 
 const newsItems = [
   {
-    title: 'Lazer kesicinin maliyeti ne kadardir?',
-    excerpt: 'Kucuk ve buyuk isletmeler icin fiber lazer yatiriminda toplam maliyeti etkileyen basliklari derledik.',
+    title: 'Lazer kesicinin maliyeti ne kadardır?',
+    excerpt: 'Küçük ve büyük işletmeler için fiber lazer yatırımında toplam maliyeti etkileyen başlıkları derledik.',
     href: '/about',
   },
   {
-    title: 'Fiber lazer kesim makinesi hangi markayi uretir?',
-    excerpt: 'Marka seciminde servis altyapisi, govde kalitesi ve guc optimizasyonu neden belirleyicidir?',
+    title: 'Fiber lazer kesim makinesi hangi markayı üretir?',
+    excerpt: 'Marka seçiminde servis altyapısı, gövde kalitesi ve güç optimizasyonu neden belirleyicidir?',
     href: '/about',
   },
   {
-    title: 'Reklam tabela endustrisinde fiber lazer kullanimi',
-    excerpt: 'Ince sac, harf kesimi ve hizli teslimat baskisi altinda fiber lazerin sagladigi avantajlar.',
+    title: 'Reklam tabela endüstrisinde fiber lazer kullanımı',
+    excerpt: 'İnce sac, harf kesimi ve hızlı teslimat baskısı altında fiber lazerin sağladığı avantajlar.',
     href: '/about',
   },
   {
     title: 'Yuvarlak delik keserken nelere dikkat edilmelidir?',
-    excerpt: 'Cap, hiz, gaz ve isi yonetimi gibi detaylarin kesim kalitesine etkisini ozetledik.',
+    excerpt: 'Çap, hız, gaz ve ısı yönetimi gibi detayların kesim kalitesine etkisini özetledik.',
     href: '/about',
   },
 ];
 
 const statsOverview = [
-  { value: 4, label: 'Uretim Tesisi' },
-  { value: 10, suffix: '+', label: 'Yil Mekanik Ar-Ge ve Uretim Deneyimi' },
-  { value: 120000, suffix: ' m2', label: 'Fabrika Alani' },
-  { value: 100, suffix: '+', label: 'Ulke ve Bolge' },
+  { value: 4, label: 'Üretim Tesisi' },
+  { value: 10, suffix: '+', label: 'Yıl Mekanik Ar-Ge ve Üretim Deneyimi' },
+  { value: 120000, suffix: ' m2', label: 'Fabrika Alanı' },
+  { value: 100, suffix: '+', label: 'Ülke ve Bölge' },
 ] as const;
 
 const homeVideos = [
   {
     src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584816/sackesim_m6icrx.mp4',
     poster: '/images/8.jpg',
-    title: 'Lazer Sac Kesimi',
+    title: 'Lazer sac kesimi',
   },
   {
     src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584806/borukesim_dd8a5f.mp4',
     poster: '/images/9.jpg',
-    title: 'Lazer Boru Kesimi',
+    title: 'Lazer boru kesimi',
   },
   {
     src: 'https://res.cloudinary.com/dar9ughwx/video/upload/v1766584837/demirkesim_kbwzy2.mp4',
     poster: '/images/10.jpg',
-    title: 'Lazer Profil Kesimi',
+    title: 'Lazer profil kesimi',
   },
 ] as const;
 
@@ -406,7 +406,7 @@ export default function ReferenceHomeClient({
                 href="/products"
                 className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#0d2260]"
               >
-                Daha Fazlasini Gor
+                Daha Fazlasını Gör
               </Link>
               <Link
                 href="/quote"
@@ -458,9 +458,9 @@ export default function ReferenceHomeClient({
 
         <div className="flex flex-col justify-center">
           <p className="text-sm font-semibold uppercase tracking-[0.36em] text-[#ff6a0d]">Profesyonel uretim ve hizmet saglayicilari</p>
-          <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Guohong Laser Group, Ar-Ge, uretim ve satisi birlestiren metal lazer kesim makinesi ureticisidir.</h2>
+          <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Guohong Laser Group, Ar-Ge, üretim ve satışı birleştiren metal lazer kesim makinesi üreticisidir.</h2>
           <p className="mt-5 text-base leading-8 text-white/76">
-            Cinde toplam 100.000 metrekareyi asan modern uretim altyapisi ile sac, boru, plaka-boru kombine, kaynak ve temizleme ekipmanlari gelistiriyoruz.
+            Çin&apos;de toplam 100.000 metrekareyi aşan modern üretim altyapısı ile sac, boru, plaka-boru kombine, kaynak ve temizleme ekipmanları geliştiriyoruz.
           </p>
           <p className="mt-4 text-base leading-8 text-white/70">
             Yuksek kaliteli plaka lazer kesim makineleri, lazer boru kesim makineleri, uc aynali boru kesim makineleri ve tam otomatik yuklemeli sistemler icin kurulumdan egitime kadar butunsel destek veriyoruz.
@@ -468,7 +468,7 @@ export default function ReferenceHomeClient({
 
           <div className="mt-6">
             <Link href="/about" className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/8">
-              Daha Fazlasini Gor
+              Daha Fazlasını Gör
             </Link>
           </div>
         </div>
@@ -477,11 +477,11 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)] sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Urunler</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Sektorumuzde bircok urun cesidi vardir</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Ürünler</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Sektörümüzde birçok ürün çeşidi vardır</h2>
           </div>
           <Link href="/products" className="text-sm font-semibold uppercase tracking-[0.2em] text-[#ff6a0d]">
-            Daha Fazlasini Gor
+            Daha Fazlasını Gör
           </Link>
         </div>
 
@@ -529,11 +529,11 @@ export default function ReferenceHomeClient({
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Toplam cozum</p>
           <h2 className="mt-3 text-3xl font-semibold text-white">Tasarim ve uretimden satis sonrasi hizmete kadar eksiksiz teknik cozumler sunuyoruz.</h2>
           <p className="mt-5 text-base leading-8 text-white/74">
-            Urun tasarimi, urun montaji, kullanici egitimi, bakim plani ve uzun donemli yedek parca erisimi ile yatirimin tum yasam dongusunu yonetiyoruz.
+            Ürün tasarımı, ürün montajı, kullanıcı eğitimi, bakım planı ve uzun dönemli yedek parça erişimi ile yatırımın tüm yaşam döngüsünü yönetiyoruz.
           </p>
           <div className="mt-7">
             <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-6 py-3 text-sm font-semibold text-[#15148c]">
-              Daha Fazlasini Gor
+              Daha Fazlasını Gör
             </Link>
           </div>
         </div>
@@ -545,7 +545,7 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         <div className="max-w-4xl">
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Uygulama alanlari</p>
-          <h2 className="mt-3 text-3xl font-semibold text-white">Urunlerimiz cesitli endustrilerde uygulanmaktadir</h2>
+          <h2 className="mt-3 text-3xl font-semibold text-white">Ürünlerimiz cesitli endustrilerde uygulanmaktadir</h2>
           <p className="mt-4 text-base leading-8 text-white/74">
             Sac metal, otomotiv, metal aksesuarlar, mutfak ekipmanlari, tekstil, reklam ve yapi endustrileri icin olceklenebilir lazer isleme altyapisi sagliyoruz.
           </p>
@@ -558,7 +558,7 @@ export default function ReferenceHomeClient({
                 {String(index + 1).padStart(2, '0')}
               </div>
               <div className="mt-3 text-lg font-semibold text-white">{area}</div>
-              <div className="mt-2 text-sm text-white/60">daha fazlasini goruntule</div>
+              <div className="mt-2 text-sm text-white/60">Daha Fazlasını Göruntule</div>
             </div>
           ))}
         </div>
@@ -567,10 +567,10 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Populer urunler</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Yedek parcalar artik yatay kayan vitrin olarak gosteriliyor</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Popüler ürünler</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Yedek parçalar artık yatay kayan vitrin olarak gösteriliyor</h2>
             <p className="mt-3 max-w-3xl text-base leading-8 text-white/74">
-              Sadece asagi kaydirma animasyonu yerine, belirli tempoda kendi kendine kayan ve oklarla kontrol edilen bir slider ekledim.
+              Sadece aşağı kaydırma animasyonu yerine, belirli tempoda kendi kendine kayan ve oklarla kontrol edilen bir slider ekledim.
             </p>
           </div>
         </div>
@@ -592,7 +592,7 @@ export default function ReferenceHomeClient({
               type="button"
               onClick={() => setShowcaseIndex((prev) => (prev <= 0 ? maxShowcaseIndex : prev - 1))}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/6 text-white transition hover:bg-white/12"
-              aria-label="Onceki urunler"
+              aria-label="Onceki Ürünler"
             >
               {'<'}
             </button>
@@ -600,7 +600,7 @@ export default function ReferenceHomeClient({
               type="button"
               onClick={() => setShowcaseIndex((prev) => (prev >= maxShowcaseIndex ? 0 : prev + 1))}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/6 text-white transition hover:bg-white/12"
-              aria-label="Sonraki urunler"
+              aria-label="Sonraki Ürünler"
             >
               {'>'}
             </button>
@@ -629,10 +629,10 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Saha videolari</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Uretim sahasindan video goruntuleri</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Saha videoları</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Üretim sahasından video görüntüleri</h2>
             <p className="mt-3 max-w-3xl text-base leading-8 text-white/74">
-              Kaydirdikca otomatik ilerleyen video slider ile saha goruntulerini tek alanda gezebilirsiniz.
+              Kaydırdıkça otomatik ilerleyen video slider ile saha görüntülerini tek alanda gezebilirsiniz.
             </p>
           </div>
         </div>
@@ -643,11 +643,11 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Sektor trendleri</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Her an en son sektor trendlerimizden haberdar olun</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Sektör trendleri</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Her an en son sektör trendlerimizden haberdar olun</h2>
           </div>
           <Link href="/about" className="text-sm font-semibold uppercase tracking-[0.2em] text-[#ff6a0d]">
-            Daha Fazlasini Gor
+            Daha Fazlasını Gör
           </Link>
         </div>
 
@@ -657,7 +657,7 @@ export default function ReferenceHomeClient({
               <h3 className="text-xl font-semibold text-white">{item.title}</h3>
               <p className="mt-4 text-sm leading-7 text-white/72">{item.excerpt}</p>
               <Link href={item.href} className="mt-5 inline-flex text-sm font-semibold uppercase tracking-[0.2em] text-[#ff6a0d]">
-                Daha Fazlasini Gor
+                Daha Fazlasını Gör
               </Link>
             </article>
           ))}
@@ -667,18 +667,18 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[linear-gradient(135deg,_rgba(255,106,13,0.96),_rgba(255,106,13,0.76))] px-6 py-10 shadow-[0_30px_90px_-70px_rgba(255,106,13,0.95)]">
         <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#15148c]/65">Sorusturma gonder</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#15148c]/65">Soruşturma gönder</p>
             <h2 className="mt-3 text-3xl font-semibold text-[#15148c]">Sonucu gormekten daha iyi bir sey yoktur.</h2>
             <p className="mt-4 max-w-3xl text-base leading-8 text-[#15148c]/78">
-              Makine yatirimi, yedek parca tedariği veya teknik servis plani icin ekibimizle hemen iletisime gecin ve size ozel cozum akisina baslayalim.
+              Makine yatırımı, yedek parça tedariki veya teknik servis planı için ekibimizle hemen iletişime geçin ve size özel çözüm akışına başlayalım.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15148c] px-6 py-3 text-sm font-semibold text-white">
-              Sorgulama Icin Tiklayiniz
+              Sorgulama için tıklayınız
             </Link>
             <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-[#15148c]/20 px-6 py-3 text-sm font-semibold text-[#15148c]">
-              Bize Ulasin
+              Bize ulaşın
             </Link>
           </div>
         </div>
