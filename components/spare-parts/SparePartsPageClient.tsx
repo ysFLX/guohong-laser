@@ -845,7 +845,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
         <div className="absolute inset-0 opacity-60 bg-[linear-gradient(120deg,rgba(148,163,184,0.16),transparent)]" />
         <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-4">
-            <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
+            <p className="inline-flex items-center gap-3 rounded-full border border-[#ff6a0d]/35 bg-[#ff6a0d]/20 px-4 py-2 text-xs uppercase tracking-[0.34em] !text-white shadow-[0_10px_30px_rgba(255,106,13,0.15)]">
               Yedek Parçalar
             </p>
             <h1 className="text-3xl font-semibold !text-white sm:text-4xl">Sarf ve kritik parçalar</h1>

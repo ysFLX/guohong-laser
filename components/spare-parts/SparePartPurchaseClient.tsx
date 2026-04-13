@@ -159,10 +159,10 @@ export default function SparePartPurchaseClient({
           </span>
         </div>
         <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+          <div className="rounded-xl border border-[#15327f]/15 bg-[#15327f]/10 px-3 py-2 text-[#15327f]">
             Teslim: {inStock ? '2-3 gun' : '7-10 gun'}
           </div>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+          <div className="rounded-xl border border-[#15327f]/15 bg-[#15327f]/10 px-3 py-2 text-[#15327f]">
             Garanti: Resmi servis
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function SparePartPurchaseClient({
           <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
             {inStock ? 'Stokta' : 'Siparisle'}
           </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
+          <span className="rounded-full border border-[#15327f]/15 bg-[#15327f]/10 px-3 py-1 text-[#15327f]">
             {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
           </span>
           {isCritical ? (
