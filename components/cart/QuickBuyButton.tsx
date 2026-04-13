@@ -64,7 +64,7 @@ function QuickBuyButtonEnabled({
   return (
     <button
       type="button"
-      className="inline-flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800 disabled:opacity-70"
+      className="inline-flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold !text-white hover:bg-gray-800 disabled:opacity-70"
       onClick={handleQuickBuy}
       disabled={isLoading || disabled}
     >
@@ -82,7 +82,7 @@ function QuickBuyButtonEnabled({
           </svg>
         )}
       </span>
-      {isLoading ? 'Yonlendiriliyor...' : label}
+      <span className="text-inherit">{isLoading ? 'Yonlendiriliyor...' : label}</span>
     </button>
   );
 }

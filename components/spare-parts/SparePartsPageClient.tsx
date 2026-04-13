@@ -848,20 +848,20 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
               Yedek Parçalar
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Sarf ve kritik parçalar</h1>
-            <p className="max-w-2xl text-base text-white/70">
+            <h1 className="text-3xl font-semibold !text-white sm:text-4xl">Sarf ve kritik parçalar</h1>
+            <p className="max-w-2xl text-base !text-white/80">
               Fiber lazer makineleri için kritik yedek parçayı hızlı temin edin.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
-                className="inline-flex items-center justify-center rounded-full bg-indigo-400 px-6 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:bg-indigo-300"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-400 px-6 py-2.5 text-sm font-semibold !text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5 hover:bg-indigo-300"
               >
                 Fiyat teklifi al
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
+                className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold !text-white/80 transition hover:border-white/60 hover:!text-white"
               >
                 Uyum danış
               </Link>
@@ -876,12 +876,12 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80 backdrop-blur"
+                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm !text-white/80 backdrop-blur"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">
                   {item.title}
                 </p>
-                <p className="mt-2 text-sm text-white/75">{item.detail}</p>
+                <p className="mt-2 text-sm !text-white/75">{item.detail}</p>
               </div>
             ))}
           </div>
