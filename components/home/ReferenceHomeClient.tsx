@@ -433,9 +433,9 @@ export default function ReferenceHomeClient({
 
           <div className="grid content-end gap-4 lg:pl-8">
             <div className="rounded-[30px] border border-white/12 bg-white/95 p-6 text-[#333333] shadow-[0_24px_50px_rgba(5,0,92,0.18)]">
-              <p className="text-xs uppercase tracking-[0.34em] text-[#6e7896]">One cikan veri</p>
+              <p className="text-xs uppercase tracking-[0.34em] text-[#6e7896]">Öne çıkan veri</p>
               <div className="mt-4 text-5xl font-semibold text-[#15327f]">{activePartCount}+</div>
-              <p className="mt-2 text-sm text-[#333333]/82">Aktif urun ve yedek parca vitrini ile tek ekranda teklif, satin alma ve destek akisi.</p>
+              <p className="mt-2 text-sm text-[#333333]/82">Aktif ürün ve yedek parça vitrini ile tek ekranda teklif, satın alma ve destek akışı.</p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
@@ -463,7 +463,7 @@ export default function ReferenceHomeClient({
             Çin&apos;de toplam 100.000 metrekareyi aşan modern üretim altyapısı ile sac, boru, plaka-boru kombine, kaynak ve temizleme ekipmanları geliştiriyoruz.
           </p>
           <p className="mt-4 text-base leading-8 text-white/70">
-            Yuksek kaliteli plaka lazer kesim makineleri, lazer boru kesim makineleri, uc aynali boru kesim makineleri ve tam otomatik yuklemeli sistemler icin kurulumdan egitime kadar butunsel destek veriyoruz.
+            Yüksek kaliteli plaka lazer kesim makineleri, lazer boru kesim makineleri, üç aynalı boru kesim makineleri ve tam otomatik yüklemeli sistemler için kurulumdan egitime kadar bütüncül destek veriyoruz.
           </p>
 
           <div className="mt-6">
@@ -516,7 +516,7 @@ export default function ReferenceHomeClient({
                 <h3 className="mt-3 text-xl font-semibold text-white">{card.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-white/72">{card.description}</p>
                 <Link href={card.href} className="mt-5 inline-flex text-sm font-semibold uppercase tracking-[0.2em] text-[#ff6a0d]">
-                  Ayrintiyi Goruntule
+                  Ayrıntıyı Görüntüle
                 </Link>
               </div>
             </article>
@@ -526,8 +526,8 @@ export default function ReferenceHomeClient({
 
       <Reveal as="section" className="grid gap-8 rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)] lg:grid-cols-[1fr_0.95fr]">
         <div className="flex flex-col justify-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Toplam cozum</p>
-          <h2 className="mt-3 text-3xl font-semibold text-white">Tasarim ve uretimden satis sonrasi hizmete kadar eksiksiz teknik cozumler sunuyoruz.</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Toplam çözüm</p>
+          <h2 className="mt-3 text-3xl font-semibold text-white">Tasarım ve üretimden satış sonrası hizmete kadar eksiksiz teknik çözümler sunuyoruz.</h2>
           <p className="mt-5 text-base leading-8 text-white/74">
             Ürün tasarımı, ürün montajı, kullanıcı eğitimi, bakım planı ve uzun dönemli yedek parça erişimi ile yatırımın tüm yaşam döngüsünü yönetiyoruz.
           </p>
@@ -544,10 +544,10 @@ export default function ReferenceHomeClient({
 
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         <div className="max-w-4xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Uygulama alanlari</p>
-          <h2 className="mt-3 text-3xl font-semibold text-white">Ürünlerimiz cesitli endustrilerde uygulanmaktadir</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Uygulama alanları</p>
+          <h2 className="mt-3 text-3xl font-semibold text-white">Ürünlerimiz çeşitli endüstrilerde uygulanmaktadır</h2>
           <p className="mt-4 text-base leading-8 text-white/74">
-            Sac metal, otomotiv, metal aksesuarlar, mutfak ekipmanlari, tekstil, reklam ve yapi endustrileri icin olceklenebilir lazer isleme altyapisi sagliyoruz.
+            Sac metal, otomotiv, metal aksesuarlar, mutfak ekipmanları, tekstil, reklam ve yapı endüstrileri için ölçeklenebilir lazer işleme altyapısı sağlıyoruz.
           </p>
         </div>
 
@@ -568,10 +568,6 @@ export default function ReferenceHomeClient({
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Popüler ürünler</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Yedek parçalar artık yatay kayan vitrin olarak gösteriliyor</h2>
-            <p className="mt-3 max-w-3xl text-base leading-8 text-white/74">
-              Sadece aşağı kaydırma animasyonu yerine, belirli tempoda kendi kendine kayan ve oklarla kontrol edilen bir slider ekledim.
-            </p>
           </div>
         </div>
 
@@ -631,9 +627,6 @@ export default function ReferenceHomeClient({
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Saha videoları</p>
             <h2 className="mt-3 text-3xl font-semibold text-white">Üretim sahasından video görüntüleri</h2>
-            <p className="mt-3 max-w-3xl text-base leading-8 text-white/74">
-              Kaydırdıkça otomatik ilerleyen video slider ile saha görüntülerini tek alanda gezebilirsiniz.
-            </p>
           </div>
         </div>
 
@@ -667,15 +660,15 @@ export default function ReferenceHomeClient({
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[linear-gradient(135deg,_rgba(255,106,13,0.96),_rgba(255,106,13,0.76))] px-6 py-10 shadow-[0_30px_90px_-70px_rgba(255,106,13,0.95)]">
         <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#15148c]/65">Soruşturma gönder</p>
-            <h2 className="mt-3 text-3xl font-semibold text-[#15148c]">Sonucu gormekten daha iyi bir sey yoktur.</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#15148c]/65">İletişime Geç</p>
+            <h2 className="mt-3 text-3xl font-semibold text-[#15148c]">Sonucu görmekten daha iyi bir şey yoktur.</h2>
             <p className="mt-4 max-w-3xl text-base leading-8 text-[#15148c]/78">
               Makine yatırımı, yedek parça tedariki veya teknik servis planı için ekibimizle hemen iletişime geçin ve size özel çözüm akışına başlayalım.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15148c] px-6 py-3 text-sm font-semibold text-white">
-              Sorgulama için tıklayınız
+              İletişime geçmek için tıklayınız
             </Link>
             <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-[#15148c]/20 px-6 py-3 text-sm font-semibold text-[#15148c]">
               Bize ulaşın
