@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -117,14 +116,9 @@ export default function Footer() {
                 <div className="text-xs font-semibold uppercase tracking-[0.28em] text-[#15327f]">Guvenli odeme</div>
                 <div className="mt-1 text-sm text-[#333333]/68">PayTR altyapisiyla odeme ve tahsilat destegi</div>
               </div>
-              <Image
-                src="/paytrlogolar/paytr-logo-color.svg"
-                alt="PayTR"
-                width={132}
-                height={34}
-                sizes="132px"
-                className="h-7 w-auto"
-              />
+              {/* SVG logo is intentionally rendered with a plain img tag to avoid next/image optimization issues. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/paytrlogolar/paytr-logo-color.svg" alt="PayTR" className="h-7 w-auto" />
             </div>
           </div>
 

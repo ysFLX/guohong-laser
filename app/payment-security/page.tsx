@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
@@ -107,14 +106,9 @@ export default function PaymentSecurityPage() {
           bilgisi yayinlanacaktir.
         </p>
         <div className="mt-4 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-3">
-          <Image
-            src="/paytrlogolar/paytr-logo-color.svg"
-            alt="PayTR"
-            width={142}
-            height={36}
-            sizes="142px"
-            className="h-8 w-auto"
-          />
+          {/* SVG logo is intentionally rendered with a plain img tag to avoid next/image optimization issues. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/paytrlogolar/paytr-logo-color.svg" alt="PayTR" className="h-8 w-auto" />
         </div>
         <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-[var(--foreground)]">
           <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
