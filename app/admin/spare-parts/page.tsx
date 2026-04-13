@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { AdminBadge } from '@/components/admin/AdminUi';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import SparePartVisibilityToggle from '@/components/spare-parts/SparePartVisibilityToggle';
 
 type SparePartsResult = Array<{
   id: string;
@@ -258,7 +259,10 @@ export default async function AdminSparePartsPage({
                     Düzenle
                   </Link>
                 </div>
-                {!p.isActive && <AdminBadge tone="slate">Pasif ürün</AdminBadge>}
+                <div className="flex items-center gap-2">
+                  {!p.isActive && <AdminBadge tone="slate">Gizli ürün</AdminBadge>}
+                  <SparePartVisibilityToggle sparePartId={p.id} isActive={p.isActive} compact />
+                </div>
               </div>
             </div>
           );

@@ -8,6 +8,7 @@ import AdminImageUpload from '@/components/spare-parts/AdminImageUpload';
 import { prisma } from '@/lib/prisma';
 import { AdminBadge } from '@/components/admin/AdminUi';
 import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
+import SparePartVisibilityToggle from '@/components/spare-parts/SparePartVisibilityToggle';
 
 type SparePartResult = {
   id: string;
@@ -99,7 +100,13 @@ export default async function AdminSparePartDetailPage({
         eyebrow="Ürün düzenle"
         title={part.name}
         description={`Kategori: ${part.category.name}`}
-        actions={part.isFeatured ? <AdminBadge tone="slate">Vitrin</AdminBadge> : null}
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            {part.isFeatured ? <AdminBadge tone="slate">Vitrin</AdminBadge> : null}
+            <AdminBadge tone={part.isActive ? 'emerald' : 'slate'}>{part.isActive ? 'Görünür' : 'Gizli'}</AdminBadge>
+            <SparePartVisibilityToggle sparePartId={part.id} isActive={part.isActive} compact />
+          </div>
+        }
       />
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
@@ -161,9 +168,9 @@ export default async function AdminSparePartDetailPage({
         </div>
       </div>
 
-      <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
-        <AdminSparePartEditForm
-          initial={{
+        <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
+          <AdminSparePartEditForm
+            initial={{
             id: part.id,
             name: part.name,
             description: part.description,
@@ -180,8 +187,8 @@ export default async function AdminSparePartDetailPage({
             categoryId: part.categoryId,
           }}
           categories={categories}
-        />
+          />
+        </div>
       </div>
-    </div>
   );
 }
