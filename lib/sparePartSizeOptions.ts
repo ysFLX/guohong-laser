@@ -107,6 +107,9 @@ export function sanitizeSparePartSizeOptionEntries(
         coerceImageUrl(row.variantImageUrl) ??
         coerceImageUrl(row.sizeImageUrl) ??
         coerceImageUrl(row.image),
+      imageUrls: coerceImageUrlList(
+        row.imageUrls ?? row.variantImageUrls ?? row.sizeImageUrls ?? row.images,
+      ),
     });
 
     if (result.length >= 100) break;
