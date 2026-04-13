@@ -47,17 +47,32 @@ const prismaSpareParts = prisma as unknown as {
 };
 
 function normalizeExistingSizeOptionImages(value: unknown, allowedSizeOptions: string[]) {
-  if (!value || typeof value !== 'object') return {} as Record<string, string>;
+  if (!value || typeof value !== 'object') return {} as Record<string, string[]>;
 
   const allowed = new Set(allowedSizeOptions);
   const source = value as Record<string, unknown>;
-  const next: Record<string, string> = {};
+  const next: Record<string, string[]> = {};
 
   for (const [key, rawValue] of Object.entries(source)) {
-    if (!allowed.has(key) || typeof rawValue !== 'string') continue;
-    const normalized = rawValue.trim();
-    if (!normalized) continue;
-    next[key] = normalized;
+    if (!allowed.has(key)) continue;
+
+    const values = Array.isArray(rawValue) ? rawValue : typeof rawValue === 'string' ? [rawValue] : [];
+    const seen = new Set<string>();
+    const normalizedValues: string[] = [];
+
+    for (const value of values) {
+      if (typeof value !== 'string') continue;
+      const normalized = value.trim();
+      if (!normalized) continue;
+      const dedupeKey = normalized.toLocaleLowerCase('tr-TR');
+      if (seen.has(dedupeKey)) continue;
+      seen.add(dedupeKey);
+      normalizedValues.push(normalized);
+    }
+
+    if (normalizedValues.length > 0) {
+      next[key] = normalizedValues;
+    }
   }
 
   return next;

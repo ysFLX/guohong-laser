@@ -25,6 +25,7 @@ export type SparePartSizeOptionEntry = {
   value: string;
   priceCents: number;
   imageUrl: string | null;
+  imageUrls: string[];
 };
 
 function clampPriceCents(value: number) {
@@ -47,6 +48,28 @@ function coerceImageUrl(value: unknown) {
   if (typeof value !== 'string') return null;
   const normalized = value.trim();
   return normalized ? normalized : null;
+}
+
+function coerceImageUrlList(value: unknown) {
+  if (typeof value === 'string') {
+    const normalized = coerceImageUrl(value);
+    return normalized ? [normalized] : [];
+  }
+
+  if (!Array.isArray(value)) return [];
+
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const item of value) {
+    const normalized = coerceImageUrl(item);
+    if (!normalized) continue;
+    const dedupeKey = normalized.toLocaleLowerCase('tr-TR');
+    if (seen.has(dedupeKey)) continue;
+    seen.add(dedupeKey);
+    result.push(normalized);
+    if (result.length >= 50) break;
+  }
+  return result;
 }
 
 export function sanitizeSparePartSizeOptionEntries(
@@ -101,10 +124,10 @@ export function buildSparePartSizeOptionPricesMap(entries: SparePartSizeOptionEn
 }
 
 export function buildSparePartSizeOptionImagesMap(entries: SparePartSizeOptionEntry[]) {
-  const map: Record<string, string> = {};
+  const map: Record<string, string[]> = {};
   for (const entry of entries) {
     if (entry.imageUrl) {
-      map[entry.value] = entry.imageUrl;
+      map[entry.value] = [entry.imageUrl];
     }
   }
   return map;
@@ -128,11 +151,11 @@ export function normalizeSparePartSizeOptionPricesMap(
 }
 
 export function normalizeSparePartSizeOptionImagesMap(value: unknown, sizeOptions: string[]) {
-  const map: Record<string, string | null> = {};
+  const map: Record<string, string[]> = {};
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
 
   for (const option of sizeOptions) {
-    map[option] = coerceImageUrl(source[option]);
+    map[option] = coerceImageUrlList(source[option]);
   }
 
   return map;
@@ -149,7 +172,8 @@ export function buildSparePartSizeOptionEntries(
   return sizeOptions.map((value) => ({
     value,
     priceCents: map[value] ?? clampPriceCents(fallbackPriceCents),
-    imageUrl: imageMap[value] ?? null,
+    imageUrl: imageMap[value]?.[0] ?? null,
+    imageUrls: imageMap[value] ?? [],
   }));
 }
 

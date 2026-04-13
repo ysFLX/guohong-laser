@@ -15,6 +15,7 @@ type SparePartImage = {
 type SizeOptionEntry = {
   value: string;
   imageUrl: string | null;
+  imageUrls: string[];
 };
 
 export default function AdminImageUpload({
@@ -111,7 +112,7 @@ export default function AdminImageUpload({
             </div>
             <div className="mt-1 text-xs text-[var(--admin-muted)]">
               {uploadMode === 'size' && hasSizeOptions
-                ? 'Yuklemeden once hangi olcu icin oldugunu sec.'
+                ? 'Yuklemeden once hangi olcu icin oldugunu sec. Ayni olcuye birden fazla gorsel ekleyebilirsin.'
                 : 'Bu alana yuklenen gorseller urun galerisinde listelenir.'}
             </div>
           </div>
@@ -136,11 +137,11 @@ export default function AdminImageUpload({
             ref={uploadMode === 'size' ? sizeInputRef : galleryInputRef}
             type="file"
             accept="image/*"
-            multiple={uploadMode === 'gallery'}
+            multiple
             onChange={(e) => {
               setError('');
               const list = Array.from(e.target.files || []);
-              if (uploadMode === 'size') setSizeFiles(list.slice(0, 1));
+              if (uploadMode === 'size') setSizeFiles(list);
               else setGalleryFiles(list);
             }}
             className="block w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--admin-card-muted)] file:px-4 file:py-2 file:text-xs file:font-semibold file:text-[var(--admin-text)] hover:file:bg-[var(--admin-surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]"
@@ -158,20 +159,21 @@ export default function AdminImageUpload({
 
               try {
                 if (uploadMode === 'size' && hasSizeOptions) {
-                  const file = sizeFiles[0];
-                  if (!file) return;
+                  if (sizeFiles.length === 0) return;
                   if (!selectedSizeValue) throw new Error('Olcu secimi gerekli');
 
                   setIsUploadingSize(true);
-                  const publicUrl = await uploadFile(file);
+                  for (const file of sizeFiles) {
+                    const publicUrl = await uploadFile(file);
 
-                  const saveRes = await fetch(`/api/spare-parts/${sparePartId}/size-option-image`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sizeValue: selectedSizeValue, url: publicUrl }),
-                  });
-                  const saveData = await saveRes.json();
-                  if (!saveRes.ok) throw new Error(saveData?.error || 'Olcu gorseli kaydedilemedi');
+                    const saveRes = await fetch(`/api/spare-parts/${sparePartId}/size-option-image`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ sizeValue: selectedSizeValue, url: publicUrl }),
+                    });
+                    const saveData = await saveRes.json();
+                    if (!saveRes.ok) throw new Error(saveData?.error || 'Olcu gorseli kaydedilemedi');
+                  }
 
                   setSizeFiles([]);
                   if (sizeInputRef.current) sizeInputRef.current.value = '';
@@ -209,7 +211,9 @@ export default function AdminImageUpload({
             {uploadMode === 'size' && hasSizeOptions
               ? isUploadingSize
                 ? 'Yukleniyor...'
-                : 'Olcu gorselini yukle'
+                : sizeFiles.length > 1
+                  ? `${sizeFiles.length} gorseli yukle`
+                  : 'Olcu gorselini yukle'
               : isUploadingGallery
                 ? 'Yukleniyor...'
                 : 'Yukle'}
@@ -223,10 +227,17 @@ export default function AdminImageUpload({
             <div>
               <div className="text-sm font-semibold text-[var(--admin-text)]">Olcu gorselleri</div>
               <div className="mt-1 text-xs text-[var(--admin-muted)]">
-                Her olcu icin tek bir aktif gorsel tutulur. Yeni yukleme eskisinin yerine gecer.
+                Her olcu icin birden fazla gorsel tutulur. Yeni yuklemeler eskisinin uzerine yazmaz.
               </div>
             </div>
-            <AdminBadge tone="indigo">{sizeOptionEntries.filter((entry) => entry.imageUrl).length} olcu baglandi</AdminBadge>
+            <AdminBadge tone="indigo">
+              {sizeOptionEntries.reduce(
+                (count, entry) =>
+                  count + (entry.imageUrls?.length ? entry.imageUrls.length : entry.imageUrl ? 1 : 0),
+                0,
+              )}{' '}
+              gorsel
+            </AdminBadge>
           </div>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -239,7 +250,7 @@ export default function AdminImageUpload({
                   <div>
                     <div className="text-sm font-semibold text-[var(--admin-text)]">{entry.value}</div>
                     <div className="mt-1 text-xs text-[var(--admin-muted)]">
-                      {entry.imageUrl ? 'Bu olcuye gorsel baglandi' : 'Henuz gorsel secilmedi'}
+                      {((entry.imageUrls?.length ?? 0) > 0 || entry.imageUrl) ? 'Bu olcuye gorseller baglandi' : 'Henuz gorsel secilmedi'}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -252,9 +263,9 @@ export default function AdminImageUpload({
                         sizeInputRef.current?.click();
                       }}
                     >
-                      {entry.imageUrl ? 'Degistir' : 'Gorsel sec'}
+                      {((entry.imageUrls?.length ?? 0) > 0 || entry.imageUrl) ? 'Gorsel ekle' : 'Gorsel sec'}
                     </AdminButton>
-                    {entry.imageUrl ? (
+                    {((entry.imageUrls?.length ?? 0) > 0 || entry.imageUrl) ? (
                       <AdminButton
                         type="button"
                         tone="rose"
@@ -278,20 +289,58 @@ export default function AdminImageUpload({
                           }
                         }}
                       >
-                        {sizeDeletingValue === entry.value ? 'Siliniyor...' : 'Sil'}
+                        {sizeDeletingValue === entry.value ? 'Siliniyor...' : 'Tumunu sil'}
                       </AdminButton>
                     ) : null}
                   </div>
                 </div>
 
-                {entry.imageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={entry.imageUrl} alt={`${entry.value} gorseli`} className="h-40 w-full object-cover" />
-                ) : (
-                  <div className="flex h-40 items-center justify-center border-t border-[var(--admin-border)] text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                    Gorsel yok
-                  </div>
-                )}
+                {(() => {
+                  const imageUrls = entry.imageUrls?.length ? entry.imageUrls : entry.imageUrl ? [entry.imageUrl] : [];
+
+                  if (imageUrls.length === 0) {
+                    return (
+                      <div className="flex h-40 items-center justify-center border-t border-[var(--admin-border)] text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+                        Gorsel yok
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div className="grid grid-cols-2 gap-2 border-t border-[var(--admin-border)] p-3 sm:grid-cols-3">
+                      {imageUrls.map((url, index) => (
+                        <div key={`${entry.value}-${url}-${index}`} className="group relative overflow-hidden rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)]">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={url} alt={`${entry.value} gorseli ${index + 1}`} className="h-28 w-full object-cover" />
+                          <button
+                            type="button"
+                            disabled={sizeDeletingValue === `${entry.value}-${url}`}
+                            onClick={async () => {
+                              setError('');
+                              setSizeDeletingValue(`${entry.value}-${url}`);
+                              try {
+                                const res = await fetch(
+                                  `/api/spare-parts/${sparePartId}/size-option-image?sizeValue=${encodeURIComponent(entry.value)}&url=${encodeURIComponent(url)}`,
+                                  { method: 'DELETE' },
+                                );
+                                const data = await res.json();
+                                if (!res.ok) throw new Error(data?.error || 'Olcu gorseli silinemedi');
+                                router.refresh();
+                              } catch (e: unknown) {
+                                setError(e instanceof Error ? e.message : 'Olcu gorseli silinemedi');
+                              } finally {
+                                setSizeDeletingValue(null);
+                              }
+                            }}
+                            className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-1 text-[10px] font-semibold text-white opacity-0 transition group-hover:opacity-100 disabled:opacity-60"
+                          >
+                            {sizeDeletingValue === `${entry.value}-${url}` ? 'Sil...' : 'Sil'}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
               </div>
             ))}
           </div>

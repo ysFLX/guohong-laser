@@ -14,6 +14,7 @@ type SizeOptionEntry = {
   value: string;
   priceCents: number;
   imageUrl: string | null;
+  imageUrls?: string[];
 };
 
 type Props = {
@@ -50,15 +51,36 @@ export default function SparePartDetailExperience({
     [selectedSize, sizeOptionEntries],
   );
 
-  const galleryImages = useMemo(() => {
-    const variantImageUrl = selectedEntry?.imageUrl ?? null;
-    if (!variantImageUrl) return images;
+  const variantImageUrls = selectedEntry?.imageUrls?.length
+    ? selectedEntry.imageUrls
+    : selectedEntry?.imageUrl
+      ? [selectedEntry.imageUrl]
+      : [];
 
-    const deduped = images.filter((image) => image.url !== variantImageUrl);
-    return [{ id: `size-${selectedSize || 'default'}`, url: variantImageUrl }, ...deduped];
-  }, [images, selectedEntry?.imageUrl, selectedSize]);
+  const galleryImages = (() => {
+    if (variantImageUrls.length === 0) return images;
 
-  const resolvedFallbackUrl = selectedEntry?.imageUrl ?? imageUrl ?? '/images/1.jpg';
+    const seen = new Set<string>();
+    const next: Array<{ id: string; url: string }> = [];
+
+    for (const [index, url] of variantImageUrls.entries()) {
+      const key = url.toLocaleLowerCase('tr-TR');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      next.push({ id: `size-${selectedSize || 'default'}-${index}`, url });
+    }
+
+    for (const image of images) {
+      const key = image.url.toLocaleLowerCase('tr-TR');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      next.push(image);
+    }
+
+    return next;
+  })();
+
+  const resolvedFallbackUrl = selectedEntry?.imageUrls?.[0] ?? selectedEntry?.imageUrl ?? imageUrl ?? '/images/1.jpg';
 
   return (
     <>

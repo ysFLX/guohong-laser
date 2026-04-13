@@ -41,15 +41,28 @@ async function requireAdmin() {
 }
 
 function normalizeImagesMap(value: unknown) {
-  if (!value || typeof value !== 'object') return {} as Record<string, string>;
+  if (!value || typeof value !== 'object') return {} as Record<string, string[]>;
 
   const source = value as Record<string, unknown>;
-  const next: Record<string, string> = {};
+  const next: Record<string, string[]> = {};
   for (const [key, raw] of Object.entries(source)) {
-    if (typeof raw !== 'string') continue;
-    const normalized = raw.trim();
-    if (!normalized) continue;
-    next[key] = normalized;
+    const values = Array.isArray(raw) ? raw : typeof raw === 'string' ? [raw] : [];
+    const seen = new Set<string>();
+    const normalizedValues: string[] = [];
+
+    for (const value of values) {
+      if (typeof value !== 'string') continue;
+      const normalized = value.trim();
+      if (!normalized) continue;
+      const dedupeKey = normalized.toLocaleLowerCase('tr-TR');
+      if (seen.has(dedupeKey)) continue;
+      seen.add(dedupeKey);
+      normalizedValues.push(normalized);
+    }
+
+    if (normalizedValues.length > 0) {
+      next[key] = normalizedValues;
+    }
   }
   return next;
 }
@@ -91,7 +104,13 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   }
 
   const nextMap = normalizeImagesMap(part.sizeOptionImages);
-  nextMap[sizeValue] = url;
+  const currentImages = nextMap[sizeValue] ?? [];
+  const nextImages = [...currentImages];
+  const dedupeKey = url.toLocaleLowerCase('tr-TR');
+  if (!nextImages.some((item) => item.toLocaleLowerCase('tr-TR') === dedupeKey)) {
+    nextImages.push(url);
+  }
+  nextMap[sizeValue] = nextImages;
 
   await prismaSpareParts.sparePart.update({
     where: { id },
@@ -105,7 +124,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   revalidatePath(`/spare-parts/${id}`);
   revalidatePath(`/admin/spare-parts/${id}`);
 
-  return NextResponse.json({ ok: true, sizeValue, url });
+  return NextResponse.json({ ok: true, sizeValue, url, imageCount: nextMap[sizeValue].length });
 }
 
 export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -115,6 +134,7 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
   const { id } = await ctx.params;
   const { searchParams } = new URL(req.url);
   const sizeValue = (searchParams.get('sizeValue') || '').trim();
+  const url = (searchParams.get('url') || '').trim();
 
   if (!sizeValue) {
     return NextResponse.json({ error: 'Olcu secimi gerekli' }, { status: 400 });
@@ -130,8 +150,16 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
   }
 
   const nextMap = normalizeImagesMap(part.sizeOptionImages);
-  const existingUrl = nextMap[sizeValue];
-  delete nextMap[sizeValue];
+  const existingUrls = nextMap[sizeValue] ?? [];
+  const remainingUrls = url
+    ? existingUrls.filter((item) => item !== url)
+    : [];
+
+  if (remainingUrls.length > 0) {
+    nextMap[sizeValue] = remainingUrls;
+  } else {
+    delete nextMap[sizeValue];
+  }
 
   await prismaSpareParts.sparePart.update({
     where: { id },
@@ -141,17 +169,21 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-  const objectPath = existingUrl ? extractObjectPath(existingUrl) : '';
+  const urlsToDelete = url ? [url] : existingUrls;
 
-  if (supabaseUrl && serviceRoleKey && objectPath) {
-    const deleteUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/${BUCKET}/${objectPath}`;
-    await fetch(deleteUrl, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${serviceRoleKey}`,
-        apikey: serviceRoleKey,
-      },
-    });
+  if (supabaseUrl && serviceRoleKey) {
+    for (const candidateUrl of urlsToDelete) {
+      const objectPath = extractObjectPath(candidateUrl);
+      if (!objectPath) continue;
+      const deleteUrl = `${supabaseUrl.replace(/\/$/, '')}/storage/v1/object/${BUCKET}/${objectPath}`;
+      await fetch(deleteUrl, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${serviceRoleKey}`,
+          apikey: serviceRoleKey,
+        },
+      });
+    }
   }
 
   revalidateTag('spare-parts', 'max');
@@ -160,5 +192,5 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
   revalidatePath(`/spare-parts/${id}`);
   revalidatePath(`/admin/spare-parts/${id}`);
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, removedCount: urlsToDelete.length });
 }
