@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { AdminBadge, AdminButton, AdminRadioCard } from '@/components/admin/AdminUi';
 
@@ -80,7 +80,7 @@ export default function AdminLiveSupportPage() {
     });
   }, [threads, threadQuery, threadFilter]);
 
-  async function load(showLoader = false, threadParam?: string | null) {
+  const load = useCallback(async (showLoader = false, threadParam?: string | null) => {
     if (showLoader) setLoading(true);
     setError(null);
     try {
@@ -101,18 +101,18 @@ export default function AdminLiveSupportPage() {
     } finally {
       if (showLoader) setLoading(false);
     }
-  }
+  }, [selectedThread]);
 
   useEffect(() => {
     load(true);
-  }, []);
+  }, [load]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       load(false);
     }, 5000);
     return () => clearInterval(timer);
-  }, [selectedThread]);
+  }, [load]);
 
   useEffect(() => {
     const el = messagesRef.current;

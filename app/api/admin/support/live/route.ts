@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { parseInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 import { prisma } from '@/lib/prisma';
 
 type ThreadSummary = {
@@ -22,6 +23,8 @@ type ThreadMessage = {
   status: 'NEW' | 'READ' | 'CLOSED';
   senderName?: string;
 };
+
+const LEGACY_RESPONSE_TIMESTAMP = new Date(0).toISOString();
 
 const LIVE_SUPPORT_SUBJECT_WHERE = {
   OR: [
@@ -110,7 +113,7 @@ export async function GET(request: Request) {
     .map(([key, list]) => {
       const sorted = [...list].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
       const last = sorted[0];
-      const unreadCount = sorted.filter((x) => !x.adminResponse && x.status !== 'CLOSED').length;
+      const unreadCount = sorted.filter((x) => parseInquiryAdminResponse(x.adminResponse).length === 0 && x.status !== 'CLOSED').length;
       return {
         key,
         userId: last.userId,
@@ -139,22 +142,27 @@ export async function GET(request: Request) {
           senderName: item.name || undefined,
         },
       ];
-      if (item.adminResponse) {
+      const replies = parseInquiryAdminResponse(item.adminResponse);
+      replies.forEach((reply, index) => {
+        const replyAt =
+          reply.at && reply.at !== LEGACY_RESPONSE_TIMESTAMP
+            ? reply.at
+            : (item.respondedAt ?? item.createdAt).toISOString();
         rows.push({
-          id: `${item.id}-agent`,
+          id: `${item.id}-agent-${index}`,
           role: 'agent',
-          text: item.adminResponse,
-          at: (item.respondedAt ?? item.createdAt).toISOString(),
+          text: reply.text,
+          at: replyAt,
           status: item.status,
-          senderName: item.respondedByUser?.name || 'Destek',
+          senderName: reply.senderName || item.respondedByUser?.name || 'Destek',
         });
-      }
+      });
       return rows;
     });
 
   const replyTargetInquiryId = [...activeInquiries]
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-    .find((x) => !x.adminResponse)?.id
+    .find((x) => parseInquiryAdminResponse(x.adminResponse).length === 0)?.id
     ?? [...activeInquiries].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]?.id
     ?? null;
 

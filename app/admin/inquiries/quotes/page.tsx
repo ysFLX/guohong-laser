@@ -7,6 +7,7 @@ import InquiryReplyBox from '@/components/admin/InquiryReplyBox';
 import InquiryStatusActions from '@/components/admin/InquiryStatusActions';
 import { AdminBadge } from '@/components/admin/AdminUi';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
+import { getLatestInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 
 type InquiryRow = Array<{
   id: string;
@@ -157,7 +158,11 @@ export default async function AdminQuoteInquiriesPage() {
               </div>
 
               <div className="px-6 py-4">
-                <InquiryReplyBox inquiryId={x.id} existingResponse={x.adminResponse} canReply={Boolean(x.email)} />
+                <InquiryReplyBox
+                  inquiryId={x.id}
+                  existingResponse={getLatestInquiryAdminResponse(x.adminResponse)}
+                  canReply={Boolean(x.email)}
+                />
               </div>
             </div>
           );

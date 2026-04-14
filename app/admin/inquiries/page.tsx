@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import InquiriesAdminManager, { type AdminInquiryItem } from '@/components/admin/InquiriesAdminManager';
+import { getLatestInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 
 export const dynamic = 'force-dynamic';
 
@@ -88,7 +89,7 @@ export default async function AdminInquiriesPage() {
       product: item.product,
       message: item.message,
       status: normalizeStatus(item.status),
-      adminResponse: item.adminResponse,
+      adminResponse: getLatestInquiryAdminResponse(item.adminResponse),
       createdAt: item.createdAt.toISOString(),
       userId: item.userId,
     }),

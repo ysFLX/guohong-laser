@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
+import { parseInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 import { prisma } from '@/lib/prisma';
 
 type LiveMessage = {
@@ -11,6 +12,8 @@ type LiveMessage = {
   at: string;
   status?: string;
 };
+
+const LEGACY_RESPONSE_TIMESTAMP = new Date(0).toISOString();
 
 function splitInquiryToMessages(inquiry: {
   id: string;
@@ -30,13 +33,20 @@ function splitInquiryToMessages(inquiry: {
     },
   ];
 
-  if (inquiry.adminResponse) {
-    result.push({
-      id: `${inquiry.id}-agent`,
-      role: 'agent',
-      text: inquiry.adminResponse,
-      at: (inquiry.respondedAt ?? inquiry.createdAt).toISOString(),
-      status: inquiry.status,
+  const responses = parseInquiryAdminResponse(inquiry.adminResponse);
+  if (responses.length > 0) {
+    responses.forEach((response, index) => {
+      const responseAt =
+        response.at && response.at !== LEGACY_RESPONSE_TIMESTAMP
+          ? response.at
+          : (inquiry.respondedAt ?? inquiry.createdAt).toISOString();
+      result.push({
+        id: `${inquiry.id}-agent-${index}`,
+        role: 'agent',
+        text: response.text,
+        at: responseAt,
+        status: inquiry.status,
+      });
     });
   }
 
@@ -79,7 +89,7 @@ async function pruneSupportHistory(userId: string) {
 
   const overLimitIds = inquiries
     .slice(HISTORY_KEEP_COUNT)
-    .filter((item) => item.status === 'CLOSED' || Boolean(item.adminResponse))
+    .filter((item) => item.status === 'CLOSED' || parseInquiryAdminResponse(item.adminResponse).length > 0)
     .map((item) => item.id);
 
   const deleteIds = Array.from(new Set([...byAgeIds, ...overLimitIds]));
@@ -130,7 +140,7 @@ export async function GET() {
     .flatMap(splitInquiryToMessages)
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
 
-  const openInquiries = activeInquiries.filter((item) => !item.adminResponse);
+  const openInquiries = activeInquiries.filter((item) => parseInquiryAdminResponse(item.adminResponse).length === 0);
   const latestOpen = openInquiries[0] ?? null;
 
   const waitingReply = openInquiries.length > 0;

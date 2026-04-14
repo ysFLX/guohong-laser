@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { getLatestInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 import { prisma } from '@/lib/prisma';
 
 type NotificationRow = Array<{
@@ -77,7 +78,10 @@ export async function GET() {
     });
 
     return NextResponse.json({
-      items,
+      items: items.map((item) => ({
+        ...item,
+        adminResponse: getLatestInquiryAdminResponse(item.adminResponse),
+      })),
       unreadCount: items.length,
       mode: 'ADMIN_NEW_INQUIRIES',
     });
@@ -135,7 +139,10 @@ export async function GET() {
       message: item.message,
       orderId: item.orderId,
     })),
-    ...inquiryItems,
+    ...inquiryItems.map((item) => ({
+      ...item,
+      adminResponse: getLatestInquiryAdminResponse(item.adminResponse),
+    })),
   ].sort((a, b) => {
     const aTime = (a.respondedAt || a.createdAt || new Date(0)).getTime();
     const bTime = (b.respondedAt || b.createdAt || new Date(0)).getTime();

@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { AdminButton } from '@/components/admin/AdminUi';
+import { getLatestInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 
 export default function InquiryReplyBox({
   inquiryId,
@@ -15,11 +16,15 @@ export default function InquiryReplyBox({
   canReply?: boolean;
   onSaved?: (updated: { adminResponse: string | null; respondedAt: string | null; status: 'READ' }) => void;
 }) {
-  const [value, setValue] = useState(existingResponse || '');
+  const [value, setValue] = useState(getLatestInquiryAdminResponse(existingResponse) || '');
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const typingPingAtRef = useRef(0);
+
+  useEffect(() => {
+    setValue(getLatestInquiryAdminResponse(existingResponse) || '');
+  }, [existingResponse]);
 
   async function pingTyping() {
     const now = Date.now();
@@ -81,8 +86,11 @@ export default function InquiryReplyBox({
               const data = await res.json();
               if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
               const respondedAt = typeof data?.item?.respondedAt === 'string' ? data.item.respondedAt : null;
+              const savedResponse = getLatestInquiryAdminResponse(
+                typeof data?.item?.adminResponse === 'string' ? data.item.adminResponse : null,
+              );
               onSaved?.({
-                adminResponse: trimmed ? trimmed : null,
+                adminResponse: savedResponse,
                 respondedAt,
                 status: 'READ',
               });

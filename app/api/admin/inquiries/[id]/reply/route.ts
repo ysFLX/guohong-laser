@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
+import { appendInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 import { prisma } from '@/lib/prisma';
 
 type Payload = {
@@ -19,6 +20,7 @@ type InquiryUpdateDelegate = {
     email: string | null;
     name: string | null;
     subject: string | null;
+    adminResponse: string | null;
   } | null>;
 };
 
@@ -101,7 +103,7 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
 
   const inquiry = await prismaInquiry.inquiry.findUnique({
     where: { id },
-    select: { id: true, userId: true, email: true, name: true, subject: true },
+    select: { id: true, userId: true, email: true, name: true, subject: true, adminResponse: true },
   });
 
   if (!inquiry) {
@@ -123,7 +125,10 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   };
 
   if (typeof payload.adminResponse === 'string') {
-    data.adminResponse = payload.adminResponse.trim() ? payload.adminResponse.trim() : null;
+    data.adminResponse = appendInquiryAdminResponse(inquiry.adminResponse ?? null, payload.adminResponse, {
+      senderName: session.user.name || 'Destek',
+      senderUserId: session.user.id,
+    });
   }
 
   if (payload.status === 'NEW' || payload.status === 'READ' || payload.status === 'CLOSED') {
