@@ -217,14 +217,14 @@ export default function AdminSparePartCreateForm({
                     <input
                       value={row.priceUsd}
                       inputMode="decimal"
-                      onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
+                      onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value, priceTry: '' })}
                       placeholder="Fiyat (USD, tam sayi)"
                       className={`${inputClassName} mt-0`}
                     />
                     <input
                       value={row.priceTry}
                       inputMode="decimal"
-                      onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
+                      onChange={(e) => updateSizeRow(index, { priceTry: e.target.value, priceUsd: '' })}
                       placeholder="Fiyat (TL)"
                       className={`${inputClassName} mt-0`}
                     />
