@@ -876,12 +876,12 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm !text-white/80 backdrop-blur"
+                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-slate-900 backdrop-blur"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-900">
                   {item.title}
                 </p>
-                <p className="mt-2 text-sm !text-white/75">{item.detail}</p>
+                <p className="mt-2 text-sm text-slate-700">{item.detail}</p>
               </div>
             ))}
           </div>
