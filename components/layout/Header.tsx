@@ -46,7 +46,7 @@ const PRIMARY_NAV: NavItem[] = [
       { href: '/faq', label: 'SSS' },
     ],
   },
-  { href: '/gallery', label: 'Haberler' },
+  { href: '/gallery', label: 'Galeri' },
   { href: '/contact', label: 'Bize Ulaşın' },
 ] ;
 

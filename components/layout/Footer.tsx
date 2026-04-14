@@ -48,14 +48,14 @@ export default function Footer() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_0.9fr_1fr]">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#15327f]">Guohong Laser</p>
-              <h3 className="mt-4 text-3xl font-semibold text-[#333333]">Soruşturma gönder</h3>
+              <h3 className="mt-4 text-3xl font-semibold text-[#333333]">İletişime Geç</h3>
               <p className="mt-4 text-sm leading-7 text-[#333333]/74">
                 Sonucu görmekten daha iyi bir şey yoktur. Makine, yedek parça veya teknik servis ihtiyacınız için ekibimizle hemen iletişime geçin.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white">
-                  Sorgulama İçin Tıklayınız
+                  İletişim Formu İçin Tıklayınız
                 </Link>
                 <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-5 py-3 text-sm font-semibold text-[#15327f]">
                   Whatsapp
