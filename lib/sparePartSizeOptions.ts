@@ -39,16 +39,7 @@ function clampPriceCents(value: number) {
   return Math.max(0, Math.round(value));
 }
 
-function roundUpToWholeUsdCents(value: number) {
-  const safeValue = clampPriceCents(value);
-  return Math.ceil(safeValue / 100) * 100;
-}
-
-export function normalizePriceCentsForCurrency(value: number, currency: string | null | undefined) {
-  const normalizedCurrency = normalizeCurrency(currency, 'TRY');
-  if (normalizedCurrency === 'USD') {
-    return roundUpToWholeUsdCents(value);
-  }
+export function normalizePriceCentsForCurrency(value: number) {
   return clampPriceCents(value);
 }
 

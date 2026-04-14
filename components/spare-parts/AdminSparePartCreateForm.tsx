@@ -18,10 +18,10 @@ function formatWholeTryPrice(priceCents: number, usdTryRate: number) {
   if (!safeRate) return null;
 
   const safePriceCents = Number.isFinite(priceCents) ? Math.max(0, Math.round(priceCents)) : 0;
-  const roundedTryCents = Math.max(0, Math.round(safePriceCents * safeRate));
-  const roundedTry = Math.max(0, Math.round(roundedTryCents / 100));
+  const roundedRate = Math.ceil(safeRate);
+  const tryAmount = safePriceCents / 100 * roundedRate;
 
-  return new Intl.NumberFormat('tr-TR').format(roundedTry);
+  return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(tryAmount);
 }
 
 export default function AdminSparePartCreateForm({
@@ -54,8 +54,7 @@ export default function AdminSparePartCreateForm({
   const parsedPrice = Number(String(priceUsd).replace(',', '.'));
   const basePriceCents =
     Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
-  const normalizedBasePriceCents =
-    priceCurrency === 'USD' ? Math.ceil(basePriceCents / 100) * 100 : basePriceCents;
+  const normalizedBasePriceCents = basePriceCents;
   const usdTryPreview = priceCurrency === 'USD' ? formatWholeTryPrice(normalizedBasePriceCents, usdTryRate) : null;
 
   const updateSizeRow = (index: number, next: Partial<SizeOptionRow>) => {

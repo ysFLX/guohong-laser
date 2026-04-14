@@ -143,7 +143,8 @@ export async function getUsdTryExchangeRate(): Promise<ExchangeRateRow> {
 export function convertUsdCentsToTryCents(usdCents: number, usdTryRate: number) {
   const safeUsdCents = Number.isFinite(usdCents) ? Math.max(0, Math.round(usdCents)) : 0;
   const safeRate = Number.isFinite(usdTryRate) && usdTryRate > 0 ? usdTryRate : getFallbackUsdTryRate();
-  return Math.max(0, Math.round(safeUsdCents * safeRate));
+  const roundedRate = Math.ceil(safeRate);
+  return Math.max(0, Math.round(safeUsdCents * roundedRate));
 }
 
 export function resolveDisplayedPriceCents(priceCents: number, currency: string | null | undefined, usdTryRate: number) {

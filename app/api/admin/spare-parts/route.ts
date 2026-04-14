@@ -83,9 +83,9 @@ export async function POST(req: Request) {
       ? sanitizeSparePartSizeOptions(body.sizeOptions)
       : [];
   const sizeOptionPrices =
-        sizeOptionEntries.length > 0
-          ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
-          : Object.fromEntries(
+    sizeOptionEntries.length > 0
+      ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
+      : Object.fromEntries(
           sizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: priceCurrency }]),
         );
   const sizeOptionImages =
