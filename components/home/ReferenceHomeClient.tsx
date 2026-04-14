@@ -39,7 +39,7 @@ const heroSlides = [
   {
     id: 'slide-1',
     image: '/images/about-showcase.jpg',
-    eyebrow: 'Profesyonel uretim ve hizmet saglayicilari',
+    eyebrow: 'Profesyonel üretim ve hizmet sağlayıcıları',
     title: 'Guohong Laser Group, metal lazer kesim teknolojilerinde küresel çözüm ortağınızdır.',
     description:
       'Ar-Ge, üretim ve satış süreçlerini tek çatı altında toplayan yapımızla sac, boru, kaynak ve temizleme çözümlerini kurulumdan satış sonrasına kadar uçtan uca sunuyoruz.',
@@ -60,23 +60,23 @@ const productCategories: ProductCategory[] = [
     label: 'Plaka Lazer Kesim Makinesi',
     cards: [
       {
-        title: 'Guohong CNC Fiber Lazer Kesim Makinesi Koruma Kapakli',
+        title: 'Guohong CNC Fiber Lazer Kesim Makinesi Koruma Kapaklı',
         date: '2024-11-25',
-        description: 'Koruma kapakli yapi, yuksek hassasiyet ve farkli tabla olculeri ile yogun sac kesim hatlari icin tasarlandi.',
+        description: 'Koruma kapaklı yapı, yüksek hassasiyet ve farklı tabla ölçüleri ile yoğun sac kesim hatları için tasarlandı.',
         image: '/images/1.jpg',
         href: '/products',
       },
       {
         title: 'GH-F Serisi Metal Lazer Kesici',
         date: '2024-11-25',
-        description: 'Mutfak ekipmanlari, dolap uretimi ve genel metal isleme icin klasik ve guvenilir seri.',
+        description: 'Mutfak ekipmanları, dolap üretimi ve genel metal işleme için klasik ve güvenilir seri.',
         image: '/images/2.jpg',
         href: '/products',
       },
       {
-        title: 'Yuksek Guclu CNC Sac Kesim Makinesi',
+        title: 'Yüksek Güçlü CNC Sac Kesim Makinesi',
         date: '2024-11-25',
-        description: '1000W ile 6000W arasinda ekonomik ve guclu sac kesim cozumu sunar.',
+        description: '1000W ile 6000W arasında ekonomik ve güçlü sac kesim çözümü sunar.',
         image: '/images/3.jpg',
         href: '/products',
       },
@@ -84,26 +84,26 @@ const productCategories: ProductCategory[] = [
   },
   {
     id: 'tube',
-    label: 'Tup Lazer Kesim Makinesi',
+    label: 'Tüp Lazer Kesim Makinesi',
     cards: [
       {
-        title: 'GH-T Serisi Yan Montajli Fiber Lazer Boru Kesme Makinesi',
+        title: 'GH-T Serisi Yan Montajlı Fiber Lazer Boru Kesme Makinesi',
         date: '2024-11-26',
-        description: 'Yuvarlak, kare ve ozel profillerde yuksek hassasiyetli boru kesimi icin gelistirildi.',
+        description: 'Yuvarlak, kare ve özel profillerde yüksek hassasiyetli boru kesimi için geliştirildi.',
         image: '/images/4.jpg',
         href: '/products',
       },
       {
-        title: 'Tup Fiber Lazer Kesim Makinesi',
+        title: 'Tüp Fiber Lazer Kesim Makinesi',
         date: '2024-11-26',
-        description: 'Spor ekipmanlari, boru hatlari ve metal profil uygulamalarinda verimliligi artirir.',
+        description: 'Spor ekipmanları, boru hatları ve metal profil uygulamalarında verimliliği artırır.',
         image: '/images/5.jpg',
         href: '/products',
       },
       {
-        title: 'Uc Mandrenli Boru Fiber Lazer Kesim Makinesi',
+        title: 'Üç Mandrenli Boru Fiber Lazer Kesim Makinesi',
         date: '2024-11-26',
-        description: 'Sifir kuyruk yaklasimi ve uc nokta destek ile uzun borularda daha stabil kesim saglar.',
+        description: 'Sıfır kuyruk yaklaşımı ve üç nokta destek ile uzun borularda daha stabil kesim sağlar.',
         image: '/images/6.jpg',
         href: '/products',
       },
@@ -114,23 +114,23 @@ const productCategories: ProductCategory[] = [
     label: 'Plaka ve Boru Lazer Kesim Makinesi',
     cards: [
       {
-        title: 'Metal icin Plaka ve Boru Fiber Lazer Kesim Makinesi',
+        title: 'Metal için Plaka ve Boru Fiber Lazer Kesim Makinesi',
         date: '2024-11-27',
-        description: 'Tek makinede iki farkli malzeme formunu keserek yatirim maliyetini optimize eder.',
+        description: 'Tek makinede iki farklı malzeme formunu keserek yatırım maliyetini optimize eder.',
         image: '/images/8.jpg',
         href: '/products',
       },
       {
         title: 'Plaka ve Boru Lazer Kesim Makinesi',
         date: '2024-11-27',
-        description: 'Profesyonel CNC sistemi ve kolay bakim yapisi ile yogun uretim senaryolarina uygundur.',
+        description: 'Profesyonel CNC sistemi ve kolay bakım yapısı ile yoğun üretim senaryolarına uygundur.',
         image: '/images/9.jpg',
         href: '/products',
       },
       {
         title: 'Tam Koruma Metal Sac ve Boru Fiber Lazer Kesim Makinesi',
         date: '2024-11-27',
-        description: 'Kapali govde ve birinci sinif bilesenlerle guvenlik ve hassasiyet dengesini kurar.',
+        description: 'Kapalı gövde ve birinci sınıf bileşenlerle güvenlik ve hassasiyet dengesini kurar.',
         image: '/images/10.jpg',
         href: '/products',
       },
@@ -141,23 +141,23 @@ const productCategories: ProductCategory[] = [
     label: 'El Tipi Lazer Kaynak Makinesi',
     cards: [
       {
-        title: "Temizleme ve Kesme Fonksiyonlu 3'u 1 Arada Lazer Kaynak Makinesi",
+        title: "Temizleme ve Kesme Fonksiyonlu 3'ü 1 Arada Lazer Kaynak Makinesi",
         date: '2024-11-27',
-        description: 'Kaynak, temizleme ve kesme islevlerini tek govdede birlestirerek esnek kullanim sunar.',
+        description: 'Kaynak, temizleme ve kesme işlevlerini tek gövdede birleştirerek esnek kullanım sunar.',
         image: '/images/11.jpg',
         href: '/products',
       },
       {
         title: 'Kompakt El Tipi Kaynak Platformu',
         date: '2024-11-27',
-        description: 'Dusuk isletme maliyeti ve yuksek proses temizligi ile atelye ici mobil kullanim icin ideal.',
+        description: 'Düşük işletme maliyeti ve yüksek proses temizliği ile atölye içi mobil kullanım için ideal.',
         image: '/images/12.jpg',
         href: '/products',
       },
       {
         title: '360 Derece Manevra Kabiliyetli Fiber Kaynak Sistemi',
         date: '2024-11-27',
-        description: 'Uzun kaynak dikislerinde kararlilik ve daha yuksek uygulama hizi saglar.',
+        description: 'Uzun kaynak dikişlerinde kararlılık ve daha yüksek uygulama hızı sağlar.',
         image: '/images/7.jpg',
         href: '/products',
       },
@@ -173,17 +173,17 @@ const solutionHighlights = [
 ];
 
 const applicationAreas = [
-  'Metal Isleme',
-  'Celik Yapi Muhendisligi',
+  'Metal İşleme',
+  'Çelik Yapı Mühendisliği',
   'Ev Aletleri',
   'Otomotiv Sanayi',
-  'Mutfak Esyalari ve Banyo',
-  'Insaat Makinalari',
+  'Mutfak Eşyaları ve Banyo',
+  'İnşaat Makinaları',
   'Sahne Malzemeleri',
-  'Fitness Ekipmanlari',
-  'Sac Metal Isleme',
-  'Bakir',
-  'Aluminyum',
+  'Fitness Ekipmanları',
+  'Sac Metal İşleme',
+  'Bakır',
+  'Alüminyum',
   'Reklam ve Tabela',
 ];
 
@@ -268,10 +268,10 @@ function ShowcaseCard({
         <p className="mt-3 text-sm leading-7 text-white/72">{item.description}</p>
         <div className="mt-4 flex items-center justify-between gap-3 text-sm">
           <span className={item.inStock ? 'text-emerald-300' : 'text-amber-200'}>
-            {item.inStock ? 'Stokta' : 'Siparis ile tedarik'}
+            {item.inStock ? 'Stokta' : 'Sipariş ile tedarik'}
           </span>
           <span className="font-semibold text-[#ff6a0d]">
-            {sparePartPriceVisible ? item.displayedPrice : 'Teklif ile fiyatlanir'}
+            {sparePartPriceVisible ? item.displayedPrice : 'Teklif ile fiyatlanır'}
           </span>
         </div>
 
@@ -452,18 +452,18 @@ export default function ReferenceHomeClient({
 
       <Reveal as="section" className="grid gap-8 rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)] lg:grid-cols-[0.92fr_1.08fr] lg:px-10">
         <div className="relative min-h-[320px] overflow-hidden rounded-[28px] border border-white/10">
-          <Image src="/images/8.jpg" alt="Guohong Laser tesis gorunumu" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover" />
+          <Image src="/images/8.jpg" alt="Guohong Laser tesis görünümü" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(5,0,92,0.08),_rgba(5,0,92,0.55))]" />
         </div>
 
         <div className="flex flex-col justify-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.36em] text-[#ff6a0d]">Profesyonel uretim ve hizmet saglayicilari</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.36em] text-[#ff6a0d]">Profesyonel üretim ve hizmet sağlayıcıları</p>
           <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Guohong Laser Group, Ar-Ge, üretim ve satışı birleştiren metal lazer kesim makinesi üreticisidir.</h2>
           <p className="mt-5 text-base leading-8 text-white/76">
             Çin&apos;de toplam 100.000 metrekareyi aşan modern üretim altyapısı ile sac, boru, plaka-boru kombine, kaynak ve temizleme ekipmanları geliştiriyoruz.
           </p>
           <p className="mt-4 text-base leading-8 text-white/70">
-            Yüksek kaliteli plaka lazer kesim makineleri, lazer boru kesim makineleri, üç aynalı boru kesim makineleri ve tam otomatik yüklemeli sistemler için kurulumdan egitime kadar bütüncül destek veriyoruz.
+            Yüksek kaliteli plaka lazer kesim makineleri, lazer boru kesim makineleri, üç aynalı boru kesim makineleri ve tam otomatik yüklemeli sistemler için kurulumdan eğitime kadar bütüncül destek veriyoruz.
           </p>
 
           <div className="mt-6">
@@ -558,7 +558,7 @@ export default function ReferenceHomeClient({
                 {String(index + 1).padStart(2, '0')}
               </div>
               <div className="mt-3 text-lg font-semibold text-white">{area}</div>
-              <div className="mt-2 text-sm text-white/60">Daha Fazlasını Göruntule</div>
+              <div className="mt-2 text-sm text-white/60">Daha Fazlasını Görüntüle</div>
             </div>
           ))}
         </div>
@@ -588,7 +588,7 @@ export default function ReferenceHomeClient({
               type="button"
               onClick={() => setShowcaseIndex((prev) => (prev <= 0 ? maxShowcaseIndex : prev - 1))}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/6 text-white transition hover:bg-white/12"
-              aria-label="Onceki Ürünler"
+              aria-label="Önceki Ürünler"
             >
               {'<'}
             </button>
