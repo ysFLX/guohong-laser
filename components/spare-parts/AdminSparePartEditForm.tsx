@@ -34,7 +34,7 @@ function createEmptySizeRow(): SizeOptionRow {
 }
 
 function toUsdInput(priceCents: number) {
-  return String((priceCents / 100).toFixed(2)).replace('.', ',');
+  return String(Math.ceil(priceCents / 100));
 }
 
 function toTryInput(priceCents: number) {
@@ -71,7 +71,9 @@ export default function AdminSparePartEditForm({
         : { value: entry.value, priceUsd: toUsdInput(entry.priceCents), priceTry: '' },
     );
   });
-  const [priceInput, setPriceInput] = useState(String((initial.priceCents / 100).toFixed(2)));
+  const [priceInput, setPriceInput] = useState(
+    initial.currency === 'USD' ? String(Math.ceil(initial.priceCents / 100)) : String((initial.priceCents / 100).toFixed(2)),
+  );
   const [priceCurrency, setPriceCurrency] = useState<'TRY' | 'USD'>(
     initial.currency === 'USD' ? 'USD' : 'TRY',
   );
@@ -233,13 +235,13 @@ export default function AdminSparePartEditForm({
                     placeholder={`Olcu ${index + 1}`}
                     className={`${inputClassName} mt-0`}
                   />
-                  <input
-                    value={row.priceUsd}
-                    inputMode="decimal"
-                    onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
-                    placeholder="Fiyat (USD)"
-                    className={`${inputClassName} mt-0`}
-                  />
+                <input
+                  value={row.priceUsd}
+                  inputMode="decimal"
+                  onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
+                  placeholder="Fiyat (USD, tam sayi)"
+                  className={`${inputClassName} mt-0`}
+                />
                   <input
                     value={row.priceTry}
                     inputMode="decimal"
@@ -289,6 +291,8 @@ export default function AdminSparePartEditForm({
               const parsedStock = Number(stockOnHand);
               const basePriceCents =
                 Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+              const normalizedBasePriceCents =
+                priceCurrency === 'USD' ? Math.ceil(basePriceCents / 100) * 100 : basePriceCents;
 
               const hasBlankSizeRow = hasSizeOptions
                 ? sizeOptionRows.some(
@@ -341,7 +345,7 @@ export default function AdminSparePartEditForm({
                     dimensions: dimensions.trim() ? dimensions.trim() : null,
                     hasSizeOptions,
                     sizeOptionEntries,
-                    priceCents: Math.round(parsedPrice * 100),
+                    priceCents: normalizedBasePriceCents,
                     priceCurrency,
                     stockOnHand: Math.floor(parsedStock),
                     categoryId,

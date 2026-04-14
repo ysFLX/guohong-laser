@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 import {
   buildSparePartSizeOptionImagesMap,
   buildSparePartSizeOptionPricesMap,
+  normalizePriceCentsForCurrency,
   sanitizeSparePartSizeOptionEntries,
   sanitizeSparePartSizeOptions,
 } from '@/lib/sparePartSizeOptions';
@@ -69,7 +70,9 @@ export async function POST(req: Request) {
   const hasSizeOptions = body.hasSizeOptions === true;
   const priceCents = typeof body.priceCents === 'number' ? body.priceCents : NaN;
   const priceCurrency = normalizePriceCurrency(body.priceCurrency, 'TRY');
-  const fallbackPriceCents = Number.isFinite(priceCents) ? Math.max(0, Math.round(priceCents)) : 0;
+  const fallbackPriceCents = Number.isFinite(priceCents)
+    ? normalizePriceCentsForCurrency(Math.max(0, Math.round(priceCents)), priceCurrency)
+    : 0;
   const sizeOptionEntries = hasSizeOptions
     ? sanitizeSparePartSizeOptionEntries(body.sizeOptionEntries, fallbackPriceCents, priceCurrency)
     : [];
@@ -80,10 +83,10 @@ export async function POST(req: Request) {
       ? sanitizeSparePartSizeOptions(body.sizeOptions)
       : [];
   const sizeOptionPrices =
-    sizeOptionEntries.length > 0
-      ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
-      : Object.fromEntries(
-          sizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: 'USD' }]),
+        sizeOptionEntries.length > 0
+          ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
+          : Object.fromEntries(
+          sizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: priceCurrency }]),
         );
   const sizeOptionImages =
     sizeOptionEntries.length > 0 ? buildSparePartSizeOptionImagesMap(sizeOptionEntries) : {};
@@ -122,7 +125,7 @@ export async function POST(req: Request) {
         sizeOptions,
         sizeOptionPrices,
         sizeOptionImages,
-        priceCents,
+        priceCents: normalizePriceCentsForCurrency(priceCents, priceCurrency),
         currency: priceCurrency,
         stockOnHand,
         categoryId,

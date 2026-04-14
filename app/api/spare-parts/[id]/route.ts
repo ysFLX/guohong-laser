@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma';
 import {
   buildSparePartSizeOptionImagesMap,
   buildSparePartSizeOptionPricesMap,
+  normalizePriceCentsForCurrency,
   sanitizeSparePartSizeOptionEntries,
   sanitizeSparePartSizeOptions,
 } from '@/lib/sparePartSizeOptions';
@@ -120,18 +121,19 @@ export async function PATCH(
   if ('description' in payload && typeof payload.description === 'string') data.description = payload.description;
   if ('dimensions' in payload) data.dimensions = typeof payload.dimensions === 'string' ? payload.dimensions.trim() || null : null;
   if ('priceCents' in payload && typeof payload.priceCents === 'number') {
-    data.priceCents = payload.priceCents;
-    data.currency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
+    const normalizedCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
+    data.priceCents = normalizePriceCentsForCurrency(payload.priceCents, normalizedCurrency);
+    data.currency = normalizedCurrency;
   }
   if ('categoryId' in payload && typeof payload.categoryId === 'string') data.categoryId = payload.categoryId;
   if ('stockOnHand' in payload && typeof payload.stockOnHand === 'number') data.stockOnHand = Math.max(0, Math.floor(payload.stockOnHand));
 
   if ('hasSizeOptions' in payload) {
+    const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
     const fallbackPriceCents =
       typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
-        ? Math.max(0, Math.round(payload.priceCents))
+        ? normalizePriceCentsForCurrency(Math.max(0, Math.round(payload.priceCents)), baseCurrency)
         : 0;
-    const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
     const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents, baseCurrency);
     const sizeOptionsFromEntries = sizeOptionEntries.map((entry) => entry.value);
     const sizeOptionsFromStrings = sanitizeSparePartSizeOptions(payload.sizeOptions);
@@ -146,7 +148,7 @@ export async function PATCH(
         ? sizeOptionEntries.length > 0
           ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
           : Object.fromEntries(
-              resolvedSizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: 'USD' }]),
+              resolvedSizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: baseCurrency }]),
             )
         : {};
     data.sizeOptionImages =
@@ -158,11 +160,11 @@ export async function PATCH(
       return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
     }
   } else if ('sizeOptionEntries' in payload) {
+    const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
     const fallbackPriceCents =
       typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
-        ? Math.max(0, Math.round(payload.priceCents))
+        ? normalizePriceCentsForCurrency(Math.max(0, Math.round(payload.priceCents)), baseCurrency)
         : 0;
-    const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
     const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents, baseCurrency);
     const sizeOptions = sizeOptionEntries.map((entry) => entry.value);
     data.sizeOptions = sizeOptions;

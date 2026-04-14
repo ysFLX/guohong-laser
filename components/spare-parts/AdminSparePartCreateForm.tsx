@@ -190,7 +190,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                       value={row.priceUsd}
                       inputMode="decimal"
                       onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
-                      placeholder="Fiyat (USD)"
+                      placeholder="Fiyat (USD, tam sayi)"
                       className={`${inputClassName} mt-0`}
                     />
                     <input
@@ -238,10 +238,12 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                 setError('');
                 setSuccess('');
 
-                const parsedPrice = Number(String(priceUsd).replace(',', '.'));
-                const parsedStock = Number(stockOnHand);
-                const basePriceCents =
-                  Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+              const parsedPrice = Number(String(priceUsd).replace(',', '.'));
+              const parsedStock = Number(stockOnHand);
+              const basePriceCents =
+                Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+              const normalizedBasePriceCents =
+                priceCurrency === 'USD' ? Math.ceil(basePriceCents / 100) * 100 : basePriceCents;
 
                 const hasBlankSizeRow = hasSizeOptions
                   ? sizeOptionRows.some(
@@ -295,14 +297,14 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                      name: name.trim(),
-                      description,
-                      dimensions: dimensions.trim() ? dimensions.trim() : null,
-                      hasSizeOptions,
-                      sizeOptionEntries,
-                      priceCents: Math.round(parsedPrice * 100),
-                      priceCurrency,
-                      stockOnHand: Math.floor(parsedStock),
+                    name: name.trim(),
+                    description,
+                    dimensions: dimensions.trim() ? dimensions.trim() : null,
+                    hasSizeOptions,
+                    sizeOptionEntries,
+                    priceCents: normalizedBasePriceCents,
+                    priceCurrency,
+                    stockOnHand: Math.floor(parsedStock),
                       categoryId,
                       isFeatured,
                       isActive,

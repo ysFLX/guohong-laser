@@ -13,10 +13,10 @@ function formatPrice(priceCents: number, currency: string) {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
       currency,
-      maximumFractionDigits: 2,
+      maximumFractionDigits: currency === 'USD' ? 0 : 2,
     }).format(priceCents / 100);
   } catch {
-    return `${(priceCents / 100).toFixed(2)} ${currency}`;
+    return currency === 'USD' ? `${Math.ceil(priceCents / 100)} ${currency}` : `${(priceCents / 100).toFixed(2)} ${currency}`;
   }
 }
 

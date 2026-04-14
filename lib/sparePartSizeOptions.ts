@@ -39,6 +39,19 @@ function clampPriceCents(value: number) {
   return Math.max(0, Math.round(value));
 }
 
+function roundUpToWholeUsdCents(value: number) {
+  const safeValue = clampPriceCents(value);
+  return Math.ceil(safeValue / 100) * 100;
+}
+
+export function normalizePriceCentsForCurrency(value: number, currency: string | null | undefined) {
+  const normalizedCurrency = normalizeCurrency(currency, 'TRY');
+  if (normalizedCurrency === 'USD') {
+    return roundUpToWholeUsdCents(value);
+  }
+  return clampPriceCents(value);
+}
+
 function coercePriceCents(value: unknown) {
   if (typeof value === 'number') return clampPriceCents(value);
   if (typeof value === 'string') {
@@ -59,7 +72,7 @@ function normalizeCurrency(value: unknown, fallback = 'USD') {
 function coercePriceValue(value: unknown, fallback: SparePartSizeOptionPriceValue): SparePartSizeOptionPriceValue {
   if (typeof value === 'number') {
     return {
-      priceCents: clampPriceCents(value),
+      priceCents: normalizePriceCentsForCurrency(value, fallback.currency),
       currency: fallback.currency,
     };
   }
@@ -76,7 +89,7 @@ function coercePriceValue(value: unknown, fallback: SparePartSizeOptionPriceValu
 
   if (priceCents === null) return fallback;
 
-  return { priceCents, currency };
+  return { priceCents: normalizePriceCentsForCurrency(priceCents, currency), currency };
 }
 
 function coerceImageUrl(value: unknown) {
@@ -174,7 +187,7 @@ export function buildSparePartSizeOptionPricesMap(entries: SparePartSizeOptionEn
   const map: Record<string, SparePartSizeOptionPriceValue> = {};
   for (const entry of entries) {
     map[entry.value] = {
-      priceCents: clampPriceCents(entry.priceCents),
+      priceCents: normalizePriceCentsForCurrency(entry.priceCents, entry.priceCurrency),
       currency: normalizeCurrency(entry.priceCurrency, 'USD'),
     };
   }
@@ -202,7 +215,10 @@ export function normalizeSparePartSizeOptionPricesMap(
 
   for (const option of sizeOptions) {
     const raw = source[option];
-    map[option] = coercePriceValue(raw, { priceCents: clampPriceCents(fallbackPriceCents), currency: fallbackCurrency });
+    map[option] = coercePriceValue(raw, {
+      priceCents: normalizePriceCentsForCurrency(fallbackPriceCents, fallbackCurrency),
+      currency: fallbackCurrency,
+    });
   }
 
   return map;
@@ -235,7 +251,7 @@ export function buildSparePartSizeOptionEntries(
   const imageMap = normalizeSparePartSizeOptionImagesMap(sizeOptionImages, sizeOptions);
   return sizeOptions.map((value) => ({
     value,
-    priceCents: map[value]?.priceCents ?? clampPriceCents(fallbackPriceCents),
+    priceCents: map[value]?.priceCents ?? normalizePriceCentsForCurrency(fallbackPriceCents, fallbackCurrency),
     priceCurrency: map[value]?.currency ?? fallbackCurrency,
     imageUrl: imageMap[value]?.[0] ?? null,
     imageUrls: imageMap[value] ?? [],
