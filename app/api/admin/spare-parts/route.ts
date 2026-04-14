@@ -18,6 +18,7 @@ type CreatePayload = {
   sizeOptions?: unknown;
   sizeOptionEntries?: unknown;
   priceCents?: number;
+  priceCurrency?: string;
   stockOnHand?: number;
   categoryId?: string;
   isFeatured?: boolean;
@@ -36,6 +37,13 @@ const prismaSpareParts = prisma as unknown as {
   sparePart: SparePartCreateDelegate;
   stockMovement: StockMovementCreateDelegate;
 };
+
+function normalizePriceCurrency(value: unknown, fallback = 'TRY') {
+  if (typeof value !== 'string') return fallback;
+  const normalized = value.trim().toUpperCase();
+  if (normalized === 'USD' || normalized === 'TRY') return normalized;
+  return fallback;
+}
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -60,9 +68,10 @@ export async function POST(req: Request) {
   const dimensions = typeof body.dimensions === 'string' ? body.dimensions.trim() : '';
   const hasSizeOptions = body.hasSizeOptions === true;
   const priceCents = typeof body.priceCents === 'number' ? body.priceCents : NaN;
+  const priceCurrency = normalizePriceCurrency(body.priceCurrency, 'TRY');
   const fallbackPriceCents = Number.isFinite(priceCents) ? Math.max(0, Math.round(priceCents)) : 0;
   const sizeOptionEntries = hasSizeOptions
-    ? sanitizeSparePartSizeOptionEntries(body.sizeOptionEntries, fallbackPriceCents)
+    ? sanitizeSparePartSizeOptionEntries(body.sizeOptionEntries, fallbackPriceCents, priceCurrency)
     : [];
   const sizeOptions =
     sizeOptionEntries.length > 0
@@ -114,7 +123,7 @@ export async function POST(req: Request) {
         sizeOptionPrices,
         sizeOptionImages,
         priceCents,
-        currency: 'USD',
+        currency: priceCurrency,
         stockOnHand,
         categoryId,
         isFeatured,

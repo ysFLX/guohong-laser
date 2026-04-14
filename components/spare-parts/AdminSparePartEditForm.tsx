@@ -72,6 +72,9 @@ export default function AdminSparePartEditForm({
     );
   });
   const [priceInput, setPriceInput] = useState(String((initial.priceCents / 100).toFixed(2)));
+  const [priceCurrency, setPriceCurrency] = useState<'TRY' | 'USD'>(
+    initial.currency === 'USD' ? 'USD' : 'TRY',
+  );
   const [stockOnHand, setStockOnHand] = useState(String(initial.stockOnHand));
   const [categoryId, setCategoryId] = useState(initial.categoryId);
   const [isFeatured, setIsFeatured] = useState(initial.isFeatured);
@@ -165,13 +168,28 @@ export default function AdminSparePartEditForm({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">{`Varsayilan fiyat (${initial.currency || 'TRY'})`}</label>
-            <input
-              value={priceInput}
-              inputMode="decimal"
-              onChange={(e) => setPriceInput(e.target.value)}
-              className={inputClassName}
-            />
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
+              Varsayilan fiyat
+            </label>
+            <div className="mt-2 grid grid-cols-[1fr_110px] gap-2">
+              <input
+                value={priceInput}
+                inputMode="decimal"
+                onChange={(e) => setPriceInput(e.target.value)}
+                className={inputClassName}
+              />
+              <select
+                value={priceCurrency}
+                onChange={(e) => setPriceCurrency(e.target.value === 'USD' ? 'USD' : 'TRY')}
+                className={inputClassName}
+              >
+                <option value="TRY">TL</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+            <div className="mt-2 text-xs text-[var(--admin-muted)]">
+              Şu an {priceCurrency === 'TRY' ? 'TL' : 'USD'} olarak kaydedilecek.
+            </div>
           </div>
 
           <div>
@@ -280,7 +298,7 @@ export default function AdminSparePartEditForm({
                   )
                 : false;
               const sizeOptionEntries = hasSizeOptions
-                ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents, initial.currency || 'USD')
+                ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents, priceCurrency)
                 : [];
 
               if (!name.trim()) {
@@ -324,6 +342,7 @@ export default function AdminSparePartEditForm({
                     hasSizeOptions,
                     sizeOptionEntries,
                     priceCents: Math.round(parsedPrice * 100),
+                    priceCurrency,
                     stockOnHand: Math.floor(parsedStock),
                     categoryId,
                     isFeatured,

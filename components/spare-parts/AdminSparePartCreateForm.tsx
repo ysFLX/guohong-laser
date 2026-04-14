@@ -24,6 +24,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
   const [hasSizeOptions, setHasSizeOptions] = useState(false);
   const [sizeOptionRows, setSizeOptionRows] = useState<SizeOptionRow[]>([createEmptySizeRow()]);
   const [priceUsd, setPriceUsd] = useState('');
+  const [priceCurrency, setPriceCurrency] = useState<'TRY' | 'USD'>('TRY');
   const [stockOnHand, setStockOnHand] = useState('');
   const [categoryId, setCategoryId] = useState(categories[0]?.id ?? '');
   const [isFeatured, setIsFeatured] = useState(false);
@@ -125,10 +126,28 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                Varsayilan fiyat (USD)
+                Varsayilan fiyat
               </label>
-              <input value={priceUsd} inputMode="decimal" onChange={(e) => setPriceUsd(e.target.value)} className={inputClassName} />
-              <div className="mt-2 text-xs text-[var(--admin-muted)]">Orn: 129,90 USD</div>
+              <div className="mt-2 grid grid-cols-[1fr_110px] gap-2">
+                <input
+                  value={priceUsd}
+                  inputMode="decimal"
+                  onChange={(e) => setPriceUsd(e.target.value)}
+                  className={inputClassName}
+                  placeholder={priceCurrency === 'TRY' ? '129,90' : '129,90'}
+                />
+                <select
+                  value={priceCurrency}
+                  onChange={(e) => setPriceCurrency(e.target.value === 'USD' ? 'USD' : 'TRY')}
+                  className={inputClassName}
+                >
+                  <option value="TRY">TL</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+              <div className="mt-2 text-xs text-[var(--admin-muted)]">
+                Orn: 129,90 {priceCurrency === 'TRY' ? 'TL' : 'USD'}
+              </div>
             </div>
 
             <div>
@@ -232,7 +251,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                     )
                   : false;
                 const sizeOptionEntries = hasSizeOptions
-                  ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents, 'USD')
+                  ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents, priceCurrency)
                   : [];
 
                 if (!name.trim()) {
@@ -282,6 +301,7 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                       hasSizeOptions,
                       sizeOptionEntries,
                       priceCents: Math.round(parsedPrice * 100),
+                      priceCurrency,
                       stockOnHand: Math.floor(parsedStock),
                       categoryId,
                       isFeatured,

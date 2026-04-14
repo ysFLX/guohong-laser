@@ -22,6 +22,7 @@ type UpdatePayload = {
   sizeOptions?: unknown;
   sizeOptionEntries?: unknown;
   priceCents?: number;
+  priceCurrency?: string;
   categoryId?: string;
   stockOnHand?: number;
 };
@@ -45,6 +46,13 @@ const prismaSpareParts = prisma as unknown as {
   sparePart: SparePartUpdateDelegate;
   stockMovement: StockMovementCreateDelegate;
 };
+
+function normalizePriceCurrency(value: unknown, fallback = 'TRY') {
+  if (typeof value !== 'string') return fallback;
+  const normalized = value.trim().toUpperCase();
+  if (normalized === 'USD' || normalized === 'TRY') return normalized;
+  return fallback;
+}
 
 function normalizeExistingSizeOptionImages(value: unknown, allowedSizeOptions: string[]) {
   if (!value || typeof value !== 'object') return {} as Record<string, string[]>;
@@ -113,7 +121,7 @@ export async function PATCH(
   if ('dimensions' in payload) data.dimensions = typeof payload.dimensions === 'string' ? payload.dimensions.trim() || null : null;
   if ('priceCents' in payload && typeof payload.priceCents === 'number') {
     data.priceCents = payload.priceCents;
-    data.currency = 'USD';
+    data.currency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
   }
   if ('categoryId' in payload && typeof payload.categoryId === 'string') data.categoryId = payload.categoryId;
   if ('stockOnHand' in payload && typeof payload.stockOnHand === 'number') data.stockOnHand = Math.max(0, Math.floor(payload.stockOnHand));
@@ -123,14 +131,15 @@ export async function PATCH(
       typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
         ? Math.max(0, Math.round(payload.priceCents))
         : 0;
-    const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents);
+    const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
+    const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents, baseCurrency);
     const sizeOptionsFromEntries = sizeOptionEntries.map((entry) => entry.value);
     const sizeOptionsFromStrings = sanitizeSparePartSizeOptions(payload.sizeOptions);
     const resolvedSizeOptions =
       sizeOptionsFromEntries.length > 0 ? sizeOptionsFromEntries : sizeOptionsFromStrings;
 
     data.hasSizeOptions = payload.hasSizeOptions === true;
-    data.currency = 'USD';
+    data.currency = baseCurrency;
     data.sizeOptions = payload.hasSizeOptions === true ? resolvedSizeOptions : [];
     data.sizeOptionPrices =
       payload.hasSizeOptions === true
@@ -153,13 +162,14 @@ export async function PATCH(
       typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
         ? Math.max(0, Math.round(payload.priceCents))
         : 0;
-    const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents);
+    const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
+    const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents, baseCurrency);
     const sizeOptions = sizeOptionEntries.map((entry) => entry.value);
     data.sizeOptions = sizeOptions;
     data.sizeOptionPrices = buildSparePartSizeOptionPricesMap(sizeOptionEntries);
     data.sizeOptionImages = buildSparePartSizeOptionImagesMap(sizeOptionEntries);
     data.hasSizeOptions = sizeOptions.length > 0;
-    data.currency = 'USD';
+    data.currency = baseCurrency;
   } else if ('sizeOptions' in payload) {
     const sanitizedSizeOptions = sanitizeSparePartSizeOptions(payload.sizeOptions);
     data.sizeOptions = sanitizedSizeOptions;
