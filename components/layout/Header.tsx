@@ -166,10 +166,6 @@ export default function Header() {
             </a>
           </div>
           <div className="hidden items-center gap-4 md:flex">
-            <span>Turkish</span>
-            <span className="text-white/35">|</span>
-            <span className="text-white/55">English</span>
-            <span className="text-white/55">Russian</span>
           </div>
         </div>
       </div>
