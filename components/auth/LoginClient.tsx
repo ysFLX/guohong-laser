@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function sanitizeNext(value: string | null) {
   if (!value) return null;
@@ -112,46 +113,38 @@ export default function LoginClient() {
       </div>
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
-        <div className="lg:col-span-2 rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
-          Premium giriş paneli - 2026-02-17
-        </div>
-        <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(20,18,13,0.96)_0%,rgba(10,10,10,0.94)_45%,rgba(30,24,15,0.95)_100%)] p-9 lg:flex lg:flex-col">
-          <div className="pointer-events-none absolute -top-16 right-0 h-48 w-48 rounded-full bg-amber-200/20 blur-3xl" />
-          <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 rounded-full bg-yellow-500/20 blur-3xl" />
+        <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-black/65 p-6 lg:flex lg:flex-col">
+          <div className="relative min-h-[650px] overflow-hidden rounded-[24px] border border-white/10">
+            <Image
+              src="/images/about-showcase.jpg"
+              alt="Guohong Laser tesis görünümü"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.12),rgba(7,7,7,0.78))]" />
 
-          <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100">
-            Özel kontrol paneli
-          </span>
+            <div className="absolute inset-x-0 bottom-0 p-8">
+              <span className="inline-flex w-fit items-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white">
+                Kurumsal giriş
+              </span>
 
-          <h1 className="mt-6 max-w-md text-[2.35rem] font-semibold leading-[1.08] text-amber-50">
-            Giriş deneyimi artık net şekilde premium.
-          </h1>
+              <h1 className="mt-5 max-w-md text-[2.35rem] font-semibold leading-[1.08] text-white">
+                Hesabına güvenle giriş yap, projelerine devam et.
+              </h1>
 
-          <p className="mt-4 max-w-lg text-sm leading-6 text-amber-100/80">
-            Sipariş, teklif ve teknik süreçleri yönettiğiniz panel için daha üst segment bir kurumsal arayüz oluşturuldu.
-          </p>
+              <p className="mt-4 max-w-lg text-sm leading-6 text-white/85">
+                Giriş ekranı artık saha, satış ve teknik ekiplerin rahatça kullanacağı sade bir görünüm sunuyor.
+              </p>
 
-          <div className="mt-9 grid gap-3">
-            {highlights.map((item) => (
-              <div key={item} className="rounded-2xl border border-amber-100/20 bg-amber-100/5 px-4 py-3 text-sm text-amber-50">
-                {item}
+              <div className="mt-8 grid gap-3">
+                {highlights.map((item) => (
+                  <div key={item} className="rounded-2xl border border-white/15 bg-black/30 px-4 py-3 text-sm text-white">
+                    {item}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-
-          <div className="mt-8 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl border border-amber-100/20 bg-black/30 p-4">
-              <p className="text-2xl font-semibold text-amber-50">Kurum</p>
-              <p className="mt-1 text-xs text-amber-100/70">Yeni kurumsal tema dili</p>
             </div>
-            <div className="rounded-2xl border border-amber-100/20 bg-black/30 p-4">
-              <p className="text-2xl font-semibold text-amber-50">2 Adım</p>
-              <p className="mt-1 text-xs text-amber-100/70">Doğrulama akışı aktif</p>
-            </div>
-          </div>
-
-          <div className="mt-auto rounded-2xl border border-amber-200/25 bg-amber-200/10 p-4 text-sm text-amber-100">
-            Tasarım dili: obsidyen yüzey + altın vurgu + yüksek kontrast.
           </div>
         </section>
 
