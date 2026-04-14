@@ -6,6 +6,7 @@ import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import AdminSparePartEditForm from '@/components/spare-parts/AdminSparePartEditForm';
 import AdminImageUpload from '@/components/spare-parts/AdminImageUpload';
 import { prisma } from '@/lib/prisma';
+import { getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import { AdminBadge } from '@/components/admin/AdminUi';
 import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 import SparePartVisibilityToggle from '@/components/spare-parts/SparePartVisibilityToggle';
@@ -69,6 +70,7 @@ export default async function AdminSparePartDetailPage({
     orderBy: { name: 'asc' },
     select: { id: true, name: true },
   });
+  const usdTryExchangeRate = await getUsdTryExchangeRate();
 
   const part = await prismaSpareParts.sparePart.findUnique({
     where: { id },
@@ -188,6 +190,7 @@ export default async function AdminSparePartDetailPage({
             categoryId: part.categoryId,
           }}
           categories={categories}
+          usdTryRate={usdTryExchangeRate.rate}
           />
         </div>
       </div>

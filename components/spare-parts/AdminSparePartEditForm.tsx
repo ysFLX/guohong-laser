@@ -41,12 +41,25 @@ function toTryInput(priceCents: number) {
   return String((priceCents / 100).toFixed(2)).replace('.', ',');
 }
 
+function formatWholeTryPrice(priceCents: number, usdTryRate: number) {
+  const safeRate = Number.isFinite(usdTryRate) && usdTryRate > 0 ? usdTryRate : 0;
+  if (!safeRate) return null;
+
+  const safePriceCents = Number.isFinite(priceCents) ? Math.max(0, Math.round(priceCents)) : 0;
+  const roundedTryCents = Math.max(0, Math.round(safePriceCents * safeRate));
+  const roundedTry = Math.max(0, Math.round(roundedTryCents / 100));
+
+  return new Intl.NumberFormat('tr-TR').format(roundedTry);
+}
+
 export default function AdminSparePartEditForm({
   initial,
   categories,
+  usdTryRate,
 }: {
   initial: Initial;
   categories: Category[];
+  usdTryRate: number;
 }) {
   const router = useRouter();
   const inputClassName =
@@ -86,6 +99,13 @@ export default function AdminSparePartEditForm({
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const parsedPrice = Number(String(priceInput).replace(',', '.'));
+  const basePriceCents =
+    Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+  const normalizedBasePriceCents =
+    priceCurrency === 'USD' ? Math.ceil(basePriceCents / 100) * 100 : basePriceCents;
+  const usdTryPreview = priceCurrency === 'USD' ? formatWholeTryPrice(normalizedBasePriceCents, usdTryRate) : null;
 
   const updateSizeRow = (index: number, next: Partial<SizeOptionRow>) => {
     setSizeOptionRows((prev) =>
@@ -193,6 +213,12 @@ export default function AdminSparePartEditForm({
               Şu an {priceCurrency === 'TRY' ? 'TL' : 'USD'} olarak kaydedilecek.
             </div>
           </div>
+
+          {usdTryPreview ? (
+            <div className="sm:col-span-2 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-3 text-xs font-medium text-[var(--admin-text)]">
+              Yuvarlanmis TL karsiligi: {usdTryPreview} TL
+            </div>
+          ) : null}
 
           <div>
             <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">Stok</label>

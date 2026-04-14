@@ -13,7 +13,24 @@ function createEmptySizeRow(): SizeOptionRow {
   return { value: '', priceUsd: '', priceTry: '' };
 }
 
-export default function AdminSparePartCreateForm({ categories }: { categories: Category[] }) {
+function formatWholeTryPrice(priceCents: number, usdTryRate: number) {
+  const safeRate = Number.isFinite(usdTryRate) && usdTryRate > 0 ? usdTryRate : 0;
+  if (!safeRate) return null;
+
+  const safePriceCents = Number.isFinite(priceCents) ? Math.max(0, Math.round(priceCents)) : 0;
+  const roundedTryCents = Math.max(0, Math.round(safePriceCents * safeRate));
+  const roundedTry = Math.max(0, Math.round(roundedTryCents / 100));
+
+  return new Intl.NumberFormat('tr-TR').format(roundedTry);
+}
+
+export default function AdminSparePartCreateForm({
+  categories,
+  usdTryRate,
+}: {
+  categories: Category[];
+  usdTryRate: number;
+}) {
   const router = useRouter();
   const inputClassName =
     'mt-2 w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]';
@@ -33,6 +50,13 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const parsedPrice = Number(String(priceUsd).replace(',', '.'));
+  const basePriceCents =
+    Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
+  const normalizedBasePriceCents =
+    priceCurrency === 'USD' ? Math.ceil(basePriceCents / 100) * 100 : basePriceCents;
+  const usdTryPreview = priceCurrency === 'USD' ? formatWholeTryPrice(normalizedBasePriceCents, usdTryRate) : null;
 
   const updateSizeRow = (index: number, next: Partial<SizeOptionRow>) => {
     setSizeOptionRows((prev) =>
@@ -145,10 +169,15 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                   <option value="USD">USD</option>
                 </select>
               </div>
-              <div className="mt-2 text-xs text-[var(--admin-muted)]">
-                Orn: 129,90 {priceCurrency === 'TRY' ? 'TL' : 'USD'}
+                <div className="mt-2 text-xs text-[var(--admin-muted)]">
+                  Orn: 129,90 {priceCurrency === 'TRY' ? 'TL' : 'USD'}
+                </div>
+                {usdTryPreview ? (
+                  <div className="mt-1 text-xs font-medium text-[var(--admin-text)]">
+                    Yuvarlanmis TL karsiligi: {usdTryPreview} TL
+                  </div>
+                ) : null}
               </div>
-            </div>
 
             <div>
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
@@ -234,16 +263,10 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
               type="button"
               disabled={isSaving}
               onClick={async () => {
-                setIsSaving(true);
-                setError('');
-                setSuccess('');
-
-              const parsedPrice = Number(String(priceUsd).replace(',', '.'));
+              setIsSaving(true);
+              setError('');
+              setSuccess('');
               const parsedStock = Number(stockOnHand);
-              const basePriceCents =
-                Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
-              const normalizedBasePriceCents =
-                priceCurrency === 'USD' ? Math.ceil(basePriceCents / 100) * 100 : basePriceCents;
 
                 const hasBlankSizeRow = hasSizeOptions
                   ? sizeOptionRows.some(

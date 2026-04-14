@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { getUsdTryExchangeRate } from '@/lib/exchangeRates';
 
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import AdminSparePartCreateForm from '@/components/spare-parts/AdminSparePartCreateForm';
@@ -16,6 +17,7 @@ export default async function AdminSparePartNewPage() {
     orderBy: { name: 'asc' },
     select: { id: true, name: true },
   });
+  const usdTryExchangeRate = await getUsdTryExchangeRate();
 
   return (
     <div className="space-y-6">
@@ -26,7 +28,7 @@ export default async function AdminSparePartNewPage() {
       />
 
       <div className="rounded-3xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-6 shadow-[var(--admin-shadow)]">
-        <AdminSparePartCreateForm categories={categories} />
+        <AdminSparePartCreateForm categories={categories} usdTryRate={usdTryExchangeRate.rate} />
       </div>
     </div>
   );
