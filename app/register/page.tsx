@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function sanitizeNext(value: string | null) {
   if (!value) return null;
@@ -12,8 +13,6 @@ function sanitizeNext(value: string | null) {
   if (value.includes('://')) return null;
   return value;
 }
-
-const premiumPoints = ['Kurumsal onboarding paneli', 'Dogrulama kodu ile guvenli acilis', 'Operasyon odakli hesap altyapisi'];
 
 function RegisterPageContent() {
   const [firstName, setFirstName] = useState('');
@@ -39,8 +38,8 @@ function RegisterPageContent() {
     try {
       return text ? JSON.parse(text) : {};
     } catch (parseError) {
-      console.error('JSON parse hatasi:', parseError, 'Yanit:', text);
-      throw new Error('Sunucudan gecersiz yanit alindi');
+      console.error('JSON parse hatası:', parseError, 'Yanıt:', text);
+      throw new Error('Sunucudan geçersiz yanıt alındı');
     }
   };
 
@@ -67,14 +66,14 @@ function RegisterPageContent() {
       const data = await parseResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Kayit sirasinda bir hata olustu');
+        throw new Error(data.error || 'Kayıt sırasında bir hata oluştu');
       }
 
       setStep('verify');
-      setInfo(data.message || 'Dogrulama kodu e-posta adresinize gonderildi');
+      setInfo(data.message || 'Doğrulama kodu e-posta adresinize gönderildi');
     } catch (submitError: unknown) {
-      console.error('Kayit hatasi:', submitError);
-      setError(submitError instanceof Error ? submitError.message : 'Kayit sirasinda bir hata olustu');
+      console.error('Kayıt hatası:', submitError);
+      setError(submitError instanceof Error ? submitError.message : 'Kayıt sırasında bir hata oluştu');
     } finally {
       setIsSendingCode(false);
     }
@@ -100,13 +99,13 @@ function RegisterPageContent() {
       const data = await parseResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Dogrulama sirasinda bir hata olustu');
+        throw new Error(data.error || 'Doğrulama sırasında bir hata oluştu');
       }
 
       router.push(`/login?registered=true&next=${encodeURIComponent(next)}`);
     } catch (verifyError: unknown) {
-      console.error('Dogrulama hatasi:', verifyError);
-      setError(verifyError instanceof Error ? verifyError.message : 'Dogrulama sirasinda bir hata olustu');
+      console.error('Doğrulama hatası:', verifyError);
+      setError(verifyError instanceof Error ? verifyError.message : 'Doğrulama sırasında bir hata oluştu');
     } finally {
       setIsVerifying(false);
     }
@@ -129,40 +128,39 @@ function RegisterPageContent() {
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
         <div className="lg:col-span-2 rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
-          Premium Test Build - 2026-02-17
+          Kayıt paneli - 2026-02-17
         </div>
-        <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(22,18,11,0.96)_0%,rgba(10,10,10,0.94)_46%,rgba(30,22,12,0.95)_100%)] p-9 lg:flex lg:flex-col">
-          <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100">
-            Executive Onboarding
-          </span>
+        <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-black/65 p-6 lg:flex lg:flex-col">
+          <div className="relative min-h-[580px] overflow-hidden rounded-[24px] border border-white/10">
+            <Image
+              src="/images/about-showcase.jpg"
+              alt="Guohong Laser üretim tesisi"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,7,0.15),rgba(7,7,7,0.78))]" />
 
-          <h1 className="mt-6 max-w-md text-[2.3rem] font-semibold leading-[1.08] text-amber-50">
-            Kayit deneyimini premium seviyeye tasidik.
-          </h1>
-
-          <p className="mt-4 max-w-lg text-sm leading-6 text-amber-100/80">
-            Daha guclu kontrast, daha net adimlar ve daha kaliteli bir yuzey diliyle kayit akisiniz yeniden tasarlandi.
-          </p>
-
-          <div className="mt-8 space-y-3">
-            {premiumPoints.map((item) => (
-              <div key={item} className="rounded-2xl border border-amber-100/20 bg-amber-100/5 px-4 py-3 text-sm text-amber-50">
-                {item}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-auto rounded-2xl border border-amber-200/25 bg-amber-200/10 p-4 text-sm text-amber-100">
-            Temel konu: ayni islev, cok daha premium gorunum.
+            <div className="absolute inset-x-0 bottom-0 p-8">
+              <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/15 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-50">
+                Guohong Laser
+              </span>
+              <h1 className="mt-5 max-w-md text-[2.3rem] font-semibold leading-[1.08] text-white">
+                Güvenli kayıt akışı, net adımlar ve kurumsal görünüm.
+              </h1>
+              <p className="mt-4 max-w-lg text-sm leading-6 text-white/80">
+                Kayıt ekranı artık demo metinler yerine markaya uygun bir görsel anlatımla destekleniyor.
+              </p>
+            </div>
           </div>
         </section>
 
         <section className="rounded-[30px] border border-amber-100/20 bg-[linear-gradient(160deg,rgba(16,14,10,0.96)_0%,rgba(10,10,10,0.94)_100%)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.24em] text-amber-100/60">Create Account</p>
-              <h2 className="mt-2 text-3xl font-semibold text-amber-50">Yeni hesap olustur</h2>
-              <p className="mt-2 text-sm text-amber-100/75">Daha ust segment bir onboarding deneyimi.</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-amber-100/60">Kayıt ol</p>
+              <h2 className="mt-2 text-3xl font-semibold text-amber-50">Yeni hesap oluştur</h2>
+              <p className="mt-2 text-sm text-amber-100/75">Kurumsal hesap erişimi için hızlı ve güvenli kayıt.</p>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-300 to-yellow-500 font-bold text-black shadow-[0_14px_30px_rgba(245,158,11,0.35)]">
               GL
@@ -172,7 +170,7 @@ function RegisterPageContent() {
           <div className="mt-6 rounded-2xl border border-amber-100/20 bg-black/35 p-3 text-xs text-amber-100/75">
             <div className="flex items-center justify-between">
               <span className={!isVerifyStep ? 'font-semibold text-amber-50' : 'text-amber-100/55'}>1. Bilgiler</span>
-              <span className={isVerifyStep ? 'font-semibold text-amber-50' : 'text-amber-100/55'}>2. Dogrulama</span>
+              <span className={isVerifyStep ? 'font-semibold text-amber-50' : 'text-amber-100/55'}>2. Doğrulama</span>
             </div>
             <div className="mt-3 h-1.5 rounded-full bg-amber-100/15">
               <div className={`h-full rounded-full bg-gradient-to-r from-amber-300 to-yellow-500 transition-all ${isVerifyStep ? 'w-full' : 'w-1/2'}`} />
@@ -189,7 +187,7 @@ function RegisterPageContent() {
               }
               className="w-full rounded-2xl border border-amber-100/30 bg-amber-100/10 px-4 py-3 text-sm font-semibold text-amber-50 transition hover:bg-amber-100/20"
             >
-              Google ile kayit ol
+              Google ile kayıt ol
             </button>
           </div>
 
@@ -215,7 +213,7 @@ function RegisterPageContent() {
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
-                      placeholder="Adiniz"
+                      placeholder="Adınız"
                     />
                   </div>
 
@@ -231,7 +229,7 @@ function RegisterPageContent() {
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
-                      placeholder="Soyadiniz"
+                      placeholder="Soyadınız"
                     />
                   </div>
                 </div>
@@ -272,7 +270,7 @@ function RegisterPageContent() {
 
                 <div>
                   <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-amber-100">
-                    Sifre
+                    Şifre
                   </label>
                   <input
                     id="password"
@@ -292,13 +290,13 @@ function RegisterPageContent() {
 
             {isVerifyStep && (
               <div className="space-y-4 rounded-2xl border border-amber-200/35 bg-amber-200/10 p-4">
-                <div className="text-center text-base font-semibold text-amber-50">E-posta dogrulama</div>
+                <div className="text-center text-base font-semibold text-amber-50">E-posta doğrulama</div>
                 <div className="rounded-xl border border-amber-100/25 bg-black/30 px-4 py-3 text-sm text-amber-100">
-                  Kod <span className="font-semibold">{email}</span> adresine gonderildi.
+                  Kod <span className="font-semibold">{email}</span> adresine gönderildi.
                 </div>
                 <div>
                   <label htmlFor="verificationCode" className="mb-1.5 block text-sm font-medium text-amber-50">
-                    Dogrulama kodu
+                    Doğrulama kodu
                   </label>
                   <input
                     id="verificationCode"
@@ -321,7 +319,7 @@ function RegisterPageContent() {
 
             <div className="space-y-3">
               <button type="submit" disabled={!isVerifyStep ? isSendingCode : isVerifying} className="w-full rounded-2xl bg-gradient-to-r from-amber-300 to-yellow-500 px-4 py-3.5 text-sm font-semibold text-black shadow-[0_18px_36px_rgba(245,158,11,0.3)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60">
-                {!isVerifyStep ? (isSendingCode ? 'Kod gonderiliyor...' : 'Dogrulama kodu gonder') : isVerifying ? 'Kayit tamamlanıyor...' : 'Kaydi tamamla'}
+                {!isVerifyStep ? (isSendingCode ? 'Kod gönderiliyor...' : 'Doğrulama kodu gönder') : isVerifying ? 'Kayıt tamamlanıyor...' : 'Kaydı tamamla'}
               </button>
 
               {isVerifyStep && (
@@ -331,16 +329,16 @@ function RegisterPageContent() {
                   disabled={isSendingCode}
                   className="w-full rounded-2xl border border-amber-100/30 bg-amber-100/10 px-4 py-3 text-sm font-semibold text-amber-50 transition hover:bg-amber-100/20"
                 >
-                  {isSendingCode ? 'Kod tekrar gonderiliyor...' : 'Kodu tekrar gonder'}
+                  {isSendingCode ? 'Kod tekrar gönderiliyor...' : 'Kodu tekrar gönder'}
                 </button>
               )}
             </div>
           </form>
 
           <div className="mt-6 border-t border-amber-100/20 pt-5 text-center text-sm text-amber-100/80">
-            Zaten hesabin var mi?{' '}
+            Zaten hesabın var mı?{' '}
             <Link href={loginHref} className="font-semibold text-amber-200 hover:text-white">
-              Giris yap
+              Giriş yap
             </Link>
           </div>
         </section>
@@ -351,7 +349,7 @@ function RegisterPageContent() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#070707] text-amber-100/70">Yukleniyor...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#070707] text-amber-100/70">Yükleniyor...</div>}>
       <RegisterPageContent />
     </Suspense>
   );

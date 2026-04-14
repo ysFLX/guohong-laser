@@ -14,9 +14,9 @@ function sanitizeNext(value: string | null) {
 }
 
 const highlights = [
-  'Executive access katmani',
-  'Canli siparis ritmi takibi',
-  '2FA + kurumsal guvenlik duvari',
+  'Kurumsal erişim katmanı',
+  'Canlı sipariş ritmi takibi',
+  '2FA + kurumsal güvenlik duvarı',
 ];
 
 export default function LoginClient() {
@@ -52,23 +52,23 @@ export default function LoginClient() {
       if (result?.error) {
         if (result.error === '2FA_REQUIRED') {
           setStep('otp');
-          setInfo('Dogrulama kodu e-posta adresinize gonderildi. Kod 10 dakika gecerlidir.');
+          setInfo('Doğrulama kodu e-posta adresinize gönderildi. Kod 10 dakika geçerlidir.');
         } else if (result.error === '2FA_INVALID') {
-          setError('Dogrulama kodu hatali. Lutfen tekrar deneyin.');
+          setError('Doğrulama kodu hatalı. Lütfen tekrar deneyin.');
         } else if (result.error === '2FA_EXPIRED') {
-          setError('Kodun suresi doldu. Yeni kod talep edin.');
+          setError('Kodun süresi doldu. Yeni kod talep edin.');
         } else if (result.error === '2FA_SEND_FAILED') {
-          setError('Kod gonderilemedi. E-posta ayarlarinizi kontrol edin.');
+          setError('Kod gönderilemedi. E-posta ayarlarınızı kontrol edin.');
         } else {
-          setError('Gecersiz e-posta veya sifre');
+          setError('Geçersiz e-posta veya şifre');
         }
       } else {
         router.replace(next);
         router.refresh();
       }
     } catch (submitError) {
-      console.error('Giris hatasi:', submitError);
-      setError('Giris sirasinda bir hata olustu. Lutfen daha sonra tekrar deneyin.');
+      console.error('Giriş hatası:', submitError);
+      setError('Giriş sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +76,7 @@ export default function LoginClient() {
 
   const handleResend = async () => {
     if (!email || !password) {
-      setError('Kodu tekrar gondermek icin e-posta ve sifre gerekli.');
+      setError('Kodu tekrar göndermek için e-posta ve şifre gerekli.');
       return;
     }
 
@@ -92,13 +92,13 @@ export default function LoginClient() {
       });
 
       if (result?.error === '2FA_REQUIRED') {
-        setInfo('Yeni kod e-posta adresinize gonderildi.');
+        setInfo('Yeni kod e-posta adresinize gönderildi.');
       } else if (result?.error) {
-        setError('Kod tekrar gonderilemedi. Lutfen daha sonra deneyin.');
+        setError('Kod tekrar gönderilemedi. Lütfen daha sonra deneyin.');
       }
     } catch (resendError) {
-      console.error('Kod gonderme hatasi:', resendError);
-      setError('Kod gonderilemedi. Lutfen daha sonra deneyin.');
+      console.error('Kod gönderme hatası:', resendError);
+      setError('Kod gönderilemedi. Lütfen daha sonra deneyin.');
     } finally {
       setIsLoading(false);
     }
@@ -113,22 +113,22 @@ export default function LoginClient() {
 
       <div className="relative mx-auto grid w-full max-w-7xl gap-6 rounded-[36px] border border-amber-100/20 bg-black/40 p-3 shadow-[0_40px_140px_rgba(0,0,0,0.85)] backdrop-blur-2xl lg:grid-cols-[1.08fr_0.92fr] lg:p-6">
         <div className="lg:col-span-2 rounded-2xl border border-amber-200/40 bg-amber-300/20 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-50">
-          Premium Test Build - 2026-02-17
+          Premium giriş paneli - 2026-02-17
         </div>
         <section className="relative hidden overflow-hidden rounded-[30px] border border-amber-100/20 bg-[linear-gradient(140deg,rgba(20,18,13,0.96)_0%,rgba(10,10,10,0.94)_45%,rgba(30,24,15,0.95)_100%)] p-9 lg:flex lg:flex-col">
           <div className="pointer-events-none absolute -top-16 right-0 h-48 w-48 rounded-full bg-amber-200/20 blur-3xl" />
           <div className="pointer-events-none absolute bottom-0 left-0 h-40 w-40 rounded-full bg-yellow-500/20 blur-3xl" />
 
           <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-amber-200/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-100">
-            Private Control Panel
+            Özel kontrol paneli
           </span>
 
           <h1 className="mt-6 max-w-md text-[2.35rem] font-semibold leading-[1.08] text-amber-50">
-            Giris deneyimi artik net sekilde premium.
+            Giriş deneyimi artık net şekilde premium.
           </h1>
 
           <p className="mt-4 max-w-lg text-sm leading-6 text-amber-100/80">
-            Siparis, teklif ve teknik surecleri yonettiginiz panel icin daha ust segment bir kurumsal arayuz olusturuldu.
+            Sipariş, teklif ve teknik süreçleri yönettiğiniz panel için daha üst segment bir kurumsal arayüz oluşturuldu.
           </p>
 
           <div className="mt-9 grid gap-3">
@@ -141,26 +141,26 @@ export default function LoginClient() {
 
           <div className="mt-8 grid grid-cols-2 gap-3">
             <div className="rounded-2xl border border-amber-100/20 bg-black/30 p-4">
-              <p className="text-2xl font-semibold text-amber-50">Aurum</p>
-              <p className="mt-1 text-xs text-amber-100/70">Yeni premium tema dili</p>
+              <p className="text-2xl font-semibold text-amber-50">Kurum</p>
+              <p className="mt-1 text-xs text-amber-100/70">Yeni kurumsal tema dili</p>
             </div>
             <div className="rounded-2xl border border-amber-100/20 bg-black/30 p-4">
-              <p className="text-2xl font-semibold text-amber-50">2 Adim</p>
-              <p className="mt-1 text-xs text-amber-100/70">Dogrulama akisi aktif</p>
+              <p className="text-2xl font-semibold text-amber-50">2 Adım</p>
+              <p className="mt-1 text-xs text-amber-100/70">Doğrulama akışı aktif</p>
             </div>
           </div>
 
           <div className="mt-auto rounded-2xl border border-amber-200/25 bg-amber-200/10 p-4 text-sm text-amber-100">
-            Tasarim dili: obsidian yuzey + altin vurgu + yuksek kontrast.
+            Tasarım dili: obsidyen yüzey + altın vurgu + yüksek kontrast.
           </div>
         </section>
 
         <section className="rounded-[30px] border border-amber-100/20 bg-[linear-gradient(160deg,rgba(16,14,10,0.96)_0%,rgba(10,10,10,0.94)_100%)] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.24em] text-amber-100/60">Executive Sign In</p>
-              <h2 className="mt-2 text-3xl font-semibold text-amber-50">Hesabina giris yap</h2>
-              <p className="mt-2 text-sm text-amber-100/75">Yeni premium panel deneyimi ile devam et.</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-amber-100/60">Kurumsal giriş</p>
+              <h2 className="mt-2 text-3xl font-semibold text-amber-50">Hesabına giriş yap</h2>
+              <p className="mt-2 text-sm text-amber-100/75">Yeni kurumsal panel deneyimi ile devam et.</p>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200/40 bg-gradient-to-br from-amber-300 to-yellow-500 font-bold text-black shadow-[0_14px_30px_rgba(245,158,11,0.35)]">
               GL
@@ -169,8 +169,8 @@ export default function LoginClient() {
 
           {(registered || resetDone) && (
             <div className="mt-6 space-y-3">
-              {registered && <div className="form-alert form-alert--success">Kayit tamamlandi. Simdi giris yapabilirsiniz.</div>}
-              {resetDone && <div className="form-alert form-alert--success">Parolaniz guncellendi. Simdi giris yapabilirsiniz.</div>}
+              {registered && <div className="form-alert form-alert--success">Kayıt tamamlandı. Şimdi giriş yapabilirsiniz.</div>}
+              {resetDone && <div className="form-alert form-alert--success">Parolanız güncellendi. Şimdi giriş yapabilirsiniz.</div>}
             </div>
           )}
 
@@ -216,7 +216,7 @@ export default function LoginClient() {
 
               <div>
                 <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-amber-100">
-                  Sifre
+                  Şifre
                 </label>
                 <input
                   id="password"
@@ -235,7 +235,7 @@ export default function LoginClient() {
               {isOtpStep && (
                 <div className="rounded-2xl border border-amber-200/35 bg-amber-200/10 p-4">
                   <label htmlFor="otp" className="mb-1.5 block text-sm font-medium text-amber-50">
-                    Dogrulama kodu
+                    Doğrulama kodu
                   </label>
                   <input
                     id="otp"
@@ -257,10 +257,10 @@ export default function LoginClient() {
                       }}
                       className="font-medium hover:text-white"
                     >
-                      Bilgileri duzenle
+                      Bilgileri düzenle
                     </button>
                     <button type="button" onClick={handleResend} className="font-semibold hover:text-white">
-                      Kodu tekrar gonder
+                      Kodu tekrar gönder
                     </button>
                   </div>
                 </div>
@@ -272,18 +272,18 @@ export default function LoginClient() {
 
             <div className="space-y-3">
               <button type="submit" disabled={isLoading} className="w-full rounded-2xl bg-gradient-to-r from-amber-300 to-yellow-500 px-4 py-3.5 text-sm font-semibold text-black shadow-[0_18px_36px_rgba(245,158,11,0.3)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60">
-                {isLoading ? 'Islem suruyor...' : isOtpStep ? 'Kodu dogrula' : 'Giris yap'}
+                {isLoading ? 'İşlem sürüyor...' : isOtpStep ? 'Kodu doğrula' : 'Giriş yap'}
               </button>
               <Link href="/forgot-password" className="block text-center text-sm font-medium text-amber-100 transition hover:text-white">
-                Parolami unuttum
+                Parolamı unuttum
               </Link>
             </div>
           </form>
 
           <div className="mt-6 border-t border-amber-100/20 pt-5 text-center text-sm text-amber-100/80">
-            Hesabin yok mu?{' '}
+            Hesabın yok mu?{' '}
             <Link href={registerHref} className="font-semibold text-amber-200 hover:text-white">
-              Kayit ol
+              Kayıt ol
             </Link>
           </div>
         </section>
