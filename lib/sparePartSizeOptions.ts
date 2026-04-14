@@ -111,6 +111,10 @@ function coerceImageUrlList(value: unknown) {
   return result;
 }
 
+function hasMeaningfulText(value: unknown) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
 export function sanitizeSparePartSizeOptionEntries(
   value: unknown,
   fallbackPriceCents: number,
@@ -133,7 +137,7 @@ export function sanitizeSparePartSizeOptionEntries(
 
     const parsedPrice = coercePriceValue(
       row.priceValue ??
-        (row.priceTry !== undefined || row.priceTl !== undefined || row.priceTRY !== undefined
+        (hasMeaningfulText(row.priceTry) || hasMeaningfulText(row.priceTl) || hasMeaningfulText(row.priceTRY)
           ? {
               priceCents:
                 coercePriceCents(row.priceTry) ??
