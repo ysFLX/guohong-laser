@@ -115,6 +115,23 @@ function hasMeaningfulText(value: unknown) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+function inferRowCurrency(row: Record<string, unknown>, fallbackCurrency: string) {
+  const explicitCurrency = normalizeCurrency(row.priceCurrency, '');
+  if (explicitCurrency === 'USD' || explicitCurrency === 'TRY') {
+    return explicitCurrency;
+  }
+
+  if (hasMeaningfulText(row.priceTry) || hasMeaningfulText(row.priceTl) || hasMeaningfulText(row.priceTRY)) {
+    return 'TRY';
+  }
+
+  if (hasMeaningfulText(row.priceUsd) || hasMeaningfulText(row.priceInput)) {
+    return 'USD';
+  }
+
+  return fallbackCurrency;
+}
+
 export function sanitizeSparePartSizeOptionEntries(
   value: unknown,
   fallbackPriceCents: number,
@@ -135,6 +152,7 @@ export function sanitizeSparePartSizeOptionEntries(
     const dedupeKey = normalizedValue.toLocaleLowerCase('tr-TR');
     if (seen.has(dedupeKey)) continue;
 
+    const inferredCurrency = inferRowCurrency(row, fallbackCurrency);
     const parsedPrice = coercePriceValue(
       row.priceValue ??
         (hasMeaningfulText(row.priceTry) || hasMeaningfulText(row.priceTl) || hasMeaningfulText(row.priceTRY)
@@ -152,7 +170,7 @@ export function sanitizeSparePartSizeOptionEntries(
                 coercePriceCents(row.priceInput) ??
                 coercePriceCents(row.priceCents) ??
                 clampPriceCents(fallbackPriceCents),
-              currency: normalizeCurrency(row.priceCurrency, fallbackCurrency),
+              currency: inferredCurrency,
             }),
       { priceCents: clampPriceCents(fallbackPriceCents), currency: fallbackCurrency },
     );
