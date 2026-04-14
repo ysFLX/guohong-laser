@@ -16,6 +16,7 @@ type SparePartListRow = {
   sizeOptionPrices: unknown;
   sizeOptionImages: unknown;
   priceCents: number;
+  displayPriceCents: number;
   currency: string;
   imageUrl: string | null;
   stockOnHand: number;
@@ -34,6 +35,7 @@ type SparePartDetailRow = {
   sizeOptionPrices: unknown;
   sizeOptionImages: unknown;
   priceCents: number;
+  displayPriceCents: number;
   currency: string;
   imageUrl: string | null;
   stockOnHand: number;
@@ -46,7 +48,6 @@ type RelatedPart = {
   id: string;
   name: string;
   priceCents: number;
-  displayPriceCents: number;
   currency: string;
   imageUrl: string | null;
   category: { name: string };
@@ -227,7 +228,6 @@ export const getRelatedSpareParts = unstable_cache(
     return parts.map((part) => ({
       ...part,
       priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
-      displayPriceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
       currency: resolveDisplayedCurrency(part.currency),
     }));
   },
@@ -286,7 +286,6 @@ export const getBoughtTogetherSpareParts = unstable_cache(
       .map((entry) => ({
         ...entry.item,
         priceCents: resolveDisplayedPriceCents(entry.item.priceCents, entry.item.currency, exchangeRate.rate),
-        displayPriceCents: resolveDisplayedPriceCents(entry.item.priceCents, entry.item.currency, exchangeRate.rate),
         currency: resolveDisplayedCurrency(entry.item.currency),
       }))
       .slice(0, 3);
