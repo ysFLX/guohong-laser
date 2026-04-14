@@ -19,6 +19,7 @@ export type SparePart = {
   description: string;
   dimensions: string | null;
   priceCents: number;
+  displayPriceCents?: number;
   currency: string;
   imageUrl: string | null;
   stockOnHand: number;
@@ -76,6 +77,10 @@ function formatPriceTry(priceCents: number) {
   } catch {
     return `${(priceCents / 100).toFixed(2)} TL`;
   }
+}
+
+function getVisiblePriceCents(item: SparePart) {
+  return item.displayPriceCents ?? item.priceCents;
 }
 
 const renderStars = (average: number) =>
@@ -446,10 +451,10 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     const list = [...filtered];
     switch (sortOption) {
       case 'price-asc':
-        list.sort((a, b) => a.priceCents - b.priceCents);
+        list.sort((a, b) => getVisiblePriceCents(a) - getVisiblePriceCents(b));
         break;
       case 'price-desc':
-        list.sort((a, b) => b.priceCents - a.priceCents);
+        list.sort((a, b) => getVisiblePriceCents(b) - getVisiblePriceCents(a));
         break;
       case 'rating-desc':
         list.sort((a, b) => {
@@ -495,6 +500,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
         position: index + 1,
         name: item.name,
         url: baseUrl ? `${baseUrl}/spare-parts/${item.id}` : `/spare-parts/${item.id}`,
+        price: getVisiblePriceCents(item) / 100,
       })),
     };
   }, [visibleItems]);
@@ -780,7 +786,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
 
           <div className="mt-2 rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/60">
             <div className="mt-1 text-[25px] font-bold leading-none text-[#ff6a0d] dark:text-amber-300">
-              {sparePartPriceVisible ? formatPriceTry(p.priceCents) : 'Teklif al'}
+              {sparePartPriceVisible ? formatPriceTry(getVisiblePriceCents(p)) : 'Teklif al'}
             </div>
             <div className="mt-1 text-[11px] text-slate-400">KDV dahil</div>
           </div>
@@ -798,7 +804,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   item={{
                     id: p.id,
                     name: p.name,
-                    priceCents: p.priceCents,
+                    priceCents: getVisiblePriceCents(p),
                     imageUrl: p.imageUrl,
                   }}
                   label="Satin al"
@@ -806,7 +812,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                 <AddToCartButton
                   id={p.id}
                   name={p.name}
-                  priceCents={p.priceCents}
+                  priceCents={getVisiblePriceCents(p)}
                   imageUrl={p.imageUrl}
                   className="rounded-xl border border-[#ff6a0d] bg-white px-4 py-2.5 text-sm font-semibold text-[#ff6a0d] transition hover:bg-orange-50"
                 />
@@ -1473,7 +1479,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">{item.name}</p>
                   <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    {sparePartPriceVisible ? formatPriceTry(item.priceCents) : 'Fiyat icin teklif al'}
+                    {sparePartPriceVisible ? formatPriceTry(getVisiblePriceCents(item)) : 'Fiyat icin teklif al'}
                   </p>
                 </div>
                 <span className="ml-auto text-indigo-600 dark:text-indigo-300">-&gt;</span>

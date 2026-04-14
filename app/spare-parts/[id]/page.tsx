@@ -220,6 +220,7 @@ export default async function SparePartDetailPage({
   const sizeOptionEntries = p.hasSizeOptions
     ? buildSparePartSizeOptionEntries(p.sizeOptions, p.sizeOptionPrices, p.sizeOptionImages, p.priceCents, p.currency)
     : [];
+  const visiblePriceCents = p.hasSizeOptions && sizeOptionEntries[0] ? sizeOptionEntries[0].priceCents : p.priceCents;
   const inStock = p.stockOnHand > 0;
   const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;
   const imageUrls = (p.images?.length ? p.images.map((img) => img.url) : [p.imageUrl]).filter(
@@ -261,7 +262,7 @@ export default async function SparePartDetailPage({
   return (
     <div className="min-h-screen bg-slate-50 pb-24 text-slate-900">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <ViewItemEvent id={p.id} name={p.name} priceCents={p.priceCents} currency={p.currency || 'TRY'} />
+      <ViewItemEvent id={p.id} name={p.name} priceCents={visiblePriceCents} currency={p.currency || 'TRY'} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div className="text-[11px] uppercase tracking-[0.35em] text-slate-400">
@@ -294,7 +295,7 @@ export default async function SparePartDetailPage({
           <SparePartDetailExperience
             id={p.id}
             name={p.name}
-            priceCents={p.priceCents}
+            priceCents={visiblePriceCents}
             imageUrl={p.imageUrl}
             images={p.images}
             inStock={inStock}

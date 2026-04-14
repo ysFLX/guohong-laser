@@ -46,6 +46,7 @@ type RelatedPart = {
   id: string;
   name: string;
   priceCents: number;
+  displayPriceCents: number;
   currency: string;
   imageUrl: string | null;
   category: { name: string };
@@ -74,6 +75,26 @@ function toRatingMap(
       },
     ]),
   );
+}
+
+function resolvePrimaryDisplayedPriceCents(
+  priceCents: number,
+  currency: string,
+  hasSizeOptions: boolean,
+  sizeOptions: string[],
+  sizeOptionPrices: unknown,
+  usdTryRate: number,
+) {
+  if (hasSizeOptions && sizeOptions.length > 0) {
+    const resolvedMap = resolveDisplayedSizeOptionPrices(sizeOptionPrices, currency, usdTryRate);
+    const firstOption = sizeOptions[0];
+    const firstOptionPrice = resolvedMap[firstOption];
+    if (Number.isFinite(firstOptionPrice)) {
+      return firstOptionPrice;
+    }
+  }
+
+  return resolveDisplayedPriceCents(priceCents, currency, usdTryRate);
 }
 
 export const getActiveSparePartsWithRatings = unstable_cache(
@@ -106,6 +127,14 @@ export const getActiveSparePartsWithRatings = unstable_cache(
         sizeOptionPrices: resolveDisplayedSizeOptionPrices(p.sizeOptionPrices, p.currency, exchangeRate.rate),
         sizeOptionImages: p.sizeOptionImages,
         priceCents: resolveDisplayedPriceCents(p.priceCents, p.currency, exchangeRate.rate),
+        displayPriceCents: resolvePrimaryDisplayedPriceCents(
+          p.priceCents,
+          p.currency,
+          p.hasSizeOptions,
+          p.sizeOptions,
+          p.sizeOptionPrices,
+          exchangeRate.rate,
+        ),
         currency: resolveDisplayedCurrency(p.currency),
         imageUrl: p.imageUrl,
         stockOnHand: p.stockOnHand,
@@ -144,6 +173,14 @@ export const getSparePartById = unstable_cache(
       sizeOptionPrices: resolveDisplayedSizeOptionPrices(part.sizeOptionPrices, part.currency, exchangeRate.rate),
       sizeOptionImages: part.sizeOptionImages,
       priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
+      displayPriceCents: resolvePrimaryDisplayedPriceCents(
+        part.priceCents,
+        part.currency,
+        part.hasSizeOptions,
+        part.sizeOptions,
+        part.sizeOptionPrices,
+        exchangeRate.rate,
+      ),
       currency: resolveDisplayedCurrency(part.currency),
     };
   },
@@ -190,6 +227,7 @@ export const getRelatedSpareParts = unstable_cache(
     return parts.map((part) => ({
       ...part,
       priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
+      displayPriceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
       currency: resolveDisplayedCurrency(part.currency),
     }));
   },
@@ -248,6 +286,7 @@ export const getBoughtTogetherSpareParts = unstable_cache(
       .map((entry) => ({
         ...entry.item,
         priceCents: resolveDisplayedPriceCents(entry.item.priceCents, entry.item.currency, exchangeRate.rate),
+        displayPriceCents: resolveDisplayedPriceCents(entry.item.priceCents, entry.item.currency, exchangeRate.rate),
         currency: resolveDisplayedCurrency(entry.item.currency),
       }))
       .slice(0, 3);
