@@ -22,6 +22,12 @@ const quickLinks = [
     href: '/admin/inquiries#contact',
     action: 'Görüntüle',
   },
+  {
+    title: 'Üyeler',
+    description: 'Kayıtlı kullanıcıları görüntüle.',
+    href: '/admin/users',
+    action: 'İncele',
+  },
 ];
 
 type PrismaClientLike = {
@@ -59,6 +65,22 @@ type PrismaClientLike = {
   };
   returnRequest: {
     count: (args?: unknown) => Promise<number>;
+  };
+  user: {
+    count: (args?: unknown) => Promise<number>;
+    findMany: (args: unknown) => Promise<
+      Array<{
+        id: string;
+        name: string | null;
+        firstName: string | null;
+        lastName: string | null;
+        email: string | null;
+        role: string;
+        emailVerified: Date | null;
+        createdAt: Date;
+        _count: { orders: number };
+      }>
+    >;
   };
   homePanelConfig: {
     findUnique: (args: unknown) => Promise<{ updatedAt: Date } | null>;
@@ -111,7 +133,11 @@ export default async function AdminHomePage() {
     newContacts,
     totalOrders,
     totalReturns,
+    totalMembers,
+    adminMembers,
+    verifiedMembers,
     latestParts,
+    latestMembers,
     recentInquiries,
     homePanels,
     usdTryExchangeRate,
@@ -124,10 +150,28 @@ export default async function AdminHomePage() {
     prismaAdmin.inquiry.count({ where: { type: 'CONTACT', status: 'NEW' } }),
     prismaAdmin.order.count(),
     prismaAdmin.returnRequest.count(),
+    prismaAdmin.user.count(),
+    prismaAdmin.user.count({ where: { role: 'ADMIN' } }),
+    prismaAdmin.user.count({ where: { emailVerified: { not: null } } }),
     prismaAdmin.sparePart.findMany({
       take: 5,
       orderBy: { updatedAt: 'desc' },
       include: { category: true },
+    }),
+    prismaAdmin.user.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        name: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        role: true,
+        emailVerified: true,
+        createdAt: true,
+        _count: { select: { orders: true } },
+      },
     }),
     prismaAdmin.inquiry.findMany({
       take: 5,
@@ -151,6 +195,9 @@ export default async function AdminHomePage() {
     { label: 'Aktif Parça', value: activeParts },
     { label: 'Vitrin', value: featuredParts },
     { label: 'Düşük Stok', value: lowStockParts },
+    { label: 'Toplam Üye', value: totalMembers },
+    { label: 'Admin Üye', value: adminMembers },
+    { label: 'Doğrulanmış E-posta', value: verifiedMembers },
     { label: 'Yeni Teklif', value: newQuotes },
     { label: 'Yeni İletişim', value: newContacts },
   ];
@@ -195,7 +242,7 @@ export default async function AdminHomePage() {
           </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -243,6 +290,13 @@ export default async function AdminHomePage() {
               href: '/admin/spare-parts',
               count: totalParts,
               tone: 'border-slate-200',
+            },
+            {
+              title: 'Üyeler',
+              description: 'Kayıtlı kullanıcılar ve hesaplar.',
+              href: '/admin/users',
+              count: totalMembers,
+              tone: 'border-emerald-200',
             },
           ].map((card) => (
             <Link
@@ -410,6 +464,55 @@ export default async function AdminHomePage() {
               {recentInquiries.length === 0 && (
                 <div className="rounded-xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 text-sm text-[var(--admin-muted)] shadow-sm">
                   Henüz talep yok.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-base font-semibold text-[var(--admin-text)]">Yeni Üyeler</div>
+                <div className="text-sm text-[var(--admin-muted)]">Son kayıt olan 5 kullanıcı</div>
+              </div>
+              <Link
+                href="/admin/users"
+                className="text-sm font-semibold text-[var(--admin-accent)] hover:opacity-90"
+              >
+                Tümünü gör
+              </Link>
+            </div>
+
+            <div className="mt-4 space-y-3">
+              {latestMembers.map((member) => {
+                const displayName =
+                  member.name ||
+                  [member.firstName, member.lastName].filter(Boolean).join(' ') ||
+                  member.email ||
+                  'İsimsiz üye';
+
+                return (
+                  <Link
+                    key={member.id}
+                    href="/admin/users"
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-3 transition hover:bg-[var(--admin-card)]"
+                  >
+                    <div>
+                      <div className="text-sm font-semibold text-[var(--admin-text)]">{displayName}</div>
+                      <div className="text-xs text-[var(--admin-muted)]">
+                        {member.email || 'E-posta yok'} · {member.role === 'ADMIN' ? 'Admin' : 'Üye'}
+                      </div>
+                    </div>
+                    <div className="text-right text-xs text-[var(--admin-muted)]">
+                      <div>{member.emailVerified ? 'Doğrulandı' : 'Bekliyor'}</div>
+                      <div>{formatDateTime(member.createdAt)}</div>
+                    </div>
+                  </Link>
+                );
+              })}
+              {latestMembers.length === 0 && (
+                <div className="rounded-xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-surface)] p-4 text-sm text-[var(--admin-muted)] shadow-sm">
+                  Henüz üye yok.
                 </div>
               )}
             </div>
