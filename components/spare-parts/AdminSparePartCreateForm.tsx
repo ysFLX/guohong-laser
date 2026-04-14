@@ -7,10 +7,10 @@ import { AdminButton } from '@/components/admin/AdminUi';
 import { sanitizeSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
-type SizeOptionRow = { value: string; priceUsd: string };
+type SizeOptionRow = { value: string; priceUsd: string; priceTry: string };
 
 function createEmptySizeRow(): SizeOptionRow {
-  return { value: '', priceUsd: '' };
+  return { value: '', priceUsd: '', priceTry: '' };
 }
 
 export default function AdminSparePartCreateForm({ categories }: { categories: Category[] }) {
@@ -158,9 +158,9 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
 
             {hasSizeOptions ? (
               <div className="mt-4 space-y-3">
-                <div className="text-xs text-[var(--admin-muted)]">Her satirda olcu ve fiyat gir.</div>
+                <div className="text-xs text-[var(--admin-muted)]">Her satirda olcu ve TL veya USD fiyat gir.</div>
                 {sizeOptionRows.map((row, index) => (
-                  <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
+                  <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_1fr_1fr_auto]">
                     <input
                       value={row.value}
                       onChange={(e) => updateSizeRow(index, { value: e.target.value })}
@@ -172,6 +172,13 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                       inputMode="decimal"
                       onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
                       placeholder="Fiyat (USD)"
+                      className={`${inputClassName} mt-0`}
+                    />
+                    <input
+                      value={row.priceTry}
+                      inputMode="decimal"
+                      onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
+                      placeholder="Fiyat (TL)"
                       className={`${inputClassName} mt-0`}
                     />
                     <AdminButton
@@ -218,10 +225,14 @@ export default function AdminSparePartCreateForm({ categories }: { categories: C
                   Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
 
                 const hasBlankSizeRow = hasSizeOptions
-                  ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceUsd.trim().length === 0)
+                  ? sizeOptionRows.some(
+                      (row) =>
+                        row.value.trim().length === 0 ||
+                        (row.priceUsd.trim().length === 0 && row.priceTry.trim().length === 0),
+                    )
                   : false;
                 const sizeOptionEntries = hasSizeOptions
-                  ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents)
+                  ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents, 'USD')
                   : [];
 
                 if (!name.trim()) {

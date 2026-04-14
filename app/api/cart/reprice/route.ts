@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
-import { getUsdTryExchangeRate, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
+import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import {
   getSparePartProductIdFromCartLineId,
   normalizeSparePartSizeOptionPricesMap,
@@ -78,6 +78,7 @@ export async function POST(req: Request) {
         part.sizeOptionPrices,
         part.sizeOptions,
         part.priceCents,
+        part.currency,
       );
 
       if (part.hasSizeOptions) {
@@ -87,10 +88,8 @@ export async function POST(req: Request) {
         }
       }
 
-      const resolvedPriceCents =
-        part.hasSizeOptions && item.variantValue
-          ? (sizeOptionPrices[item.variantValue] ?? part.priceCents)
-          : part.priceCents;
+      const resolvedBasePriceCents =
+        part.currency === 'USD' ? convertUsdCentsToTryCents(part.priceCents, exchangeRate.rate) : part.priceCents;
 
       return {
         id: item.id,
@@ -99,7 +98,12 @@ export async function POST(req: Request) {
         imageUrl: item.imageUrl || part.imageUrl,
         quantity: item.quantity,
         variantValue: item.variantValue || null,
-        priceCents: resolveDisplayedPriceCents(resolvedPriceCents, part.currency, exchangeRate.rate),
+        priceCents:
+          part.hasSizeOptions && item.variantValue && sizeOptionPrices[item.variantValue]?.currency === 'USD'
+            ? convertUsdCentsToTryCents(sizeOptionPrices[item.variantValue].priceCents, exchangeRate.rate)
+            : part.hasSizeOptions && item.variantValue
+              ? sizeOptionPrices[item.variantValue]?.priceCents ?? resolvedBasePriceCents
+              : resolvedBasePriceCents,
       };
     })
     .filter((item): item is NonNullable<typeof item> => Boolean(item));

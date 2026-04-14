@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
-import { getUsdTryExchangeRate, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
+import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
 import {
@@ -133,6 +133,7 @@ export async function POST(req: Request) {
         part.sizeOptionPrices,
         part.sizeOptions,
         part.priceCents,
+        part.currency,
       );
       if (part.hasSizeOptions) {
         const normalizedOptions = part.sizeOptions.map((option) => option.trim());
@@ -140,14 +141,17 @@ export async function POST(req: Request) {
           return null;
         }
       }
-      const resolvedPriceCents =
-        part.hasSizeOptions && item.variantValue
-          ? (sizeOptionPrices[item.variantValue] ?? part.priceCents)
-          : part.priceCents;
+      const resolvedBasePriceCents =
+        part.currency === 'USD' ? convertUsdCentsToTryCents(part.priceCents, exchangeRate.rate) : part.priceCents;
       return {
         id: part.id,
         name: item.name || part.name,
-        priceCents: resolveDisplayedPriceCents(resolvedPriceCents, part.currency, exchangeRate.rate),
+        priceCents:
+          part.hasSizeOptions && item.variantValue && sizeOptionPrices[item.variantValue]?.currency === 'USD'
+            ? convertUsdCentsToTryCents(sizeOptionPrices[item.variantValue].priceCents, exchangeRate.rate)
+            : part.hasSizeOptions && item.variantValue
+              ? sizeOptionPrices[item.variantValue]?.priceCents ?? resolvedBasePriceCents
+              : resolvedBasePriceCents,
         quantity: item.quantity,
         imageUrl: item.imageUrl || part.imageUrl,
       };

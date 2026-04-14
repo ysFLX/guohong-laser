@@ -24,8 +24,14 @@ export function sanitizeSparePartSizeOptions(value: unknown): string[] {
 export type SparePartSizeOptionEntry = {
   value: string;
   priceCents: number;
+  priceCurrency: string;
   imageUrl: string | null;
   imageUrls: string[];
+};
+
+export type SparePartSizeOptionPriceValue = {
+  priceCents: number;
+  currency: string;
 };
 
 function clampPriceCents(value: number) {
@@ -42,6 +48,35 @@ function coercePriceCents(value: unknown) {
     return clampPriceCents(parsed * 100);
   }
   return null;
+}
+
+function normalizeCurrency(value: unknown, fallback = 'USD') {
+  if (typeof value !== 'string') return fallback;
+  const normalized = value.trim().toUpperCase();
+  return normalized || fallback;
+}
+
+function coercePriceValue(value: unknown, fallback: SparePartSizeOptionPriceValue): SparePartSizeOptionPriceValue {
+  if (typeof value === 'number') {
+    return {
+      priceCents: clampPriceCents(value),
+      currency: fallback.currency,
+    };
+  }
+
+  if (!value || typeof value !== 'object') return fallback;
+
+  const row = value as Record<string, unknown>;
+  const currency = normalizeCurrency(row.currency ?? row.priceCurrency, fallback.currency);
+  const priceCents =
+    coercePriceCents(row.priceCents) ??
+    coercePriceCents(row.amountCents) ??
+    coercePriceCents(row.valueCents) ??
+    coercePriceCents(row.price);
+
+  if (priceCents === null) return fallback;
+
+  return { priceCents, currency };
 }
 
 function coerceImageUrl(value: unknown) {
@@ -75,6 +110,7 @@ function coerceImageUrlList(value: unknown) {
 export function sanitizeSparePartSizeOptionEntries(
   value: unknown,
   fallbackPriceCents: number,
+  fallbackCurrency = 'USD',
 ): SparePartSizeOptionEntry[] {
   if (!Array.isArray(value)) return [];
 
@@ -91,17 +127,33 @@ export function sanitizeSparePartSizeOptionEntries(
     const dedupeKey = normalizedValue.toLocaleLowerCase('tr-TR');
     if (seen.has(dedupeKey)) continue;
 
-    const parsedPrice =
-      coercePriceCents(row.priceCents) ??
-      coercePriceCents(row.priceTry) ??
-      coercePriceCents(row.priceUsd) ??
-      coercePriceCents(row.priceInput) ??
-      clampPriceCents(fallbackPriceCents);
+    const parsedPrice = coercePriceValue(
+      row.priceValue ??
+        (row.priceTry !== undefined || row.priceTl !== undefined || row.priceTRY !== undefined
+          ? {
+              priceCents:
+                coercePriceCents(row.priceTry) ??
+                coercePriceCents(row.priceTl) ??
+                coercePriceCents(row.priceTRY) ??
+                clampPriceCents(fallbackPriceCents),
+              currency: 'TRY',
+            }
+          : {
+              priceCents:
+                coercePriceCents(row.priceUsd) ??
+                coercePriceCents(row.priceInput) ??
+                coercePriceCents(row.priceCents) ??
+                clampPriceCents(fallbackPriceCents),
+              currency: normalizeCurrency(row.priceCurrency, fallbackCurrency),
+            }),
+      { priceCents: clampPriceCents(fallbackPriceCents), currency: fallbackCurrency },
+    );
 
     seen.add(dedupeKey);
     result.push({
       value: normalizedValue,
-      priceCents: parsedPrice,
+      priceCents: parsedPrice.priceCents,
+      priceCurrency: parsedPrice.currency,
       imageUrl:
         coerceImageUrl(row.imageUrl) ??
         coerceImageUrl(row.variantImageUrl) ??
@@ -119,9 +171,12 @@ export function sanitizeSparePartSizeOptionEntries(
 }
 
 export function buildSparePartSizeOptionPricesMap(entries: SparePartSizeOptionEntry[]) {
-  const map: Record<string, number> = {};
+  const map: Record<string, SparePartSizeOptionPriceValue> = {};
   for (const entry of entries) {
-    map[entry.value] = clampPriceCents(entry.priceCents);
+    map[entry.value] = {
+      priceCents: clampPriceCents(entry.priceCents),
+      currency: normalizeCurrency(entry.priceCurrency, 'USD'),
+    };
   }
   return map;
 }
@@ -140,14 +195,14 @@ export function normalizeSparePartSizeOptionPricesMap(
   value: unknown,
   sizeOptions: string[],
   fallbackPriceCents: number,
+  fallbackCurrency = 'USD',
 ) {
-  const map: Record<string, number> = {};
+  const map: Record<string, SparePartSizeOptionPriceValue> = {};
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
 
   for (const option of sizeOptions) {
     const raw = source[option];
-    const parsed = coercePriceCents(raw);
-    map[option] = parsed ?? clampPriceCents(fallbackPriceCents);
+    map[option] = coercePriceValue(raw, { priceCents: clampPriceCents(fallbackPriceCents), currency: fallbackCurrency });
   }
 
   return map;
@@ -169,12 +224,19 @@ export function buildSparePartSizeOptionEntries(
   sizeOptionPrices: unknown,
   sizeOptionImages: unknown,
   fallbackPriceCents: number,
+  fallbackCurrency = 'USD',
 ) {
-  const map = normalizeSparePartSizeOptionPricesMap(sizeOptionPrices, sizeOptions, fallbackPriceCents);
+  const map = normalizeSparePartSizeOptionPricesMap(
+    sizeOptionPrices,
+    sizeOptions,
+    fallbackPriceCents,
+    fallbackCurrency,
+  );
   const imageMap = normalizeSparePartSizeOptionImagesMap(sizeOptionImages, sizeOptions);
   return sizeOptions.map((value) => ({
     value,
-    priceCents: map[value] ?? clampPriceCents(fallbackPriceCents),
+    priceCents: map[value]?.priceCents ?? clampPriceCents(fallbackPriceCents),
+    priceCurrency: map[value]?.currency ?? fallbackCurrency,
     imageUrl: imageMap[value]?.[0] ?? null,
     imageUrls: imageMap[value] ?? [],
   }));

@@ -8,6 +8,18 @@ import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import { useToast } from '@/components/ui/ToastProvider';
 import { buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 
+function formatPrice(priceCents: number, currency: string) {
+  try {
+    return new Intl.NumberFormat('tr-TR', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 2,
+    }).format(priceCents / 100);
+  } catch {
+    return `${(priceCents / 100).toFixed(2)} ${currency}`;
+  }
+}
+
 type Props = {
   id: string;
   name: string;
@@ -18,7 +30,7 @@ type Props = {
   stockOnHand: number;
   showPrice: boolean;
   sparePartDirectPurchaseEnabled: boolean;
-  sizeOptionEntries: Array<{ value: string; priceCents: number; imageUrl: string | null }>;
+  sizeOptionEntries: Array<{ value: string; priceCents: number; priceCurrency: string; imageUrl: string | null }>;
   selectedSize?: string;
   onSelectedSizeChange?: (value: string) => void;
 };
@@ -49,6 +61,7 @@ export default function SparePartPurchaseClient({
     [resolvedSize, sizeOptionEntries],
   );
   const resolvedPriceCents = selectedEntry?.priceCents ?? priceCents;
+  const resolvedPriceCurrency = selectedEntry?.priceCurrency ?? 'TRY';
   const resolvedImageUrl = selectedEntry?.imageUrl ?? imageUrl;
   const displayName = useMemo(() => buildSparePartVariantName(name, resolvedSize), [name, resolvedSize]);
   const selectionDisabled = hasSizeOptions && !resolvedSize;
@@ -149,9 +162,7 @@ export default function SparePartPurchaseClient({
               Hizli ozet
             </div>
             <div className="mt-1 text-2xl font-semibold text-slate-900">
-              {showPrice
-                ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
-                : 'Fiyat icin teklif al'}
+              {showPrice ? formatPrice(resolvedPriceCents, resolvedPriceCurrency) : 'Fiyat icin teklif al'}
             </div>
           </div>
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -174,9 +185,7 @@ export default function SparePartPurchaseClient({
           Satin alma
         </div>
         <div className="mt-2 text-3xl font-semibold text-slate-900">
-          {showPrice
-            ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
-            : 'Fiyat icin teklif al'}
+          {showPrice ? formatPrice(resolvedPriceCents, resolvedPriceCurrency) : 'Fiyat icin teklif al'}
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
           <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -249,9 +258,7 @@ export default function SparePartPurchaseClient({
                 {inStock ? 'Toplam' : 'Stok durumu'}
               </div>
               <div className="mt-1 text-base font-semibold text-slate-900">
-                {inStock
-                  ? `${(resolvedPriceCents / 100).toLocaleString('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 2 })}`
-                  : 'Stokta yok'}
+                {inStock ? formatPrice(resolvedPriceCents, resolvedPriceCurrency) : 'Stokta yok'}
               </div>
             </div>
 

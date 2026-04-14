@@ -165,12 +165,25 @@ export function resolveDisplayedSizeOptionPrices(
   const normalized: Record<string, number> = {};
 
   for (const [key, rawValue] of Object.entries(source)) {
+    if (rawValue && typeof rawValue === 'object') {
+      const entry = rawValue as Record<string, unknown>;
+      const entryCents = typeof entry.priceCents === 'number' ? entry.priceCents : Number(entry.priceCents);
+      const entryCurrency =
+        typeof entry.currency === 'string'
+          ? entry.currency
+          : typeof entry.priceCurrency === 'string'
+            ? entry.priceCurrency
+            : currency;
+      normalized[key] = resolveDisplayedPriceCents(
+        Number.isFinite(entryCents) ? entryCents : 0,
+        entryCurrency,
+        usdTryRate,
+      );
+      continue;
+    }
+
     const numericValue = typeof rawValue === 'number' ? rawValue : Number(rawValue);
-    normalized[key] = resolveDisplayedPriceCents(
-      Number.isFinite(numericValue) ? numericValue : 0,
-      currency,
-      usdTryRate,
-    );
+    normalized[key] = resolveDisplayedPriceCents(Number.isFinite(numericValue) ? numericValue : 0, currency, usdTryRate);
   }
 
   return normalized;

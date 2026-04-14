@@ -34,14 +34,6 @@ type SparePartDetail = {
   category: { id: string; name: string; slug: string };
 };
 
-type RelatedPart = {
-  id: string;
-  name: string;
-  priceCents: number;
-  imageUrl: string | null;
-  category: { name: string };
-};
-
 const compatibilityByCategory: Record<string, string[]> = {
   'Sac Kesim': ['GL-3015', 'GL-6020', 'GL-9025'],
   'Boru Kesim': ['GT-6020', 'GT-12030'],
@@ -141,18 +133,6 @@ export async function generateMetadata({
   };
 }
 
-function formatPriceTry(priceCents: number) {
-  try {
-    return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
-      currency: 'TRY',
-      maximumFractionDigits: 2,
-    }).format(priceCents / 100);
-  } catch {
-    return `${(priceCents / 100).toFixed(2)} TL`;
-  }
-}
-
 const renderStars = (average: number) =>
   Array.from({ length: 5 }, (_, index) => {
     const value = average - index;
@@ -230,9 +210,6 @@ export default async function SparePartDetailPage({
   const ratingAverage = review.ratingAverage;
 
   const baseUrl = getBaseUrl().replace(/\/$/, '');
-  const productUrl = `${baseUrl}/spare-parts/${p.id}`;
-  const whatsAppText = `Merhaba, ${p.name} yedek parçası hakkında bilgi almak istiyorum.\nLink: ${productUrl}`;
-  const whatsAppHref = `https://wa.me/905368316787?text=${encodeURIComponent(whatsAppText)}`;
 
   const [related, boughtTogether] = await Promise.all([
     getRelatedSpareParts(part.category.id, id),
@@ -241,7 +218,7 @@ export default async function SparePartDetailPage({
 
   const compatibility = compatibilityByCategory[p.category.name] ?? [];
   const sizeOptionEntries = p.hasSizeOptions
-    ? buildSparePartSizeOptionEntries(p.sizeOptions, p.sizeOptionPrices, p.sizeOptionImages, p.priceCents)
+    ? buildSparePartSizeOptionEntries(p.sizeOptions, p.sizeOptionPrices, p.sizeOptionImages, p.priceCents, p.currency)
     : [];
   const inStock = p.stockOnHand > 0;
   const isCritical = inStock && p.stockOnHand <= CRITICAL_STOCK_LEVEL;

@@ -10,7 +10,7 @@ import {
 } from '@/lib/sparePartSizeOptions';
 
 type Category = { id: string; name: string };
-type SizeOptionRow = { value: string; priceInput: string };
+type SizeOptionRow = { value: string; priceUsd: string; priceTry: string };
 
 type Initial = {
   id: string;
@@ -30,10 +30,14 @@ type Initial = {
 };
 
 function createEmptySizeRow(): SizeOptionRow {
-  return { value: '', priceInput: '' };
+  return { value: '', priceUsd: '', priceTry: '' };
 }
 
-function toPriceInput(priceCents: number) {
+function toUsdInput(priceCents: number) {
+  return String((priceCents / 100).toFixed(2)).replace('.', ',');
+}
+
+function toTryInput(priceCents: number) {
   return String((priceCents / 100).toFixed(2)).replace('.', ',');
 }
 
@@ -58,9 +62,14 @@ export default function AdminSparePartEditForm({
       initial.sizeOptionPrices,
       initial.sizeOptionImages,
       initial.priceCents,
+      initial.currency,
     );
     if (entries.length === 0) return [createEmptySizeRow()];
-    return entries.map((entry) => ({ value: entry.value, priceInput: toPriceInput(entry.priceCents) }));
+    return entries.map((entry) =>
+      entry.priceCurrency === 'TRY'
+        ? { value: entry.value, priceUsd: '', priceTry: toTryInput(entry.priceCents) }
+        : { value: entry.value, priceUsd: toUsdInput(entry.priceCents), priceTry: '' },
+    );
   });
   const [priceInput, setPriceInput] = useState(String((initial.priceCents / 100).toFixed(2)));
   const [stockOnHand, setStockOnHand] = useState(String(initial.stockOnHand));
@@ -97,7 +106,7 @@ export default function AdminSparePartEditForm({
           Urun bilgileri
         </div>
         <h2 className="mt-2 text-xl font-semibold text-[var(--admin-text)]">Duzenleme</h2>
-        <p className="mt-1 text-sm text-[var(--admin-muted)]">Degisiklikleri kaydetmek icin "Kaydet" butonunu kullan.</p>
+        <p className="mt-1 text-sm text-[var(--admin-muted)]">Degisiklikleri kaydetmek icin &quot;Kaydet&quot; butonunu kullan.</p>
       </div>
 
       {error ? (
@@ -196,10 +205,10 @@ export default function AdminSparePartEditForm({
           {hasSizeOptions ? (
             <div className="mt-4 space-y-3">
               <div className="text-xs text-[var(--admin-muted)]">
-                Her satirda olcu ve fiyat gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
+                Her satirda olcu ve TL veya USD fiyat gir. Bu secenekler urun detay sayfasinda kullaniciya secim olarak gosterilir.
               </div>
               {sizeOptionRows.map((row, index) => (
-                <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_180px_auto]">
+                <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_1fr_1fr_auto]">
                   <input
                     value={row.value}
                     onChange={(e) => updateSizeRow(index, { value: e.target.value })}
@@ -207,10 +216,17 @@ export default function AdminSparePartEditForm({
                     className={`${inputClassName} mt-0`}
                   />
                   <input
-                    value={row.priceInput}
+                    value={row.priceUsd}
                     inputMode="decimal"
-                    onChange={(e) => updateSizeRow(index, { priceInput: e.target.value })}
-                    placeholder={`Fiyat (${initial.currency || 'TRY'})`}
+                    onChange={(e) => updateSizeRow(index, { priceUsd: e.target.value })}
+                    placeholder="Fiyat (USD)"
+                    className={`${inputClassName} mt-0`}
+                  />
+                  <input
+                    value={row.priceTry}
+                    inputMode="decimal"
+                    onChange={(e) => updateSizeRow(index, { priceTry: e.target.value })}
+                    placeholder="Fiyat (TL)"
                     className={`${inputClassName} mt-0`}
                   />
                   <AdminButton
@@ -257,10 +273,14 @@ export default function AdminSparePartEditForm({
                 Number.isFinite(parsedPrice) && parsedPrice >= 0 ? Math.round(parsedPrice * 100) : 0;
 
               const hasBlankSizeRow = hasSizeOptions
-                ? sizeOptionRows.some((row) => row.value.trim().length === 0 || row.priceInput.trim().length === 0)
+                ? sizeOptionRows.some(
+                    (row) =>
+                      row.value.trim().length === 0 ||
+                      (row.priceUsd.trim().length === 0 && row.priceTry.trim().length === 0),
+                  )
                 : false;
               const sizeOptionEntries = hasSizeOptions
-                ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents)
+                ? sanitizeSparePartSizeOptionEntries(sizeOptionRows, basePriceCents, initial.currency || 'USD')
                 : [];
 
               if (!name.trim()) {

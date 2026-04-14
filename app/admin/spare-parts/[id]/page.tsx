@@ -92,6 +92,7 @@ export default async function AdminSparePartDetailPage({
     part.sizeOptionPrices,
     part.sizeOptionImages,
     part.priceCents,
+    part.currency,
   );
 
   return (
@@ -149,7 +150,7 @@ export default async function AdminSparePartDetailPage({
               <div className="mt-2 text-sm text-[var(--admin-muted)]">
                 {part.hasSizeOptions && sizeOptionEntries.length > 0
                   ? sizeOptionEntries
-                      .map((entry) => `${entry.value} (${formatPrice(entry.priceCents, part.currency || 'TRY')})`)
+                      .map((entry) => `${entry.value} (${formatPrice(entry.priceCents, entry.priceCurrency || part.currency || 'TRY')})`)
                       .join(', ')
                   : '-'}
               </div>

@@ -73,7 +73,9 @@ export async function POST(req: Request) {
   const sizeOptionPrices =
     sizeOptionEntries.length > 0
       ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
-      : Object.fromEntries(sizeOptions.map((option) => [option, fallbackPriceCents]));
+      : Object.fromEntries(
+          sizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: 'USD' }]),
+        );
   const sizeOptionImages =
     sizeOptionEntries.length > 0 ? buildSparePartSizeOptionImagesMap(sizeOptionEntries) : {};
   const stockOnHand = typeof body.stockOnHand === 'number' ? Math.max(0, Math.floor(body.stockOnHand)) : NaN;

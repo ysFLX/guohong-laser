@@ -13,6 +13,7 @@ type ImageItem = {
 type SizeOptionEntry = {
   value: string;
   priceCents: number;
+  priceCurrency: string;
   imageUrl: string | null;
   imageUrls?: string[];
 };

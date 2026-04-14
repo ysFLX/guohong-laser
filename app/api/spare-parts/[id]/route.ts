@@ -136,7 +136,9 @@ export async function PATCH(
       payload.hasSizeOptions === true
         ? sizeOptionEntries.length > 0
           ? buildSparePartSizeOptionPricesMap(sizeOptionEntries)
-          : Object.fromEntries(resolvedSizeOptions.map((option) => [option, fallbackPriceCents]))
+          : Object.fromEntries(
+              resolvedSizeOptions.map((option) => [option, { priceCents: fallbackPriceCents, currency: 'USD' }]),
+            )
         : {};
     data.sizeOptionImages =
       payload.hasSizeOptions === true && sizeOptionEntries.length > 0
