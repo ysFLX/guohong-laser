@@ -71,7 +71,7 @@ export async function POST(req: Request) {
   const priceCents = typeof body.priceCents === 'number' ? body.priceCents : NaN;
   const priceCurrency = normalizePriceCurrency(body.priceCurrency, 'TRY');
   const fallbackPriceCents = Number.isFinite(priceCents)
-    ? normalizePriceCentsForCurrency(Math.max(0, Math.round(priceCents)), priceCurrency)
+    ? normalizePriceCentsForCurrency(Math.max(0, Math.round(priceCents)))
     : 0;
   const sizeOptionEntries = hasSizeOptions
     ? sanitizeSparePartSizeOptionEntries(body.sizeOptionEntries, fallbackPriceCents, priceCurrency)
@@ -125,7 +125,7 @@ export async function POST(req: Request) {
         sizeOptions,
         sizeOptionPrices,
         sizeOptionImages,
-        priceCents: normalizePriceCentsForCurrency(priceCents, priceCurrency),
+        priceCents: normalizePriceCentsForCurrency(priceCents),
         currency: priceCurrency,
         stockOnHand,
         categoryId,

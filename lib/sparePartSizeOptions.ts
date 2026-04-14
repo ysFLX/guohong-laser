@@ -63,7 +63,7 @@ function normalizeCurrency(value: unknown, fallback = 'USD') {
 function coercePriceValue(value: unknown, fallback: SparePartSizeOptionPriceValue): SparePartSizeOptionPriceValue {
   if (typeof value === 'number') {
     return {
-      priceCents: normalizePriceCentsForCurrency(value, fallback.currency),
+      priceCents: normalizePriceCentsForCurrency(value),
       currency: fallback.currency,
     };
   }
@@ -80,7 +80,7 @@ function coercePriceValue(value: unknown, fallback: SparePartSizeOptionPriceValu
 
   if (priceCents === null) return fallback;
 
-  return { priceCents: normalizePriceCentsForCurrency(priceCents, currency), currency };
+  return { priceCents: normalizePriceCentsForCurrency(priceCents), currency };
 }
 
 function coerceImageUrl(value: unknown) {
@@ -178,7 +178,7 @@ export function buildSparePartSizeOptionPricesMap(entries: SparePartSizeOptionEn
   const map: Record<string, SparePartSizeOptionPriceValue> = {};
   for (const entry of entries) {
     map[entry.value] = {
-      priceCents: normalizePriceCentsForCurrency(entry.priceCents, entry.priceCurrency),
+      priceCents: normalizePriceCentsForCurrency(entry.priceCents),
       currency: normalizeCurrency(entry.priceCurrency, 'USD'),
     };
   }
@@ -207,7 +207,7 @@ export function normalizeSparePartSizeOptionPricesMap(
   for (const option of sizeOptions) {
     const raw = source[option];
     map[option] = coercePriceValue(raw, {
-      priceCents: normalizePriceCentsForCurrency(fallbackPriceCents, fallbackCurrency),
+      priceCents: normalizePriceCentsForCurrency(fallbackPriceCents),
       currency: fallbackCurrency,
     });
   }
@@ -242,7 +242,7 @@ export function buildSparePartSizeOptionEntries(
   const imageMap = normalizeSparePartSizeOptionImagesMap(sizeOptionImages, sizeOptions);
   return sizeOptions.map((value) => ({
     value,
-    priceCents: map[value]?.priceCents ?? normalizePriceCentsForCurrency(fallbackPriceCents, fallbackCurrency),
+    priceCents: map[value]?.priceCents ?? normalizePriceCentsForCurrency(fallbackPriceCents),
     priceCurrency: map[value]?.currency ?? fallbackCurrency,
     imageUrl: imageMap[value]?.[0] ?? null,
     imageUrls: imageMap[value] ?? [],

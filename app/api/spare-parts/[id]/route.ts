@@ -122,7 +122,7 @@ export async function PATCH(
   if ('dimensions' in payload) data.dimensions = typeof payload.dimensions === 'string' ? payload.dimensions.trim() || null : null;
   if ('priceCents' in payload && typeof payload.priceCents === 'number') {
     const normalizedCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
-    data.priceCents = normalizePriceCentsForCurrency(payload.priceCents, normalizedCurrency);
+    data.priceCents = normalizePriceCentsForCurrency(payload.priceCents);
     data.currency = normalizedCurrency;
   }
   if ('categoryId' in payload && typeof payload.categoryId === 'string') data.categoryId = payload.categoryId;
@@ -132,7 +132,7 @@ export async function PATCH(
     const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
     const fallbackPriceCents =
       typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
-        ? normalizePriceCentsForCurrency(Math.max(0, Math.round(payload.priceCents)), baseCurrency)
+        ? normalizePriceCentsForCurrency(Math.max(0, Math.round(payload.priceCents)))
         : 0;
     const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents, baseCurrency);
     const sizeOptionsFromEntries = sizeOptionEntries.map((entry) => entry.value);
@@ -163,7 +163,7 @@ export async function PATCH(
     const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
     const fallbackPriceCents =
       typeof payload.priceCents === 'number' && Number.isFinite(payload.priceCents)
-        ? normalizePriceCentsForCurrency(Math.max(0, Math.round(payload.priceCents)), baseCurrency)
+        ? normalizePriceCentsForCurrency(Math.max(0, Math.round(payload.priceCents)))
         : 0;
     const sizeOptionEntries = sanitizeSparePartSizeOptionEntries(payload.sizeOptionEntries, fallbackPriceCents, baseCurrency);
     const sizeOptions = sizeOptionEntries.map((entry) => entry.value);
