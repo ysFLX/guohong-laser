@@ -84,7 +84,7 @@ const productCategories: ProductCategory[] = [
   },
   {
     id: 'tube',
-    label: 'Tüp Lazer Kesim Makinesi',
+    label: 'Boru Kesim Makinesi',
     cards: [
       {
         title: 'GH-T Serisi Yan Montajlı Fiber Lazer Boru Kesme Makinesi',
@@ -138,7 +138,7 @@ const productCategories: ProductCategory[] = [
   },
   {
     id: 'weld',
-    label: 'El Tipi Lazer Kaynak Makinesi',
+    label: 'Demir Kesim Makinesi',
     cards: [
       {
         title: "Temizleme ve Kesme Fonksiyonlu 3'ü 1 Arada Lazer Kaynak Makinesi",
