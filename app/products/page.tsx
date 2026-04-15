@@ -9,21 +9,6 @@ import { machineProducts } from '@/lib/machineCatalog';
 
 const tabs = ['Tümü', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'] as const;
 
-const sectors = [
-  { order: '01', title: 'Metal İşleme' },
-  { order: '02', title: 'Çelik Yapı Mühendisliği' },
-  { order: '03', title: 'Ev Aletleri' },
-  { order: '04', title: 'Otomotiv Sanayi' },
-  { order: '05', title: 'Mutfak Eşyaları ve Banyo' },
-  { order: '06', title: 'İnşaat Makinaları' },
-  { order: '07', title: 'Sahne Malzemeleri' },
-  { order: '08', title: 'Fitness Ekipmanları' },
-  { order: '09', title: 'Sac Metal İşleme' },
-  { order: '10', title: 'Bakır' },
-  { order: '11', title: 'Alüminyum' },
-  { order: '12', title: 'Reklam ve Tabla' },
-] as const;
-
 export default function ProductsPage() {
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('Tümü');
 
@@ -137,24 +122,6 @@ export default function ProductsPage() {
                 </div>
               </div>
             </article>
-          ))}
-        </div>
-      </Reveal>
-      <Reveal as="section" className="rounded-[34px] border border-[#d9e1f7] bg-[#f8faff] px-6 py-8 text-[#333333] shadow-[0_28px_70px_-50px_rgba(21,50,127,0.28)] sm:px-8">
-        <div className="max-w-4xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#15327f]">Uygulama alanları</p>
-          <h2 className="mt-3 text-3xl font-semibold text-[#333333]">Ürünlerimiz çeşitli endüstrilerde uygulanmaktadır</h2>
-          <p className="mt-4 text-base leading-8 text-[#333333]/74">
-            Referans sitedeki kart düzeniyle aynı hissi korumak için sektör özetini daha temiz, kart tabanlı bir yapıya taşıdık.
-          </p>
-        </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {sectors.map((sector) => (
-            <div key={sector.order} className="rounded-[24px] border border-[#d7def2] bg-[#f6f8ff] p-4">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#15327f]">{sector.order}</div>
-              <div className="mt-3 text-lg font-semibold text-[#333333]">{sector.title}</div>
-              <div className="mt-2 text-sm text-[#333333]/68">Daha Fazlasını Görüntüle</div>
-            </div>
           ))}
         </div>
       </Reveal>
