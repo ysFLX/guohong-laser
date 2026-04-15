@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 const sectors = [
@@ -25,11 +26,20 @@ const stories = [
     tag: 'Boru kesim',
   },
   {
-    title: 'Kombine hat kurulum & eğitim',
-    desc: 'Kurulumdan 7 gün sonra operator eğitimi tamamlandı, teslimatta tam performans elde edildi.',
+    title: 'Kombine hat kurulum ve eğitim',
+    desc: 'Kurulumdan 7 gün sonra operatör eğitimi tamamlandı, teslimatta tam performans elde edildi.',
     tag: 'Kombine kesim',
   },
 ];
+
+export const metadata: Metadata = {
+  title: 'Referanslar | Guohong Lazer',
+  description:
+    'Guohong Lazer referans projeleri, kurulum örnekleri ve saha deneyimleri. Sac, boru ve demir kesim çözümleri.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000'}/references`,
+  },
+};
 
 export default function ReferencesPage() {
   return (

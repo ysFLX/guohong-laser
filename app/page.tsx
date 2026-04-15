@@ -8,11 +8,18 @@ import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
-  title: 'Guohong Lazer | Fiber Lazer Kesim Makineleri ve Yedek Parça Çözümleri',
+  title: 'Fiber Lazer Kesim Makineleri, Yedek Parça ve Teknik Servis',
   description:
-    'Guohong Lazer; fiber lazer kesim makineleri, tüp lazer kesim sistemleri, yedek parça tedariği ve teknik servis süreçlerini tek merkezden yönetir.',
+    'Guohong Lazer; sac plaka kesimi, boru kesimi ve demir kesimi için fiber lazer kesim makineleri, yedek parça ve teknik servis çözümleri sunar.',
   alternates: {
     canonical: siteUrl,
+  },
+  openGraph: {
+    title: 'Fiber Lazer Kesim Makineleri, Yedek Parça ve Teknik Servis',
+    description:
+      'Guohong Lazer; sac plaka kesimi, boru kesimi ve demir kesimi için fiber lazer kesim makineleri, yedek parça ve teknik servis çözümleri sunar.',
+    url: siteUrl,
+    type: 'website',
   },
 };
 

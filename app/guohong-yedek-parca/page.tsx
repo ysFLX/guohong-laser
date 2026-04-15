@@ -10,6 +10,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${siteUrl}/guohong-yedek-parca`,
   },
+  openGraph: {
+    title: 'Guohong Yedek Parça',
+    description:
+      'Guohong yedek parça sayfasında lazer kafası, lens, nozul, seramik gövde ve kritik sarf malzemeler için tedarik, stok ve teknik destek bilgileri yer alır.',
+    url: `${siteUrl}/guohong-yedek-parca`,
+    type: 'website',
+  },
 };
 
 export default function GuohongYedekParcaPage() {
@@ -39,7 +46,7 @@ export default function GuohongYedekParcaPage() {
               href="/spare-parts"
               className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
             >
-              Yedek parcayi incele
+              Yedek parçayı incele
             </Link>
             <Link
               href="/contact?subject=Yedek+Parca"
@@ -63,8 +70,8 @@ export default function GuohongYedekParcaPage() {
             <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Teknik Destek</div>
             <h2 className="mt-3 text-lg font-semibold">Model ve kullanım uyumluluğu</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Lazer kafa modeli, makine tipi ve kullanım amacına göre doğru yedek parçayı seçmeniz için ekibimiz
-              destek verir. Böylece yanlış ürün siparişi ve duruş riski azalır.
+              Lazer kafa modeli, makine tipi ve kullanım amacına göre doğru yedek parçayı seçmeniz için ekibimiz destek
+              verir. Böylece yanlış ürün siparişi ve duruş riski azalır.
             </p>
           </div>
         </div>

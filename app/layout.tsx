@@ -22,9 +22,9 @@ const geistMono = Geist_Mono({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 const siteName = 'Guohong Lazer';
-const defaultTitle = 'Guohong Lazer | Fiber Lazer Kesim Makineleri ve Yedek Parca';
+const defaultTitle = 'Guohong Lazer | Fiber Lazer Kesim Makineleri, Yedek Parça ve Teknik Servis';
 const defaultDescription =
-  'Guohong Lazer Konya merkezli fiber lazer kesim makinesi, yedek parca, teknik servis ve endustriyel cozumler sunar. Türkiye geneli satis, destek ve yedek parca hizmeti.';
+  'Guohong Lazer Konya merkezli fiber lazer kesim makineleri, yedek parça, teknik servis ve endüstriyel lazer çözümleri sunar. Türkiye geneli satış, destek ve yedek parça hizmeti.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,11 +39,15 @@ export const metadata: Metadata = {
     'guohong yedek parca',
     'fiber lazer kesim makinesi',
     'lazer kesim makinesi',
+    'sac plaka kesimi',
+    'boru kesimi',
+    'demir kesimi',
     'konya lazer makinesi',
     'lazer kafasi',
     'koruma lens',
     'lazer nozul',
     'teknik servis',
+    'fiber lazer',
   ],
   alternates: {
     canonical: siteUrl,

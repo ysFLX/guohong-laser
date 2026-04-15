@@ -51,7 +51,7 @@ export default function ProductsPage() {
             {[
               { label: '12+', text: 'Hazır katalog modeli' },
               { label: '60 kW', text: 'Maksimum güç skalası' },
-              { label: '4', text: 'Ana ürün grubu' },
+              { label: '3', text: 'Ana ürün grubu' },
               { label: '100+', text: 'Ülke ve bölgeye teslimat' },
             ].map((item) => (
               <div key={item.text} className="rounded-[26px] border border-white/10 bg-white/6 p-5 backdrop-blur">
@@ -67,17 +67,17 @@ export default function ProductsPage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Kategori seçimi</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Sektörümüzde birçok ürün çeşidi vardır</h2>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Sektörümüzde üç ana ürün grubu var</h2>
           </div>
           <div className="text-sm text-white/55">{products.length} model listeleniyor</div>
         </div>
 
         <div className="mt-7 flex flex-wrap gap-3">
-              {tabs.map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveTab(tab)}
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => setActiveTab(tab)}
               className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
                 activeTab === tab
                   ? 'bg-[#ff6a0d] text-[#15148c]'
@@ -136,4 +136,3 @@ export default function ProductsPage() {
     </div>
   );
 }
-

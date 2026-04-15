@@ -6,9 +6,16 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 
 export const metadata: Metadata = {
   title: 'Guohong Lazer Konya',
   description:
-    'Guohong Lazer Konya; fiber lazer kesim makinesi, teknik servis, yedek parca ve kurumsal uretim cozumleri sunar.',
+    'Guohong Lazer Konya; fiber lazer kesim makineleri, teknik servis, yedek parça ve kurumsal üretim çözümleri sunar.',
   alternates: {
     canonical: `${siteUrl}/guohong-lazer-konya`,
+  },
+  openGraph: {
+    title: 'Guohong Lazer Konya',
+    description:
+      'Guohong Lazer Konya; fiber lazer kesim makineleri, teknik servis, yedek parça ve kurumsal üretim çözümleri sunar.',
+    url: `${siteUrl}/guohong-lazer-konya`,
+    type: 'website',
   },
 };
 
@@ -18,7 +25,7 @@ export default function GuohongLazerKonyaPage() {
     '@type': 'WebPage',
     name: 'Guohong Lazer Konya',
     url: `${siteUrl}/guohong-lazer-konya`,
-    about: ['Guohong Lazer', 'Konya', 'fiber lazer kesim makinesi', 'yedek parca', 'teknik servis'],
+    about: ['Guohong Lazer', 'Konya', 'fiber lazer kesim makinesi', 'yedek parça', 'teknik servis'],
   };
 
   return (
@@ -27,29 +34,27 @@ export default function GuohongLazerKonyaPage() {
       <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
         <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-600">Konya</p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-            Guohong Lazer Konya
-          </h1>
+          <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Guohong Lazer Konya</h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600">
-            Guohong Lazer Konya lokasyonunda fiber lazer kesim makineleri, orijinal yedek parca tedariği, teknik
-            servis ve satis sonrasi destek hizmetleri sunar. Konya ve çevre illerde üretim yapan firmalar için hızlı
+            Guohong Lazer Konya lokasyonunda fiber lazer kesim makineleri, orijinal yedek parça tedariği, teknik
+            servis ve satış sonrası destek hizmetleri sunar. Konya ve çevre illerde üretim yapan firmalar için hızlı
             erişilebilir saha desteği sağlar.
           </p>
         </div>
 
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-semibold">Konya icin sundugumuz hizmetler</h2>
+          <h2 className="text-2xl font-semibold">Konya için sunduğumuz hizmetler</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl bg-slate-50 p-5">
               <div className="text-sm font-semibold">Fiber lazer kesim makinesi satışı</div>
               <p className="mt-2 text-sm leading-7 text-slate-600">
-                Uretim kapasitesine uygun lazer kesim makineleri icin teklif, planlama ve kurulum destegi.
+                Üretim kapasitesine uygun lazer kesim makineleri için teklif, planlama ve kurulum desteği.
               </p>
             </div>
             <div className="rounded-2xl bg-slate-50 p-5">
-              <div className="text-sm font-semibold">Yedek parca ve teknik servis</div>
+              <div className="text-sm font-semibold">Yedek parça ve teknik servis</div>
               <p className="mt-2 text-sm leading-7 text-slate-600">
-                Lens, nozul, seramik, lazer kafasi ve kritik parcalar icin hizli tedarik ve teknik geri donus.
+                Lens, nozul, seramik, lazer kafası ve kritik parçalar için hızlı tedarik ve teknik geri dönüş.
               </p>
             </div>
           </div>
@@ -58,7 +63,7 @@ export default function GuohongLazerKonyaPage() {
               href="/contact"
               className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
             >
-              Konya ofisiyle iletisime gec
+              Konya ofisiyle iletişime geç
             </Link>
             <Link
               href="/quote"

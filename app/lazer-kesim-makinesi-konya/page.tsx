@@ -6,9 +6,16 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 
 export const metadata: Metadata = {
   title: 'Lazer Kesim Makinesi Konya',
   description:
-    'Konya icin fiber lazer kesim makinesi, kurulum, teknik servis, yedek parca ve satis sonrasi destek cozumleri Guohong Lazer tarafindan sunulur.',
+    'Konya için fiber lazer kesim makinesi, kurulum, teknik servis, yedek parça ve satış sonrası destek çözümleri Guohong Lazer tarafından sunulur.',
   alternates: {
     canonical: `${siteUrl}/lazer-kesim-makinesi-konya`,
+  },
+  openGraph: {
+    title: 'Lazer Kesim Makinesi Konya',
+    description:
+      'Konya için fiber lazer kesim makinesi, kurulum, teknik servis, yedek parça ve satış sonrası destek çözümleri Guohong Lazer tarafından sunulur.',
+    url: `${siteUrl}/lazer-kesim-makinesi-konya`,
+    type: 'website',
   },
 };
 
@@ -26,19 +33,19 @@ export default function LazerKesimMakinesiKonyaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
         <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-600">Konya Uretim Cozumleri</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-600">Konya Üretim Çözümleri</p>
           <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Lazer kesim makinesi Konya</h1>
           <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600">
-            Konya ve cevre illerde fiber lazer kesim makinesi arayan firmalar icin Guohong Lazer; makine secimi,
-            tekliflendirme, kurulum, operator egitimi, teknik servis ve yedek parca tedarigi sunar. Sac, boru ve
-            farkli metal kesim hatlarina uygun sistemlerle uretim kapasitesini guclendirir.
+            Konya ve çevre illerde fiber lazer kesim makinesi arayan firmalar için Guohong Lazer; makine seçimi,
+            tekliflendirme, kurulum, operatör eğitimi, teknik servis ve yedek parça tedariki sunar. Sac, boru ve
+            farklı metal kesim hatlarına uygun sistemlerle üretim kapasitesini güçlendirir.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/products"
               className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
             >
-              Makine cozumlerini gor
+              Makine çözümlerini gör
             </Link>
             <Link
               href="/quote"
@@ -54,21 +61,21 @@ export default function LazerKesimMakinesiKonyaPage() {
             <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Kurulum</div>
             <h2 className="mt-3 text-lg font-semibold">Saha kurulumu ve devreye alma</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Makine tesliminden sonra saha kurulum, test ve ilk uretim sureci planli sekilde tamamlanir.
+              Makine tesliminden sonra saha kurulum, test ve ilk üretim süreci planlı şekilde tamamlanır.
             </p>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Servis</div>
-            <h2 className="mt-3 text-lg font-semibold">Teknik servis ve operator destegi</h2>
+            <h2 className="mt-3 text-lg font-semibold">Teknik servis ve operatör desteği</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Uzaktan destek, saha servis yonlendirmesi ve bakim planlari ile hat duruslari azaltilir.
+              Uzaktan destek, saha servis yönlendirmesi ve bakım planları ile hat duruşları azaltılır.
             </p>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Yedek Parca</div>
-            <h2 className="mt-3 text-lg font-semibold">Hizli parca ve sarf malzeme tedariği</h2>
+            <div className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Yedek Parça</div>
+            <h2 className="mt-3 text-lg font-semibold">Hızlı parça ve sarf malzeme tedariği</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Koruma lensi, nozul, seramik ve kritik makinelerde kullanilan diger parcalar hizli sekilde temin edilir.
+              Koruma lensi, nozul, seramik ve kritik makinelerde kullanılan diğer parçalar hızlı şekilde temin edilir.
             </p>
           </div>
         </div>

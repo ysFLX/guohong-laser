@@ -9,7 +9,7 @@ const milestones = [
   { year: '2014', title: 'İlk saha kurulumları', text: 'Lazer makine entegrasyonları ve ilk teslim projeleri tamamlandı.' },
   { year: '2017', title: 'Servis ağının büyümesi', text: 'Kurulum, bakım ve sarf yönetimi tek yapıda toplandı.' },
   { year: '2020', title: 'Akıllı üretim yaklaşımı', text: 'Saha verisi, performans raporu ve izleme çözümleri genişledi.' },
-  { year: '2024', title: 'Küresel tedarik ağı', text: 'Kritik bileşen erişimi ve hızlı parça tedariki daha da güçlendirildi.' },
+  { year: '2024', title: 'Küresel tedarik ağı', text: 'Kritik bileşen erişimi ve hızlı parça tedariği daha da güçlendirildi.' },
 ];
 
 const values = [
@@ -30,7 +30,8 @@ export default function AboutPage() {
               Profesyonel üretim ve hizmet sağlayıcıları
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
-              Guohong Laser Group; Ar-Ge, üretim ve satış süreçlerini birleştiren metal lazer kesim makinesi üreticisidir. Sac, boru, kombine ve kaynak çözümlerini sahaya hazır hale getirir.
+              Guohong Laser Group; Ar-Ge, üretim ve satış süreçlerini birleştiren metal lazer kesim makinesi
+              üreticisidir. Sac, boru, kombine ve kaynak çözümlerini sahaya hazır hale getirir.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/products" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-7 py-3 text-sm font-semibold text-[#15148c]">
@@ -53,7 +54,8 @@ export default function AboutPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Toplam çözüm</p>
           <h2 className="mt-3 text-3xl font-semibold text-white">Tasarım, üretim ve satış sonrası hizmeti aynı çatı altında topluyoruz</h2>
           <p className="mt-4 text-base leading-8 text-white/74">
-            Ürün tasarımı, montaj, ürün eğitimi, bakım planı ve yedek parça erişimi dahil olmak üzere müşterilerimize teknolojik olarak gelişmiş, güvenilir kaliteli ürünler sunuyoruz.
+            Ürün tasarımı, montaj, ürün eğitimi, bakım planı ve yedek parça erişimi dahil olmak üzere müşterilerimize
+            teknolojik olarak gelişmiş, güvenilir kaliteli ürünler sunuyoruz.
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
