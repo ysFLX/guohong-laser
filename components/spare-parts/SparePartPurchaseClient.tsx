@@ -7,6 +7,7 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import { useToast } from '@/components/ui/ToastProvider';
 import { buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
+import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 
 function formatPrice(priceCents: number, currency: string) {
   try {
@@ -68,6 +69,8 @@ export default function SparePartPurchaseClient({
   const selectionDisabled = hasSizeOptions && !resolvedSize;
   const canQuickBuy = showPrice && sparePartDirectPurchaseEnabled;
   const canAddToCart = inStock;
+  const minimumQuantity = getMinimumSaleQuantity(resolvedPriceCents);
+  const showMinimumQuantityNote = minimumQuantity > 1;
 
   const handleSizeChange = (value: string) => {
     if (onSelectedSizeChange) {
@@ -205,6 +208,11 @@ export default function SparePartPurchaseClient({
             </span>
           ) : null}
         </div>
+        {showMinimumQuantityNote ? (
+          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800">
+            300 TL altı ürünlerde minimum sipariş adedi {minimumQuantity}. Sepete eklerken bu kural otomatik uygulanır.
+          </div>
+        ) : null}
         <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
           <div className="flex items-center justify-between">
             <span>Gonderen</span>
