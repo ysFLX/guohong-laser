@@ -23,6 +23,7 @@ type NavItem = {
 };
 
 const PRIMARY_NAV: NavItem[] = [
+  { href: '/', label: 'Ana Sayfa' },
   { href: '/about', label: 'Hakkımızda' },
   {
     href: '/products',
@@ -37,24 +38,24 @@ const PRIMARY_NAV: NavItem[] = [
     ],
   },
   {
-    href: '/contact',
-    label: 'Hizmet',
+    href: '/references',
+    label: 'Uygulamalar',
     children: [
-      { href: '/contact?subject=Teknik+Destek', label: 'Teknik Destek' },
-      { href: '/quote', label: 'Başvuru' },
-      { href: '/gallery', label: 'Müşteri Davası' },
-      { href: '/faq', label: 'SSS' },
+      { href: '/references', label: 'Metal İşleme' },
+      { href: '/references', label: 'Çelik Yapı Mühendisliği' },
+      { href: '/references', label: 'Ev Aletleri' },
+      { href: '/references', label: 'Otomotiv Sanayi' },
     ],
   },
   { href: '/gallery', label: 'Galeri' },
-  { href: '/contact', label: 'Bize Ulaşın' },
-] ;
+  { href: '/contact', label: 'İletişim' },
+];
 
 const MOBILE_LINKS = [
   { href: '/', label: 'Ana Sayfa' },
   { href: '/about', label: 'Hakkımızda' },
   { href: '/products', label: 'Ürünler' },
-  { href: '/spare-parts', label: 'Yedek Parçalar' },
+  { href: '/references', label: 'Uygulamalar' },
   { href: '/gallery', label: 'Galeri' },
   { href: '/contact', label: 'İletişim' },
 ] as const;
@@ -165,8 +166,7 @@ export default function Header() {
               Whatsapp: +90 536 831 67 87
             </a>
           </div>
-          <div className="hidden items-center gap-4 md:flex">
-          </div>
+          <div className="hidden items-center gap-4 md:flex" />
         </div>
       </div>
 
@@ -189,7 +189,11 @@ export default function Header() {
                     {item.label}
                     {item.children ? (
                       <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clipRule="evenodd" />
+                        <path
+                          fillRule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     ) : null}
                   </Link>
@@ -224,25 +228,53 @@ export default function Header() {
               Yedek Parçalar
             </Link>
 
-            <button type="button" onClick={toggleTheme} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]" aria-label="Tema değiştir">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+              aria-label="Tema değiştir"
+            >
               {theme === 'dark' ? (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8-9h1M3 12H2m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8-9h1M3 12H2m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
               ) : (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
               )}
             </button>
 
             {isAuthed ? (
               <>
-                <button type="button" onClick={openNotifications} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]" aria-label="Bildirimleri aç">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                <button
+                  type="button"
+                  onClick={openNotifications}
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+                  aria-label="Bildirimleri aç"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
                   {notificationsBadge}
                 </button>
-                <button type="button" onClick={toggleCart} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]" aria-label="Sepeti aç">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                <button
+                  type="button"
+                  onClick={toggleCart}
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+                  aria-label="Sepeti aç"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
                   {cartBadge}
                 </button>
-                <button type="button" onClick={() => setProfileOpen(true)} className="inline-flex items-center gap-2 rounded-full border border-[#15327f]/12 bg-[#f7f9ff] px-2 py-2 text-sm font-semibold text-[#15327f] transition hover:bg-[#edf2ff]" aria-label="Profili aç">
+                <button
+                  type="button"
+                  onClick={() => setProfileOpen(true)}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#15327f]/12 bg-[#f7f9ff] px-2 py-2 text-sm font-semibold text-[#15327f] transition hover:bg-[#edf2ff]"
+                  aria-label="Profili aç"
+                >
                   {avatarUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={avatarUrl} alt="Profil fotoğrafı" className="h-8 w-8 rounded-full object-cover" />
@@ -271,12 +303,27 @@ export default function Header() {
           </div>
 
           <div className="ml-auto flex items-center gap-2 lg:hidden">
-            <button type="button" onClick={toggleCart} className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]" aria-label="Sepeti aç">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            <button
+              type="button"
+              onClick={toggleCart}
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]"
+              aria-label="Sepeti aç"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
               {cartBadge}
             </button>
-            <button type="button" onClick={() => setMobileMenuOpen((prev) => !prev)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}>
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]"
+              aria-expanded={mobileMenuOpen}
+              aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
             </button>
           </div>
         </div>
@@ -285,7 +332,10 @@ export default function Header() {
       <ProfileDrawer isOpen={profileOpen} close={() => setProfileOpen(false)} />
 
       <div className={`fixed inset-0 z-[150] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-        <div className={`absolute inset-0 bg-[#000033]/28 backdrop-blur-sm transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setMobileMenuOpen(false)} />
+        <div
+          className={`absolute inset-0 bg-[#000033]/28 backdrop-blur-sm transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setMobileMenuOpen(false)}
+        />
         <aside
           ref={mobileMenuRef}
           role="dialog"
@@ -296,7 +346,13 @@ export default function Header() {
           <div className="flex items-center justify-between border-b border-[#15327f]/12 pb-5">
             <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={180} height={74} className="h-12 w-auto" />
             <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff]">
-              <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+              <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor">
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </button>
           </div>
 
@@ -333,10 +389,24 @@ export default function Header() {
               </>
             ) : (
               <>
-                <button type="button" onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setProfileOpen(true);
+                  }}
+                  className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]"
+                >
                   Profili Aç
                 </button>
-                <button type="button" onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }} className="inline-flex items-center justify-center rounded-2xl border border-rose-300/30 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    signOut({ callbackUrl: '/' });
+                  }}
+                  className="inline-flex items-center justify-center rounded-2xl border border-rose-300/30 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700"
+                >
                   Çıkış Yap
                 </button>
               </>
@@ -347,3 +417,4 @@ export default function Header() {
     </header>
   );
 }
+

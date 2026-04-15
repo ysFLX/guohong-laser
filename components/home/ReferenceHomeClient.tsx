@@ -173,19 +173,19 @@ const solutionHighlights = [
 ];
 
 const applicationAreas = [
-  'Metal İşleme',
-  'Çelik Yapı Mühendisliği',
-  'Ev Aletleri',
-  'Otomotiv Sanayi',
-  'Mutfak Eşyaları ve Banyo',
-  'İnşaat Makinaları',
-  'Sahne Malzemeleri',
-  'Fitness Ekipmanları',
-  'Sac Metal İşleme',
-  'Bakır',
-  'Alüminyum',
-  'Reklam ve Tabela',
-];
+  { order: '01', title: 'Metal İşleme', href: '/references' },
+  { order: '02', title: 'Çelik Yapı Mühendisliği', href: '/references' },
+  { order: '03', title: 'Ev Aletleri', href: '/references' },
+  { order: '04', title: 'Otomotiv Sanayi', href: '/references' },
+  { order: '05', title: 'Mutfak Eşyaları ve Banyo', href: '/references' },
+  { order: '06', title: 'İnşaat Makinaları', href: '/references' },
+  { order: '07', title: 'Sahne Malzemeleri', href: '/references' },
+  { order: '08', title: 'Fitness Ekipmanları', href: '/references' },
+  { order: '09', title: 'Sac Metal İşleme', href: '/references' },
+  { order: '10', title: 'Bakır', href: '/references' },
+  { order: '11', title: 'Alüminyum', href: '/references' },
+  { order: '12', title: 'Reklam ve Tabla', href: '/references' },
+] as const;
 
 const newsItems = [
   {
@@ -541,25 +541,31 @@ export default function ReferenceHomeClient({
           <StatsOverview items={statsOverview} />
         </div>
       </Reveal>
-
-      <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
+      <Reveal as="section" className="rounded-[34px] border border-[#d9e1f7] bg-[#f8faff] px-6 py-8 text-[#333333] shadow-[0_28px_70px_-50px_rgba(21,50,127,0.28)] sm:px-8">
         <div className="max-w-4xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Uygulama alanları</p>
-          <h2 className="mt-3 text-3xl font-semibold text-white">Ürünlerimiz çeşitli endüstrilerde uygulanmaktadır</h2>
-          <p className="mt-4 text-base leading-8 text-white/74">
-            Sac metal, otomotiv, metal aksesuarlar, mutfak ekipmanları, tekstil, reklam ve yapı endüstrileri için ölçeklenebilir lazer işleme altyapısı sağlıyoruz.
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#15327f]">Uygulama alanları</p>
+          <h2 className="mt-3 text-3xl font-semibold text-[#333333]">Ürünlerimiz çeşitli endüstrilerde uygulanmaktadır</h2>
+          <p className="mt-4 text-base leading-8 text-[#333333]/74">
+            Referans sitedeki kart düzenini temel alarak en çok kullanılan sektörleri 12 başlıkta topladık.
           </p>
         </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {applicationAreas.map((area, index) => (
-            <div key={area} className="rounded-[24px] border border-white/10 bg-white/6 p-4">
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#ff6a0d]">
-                {String(index + 1).padStart(2, '0')}
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {applicationAreas.map((area) => (
+            <Link
+              key={area.order}
+              href={area.href}
+              className="group rounded-[24px] border border-[#d7def2] bg-[#f6f8ff] p-4 transition hover:-translate-y-0.5 hover:border-[#9eb0f0] hover:shadow-[0_18px_40px_-26px_rgba(21,50,127,0.35)]"
+            >
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#15327f]">{area.order}</div>
+              <div className="mt-3 text-lg font-semibold text-[#333333]">{area.title}</div>
+              <div className="mt-2 inline-flex items-center gap-2 text-sm text-[#333333]/68 transition group-hover:text-[#15327f]">
+                Daha Fazlasını Görüntüle
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
               </div>
-              <div className="mt-3 text-lg font-semibold text-white">{area}</div>
-              <div className="mt-2 text-sm text-white/60">Daha Fazlasını Görüntüle</div>
-            </div>
+            </Link>
           ))}
         </div>
       </Reveal>
@@ -679,3 +685,4 @@ export default function ReferenceHomeClient({
     </div>
   );
 }
+
