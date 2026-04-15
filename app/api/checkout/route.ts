@@ -7,6 +7,7 @@ import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
+import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import {
   getSparePartProductIdFromCartLineId,
   normalizeSparePartSizeOptionPricesMap,
@@ -143,17 +144,18 @@ export async function POST(req: Request) {
       }
       const resolvedBasePriceCents =
         part.currency === 'USD' ? convertUsdCentsToTryCents(part.priceCents, exchangeRate.rate) : part.priceCents;
+      const resolvedPriceCents =
+        part.hasSizeOptions && item.variantValue && sizeOptionPrices[item.variantValue]?.currency === 'USD'
+          ? convertUsdCentsToTryCents(sizeOptionPrices[item.variantValue].priceCents, exchangeRate.rate)
+          : part.hasSizeOptions && item.variantValue
+            ? sizeOptionPrices[item.variantValue]?.priceCents ?? resolvedBasePriceCents
+            : resolvedBasePriceCents;
       return {
         id: part.id,
         name: item.name || part.name,
-        priceCents:
-          part.hasSizeOptions && item.variantValue && sizeOptionPrices[item.variantValue]?.currency === 'USD'
-            ? convertUsdCentsToTryCents(sizeOptionPrices[item.variantValue].priceCents, exchangeRate.rate)
-            : part.hasSizeOptions && item.variantValue
-              ? sizeOptionPrices[item.variantValue]?.priceCents ?? resolvedBasePriceCents
-              : resolvedBasePriceCents,
-        quantity: item.quantity,
+        priceCents: resolvedPriceCents,
         imageUrl: item.imageUrl || part.imageUrl,
+        quantity: normalizeSaleQuantity(item.quantity, resolvedPriceCents),
       };
     })
     .filter((item): item is NonNullable<typeof item> => Boolean(item));

@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
@@ -35,7 +36,10 @@ function sanitizeItems(value: unknown): CartReminderItem[] {
       id: item.id as string,
       name: item.name as string,
       priceCents: typeof item.priceCents === 'number' ? Math.max(0, Math.round(item.priceCents)) : 0,
-      quantity: typeof item.quantity === 'number' ? Math.max(1, Math.round(item.quantity)) : 1,
+      quantity:
+        typeof item.quantity === 'number'
+          ? normalizeSaleQuantity(Math.round(item.quantity), typeof item.priceCents === 'number' ? item.priceCents : 0)
+          : 1,
       imageUrl: typeof item.imageUrl === 'string' ? item.imageUrl : null,
       variantValue: typeof item.variantValue === 'string' ? item.variantValue : null,
     }));

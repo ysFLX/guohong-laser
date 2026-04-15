@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
 import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchangeRates';
+import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import {
   getSparePartProductIdFromCartLineId,
   normalizeSparePartSizeOptionPricesMap,
@@ -112,6 +113,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Sepette gecersiz veya pasif urun var.' }, { status: 400 });
   }
 
-  const subtotalCents = repricedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
-  return NextResponse.json({ items: repricedItems, subtotalCents });
+  const normalizedItems = repricedItems.map((item) => ({
+    ...item,
+    quantity: normalizeSaleQuantity(item.quantity, item.priceCents),
+  }));
+
+  const subtotalCents = normalizedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+  return NextResponse.json({ items: normalizedItems, subtotalCents });
 }

@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 import { useSession } from 'next-auth/react';
 import { buildSparePartCartLineId, buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
+import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 
 type CartItem = {
   id: string;
@@ -41,11 +42,6 @@ const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY_PREFIX = 'laser-market:cart';
 const CART_EVENT_NAME = 'laser-market:cart:change';
 
-function clampQuantity(q: number) {
-  if (!Number.isFinite(q)) return 1;
-  return Math.max(1, Math.min(999, Math.floor(q)));
-}
-
 function safeParseCart(value: string | null): CartItem[] {
   if (!value) return [];
   try {
@@ -59,7 +55,7 @@ function safeParseCart(value: string | null): CartItem[] {
         name: x.name as string,
         priceCents: x.priceCents as number,
         imageUrl: typeof x.imageUrl === 'string' ? x.imageUrl : null,
-        quantity: clampQuantity(typeof x.quantity === 'number' ? x.quantity : 1),
+        quantity: normalizeSaleQuantity(typeof x.quantity === 'number' ? x.quantity : 1, x.priceCents as number),
         variantValue: typeof x.variantValue === 'string' ? x.variantValue : null,
       }));
   } catch {
@@ -132,7 +128,7 @@ function mergeCartItems(base: CartItem[], incoming: CartItem[]) {
   for (const item of incoming) {
     const existingIndex = indexById.get(item.id);
     if (existingIndex === undefined) {
-      merged.push({ ...item, quantity: clampQuantity(item.quantity) });
+      merged.push({ ...item, quantity: normalizeSaleQuantity(item.quantity, item.priceCents) });
       indexById.set(item.id, merged.length - 1);
       continue;
     }
@@ -140,7 +136,7 @@ function mergeCartItems(base: CartItem[], incoming: CartItem[]) {
     const existing = merged[existingIndex];
     merged[existingIndex] = {
       ...existing,
-      quantity: clampQuantity(existing.quantity + item.quantity),
+      quantity: normalizeSaleQuantity(existing.quantity + item.quantity, existing.priceCents),
     };
   }
 
@@ -183,7 +179,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem = useCallback(
     (item: Omit<CartItem, 'quantity'>, quantity = 1) => {
-      const q = clampQuantity(quantity);
+      const q = normalizeSaleQuantity(quantity, item.priceCents);
       const variantValue = typeof item.variantValue === 'string' ? item.variantValue.trim() : '';
       const lineId = buildSparePartCartLineId(item.id, variantValue);
       const lineName = buildSparePartVariantName(item.name, variantValue);
@@ -197,7 +193,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                   ...x,
                   name: lineName,
                   variantValue: variantValue || null,
-                  quantity: clampQuantity(x.quantity + q),
+                  quantity: normalizeSaleQuantity(x.quantity + q, x.priceCents),
                 }
               : x,
           );
@@ -221,7 +217,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     (nextItems: CartItem[]) => {
       writeCart(storageKey, nextItems.map((item) => ({
         ...item,
-        quantity: clampQuantity(item.quantity),
+        quantity: normalizeSaleQuantity(item.quantity, item.priceCents),
         imageUrl: typeof item.imageUrl === 'string' ? item.imageUrl : null,
         variantValue: typeof item.variantValue === 'string' ? item.variantValue : null,
       })));
@@ -238,8 +234,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const setQuantity = useCallback(
     (id: string, quantity: number) => {
-      const q = clampQuantity(quantity);
-      updateItems((prev) => prev.map((x) => (x.id === id ? { ...x, quantity: q } : x)));
+      updateItems((prev) => prev.map((x) => (x.id === id ? { ...x, quantity: normalizeSaleQuantity(quantity, x.priceCents) } : x)));
     },
     [updateItems],
   );

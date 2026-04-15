@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
+import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { useCart } from './CartProvider';
 
 function formatPriceTry(priceCents: number) {
@@ -72,67 +73,79 @@ export default function CartDrawer() {
             </div>
           )}
 
-          {items.map((x) => (
-            <div
-              key={x.id}
-              className="flex gap-3 rounded-2xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40"
-            >
-              <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-white shrink-0">
-                <Image
-                  src={x.imageUrl || '/images/1.jpg'}
-                  alt={x.name}
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                  loading="lazy"
-                  unoptimized
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2">{x.name}</div>
-                    <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">{formatPriceTry(x.priceCents)}</div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeItem(x.id)}
-                    className="text-sm font-semibold text-rose-600 hover:underline"
-                  >
-                    Sil
-                  </button>
-                </div>
+          {items.map((x) => {
+            const minQuantity = getMinimumSaleQuantity(x.priceCents);
+            const cannotDecrease = x.quantity <= minQuantity;
 
-                <div className="mt-3 flex items-center justify-between">
-                  <div className="inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-800">
-                    <button
-                      type="button"
-                      className="px-3 py-1 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60 rounded-l-xl"
-                      onClick={() => setQuantity(x.id, x.quantity - 1)}
-                      aria-label="Azalt"
-                    >
-                      -
-                    </button>
-                    <div className="px-3 py-1 text-sm font-semibold text-slate-900 dark:text-white min-w-10 text-center">
-                      {x.quantity}
+            return (
+              <div
+                key={x.id}
+                className="flex gap-3 rounded-2xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40"
+              >
+                <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-white shrink-0">
+                  <Image
+                    src={x.imageUrl || '/images/1.jpg'}
+                    alt={x.name}
+                    fill
+                    sizes="64px"
+                    className="object-cover"
+                    loading="lazy"
+                    unoptimized
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2">{x.name}</div>
+                      <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">{formatPriceTry(x.priceCents)}</div>
                     </div>
                     <button
                       type="button"
-                      className="px-3 py-1 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60 rounded-r-xl"
-                      onClick={() => setQuantity(x.id, x.quantity + 1)}
-                      aria-label="Arttır"
+                      onClick={() => removeItem(x.id)}
+                      className="text-sm font-semibold text-rose-600 hover:underline"
                     >
-                      +
+                      Sil
                     </button>
                   </div>
 
-                  <div className="text-sm font-bold text-slate-900 dark:text-white">
-                    {formatPriceTry(x.priceCents * x.quantity)}
+                  <div className="mt-3 flex items-center justify-between">
+                    <div className="inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-800">
+                      <button
+                        type="button"
+                        className="px-3 py-1 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60 rounded-l-xl disabled:cursor-not-allowed disabled:opacity-40"
+                        onClick={() => setQuantity(x.id, x.quantity - 1)}
+                        disabled={cannotDecrease}
+                        aria-label="Azalt"
+                      >
+                        -
+                      </button>
+                      <div className="px-3 py-1 text-sm font-semibold text-slate-900 dark:text-white min-w-10 text-center">
+                        {x.quantity}
+                      </div>
+                      <button
+                        type="button"
+                        className="px-3 py-1 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60 rounded-r-xl"
+                        onClick={() => setQuantity(x.id, x.quantity + 1)}
+                        aria-label="Arttır"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <div className="text-sm font-bold text-slate-900 dark:text-white">
+                      {formatPriceTry(x.priceCents * x.quantity)}
+                    </div>
                   </div>
+
+                  {minQuantity > 1 ? (
+                    <div className="mt-2 text-xs font-medium text-amber-700 dark:text-amber-300">
+                      Bu ürün için minimum adet {minQuantity}.
+                    </div>
+                  ) : null}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="border-t border-slate-200/70 dark:border-slate-800/70 p-5 space-y-3">

@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
 import { getUsdTryExchangeRate, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
+import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { getStripe } from '@/lib/stripe';
 import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
 
@@ -130,7 +131,10 @@ async function resolveVerifiedItems(cartRaw: string): Promise<VerifiedOrderItem[
         id: part.id,
         name: part.name,
         priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
-        quantity: item.quantity,
+        quantity: normalizeSaleQuantity(
+          item.quantity,
+          resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
+        ),
         imageUrl: part.imageUrl,
       };
     })

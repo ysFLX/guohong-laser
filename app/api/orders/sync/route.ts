@@ -6,6 +6,7 @@ import { authOptions } from '@/auth';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { getUsdTryExchangeRate, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
+import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
@@ -84,7 +85,10 @@ async function resolveVerifiedItems(cartRaw: string): Promise<VerifiedOrderItem[
         id: part.id,
         name: part.name,
         priceCents: resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
-        quantity: item.quantity,
+        quantity: normalizeSaleQuantity(
+          item.quantity,
+          resolveDisplayedPriceCents(part.priceCents, part.currency, exchangeRate.rate),
+        ),
         imageUrl: part.imageUrl,
       };
     })
