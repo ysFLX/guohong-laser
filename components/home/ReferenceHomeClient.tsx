@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -42,7 +42,7 @@ const heroSlides = [
     eyebrow: 'Profesyonel üretim ve hizmet sağlayıcıları',
     title: 'Guohong Laser Group, metal lazer kesim teknolojilerinde küresel çözüm ortağınızdır.',
     description:
-      'Ar-Ge, üretim ve satış süreçlerini tek çatı altında toplayan yapımızla sac, boru, kaynak ve temizleme çözümlerini kurulumdan satış sonrasına kadar uçtan uca sunuyoruz.',
+      'Ar-Ge, üretim ve satış süreçlerini tek çatı altında toplayan yapımızla sac plaka, boru ve demir kesim çözümlerini kurulumdan satış sonrasına kadar uçtan uca sunuyoruz.',
   },
   {
     id: 'slide-2',
@@ -50,33 +50,33 @@ const heroSlides = [
     eyebrow: 'Akıllı fabrika ve uygulama sahası',
     title: '1 kW ile 60 kW arasındaki güç seçenekleri farklı üretim hatlarına hızla uyarlanır.',
     description:
-      'Yüksek güçlü fiber lazer sistemleri; metal işleme, otomotiv, çelik yapı ve reklam sektörlerinde hassas, hızlı ve istikrarlı kesim performansı sağlar.',
+      'Yüksek güçlü fiber lazer sistemleri; sac plaka kesimi, boru kesimi ve demir kesimi hatlarında hassas, hızlı ve istikrarlı performans sağlar.',
   },
 ];
 
 const productCategories: ProductCategory[] = [
   {
     id: 'sheet',
-    label: 'Plaka Lazer Kesim Makinesi',
+    label: 'Sac Plaka Kesimi',
     cards: [
       {
-        title: 'Guohong CNC Fiber Lazer Kesim Makinesi Koruma Kapaklı',
+        title: 'Açık Çift Tablalı Sac Plaka Kesim Makinesi',
         date: '2024-11-25',
-        description: 'Koruma kapaklı yapı, yüksek hassasiyet ve farklı tabla ölçüleri ile yoğun sac kesim hatları için tasarlandı.',
+        description: 'Kesintisiz üretim için optimize edilmiş, çift tablalı sac plaka kesim çözümü.',
         image: '/images/1.jpg',
         href: '/products',
       },
       {
-        title: 'GH-F Serisi Metal Lazer Kesici',
+        title: 'Çift Tabla Sac Plaka Kesim Makinesi',
         date: '2024-11-25',
-        description: 'Mutfak ekipmanları, dolap üretimi ve genel metal işleme için klasik ve güvenilir seri.',
+        description: 'Yoğun üretim hatları için yüksek verimli ve kararlı plaka kesim sistemi.',
         image: '/images/2.jpg',
         href: '/products',
       },
       {
-        title: 'Yüksek Güçlü CNC Sac Kesim Makinesi',
+        title: 'Geniş Tabla Yüksek KW Sac Plaka Kesim Makinesi',
         date: '2024-11-25',
-        description: '1000W ile 6000W arasında ekonomik ve güçlü sac kesim çözümü sunar.',
+        description: 'Büyük ebatlı sac plaka işler için yüksek güç skalasına sahip çözüm.',
         image: '/images/3.jpg',
         href: '/products',
       },
@@ -84,80 +84,53 @@ const productCategories: ProductCategory[] = [
   },
   {
     id: 'tube',
-    label: 'Boru Kesim Makinesi',
+    label: 'Boru Kesimi',
     cards: [
       {
-        title: 'GH-T Serisi Yan Montajlı Fiber Lazer Boru Kesme Makinesi',
+        title: 'Ağır Tip Boru Kesim Makinesi',
         date: '2024-11-26',
-        description: 'Yuvarlak, kare ve özel profillerde yüksek hassasiyetli boru kesimi için geliştirildi.',
+        description: 'Yuvarlak, kare ve özel profillerde yüksek hassasiyetli boru kesimi için.',
         image: '/images/4.jpg',
         href: '/products',
       },
       {
-        title: 'Tüp Fiber Lazer Kesim Makinesi',
+        title: 'Değiştirilebilir Ayna Boru Kesim Makinesi',
         date: '2024-11-26',
-        description: 'Spor ekipmanları, boru hatları ve metal profil uygulamalarında verimliliği artırır.',
+        description: 'Farklı boru çapları için hızlı ayna değişimi sunan esnek sistem.',
         image: '/images/5.jpg',
         href: '/products',
       },
       {
-        title: 'Üç Mandrenli Boru Fiber Lazer Kesim Makinesi',
+        title: 'Tam Otomatik Yükleyici Boru Kesim Makinesi',
         date: '2024-11-26',
-        description: 'Sıfır kuyruk yaklaşımı ve üç nokta destek ile uzun borularda daha stabil kesim sağlar.',
+        description: 'Tam otomatik yükleme ve boşaltma ile verimliliği artıran boru hattı çözümü.',
         image: '/images/6.jpg',
         href: '/products',
       },
     ],
   },
   {
-    id: 'combo',
-    label: 'Plaka ve Boru Lazer Kesim Makinesi',
+    id: 'iron',
+    label: 'Demir Kesimi',
     cards: [
       {
-        title: 'Metal için Plaka ve Boru Fiber Lazer Kesim Makinesi',
+        title: 'Demir Kesim Makinesi',
         date: '2024-11-27',
-        description: 'Tek makinede iki farklı malzeme formunu keserek yatırım maliyetini optimize eder.',
-        image: '/images/8.jpg',
-        href: '/products',
-      },
-      {
-        title: 'Plaka ve Boru Lazer Kesim Makinesi',
-        date: '2024-11-27',
-        description: 'Profesyonel CNC sistemi ve kolay bakım yapısı ile yoğun üretim senaryolarına uygundur.',
-        image: '/images/9.jpg',
-        href: '/products',
-      },
-      {
-        title: 'Tam Koruma Metal Sac ve Boru Fiber Lazer Kesim Makinesi',
-        date: '2024-11-27',
-        description: 'Kapalı gövde ve birinci sınıf bileşenlerle güvenlik ve hassasiyet dengesini kurar.',
-        image: '/images/10.jpg',
-        href: '/products',
-      },
-    ],
-  },
-  {
-    id: 'weld',
-    label: 'Demir Kesim Makinesi',
-    cards: [
-      {
-        title: "Temizleme ve Kesme Fonksiyonlu 3'ü 1 Arada Lazer Kaynak Makinesi",
-        date: '2024-11-27',
-        description: 'Kaynak, temizleme ve kesme işlevlerini tek gövdede birleştirerek esnek kullanım sunar.',
+        description: 'Sert metal ve demir kesimi için yüksek güçlü lazer çözümü.',
         image: '/images/11.jpg',
         href: '/products',
       },
       {
-        title: 'Kompakt El Tipi Kaynak Platformu',
+        title: 'Ağır Hizmet Demir Kesim Makinesi',
         date: '2024-11-27',
-        description: 'Düşük işletme maliyeti ve yüksek proses temizliği ile atölye içi mobil kullanım için ideal.',
+        description: 'Kalın malzemelerde kararlı kesim için geliştirilmiş güçlü platform.',
         image: '/images/12.jpg',
         href: '/products',
       },
       {
-        title: '360 Derece Manevra Kabiliyetli Fiber Kaynak Sistemi',
+        title: 'Yüksek Güçlü Demir Kesim Sistemi',
         date: '2024-11-27',
-        description: 'Uzun kaynak dikişlerinde kararlılık ve daha yüksek uygulama hızı sağlar.',
+        description: 'Uzun vardiyalarda stabil hız ve yüksek kesim kalitesi sunar.',
         image: '/images/7.jpg',
         href: '/products',
       },
@@ -641,4 +614,5 @@ export default function ReferenceHomeClient({
     </div>
   );
 }
+
 

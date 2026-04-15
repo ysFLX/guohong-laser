@@ -2,18 +2,26 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import Reveal from '@/components/home/Reveal';
 import { machineProducts } from '@/lib/machineCatalog';
 
-const tabs = ['Tümü', 'Sac Kesim', 'Boru Kesim', 'Kombine Kesim', 'Özel Kesim'] as const;
+const tabs = ['Sac Plaka Kesimi', 'Boru Kesimi', 'Demir Kesimi'] as const;
 
 export default function ProductsPage() {
-  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('Tümü');
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>('Sac Plaka Kesimi');
+
+  useEffect(() => {
+    const category = searchParams.get('category');
+    if (category === 'sac-plaka-kesimi') setActiveTab('Sac Plaka Kesimi');
+    if (category === 'boru-kesimi') setActiveTab('Boru Kesimi');
+    if (category === 'demir-kesimi') setActiveTab('Demir Kesimi');
+  }, [searchParams]);
 
   const products = useMemo(() => {
-    if (activeTab === 'Tümü') return machineProducts;
     return machineProducts.filter((item) => item.category === activeTab);
   }, [activeTab]);
 
@@ -25,10 +33,10 @@ export default function ProductsPage() {
           <div className="flex flex-col justify-center">
             <p className="text-sm font-semibold uppercase tracking-[0.38em] text-[#ff6a0d]">Ürünler</p>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              Endüstriyel lazer makine portföyü
+              Sac, boru ve demir kesim makine portföyü
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
-              Referans sitedeki ürün vitrini mantığıyla sac, boru, kombine ve özel kesim çözümlerini kategori bazlı tek ekranda sunuyoruz.
+              Tüm katalog tek mantıkta toplandı: sac plaka kesimi, boru kesimi ve demir kesimi.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-7 py-3 text-sm font-semibold text-[#15148c]">
@@ -65,11 +73,11 @@ export default function ProductsPage() {
         </div>
 
         <div className="mt-7 flex flex-wrap gap-3">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              onClick={() => setActiveTab(tab)}
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveTab(tab)}
               className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
                 activeTab === tab
                   ? 'bg-[#ff6a0d] text-[#15148c]'

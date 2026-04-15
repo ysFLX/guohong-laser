@@ -16,7 +16,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 1,
     name: 'Açık Çift Tablalı Sac Kesim Makinesi',
-    category: 'Sac Kesim',
+    category: 'Sac Plaka Kesimi',
     image: '/images/1.jpg',
     description:
       'Kesintisiz üretim için tasarlanmıştır, yüksek verimli çift tablalı sac kesim çözümü. Otomatik tabla değişimiyle verimlilik artar.',
@@ -30,7 +30,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 2,
     name: 'Ağır Tip Boru Kesim Makinesi',
-    category: 'Boru Kesim',
+    category: 'Boru Kesimi',
     image: '/images/2.jpg',
     description: 'Ağır sanayi uygulamaları için geliştirilmiş, yüksek dayanımlı boru kesim çözümü.',
     features: ['Ağır hizmet tipi yapı', 'Geniş boru çap aralığı', 'Yüksek hassasiyet'],
@@ -43,7 +43,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 3,
     name: 'Boru ve Sac İkisi Bir Arada Lazer Kesim Makinesi',
-    category: 'Kombine Kesim',
+    category: 'Sac Plaka Kesimi',
     image: '/images/3.jpg',
     description: 'Hem sac hem de boru kesimi için tek çözüm. İki işlemi tek makinede birleştirir.',
     features: ['Çift amaçlı kullanım', 'Hızlı işlem değişimi', 'Geniş çalışma alanı'],
@@ -56,7 +56,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 4,
     name: 'Çift Tabla Sac Kesim Makinesi',
-    category: 'Sac Kesim',
+    category: 'Sac Plaka Kesimi',
     image: '/images/4.jpg',
     description: 'Kesintisiz üretim için optimize edilmiş, yüksek kapasiteli lazer kesim sistemi.',
     features: ['Kesintisiz üretim', 'Otomatik tabla değişimi', 'Kolay bakım'],
@@ -69,7 +69,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 5,
     name: 'Değiştirilebilir Ayna Boru Kesim Makinesi',
-    category: 'Boru Kesim',
+    category: 'Boru Kesimi',
     image: '/images/5.jpg',
     description: 'Farklı boru çapları için hızlı ayna değişimi yapabilen esnek üretim çözümü.',
     features: ['Hızlı ayna değişimi', 'Geniş boru çap aralığı', 'Düşük bakım gereksinimi'],
@@ -82,7 +82,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 6,
     name: 'Demir Kesim Makinesi',
-    category: 'Özel Kesim',
+    category: 'Demir Kesimi',
     image: '/images/6.jpg',
     description: 'Sert metaller ve demir kesimi için tasarlanmış yüksek güçlü lazer çözümü.',
     features: ['Yüksek güçlü lazer kaynağı', 'Sert metallerde etkili kesim', 'Güvenli çalışma'],
@@ -95,7 +95,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 7,
     name: 'Geniş Tabla Yüksek KW Sac Kesim Makinesi',
-    category: 'Sac Kesim',
+    category: 'Sac Plaka Kesimi',
     image: '/images/7.jpg',
     description: 'Büyük ebatlı saclar için yüksek güçlü, endüstriyel lazer kesim çözümü.',
     features: ['Geniş çalışma alanı', 'Yüksek güçlü lazer kaynağı', 'Yüksek kesim hızı'],
@@ -108,7 +108,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 8,
     name: 'Küçük Çaplı Tam Otomatik Yükleyici ve İndirici Boru Kesim Makinesi',
-    category: 'Boru Kesim',
+    category: 'Boru Kesimi',
     image: '/images/8.jpg',
     description: 'Küçük çaplı borular için tam otomatik yükleyici/bosaltıcı sistemli çözüm.',
     features: ['Tam otomatik sistem', 'Yüksek üretim hızı', 'Düşük işçilik maliyeti'],
@@ -121,7 +121,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 9,
     name: 'Raylı Sac Kesim Makinesi',
-    category: 'Sac Kesim',
+    category: 'Sac Plaka Kesimi',
     image: '/images/9.jpg',
     description: 'Uzun sac levhalar için raylı sistem tasarımıyla yüksek hassasiyet.',
     features: ['Raylı taşıma sistemi', 'Uzun saclarda yüksek hassasiyet', 'Düşük enerji tüketimi'],
@@ -134,7 +134,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 10,
     name: 'Tek Tabla Sac Kesim Makinesi',
-    category: 'Sac Kesim',
+    category: 'Sac Plaka Kesimi',
     image: '/images/10.jpg',
     description: 'Küçük ve orta ölçekli işletmeler için ekonomik, verimli tek tablalı çözüm.',
     features: ['Ekonomik çözüm', 'Kompakt tasarım', 'Kolay kullanım'],
@@ -147,7 +147,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 11,
     name: 'Yandan Yüklemeli Yarı Otomatik Boru Kesim Makinesi',
-    category: 'Boru Kesim',
+    category: 'Boru Kesimi',
     image: '/images/11.jpg',
     description: 'Yandan yükleme ile kolay kullanım sunan yarı otomatik boru kesim çözümü.',
     features: ['Yandan yükleme kolaylığı', 'Yarı otomatik çalışma', 'Kolay bakım'],
@@ -160,7 +160,7 @@ export const machineProducts: MachineProduct[] = [
   {
     id: 12,
     name: 'Yarı Otomatik Yüklemeli Boru Kesim Makinesi',
-    category: 'Boru Kesim',
+    category: 'Boru Kesimi',
     image: '/images/12.jpg',
     description: 'Yarı otomatik yükleme sistemi ile pratik ve ekonomik boru kesim çözümü.',
     features: ['Yarı otomatik yükleme', 'Kullanım kolaylığı', 'Düşük işletme maliyeti'],

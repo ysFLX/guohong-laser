@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,22 +29,9 @@ const PRIMARY_NAV: NavItem[] = [
     href: '/products',
     label: 'Ürünler',
     children: [
-      { href: '/products', label: 'Plaka Lazer Kesim Makinesi' },
-      { href: '/products', label: 'Tüp Lazer Kesim Makinesi' },
-      { href: '/products', label: 'Plaka ve Boru Lazer Kesim Makinesi' },
-      { href: '/products', label: 'Tüp Otomatik Beslemeli Lazer Kesim Makinesi' },
-      { href: '/products', label: 'El Tipi Lazer Kaynak Makinesi' },
-      { href: '/products', label: 'Lazer Temizleme Makinesi' },
-    ],
-  },
-  {
-    href: '/references',
-    label: 'Uygulamalar',
-    children: [
-      { href: '/references', label: 'Metal İşleme' },
-      { href: '/references', label: 'Çelik Yapı Mühendisliği' },
-      { href: '/references', label: 'Ev Aletleri' },
-      { href: '/references', label: 'Otomotiv Sanayi' },
+      { href: '/products?category=sac-plaka-kesimi', label: 'Sac Plaka Kesimi' },
+      { href: '/products?category=boru-kesimi', label: 'Boru Kesimi' },
+      { href: '/products?category=demir-kesimi', label: 'Demir Kesimi' },
     ],
   },
   { href: '/gallery', label: 'Galeri' },
@@ -55,7 +42,6 @@ const MOBILE_LINKS = [
   { href: '/', label: 'Ana Sayfa' },
   { href: '/about', label: 'Hakkımızda' },
   { href: '/products', label: 'Ürünler' },
-  { href: '/references', label: 'Uygulamalar' },
   { href: '/gallery', label: 'Galeri' },
   { href: '/contact', label: 'İletişim' },
 ] as const;
@@ -417,4 +403,6 @@ export default function Header() {
     </header>
   );
 }
+
+
 
