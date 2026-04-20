@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -67,10 +67,10 @@ function getErrorMessage(e: unknown) {
 
 const returnStatusLabel: Record<ReturnRequestItem['status'], string> = {
   NEW: 'Talep alındı',
-  UNDER_REVIEW: 'İncelemede',
+  UNDER_REVIEW: 'Ä°ncelemede',
   APPROVED: 'Onaylandı',
   REJECTED: 'Reddedildi',
-  REFUNDED: 'İade tamamlandı',
+  REFUNDED: 'Ä°ade tamamlandı',
 };
 
 const returnStatusTone: Record<ReturnRequestItem['status'], string> = {
@@ -231,11 +231,11 @@ export default function ProfilePage() {
         const text = await res.text();
         const data = text ? JSON.parse(text) : {};
         if (!res.ok) {
-          throw new Error(data.error || 'İade talepleri alınamadı');
+          throw new Error(data.error || 'Ä°ade talepleri alınamadı');
         }
         setReturnRequests(data.items ?? []);
       } catch (e: unknown) {
-        setReturnsError(getErrorMessage(e) || 'İade talepleri alınamadı');
+        setReturnsError(getErrorMessage(e) || 'Ä°ade talepleri alınamadı');
       } finally {
         setReturnsLoading(false);
       }
@@ -310,12 +310,12 @@ export default function ProfilePage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'İki adımlı doğrulama güncellenemedi');
+        throw new Error(data.error || 'Ä°ki adımlı doğrulama güncellenemedi');
       }
 
       setTwoFactorEnabled(next);
     } catch (e: unknown) {
-      setTwoFactorError(getErrorMessage(e) || 'İki adımlı doğrulama güncellenemedi');
+      setTwoFactorError(getErrorMessage(e) || 'Ä°ki adımlı doğrulama güncellenemedi');
     } finally {
       setTwoFactorSaving(false);
     }
@@ -399,8 +399,8 @@ export default function ProfilePage() {
           addressReady: 'Kayıtlı',
           addressMissing: 'Yok',
           securityTitle: 'Hesap güvenliği',
-          securityBody: 'Şifreni düzenli değiştir, tanınmayan cihazlarda oturum açma.',
-          twoFactor: 'İki adımlı doğrulama',
+          securityBody: 'Åifreni düzenli değiştir, tanınmayan cihazlarda oturum açma.',
+          twoFactor: 'Ä°ki adımlı doğrulama',
           sessionTracking: 'Oturum takibi',
           loginAlerts: 'Giriş bildirimleri',
           notifyTitle: 'Bildirim tercihleri',
@@ -448,7 +448,7 @@ export default function ProfilePage() {
   const hasAddress = showAddress;
   const tabs = [
     { id: 'account', label: 'Hesap' },
-    { id: 'returns', label: 'İadeler' },
+    { id: 'returns', label: 'Ä°adeler' },
     { id: 'security', label: 'Güvenlik' },
     { id: 'notifications', label: 'Bildirimler' },
   ] as const;
@@ -472,7 +472,7 @@ export default function ProfilePage() {
             <div>
               <h1 className="text-2xl font-semibold">{userName || 'Hesabım'}</h1>
               <div className="mt-1 text-sm text-white/70">
-                {profile?.email ?? session.user.email ?? ''} • {roleLabel}
+                {profile?.email ?? session.user.email ?? ''} â€¢ {roleLabel}
               </div>
             </div>
           </div>
@@ -636,7 +636,7 @@ export default function ProfilePage() {
                   isSaving ? 'bg-indigo-300' : 'bg-indigo-600 hover:bg-indigo-500'
                 }`}
               >
-                {isSaving ? 'Kaydediliyor...' : 'Degisiklikleri kaydet'}
+                {isSaving ? 'Kaydediliyor...' : 'Değişiklikleri kaydet'}
               </button>
             </div>
           </div>
@@ -646,7 +646,7 @@ export default function ProfilePage() {
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-slate-900">İade taleplerim</div>
+                <div className="text-sm font-semibold text-slate-900">Ä°ade taleplerim</div>
                 <div className="mt-1 text-sm text-slate-600">Güncel iade durumlarını buradan izle.</div>
               </div>
               <Link
@@ -829,6 +829,8 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+
 
 
 

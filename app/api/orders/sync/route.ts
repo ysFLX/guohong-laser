@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import nodemailer from 'nodemailer';
 
@@ -233,7 +233,7 @@ async function sendOrderEmail(params: {
       'Fatura / irsaliye adresi:',
       billingBlock.text,
       '',
-      `İade/değişim talebi: ${returnsUrl}`,
+      `Ä°ade/değişim talebi: ${returnsUrl}`,
     ].join('\n'),
     html: buildEmailHtml({
       title: 'Siparişiniz alındı',
@@ -263,12 +263,12 @@ async function sendOrderEmail(params: {
           <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
         </div>
         <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / İrsaliye</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / Ä°rsaliye</div>
           <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
         </div>
       `,
       primaryCta: { label: 'Sipariş detaylarını gör', href: orderUrl },
-      secondaryCta: { label: 'İade / Değişim talebi', href: returnsUrl },
+      secondaryCta: { label: 'Ä°ade / Değişim talebi', href: returnsUrl },
       footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
@@ -493,3 +493,4 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ ok: true });
 }
+

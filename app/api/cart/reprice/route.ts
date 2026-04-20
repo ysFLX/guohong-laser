@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
 import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchangeRates';
@@ -110,7 +110,7 @@ export async function POST(req: Request) {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
   if (repricedItems.length !== cleanItems.length) {
-    return NextResponse.json({ error: 'Sepette gecersiz veya pasif urun var.' }, { status: 400 });
+    return NextResponse.json({ error: 'Sepette gecersiz veya pasif ürün var.' }, { status: 400 });
   }
 
   const normalizedItems = repricedItems.map((item) => ({
@@ -121,3 +121,4 @@ export async function POST(req: Request) {
   const subtotalCents = normalizedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
   return NextResponse.json({ items: normalizedItems, subtotalCents });
 }
+

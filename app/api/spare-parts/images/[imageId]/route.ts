@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 
@@ -114,3 +114,4 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ imageId: str
 
   return NextResponse.json({ ok: true });
 }
+

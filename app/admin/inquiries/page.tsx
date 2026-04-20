@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 
 import ClearInquiriesButton from '@/components/admin/ClearInquiriesButton';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
@@ -99,12 +99,12 @@ export default async function AdminInquiriesPage() {
     <div className="space-y-6">
       <AdminPageHeader
         eyebrow="Talepler"
-        title="İletişim & teklif mesajları"
+        title="Ä°letişim & teklif mesajları"
         description="Teklif ve iletişim taleplerini iki panelde ara, filtrele ve yanıtla."
         actions={
           <>
             <ClearInquiriesButton type="QUOTE" label="Teklifleri temizle" />
-            <ClearInquiriesButton type="CONTACT" label="İletişimi temizle" />
+            <ClearInquiriesButton type="CONTACT" label="Ä°letişimi temizle" />
           </>
         }
       />
@@ -113,3 +113,4 @@ export default async function AdminInquiriesPage() {
     </div>
   );
 }
+

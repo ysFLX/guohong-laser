@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -90,7 +90,7 @@ export default function SparePartPurchaseClient({
   const selector = hasSizeOptions ? (
     <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
       <label className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-        Olcu sec
+        Ölçü sec
       </label>
       <select
         value={resolvedSize}
@@ -98,7 +98,7 @@ export default function SparePartPurchaseClient({
         className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-900 outline-none transition focus:border-indigo-400"
       >
         <option value="" disabled>
-          Olcu seciniz
+          Ölçü seciniz
         </option>
         {sizeOptionEntries.map((entry) => (
           <option key={entry.value} value={entry.value}>
@@ -215,7 +215,7 @@ export default function SparePartPurchaseClient({
         ) : null}
         <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
           <div className="flex items-center justify-between">
-            <span>Gonderen</span>
+            <span>Gönderen</span>
             <span className="font-semibold text-slate-900">Guohong Lazer</span>
           </div>
           <div className="mt-2 flex items-center justify-between">
@@ -243,7 +243,7 @@ export default function SparePartPurchaseClient({
           {hasSizeOptions ? (
             <div className="rounded-2xl border border-slate-200 bg-white px-3 py-3">
               <label className="text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                Olcu sec
+                Ölçü sec
               </label>
               <select
                 value={resolvedSize}
@@ -251,7 +251,7 @@ export default function SparePartPurchaseClient({
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-900 outline-none transition focus:border-indigo-400"
               >
                 <option value="" disabled>
-                  Olcu seciniz
+                  Ölçü seciniz
                 </option>
                 {sizeOptionEntries.map((entry) => (
                   <option key={entry.value} value={entry.value}>
@@ -320,3 +320,5 @@ export default function SparePartPurchaseClient({
     </>
   );
 }
+
+

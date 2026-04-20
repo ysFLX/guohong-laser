@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+﻿import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
@@ -223,7 +223,7 @@ export async function POST(request: Request) {
 
     if (safePassword.length < 6) {
       return new Response(
-        JSON.stringify({ error: 'Şifre en az 6 karakter olmalıdır' }),
+        JSON.stringify({ error: 'Åifre en az 6 karakter olmalıdır' }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' },
@@ -359,3 +359,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

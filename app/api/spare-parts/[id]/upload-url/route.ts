@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -80,3 +80,4 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     publicUrl,
   });
 }
+

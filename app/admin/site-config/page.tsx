@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 import { prisma } from '@/lib/prisma';
 import { normalizeHomePanelConfig } from '@/lib/homePanelDefaults';
@@ -37,3 +37,4 @@ export default async function SiteConfigPage() {
     </div>
   );
 }
+

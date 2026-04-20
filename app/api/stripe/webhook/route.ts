@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 import { buildEmailHtml } from '@/lib/emailTemplate';
@@ -286,13 +286,13 @@ async function sendOrderEmail(params: {
           <div style="margin-top: 8px; line-height: 1.5;">${shippingBlock.html}</div>
         </div>
         <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
-          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / İrsaliye</div>
+          <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura / Ä°rsaliye</div>
           <div style="margin-top: 8px; line-height: 1.5;">${billingBlock.html}</div>
         </div>
       `,
       primaryCta: { label: 'Sipariş detaylarını gör', href: orderUrl },
-      secondaryCta: { label: 'İade / Değişim talebi', href: returnsUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmiştir.',
+      secondaryCta: { label: 'Ä°ade / Değişim talebi', href: returnsUrl },
+      footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
 }
@@ -397,7 +397,7 @@ async function sendPaymentFailedEmail(params: { to: string; status: 'FAILED' | '
         </div>
       `,
       primaryCta: { label: 'Sepete dön', href: cartUrl },
-      footerNote: 'Bu e-posta otomatik olarak gonderilmiştir.',
+      footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
 }
@@ -825,3 +825,5 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ received: true });
 }
+
+

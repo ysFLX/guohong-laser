@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -78,3 +78,4 @@ export async function PUT(req: Request) {
 
   return NextResponse.json({ ok: true });
 }
+

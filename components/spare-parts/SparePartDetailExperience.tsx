@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 
@@ -116,7 +116,7 @@ export default function SparePartDetailExperience({
             <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
           </div>
           <div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">İade</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Ä°ade</div>
             <div className="mt-1 font-semibold text-slate-900">14 gün</div>
           </div>
         </div>
@@ -139,3 +139,4 @@ export default function SparePartDetailExperience({
     </>
   );
 }
+

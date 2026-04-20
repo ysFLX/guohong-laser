@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+﻿import { createClient } from '@supabase/supabase-js';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -62,3 +62,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: (error as Error).message || 'Upload url hatası' }, { status: 500 });
   }
 }
+

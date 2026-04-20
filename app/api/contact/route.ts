@@ -1,4 +1,4 @@
-// app/api/contact/route.ts
+﻿// app/api/contact/route.ts
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
@@ -215,17 +215,17 @@ export async function POST(request: Request) {
       from: `"${name}" <${smtpUser}>`,
       to: smtpUser,
       replyTo: safeEmail,
-      subject: `${subject || 'İletişim'} - İletişim Formu`,
+      subject: `${subject || 'Ä°letişim'} - Ä°letişim Formu`,
       text: message,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
         <h2 style="color: #1e40af; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">${escapedSubject}</h2>
         <div style="margin: 15px 0; padding: 15px; background-color: #f8fafc; border-radius: 6px;">
-          <p><strong>Gonderen:</strong> ${escapedName}</p>
+          <p><strong>Gönderen:</strong> ${escapedName}</p>
           <p><strong>E-posta:</strong> ${escapedEmail}</p>
           ${escapedPhone ? `<p><strong>Telefon:</strong> ${escapedPhone}</p>` : ''}
           ${escapedCompany ? `<p><strong>Firma:</strong> ${escapedCompany}</p>` : ''}
-          ${escapedProduct ? `<p><strong>Urun:</strong> ${escapedProduct}</p>` : ''}
+          ${escapedProduct ? `<p><strong>Ürün:</strong> ${escapedProduct}</p>` : ''}
         </div>
 
         <div style="background-color: #f1f5f9; padding: 15px; border-radius: 6px; margin: 15px 0;">
@@ -245,16 +245,16 @@ export async function POST(request: Request) {
       text: 'Talebinizi aldık. En kısa sürede sizinle iletisime geçeceğiz.',
       html: buildEmailHtml({
         title: 'Talebiniz alındı',
-        subtitle: inferredType === 'QUOTE' ? 'Fiyat teklifi talebiniz alındı' : 'İletişim talebiniz alındı',
-        badge: inferredType === 'QUOTE' ? 'Fiyat teklifi' : 'İletişim',
+        subtitle: inferredType === 'QUOTE' ? 'Fiyat teklifi talebiniz alındı' : 'Ä°letişim talebiniz alındı',
+        badge: inferredType === 'QUOTE' ? 'Fiyat teklifi' : 'Ä°letişim',
         preheader: 'Talebinizi aldık. En kısa sürede dönüş yapacağız.',
         bodyHtml: `
           <div>Merhaba <strong>${escapedName}</strong>,</div>
           <div style="margin-top: 8px; color:#475569;">Talebinizi aldık. En kısa sürede sizinle iletisime geçeceğiz.</div>
           <div style="margin-top: 14px; padding: 14px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
             <div style="font-size: 12px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Ozet</div>
-            <div style="margin-top: 8px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'İletişim'}</div>
-            ${escapedProduct ? `<div style="margin-top: 6px;"><strong>Urun:</strong> ${escapedProduct}</div>` : ''}
+            <div style="margin-top: 8px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'Ä°letişim'}</div>
+            ${escapedProduct ? `<div style="margin-top: 6px;"><strong>Ürün:</strong> ${escapedProduct}</div>` : ''}
             ${subject ? `<div style="margin-top: 6px;"><strong>Konu:</strong> ${escapedSubject}</div>` : ''}
           </div>
         `,
@@ -272,5 +272,7 @@ export async function POST(request: Request) {
     );
   }
 }
+
+
 
 

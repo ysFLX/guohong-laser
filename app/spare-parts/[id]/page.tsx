@@ -329,7 +329,7 @@ export default async function SparePartDetailPage({
                 )}
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
                   <span className="rounded-full bg-white px-3 py-1 border border-slate-200">{p.category.name}</span>
-                  {p.dimensions ? <span className="rounded-full bg-white px-3 py-1 border border-slate-200">Olcu: {p.dimensions}</span> : null}
+                  {p.dimensions ? <span className="rounded-full bg-white px-3 py-1 border border-slate-200">Ölçü: {p.dimensions}</span> : null}
                   <span className="rounded-full bg-white px-3 py-1 border border-slate-200">Stok: {p.stockOnHand}</span>
                 </div>
               <p className="mt-4 text-sm leading-7 text-slate-700">{p.description}</p>
@@ -445,3 +445,4 @@ export default async function SparePartDetailPage({
     </div>
   );
 }
+

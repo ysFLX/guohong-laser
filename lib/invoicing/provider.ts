@@ -1,4 +1,4 @@
-import type { InvoiceIssueResult, InvoiceProvider, InvoiceSnapshot } from '@/lib/invoicing/types';
+﻿import type { InvoiceIssueResult, InvoiceProvider, InvoiceSnapshot } from '@/lib/invoicing/types';
 
 import { issueInvoiceWithMikroEportal } from '@/lib/invoicing/providers/mikroEportal';
 
@@ -13,4 +13,5 @@ export async function issueInvoiceWithProvider(params: {
   const neverProvider: never = params.provider;
   throw new Error(`Desteklenmeyen fatura sağlayıcısı: ${neverProvider}`);
 }
+
 

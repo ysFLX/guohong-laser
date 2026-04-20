@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth";
+﻿import { getServerSession } from "next-auth";
 import { createClient } from "@supabase/supabase-js";
 
 import { authOptions } from "@/auth";
@@ -69,3 +69,4 @@ export async function POST(request: Request) {
     { status: 200, headers: { "Content-Type": "application/json" } }
   );
 }
+

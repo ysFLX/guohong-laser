@@ -1,4 +1,4 @@
-export const metadata = {
+﻿export const metadata = {
   title: 'Guohong Lazer - Kayıt Ol',
   description: 'Yeni hesap oluştur.',
 };
@@ -6,3 +6,4 @@ export const metadata = {
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
+

@@ -247,7 +247,7 @@ function RegisterPageContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25"
-                    placeholder="ornek@email.com"
+                    placeholder="örnek@email.com"
                   />
                 </div>
 

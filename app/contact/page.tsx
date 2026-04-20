@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
@@ -114,7 +114,7 @@ function ContactPageInner() {
             <p className="text-sm font-semibold uppercase tracking-[0.38em] text-[#ff6a0d]">Bize Ulaşın</p>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-white sm:text-5xl">Sorularınız için buradayız</h1>
             <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
-              Teklif, servis ya da ürün bilgisi için formu doldurun. Referans sitedeki inquiry alanı mantığıyla hızlı geri dönüş akışı burada çalışıyor.
+              Teklif, servis ya da ürün bilgisi için formu doldürün. Referans sitedeki inquiry alanı mantığıyla hızlı geri dönüş akışı burada çalışıyor.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -194,7 +194,7 @@ function ContactPageInner() {
 
         <Reveal as="section" className="space-y-5">
           <div className="rounded-[34px] border border-white/10 bg-[#15148c] p-6 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">İletişim bilgileri</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Ä°letişim bilgileri</p>
             <div className="mt-5 grid gap-4 text-sm">
               <div className="rounded-[24px] border border-white/10 bg-white/6 p-4">
                 <div className="text-white/45">Telefon</div>
@@ -229,3 +229,5 @@ function ContactPageInner() {
 export default function ContactPage() {
   return <Suspense fallback={<div className="min-h-screen bg-[#15148c]" />}><ContactPageInner /></Suspense>;
 }
+
+

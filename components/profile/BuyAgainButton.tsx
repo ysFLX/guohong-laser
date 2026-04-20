@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -128,3 +128,4 @@ export default function BuyAgainButton({ items, label = 'Tekrar satın al', clas
     </button>
   );
 }
+

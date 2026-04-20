@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 import { prisma } from '@/lib/prisma';
 import { AdminBadge } from '@/components/admin/AdminUi';
@@ -254,7 +254,7 @@ export default async function AdminSparePartsPage({
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-xs text-[var(--admin-muted)]">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-[var(--admin-muted)]">İşlem</span>
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-[var(--admin-muted)]">Ä°şlem</span>
                   <Link href={`/admin/spare-parts/${p.id}`} className="text-sm font-semibold text-[var(--admin-accent)] hover:opacity-90">
                     Düzenle
                   </Link>
@@ -307,3 +307,4 @@ export default async function AdminSparePartsPage({
     </div>
   );
 }
+

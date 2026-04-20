@@ -1,7 +1,7 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 const highlights = [
-  { title: 'Stoklu teslimat', value: 'Aynı/ertesi gün' },
+  { title: 'Stoklu teslimat', value: 'Aynı / ertesi gün' },
   { title: 'Yurtdışı sevkiyat', value: 'Planlı lojistik' },
   { title: 'Takip güncelleme', value: 'Anlık panel + e-posta' },
 ];
@@ -12,19 +12,19 @@ const deliveryCards = [
     items: [
       'Stoklu ürünler aynı gün veya ertesi iş günü kargolanır.',
       'Stoksuz ürünlerde tedarik süresi teklif onayında netleşir.',
-      'Özel üretim modellerde termin tarihlerine göre planlama yapılır.',
+      'Özel üretim modellerde termin tarihine göre planlama yapılır.',
     ],
   },
   {
     title: 'Teslimat bölgeleri',
     items: [
       'Türkiye geneli teslimat yapılır.',
-      'Yurtdışı sevkiyatlar için lojistik ekibimiz destek verir.',
-      'Ağır/hacimli ürünler için özel taşıma koşulları uygulanabilir.',
+      'Yurtdışı sevkiyatlarda lojistik ekibimiz destek verir.',
+      'Ağır ve hacimli ürünler için özel taşıma koşulları uygulanabilir.',
     ],
   },
   {
-    title: 'Kargo takip',
+    title: 'Kargo takibi',
     items: [
       'Takip numarası sipariş panelinde ve e-postada paylaşılır.',
       'Gecikme veya hasar durumunda ekip hemen bilgilendirilir.',
@@ -45,15 +45,11 @@ export default function ShippingPage() {
             </p>
             <h1 className="text-3xl font-semibold sm:text-4xl">Kargo ve teslimat politikası</h1>
             <p className="max-w-2xl text-base text-white/70">
-              Sipariş hazırlık süresi, teslimat standartları ve takip adımları kurumsal satış süreciniz için
-              netleştirilmiştir.
+              Sipariş hazırlık süresi, teslimat standartları ve takip adımları kurumsal satış süreciniz için netleştirilmiştir.
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
               {highlights.map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-3xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80"
-                >
+                <div key={item.title} className="rounded-3xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
                   <div className="text-xs uppercase tracking-[0.3em] text-white/60">{item.title}</div>
                   <div className="mt-2 font-semibold text-white">{item.value}</div>
                 </div>
@@ -80,37 +76,24 @@ export default function ShippingPage() {
             <div className="card-surface p-6">
               <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Hızlı bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm">
-                <Link
-                  href="/returns"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
-                  İade ve Garanti
+                <Link href="/returns" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
+                  Ä°ade ve garanti
                 </Link>
-                <Link
-                  href="/payment-security"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
+                <Link href="/payment-security" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
                   Ödeme güvenliği
                 </Link>
-                <Link
-                  href="/privacy"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
+                <Link href="/privacy" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
                   Gizlilik politikası
                 </Link>
               </div>
             </div>
 
             <div className="card-surface p-6">
-              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Teslimat destek</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Teslimat desteği</div>
               <p className="mt-3 text-sm text-[var(--gray-500)]">
-                Kritik teslimatlarda randevu planlaması, ağır ürünlerde ekipman desteği ve hasar tutanakları için destek
-                sağlanır.
+                Kritik teslimatlarda randevu planlaması, ağır ürünlerde ekipman desteği ve hasar tutanakları için destek sağlanır.
               </p>
-              <Link
-                href="/contact?subject=Kargo+Takip"
-                className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800"
-              >
+              <Link href="/contact?subject=Kargo+Takip" className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800">
                 Kargo desteği
               </Link>
             </div>

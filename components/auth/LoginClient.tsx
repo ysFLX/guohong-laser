@@ -134,7 +134,7 @@ export default function LoginClient() {
               </h1>
 
               <p className="mt-4 max-w-lg text-sm leading-6 text-white/85">
-                Giriş ekranı artık saha, satış ve teknik ekiplerin rahatça kullanacağı sade bir görünüm sunuyor.
+                Giriş ekranını sade tuttuk. Satış, servis ve operasyon ekipleri için hızlı bir akış sunuyor.
               </p>
 
               <div className="mt-8 grid gap-3">
@@ -203,7 +203,7 @@ export default function LoginClient() {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isOtpStep}
                   className="block w-full rounded-2xl border border-amber-100/20 bg-black/35 px-4 py-3 text-sm text-amber-50 placeholder:text-amber-100/35 focus:border-amber-200/60 focus:outline-none focus:ring-2 focus:ring-amber-200/25 disabled:cursor-not-allowed disabled:opacity-60"
-                  placeholder="ornek@email.com"
+                  placeholder="örnek@email.com"
                 />
               </div>
 

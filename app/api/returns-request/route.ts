@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
 import { promises as dns } from 'dns';
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
     const name = normalizeString(formData.name);
     const orderId = normalizeString(formData.orderId);
     const reason = normalizeString(formData.reason);
-    const resolution = normalizeString(formData.resolution) || 'İade';
+    const resolution = normalizeString(formData.resolution) || 'Ä°ade';
     const itemName = normalizeString(formData.itemName);
     const phone = normalizeString(formData.phone);
     const safeEmail = normalizeEmail(formData.email);
@@ -147,11 +147,11 @@ export async function POST(request: Request) {
       await transporter.sendMail({
         from: `Guohong Lazer <${smtpUser}>`,
         to: safeEmail,
-        subject: 'İade talebi doğrulama kodu',
+        subject: 'Ä°ade talebi doğrulama kodu',
         text: `Doğrulama kodunuz: ${code}. Bu kod ${CODE_TTL_MINUTES} dakika geçerlidir.`,
         html: buildEmailHtml({
-          title: 'İade talebi doğrulama',
-          subtitle: 'İade talebinizi göndermek için kodunuzu girin',
+          title: 'Ä°ade talebi doğrulama',
+          subtitle: 'Ä°ade talebinizi göndermek için kodunuzu girin',
           badge: 'Doğrulama',
           preheader: `Doğrulama kodunuz: ${code}`,
           bodyHtml: `
@@ -237,9 +237,9 @@ export async function POST(request: Request) {
       from: `"${name}" <${smtpUser}>`,
       to: smtpUser,
       replyTo: safeEmail,
-      subject: `İade talebi (#${created.id.slice(0, 8)})`,
+      subject: `Ä°ade talebi (#${created.id.slice(0, 8)})`,
       text: [
-        `İade talebi: ${created.id}`,
+        `Ä°ade talebi: ${created.id}`,
         `Ad: ${name}`,
         `E-posta: ${safeEmail}`,
         phone ? `Telefon: ${phone}` : '',
@@ -253,7 +253,7 @@ export async function POST(request: Request) {
         .join('\n'),
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-        <h2 style="color: #0f172a; margin-top: 0;">İade talebi alındı</h2>
+        <h2 style="color: #0f172a; margin-top: 0;">Ä°ade talebi alındı</h2>
         <div style="margin: 12px 0; padding: 12px; background: #f8fafc; border-radius: 8px;">
           <div><strong>Talep no:</strong> ${created.id}</div>
           <div><strong>Müşteri:</strong> ${name}</div>
@@ -279,12 +279,12 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: `Guohong Lazer <${smtpUser}>`,
       to: safeEmail,
-      subject: 'İade talebiniz alındı',
+      subject: 'Ä°ade talebiniz alındı',
       text: `Talebinizi aldık. Talep numaranız: ${created.id}`,
       html: buildEmailHtml({
-        title: 'İade talebiniz alındı',
+        title: 'Ä°ade talebiniz alındı',
         subtitle: `Talep no: #${created.id.slice(0, 8)}`,
-        badge: 'İade talebi',
+        badge: 'Ä°ade talebi',
         preheader: `Talep no: ${created.id.slice(0, 8)}`,
         bodyHtml: `
           <div>Merhaba <strong>${name}</strong>,</div>
@@ -296,14 +296,15 @@ export async function POST(request: Request) {
             <div style="margin-top: 6px;"><strong>Sipariş:</strong> ${order.id}</div>
           </div>
         `,
-        primaryCta: { label: 'İade durumu', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile` },
+        primaryCta: { label: 'Ä°ade durumu', href: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile` },
         footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
       }),
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('İade talebi hatası:', error);
+    console.error('Ä°ade talebi hatası:', error);
     return NextResponse.json({ error: 'Talep gönderilemedi.' }, { status: 500 });
   }
 }
+

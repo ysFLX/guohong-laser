@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -208,3 +208,4 @@ export async function DELETE(request: Request) {
     deletedCount: result.count,
   });
 }
+

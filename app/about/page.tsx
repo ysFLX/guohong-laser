@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Reveal from '@/components/home/Reveal';
 
 const milestones = [
-  { year: '2014', title: 'İlk saha kurulumları', text: 'Lazer makine entegrasyonları ve ilk teslim projeleri tamamlandı.' },
+  { year: '2014', title: 'Ä°lk saha kurulumları', text: 'Lazer makine entegrasyonları ve ilk teslim projeleri tamamlandı.' },
   { year: '2017', title: 'Servis ağının büyümesi', text: 'Kurulum, bakım ve sarf yönetimi tek yapıda toplandı.' },
   { year: '2020', title: 'Akıllı üretim yaklaşımı', text: 'Saha verisi, performans raporu ve izleme çözümleri genişledi.' },
   { year: '2024', title: 'Küresel tedarik ağı', text: 'Kritik bileşen erişimi ve hızlı parça tedariği daha da güçlendirildi.' },
@@ -73,7 +73,7 @@ export default function AboutPage() {
       </Reveal>
 
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
-        <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Yolculuk</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Yölçüluk</p>
         <h2 className="mt-3 text-3xl font-semibold text-white">Büyüme adımlarımız</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {milestones.map((item) => (
@@ -100,3 +100,5 @@ export default function AboutPage() {
     </div>
   );
 }
+
+

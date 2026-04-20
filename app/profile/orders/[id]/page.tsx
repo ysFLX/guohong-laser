@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
@@ -269,7 +269,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     SHIPPED: 'Kargoya verildi',
     IN_TRANSIT: 'Sipariş hazırlanıyor',
     DELIVERED: 'Teslim edildi',
-    CANCELED: 'İptal',
+    CANCELED: 'Ä°ptal',
   };
 
   const statusTone: Record<string, string> = {
@@ -389,7 +389,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   href="/returns-request"
                   className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:bg-slate-50 dark:text-slate-200"
                 >
-                  İade talebi
+                  Ä°ade talebi
                 </Link>
               </div>
             </div>
@@ -534,7 +534,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       <div className="min-w-0">
                         <div className="truncate text-base font-semibold text-slate-900">{item.name}</div>
                         <div className="mt-1 text-xs text-slate-500">
-                          {item.quantity} adet • {formatPriceTry(item.priceCents)}
+                          {item.quantity} adet â€¢ {formatPriceTry(item.priceCents)}
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.2em]">
                           <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
@@ -612,7 +612,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       href="/returns-request"
                       className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                     >
-                      İade talebi
+                      Ä°ade talebi
                     </Link>
                   </div>
                 </div>
@@ -654,9 +654,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat notları</div>
                   <ul className="mt-3 space-y-2 text-slate-600">
-                    <li>• Paket tesliminde kimlik teyidi alinabilir.</li>
-                    <li>• Hasarlı teslimatlar için 24 saat içinde bildirim yap.</li>
-                    <li>• Kargo gecikmelerinde destek ekibi bilgi verir.</li>
+                    <li>â€¢ Paket tesliminde kimlik teyidi alinabilir.</li>
+                    <li>â€¢ Hasarlı teslimatlar için 24 saat içinde bildirim yap.</li>
+                    <li>â€¢ Kargo gecikmelerinde destek ekibi bilgi verir.</li>
                   </ul>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
@@ -869,7 +869,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  İade işlemleri
+                  Ä°ade işlemleri
                 </div>
                 <div className="mt-2 text-slate-600">
                   Ürün iade veya değişim talebini form üzerinden başlatabilirsiniz.
@@ -883,7 +883,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     <div className="h-2 w-1/4 rounded-full bg-amber-400" />
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span>İnceleme</span>
+                    <span>Ä°nceleme</span>
                     <span>Hazırlanıyor</span>
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
@@ -895,7 +895,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   href="/returns-request"
                   className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  İade talebi oluştur
+                  Ä°ade talebi oluştur
                 </Link>
               </div>
               <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/60">
@@ -908,3 +908,5 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     </div>
   );
 }
+
+

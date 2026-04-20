@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 
@@ -82,7 +82,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const url = typeof body.url === 'string' ? body.url.trim() : '';
 
   if (!sizeValue) {
-    return NextResponse.json({ error: 'Olcu secimi gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Ölçü secimi gerekli' }, { status: 400 });
   }
 
   if (!url) {
@@ -96,11 +96,11 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   });
 
   if (!part) {
-    return NextResponse.json({ error: 'Urun bulunamadi' }, { status: 404 });
+    return NextResponse.json({ error: 'Ürün bulunamadi' }, { status: 404 });
   }
 
   if (!part.sizeOptions.includes(sizeValue)) {
-    return NextResponse.json({ error: 'Secilen olcu bu urunde yok' }, { status: 400 });
+    return NextResponse.json({ error: 'Secilen ölçü bu üründe yok' }, { status: 400 });
   }
 
   const nextMap = normalizeImagesMap(part.sizeOptionImages);
@@ -137,7 +137,7 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
   const url = (searchParams.get('url') || '').trim();
 
   if (!sizeValue) {
-    return NextResponse.json({ error: 'Olcu secimi gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Ölçü secimi gerekli' }, { status: 400 });
   }
 
   const part = await prismaSpareParts.sparePart.findUnique({
@@ -146,7 +146,7 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
   });
 
   if (!part) {
-    return NextResponse.json({ error: 'Urun bulunamadi' }, { status: 404 });
+    return NextResponse.json({ error: 'Ürün bulunamadi' }, { status: 404 });
   }
 
   const nextMap = normalizeImagesMap(part.sizeOptionImages);
@@ -194,3 +194,4 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
 
   return NextResponse.json({ ok: true, removedCount: urlsToDelete.length });
 }
+

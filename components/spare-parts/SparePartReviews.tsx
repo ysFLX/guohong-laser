@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
@@ -232,7 +232,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
                     onChange={(event) => setIsAnonymous(event.target.checked)}
                     className="h-4 w-4 rounded border-indigo-200 text-indigo-600 focus:ring-indigo-200"
                   />
-                  İsmini gizle
+                  Ä°smini gizle
                 </label>
                 <input
                   type="text"
@@ -264,3 +264,4 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
     </section>
   );
 }
+

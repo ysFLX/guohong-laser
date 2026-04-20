@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 
 import type { InvoiceSnapshot } from '@/lib/invoicing/types';
 
@@ -148,3 +148,4 @@ export async function buildInvoiceSnapshotForOrder(orderId: string): Promise<Inv
       : null,
   };
 }
+

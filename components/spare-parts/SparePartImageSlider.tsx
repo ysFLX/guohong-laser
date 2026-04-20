@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -208,6 +208,7 @@ export default function SparePartImageSlider({
     </div>
   );
 }
+
 
 
 

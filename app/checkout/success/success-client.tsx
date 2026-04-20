@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -120,7 +120,7 @@ export default function CheckoutSuccessClient() {
   useEffect(() => {
     if (!sessionId) {
       setOrderStatus('error');
-      setOrderError('Ödeme oturumu bulunamadı. Siparişlerini “Siparişlerim” sayfasından kontrol edebilirsin.');
+      setOrderError('Ödeme oturumu bulunamadı. Siparişlerini â€œSiparişlerimâ€ sayfasından kontrol edebilirsin.');
       return;
     }
 
@@ -267,15 +267,15 @@ export default function CheckoutSuccessClient() {
               <div className="mt-6 grid w-full max-w-2xl gap-3 sm:grid-cols-3">
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Sipariş no</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `#${orderShortId}` : orderStatus === 'loading' ? 'Yükleniyor…' : '-'}</div>
+                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `#${orderShortId}` : orderStatus === 'loading' ? 'Yükleniyorâ€¦' : '-'}</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Toplam</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? formatPriceTry(orderInfo.totalCents) : orderStatus === 'loading' ? 'Yükleniyor…' : '-'}</div>
+                  <div className="mt-2 text-sm font-semibold">{orderInfo ? formatPriceTry(orderInfo.totalCents) : orderStatus === 'loading' ? 'Yükleniyorâ€¦' : '-'}</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Ürün</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `${itemCount} adet` : orderStatus === 'loading' ? 'Yükleniyor…' : '-'}</div>
+                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `${itemCount} adet` : orderStatus === 'loading' ? 'Yükleniyorâ€¦' : '-'}</div>
                 </div>
               </div>
 
@@ -403,7 +403,7 @@ export default function CheckoutSuccessClient() {
                     },
                     {
                       title: 'Kargo bilgisi',
-                      desc: 'Kargo takip numarası girildiğinde “Sipariş detayı”nda görünür.',
+                      desc: 'Kargo takip numarası girildiğinde â€œSipariş detayıâ€nda görünür.',
                     },
                   ].map((step, idx) => (
                     <li key={step.title} className="flex gap-3">
@@ -425,7 +425,7 @@ export default function CheckoutSuccessClient() {
                   className="rounded-2xl border border-slate-200/70 bg-white/90 px-5 py-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-950/40 dark:hover:border-indigo-500/40"
                 >
                   <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                    İade / Değişim
+                    Ä°ade / Değişim
                   </div>
                   <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">Talep oluştur</div>
                   <div className="mt-1 text-xs text-slate-600 dark:text-slate-300">Sipariş no ile hızlı başlat.</div>
@@ -436,7 +436,7 @@ export default function CheckoutSuccessClient() {
                   className="rounded-2xl border border-slate-200/70 bg-white/90 px-5 py-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg dark:border-slate-800/70 dark:bg-slate-950/40 dark:hover:border-indigo-500/40"
                 >
                   <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                    Fatura / İrsaliye
+                    Fatura / Ä°rsaliye
                   </div>
                   <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">Fatura talebi</div>
                   <div className="mt-1 text-xs text-slate-600 dark:text-slate-300">Form otomatik dolu gelir.</div>
@@ -469,7 +469,7 @@ export default function CheckoutSuccessClient() {
                     Sık birlikte alınan öneriler
                   </div>
                   <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                    İstersen bu siparişe ek olarak hızlıca sepet oluşturabilirsin.
+                    Ä°stersen bu siparişe ek olarak hızlıca sepet oluşturabilirsin.
                   </div>
                 </div>
                 <Link href="/spare-parts?sort=recommended" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
@@ -524,7 +524,7 @@ export default function CheckoutSuccessClient() {
                             </span>
                             {item.ratingCount > 0 && (
                               <span className="font-semibold text-amber-700 dark:text-amber-300">
-                                ★ {item.ratingAverage.toFixed(1)} ({item.ratingCount})
+                                â˜… {item.ratingAverage.toFixed(1)} ({item.ratingCount})
                               </span>
                             )}
                           </div>
@@ -554,3 +554,4 @@ export default function CheckoutSuccessClient() {
     </div>
   );
 }
+

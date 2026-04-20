@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -181,7 +181,7 @@ export default function FavoritesPage() {
 
                   <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
                     <span>Stok: {item.sparePart.stockOnHand}</span>
-                    <span>Olcu: {item.sparePart.dimensions || '-'}</span>
+                    <span>Ölçü: {item.sparePart.dimensions || '-'}</span>
                   </div>
 
                   <div className="flex flex-wrap gap-2">
@@ -231,5 +231,7 @@ export default function FavoritesPage() {
     </ProfileLayout>
   );
 }
+
+
 
 

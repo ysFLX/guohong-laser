@@ -1,4 +1,4 @@
-export type MachineProduct = {
+﻿export type MachineProduct = {
   id: number;
   name: string;
   category: string;
@@ -42,10 +42,10 @@ export const machineProducts: MachineProduct[] = [
   },
   {
     id: 3,
-    name: 'Boru ve Sac İkisi Bir Arada Lazer Kesim Makinesi',
+    name: 'Boru ve Sac Ä°kisi Bir Arada Lazer Kesim Makinesi',
     category: 'Sac Plaka Kesimi',
     image: '/images/3.jpg',
-    description: 'Hem sac hem de boru kesimi için tek çözüm. İki işlemi tek makinede birleştirir.',
+    description: 'Hem sac hem de boru kesimi için tek çözüm. Ä°ki işlemi tek makinede birleştirir.',
     features: ['Çift amaçlı kullanım', 'Hızlı işlem değişimi', 'Geniş çalışma alanı'],
     power: '6-12 kW',
     workArea: '1500x3000 + boru',
@@ -107,7 +107,7 @@ export const machineProducts: MachineProduct[] = [
   },
   {
     id: 8,
-    name: 'Küçük Çaplı Tam Otomatik Yükleyici ve İndirici Boru Kesim Makinesi',
+    name: 'Küçük Çaplı Tam Otomatik Yükleyici ve Ä°ndirici Boru Kesim Makinesi',
     category: 'Boru Kesimi',
     image: '/images/8.jpg',
     description: 'Küçük çaplı borular için tam otomatik yükleyici/bosaltıcı sistemli çözüm.',
@@ -173,3 +173,4 @@ export const machineProducts: MachineProduct[] = [
 ];
 
 export const machineProductNames = machineProducts.map((product) => product.name);
+

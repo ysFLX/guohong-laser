@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -424,7 +424,7 @@ function CartPageContent() {
 
             {items.length > 0 && (
               <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-white">
-                {cartItemCount} ürün • {formatPriceTry(subtotalCents)}
+                {cartItemCount} ürün â€¢ {formatPriceTry(subtotalCents)}
               </div>
             )}
 
@@ -623,7 +623,7 @@ function CartPageContent() {
                                 </span>
                                 {item.ratingCount > 0 && (
                                   <span className="font-semibold text-amber-700 dark:text-amber-300">
-                                    ★ {item.ratingAverage.toFixed(1)} ({item.ratingCount})
+                                    â˜… {item.ratingAverage.toFixed(1)} ({item.ratingCount})
                                   </span>
                                 )}
                               </div>
@@ -689,7 +689,7 @@ function CartPageContent() {
                     3D Secure
                   </span>
                   <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
-                    İade garantisi
+                    Ä°ade garantisi
                   </span>
                 </div>
               </div>
@@ -793,7 +793,7 @@ function CartPageContent() {
                       onClick={handleClearReminder}
                       className="rounded-full border border-slate-200 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 dark:border-slate-800 dark:text-slate-300"
                     >
-                      İptal
+                      Ä°ptal
                     </button>
                   </div>
                   {reminderStatus === 'saved' && (
@@ -841,7 +841,7 @@ function CartPageContent() {
               Hızlı Al için adres gerekli
             </div>
             <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Şimdi adres eklemek ister misiniz?
+              Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Åimdi adres eklemek ister misiniz?
             </div>
             <div className="mt-5 flex items-center justify-end gap-2">
               <button
@@ -876,3 +876,4 @@ export default function CartPage() {
     </Suspense>
   );
 }
+

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
@@ -103,7 +103,7 @@ export default function NotificationsDrawer() {
               <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
                 {isAdmin
                   ? 'Yeni iletişim / teklif talebi geldiğinde burada görünür.'
-                  : 'İletişim veya teklif formu gönderdikten sonra yanıtlar burada görünür.'}
+                  : 'Ä°letişim veya teklif formu gönderdikten sonra yanıtlar burada görünür.'}
               </div>
             </div>
           )}
@@ -134,7 +134,7 @@ export default function NotificationsDrawer() {
                           ? 'Sipariş durumu'
                           : x.type === 'QUOTE'
                             ? 'Fiyat Teklifi'
-                            : 'İletişim'}
+                            : 'Ä°letişim'}
                       {!isOrderStatus && x.product ? ` - ${x.product}` : ''}
                       {!isOrderStatus && x.subject ? ` - ${x.subject}` : ''}
                     </div>
@@ -154,7 +154,7 @@ export default function NotificationsDrawer() {
                     ) : isAdmin ? (
                       <>
                         <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">
-                          {x.name || 'İsimsiz'}
+                          {x.name || 'Ä°simsiz'}
                         </div>
                         <div className="mt-1 text-xs text-slate-600 dark:text-slate-300">
                           {x.email || ''}{x.phone ? ` - ${x.phone}` : ''}
@@ -275,3 +275,4 @@ export default function NotificationsDrawer() {
     </div>
   );
 }
+

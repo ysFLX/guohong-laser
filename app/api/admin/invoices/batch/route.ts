@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -251,7 +251,7 @@ export async function POST(req: Request) {
           errors.push({ invoiceId, orderId, error: message });
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'İşlem başarısız';
+        const message = err instanceof Error ? err.message : 'Ä°şlem başarısız';
         errors.push({ invoiceId, orderId, error: message });
         // Lock alındıysa en azından kilidi boşa çıkaralım:
         try {
@@ -274,7 +274,8 @@ export async function POST(req: Request) {
       errors: errors.slice(0, 20),
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'İşlem başarısız';
+    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+

@@ -1,4 +1,4 @@
-import { revalidatePath, revalidateTag } from 'next/cache';
+﻿import { revalidatePath, revalidateTag } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -157,7 +157,7 @@ export async function PATCH(
         : {};
 
     if (payload.hasSizeOptions === true && Array.isArray(data.sizeOptions) && data.sizeOptions.length === 0) {
-      return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
+      return NextResponse.json({ error: 'Ölçülu ürünler icin en az bir ölçü gerekli' }, { status: 400 });
     }
   } else if ('sizeOptionEntries' in payload) {
     const baseCurrency = normalizePriceCurrency(payload.priceCurrency, 'TRY');
@@ -265,3 +265,4 @@ export async function DELETE(
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+

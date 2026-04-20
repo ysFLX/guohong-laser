@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -1053,7 +1053,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   <option value="price-asc">Fiyat (artan)</option>
                   <option value="price-desc">Fiyat (azalan)</option>
                   <option value="rating-desc">Puan (yüksek)</option>
-                  <option value="name-asc">İsim (A-Z)</option>
+                  <option value="name-asc">Ä°sim (A-Z)</option>
                 </select>
               </div>
             </div>
@@ -1343,7 +1343,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   value={stockRequestForm.email}
                   onChange={handleStockRequestChange}
                   className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900"
-                  placeholder="ornek@mail.com"
+                  placeholder="örnek@mail.com"
                 />
                 {stockRequestEmailError && (
                   <div className="mt-1 text-xs font-semibold text-red-600">{stockRequestEmailError}</div>
@@ -1500,3 +1500,5 @@ export default function SparePartsPageClient({ initialItems = [] }: { initialIte
     </Suspense>
   );
 }
+
+

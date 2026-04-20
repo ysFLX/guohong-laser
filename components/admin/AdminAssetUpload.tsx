@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
@@ -107,3 +107,4 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
     </div>
   );
 }
+

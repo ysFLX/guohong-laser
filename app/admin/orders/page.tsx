@@ -1,4 +1,4 @@
-import OrdersAdminManager from '@/components/admin/OrdersAdminManager';
+﻿import OrdersAdminManager from '@/components/admin/OrdersAdminManager';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 
 export default function AdminOrdersPage() {
@@ -14,3 +14,4 @@ export default function AdminOrdersPage() {
     </div>
   );
 }
+

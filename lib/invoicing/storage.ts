@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+﻿import { createClient } from '@supabase/supabase-js';
 
 const BUCKET = 'invoices';
 
@@ -57,3 +57,4 @@ export async function getSignedInvoiceUrl(objectPath: string, expiresInSeconds =
   }
   return data.signedUrl;
 }
+

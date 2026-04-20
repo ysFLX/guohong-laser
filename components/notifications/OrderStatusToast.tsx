@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -84,3 +84,4 @@ export default function OrderStatusToast() {
 
   return null;
 }
+

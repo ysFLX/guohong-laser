@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
 import PolicyPageLayout from '@/components/legal/PolicyPageLayout';
@@ -9,7 +9,7 @@ export default function KvkkPage() {
       eyebrow="Güven Merkezi"
       title="KVKK Aydınlatma Metni"
       description="Kişisel verilerinizin işlenmesi, saklanması ve haklarınızla ilgili özet bilgilendirme. Detaylar için destek hattımızla görüşebilirsiniz."
-      tags={['Veri İşleme', 'Aydınlatma', 'Haklar']}
+      tags={['Veri Ä°şleme', 'Aydınlatma', 'Haklar']}
       sidebar={
         <>
           <PolicyCard title="Hızlı bağlantılar">
@@ -47,15 +47,15 @@ export default function KvkkPage() {
         </>
       }
     >
-      <PolicyCard title="İşlenen veri kategorileri">
+      <PolicyCard title="Ä°şlenen veri kategorileri">
         <ul className="list-disc space-y-2 pl-5">
           <li>Kimlik ve iletişim bilgileri (ad, e-posta, telefon).</li>
           <li>Sipariş ve teslimat bilgileri (adres, ürün, fatura).</li>
-          <li>İşlem güvenliği kayıtları (oturum, log, teknik kayıtlar).</li>
+          <li>Ä°şlem güvenliği kayıtları (oturum, log, teknik kayıtlar).</li>
         </ul>
       </PolicyCard>
 
-      <PolicyCard title="İşleme amaçları">
+      <PolicyCard title="Ä°şleme amaçları">
         <ul className="list-disc space-y-2 pl-5">
           <li>Siparişin oluşturulması, ödeme ve teslimat sürecinin yürütülmesi.</li>
           <li>Garanti, iade ve teknik destek süreçlerinin yürütülmesi.</li>
@@ -73,3 +73,4 @@ export default function KvkkPage() {
     </PolicyPageLayout>
   );
 }
+

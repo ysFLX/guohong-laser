@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -82,7 +82,7 @@ export default function SupportWidget() {
     const pageUrl = typeof window !== 'undefined' ? window.location.href : pathname ? `${pathname}` : '';
 
     const message = pageUrl
-      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Şu sayfa hakkında destek rica ediyorum:\n${pageUrl}`
+      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Åu sayfa hakkında destek rica ediyorum:\n${pageUrl}`
       : 'Merhaba, Guohong Lazer sitesinden yazıyorum. Destek rica ediyorum.';
 
     setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
@@ -461,3 +461,4 @@ export default function SupportWidget() {
     </div>
   );
 }
+

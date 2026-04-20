@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -205,7 +205,7 @@ export default async function ProductDetailPage({
             ))}
           </div>
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/6 px-5 py-4 text-sm text-white/72">
-            Fiyat ve konfigürasyon için en hızlı yol: <span className="font-semibold text-white">teklif talebi</span>. İstersen WhatsApp&apos;tan üretim detaylarını yazıp netleştirebiliriz.
+            Fiyat ve konfigürasyon için en hızlı yol: <span className="font-semibold text-white">teklif talebi</span>. Ä°stersen WhatsApp&apos;tan üretim detaylarını yazıp netleştirebiliriz.
           </div>
         </div>
 
@@ -265,9 +265,9 @@ export default async function ProductDetailPage({
                 </div>
                 <div className="min-w-0">
                   <div className="text-sm font-semibold text-white line-clamp-1">{item.name}</div>
-                  <div className="mt-1 text-xs text-white/55">{item.power} • {item.automation}</div>
+                  <div className="mt-1 text-xs text-white/55">{item.power} â€¢ {item.automation}</div>
                 </div>
-                <span className="ml-auto text-[#ff6a0d] transition group-hover:translate-x-1">→</span>
+                <span className="ml-auto text-[#ff6a0d] transition group-hover:translate-x-1">â†’</span>
               </Link>
             ))}
           </div>
@@ -289,3 +289,4 @@ export default async function ProductDetailPage({
     </div>
   );
 }
+

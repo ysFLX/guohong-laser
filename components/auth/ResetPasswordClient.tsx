@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -25,12 +25,12 @@ export default function ResetPasswordClient() {
     }
 
     if (password.length < 6) {
-      setError('Şifre en az 6 karakter olmalıdır.');
+      setError('Åifre en az 6 karakter olmalıdır.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Şifreler eşleşmiyor.');
+      setError('Åifreler eşleşmiyor.');
       return;
     }
 
@@ -133,6 +133,7 @@ export default function ResetPasswordClient() {
     </div>
   );
 }
+
 
 
 

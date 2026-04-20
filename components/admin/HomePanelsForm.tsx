@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, type ReactNode } from 'react';
 
@@ -35,10 +35,10 @@ const iconOptionsRecommended = [
   { value: 'calendar', label: 'Takvim' },
   { value: 'shield-check', label: 'Güvenlik' },
   { value: 'chart-up', label: 'Performans' },
-  { value: 'briefcase', label: 'İş süreci' },
+  { value: 'briefcase', label: 'Ä°ş süreci' },
   { value: 'document', label: 'Doküman' },
   { value: 'badge-check', label: 'Onay' },
-  { value: 'signature', label: 'İmza' },
+  { value: 'signature', label: 'Ä°mza' },
   { value: 'truck', label: 'Teslimat' },
   { value: 'mail', label: 'E-posta' },
   { value: 'bookmark', label: 'Kaydet' },
@@ -92,7 +92,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
   const renderIconOptions = () => (
     <>
-      <option value="">İkon seç</option>
+      <option value="">Ä°kon seç</option>
       {iconOptionGroups.map((group) => (
         <optgroup key={group.label} label={group.label}>
           {group.options.map((option) => (
@@ -209,7 +209,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
         <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">Hızlı düzenleme</div>
         <h2 className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Anasayfa panel ayarları</h2>
         <p className="mt-2 text-sm text-[var(--admin-muted)]">
-          Panel seç → düzenle → kaydet. Sağda canlı önizleme var.
+          Panel seç â†’ düzenle â†’ kaydet. Sağda canlı önizleme var.
         </p>
 
         <div className="mt-4 grid gap-2 sm:grid-cols-3">
@@ -268,7 +268,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           </button>
         </div>
 
-        <div className="mt-4 text-xs text-[var(--admin-muted)]">İpucu: Kaydet butonu sayfanın altında sabit.</div>
+        <div className="mt-4 text-xs text-[var(--admin-muted)]">Ä°pucu: Kaydet butonu sayfanın altında sabit.</div>
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-start">
@@ -278,7 +278,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">
-                    1. Panel — Canlı kapasite
+                    1. Panel â€” Canlı kapasite
                   </div>
                   <h3 className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Slotlar</h3>
                   <p className="mt-1 text-sm text-[var(--admin-muted)]">
@@ -390,7 +390,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             onClick={() => setCapacitySchedule((prev) => moveArrayItem(prev, index, index - 1))}
                             aria-label="Yukarı taşı"
                           >
-                            ↑
+                            â†‘
                           </AdminButton>
                           <AdminButton
                             type="button"
@@ -400,7 +400,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             onClick={() => setCapacitySchedule((prev) => moveArrayItem(prev, index, index + 1))}
                             aria-label="Aşağı taşı"
                           >
-                            ↓
+                            â†“
                           </AdminButton>
                           <AdminButton
                             type="button"
@@ -452,11 +452,11 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                               className="form-input"
                               value={slot.window}
                               onChange={(e) => updateCapacitySlot(index, { window: e.target.value })}
-                              placeholder="Örn: 12–14 Ocak"
+                              placeholder="Örn: 12â€“14 Ocak"
                             />
                           </Field>
                           <div className="sm:col-span-2">
-                            <Field label="İkon">
+                            <Field label="Ä°kon">
                               <select
                                 className="form-input"
                                 value={slot.icon || ''}
@@ -474,7 +474,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
                 {capacitySchedule.length === 0 && (
                   <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4 text-sm text-[var(--admin-muted)]">
-                    Henüz slot yok. “Yeni slot” ile ekleyebilirsin.
+                    Henüz slot yok. â€œYeni slotâ€ ile ekleyebilirsin.
                   </div>
                 )}
               </div>
@@ -486,7 +486,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">
-                    2. Panel — Fiyat düşüş alarmı
+                    2. Panel â€” Fiyat düşüş alarmı
                   </div>
                   <h3 className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Adım listesi</h3>
                   <p className="mt-1 text-sm text-[var(--admin-muted)]">Bu liste ana sayfadaki adım akışını oluşturur.</p>
@@ -577,7 +577,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             onClick={() => setPriceAlertSteps((prev) => moveArrayItem(prev, index, index - 1))}
                             aria-label="Yukarı taşı"
                           >
-                            ↑
+                            â†‘
                           </AdminButton>
                           <AdminButton
                             type="button"
@@ -587,7 +587,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             onClick={() => setPriceAlertSteps((prev) => moveArrayItem(prev, index, index + 1))}
                             aria-label="Aşağı taşı"
                           >
-                            ↓
+                            â†“
                           </AdminButton>
                           <AdminButton
                             type="button"
@@ -618,7 +618,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                               placeholder="Örn: Ürünü kaydet"
                             />
                           </Field>
-                          <Field label="İkon">
+                          <Field label="Ä°kon">
                             <select
                               className="form-input"
                               value={step.icon || ''}
@@ -635,7 +635,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
                 {priceAlertSteps.length === 0 && (
                   <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4 text-sm text-[var(--admin-muted)]">
-                    Henüz adım yok. “Yeni adım” ile ekleyebilirsin.
+                    Henüz adım yok. â€œYeni adımâ€ ile ekleyebilirsin.
                   </div>
                 )}
               </div>
@@ -647,7 +647,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-[11px] font-semibold tracking-[0.22em] text-[var(--admin-accent)]">
-                    3. Panel — Kurumsal satın alma
+                    3. Panel â€” Kurumsal satın alma
                   </div>
                   <h3 className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Kartlar</h3>
                   <p className="mt-1 text-sm text-[var(--admin-muted)]">Her kart bir süreç adımıdır.</p>
@@ -747,7 +747,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             onClick={() => setProcurementFlow((prev) => moveArrayItem(prev, index, index - 1))}
                             aria-label="Yukarı taşı"
                           >
-                            ↑
+                            â†‘
                           </AdminButton>
                           <AdminButton
                             type="button"
@@ -757,7 +757,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             onClick={() => setProcurementFlow((prev) => moveArrayItem(prev, index, index + 1))}
                             aria-label="Aşağı taşı"
                           >
-                            ↓
+                            â†“
                           </AdminButton>
                           <AdminButton
                             type="button"
@@ -789,7 +789,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                                 placeholder="Örn: Teklif"
                               />
                             </Field>
-                            <Field label="İkon">
+                            <Field label="Ä°kon">
                               <select
                                 className="form-input"
                                 value={step.icon || ''}
@@ -815,7 +815,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
                 {procurementFlow.length === 0 && (
                   <div className="rounded-2xl border border-dashed border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4 text-sm text-[var(--admin-muted)]">
-                    Henüz kart yok. “Yeni kart” ile ekleyebilirsin.
+                    Henüz kart yok. â€œYeni kartâ€ ile ekleyebilirsin.
                   </div>
                 )}
               </div>
@@ -976,3 +976,4 @@ export default function HomePanelsForm({ initialConfig }: Props) {
     </div>
   );
 }
+

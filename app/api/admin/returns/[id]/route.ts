@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -13,10 +13,10 @@ type AllowedStatus = (typeof allowedStatuses extends Set<infer T> ? T : never) &
 
 const statusLabel: Record<string, string> = {
   NEW: 'Talep alındı',
-  UNDER_REVIEW: 'İncelemede',
+  UNDER_REVIEW: 'Ä°ncelemede',
   APPROVED: 'Onaylandı',
   REJECTED: 'Reddedildi',
-  REFUNDED: 'İade tamamlandı',
+  REFUNDED: 'Ä°ade tamamlandı',
 };
 
 export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
@@ -92,7 +92,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       await transporter.sendMail({
         from: `Guohong Lazer <${smtpUser}>`,
         to: existing.email,
-        subject: `İade talebi güncellendi (#${existing.id.slice(0, 8)})`,
+        subject: `Ä°ade talebi güncellendi (#${existing.id.slice(0, 8)})`,
         text: [
           `Talep durumunuz güncellendi: ${statusLabel[status] || status}`,
           adminNote ? `Not: ${adminNote}` : '',
@@ -100,9 +100,9 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           .filter(Boolean)
           .join('\n'),
         html: buildEmailHtml({
-          title: 'İade talebiniz güncellendi',
+          title: 'Ä°ade talebiniz güncellendi',
           subtitle: `Talep no: #${existing.id.slice(0, 8)}`,
-          badge: 'İade durumu',
+          badge: 'Ä°ade durumu',
           preheader: `Durum: ${statusLabel[status] || status}`,
           bodyHtml: `
             <div>Merhaba <strong>${existing.name}</strong>,</div>
@@ -127,3 +127,4 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
 
   return NextResponse.json({ item: updated });
 }
+

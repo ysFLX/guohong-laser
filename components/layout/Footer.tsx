@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -30,7 +30,7 @@ export default function Footer() {
     if (typeof window === 'undefined') return;
     const pageUrl = window.location.href;
     const message = pageUrl
-      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Şu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
+      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Åu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
       : 'Merhaba, Guohong Lazer sitesinden yazıyorum. Bilgi almak istiyorum.';
     const timer = window.setTimeout(() => {
       setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
@@ -48,14 +48,14 @@ export default function Footer() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_0.9fr_1fr]">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#15327f]">Guohong Laser</p>
-              <h3 className="mt-4 text-3xl font-semibold text-[#333333]">İletişime Geç</h3>
+              <h3 className="mt-4 text-3xl font-semibold text-[#333333]">Ä°letişime Geç</h3>
               <p className="mt-4 text-sm leading-7 text-[#333333]/74">
                 Sonucu görmekten daha iyi bir şey yoktur. Makine, yedek parça veya teknik servis ihtiyacınız için ekibimizle hemen iletişime geçin.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white">
-                  İletişim Formu İçin Tıklayınız
+                  Ä°letişim Formu Ä°çin Tıklayınız
                 </Link>
                 <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-5 py-3 text-sm font-semibold text-[#15327f]">
                   Whatsapp
@@ -127,7 +127,7 @@ export default function Footer() {
             <div className="flex flex-wrap gap-4">
               <Link href="/privacy" className="transition hover:text-[#15327f]">Gizlilik</Link>
               <Link href="/kvkk" className="transition hover:text-[#15327f]">KVKK</Link>
-              <Link href="/returns" className="transition hover:text-[#15327f]">İade</Link>
+              <Link href="/returns" className="transition hover:text-[#15327f]">Ä°ade</Link>
               <Link href="/shipping" className="transition hover:text-[#15327f]">Teslimat</Link>
             </div>
           </div>
@@ -136,3 +136,4 @@ export default function Footer() {
     </footer>
   );
 }
+

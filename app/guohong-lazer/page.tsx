@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
@@ -60,7 +60,7 @@ export default function GuohongLazerPage() {
               href="/contact"
               className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
             >
-              İletişime geç
+              Ä°letişime geç
             </Link>
           </div>
         </div>
@@ -92,3 +92,4 @@ export default function GuohongLazerPage() {
     </div>
   );
 }
+

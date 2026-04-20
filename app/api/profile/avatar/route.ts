@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth";
+﻿import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -32,3 +32,4 @@ export async function POST(request: Request) {
     headers: { "Content-Type": "application/json" },
   });
 }
+

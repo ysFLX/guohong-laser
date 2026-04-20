@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 
 import { processPendingInvoices } from '@/lib/invoicing/service';
 
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
     const result = await processPendingInvoices({ limit });
     return NextResponse.json({ ok: true, ...result });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'İşlem başarısız';
+    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -37,4 +37,5 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   return GET(req);
 }
+
 

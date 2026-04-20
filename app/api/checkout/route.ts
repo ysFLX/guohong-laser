@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
   if (!isSparePartDirectPurchaseEnabled()) {
     return NextResponse.json(
       {
-        error: 'Yedek parca satisi su anda teklifle ilerliyor. Lutfen teklif olusturun.',
+        error: 'Yedek parca satisi su anda teklifle ilerliyor. Lutfen teklif olustürün.',
         code: 'SPARE_PART_DIRECT_PURCHASE_DISABLED',
       },
       { status: 503 },
@@ -161,7 +161,7 @@ export async function POST(req: Request) {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
   if (verifiedItems.length !== cleanItems.length) {
-    return NextResponse.json({ error: 'Sepette gecersiz veya pasif urun var.' }, { status: 400 });
+    return NextResponse.json({ error: 'Sepette gecersiz veya pasif ürün var.' }, { status: 400 });
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -282,3 +282,4 @@ export async function POST(req: Request) {
     );
   }
 }
+

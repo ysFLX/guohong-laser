@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
@@ -241,3 +241,4 @@ export async function DELETE() {
     deletedCount: result.count,
   });
 }
+

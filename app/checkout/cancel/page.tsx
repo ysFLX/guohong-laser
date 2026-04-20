@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 
@@ -36,7 +36,7 @@ export default function CheckoutCancelPage() {
         <div className="mt-8 rounded-[28px] border border-slate-200/70 bg-white/90 p-5 text-left text-sm text-slate-600 shadow-xl dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-slate-300">
           <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Yardım</div>
           <div className="mt-3">
-            Ödeme işlemini tekrar denemek isterseniz sepetten devam edebilirsiniz. Sorun devam ederse ekibimizle iletişim kurun.
+            Ödeme işlemini tekrar denemek isterseniz sepetten devam edebilirsiniz. Sorun devam ederse ekibimizle iletişim kürün.
           </div>
           <div className="mt-4 flex flex-wrap gap-3 text-xs font-semibold text-slate-700 dark:text-slate-200">
             <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
@@ -51,4 +51,6 @@ export default function CheckoutCancelPage() {
     </div>
   );
 }
+
+
 

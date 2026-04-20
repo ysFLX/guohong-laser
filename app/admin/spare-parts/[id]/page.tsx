@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 
 import { authOptions } from '@/auth';
@@ -148,7 +148,7 @@ export default async function AdminSparePartDetailPage({
               <div className="mt-2 text-sm text-[var(--admin-muted)]">{part.dimensions || '-'}</div>
             </div>
             <div className="sm:col-span-2">
-              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Olcu secenekleri</div>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-[var(--admin-muted)]">Ölçü secenekleri</div>
               <div className="mt-2 text-sm text-[var(--admin-muted)]">
                 {part.hasSizeOptions && sizeOptionEntries.length > 0
                   ? sizeOptionEntries
@@ -196,3 +196,5 @@ export default async function AdminSparePartDetailPage({
       </div>
   );
 }
+
+

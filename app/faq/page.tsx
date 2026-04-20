@@ -1,37 +1,37 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 const faqGroups = [
   {
-    title: 'Sipariş ve Teklif',
+    title: 'Sipariş ve teklif',
     items: [
       {
-        q: 'Makine Fiyatları neden görünmüyor?',
-        a: 'Ürünler kurumsal teklif ile fiyatlandırılır. Model, konfigurasyon ve teslimat seçeneklerine göre teklif hazırlanır.',
+        q: 'Makine fiyatları neden görünmüyor?',
+        a: 'Makineler proje bazlı teklif ile fiyatlandırılıyor. Model, konfigürasyon ve teslimat koşullarına göre net teklif hazırlıyoruz.',
       },
       {
-        q: 'Teklif ne kadar surede gelir?',
-        a: 'Stoklu modeller için 30-60 dakika içinde, özel üretimlerde aynı gün içinde geri dönüş sağlanır.',
+        q: 'Teklif ne kadar sürede gelir?',
+        a: 'Stoklu modeller için genelde aynı gün içinde, özel üretimlerde ise kısa sürede geri dönüş sağlıyoruz.',
       },
       {
         q: 'Toplu alımda ekstra indirim var mı?',
-        a: 'Toplu alımlarda proje bazlı fiyatlama yapılır. Teklif formunda adet bilgisini paylaşabilirsiniz.',
+        a: 'Toplu alımlarda proje bazlı fiyatlama yapıyoruz. Teklif formunda adet bilgisini paylaşmanız yeterli.',
       },
     ],
   },
   {
-    title: 'Teslimat ve Servis',
+    title: 'Teslimat ve servis',
     items: [
       {
         q: 'Yedek parça teslimat süreleri nedir?',
-        a: 'Stoklu ürünler aynı/ertesi gün kargoya verilir. Özel üretimlerde termin tarihi teklif aşamasında netleşir.',
+        a: 'Stoklu ürünler aynı ya da ertesi gün kargoya verilir. Özel üretimlerde termin tarihi teklif aşamasında netleşir.',
       },
       {
         q: 'Kurulum ve eğitim sağlıyor musunuz?',
-        a: 'Evet. Kurulum, test ve operator eğitimi kurumsal servis paketi kapsamında sunulur.',
+        a: 'Evet. Kurulum, test ve operatör eğitimi kurumsal servis paketinin içinde sunulur.',
       },
       {
         q: 'Garanti süreci nasıl ilerler?',
-        a: 'Garanti başvurusu seri numarası ve fatura bilgisi ile açılır. Teknik ekip ön değerlendirme yapar.',
+        a: 'Garanti başvurusu seri numarası ve fatura bilgisi ile açılır. Teknik ekip önce ön inceleme yapar.',
       },
     ],
   },
@@ -39,16 +39,16 @@ const faqGroups = [
     title: 'Yedek parçalar ve uyumluluk',
     items: [
       {
-        q: 'Parça uyumluluğunu nasıl ögreneceğim?',
-        a: 'Ürün sayfasında uyumluluk bilgisi yoksa teknik ekibe model adını ileterek teyit alabilirsiniz.',
+        q: 'Parça uyumluluğunu nasıl öğrenirim?',
+        a: 'Ürün sayfasında bilgi yoksa model adını teknik ekibe iletin, hızlıca teyit edelim.',
       },
       {
         q: 'Stokta olmayan parçalar için ne yapmalıyım?',
-        a: 'Teklif formu üzerinden talep oluşturarak tedarik süresi ve fiyat bilgisi alabilirsiniz.',
+        a: 'Teklif formu üzerinden talep oluşturursanız tedarik süresi ve fiyat bilgisini paylaşırız.',
       },
       {
         q: 'Acil tedarik hizmeti var mı?',
-        a: 'Kritik parçalar için hızlı tedarik süreci uygulanır. Durum bilgi panelinde paylaşılır.',
+        a: 'Kritik parçalar için hızlı tedarik akışı uyguluyoruz. Durumu ekibimiz size ayrıca bildirir.',
       },
     ],
   },
@@ -100,29 +100,17 @@ export default function FaqPage() {
             <div className="card-surface p-6">
               <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Hızlı bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm">
-                <Link
-                  href="/contact"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
-                  İletişim
+                <Link href="/contact" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
+                  Ä°letişim
                 </Link>
-                <Link
-                  href="/quote"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
+                <Link href="/quote" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
                   Teklif iste
                 </Link>
-                <Link
-                  href="/returns"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
-                  İade ve Garanti
+                <Link href="/returns" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
+                  Ä°ade ve garanti
                 </Link>
-                <Link
-                  href="/shipping"
-                  className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
-                >
-                  Kargo ve Teslimat
+                <Link href="/shipping" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
+                  Kargo ve teslimat
                 </Link>
               </div>
             </div>
@@ -130,12 +118,9 @@ export default function FaqPage() {
             <div className="card-surface p-6">
               <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Canlı destek</div>
               <p className="mt-3 text-sm text-[var(--gray-500)]">
-                Projenize özel destek için teknik ekibimizden geri dönüş talep edebilirsiniz.
+                Projene özel destek için teknik ekibimizden geri dönüş talep edebilirsin.
               </p>
-              <Link
-                href="/contact?subject=Hizli+Destek"
-                className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800"
-              >
+              <Link href="/contact?subject=Hizli+Destek" className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800">
                 Destek talebi
               </Link>
             </div>
@@ -145,3 +130,4 @@ export default function FaqPage() {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -35,7 +35,7 @@ const statusLabel: Record<string, string> = {
   PENDING: 'Ödeme bekleniyor',
   PAID: 'Ödeme alındı',
   FAILED: 'Ödeme başarısız',
-  CANCELED: 'İptal edildi',
+  CANCELED: 'Ä°ptal edildi',
 };
 
 const formatStatusLabel = (value: string) => statusLabel[value] || value;
@@ -73,7 +73,7 @@ async function sendStatusEmail(params: {
   const showInvoiceNote = params.status === 'SHIPPED' || params.status === 'DELIVERED';
 
   const cancelLine =
-    params.status === 'CANCELED' && params.cancelReason ? `İptal nedeni: ${params.cancelReason}` : '';
+    params.status === 'CANCELED' && params.cancelReason ? `Ä°ptal nedeni: ${params.cancelReason}` : '';
   const trackingLines = [
     params.tracking.carrier ? `Kargo firması: ${params.tracking.carrier}` : '',
     params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
@@ -102,7 +102,7 @@ async function sendStatusEmail(params: {
       `Sipariş durumunuz güncellendi: ${statusText}`,
       `Sipariş detayları: ${orderUrl}`,
       showInvoiceNote ? 'Fatura/irsaliye: Sipariş onay e-postasında paylaşıldı.' : '',
-      `İade/değişim talebi: ${returnsUrl}`,
+      `Ä°ade/değişim talebi: ${returnsUrl}`,
       trackingLines,
     ]
       .filter(Boolean)
@@ -127,7 +127,7 @@ async function sendStatusEmail(params: {
         }
       `,
       primaryCta: { label: 'Sipariş detayları', href: orderUrl },
-      secondaryCta: { label: 'İade talebi', href: returnsUrl },
+      secondaryCta: { label: 'Ä°ade talebi', href: returnsUrl },
       footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
@@ -222,7 +222,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
   const cancelReason =
     typeof body.cancelReason === 'string' && body.cancelReason.trim() ? body.cancelReason.trim() : null;
   if (status === 'CANCELED' && !cancelReason) {
-    return NextResponse.json({ error: 'İptal nedeni gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Ä°ptal nedeni gerekli' }, { status: 400 });
   }
 
   const shippingCarrier = typeof body.shippingCarrier === 'string' ? body.shippingCarrier.trim() : null;
@@ -270,7 +270,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
 
     if (existing.status !== status) {
       const reasonSuffix =
-        status === 'CANCELED' && cancelReason ? `Iptal nedeni: ${cancelReason}` : '';
+        status === 'CANCELED' && cancelReason ? `İptal nedeni: ${cancelReason}` : '';
       try {
         await prismaNotifications.userNotification.create({
           data: {
@@ -345,3 +345,5 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+

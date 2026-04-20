@@ -1,4 +1,4 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import path from 'path';
 import PDFDocument from 'pdfkit';
 
@@ -80,7 +80,7 @@ function formatOrderStatusTr(status: string) {
     case 'FAILED':
       return 'Ödeme başarısız';
     case 'CANCELED':
-      return 'İptal';
+      return 'Ä°ptal';
     default:
       return status;
   }
@@ -308,7 +308,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   doc.fillColor('white');
   doc.font(fontBold).fontSize(16).text('Guohong Lazer', left, 86, { width: 320 });
   doc.font(fontRegular).fontSize(9).fillColor('#c7d2fe');
-  doc.text(`Web: ${siteHost}  •  WhatsApp: +90 536 831 6787`, left, 106, { width: 360 });
+  doc.text(`Web: ${siteHost}  â€¢  WhatsApp: +90 536 831 6787`, left, 106, { width: 360 });
 
   let y = headerH + 22;
 
@@ -458,7 +458,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
     ty += lineHeight;
 
     const diff = totalCents - itemsTotalCents;
-    doc.text(diff < 0 ? 'İndirim' : 'Ek kalem', labelX, ty, { width: totalsBoxW - 28 });
+    doc.text(diff < 0 ? 'Ä°ndirim' : 'Ek kalem', labelX, ty, { width: totalsBoxW - 28 });
     doc.text(tryFormatMoney(diff, params.order.currency), labelX, ty, { width: totalsBoxW - 28, align: 'right' });
     ty += lineHeight;
   }
@@ -469,7 +469,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   ty += lineHeight;
 
   doc.font(fontRegular).fontSize(9).fillColor(COLORS.muted);
-  doc.text('Not: Bu belge proforma / geçici belgedir. Resmi e‑Fatura ayrıca iletilecektir.', labelX, ty + 6, {
+  doc.text('Not: Bu belge proforma / geçici belgedir. Resmi eâ€‘Fatura ayrıca iletilecektir.', labelX, ty + 6, {
     width: totalsBoxW - 28,
   });
 
@@ -494,3 +494,4 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   doc.end();
   return result;
 }
+

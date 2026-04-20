@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
   const isActive = typeof body.isActive === 'boolean' ? body.isActive : true;
 
   if (!name) {
-    return NextResponse.json({ error: 'Urun adi gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Ürün adi gerekli' }, { status: 400 });
   }
 
   if (!categoryId) {
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
   }
 
   if (hasSizeOptions && sizeOptions.length === 0) {
-    return NextResponse.json({ error: 'Olculu urunler icin en az bir olcu gerekli' }, { status: 400 });
+    return NextResponse.json({ error: 'Ölçülu ürünler icin en az bir ölçü gerekli' }, { status: 400 });
   }
 
   try {
@@ -149,7 +149,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ item: created });
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : 'Urun olusturulamadi';
+    const message = e instanceof Error ? e.message : 'Ürün olusturulamadi';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+

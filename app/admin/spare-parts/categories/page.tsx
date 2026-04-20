@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 import { AdminBadge } from '@/components/admin/AdminUi';
 
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
@@ -82,3 +82,4 @@ export default async function AdminSparePartCategoriesPage() {
     </div>
   );
 }
+

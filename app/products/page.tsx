@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 import ProductsPageClient from '@/components/products/ProductsPageClient';
 
@@ -28,3 +28,4 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const resolved = searchParams ? await searchParams : undefined;
   return <ProductsPageClient initialCategory={resolved?.category} />;
 }
+

@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 import { getUsdTryExchangeRate } from '@/lib/exchangeRates';
 
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
@@ -33,3 +33,4 @@ export default async function AdminSparePartNewPage() {
     </div>
   );
 }
+

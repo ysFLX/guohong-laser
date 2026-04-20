@@ -1,4 +1,4 @@
-import Image from 'next/image';
+﻿import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
@@ -81,7 +81,7 @@ export default async function OrdersPage() {
     SHIPPED: 'Kargoya verildi',
     IN_TRANSIT: 'Sipariş hazırlanıyor',
     DELIVERED: 'Teslim edildi',
-    CANCELED: 'İptal',
+    CANCELED: 'Ä°ptal',
   };
 
   const statusTone: Record<string, string> = {
@@ -411,7 +411,7 @@ export default async function OrdersPage() {
                         href={`/returns-request?${returnParams}`}
                         className="rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:border-slate-300 hover:text-slate-900"
                       >
-                        İade / değişim talebi
+                        Ä°ade / değişim talebi
                       </Link>
                       <Link
                         href={`/contact?${invoiceParams}`}
@@ -443,3 +443,4 @@ export default async function OrdersPage() {
     </div>
   );
 }
+

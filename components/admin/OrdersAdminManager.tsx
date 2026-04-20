@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -60,7 +60,7 @@ const statusOptions = [
   { value: 'IN_TRANSIT', label: 'Sipariş hazırlanıyor' },
   { value: 'SHIPPED', label: 'Kargoya verildi' },
   { value: 'DELIVERED', label: 'Teslim edildi' },
-  { value: 'CANCELED', label: 'İptal' },
+  { value: 'CANCELED', label: 'Ä°ptal' },
 ];
 
 const statusLabel = statusOptions.reduce<Record<string, string>>((acc, item) => {
@@ -337,7 +337,7 @@ export default function OrdersAdminManager() {
       setNotice(
         [`${issued} fatura oluşturuldu`, `${emailed} e-posta gönderildi`, errorCount ? `${errorCount} hata` : null]
           .filter(Boolean)
-          .join(' • '),
+          .join(' â€¢ '),
       );
 
       await loadOrders();
@@ -400,7 +400,7 @@ export default function OrdersAdminManager() {
     if (!reason) {
       setCancelReasonError((prev) => ({
         ...prev,
-        [orderId]: 'İptal nedeni yazılması gerekiyor.',
+        [orderId]: 'Ä°ptal nedeni yazılması gerekiyor.',
       }));
       return;
     }
@@ -449,7 +449,7 @@ export default function OrdersAdminManager() {
               tone="indigo"
               disabled={batchInvoicing || queuedInvoiceCount === 0}
             >
-              {batchInvoicing ? 'Oluşturuluyor…' : 'Faturaları oluştur'}
+              {batchInvoicing ? 'Oluşturuluyorâ€¦' : 'Faturaları oluştur'}
             </AdminButton>
             <AdminBadge tone="slate">{totalOrders} sipariş</AdminBadge>
           </div>
@@ -497,7 +497,7 @@ export default function OrdersAdminManager() {
                 { value: 'IN_TRANSIT', label: 'Hazırlanıyor' },
                 { value: 'SHIPPED', label: 'Kargoda' },
                 { value: 'DELIVERED', label: 'Teslim' },
-                { value: 'CANCELED', label: 'İptal' },
+                { value: 'CANCELED', label: 'Ä°ptal' },
               ].map((item) => (
                 <AdminRadioCard
                   key={item.value}
@@ -532,7 +532,7 @@ export default function OrdersAdminManager() {
             <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.DELIVERED || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">İptal</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Ä°ptal</div>
             <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.CANCELED || 0}</div>
           </div>
         </div>
@@ -755,7 +755,7 @@ export default function OrdersAdminManager() {
                                 onClick={() => generateInvoice(order.id)}
                                 disabled={invoicingId === order.id}
                               >
-                                {invoicingId === order.id ? 'İşleniyor' : 'Fatura oluştur'}
+                                {invoicingId === order.id ? 'Ä°şleniyor' : 'Fatura oluştur'}
                               </AdminButton>
 
                               {order.invoice?.status === 'ISSUED' ? (
@@ -1042,12 +1042,12 @@ export default function OrdersAdminManager() {
               </div>
 
               <p className="mt-3 text-sm text-slate-300">
-                İptal işlemi için müşteriye gidecek nedeni yazman gerekiyor.
+                Ä°ptal işlemi için müşteriye gidecek nedeni yazman gerekiyor.
               </p>
 
               <div className="mt-5">
                 <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  İptal nedeni
+                  Ä°ptal nedeni
                 </label>
                 <textarea
                   rows={4}
@@ -1059,7 +1059,7 @@ export default function OrdersAdminManager() {
                     }))
                   }
                   className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-rose-400/60 focus:outline-none focus:ring-2 focus:ring-rose-400/30"
-                  placeholder="Orn: Üretim stok sorunu nedeniyle iptal edildi."
+                  placeholder="Örn: Üretim stok sorunu nedeniyle iptal edildi."
                 />
                 {cancelReasonError[cancelDialogId] && (
                   <div className="mt-2 text-xs text-rose-300">{cancelReasonError[cancelDialogId]}</div>
@@ -1080,7 +1080,7 @@ export default function OrdersAdminManager() {
                   disabled={savingId === cancelDialogId}
                   className="rounded-full bg-rose-500 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400 disabled:opacity-60"
                 >
-                  İptali onayla
+                  Ä°ptali onayla
                 </button>
               </div>
             </div>
@@ -1090,3 +1090,5 @@ export default function OrdersAdminManager() {
     </div>
   );
 }
+
+

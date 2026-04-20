@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
 import PolicyPageLayout from '@/components/legal/PolicyPageLayout';
@@ -9,7 +9,7 @@ export default function CookiesPage() {
       eyebrow="Güven Merkezi"
       title="Çerez Politikası"
       description="Çerezler, site deneyimini iyileştirmek ve servisleri güvenli çalıştırmak için kullanılır. Bu sayfada çerez türleri ve kontrol seçenekleri özetlenir."
-      tags={['Performans', 'İşlevsellik', 'Analitik']}
+      tags={['Performans', 'Ä°şlevsellik', 'Analitik']}
       sidebar={
         <>
           <PolicyCard title="Hızlı bağlantılar">
@@ -72,3 +72,4 @@ export default function CookiesPage() {
     </PolicyPageLayout>
   );
 }
+

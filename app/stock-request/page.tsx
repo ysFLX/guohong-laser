@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+﻿import { Suspense } from 'react';
 
 import StockRequestClient from './StockRequestClient';
 
@@ -19,3 +19,4 @@ export default function StockRequestPage() {
     </Suspense>
   );
 }
+

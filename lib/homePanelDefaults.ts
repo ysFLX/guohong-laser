@@ -1,4 +1,4 @@
-export type CapacitySlot = {
+﻿export type CapacitySlot = {
   title: string;
   status: string;
   detail: string;
@@ -138,3 +138,4 @@ export function normalizeHomePanelConfig(value: unknown): HomePanelConfig {
     procurementImageUrl: typeof value.procurementImageUrl === 'string' ? value.procurementImageUrl : homePanelDefaults.procurementImageUrl,
   };
 }
+

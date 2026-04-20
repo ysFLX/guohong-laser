@@ -1,4 +1,4 @@
-import { getServerSession } from 'next-auth';
+﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
@@ -79,7 +79,7 @@ async function handleClear(req: Request) {
 
     return NextResponse.json({ ok: true, count: result.count });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'İşlem başarısız';
+    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
     console.error('[inquiries-clear] failed:', message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
@@ -96,3 +96,4 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   return handleClear(req);
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 
@@ -140,7 +140,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setCities(data.cities || []);
     } catch {
-      setToast({ type: "error", message: "İller yüklenemedi" });
+      setToast({ type: "error", message: "Ä°ller yüklenemedi" });
     } finally {
       setLoadingCities(false);
     }
@@ -153,7 +153,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setDistricts(data.districts || []);
     } catch {
-      setToast({ type: "error", message: "İlçeler yüklenemedi" });
+      setToast({ type: "error", message: "Ä°lçeler yüklenemedi" });
     } finally {
       setLoadingDistricts(false);
     }
@@ -211,7 +211,7 @@ export default function AddressesManager() {
         throw new Error("Ad, soyad, telefon, adres ve il zorunludur");
       }
       if (!districtValue) {
-        throw new Error("İlçe seçimi zorunludur");
+        throw new Error("Ä°lçe seçimi zorunludur");
       }
 
       const invoiceType = form.invoiceType === "COMPANY" ? "COMPANY" : "INDIVIDUAL";
@@ -251,7 +251,7 @@ export default function AddressesManager() {
       );
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "İşlem başarısız");
+      if (!res.ok) throw new Error(data?.error || "Ä°şlem başarısız");
 
       setAddresses(data.addresses || []);
       setShowForm(false);
@@ -259,7 +259,7 @@ export default function AddressesManager() {
       setForm({ ...emptyForm });
       setToast({ type: "success", message: editingid ? "Adres güncellendi" : "Adres eklendi" });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "İşlem başarısız";
+      const message = err instanceof Error ? err.message : "Ä°şlem başarısız";
       setToast({ type: "error", message });
     } finally {
       setLoading(false);
@@ -453,7 +453,7 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">İl Seçimi</div>
+            <div className="form-label">Ä°l Seçimi</div>
             <select
               className="form-input"
               value={form.cityCode}
@@ -478,11 +478,11 @@ export default function AddressesManager() {
                 </option>
               ))}
             </select>
-            {loadingCities && <div className="text-xs text-gray-500">İller yükleniyor...</div>}
+            {loadingCities && <div className="text-xs text-gray-500">Ä°ller yükleniyor...</div>}
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">İlçe Seçimi</div>
+            <div className="form-label">Ä°lçe Seçimi</div>
             <select
               className="form-input"
               value={form.district}
@@ -498,7 +498,7 @@ export default function AddressesManager() {
                 </option>
               ))}
             </select>
-            {loadingDistricts && <div className="text-xs text-gray-500">İlceler yükleniyor...</div>}
+            {loadingDistricts && <div className="text-xs text-gray-500">Ä°lceler yükleniyor...</div>}
           </div>
 
           <div className="space-y-2">
@@ -617,7 +617,7 @@ export default function AddressesManager() {
               onClick={() => setShowForm(false)}
               className="px-4 py-2 text-sm btn-secondary"
             >
-              Iptal
+              İptal
             </button>
             <button
               type="submit"
@@ -642,6 +642,8 @@ export default function AddressesManager() {
     </div>
   );
 }
+
+
 
 
 

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
@@ -78,6 +78,7 @@ export default function ProfileLayout({
     </div>
   );
 }
+
 
 
 

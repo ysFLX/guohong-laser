@@ -1,4 +1,4 @@
-import type { InvoiceIssueResult, InvoiceSnapshot } from '@/lib/invoicing/types';
+﻿import type { InvoiceIssueResult, InvoiceSnapshot } from '@/lib/invoicing/types';
 
 export async function issueInvoiceWithMikroEportal(_snapshot: InvoiceSnapshot): Promise<InvoiceIssueResult> {
   // Mikro e-Portal/MikroAPI entegrasyonu çoğu kurulumda yerel ağda (örn. https://localhost:8094) çalışır.
@@ -13,6 +13,7 @@ export async function issueInvoiceWithMikroEportal(_snapshot: InvoiceSnapshot): 
   // - Dönen ETTN / belge no gibi metaları kaydet
   // - PDF ve XML çıktısını alıp döndür
   //
-  // Şimdilik, server-side direkt entegrasyon yok (connector kullanılmalı).
+  // Åimdilik, server-side direkt entegrasyon yok (connector kullanılmalı).
   throw new Error('Mikro otomatik fatura için connector gerekli: `script/mikro-invoice-connector.ts`');
 }
+

@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+﻿import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -98,7 +98,7 @@ export default async function AdminQuoteInquiriesPage() {
             <div className="hidden items-center gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400 lg:grid lg:grid-cols-[1.1fr_1fr_1.2fr_1.4fr_0.8fr_0.8fr]">
               <div>Kayıt</div>
               <div>Müşteri</div>
-              <div>İletişim</div>
+              <div>Ä°letişim</div>
               <div>Konu</div>
               <div>Tarih</div>
               <div>Durum</div>
@@ -125,7 +125,7 @@ export default async function AdminQuoteInquiriesPage() {
                   {x.company && <div className="mt-1 text-xs text-slate-500">{x.company}</div>}
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">İletişim</div>
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-slate-400 lg:hidden">Ä°letişim</div>
                   <div className="mt-2 text-xs text-slate-600">{x.email}</div>
                   {x.phone && <div className="mt-1 text-xs text-slate-500">{x.phone}</div>}
                 </div>
@@ -195,4 +195,5 @@ export default async function AdminQuoteInquiriesPage() {
     </div>
   );
 }
+
 

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect } from 'react';
 
@@ -52,7 +52,7 @@ export default function GlobalError({
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/90 transition hover:border-white/50"
                 >
-                  İletişim
+                  Ä°letişim
                 </a>
               </div>
             </div>
@@ -62,3 +62,4 @@ export default function GlobalError({
     </html>
   );
 }
+

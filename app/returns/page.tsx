@@ -1,14 +1,14 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 const summary = [
-  { title: 'İade süresi', value: '14 gün (stoklu ürün)' },
+  { title: 'Ä°ade süresi', value: '14 gün (stoklu ürün)' },
   { title: 'Garanti', value: 'Resmi servis' },
   { title: 'Destek', value: '24/7 teyit' },
 ];
 
 const policyBlocks = [
   {
-    title: 'İade koşulları',
+    title: 'Ä°ade koşulları',
     items: [
       'Stoklu ürünler için iade talebi makul süre içinde iletilmelidir.',
       'Ürün orijinal ambalajında, eksiksiz ve tekrar satılabilir durumda olmalıdır.',
@@ -44,9 +44,9 @@ export default function ReturnsPage() {
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
               Garanti Merkezi
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">İade ve garanti politikaları</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">Ä°ade ve garanti politikaları</h1>
             <p className="max-w-2xl text-base text-white/70">
-              İade, garanti ve servis süreçleri ürün tipi ve teknik raporlara göre belirlenir. Aşağıdaki metinler
+              Ä°ade, garanti ve servis süreçleri ürün tipi ve teknik raporlara göre belirlenir. Aşağıdaki metinler
               kurumsal bilgi amacıyla sunulur.
             </p>
             <div className="grid gap-3 sm:grid-cols-3">
@@ -103,7 +103,7 @@ export default function ReturnsPage() {
             </div>
 
             <div className="card-surface p-6">
-              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">İade başvurusu</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Ä°ade başvurusu</div>
               <ol className="mt-4 space-y-3 text-sm text-[var(--gray-500)]">
                 <li>1. Sipariş numaranızı ve ürün bilgisini paylaşın.</li>
                 <li>2. Teknik ekip ön değerlendirme yapsın.</li>
@@ -113,7 +113,7 @@ export default function ReturnsPage() {
                 href="/returns-request"
                 className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800"
               >
-                İade talebi oluştur
+                Ä°ade talebi oluştur
               </Link>
             </div>
           </aside>
@@ -122,4 +122,5 @@ export default function ReturnsPage() {
     </div>
   );
 }
+
 

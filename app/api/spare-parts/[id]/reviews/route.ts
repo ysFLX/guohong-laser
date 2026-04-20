@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { revalidateTag, unstable_cache } from 'next/cache';
 
@@ -218,3 +218,4 @@ export async function POST(
     return NextResponse.json({ error: 'Yorum kaydedilemedi.' }, { status: 500 });
   }
 }
+

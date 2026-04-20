@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -81,7 +81,7 @@ export default function AdminSparePartCreateForm({
           Hizli olustur
         </div>
         <div className="mt-2 text-sm text-[var(--admin-muted)]">
-          Temel bilgileri gir, kaydet. Sonrasinda gorselleri ve ek detaylari urun sayfasindan tamamlayabilirsin.
+          Temel bilgileri gir, kaydet. Sonrasinda gorselleri ve ek detaylari ürün sayfasindan tamamlayabilirsin.
         </div>
       </div>
 
@@ -100,14 +100,14 @@ export default function AdminSparePartCreateForm({
         <div className="space-y-4">
           <div>
             <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-              Urun adi
+              Ürün adi
             </label>
             <input value={name} onChange={(e) => setName(e.target.value)} className={inputClassName} />
           </div>
 
           <div>
             <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-              Aciklama
+              Açıklama
             </label>
             <textarea
               value={description}
@@ -122,12 +122,12 @@ export default function AdminSparePartCreateForm({
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                Genel olcu
+                Genel ölçü
               </label>
               <input
                 value={dimensions}
                 onChange={(e) => setDimensions(e.target.value)}
-                placeholder="Orn: Koruma lens"
+                placeholder="Örn: Koruma lens"
                 className={inputClassName}
               />
             </div>
@@ -169,7 +169,7 @@ export default function AdminSparePartCreateForm({
                 </select>
               </div>
                 <div className="mt-2 text-xs text-[var(--admin-muted)]">
-                  Orn: 129,90 {priceCurrency === 'TRY' ? 'TL' : 'USD'}
+                  Örn: 129,90 {priceCurrency === 'TRY' ? 'TL' : 'USD'}
                 </div>
                 {usdTryPreview ? (
                   <div className="mt-1 text-xs font-medium text-[var(--admin-text)]">
@@ -183,7 +183,7 @@ export default function AdminSparePartCreateForm({
                 Stok
               </label>
               <input value={stockOnHand} inputMode="numeric" onChange={(e) => setStockOnHand(e.target.value)} className={inputClassName} />
-              <div className="mt-2 text-xs text-[var(--admin-muted)]">Orn: 12</div>
+              <div className="mt-2 text-xs text-[var(--admin-muted)]">Örn: 12</div>
             </div>
           </div>
 
@@ -200,18 +200,18 @@ export default function AdminSparePartCreateForm({
                   }
                 }}
               />
-              Olcu secenegi var mi?
+              Ölçü secenegi var mi?
             </label>
 
             {hasSizeOptions ? (
               <div className="mt-4 space-y-3">
-                <div className="text-xs text-[var(--admin-muted)]">Her satirda olcu ve TL veya USD fiyat gir.</div>
+                <div className="text-xs text-[var(--admin-muted)]">Her satirda ölçü ve TL veya USD fiyat gir.</div>
                 {sizeOptionRows.map((row, index) => (
                   <div key={`size-option-${index}`} className="grid gap-2 sm:grid-cols-[1fr_1fr_1fr_auto]">
                     <input
                       value={row.value}
                       onChange={(e) => updateSizeRow(index, { value: e.target.value })}
-                      placeholder={`Olcu ${index + 1}`}
+                      placeholder={`Ölçü ${index + 1}`}
                       className={`${inputClassName} mt-0`}
                     />
                     <input
@@ -240,7 +240,7 @@ export default function AdminSparePartCreateForm({
                   </div>
                 ))}
                 <AdminButton type="button" variant="outline" className="px-4" onClick={addSizeOptionRow}>
-                  Olcu ekle
+                  Ölçü ekle
                 </AdminButton>
               </div>
             ) : null}
@@ -279,7 +279,7 @@ export default function AdminSparePartCreateForm({
                   : [];
 
                 if (!name.trim()) {
-                  setError('Urun adi bos olamaz');
+                  setError('Ürün adi bos olamaz');
                   setIsSaving(false);
                   return;
                 }
@@ -303,13 +303,13 @@ export default function AdminSparePartCreateForm({
                 }
 
                 if (hasSizeOptions && hasBlankSizeRow) {
-                  setError('Olculu urunde her satir icin olcu ve fiyat gir.');
+                  setError('Ölçülu üründe her satir icin ölçü ve fiyat gir.');
                   setIsSaving(false);
                   return;
                 }
 
                 if (hasSizeOptions && sizeOptionEntries.length === 0) {
-                  setError('Olculu urunler icin en az bir olcu gir.');
+                  setError('Ölçülu ürünler icin en az bir ölçü gir.');
                   setIsSaving(false);
                   return;
                 }
@@ -336,7 +336,7 @@ export default function AdminSparePartCreateForm({
                   const data = await res.json();
                   if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
 
-                  setSuccess('Urun olusturuldu');
+                  setSuccess('Ürün olusturuldu');
                   router.push(`/admin/spare-parts/${data.item.id}`);
                   router.refresh();
                 } catch (e: unknown) {
@@ -355,3 +355,4 @@ export default function AdminSparePartCreateForm({
     </div>
   );
 }
+

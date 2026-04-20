@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
@@ -99,7 +99,7 @@ export default function AdminImageUpload({
             Galeri gorseli yukle
           </AdminRadioCard>
           <AdminRadioCard active={uploadMode === 'size'} onClick={() => setUploadMode('size')}>
-            Olcuye ozel gorsel yukle
+            Ölçüye ozel gorsel yukle
           </AdminRadioCard>
         </div>
       ) : null}
@@ -108,12 +108,12 @@ export default function AdminImageUpload({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="text-sm font-semibold text-[var(--admin-text)]">
-              {uploadMode === 'size' && hasSizeOptions ? 'Olcu gorseli yukle' : 'Galeri gorseli yukle'}
+              {uploadMode === 'size' && hasSizeOptions ? 'Ölçü gorseli yukle' : 'Galeri gorseli yukle'}
             </div>
             <div className="mt-1 text-xs text-[var(--admin-muted)]">
               {uploadMode === 'size' && hasSizeOptions
-                ? 'Yuklemeden once hangi olcu icin oldugunu sec. Ayni olcuye birden fazla gorsel ekleyebilirsin.'
-                : 'Bu alana yuklenen gorseller urun galerisinde listelenir.'}
+                ? 'Yuklemeden once hangi ölçü icin oldugunu sec. Ayni ölçüye birden fazla gorsel ekleyebilirsin.'
+                : 'Bu alana yuklenen gorseller ürün galerisinde listelenir.'}
             </div>
           </div>
 
@@ -160,7 +160,7 @@ export default function AdminImageUpload({
               try {
                 if (uploadMode === 'size' && hasSizeOptions) {
                   if (sizeFiles.length === 0) return;
-                  if (!selectedSizeValue) throw new Error('Olcu secimi gerekli');
+                  if (!selectedSizeValue) throw new Error('Ölçü secimi gerekli');
 
                   setIsUploadingSize(true);
                   for (const file of sizeFiles) {
@@ -172,7 +172,7 @@ export default function AdminImageUpload({
                       body: JSON.stringify({ sizeValue: selectedSizeValue, url: publicUrl }),
                     });
                     const saveData = await saveRes.json();
-                    if (!saveRes.ok) throw new Error(saveData?.error || 'Olcu gorseli kaydedilemedi');
+                    if (!saveRes.ok) throw new Error(saveData?.error || 'Ölçü gorseli kaydedilemedi');
                   }
 
                   setSizeFiles([]);
@@ -213,7 +213,7 @@ export default function AdminImageUpload({
                 ? 'Yukleniyor...'
                 : sizeFiles.length > 1
                   ? `${sizeFiles.length} gorseli yukle`
-                  : 'Olcu gorselini yukle'
+                  : 'Ölçü gorselini yukle'
               : isUploadingGallery
                 ? 'Yukleniyor...'
                 : 'Yukle'}
@@ -225,9 +225,9 @@ export default function AdminImageUpload({
         <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="text-sm font-semibold text-[var(--admin-text)]">Olcu gorselleri</div>
+              <div className="text-sm font-semibold text-[var(--admin-text)]">Ölçü gorselleri</div>
               <div className="mt-1 text-xs text-[var(--admin-muted)]">
-                Her olcu icin birden fazla gorsel tutulur. Yeni yuklemeler eskisinin uzerine yazmaz.
+                Her ölçü icin birden fazla gorsel tutulur. Yeni yuklemeler eskisinin uzerine yazmaz.
               </div>
             </div>
             <AdminBadge tone="indigo">
@@ -250,7 +250,7 @@ export default function AdminImageUpload({
                   <div>
                     <div className="text-sm font-semibold text-[var(--admin-text)]">{entry.value}</div>
                     <div className="mt-1 text-xs text-[var(--admin-muted)]">
-                      {((entry.imageUrls?.length ?? 0) > 0 || entry.imageUrl) ? 'Bu olcuye gorseller baglandi' : 'Henuz gorsel secilmedi'}
+                      {((entry.imageUrls?.length ?? 0) > 0 || entry.imageUrl) ? 'Bu ölçüye gorseller baglandi' : 'Henuz gorsel secilmedi'}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -280,10 +280,10 @@ export default function AdminImageUpload({
                               { method: 'DELETE' },
                             );
                             const data = await res.json();
-                            if (!res.ok) throw new Error(data?.error || 'Olcu gorseli silinemedi');
+                            if (!res.ok) throw new Error(data?.error || 'Ölçü gorseli silinemedi');
                             router.refresh();
                           } catch (e: unknown) {
-                            setError(e instanceof Error ? e.message : 'Olcu gorseli silinemedi');
+                            setError(e instanceof Error ? e.message : 'Ölçü gorseli silinemedi');
                           } finally {
                             setSizeDeletingValue(null);
                           }
@@ -324,10 +324,10 @@ export default function AdminImageUpload({
                                   { method: 'DELETE' },
                                 );
                                 const data = await res.json();
-                                if (!res.ok) throw new Error(data?.error || 'Olcu gorseli silinemedi');
+                                if (!res.ok) throw new Error(data?.error || 'Ölçü gorseli silinemedi');
                                 router.refresh();
                               } catch (e: unknown) {
-                                setError(e instanceof Error ? e.message : 'Olcu gorseli silinemedi');
+                                setError(e instanceof Error ? e.message : 'Ölçü gorseli silinemedi');
                               } finally {
                                 setSizeDeletingValue(null);
                               }
@@ -355,7 +355,7 @@ export default function AdminImageUpload({
               className="group relative overflow-hidden rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] shadow-sm"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={img.url} alt="Urun gorseli" className="h-28 w-full object-cover" />
+              <img src={img.url} alt="Ürün gorseli" className="h-28 w-full object-cover" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 transition group-hover:opacity-100" />
               <button
                 type="button"
@@ -385,3 +385,4 @@ export default function AdminImageUpload({
     </div>
   );
 }
+

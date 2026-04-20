@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 const legalLinks = [
   {
@@ -22,8 +22,8 @@ const legalLinks = [
     href: '/distance-sales',
   },
   {
-    title: 'İade ve Garanti',
-    description: 'İade koşulları, garanti kapsamı ve servis süreci.',
+    title: 'Ä°ade ve Garanti',
+    description: 'Ä°ade koşulları, garanti kapsamı ve servis süreci.',
     href: '/returns',
   },
   {
@@ -80,7 +80,7 @@ export default function LegalPage() {
               </div>
               <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--indigo-600)]">
                 Görüntüle
-                <span className="transition group-hover:translate-x-1">→</span>
+                <span className="transition group-hover:translate-x-1">â†’</span>
               </div>
             </Link>
           ))}
@@ -89,3 +89,4 @@ export default function LegalPage() {
     </div>
   );
 }
+

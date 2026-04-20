@@ -1,4 +1,4 @@
-type EmailCta = {
+﻿type EmailCta = {
   label: string;
   href: string;
 };
@@ -104,10 +104,11 @@ export const buildEmailHtml = (params: EmailTemplateParams) => {
             </tr>
           </table>
           <div style="margin-top: 14px; color:#94a3b8; font-size: 11px; font-family: Arial, sans-serif;">
-            Guohong Lazer Kurumsal İletişim
+            Guohong Lazer Kurumsal Ä°letişim
           </div>
         </td>
       </tr>
     </table>
   `;
 };
+

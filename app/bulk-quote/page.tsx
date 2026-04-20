@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -100,7 +100,7 @@ export default function BulkQuotePage() {
     const itemsText = cleanedItems
       .map((item, idx) => {
         const lines = [
-          `${idx + 1}) Urun: ${item.name}`,
+          `${idx + 1}) Ürün: ${item.name}`,
           `   Adet: ${item.quantity || '-'}`,
           `   Not: ${item.note || '-'}`,
         ];
@@ -240,7 +240,7 @@ export default function BulkQuotePage() {
                 onClick={addItem}
                 className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"
               >
-                + Urun ekle
+                + Ürün ekle
               </button>
             </div>
             <div className="mt-4 space-y-4">
@@ -335,7 +335,7 @@ export default function BulkQuotePage() {
               onClick={() => router.back()}
               className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
             >
-              İptal
+              Ä°ptal
             </button>
             <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
               {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Teklif iste'}
@@ -346,3 +346,5 @@ export default function BulkQuotePage() {
     </div>
   );
 }
+
+

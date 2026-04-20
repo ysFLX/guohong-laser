@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -226,7 +226,7 @@ export default function AdminLiveSupportPage() {
                 <input
                   value={threadQuery}
                   onChange={(event) => setThreadQuery(event.target.value)}
-                  placeholder="İsim veya e-posta ara"
+                  placeholder="Ä°sim veya e-posta ara"
                   className="w-full bg-transparent text-xs text-[var(--admin-text)] placeholder:text-[var(--admin-muted)] focus:outline-none"
                 />
                 {threadQuery ? (
@@ -372,3 +372,4 @@ export default function AdminLiveSupportPage() {
     </div>
   );
 }
+

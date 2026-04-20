@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { Geist_Mono, Poppins } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -179,3 +179,4 @@ export default function RootLayout({
     </html>
   );
 }
+

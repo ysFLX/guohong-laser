@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 import PolicyCard from '@/components/legal/PolicyCard';
 import PolicyPageLayout from '@/components/legal/PolicyPageLayout';
@@ -11,7 +11,7 @@ export default function PaymentSecurityPage() {
     <PolicyPageLayout
       eyebrow="Güven Merkezi"
       title="Ödeme Güvenliği"
-      description="Ödeme altyapısı güvenlik standartlarına uygundur. Kart bilgileri sistemimizde tutulmaz. İşlem adımları güvenli ödeme sağlayıcısı üzerinden yürütülür."
+      description="Ödeme altyapısı güvenlik standartlarına uygundur. Kart bilgileri sistemimizde tutulmaz. Ä°şlem adımları güvenli ödeme sağlayıcısı üzerinden yürütülür."
       tags={['SSL Koruma', 'PCI-DSS Uyumlu', '3D Secure']}
       sidebar={
         <>
@@ -21,7 +21,7 @@ export default function PaymentSecurityPage() {
                 href="/returns"
                 className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
               >
-                İade ve Garanti
+                Ä°ade ve Garanti
               </Link>
               <Link
                 href="/shipping"
@@ -65,7 +65,7 @@ export default function PaymentSecurityPage() {
       <PolicyCard title="3D Secure ve doğrulama">
         <ul className="list-disc space-y-2 pl-5">
           <li>Bankanızın 3D Secure doğrulama adımı gerekebilir.</li>
-          <li>Şüpheli işlemler güvenlik nedeni ile reddedilebilir.</li>
+          <li>Åüpheli işlemler güvenlik nedeni ile reddedilebilir.</li>
         </ul>
       </PolicyCard>
 
@@ -92,7 +92,7 @@ export default function PaymentSecurityPage() {
             Banka onaylı ödeme
           </span>
           <span className="rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] px-3 py-1">
-            İade garantisi
+            Ä°ade garantisi
           </span>
         </div>
         <p className="mt-3 text-sm text-[var(--gray-500)]">
@@ -131,3 +131,4 @@ export default function PaymentSecurityPage() {
     </PolicyPageLayout>
   );
 }
+

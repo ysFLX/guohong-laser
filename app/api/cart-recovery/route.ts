@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
 import { verifyCartRecoveryToken } from '@/lib/cartRecovery';
@@ -63,3 +63,4 @@ export async function GET(req: Request) {
 
   return NextResponse.json({ items, totalCents: reminder.totalCents });
 }
+

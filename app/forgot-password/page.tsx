@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -26,12 +26,12 @@ export default function ForgotPasswordPage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Parola sıfırlama isteği gönderilemedi');
+        throw new Error(data.error || 'Parola sıfırlama isteği gönderilemedi.');
       }
 
-      setSuccess('Eğer bu e-posta kayıtlıysa parola sıfırlama bağlantısı gönderildi.');
+      setSuccess('E-posta adresi kayıtlıysa sıfırlama bağlantısını gönderdik.');
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Parola sıfırlama isteği gönderilemedi';
+      const message = e instanceof Error ? e.message : 'Parola sıfırlama isteği gönderilemedi.';
       setError(message);
     } finally {
       setIsLoading(false);
@@ -45,11 +45,11 @@ export default function ForgotPasswordPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.35),_transparent_60%)] opacity-80" />
           <div className="relative">
             <div className="text-center">
-              <div className="mx-auto h-12 w-12 rounded-xl bg-indigo-400 text-slate-900 flex items-center justify-center font-semibold">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-400 font-semibold text-slate-900">
                 GL
               </div>
               <h2 className="mt-4 text-3xl font-semibold">Parola sıfırla</h2>
-              <p className="mt-2 text-sm text-white/70">E-posta adresini gir, sıfırlama linki gönderelim.</p>
+              <p className="mt-2 text-sm text-white/70">E-posta adresini gir, sıfırlama bağlantısını gönderelim.</p>
             </div>
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -66,20 +66,15 @@ export default function ForgotPasswordPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="mt-1 block w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400/40"
-                  placeholder="ornek@email.com"
+                  placeholder="örnek@email.com"
                 />
               </div>
 
               {success && <div className="form-alert form-alert--success">{success}</div>}
-
               {error && <div className="form-alert form-alert--error">{error}</div>}
 
               <div>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="btn-primary w-full"
-                >
+                <button type="submit" disabled={isLoading} className="btn-primary w-full">
                   {isLoading ? 'Gönderiliyor...' : 'Sıfırlama bağlantısı gönder'}
                 </button>
               </div>
@@ -96,6 +91,4 @@ export default function ForgotPasswordPage() {
     </div>
   );
 }
-
-
 

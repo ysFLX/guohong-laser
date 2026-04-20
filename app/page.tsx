@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 import ReferenceHomeClient from '@/components/home/ReferenceHomeClient';
 import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
@@ -74,3 +74,4 @@ export default async function Home() {
     />
   );
 }
+
