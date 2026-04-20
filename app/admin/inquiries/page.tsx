@@ -99,12 +99,12 @@ export default async function AdminInquiriesPage() {
     <div className="space-y-6">
       <AdminPageHeader
         eyebrow="Talepler"
-        title="Ä°letişim & teklif mesajları"
+        title="İletişim & teklif mesajları"
         description="Teklif ve iletişim taleplerini iki panelde ara, filtrele ve yanıtla."
         actions={
           <>
             <ClearInquiriesButton type="QUOTE" label="Teklifleri temizle" />
-            <ClearInquiriesButton type="CONTACT" label="Ä°letişimi temizle" />
+            <ClearInquiriesButton type="CONTACT" label="İletişimi temizle" />
           </>
         }
       />

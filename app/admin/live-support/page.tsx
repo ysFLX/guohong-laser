@@ -226,7 +226,7 @@ export default function AdminLiveSupportPage() {
                 <input
                   value={threadQuery}
                   onChange={(event) => setThreadQuery(event.target.value)}
-                  placeholder="Ä°sim veya e-posta ara"
+                  placeholder="İsim veya e-posta ara"
                   className="w-full bg-transparent text-xs text-[var(--admin-text)] placeholder:text-[var(--admin-muted)] focus:outline-none"
                 />
                 {threadQuery ? (

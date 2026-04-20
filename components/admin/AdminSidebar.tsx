@@ -42,7 +42,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/returns',
-        label: 'Ä°adeler',
+        label: 'İadeler',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M4 7h9a4 4 0 014 4v6" strokeLinecap="round" strokeLinejoin="round" />
@@ -131,7 +131,7 @@ const navSections: NavSection[] = [
       },
       {
         href: '/admin/inquiries#contact',
-        label: 'Ä°letişim',
+        label: 'İletişim',
         icon: (
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M21 10V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h8" strokeLinecap="round" strokeLinejoin="round" />
@@ -260,7 +260,7 @@ export default function AdminSidebar() {
 
       <div className="px-6 py-5 border-t border-[var(--admin-border)]">
         <div className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] p-3 text-xs text-[var(--admin-sidebar-muted)]">
-          Admin girişi aktif. Ä°şlem kayıtlarını güncel tut.
+          Admin girişi aktif. İşlem kayıtlarını güncel tut.
         </div>
         <div className="mt-3 flex flex-col gap-2 text-xs">
           <Link

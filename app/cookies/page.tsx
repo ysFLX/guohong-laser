@@ -9,7 +9,7 @@ export default function CookiesPage() {
       eyebrow="Güven Merkezi"
       title="Çerez Politikası"
       description="Çerezler, site deneyimini iyileştirmek ve servisleri güvenli çalıştırmak için kullanılır. Bu sayfada çerez türleri ve kontrol seçenekleri özetlenir."
-      tags={['Performans', 'Ä°şlevsellik', 'Analitik']}
+      tags={['Performans', 'İşlevsellik', 'Analitik']}
       sidebar={
         <>
           <PolicyCard title="Hızlı bağlantılar">

@@ -35,10 +35,10 @@ const iconOptionsRecommended = [
   { value: 'calendar', label: 'Takvim' },
   { value: 'shield-check', label: 'Güvenlik' },
   { value: 'chart-up', label: 'Performans' },
-  { value: 'briefcase', label: 'Ä°ş süreci' },
+  { value: 'briefcase', label: 'İş süreci' },
   { value: 'document', label: 'Doküman' },
   { value: 'badge-check', label: 'Onay' },
-  { value: 'signature', label: 'Ä°mza' },
+  { value: 'signature', label: 'İmza' },
   { value: 'truck', label: 'Teslimat' },
   { value: 'mail', label: 'E-posta' },
   { value: 'bookmark', label: 'Kaydet' },
@@ -92,7 +92,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
 
   const renderIconOptions = () => (
     <>
-      <option value="">Ä°kon seç</option>
+      <option value="">İkon seç</option>
       {iconOptionGroups.map((group) => (
         <optgroup key={group.label} label={group.label}>
           {group.options.map((option) => (
@@ -268,7 +268,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
           </button>
         </div>
 
-        <div className="mt-4 text-xs text-[var(--admin-muted)]">Ä°pucu: Kaydet butonu sayfanın altında sabit.</div>
+        <div className="mt-4 text-xs text-[var(--admin-muted)]">İpucu: Kaydet butonu sayfanın altında sabit.</div>
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-start">
@@ -456,7 +456,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                             />
                           </Field>
                           <div className="sm:col-span-2">
-                            <Field label="Ä°kon">
+                            <Field label="İkon">
                               <select
                                 className="form-input"
                                 value={slot.icon || ''}
@@ -618,7 +618,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                               placeholder="Örn: Ürünü kaydet"
                             />
                           </Field>
-                          <Field label="Ä°kon">
+                          <Field label="İkon">
                             <select
                               className="form-input"
                               value={step.icon || ''}
@@ -789,7 +789,7 @@ export default function HomePanelsForm({ initialConfig }: Props) {
                                 placeholder="Örn: Teklif"
                               />
                             </Field>
-                            <Field label="Ä°kon">
+                            <Field label="İkon">
                               <select
                                 className="form-input"
                                 value={step.icon || ''}

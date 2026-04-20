@@ -70,7 +70,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   href="/admin/returns"
                   className="rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-xs font-semibold text-[var(--admin-text)] hover:bg-[var(--admin-card-muted)]"
                 >
-                  Ä°adeler
+                  İadeler
                 </Link>
               </div>
             </div>

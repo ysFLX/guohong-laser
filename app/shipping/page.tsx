@@ -77,7 +77,7 @@ export default function ShippingPage() {
               <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Hızlı bağlantılar</div>
               <div className="mt-4 grid gap-2 text-sm">
                 <Link href="/returns" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
-                  Ä°ade ve garanti
+                  İade ve garanti
                 </Link>
                 <Link href="/payment-security" className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]">
                   Ödeme güvenliği

@@ -5,18 +5,17 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const productLinks = [
-  { href: '/products', label: 'Plaka Lazer Kesim Makinesi' },
-  { href: '/products', label: 'Tüp Lazer Kesim Makinesi' },
-  { href: '/products', label: 'Plaka ve Boru Lazer Kesim Makinesi' },
-  { href: '/products', label: 'Tüp Otomatik Beslemeli Lazer Kesim Makinesi' },
-  { href: '/products', label: 'El Tipi Lazer Kaynak Makinesi' },
+  { href: '/products?category=sac-plaka-kesimi', label: 'Sac plaka kesimi' },
+  { href: '/products?category=boru-kesimi', label: 'Boru kesimi' },
+  { href: '/products?category=demir-kesimi', label: 'Demir kesimi' },
+  { href: '/spare-parts', label: 'Yedek parçalar' },
 ];
 
 const quickLinks = [
   { href: '/about', label: 'Hakkımızda' },
   { href: '/contact?subject=Teknik+Destek', label: 'Teknik Destek' },
-  { href: '/quote', label: 'Başvuru' },
-  { href: '/gallery', label: 'Müşteri Davası' },
+  { href: '/quote', label: 'Teklif Al' },
+  { href: '/gallery', label: 'Galeri' },
   { href: '/faq', label: 'SSS' },
   { href: '/contact', label: 'Bize Ulaşın' },
 ];
@@ -30,7 +29,7 @@ export default function Footer() {
     if (typeof window === 'undefined') return;
     const pageUrl = window.location.href;
     const message = pageUrl
-      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Åu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
+      ? `Merhaba, Guohong Lazer sitesinden yazıyorum. Şu sayfa hakkında bilgi almak istiyorum:\n${pageUrl}`
       : 'Merhaba, Guohong Lazer sitesinden yazıyorum. Bilgi almak istiyorum.';
     const timer = window.setTimeout(() => {
       setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
@@ -48,23 +47,23 @@ export default function Footer() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_0.9fr_1fr]">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#15327f]">Guohong Laser</p>
-              <h3 className="mt-4 text-3xl font-semibold text-[#333333]">Ä°letişime Geç</h3>
+              <h3 className="mt-4 text-3xl font-semibold text-[#333333]">İletişime geç</h3>
               <p className="mt-4 text-sm leading-7 text-[#333333]/74">
-                Sonucu görmekten daha iyi bir şey yoktur. Makine, yedek parça veya teknik servis ihtiyacınız için ekibimizle hemen iletişime geçin.
+                Sorun yaşamadan ilerlemek için bize doğrudan ulaşın. Makine, yedek parça veya teknik servis ihtiyacınızda ekibimiz hızlıca yardımcı olur.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white">
-                  Ä°letişim Formu Ä°çin Tıklayınız
+                  İletişim formu
                 </Link>
                 <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-5 py-3 text-sm font-semibold text-[#15327f]">
-                  Whatsapp
+                  WhatsApp
                 </a>
               </div>
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold text-[#333333]">Ürün</h4>
+              <h4 className="text-lg font-semibold text-[#333333]">Ürünler</h4>
               <div className="mt-5 grid gap-3 text-sm">
                 {productLinks.map((item) => (
                   <Link key={`${item.label}-${item.href}`} href={item.href} className="text-[#333333]/72 transition hover:text-[#15327f]">
@@ -89,7 +88,7 @@ export default function Footer() {
               <h4 className="text-lg font-semibold text-[#333333]">Bize Ulaşın</h4>
               <div className="mt-5 grid gap-4 text-sm">
                 <div className="rounded-[24px] border border-[#15327f]/12 bg-[#f7f9ff] p-4">
-                  <div className="text-[#333333]/45">Whatsapp</div>
+                  <div className="text-[#333333]/45">WhatsApp</div>
                   <a href={whatsAppHref} target="_blank" rel="noreferrer" className="mt-2 block font-semibold text-[#333333] transition hover:text-[#15327f]">
                     +90 536 831 67 87
                   </a>
@@ -103,7 +102,7 @@ export default function Footer() {
                 <div className="rounded-[24px] border border-[#15327f]/12 bg-[#f7f9ff] p-4">
                   <div className="text-[#333333]/45">Adres</div>
                   <div className="mt-2 font-semibold text-[#333333]">
-                    Fevziçakmak Mahallesi Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210
+                    Fevzi Çakmak Mahallesi Aksaray Çevreyolu Caddesi Akasya Sanayi Sitesi No: 18T Konya / Karatay 42210
                   </div>
                 </div>
               </div>
@@ -113,8 +112,8 @@ export default function Footer() {
           <div className="mt-8 rounded-[28px] border border-[#15327f]/12 bg-[#f7f9ff] px-5 py-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.28em] text-[#15327f]">Guvenli odeme</div>
-                <div className="mt-1 text-sm text-[#333333]/68">PayTR altyapisiyla odeme ve tahsilat destegi</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.28em] text-[#15327f]">Güvenli ödeme</div>
+                <div className="mt-1 text-sm text-[#333333]/68">PayTR altyapısıyla ödeme ve tahsilat desteği</div>
               </div>
               {/* SVG logo is intentionally rendered with a plain img tag to avoid next/image optimization issues. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -127,7 +126,7 @@ export default function Footer() {
             <div className="flex flex-wrap gap-4">
               <Link href="/privacy" className="transition hover:text-[#15327f]">Gizlilik</Link>
               <Link href="/kvkk" className="transition hover:text-[#15327f]">KVKK</Link>
-              <Link href="/returns" className="transition hover:text-[#15327f]">Ä°ade</Link>
+              <Link href="/returns" className="transition hover:text-[#15327f]">İade</Link>
               <Link href="/shipping" className="transition hover:text-[#15327f]">Teslimat</Link>
             </div>
           </div>

@@ -13,10 +13,10 @@ type AllowedStatus = (typeof allowedStatuses extends Set<infer T> ? T : never) &
 
 const statusLabel: Record<string, string> = {
   NEW: 'Talep alındı',
-  UNDER_REVIEW: 'Ä°ncelemede',
+  UNDER_REVIEW: 'İncelemede',
   APPROVED: 'Onaylandı',
   REJECTED: 'Reddedildi',
-  REFUNDED: 'Ä°ade tamamlandı',
+  REFUNDED: 'İade tamamlandı',
 };
 
 export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
@@ -92,7 +92,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       await transporter.sendMail({
         from: `Guohong Lazer <${smtpUser}>`,
         to: existing.email,
-        subject: `Ä°ade talebi güncellendi (#${existing.id.slice(0, 8)})`,
+        subject: `İade talebi güncellendi (#${existing.id.slice(0, 8)})`,
         text: [
           `Talep durumunuz güncellendi: ${statusLabel[status] || status}`,
           adminNote ? `Not: ${adminNote}` : '',
@@ -100,9 +100,9 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           .filter(Boolean)
           .join('\n'),
         html: buildEmailHtml({
-          title: 'Ä°ade talebiniz güncellendi',
+          title: 'İade talebiniz güncellendi',
           subtitle: `Talep no: #${existing.id.slice(0, 8)}`,
-          badge: 'Ä°ade durumu',
+          badge: 'İade durumu',
           preheader: `Durum: ${statusLabel[status] || status}`,
           bodyHtml: `
             <div>Merhaba <strong>${existing.name}</strong>,</div>

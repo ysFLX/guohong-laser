@@ -3,14 +3,14 @@
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
-  title: 'Ä°letişim | Guohong Lazer',
+  title: 'İletişim | Guohong Lazer',
   description:
     'Guohong Lazer ile teklif, teknik destek ve ürün bilgisi için iletişime geçin. Konya merkezli hızlı geri dönüş.',
   alternates: {
     canonical: `${siteUrl}/contact`,
   },
   openGraph: {
-    title: 'Ä°letişim | Guohong Lazer',
+    title: 'İletişim | Guohong Lazer',
     description:
       'Guohong Lazer ile teklif, teknik destek ve ürün bilgisi için iletişime geçin. Konya merkezli hızlı geri dönüş.',
     url: `${siteUrl}/contact`,

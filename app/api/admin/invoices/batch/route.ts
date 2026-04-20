@@ -251,7 +251,7 @@ export async function POST(req: Request) {
           errors.push({ invoiceId, orderId, error: message });
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Ä°şlem başarısız';
+        const message = err instanceof Error ? err.message : 'İşlem başarısız';
         errors.push({ invoiceId, orderId, error: message });
         // Lock alındıysa en azından kilidi boşa çıkaralım:
         try {
@@ -274,7 +274,7 @@ export async function POST(req: Request) {
       errors: errors.slice(0, 20),
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
+    const message = error instanceof Error ? error.message : 'İşlem başarısız';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

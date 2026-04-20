@@ -81,7 +81,7 @@ export default async function OrdersPage() {
     SHIPPED: 'Kargoya verildi',
     IN_TRANSIT: 'Sipariş hazırlanıyor',
     DELIVERED: 'Teslim edildi',
-    CANCELED: 'Ä°ptal',
+    CANCELED: 'İptal',
   };
 
   const statusTone: Record<string, string> = {
@@ -411,7 +411,7 @@ export default async function OrdersPage() {
                         href={`/returns-request?${returnParams}`}
                         className="rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:border-slate-300 hover:text-slate-900"
                       >
-                        Ä°ade / değişim talebi
+                        İade / değişim talebi
                       </Link>
                       <Link
                         href={`/contact?${invoiceParams}`}

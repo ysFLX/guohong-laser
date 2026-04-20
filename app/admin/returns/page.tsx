@@ -5,9 +5,9 @@ export default function AdminReturnsPage() {
   return (
     <div className="space-y-6">
       <AdminPageHeader
-        eyebrow="Ä°ade merkezi"
-        title="Ä°ade ve değişiklik talepleri"
-        description="Ä°ade taleplerini durum, not ve kanıt dosyalarıyla takip et."
+        eyebrow="İade merkezi"
+        title="İade ve değişiklik talepleri"
+        description="İade taleplerini durum, not ve kanıt dosyalarıyla takip et."
       />
       <ReturnsAdminManager />
     </div>

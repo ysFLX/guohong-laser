@@ -11,7 +11,7 @@ export default function CompanyPage() {
       eyebrow="Kurumsal"
       title="Firma Bilgileri"
       description="Guohong Lazer resmi firma bilgileri ve iletişim detayları burada yer alır. Teklif, teknik destek ve servis talepleri için bu kanalları kullanabilirsiniz."
-      tags={['Resmi bilgiler', 'Ä°letişim', 'Kurumsal güven']}
+      tags={['Resmi bilgiler', 'İletişim', 'Kurumsal güven']}
       sidebar={
         <>
           <PolicyCard title="Hızlı işlemler">
@@ -26,7 +26,7 @@ export default function CompanyPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] transition hover:bg-[var(--surface)]"
               >
-                Ä°letişim
+                İletişim
               </Link>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -73,7 +73,7 @@ export default function CompanyPage() {
         <p className="text-[var(--foreground)]">A Blok No:18T 42210 Konya, Türkiye</p>
       </PolicyCard>
 
-      <PolicyCard title="Ä°letişim">
+      <PolicyCard title="İletişim">
         <div className="space-y-2 text-[var(--foreground)]">
           <div>
             Telefon:{' '}

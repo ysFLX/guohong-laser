@@ -194,7 +194,7 @@ function ContactPageInner() {
 
         <Reveal as="section" className="space-y-5">
           <div className="rounded-[34px] border border-white/10 bg-[#15148c] p-6 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Ä°letişim bilgileri</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">İletişim bilgileri</p>
             <div className="mt-5 grid gap-4 text-sm">
               <div className="rounded-[24px] border border-white/10 bg-white/6 p-4">
                 <div className="text-white/45">Telefon</div>

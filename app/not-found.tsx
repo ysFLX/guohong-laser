@@ -16,7 +16,7 @@ export default function NotFound() {
             </p>
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Aradığın sayfayı bulamadık</h1>
             <p className="max-w-2xl text-sm text-white/70 sm:text-base">
-              Link taşınmış, silinmiş veya hatalı olabilir. Ä°stersen ana sayfaya dön veya hızlıca ürünlere göz at.
+              Link taşınmış, silinmiş veya hatalı olabilir. İstersen ana sayfaya dön veya hızlıca ürünlere göz at.
             </p>
           </div>
 
@@ -61,7 +61,7 @@ export default function NotFound() {
             className="group rounded-3xl border border-white/10 bg-white/5 px-5 py-4 transition hover:bg-white/10"
           >
             <div className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Destek</div>
-            <div className="mt-2 text-sm font-semibold text-white">Ä°letişime geç</div>
+            <div className="mt-2 text-sm font-semibold text-white">İletişime geç</div>
             <div className="mt-1 text-sm text-white/70">Teknik destek, teklif ve uyumluluk sor.</div>
             <div className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
               Git <span className="transition group-hover:translate-x-1">â†’</span>

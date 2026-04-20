@@ -56,7 +56,7 @@ function getDisplayName(user: AdminUserRow) {
     user.name ||
     [user.firstName, user.lastName].filter(Boolean).join(' ') ||
     user.email ||
-    'Ä°simsiz üye'
+    'İsimsiz üye'
   );
 }
 
@@ -196,7 +196,7 @@ export default async function AdminUsersPage({
             <input
               name="q"
               defaultValue={query}
-              placeholder="Ä°sim, e-posta, telefon ara"
+              placeholder="İsim, e-posta, telefon ara"
               className="w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm placeholder:text-[var(--admin-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]"
             />
             <select
@@ -220,7 +220,7 @@ export default async function AdminUsersPage({
         <div className="mt-5 overflow-hidden rounded-2xl border border-[var(--admin-border)]">
           <div className="hidden grid-cols-[1.2fr_1.2fr_1fr_1fr_1fr_1fr] bg-[var(--admin-card-muted)] px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--admin-muted)] md:grid">
             <div>Üye</div>
-            <div>Ä°letişim</div>
+            <div>İletişim</div>
             <div>Rol</div>
             <div>Durum</div>
             <div>Hesap</div>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Reveal from '@/components/home/Reveal';
 
 const milestones = [
-  { year: '2014', title: 'Ä°lk saha kurulumları', text: 'Lazer makine entegrasyonları ve ilk teslim projeleri tamamlandı.' },
+  { year: '2014', title: 'İlk saha kurulumları', text: 'Lazer makine entegrasyonları ve ilk teslim projeleri tamamlandı.' },
   { year: '2017', title: 'Servis ağının büyümesi', text: 'Kurulum, bakım ve sarf yönetimi tek yapıda toplandı.' },
   { year: '2020', title: 'Akıllı üretim yaklaşımı', text: 'Saha verisi, performans raporu ve izleme çözümleri genişledi.' },
   { year: '2024', title: 'Küresel tedarik ağı', text: 'Kritik bileşen erişimi ve hızlı parça tedariği daha da güçlendirildi.' },

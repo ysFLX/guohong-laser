@@ -60,7 +60,7 @@ const statusOptions = [
   { value: 'IN_TRANSIT', label: 'Sipariş hazırlanıyor' },
   { value: 'SHIPPED', label: 'Kargoya verildi' },
   { value: 'DELIVERED', label: 'Teslim edildi' },
-  { value: 'CANCELED', label: 'Ä°ptal' },
+  { value: 'CANCELED', label: 'İptal' },
 ];
 
 const statusLabel = statusOptions.reduce<Record<string, string>>((acc, item) => {
@@ -400,7 +400,7 @@ export default function OrdersAdminManager() {
     if (!reason) {
       setCancelReasonError((prev) => ({
         ...prev,
-        [orderId]: 'Ä°ptal nedeni yazılması gerekiyor.',
+        [orderId]: 'İptal nedeni yazılması gerekiyor.',
       }));
       return;
     }
@@ -497,7 +497,7 @@ export default function OrdersAdminManager() {
                 { value: 'IN_TRANSIT', label: 'Hazırlanıyor' },
                 { value: 'SHIPPED', label: 'Kargoda' },
                 { value: 'DELIVERED', label: 'Teslim' },
-                { value: 'CANCELED', label: 'Ä°ptal' },
+                { value: 'CANCELED', label: 'İptal' },
               ].map((item) => (
                 <AdminRadioCard
                   key={item.value}
@@ -532,7 +532,7 @@ export default function OrdersAdminManager() {
             <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.DELIVERED || 0}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">Ä°ptal</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-[var(--admin-muted)]">İptal</div>
             <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{statusCounts.CANCELED || 0}</div>
           </div>
         </div>
@@ -755,7 +755,7 @@ export default function OrdersAdminManager() {
                                 onClick={() => generateInvoice(order.id)}
                                 disabled={invoicingId === order.id}
                               >
-                                {invoicingId === order.id ? 'Ä°şleniyor' : 'Fatura oluştur'}
+                                {invoicingId === order.id ? 'İşleniyor' : 'Fatura oluştur'}
                               </AdminButton>
 
                               {order.invoice?.status === 'ISSUED' ? (
@@ -1042,12 +1042,12 @@ export default function OrdersAdminManager() {
               </div>
 
               <p className="mt-3 text-sm text-slate-300">
-                Ä°ptal işlemi için müşteriye gidecek nedeni yazman gerekiyor.
+                İptal işlemi için müşteriye gidecek nedeni yazman gerekiyor.
               </p>
 
               <div className="mt-5">
                 <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Ä°ptal nedeni
+                  İptal nedeni
                 </label>
                 <textarea
                   rows={4}
@@ -1080,7 +1080,7 @@ export default function OrdersAdminManager() {
                   disabled={savingId === cancelDialogId}
                   className="rounded-full bg-rose-500 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-400 disabled:opacity-60"
                 >
-                  Ä°ptali onayla
+                  İptali onayla
                 </button>
               </div>
             </div>

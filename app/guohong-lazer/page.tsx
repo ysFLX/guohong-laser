@@ -60,7 +60,7 @@ export default function GuohongLazerPage() {
               href="/contact"
               className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
             >
-              Ä°letişime geç
+              İletişime geç
             </Link>
           </div>
         </div>

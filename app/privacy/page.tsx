@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       eyebrow="Güven Merkezi"
       title="Gizlilik Politikası"
       description="Guohong Lazer olarak kişisel verilerinizi güvenle işler, yalnızca hizmetin gerektirdiği kadarını saklarız. Bu sayfada verilerin hangi amaçlarla toplandığı ve nasıl korunduğu özetlenir."
-      tags={['Veri Güvenliği', 'Ä°şlem Amaçları', 'Paylaşım']}
+      tags={['Veri Güvenliği', 'İşlem Amaçları', 'Paylaşım']}
       sidebar={
         <>
           <PolicyCard title="Hızlı bağlantılar">
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
                 href="/returns"
                 className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
               >
-                Ä°ade ve Garanti
+                İade ve Garanti
               </Link>
             </div>
           </PolicyCard>
@@ -55,9 +55,9 @@ export default function PrivacyPage() {
     >
       <PolicyCard title="Toplanan veriler">
         <ul className="list-disc space-y-2 pl-5">
-          <li>Ä°letişim bilgileri (ad, e-posta, telefon).</li>
+          <li>İletişim bilgileri (ad, e-posta, telefon).</li>
           <li>Sipariş ve teslimat bilgileri (adres, fatura, ürün).</li>
-          <li>Ä°şlem güvenliği (IP, cihaz, oturum kayıtları).</li>
+          <li>İşlem güvenliği (IP, cihaz, oturum kayıtları).</li>
         </ul>
       </PolicyCard>
 

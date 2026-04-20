@@ -67,10 +67,10 @@ function getErrorMessage(e: unknown) {
 
 const returnStatusLabel: Record<ReturnRequestItem['status'], string> = {
   NEW: 'Talep alındı',
-  UNDER_REVIEW: 'Ä°ncelemede',
+  UNDER_REVIEW: 'İncelemede',
   APPROVED: 'Onaylandı',
   REJECTED: 'Reddedildi',
-  REFUNDED: 'Ä°ade tamamlandı',
+  REFUNDED: 'İade tamamlandı',
 };
 
 const returnStatusTone: Record<ReturnRequestItem['status'], string> = {
@@ -231,11 +231,11 @@ export default function ProfilePage() {
         const text = await res.text();
         const data = text ? JSON.parse(text) : {};
         if (!res.ok) {
-          throw new Error(data.error || 'Ä°ade talepleri alınamadı');
+          throw new Error(data.error || 'İade talepleri alınamadı');
         }
         setReturnRequests(data.items ?? []);
       } catch (e: unknown) {
-        setReturnsError(getErrorMessage(e) || 'Ä°ade talepleri alınamadı');
+        setReturnsError(getErrorMessage(e) || 'İade talepleri alınamadı');
       } finally {
         setReturnsLoading(false);
       }
@@ -310,12 +310,12 @@ export default function ProfilePage() {
       const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
-        throw new Error(data.error || 'Ä°ki adımlı doğrulama güncellenemedi');
+        throw new Error(data.error || 'İki adımlı doğrulama güncellenemedi');
       }
 
       setTwoFactorEnabled(next);
     } catch (e: unknown) {
-      setTwoFactorError(getErrorMessage(e) || 'Ä°ki adımlı doğrulama güncellenemedi');
+      setTwoFactorError(getErrorMessage(e) || 'İki adımlı doğrulama güncellenemedi');
     } finally {
       setTwoFactorSaving(false);
     }
@@ -399,8 +399,8 @@ export default function ProfilePage() {
           addressReady: 'Kayıtlı',
           addressMissing: 'Yok',
           securityTitle: 'Hesap güvenliği',
-          securityBody: 'Åifreni düzenli değiştir, tanınmayan cihazlarda oturum açma.',
-          twoFactor: 'Ä°ki adımlı doğrulama',
+          securityBody: 'Şifreni düzenli değiştir, tanınmayan cihazlarda oturum açma.',
+          twoFactor: 'İki adımlı doğrulama',
           sessionTracking: 'Oturum takibi',
           loginAlerts: 'Giriş bildirimleri',
           notifyTitle: 'Bildirim tercihleri',
@@ -448,7 +448,7 @@ export default function ProfilePage() {
   const hasAddress = showAddress;
   const tabs = [
     { id: 'account', label: 'Hesap' },
-    { id: 'returns', label: 'Ä°adeler' },
+    { id: 'returns', label: 'İadeler' },
     { id: 'security', label: 'Güvenlik' },
     { id: 'notifications', label: 'Bildirimler' },
   ] as const;
@@ -646,7 +646,7 @@ export default function ProfilePage() {
           <div className="rounded-[28px] border border-slate-200/70 bg-white p-6 shadow-[0_18px_48px_-30px_rgba(15,23,42,0.35)]">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-slate-900">Ä°ade taleplerim</div>
+                <div className="text-sm font-semibold text-slate-900">İade taleplerim</div>
                 <div className="mt-1 text-sm text-slate-600">Güncel iade durumlarını buradan izle.</div>
               </div>
               <Link

@@ -134,7 +134,7 @@ function QuotePageContent() {
           </p>
           <h1 className="text-3xl font-semibold sm:text-4xl">Hızlı teklif formu</h1>
           <p className="max-w-2xl text-base text-white/70">
-            Ä°lgi duyduğunuz ürünü seçin, detayları gönderin. Ekibimiz en uygun teklifi hazırlayacaktır.
+            İlgi duyduğunuz ürünü seçin, detayları gönderin. Ekibimiz en uygun teklifi hazırlayacaktır.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
@@ -230,7 +230,7 @@ function QuotePageContent() {
 
             <div className="sm:col-span-2">
               <label htmlFor="product" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-                Ä°lgi duyduğunuz ürün <span className="text-red-500">*</span>
+                İlgi duyduğunuz ürün <span className="text-red-500">*</span>
               </label>
               <div className="mt-1">
                 <select
@@ -307,7 +307,7 @@ function QuotePageContent() {
               onClick={() => router.back()}
               className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Ä°ptal
+              İptal
             </button>
             <button
               type="submit"

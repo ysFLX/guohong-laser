@@ -79,7 +79,7 @@ async function handleClear(req: Request) {
 
     return NextResponse.json({ ok: true, count: result.count });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
+    const message = error instanceof Error ? error.message : 'İşlem başarısız';
     console.error('[inquiries-clear] failed:', message);
     return NextResponse.json({ error: message }, { status: 500 });
   }

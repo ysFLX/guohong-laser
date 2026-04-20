@@ -17,8 +17,8 @@ const quickLinks = [
     action: 'Görüntüle',
   },
   {
-    title: 'Ä°letişim',
-    description: 'Ä°letişim mesajlarını takip et.',
+    title: 'İletişim',
+    description: 'İletişim mesajlarını takip et.',
     href: '/admin/inquiries#contact',
     action: 'Görüntüle',
   },
@@ -26,7 +26,7 @@ const quickLinks = [
     title: 'Üyeler',
     description: 'Kayıtlı kullanıcıları görüntüle.',
     href: '/admin/users',
-    action: 'Ä°ncele',
+    action: 'İncele',
   },
 ];
 
@@ -199,7 +199,7 @@ export default async function AdminHomePage() {
     { label: 'Admin Üye', value: adminMembers },
     { label: 'Doğrulanmış E-posta', value: verifiedMembers },
     { label: 'Yeni Teklif', value: newQuotes },
-    { label: 'Yeni Ä°letişim', value: newContacts },
+    { label: 'Yeni İletişim', value: newContacts },
   ];
 
   const statusBadge = (status: 'NEW' | 'READ' | 'CLOSED') => {
@@ -208,7 +208,7 @@ export default async function AdminHomePage() {
     return 'bg-slate-200 text-slate-700';
   };
 
-  const typeLabel = (type: 'CONTACT' | 'QUOTE') => (type === 'QUOTE' ? 'Teklif' : 'Ä°letişim');
+  const typeLabel = (type: 'CONTACT' | 'QUOTE') => (type === 'QUOTE' ? 'Teklif' : 'İletişim');
 
   return (
     <div className="space-y-8">
@@ -237,7 +237,7 @@ export default async function AdminHomePage() {
               href="/admin/inquiries#contact"
               className="inline-flex items-center justify-center rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-2 text-sm font-semibold text-[var(--admin-text)] shadow-sm hover:bg-[var(--admin-card-muted)]"
             >
-              Ä°letişim
+              İletişim
             </Link>
           </div>
         </div>
@@ -271,8 +271,8 @@ export default async function AdminHomePage() {
               tone: 'border-indigo-200',
             },
             {
-              title: 'Ä°adeler',
-              description: 'Ä°ade taleplerini yönet.',
+              title: 'İadeler',
+              description: 'İade taleplerini yönet.',
               href: '/admin/returns',
               count: totalReturns,
               tone: 'border-indigo-200',
@@ -418,7 +418,7 @@ export default async function AdminHomePage() {
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-surface)] p-5 shadow-[var(--admin-shadow)]">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-base font-semibold text-[var(--admin-text)]">Hızlı Ä°şlemler</div>
+                <div className="text-base font-semibold text-[var(--admin-text)]">Hızlı İşlemler</div>
                 <div className="text-sm text-[var(--admin-muted)]">Sık kullanılan sayfalara kısa yollar</div>
               </div>
             </div>
@@ -451,7 +451,7 @@ export default async function AdminHomePage() {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="text-sm font-semibold text-[var(--admin-text)]">
-                      {inq.name || 'Ä°sim yok'} - {inq.email}
+                      {inq.name || 'İsim yok'} - {inq.email}
                     </div>
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusBadge(inq.status)}`}>
                       {typeLabel(inq.type)} - {inq.status === 'NEW' ? 'Yeni' : inq.status === 'READ' ? 'Okundu' : 'Kapalı'}
@@ -489,7 +489,7 @@ export default async function AdminHomePage() {
                   member.name ||
                   [member.firstName, member.lastName].filter(Boolean).join(' ') ||
                   member.email ||
-                  'Ä°simsiz üye';
+                  'İsimsiz üye';
 
                 return (
                   <Link

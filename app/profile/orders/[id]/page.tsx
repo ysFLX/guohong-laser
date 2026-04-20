@@ -269,7 +269,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     SHIPPED: 'Kargoya verildi',
     IN_TRANSIT: 'Sipariş hazırlanıyor',
     DELIVERED: 'Teslim edildi',
-    CANCELED: 'Ä°ptal',
+    CANCELED: 'İptal',
   };
 
   const statusTone: Record<string, string> = {
@@ -389,7 +389,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   href="/returns-request"
                   className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 hover:bg-slate-50 dark:text-slate-200"
                 >
-                  Ä°ade talebi
+                  İade talebi
                 </Link>
               </div>
             </div>
@@ -612,7 +612,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       href="/returns-request"
                       className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                     >
-                      Ä°ade talebi
+                      İade talebi
                     </Link>
                   </div>
                 </div>
@@ -869,7 +869,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Ä°ade işlemleri
+                  İade işlemleri
                 </div>
                 <div className="mt-2 text-slate-600">
                   Ürün iade veya değişim talebini form üzerinden başlatabilirsiniz.
@@ -883,7 +883,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     <div className="h-2 w-1/4 rounded-full bg-amber-400" />
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span>Ä°nceleme</span>
+                    <span>İnceleme</span>
                     <span>Hazırlanıyor</span>
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-500">
@@ -895,7 +895,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                   href="/returns-request"
                   className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  Ä°ade talebi oluştur
+                  İade talebi oluştur
                 </Link>
               </div>
               <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-900/60">

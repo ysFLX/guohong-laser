@@ -335,7 +335,7 @@ export default function BulkQuotePage() {
               onClick={() => router.back()}
               className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
             >
-              Ä°ptal
+              İptal
             </button>
             <button type="submit" disabled={isSubmitting} className="btn-primary px-6 py-2">
               {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Teklif iste'}

@@ -16,7 +16,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
     orderId: '',
     itemName: '',
     reason: '',
-    resolution: 'Ä°ade',
+    resolution: 'İade',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string } | null>(null);
@@ -99,7 +99,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
       } else if (data.success) {
         setSubmitStatus({
           success: true,
-          message: 'Ä°ade talebiniz alındı. En kısa sürede sizinle iletişime geçeceğiz.',
+          message: 'İade talebiniz alındı. En kısa sürede sizinle iletişime geçeceğiz.',
         });
         setFormData({
           name: '',
@@ -108,7 +108,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
           orderId: '',
           itemName: '',
           reason: '',
-          resolution: 'Ä°ade',
+          resolution: 'İade',
         });
         setOtp('');
         setStep('details');
@@ -172,9 +172,9 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
           <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.9),_rgba(15,23,42,0.25))]" />
           <div className="relative space-y-4">
             <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-              Ä°ade talebi
+              İade talebi
             </p>
-            <h1 className="text-3xl font-semibold sm:text-4xl">Ä°ade ve değişiklik başvurusu</h1>
+            <h1 className="text-3xl font-semibold sm:text-4xl">İade ve değişiklik başvurusu</h1>
             <p className="max-w-2xl text-base text-white/70">
               Sipariş numaranızı ve talep nedeninizi paylaşın. Teknik ekip ön değerlendirme yaparak hızlıca geri dönecek.
             </p>
@@ -251,7 +251,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                 <div className="space-y-2 sm:col-span-2">
                   <div className="form-label">Talep tipi</div>
                   <select name="resolution" value={formData.resolution} onChange={handleChange} className="form-input">
-                    <option value="Iade">Ä°ade</option>
+                    <option value="Iade">İade</option>
                     <option value="Degisim">Değişim</option>
                     <option value="Teknik destek">Teknik destek</option>
                   </select>
@@ -344,7 +344,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
 
           <aside className="space-y-4">
             <div className="card-surface p-6">
-              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">Ä°ade adımları</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-[var(--indigo-600)]">İade adımları</div>
               <ol className="mt-4 space-y-3 text-sm text-[var(--gray-500)]">
                 <li>1. Talep formunu doldur ve gönder.</li>
                 <li>2. Teknik ekip ön değerlendirme yapsın.</li>
@@ -358,7 +358,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   href="/returns"
                   className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-2 text-[var(--foreground)] transition hover:bg-[var(--surface)]"
                 >
-                  Ä°ade ve garanti
+                  İade ve garanti
                 </Link>
                 <Link
                   href="/shipping"

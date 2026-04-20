@@ -22,8 +22,8 @@ const legalLinks = [
     href: '/distance-sales',
   },
   {
-    title: 'Ä°ade ve Garanti',
-    description: 'Ä°ade koşulları, garanti kapsamı ve servis süreci.',
+    title: 'İade ve Garanti',
+    description: 'İade koşulları, garanti kapsamı ve servis süreci.',
     href: '/returns',
   },
   {

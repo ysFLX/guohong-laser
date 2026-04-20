@@ -689,7 +689,7 @@ function CartPageContent() {
                     3D Secure
                   </span>
                   <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
-                    Ä°ade garantisi
+                    İade garantisi
                   </span>
                 </div>
               </div>
@@ -793,7 +793,7 @@ function CartPageContent() {
                       onClick={handleClearReminder}
                       className="rounded-full border border-slate-200 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-600 transition hover:border-slate-300 dark:border-slate-800 dark:text-slate-300"
                     >
-                      Ä°ptal
+                      İptal
                     </button>
                   </div>
                   {reminderStatus === 'saved' && (
@@ -841,7 +841,7 @@ function CartPageContent() {
               Hızlı Al için adres gerekli
             </div>
             <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Åimdi adres eklemek ister misiniz?
+              Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Şimdi adres eklemek ister misiniz?
             </div>
             <div className="mt-5 flex items-center justify-end gap-2">
               <button

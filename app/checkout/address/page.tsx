@@ -195,7 +195,7 @@ function CheckoutAddressEnabled() {
       const data = await res.json();
       setCities(data.cities || []);
     } catch {
-      setCheckoutError('Ä°ller yüklenemedi');
+      setCheckoutError('İller yüklenemedi');
     } finally {
       setLoadingCities(false);
     }
@@ -208,7 +208,7 @@ function CheckoutAddressEnabled() {
       const data = await res.json();
       setDistricts(data.districts || []);
     } catch {
-      setCheckoutError('Ä°lçeler yüklenemedi');
+      setCheckoutError('İlçeler yüklenemedi');
     } finally {
       setLoadingDistricts(false);
     }
@@ -230,7 +230,7 @@ function CheckoutAddressEnabled() {
       return;
     }
     if (!districtValue) {
-      setCheckoutError('Ä°lçe seçimi zorunludur');
+      setCheckoutError('İlçe seçimi zorunludur');
       return;
     }
 
@@ -548,7 +548,7 @@ function CheckoutAddressEnabled() {
                     <div className="form-label">Etiket</div>
                     <input
                       className="form-input"
-                      placeholder="Etiket (Ev, Ä°ş)"
+                      placeholder="Etiket (Ev, İş)"
                       value={form.label}
                       onChange={(e) => setForm({ ...form, label: e.target.value })}
                     />
@@ -595,7 +595,7 @@ function CheckoutAddressEnabled() {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="form-label">Ä°l Seçimi</div>
+                  <div className="form-label">İl Seçimi</div>
                   <select
                     className="form-input"
                     value={form.cityCode}
@@ -612,7 +612,7 @@ function CheckoutAddressEnabled() {
                     disabled={loadingCities}
                   >
                     <option value="" disabled>
-                      Ä°l seç
+                      İl seç
                     </option>
                     {cities.map((city) => (
                       <option key={city.code} value={city.code}>
@@ -621,12 +621,12 @@ function CheckoutAddressEnabled() {
                     ))}
                   </select>
                   {loadingCities && (
-                    <div className="text-xs text-slate-500 dark:text-slate-400">Ä°ller yükleniyor...</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">İller yükleniyor...</div>
                   )}
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <div className="form-label">Ä°lçe Seçimi</div>
+                  <div className="form-label">İlçe Seçimi</div>
                   <select
                     className="form-input"
                     value={form.district}
@@ -634,7 +634,7 @@ function CheckoutAddressEnabled() {
                     disabled={!form.cityCode || loadingDistricts}
                   >
                     <option value="" disabled>
-                      Ä°lçe seç
+                      İlçe seç
                     </option>
                     {districts.map((district) => (
                       <option key={district} value={district}>
@@ -643,7 +643,7 @@ function CheckoutAddressEnabled() {
                     ))}
                   </select>
                   {loadingDistricts && (
-                    <div className="text-xs text-slate-500 dark:text-slate-400">Ä°lçeler yükleniyor...</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">İlçeler yükleniyor...</div>
                   )}
                 </div>
 
@@ -683,7 +683,7 @@ function CheckoutAddressEnabled() {
                     onClick={() => setShowForm(false)}
                     className="btn-secondary"
                   >
-                    Ä°ptal
+                    İptal
                   </button>
                   <button
                     type="submit"
@@ -811,7 +811,7 @@ function CheckoutAddressEnabled() {
                         <div className="form-label">Etiket</div>
                         <input
                           className="form-input"
-                          placeholder="Etiket (Ev, Ä°ş)"
+                          placeholder="Etiket (Ev, İş)"
                           value={form.label}
                           onChange={(e) => setForm({ ...form, label: e.target.value })}
                         />
@@ -858,7 +858,7 @@ function CheckoutAddressEnabled() {
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="form-label">Ä°l Seçimi</div>
+                      <div className="form-label">İl Seçimi</div>
                       <select
                         className="form-input"
                         value={form.cityCode}
@@ -875,7 +875,7 @@ function CheckoutAddressEnabled() {
                         disabled={loadingCities}
                       >
                         <option value="" disabled>
-                          Ä°l seç
+                          İl seç
                         </option>
                         {cities.map((city) => (
                           <option key={city.code} value={city.code}>
@@ -884,12 +884,12 @@ function CheckoutAddressEnabled() {
                         ))}
                       </select>
                       {loadingCities && (
-                        <div className="text-xs text-slate-500 dark:text-slate-400">Ä°ller yükleniyor...</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">İller yükleniyor...</div>
                       )}
                     </div>
 
                     <div className="md:col-span-2 space-y-2">
-                      <div className="form-label">Ä°lçe Seçimi</div>
+                      <div className="form-label">İlçe Seçimi</div>
                       <select
                         className="form-input"
                         value={form.district}
@@ -897,7 +897,7 @@ function CheckoutAddressEnabled() {
                         disabled={!form.cityCode || loadingDistricts}
                       >
                         <option value="" disabled>
-                          Ä°lçe seç
+                          İlçe seç
                         </option>
                         {districts.map((district) => (
                           <option key={district} value={district}>
@@ -906,7 +906,7 @@ function CheckoutAddressEnabled() {
                         ))}
                       </select>
                       {loadingDistricts && (
-                        <div className="text-xs text-slate-500 dark:text-slate-400">Ä°lçeler yükleniyor...</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">İlçeler yükleniyor...</div>
                       )}
                     </div>
 
@@ -1017,7 +1017,7 @@ function CheckoutAddressEnabled() {
                         onClick={() => setShowForm(false)}
                         className="btn-secondary"
                       >
-                        Ä°ptal
+                        İptal
                       </button>
                       <button
                         type="submit"
@@ -1082,7 +1082,7 @@ function CheckoutAddressEnabled() {
                   3D Secure
                 </span>
                 <span className="rounded-full border border-slate-200 bg-white px-3 py-1 dark:border-slate-800 dark:bg-slate-950/40">
-                  Ä°ade garantisi
+                  İade garantisi
                 </span>
               </div>
             </div>
@@ -1104,7 +1104,7 @@ function CheckoutAddressEnabled() {
                   </Link>
                   {' / '}
                   <Link href="/returns" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-200">
-                    Ä°ade
+                    İade
                   </Link>
                   {' / '}
                   <Link href="/privacy" className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-200">
@@ -1175,7 +1175,7 @@ function CheckoutAddressDisabled() {
           <div className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-600 dark:text-amber-300">
             Ödeme kapalı
           </div>
-          <h1 className="mt-3 text-2xl font-semibold tracking-tight">Åimdilik teklif ile ilerliyoruz</h1>
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight">Şimdilik teklif ile ilerliyoruz</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
             {getPaymentProviderPendingNotice()} Sepetiniz icin teklif isteyebilir veya WhatsApp hattindan siparis
             destegi alabilirsiniz.

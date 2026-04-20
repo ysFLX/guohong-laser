@@ -29,7 +29,7 @@ export async function GET(req: Request) {
     const result = await processPendingInvoices({ limit });
     return NextResponse.json({ ok: true, ...result });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
+    const message = error instanceof Error ? error.message : 'İşlem başarısız';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     const invoice = await getInvoiceById(body.invoiceId);
     return NextResponse.json({ ok: true, item: invoice });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Ä°şlem başarısız';
+    const message = error instanceof Error ? error.message : 'İşlem başarısız';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

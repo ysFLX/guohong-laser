@@ -205,7 +205,7 @@ export default async function ProductDetailPage({
             ))}
           </div>
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/6 px-5 py-4 text-sm text-white/72">
-            Fiyat ve konfigürasyon için en hızlı yol: <span className="font-semibold text-white">teklif talebi</span>. Ä°stersen WhatsApp&apos;tan üretim detaylarını yazıp netleştirebiliriz.
+            Fiyat ve konfigürasyon için en hızlı yol: <span className="font-semibold text-white">teklif talebi</span>. İstersen WhatsApp&apos;tan üretim detaylarını yazıp netleştirebiliriz.
           </div>
         </div>
 

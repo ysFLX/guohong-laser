@@ -260,7 +260,7 @@ export default function InquiriesAdminManager({ items }: Props) {
                     <div className="grid gap-3 sm:grid-cols-2">
                       <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-4 shadow-sm">
                         <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                          Ä°letişim
+                          İletişim
                         </div>
                         <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">{item.email}</div>
                         {item.phone ? <div className="mt-1 text-xs text-[var(--admin-muted)]">{item.phone}</div> : null}
@@ -284,7 +284,7 @@ export default function InquiriesAdminManager({ items }: Props) {
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                            Ä°şlemler
+                            İşlemler
                           </div>
                           <div className="mt-2 text-sm font-semibold text-[var(--admin-text)]">
                             Durum: {item.status === 'READ' ? 'Okundu' : item.status === 'CLOSED' ? 'Silindi' : 'Yeni'}
@@ -327,7 +327,7 @@ export default function InquiriesAdminManager({ items }: Props) {
             <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{stats.read}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
-            <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">Ä°letişim</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">İletişim</div>
             <div className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">{stats.contact}</div>
           </div>
           <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
@@ -392,7 +392,7 @@ export default function InquiriesAdminManager({ items }: Props) {
                   Teklifler
                 </AdminButton>
                 <AdminButton tone="slate" variant="outline" onClick={() => jumpToSection('contact')}>
-                  Ä°letişim
+                  İletişim
                 </AdminButton>
               </div>
             </div>
@@ -454,9 +454,9 @@ export default function InquiriesAdminManager({ items }: Props) {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">
-                  Ä°letişim
+                  İletişim
                 </div>
-                <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">Ä°letişim talepleri</div>
+                <div className="mt-2 text-lg font-semibold text-[var(--admin-text)]">İletişim talepleri</div>
                 <div className="mt-1 text-xs text-[var(--admin-muted)]">Formdan gelen iletişim mesajlarını yönet.</div>
               </div>
               <AdminBadge tone="slate">{filtered.contact.length} kayıt</AdminBadge>

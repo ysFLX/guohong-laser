@@ -6,10 +6,10 @@ import { AdminBadge, AdminButton, AdminRadioCard } from '@/components/admin/Admi
 
 const statusOptions = [
   { value: 'NEW', label: 'Talep alındı' },
-  { value: 'UNDER_REVIEW', label: 'Ä°ncelemede' },
+  { value: 'UNDER_REVIEW', label: 'İncelemede' },
   { value: 'APPROVED', label: 'Onaylandı' },
   { value: 'REJECTED', label: 'Reddedildi' },
-  { value: 'REFUNDED', label: 'Ä°ade tamamlandı' },
+  { value: 'REFUNDED', label: 'İade tamamlandı' },
 ] as const;
 
 type ReturnStatus = (typeof statusOptions)[number]['value'];
@@ -94,7 +94,7 @@ export default function ReturnsAdminManager() {
     try {
       const res = await fetch('/api/admin/returns');
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || 'Ä°ade talepleri alınamadı');
+      if (!res.ok) throw new Error(data?.error || 'İade talepleri alınamadı');
       const list = Array.isArray(data?.items) ? (data.items as ReturnRequestItem[]) : [];
       setItems(list);
       setExpandedIds(new Set(list.length ? [list[0].id] : []));
@@ -111,7 +111,7 @@ export default function ReturnsAdminManager() {
         }, {}),
       );
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ä°ade talepleri alınamadı');
+      setError(err instanceof Error ? err.message : 'İade talepleri alınamadı');
     } finally {
       setLoading(false);
     }
@@ -236,11 +236,11 @@ export default function ReturnsAdminManager() {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">
-              Ä°ade yönetimi
+              İade yönetimi
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-[var(--admin-text)]">Talepler</h2>
             <p className="mt-1 text-sm text-[var(--admin-muted)]">
-              Ä°ade/değişim taleplerini hızlıca ara ve güncelle.
+              İade/değişim taleplerini hızlıca ara ve güncelle.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -344,7 +344,7 @@ export default function ReturnsAdminManager() {
 
         {!loading && items.length === 0 ? (
           <div className="mt-6 rounded-xl border border-dashed border-[var(--admin-border)] p-4 text-sm text-[var(--admin-muted)]">
-            Ä°ade talebi bulunamadı.
+            İade talebi bulunamadı.
           </div>
         ) : null}
 

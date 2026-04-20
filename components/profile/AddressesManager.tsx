@@ -140,7 +140,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setCities(data.cities || []);
     } catch {
-      setToast({ type: "error", message: "Ä°ller yüklenemedi" });
+      setToast({ type: "error", message: "İller yüklenemedi" });
     } finally {
       setLoadingCities(false);
     }
@@ -153,7 +153,7 @@ export default function AddressesManager() {
       const data = await res.json();
       setDistricts(data.districts || []);
     } catch {
-      setToast({ type: "error", message: "Ä°lçeler yüklenemedi" });
+      setToast({ type: "error", message: "İlçeler yüklenemedi" });
     } finally {
       setLoadingDistricts(false);
     }
@@ -211,7 +211,7 @@ export default function AddressesManager() {
         throw new Error("Ad, soyad, telefon, adres ve il zorunludur");
       }
       if (!districtValue) {
-        throw new Error("Ä°lçe seçimi zorunludur");
+        throw new Error("İlçe seçimi zorunludur");
       }
 
       const invoiceType = form.invoiceType === "COMPANY" ? "COMPANY" : "INDIVIDUAL";
@@ -251,7 +251,7 @@ export default function AddressesManager() {
       );
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Ä°şlem başarısız");
+      if (!res.ok) throw new Error(data?.error || "İşlem başarısız");
 
       setAddresses(data.addresses || []);
       setShowForm(false);
@@ -259,7 +259,7 @@ export default function AddressesManager() {
       setForm({ ...emptyForm });
       setToast({ type: "success", message: editingid ? "Adres güncellendi" : "Adres eklendi" });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Ä°şlem başarısız";
+      const message = err instanceof Error ? err.message : "İşlem başarısız";
       setToast({ type: "error", message });
     } finally {
       setLoading(false);
@@ -453,7 +453,7 @@ export default function AddressesManager() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">Ä°l Seçimi</div>
+            <div className="form-label">İl Seçimi</div>
             <select
               className="form-input"
               value={form.cityCode}
@@ -478,11 +478,11 @@ export default function AddressesManager() {
                 </option>
               ))}
             </select>
-            {loadingCities && <div className="text-xs text-gray-500">Ä°ller yükleniyor...</div>}
+            {loadingCities && <div className="text-xs text-gray-500">İller yükleniyor...</div>}
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <div className="form-label">Ä°lçe Seçimi</div>
+            <div className="form-label">İlçe Seçimi</div>
             <select
               className="form-input"
               value={form.district}
@@ -498,7 +498,7 @@ export default function AddressesManager() {
                 </option>
               ))}
             </select>
-            {loadingDistricts && <div className="text-xs text-gray-500">Ä°lceler yükleniyor...</div>}
+            {loadingDistricts && <div className="text-xs text-gray-500">İlçeler yükleniyor...</div>}
           </div>
 
           <div className="space-y-2">

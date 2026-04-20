@@ -209,7 +209,7 @@ export default function AdminSparePartEditForm({
               </select>
             </div>
             <div className="mt-2 text-xs text-[var(--admin-muted)]">
-              Åu an {priceCurrency === 'TRY' ? 'TL' : 'USD'} olarak kaydedilecek.
+              Şu an {priceCurrency === 'TRY' ? 'TL' : 'USD'} olarak kaydedilecek.
             </div>
           </div>
 

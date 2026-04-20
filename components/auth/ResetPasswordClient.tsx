@@ -25,12 +25,12 @@ export default function ResetPasswordClient() {
     }
 
     if (password.length < 6) {
-      setError('Åifre en az 6 karakter olmalıdır.');
+      setError('Şifre en az 6 karakter olmalıdır.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Åifreler eşleşmiyor.');
+      setError('Şifreler eşleşmiyor.');
       return;
     }
 

@@ -80,7 +80,7 @@ function formatOrderStatusTr(status: string) {
     case 'FAILED':
       return 'Ödeme başarısız';
     case 'CANCELED':
-      return 'Ä°ptal';
+      return 'İptal';
     default:
       return status;
   }
@@ -458,7 +458,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
     ty += lineHeight;
 
     const diff = totalCents - itemsTotalCents;
-    doc.text(diff < 0 ? 'Ä°ndirim' : 'Ek kalem', labelX, ty, { width: totalsBoxW - 28 });
+    doc.text(diff < 0 ? 'İndirim' : 'Ek kalem', labelX, ty, { width: totalsBoxW - 28 });
     doc.text(tryFormatMoney(diff, params.order.currency), labelX, ty, { width: totalsBoxW - 28, align: 'right' });
     ty += lineHeight;
   }

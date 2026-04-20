@@ -1053,7 +1053,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   <option value="price-asc">Fiyat (artan)</option>
                   <option value="price-desc">Fiyat (azalan)</option>
                   <option value="rating-desc">Puan (yüksek)</option>
-                  <option value="name-asc">Ä°sim (A-Z)</option>
+                  <option value="name-asc">İsim (A-Z)</option>
                 </select>
               </div>
             </div>

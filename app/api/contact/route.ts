@@ -215,7 +215,7 @@ export async function POST(request: Request) {
       from: `"${name}" <${smtpUser}>`,
       to: smtpUser,
       replyTo: safeEmail,
-      subject: `${subject || 'Ä°letişim'} - Ä°letişim Formu`,
+      subject: `${subject || 'İletişim'} - İletişim Formu`,
       text: message,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
@@ -245,15 +245,15 @@ export async function POST(request: Request) {
       text: 'Talebinizi aldık. En kısa sürede sizinle iletisime geçeceğiz.',
       html: buildEmailHtml({
         title: 'Talebiniz alındı',
-        subtitle: inferredType === 'QUOTE' ? 'Fiyat teklifi talebiniz alındı' : 'Ä°letişim talebiniz alındı',
-        badge: inferredType === 'QUOTE' ? 'Fiyat teklifi' : 'Ä°letişim',
+        subtitle: inferredType === 'QUOTE' ? 'Fiyat teklifi talebiniz alındı' : 'İletişim talebiniz alındı',
+        badge: inferredType === 'QUOTE' ? 'Fiyat teklifi' : 'İletişim',
         preheader: 'Talebinizi aldık. En kısa sürede dönüş yapacağız.',
         bodyHtml: `
           <div>Merhaba <strong>${escapedName}</strong>,</div>
           <div style="margin-top: 8px; color:#475569;">Talebinizi aldık. En kısa sürede sizinle iletisime geçeceğiz.</div>
           <div style="margin-top: 14px; padding: 14px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
             <div style="font-size: 12px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.12em;">Ozet</div>
-            <div style="margin-top: 8px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'Ä°letişim'}</div>
+            <div style="margin-top: 8px;"><strong>Tur:</strong> ${inferredType === 'QUOTE' ? 'Fiyat Teklifi' : 'İletişim'}</div>
             ${escapedProduct ? `<div style="margin-top: 6px;"><strong>Ürün:</strong> ${escapedProduct}</div>` : ''}
             ${subject ? `<div style="margin-top: 6px;"><strong>Konu:</strong> ${escapedSubject}</div>` : ''}
           </div>
