@@ -327,11 +327,11 @@ export default function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobil menü"
-          className={`absolute right-0 top-0 h-dvh w-full max-w-[92vw] overflow-y-auto border-l border-[var(--header-card-border)] bg-[var(--header-card)] px-5 pb-[calc(env(safe-area-inset-bottom)+20px)] pt-[calc(env(safe-area-inset-top)+16px)] text-[var(--header-text)] transition-transform duration-300 sm:max-w-sm ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`absolute right-0 top-0 h-dvh w-full max-w-[92vw] overflow-y-auto overscroll-contain border-l border-[var(--surface-border)] bg-[var(--surface)] px-5 pb-[calc(env(safe-area-inset-bottom)+20px)] pt-[calc(env(safe-area-inset-top)+16px)] text-[var(--header-text)] shadow-[-28px_0_60px_rgba(0,0,0,0.24)] transition-transform duration-300 sm:max-w-sm ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
-          <div className="flex items-center justify-between border-b border-[var(--header-card-border)] pb-5">
+          <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-5">
             <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={180} height={74} className="h-11 w-auto" />
-            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] shadow-sm">
+            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--surface-muted)] shadow-sm">
               <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor">
                 <path
                   fillRule="evenodd"
@@ -349,7 +349,7 @@ export default function Header() {
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`rounded-2xl px-4 py-3 text-sm font-semibold transition ${
-                  isActive(item.href) ? 'bg-[#15327f] text-white' : 'bg-[var(--header-surface)] text-[var(--header-text)] hover:bg-[#edf2ff]'
+                  isActive(item.href) ? 'bg-[#15327f] text-white' : 'bg-[var(--surface-muted)] text-[var(--header-text)] hover:bg-[var(--surface)]'
                 }`}
               >
                 {item.label}
@@ -361,15 +361,15 @@ export default function Header() {
             <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#15327f] px-4 py-3 text-sm font-semibold text-white shadow-sm">
               Teklif Al
             </Link>
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
               WhatsApp
             </a>
             {!isAuthed ? (
               <>
-                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
                   Giriş Yap
                 </Link>
-                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
                   Kayıt Ol
                 </Link>
               </>
@@ -381,7 +381,7 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     setProfileOpen(true);
                   }}
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm"
                 >
                   Profili Aç
                 </button>
@@ -399,21 +399,21 @@ export default function Header() {
             )}
           </div>
 
-          <div className="mt-8 rounded-3xl border border-[var(--header-card-border)] bg-[var(--header-surface)] p-4 shadow-sm">
+          <div className="mt-8 rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-muted)] p-4 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--header-muted-text)]">
               Hızlı erişim
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
                 İletişim
               </Link>
-              <Link href="/gallery" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+              <Link href="/gallery" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
                 Galeri
               </Link>
-              <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+              <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
                 SSS
               </Link>
-              <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+              <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
                 Teklif
               </Link>
             </div>
