@@ -42,6 +42,7 @@ const MOBILE_LINKS = [
   { href: '/', label: 'Ana Sayfa' },
   { href: '/about', label: 'Hakkımızda' },
   { href: '/products', label: 'Ürünler' },
+  { href: '/spare-parts', label: 'Yedek Parçalar' },
   { href: '/gallery', label: 'Galeri' },
   { href: '/contact', label: 'İletişim' },
 ] as const;
