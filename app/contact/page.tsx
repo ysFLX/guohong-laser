@@ -112,7 +112,7 @@ function ContactPageInner() {
         <div className="relative grid gap-8 px-6 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-16">
           <div className="flex flex-col justify-center">
             <p className="text-sm font-semibold uppercase tracking-[0.38em] text-[#ff6a0d]">Bize Ulaşın</p>
-            <h1 className="mt-5 text-4xl font-semibold leading-tight text-white sm:text-5xl">Sorularınız için buradayız</h1>
+            <h1 className="mt-5 text-3xl font-semibold leading-tight text-white sm:text-5xl">Sorularınız için buradayız</h1>
             <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
               Teklif, servis ya da ürün bilgisi için formu doldürün. Referans sitedeki inquiry alanı mantığıyla hızlı geri dönüş akışı burada çalışıyor.
             </p>
@@ -181,11 +181,11 @@ function ContactPageInner() {
               </label>
             ) : null}
 
-            <div className="flex flex-wrap gap-3">
-              <button type="submit" disabled={isSubmitting} className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-7 py-3 text-sm font-semibold text-[#15148c] disabled:opacity-70">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <button type="submit" disabled={isSubmitting} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff6a0d] px-7 py-3 text-sm font-semibold text-[#15148c] disabled:opacity-70">
                 {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve Gönder' : 'Gönder'}
               </button>
-              <Link href="/quote" className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white">
+              <Link href="/quote" className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white">
                 Teklif Formu
               </Link>
             </div>
@@ -229,5 +229,3 @@ function ContactPageInner() {
 export default function ContactPage() {
   return <Suspense fallback={<div className="min-h-screen bg-[#15148c]" />}><ContactPageInner /></Suspense>;
 }
-
-

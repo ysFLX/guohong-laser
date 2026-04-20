@@ -246,7 +246,7 @@ export default function SupportWidget() {
   }
 
   return (
-    <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+14px)] right-4 z-[140] sm:bottom-4 sm:right-6">
+    <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+12px)] right-3 z-[140] sm:bottom-4 sm:right-6">
       {open && (
         <>
           <button
@@ -260,7 +260,7 @@ export default function SupportWidget() {
             role="dialog"
             aria-modal="true"
             aria-label="Canlı destek"
-            className="relative z-[140] mb-3 flex h-[min(80dvh,660px)] w-[min(92vw,390px)] flex-col overflow-hidden rounded-3xl border border-slate-200/70 bg-white/95 shadow-[0_24px_80px_rgba(15,23,42,0.24)] backdrop-blur dark:border-slate-800/60 dark:bg-slate-950/90 max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:mb-0 max-sm:h-[85dvh] max-sm:w-full max-sm:rounded-b-none max-sm:rounded-t-3xl"
+            className="relative z-[140] mb-3 flex h-[min(80dvh,660px)] w-[min(92vw,390px)] flex-col overflow-hidden rounded-3xl border border-slate-200/70 bg-white/95 shadow-[0_24px_80px_rgba(15,23,42,0.24)] backdrop-blur dark:border-slate-800/60 dark:bg-slate-950/90 max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:mb-0 max-sm:h-[88dvh] max-sm:w-full max-sm:rounded-b-none max-sm:rounded-t-3xl"
           >
             <div className="bg-gradient-to-r from-indigo-700 via-indigo-600 to-violet-600 px-5 py-4 text-white">
               <div className="flex items-center justify-between gap-3">
@@ -278,7 +278,7 @@ export default function SupportWidget() {
                   <button
                     type="button"
                     onClick={() => setOpen(false)}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
                     aria-label="Kapat"
                   >
                     <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
@@ -306,7 +306,7 @@ export default function SupportWidget() {
                       setSendError(null);
                       window.setTimeout(() => inputRef.current?.focus(), 0);
                     }}
-                    className="shrink-0 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-[11px] font-medium text-indigo-700 transition hover:border-indigo-300 dark:border-indigo-400/30 dark:bg-indigo-500/10 dark:text-indigo-200"
+                    className="shrink-0 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-2 text-[11px] font-medium text-indigo-700 transition hover:border-indigo-300 dark:border-indigo-400/30 dark:bg-indigo-500/10 dark:text-indigo-200"
                   >
                     {prompt}
                   </button>
@@ -316,7 +316,7 @@ export default function SupportWidget() {
 
             <div
               ref={scrollAreaRef}
-              className="flex-1 space-y-3 overflow-y-auto bg-slate-50/70 px-5 py-4 text-sm dark:bg-slate-950/40"
+              className="flex-1 space-y-3 overflow-y-auto bg-slate-50/70 px-4 py-4 text-sm dark:bg-slate-950/40 sm:px-5"
             >
               {loading && !hasMessages && <div className="text-xs text-slate-500">Yükleniyor...</div>}
 
@@ -403,13 +403,13 @@ export default function SupportWidget() {
                         if (event.key === 'Enter') sendMessage();
                       }}
                       placeholder="Mesajınızı yazın..."
-                      className="h-10 w-full rounded-full border border-slate-200/80 bg-white/95 px-4 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-200"
+                      className="h-11 w-full rounded-full border border-slate-200/80 bg-white/95 px-4 text-xs text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-200"
                     />
                     <button
                       type="button"
                       onClick={sendMessage}
                       disabled={sending || !input.trim()}
-                      className="inline-flex h-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-4 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(79,70,229,0.25)] transition hover:opacity-95 disabled:opacity-60"
+                      className="inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-4 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(79,70,229,0.25)] transition hover:opacity-95 disabled:opacity-60"
                     >
                       {sending ? '...' : 'Gönder'}
                     </button>
@@ -418,7 +418,7 @@ export default function SupportWidget() {
                     type="button"
                     onClick={closeConversation}
                     disabled={closing}
-                    className="inline-flex h-9 items-center justify-center rounded-full border border-slate-300 px-4 text-[11px] font-semibold text-slate-700 transition hover:bg-slate-100 disabled:opacity-60 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
+                    className="inline-flex h-10 items-center justify-center rounded-full border border-slate-300 px-4 text-[11px] font-semibold text-slate-700 transition hover:bg-slate-100 disabled:opacity-60 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800/60"
                   >
                     {closing ? 'Kapatiliyor...' : 'Sohbeti Bitir'}
                   </button>

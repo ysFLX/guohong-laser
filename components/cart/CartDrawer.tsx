@@ -33,9 +33,9 @@ export default function CartDrawer() {
       />
 
       <aside
-        className={`fixed right-0 top-0 h-full w-full max-w-md bg-white/95 backdrop-blur dark:bg-slate-950/95 shadow-[0_24px_80px_rgba(15,23,42,0.28)] border-l border-slate-200/70 dark:border-slate-800/70 flex flex-col transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed right-0 top-0 flex h-[100dvh] w-full max-w-md transform flex-col overflow-hidden border-l border-slate-200/70 bg-white/95 shadow-[0_24px_80px_rgba(15,23,42,0.28)] backdrop-blur transition-transform duration-300 ease-in-out dark:border-slate-800/70 dark:bg-slate-950/95 max-sm:max-w-none max-sm:rounded-none max-sm:pb-[calc(env(safe-area-inset-bottom)+12px)] ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        <div className="p-5 border-b border-slate-200/70 dark:border-slate-800/70 flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-slate-200/70 p-5 dark:border-slate-800/70">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
               Sepet
@@ -45,7 +45,7 @@ export default function CartDrawer() {
           <button
             type="button"
             onClick={closeCart}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:bg-slate-900/60"
             aria-label="Sepeti kapat"
           >
             <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -58,15 +58,15 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        <div className="flex-1 overflow-auto p-4 space-y-4">
+        <div className="flex-1 space-y-4 overflow-auto px-4 py-4 pb-6">
           {items.length === 0 && (
-            <div className="text-center py-10">
+            <div className="py-10 text-center">
               <div className="text-slate-900 dark:text-white font-semibold">Sepet boş</div>
               <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">Ürün ekleyince burada görünecek.</div>
               <Link
                 href="/spare-parts"
                 onClick={closeCart}
-                className="mt-6 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700"
+                className="mt-6 inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
               >
                 Ürünlere Git
               </Link>
@@ -102,7 +102,7 @@ export default function CartDrawer() {
                     <button
                       type="button"
                       onClick={() => removeItem(x.id)}
-                      className="text-sm font-semibold text-rose-600 hover:underline"
+                    className="rounded-full px-2 py-1 text-sm font-semibold text-rose-600 hover:bg-rose-50 hover:underline dark:hover:bg-rose-500/10"
                     >
                       Sil
                     </button>
@@ -112,19 +112,19 @@ export default function CartDrawer() {
                     <div className="inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-800">
                       <button
                         type="button"
-                        className="px-3 py-1 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60 rounded-l-xl disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-l-xl px-3 py-2 text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-40"
                         onClick={() => setQuantity(x.id, x.quantity - 1)}
                         disabled={cannotDecrease}
                         aria-label="Azalt"
                       >
                         -
                       </button>
-                      <div className="px-3 py-1 text-sm font-semibold text-slate-900 dark:text-white min-w-10 text-center">
+                      <div className="min-w-10 px-3 py-2 text-center text-sm font-semibold text-slate-900 dark:text-white">
                         {x.quantity}
                       </div>
                       <button
                         type="button"
-                        className="px-3 py-1 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60 rounded-r-xl"
+                        className="rounded-r-xl px-3 py-2 text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-900/60"
                         onClick={() => setQuantity(x.id, x.quantity + 1)}
                         aria-label="Arttır"
                       >
@@ -148,7 +148,7 @@ export default function CartDrawer() {
           })}
         </div>
 
-        <div className="border-t border-slate-200/70 dark:border-slate-800/70 p-5 space-y-3">
+        <div className="space-y-3 border-t border-slate-200/70 p-5 pb-[calc(env(safe-area-inset-bottom)+16px)] dark:border-slate-800/70">
           <div className="flex items-center justify-between">
             <div className="text-sm text-slate-600 dark:text-slate-300">Ara Toplam</div>
             <div className="text-base font-bold text-slate-900 dark:text-white">{subtotal}</div>
@@ -158,14 +158,14 @@ export default function CartDrawer() {
             <Link
               href="/cart"
               onClick={closeCart}
-              className="flex-1 inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700"
+              className="inline-flex flex-1 items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
             >
               Sepete Git
             </Link>
             <button
               type="button"
               onClick={clear}
-              className="px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/60"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:text-white dark:hover:bg-slate-900/60"
             >
               Temizle
             </button>

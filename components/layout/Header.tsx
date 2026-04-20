@@ -157,9 +157,9 @@ export default function Header() {
       </div>
 
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-[92px] items-center gap-4">
+        <div className="flex h-[76px] items-center gap-3 sm:h-[92px] sm:gap-4">
           <Link href="/" className="inline-flex items-center gap-3">
-            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={220} height={90} priority className="h-[58px] w-auto sm:h-[64px]" />
+            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={220} height={90} priority className="h-[46px] w-auto sm:h-[64px]" />
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center lg:flex">
@@ -292,7 +292,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleCart}
-              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)]"
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] shadow-sm"
               aria-label="Sepeti aç"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -303,7 +303,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] shadow-sm"
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
             >
@@ -319,7 +319,7 @@ export default function Header() {
 
       <div className={`fixed inset-0 z-[150] lg:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div
-          className={`absolute inset-0 bg-[#000033]/28 backdrop-blur-sm transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 bg-[#000033]/35 backdrop-blur-sm transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setMobileMenuOpen(false)}
         />
         <aside
@@ -327,11 +327,11 @@ export default function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobil menü"
-          className={`absolute right-0 top-0 h-dvh w-full max-w-sm overflow-y-auto border-l border-[var(--header-card-border)] bg-[var(--header-card)] px-6 pb-8 pt-6 text-[var(--header-text)] transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`absolute right-0 top-0 h-dvh w-full max-w-[92vw] overflow-y-auto border-l border-[var(--header-card-border)] bg-[var(--header-card)] px-5 pb-[calc(env(safe-area-inset-bottom)+20px)] pt-[calc(env(safe-area-inset-top)+16px)] text-[var(--header-text)] transition-transform duration-300 sm:max-w-sm ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
           <div className="flex items-center justify-between border-b border-[var(--header-card-border)] pb-5">
-            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={180} height={74} className="h-12 w-auto" />
-            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)]">
+            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={180} height={74} className="h-11 w-auto" />
+            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] shadow-sm">
               <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor">
                 <path
                   fillRule="evenodd"
@@ -358,18 +358,18 @@ export default function Header() {
           </div>
 
           <div className="mt-8 grid gap-3">
-            <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-[#15327f] px-4 py-3 text-sm font-semibold text-white">
+            <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#15327f] px-4 py-3 text-sm font-semibold text-white shadow-sm">
               Teklif Al
             </Link>
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
               WhatsApp
             </a>
             {!isAuthed ? (
               <>
-                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]">
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
                   Giriş Yap
                 </Link>
-                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]">
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm">
                   Kayıt Ol
                 </Link>
               </>
@@ -381,7 +381,7 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     setProfileOpen(true);
                   }}
-                  className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] shadow-sm"
                 >
                   Profili Aç
                 </button>
@@ -391,12 +391,32 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     signOut({ callbackUrl: '/' });
                   }}
-                  className="inline-flex items-center justify-center rounded-2xl border border-rose-300/30 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-rose-300/30 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 shadow-sm"
                 >
                   Çıkış Yap
                 </button>
               </>
             )}
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-[var(--header-card-border)] bg-[var(--header-surface)] p-4 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--header-muted-text)]">
+              Hızlı erişim
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+                İletişim
+              </Link>
+              <Link href="/gallery" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+                Galeri
+              </Link>
+              <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+                SSS
+              </Link>
+              <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-card)] px-3 py-3 text-center text-sm font-semibold text-[var(--header-button-text)]">
+                Teklif
+              </Link>
+            </div>
           </div>
         </aside>
       </div>

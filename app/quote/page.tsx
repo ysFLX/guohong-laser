@@ -132,7 +132,7 @@ function QuotePageContent() {
             <p className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.38em] text-[#ff6a0d]">
               Fiyat Teklifi
             </p>
-            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Hızlı teklif formu</h1>
+            <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">Hızlı teklif formu</h1>
             <p className="max-w-2xl text-base leading-8 text-white/76">
               İlgi duyduğunuz ürünü seçin, detayları gönderin. Ekibimiz en uygun teklifi hazırlayacaktır.
             </p>
@@ -301,18 +301,18 @@ function QuotePageContent() {
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-x-3">
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
             <button
               type="button"
               onClick={() => router.back()}
-              className="inline-flex items-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-sm font-semibold text-white/82 transition hover:border-white/30 hover:bg-white/10"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-3 text-sm font-semibold text-white/82 transition hover:border-white/30 hover:bg-white/10"
             >
               İptal
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-6 py-2 text-sm font-semibold text-[#15148c] transition hover:opacity-95 disabled:opacity-70"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ff6a0d] px-6 py-3 text-sm font-semibold text-[#15148c] transition hover:opacity-95 disabled:opacity-70"
             >
               {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Gönder'}
             </button>
