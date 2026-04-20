@@ -25,21 +25,27 @@ function applyTheme(next: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'light';
+
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
 
   useEffect(() => {
-    const saved = (typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEY)) as Theme | null;
-    const prefersDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initial = saved === 'light' || saved === 'dark' ? saved : prefersDark ? 'dark' : 'light';
-    setTheme(initial);
+    applyTheme(theme);
     if (typeof window !== 'undefined') {
-      applyTheme(initial);
+      localStorage.setItem(STORAGE_KEY, theme);
     }
   }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     applyTheme(theme);
+    document.documentElement.dataset.theme = theme;
+    document.body.dataset.theme = theme;
   }, [theme]);
 
   const value = useMemo<ThemeContextValue>(
@@ -50,6 +56,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           const next: Theme = prev === 'dark' ? 'light' : 'dark';
           if (typeof window !== 'undefined') {
             localStorage.setItem(STORAGE_KEY, next);
+            applyTheme(next);
           }
           return next;
         });

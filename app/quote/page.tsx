@@ -124,44 +124,46 @@ function QuotePageContent() {
   };
 
   return (
-    <div className="min-h-screen space-y-16">
-      <Reveal as="section" className="relative overflow-hidden rounded-[36px] bg-slate-950 px-6 py-12 text-white shadow-2xl sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.4),_transparent_55%)] opacity-70" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,23,42,0.8),_rgba(15,23,42,0.2))]" />
-        <div className="relative space-y-4">
-          <p className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-white/80">
-            Fiyat Teklifi
-          </p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Hızlı teklif formu</h1>
-          <p className="max-w-2xl text-base text-white/70">
-            İlgi duyduğunuz ürünü seçin, detayları gönderin. Ekibimiz en uygun teklifi hazırlayacaktır.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/bulk-quote"
-              className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-white/60 hover:text-white"
-            >
-              Toplu teklif formu
-            </Link>
+    <div className="space-y-14 pb-16 text-white">
+      <Reveal as="section" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#15148c] shadow-[0_40px_120px_-60px_rgba(5,0,92,0.95)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,106,13,0.24),_transparent_30%),linear-gradient(120deg,_rgba(5,0,92,0.2),_rgba(5,0,92,0.92))]" />
+        <div className="relative px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
+          <div className="max-w-3xl space-y-4">
+            <p className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.38em] text-[#ff6a0d]">
+              Fiyat Teklifi
+            </p>
+            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Hızlı teklif formu</h1>
+            <p className="max-w-2xl text-base leading-8 text-white/76">
+              İlgi duyduğunuz ürünü seçin, detayları gönderin. Ekibimiz en uygun teklifi hazırlayacaktır.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/bulk-quote"
+                className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/82 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+              >
+                Toplu teklif formu
+              </Link>
+            </div>
           </div>
         </div>
       </Reveal>
 
-      <Reveal as="section" className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl dark:border-white/10 dark:bg-white/5">
+      <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] p-6 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         {submitStatus && (
           <div
             className={`mb-6 form-alert ${
-              submitStatus.success ? 'form-alert--success' : 'form-alert--error'
+              submitStatus.success ? 'border-emerald-300/25 bg-emerald-400/10 text-emerald-100' : 'border-rose-300/25 bg-rose-400/10 text-rose-100'
             }`}
           >
             {submitStatus.message}
           </div>
         )}
+        {info ? <div className="mb-6 rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-sm text-white/80">{info}</div> : null}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              <label htmlFor="name" className="block text-sm font-medium text-white/82">
                 Ad Soyad <span className="text-red-500">*</span>
               </label>
               <div className="mt-1">
@@ -172,13 +174,13 @@ function QuotePageContent() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#ff6a0d]"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              <label htmlFor="company" className="block text-sm font-medium text-white/82">
                 Firma Adı
               </label>
               <div className="mt-1">
@@ -188,13 +190,13 @@ function QuotePageContent() {
                   id="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#ff6a0d]"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              <label htmlFor="email" className="block text-sm font-medium text-white/82">
                 E-posta <span className="text-red-500">*</span>
               </label>
               <div className="mt-1">
@@ -205,14 +207,14 @@ function QuotePageContent() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#ff6a0d]"
                 />
               </div>
-              {emailError && <div className="mt-2 text-sm text-red-600">{emailError}</div>}
+              {emailError && <div className="mt-2 text-sm text-rose-200">{emailError}</div>}
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              <label htmlFor="phone" className="block text-sm font-medium text-white/82">
                 Telefon <span className="text-red-500">*</span>
               </label>
               <div className="mt-1">
@@ -223,13 +225,13 @@ function QuotePageContent() {
                   required
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#ff6a0d]"
                 />
               </div>
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="product" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              <label htmlFor="product" className="block text-sm font-medium text-white/82">
                 İlgi duyduğunuz ürün <span className="text-red-500">*</span>
               </label>
               <div className="mt-1">
@@ -239,7 +241,7 @@ function QuotePageContent() {
                   required
                   value={formData.product}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-sm text-white outline-none focus:border-[#ff6a0d]"
                 >
                   <option value="">Ürün seçiniz</option>
                   {formData.product && !machineProductNames.includes(formData.product) ? (
@@ -255,7 +257,7 @@ function QuotePageContent() {
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              <label htmlFor="message" className="block text-sm font-medium text-white/82">
                 Ek bilgiler
               </label>
               <div className="mt-1">
@@ -265,7 +267,7 @@ function QuotePageContent() {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-[26px] border border-white/12 bg-white/6 px-4 py-4 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#ff6a0d]"
                   placeholder="Eklemek istediğiniz notlar veya özel istekleriniz..."
                 ></textarea>
               </div>
@@ -274,11 +276,11 @@ function QuotePageContent() {
 
           {step === 'verify' && (
             <div className="space-y-3">
-              <div className="text-sm text-slate-600 dark:text-slate-300">
+              <div className="text-sm text-white/76">
                 Doğrulama kodunu e-posta adresine gönderdik. Kodu girip gönderimi tamamla.
               </div>
               <div>
-                <label htmlFor="otp" className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                <label htmlFor="otp" className="block text-sm font-medium text-white/82">
                   Doğrulama Kodu
                 </label>
                 <div className="mt-1">
@@ -290,7 +292,7 @@ function QuotePageContent() {
                     required
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-center text-sm text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                    className="w-full rounded-2xl border border-white/12 bg-white/6 px-4 py-3 text-center text-sm text-white outline-none placeholder:text-white/35 focus:border-[#ff6a0d]"
                     placeholder="000000"
                     maxLength={6}
                   />
@@ -299,20 +301,18 @@ function QuotePageContent() {
             </div>
           )}
 
-            {info && <div className="form-alert form-alert--info text-center">{info}</div>}
-
           <div className="flex items-center justify-end gap-x-3">
             <button
               type="button"
               onClick={() => router.back()}
-              className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              className="inline-flex items-center rounded-full border border-white/12 bg-white/6 px-4 py-2 text-sm font-semibold text-white/82 transition hover:border-white/30 hover:bg-white/10"
             >
               İptal
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn-primary px-6 py-2"
+              className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-6 py-2 text-sm font-semibold text-[#15148c] transition hover:opacity-95 disabled:opacity-70"
             >
               {isSubmitting ? 'Gönderiliyor...' : step === 'verify' ? 'Doğrula ve gönder' : 'Gönder'}
             </button>
@@ -325,7 +325,7 @@ function QuotePageContent() {
 
 export default function QuotePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#15148c]" />}>
       <QuotePageContent />
     </Suspense>
   );

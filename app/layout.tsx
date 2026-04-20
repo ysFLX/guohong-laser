@@ -166,6 +166,11 @@ export default function RootLayout({
         className={`${poppins.variable} ${geistMono.variable} flex min-h-full flex-col overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]`}
         suppressHydrationWarning
       >
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var key='site-theme';var saved=localStorage.getItem(key);var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var next=saved==='light'||saved==='dark'?saved:(prefersDark?'dark':'light');var root=document.documentElement;if(next==='dark'){root.classList.add('dark')}else{root.classList.remove('dark')}root.dataset.theme=next;document.body.dataset.theme=next;localStorage.setItem(key,next)}catch(e){}})();`,
+          }}
+        />
         <Analytics gaId={gaId} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
