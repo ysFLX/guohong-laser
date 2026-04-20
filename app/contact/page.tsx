@@ -161,7 +161,7 @@ function ContactPageInner() {
               </label>
               <label className="grid gap-2 text-sm font-medium text-white/82">
                 Konu
-                <select name="subject" value={formData.subject} onChange={handleChange} className="rounded-2xl border border-white/12 bg-white px-4 py-3 text-white outline-none focus:border-[#ff6a0d]">
+                <select name="subject" value={formData.subject} onChange={handleChange} className="rounded-2xl border border-white/12 bg-[#f7f9ff] px-4 py-3 text-white outline-none focus:border-[#ff6a0d]">
                   <option value="Genel Soru">Genel Soru</option>
                   <option value="Teknik Destek">Teknik Destek</option>
                   <option value="Satış Bilgisi">Satış Bilgisi</option>
