@@ -97,6 +97,28 @@
   --yellow-700: #b7791f;
   --yellow-800: #975a16;
   --yellow-900: #744210;
+
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --header-text: #333333;
+  --header-border: rgba(21, 50, 127, 0.08);
+  --header-surface: #f7f9ff;
+  --header-card: #ffffff;
+  --header-card-border: rgba(21, 50, 127, 0.12);
+  --header-muted-text: rgba(51, 51, 51, 0.74);
+
+  --brand-hero-bg: linear-gradient(135deg, rgba(231, 209, 204, 0.95) 0%, rgba(185, 183, 219, 0.95) 34%, rgba(75, 63, 159, 0.95) 100%);
+  --brand-hero-overlay: linear-gradient(120deg, rgba(255, 255, 255, 0.16), rgba(21, 50, 127, 0.18));
+  --brand-hero-text: #1f2937;
+  --brand-hero-muted: rgba(31, 41, 55, 0.76);
+  --brand-panel-bg: rgba(255, 255, 255, 0.92);
+  --brand-panel-border: rgba(255, 255, 255, 0.22);
+  --brand-panel-text: #333333;
+  --brand-panel-muted: rgba(51, 51, 51, 0.72);
+  --brand-input-bg: rgba(255, 255, 255, 0.9);
+  --brand-input-border: rgba(21, 50, 127, 0.12);
+  --brand-input-text: #0f172a;
+  --brand-input-placeholder: rgba(71, 85, 105, 0.55);
+  --brand-button-text: #15327f;
 }
 
 :root.dark {
@@ -151,6 +173,28 @@
   --yellow-700: #888888;
   --yellow-800: #999999;
   --yellow-900: #aaaaaa;
+
+  --header-bg: rgba(0, 0, 34, 0.95);
+  --header-text: #ffffff;
+  --header-border: rgba(255, 255, 255, 0.08);
+  --header-surface: rgba(255, 255, 255, 0.06);
+  --header-card: rgba(255, 255, 255, 0.08);
+  --header-card-border: rgba(255, 255, 255, 0.12);
+  --header-muted-text: rgba(255, 255, 255, 0.76);
+
+  --brand-hero-bg: linear-gradient(135deg, rgba(35, 28, 74, 0.96) 0%, rgba(59, 75, 132, 0.95) 34%, rgba(21, 20, 140, 0.96) 100%);
+  --brand-hero-overlay: linear-gradient(120deg, rgba(5, 0, 92, 0.18), rgba(5, 0, 92, 0.92));
+  --brand-hero-text: #ffffff;
+  --brand-hero-muted: rgba(255, 255, 255, 0.76);
+  --brand-panel-bg: rgba(255, 255, 255, 0.06);
+  --brand-panel-border: rgba(255, 255, 255, 0.1);
+  --brand-panel-text: #ffffff;
+  --brand-panel-muted: rgba(255, 255, 255, 0.72);
+  --brand-input-bg: rgba(255, 255, 255, 0.06);
+  --brand-input-border: rgba(255, 255, 255, 0.12);
+  --brand-input-text: #ffffff;
+  --brand-input-placeholder: rgba(255, 255, 255, 0.35);
+  --brand-button-text: #ffffff;
 }
 
 body {

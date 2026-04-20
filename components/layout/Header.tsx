@@ -141,7 +141,7 @@ export default function Header() {
   }, [mounted, unreadCount]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-white/95 text-[#333333] shadow-[0_10px_30px_rgba(21,50,127,0.08)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[var(--header-border)] bg-[var(--header-bg)] text-[var(--header-text)] shadow-[0_10px_30px_rgba(21,50,127,0.08)] backdrop-blur-xl">
       <div className="border-b border-[#15327f]/10 bg-[#15327f]">
         <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-xs text-white/82 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-4">
@@ -163,13 +163,13 @@ export default function Header() {
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center lg:flex">
-            <div className="flex items-center gap-1 rounded-full border border-[#15327f]/12 bg-[#f7f9ff] px-2 py-2">
+            <div className="flex items-center gap-1 rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] px-2 py-2">
               {PRIMARY_NAV.map((item) => (
                 <div key={item.label} className="group relative">
                   <Link
                     href={item.href}
                     className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
-                      isActive(item.href) ? 'bg-[#15327f] text-white' : 'text-[#333333]/78 hover:bg-[#15327f]/6 hover:text-[#15327f]'
+                      isActive(item.href) ? 'bg-[#15327f] text-white' : 'text-[var(--header-muted-text)] hover:bg-[#15327f]/6 hover:text-[#15327f]'
                     }`}
                   >
                     {item.label}
@@ -186,13 +186,13 @@ export default function Header() {
 
                   {item.children ? (
                     <div className="pointer-events-none absolute left-1/2 top-full z-20 hidden w-[340px] -translate-x-1/2 pt-4 group-hover:block group-hover:pointer-events-auto">
-                      <div className="rounded-[28px] border border-[#15327f]/12 bg-white p-4 shadow-[0_22px_44px_rgba(21,50,127,0.12)]">
+                      <div className="rounded-[28px] border border-[var(--header-card-border)] bg-[var(--header-card)] p-4 shadow-[0_22px_44px_rgba(21,50,127,0.12)]">
                         <div className="grid gap-2">
                           {item.children.map((child) => (
                             <Link
                               key={child.label}
                               href={child.href}
-                              className="rounded-2xl px-4 py-3 text-sm font-medium text-[#333333]/74 transition hover:bg-[#f7f9ff] hover:text-[#15327f]"
+                              className="rounded-2xl px-4 py-3 text-sm font-medium text-[var(--header-muted-text)] transition hover:bg-[var(--header-surface)] hover:text-[#15327f]"
                             >
                               {child.label}
                             </Link>
@@ -210,14 +210,14 @@ export default function Header() {
             <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0d2260]">
               Teklif Al
             </Link>
-            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-5 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]">
+            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] px-5 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]">
               Yedek Parçalar
             </Link>
 
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-card)] text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
               aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
@@ -236,7 +236,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openNotifications}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-card)] text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
                   aria-label="Bildirimleri aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -247,7 +247,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={toggleCart}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-white text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-card)] text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
                   aria-label="Sepeti aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -258,7 +258,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setProfileOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#15327f]/12 bg-[#f7f9ff] px-2 py-2 text-sm font-semibold text-[#15327f] transition hover:bg-[#edf2ff]"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] px-2 py-2 text-sm font-semibold text-[#15327f] transition hover:bg-[#edf2ff]"
                   aria-label="Profili aç"
                 >
                   {avatarUrl ? (
@@ -272,10 +272,10 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
                   Giriş
                 </Link>
-                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-[#15327f]/12 px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
+                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
                   Kayıt
                 </Link>
               </>
@@ -292,7 +292,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleCart}
-              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]"
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] text-[#15327f]"
               aria-label="Sepeti aç"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -303,7 +303,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff] text-[#15327f]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] text-[#15327f]"
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
             >
@@ -327,11 +327,11 @@ export default function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobil menü"
-          className={`absolute right-0 top-0 h-dvh w-full max-w-sm overflow-y-auto border-l border-[#15327f]/12 bg-white px-6 pb-8 pt-6 text-[#333333] transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`absolute right-0 top-0 h-dvh w-full max-w-sm overflow-y-auto border-l border-[var(--header-card-border)] bg-[var(--header-card)] px-6 pb-8 pt-6 text-[var(--header-text)] transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
-          <div className="flex items-center justify-between border-b border-[#15327f]/12 pb-5">
+          <div className="flex items-center justify-between border-b border-[var(--header-card-border)] pb-5">
             <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={180} height={74} className="h-12 w-auto" />
-            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#15327f]/12 bg-[#f7f9ff]">
+            <button type="button" onClick={() => setMobileMenuOpen(false)} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)]">
               <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor">
                 <path
                   fillRule="evenodd"
@@ -349,7 +349,7 @@ export default function Header() {
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`rounded-2xl px-4 py-3 text-sm font-semibold transition ${
-                  isActive(item.href) ? 'bg-[#15327f] text-white' : 'bg-[#f7f9ff] text-[#333333] hover:bg-[#edf2ff]'
+                  isActive(item.href) ? 'bg-[#15327f] text-white' : 'bg-[var(--header-surface)] text-[var(--header-text)] hover:bg-[#edf2ff]'
                 }`}
               >
                 {item.label}
@@ -361,15 +361,15 @@ export default function Header() {
             <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-[#15327f] px-4 py-3 text-sm font-semibold text-white">
               Teklif Al
             </Link>
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]">
               WhatsApp
             </a>
             {!isAuthed ? (
               <>
-                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]">
                   Giriş Yap
                 </Link>
-                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]">
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]">
                   Kayıt Ol
                 </Link>
               </>
@@ -381,7 +381,7 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     setProfileOpen(true);
                   }}
-                  className="inline-flex items-center justify-center rounded-2xl border border-[#15327f]/12 bg-[#f7f9ff] px-4 py-3 text-sm font-semibold text-[#15327f]"
+                  className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]"
                 >
                   Profili Aç
                 </button>
