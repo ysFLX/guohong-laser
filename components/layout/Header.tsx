@@ -169,7 +169,7 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
-                      isActive(item.href) ? 'bg-[#15327f] text-white' : 'text-[var(--header-muted-text)] hover:bg-[#15327f]/6 hover:text-[#15327f]'
+                      isActive(item.href) ? 'bg-[#15327f] text-white' : 'text-[var(--header-muted-text)] hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]'
                     }`}
                   >
                     {item.label}
@@ -192,7 +192,7 @@ export default function Header() {
                             <Link
                               key={child.label}
                               href={child.href}
-                              className="rounded-2xl px-4 py-3 text-sm font-medium text-[var(--header-muted-text)] transition hover:bg-[var(--header-surface)] hover:text-[#15327f]"
+                              className="rounded-2xl px-4 py-3 text-sm font-medium text-[var(--header-muted-text)] transition hover:bg-[var(--header-surface)] hover:text-[var(--header-button-text)]"
                             >
                               {child.label}
                             </Link>
@@ -210,14 +210,14 @@ export default function Header() {
             <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0d2260]">
               Teklif Al
             </Link>
-            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] px-5 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]">
+            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-5 py-3 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]">
               Yedek Parçalar
             </Link>
 
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-card)] text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]"
               aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
@@ -236,7 +236,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openNotifications}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-card)] text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]"
                   aria-label="Bildirimleri aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -247,7 +247,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={toggleCart}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-card)] text-[#15327f] transition hover:bg-[#15327f]/6 hover:text-[#15327f]"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]"
                   aria-label="Sepeti aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -258,7 +258,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setProfileOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] px-2 py-2 text-sm font-semibold text-[#15327f] transition hover:bg-[#edf2ff]"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] px-2 py-2 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#edf2ff] hover:text-[var(--header-button-text)]"
                   aria-label="Profili aç"
                 >
                   {avatarUrl ? (
@@ -272,17 +272,17 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]">
                   Giriş
                 </Link>
-                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] px-4 py-3 text-sm font-semibold text-[#15327f] transition hover:bg-[#15327f]/6">
+                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]">
                   Kayıt
                 </Link>
               </>
             )}
 
             {isAdmin ? (
-              <Link href="/admin" className="inline-flex items-center justify-center rounded-full border border-[#15327f]/20 bg-[#15327f]/6 px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#15327f]">
+              <Link href="/admin" className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--header-button-text)]">
                 Admin
               </Link>
             ) : null}
@@ -292,7 +292,7 @@ export default function Header() {
             <button
               type="button"
               onClick={toggleCart}
-              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] text-[#15327f]"
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)]"
               aria-label="Sepeti aç"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -303,7 +303,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] text-[#15327f]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)]"
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
             >
@@ -361,15 +361,15 @@ export default function Header() {
             <Link href="/quote" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl bg-[#15327f] px-4 py-3 text-sm font-semibold text-white">
               Teklif Al
             </Link>
-            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]">
+            <a href={whatsAppHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]">
               WhatsApp
             </a>
             {!isAuthed ? (
               <>
-                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]">
+                <Link href={loginHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]">
                   Giriş Yap
                 </Link>
-                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]">
+                <Link href={registerHref} onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]">
                   Kayıt Ol
                 </Link>
               </>
@@ -381,7 +381,7 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     setProfileOpen(true);
                   }}
-                  className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[#15327f]"
+                  className="inline-flex items-center justify-center rounded-2xl border border-[var(--header-card-border)] bg-[var(--header-surface)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)]"
                 >
                   Profili Aç
                 </button>

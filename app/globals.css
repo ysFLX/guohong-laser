@@ -105,6 +105,8 @@
   --header-card: #ffffff;
   --header-card-border: rgba(21, 50, 127, 0.12);
   --header-muted-text: rgba(51, 51, 51, 0.74);
+  --header-button-bg: #f7f9ff;
+  --header-button-text: #15327f;
 
   --brand-hero-bg: linear-gradient(135deg, rgba(231, 209, 204, 0.95) 0%, rgba(185, 183, 219, 0.95) 34%, rgba(75, 63, 159, 0.95) 100%);
   --brand-hero-overlay: linear-gradient(120deg, rgba(255, 255, 255, 0.16), rgba(21, 50, 127, 0.18));
@@ -181,6 +183,8 @@
   --header-card: rgba(255, 255, 255, 0.08);
   --header-card-border: rgba(255, 255, 255, 0.12);
   --header-muted-text: rgba(255, 255, 255, 0.76);
+  --header-button-bg: rgba(255, 255, 255, 0.08);
+  --header-button-text: #ffffff;
 
   --brand-hero-bg: linear-gradient(135deg, rgba(35, 28, 74, 0.96) 0%, rgba(59, 75, 132, 0.95) 34%, rgba(21, 20, 140, 0.96) 100%);
   --brand-hero-overlay: linear-gradient(120deg, rgba(5, 0, 92, 0.18), rgba(5, 0, 92, 0.92));
