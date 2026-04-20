@@ -22,30 +22,29 @@ function applyTheme(next: Theme) {
     root.classList.remove('dark');
     body.classList.remove('dark');
   }
+  root.style.colorScheme = next;
+  body.style.colorScheme = next;
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'light';
-
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    applyTheme(theme);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, theme);
-    }
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = saved === 'light' || saved === 'dark' ? saved : prefersDark ? 'dark' : 'light';
+
+    setTheme(initial);
+    applyTheme(initial);
+    window.localStorage.setItem(STORAGE_KEY, initial);
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     applyTheme(theme);
+    if (typeof window === 'undefined') return;
     document.documentElement.dataset.theme = theme;
     document.body.dataset.theme = theme;
+    window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
   const value = useMemo<ThemeContextValue>(
@@ -54,10 +53,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       toggle: () => {
         setTheme((prev) => {
           const next: Theme = prev === 'dark' ? 'light' : 'dark';
-          if (typeof window !== 'undefined') {
-            localStorage.setItem(STORAGE_KEY, next);
-            applyTheme(next);
-          }
+          applyTheme(next);
+          if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, next);
           return next;
         });
       },

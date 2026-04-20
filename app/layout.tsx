@@ -168,7 +168,7 @@ export default function RootLayout({
       >
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var key='site-theme';var saved=localStorage.getItem(key);var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var next=saved==='light'||saved==='dark'?saved:(prefersDark?'dark':'light');var root=document.documentElement;if(next==='dark'){root.classList.add('dark')}else{root.classList.remove('dark')}root.dataset.theme=next;document.body.dataset.theme=next;localStorage.setItem(key,next)}catch(e){}})();`,
+            __html: `(function(){try{var key='site-theme';var saved=localStorage.getItem(key);var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var next=saved==='light'||saved==='dark'?saved:(prefersDark?'dark':'light');var root=document.documentElement;var body=document.body;if(next==='dark'){root.classList.add('dark')}else{root.classList.remove('dark')}root.dataset.theme=next;body.dataset.theme=next;root.style.colorScheme=next;body.style.colorScheme=next;localStorage.setItem(key,next)}catch(e){}})();`,
           }}
         />
         <Analytics gaId={gaId} />
