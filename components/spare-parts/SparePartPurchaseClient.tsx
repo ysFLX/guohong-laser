@@ -88,7 +88,7 @@ export default function SparePartPurchaseClient({
   }, [isCritical, name, show, stockOnHand]);
 
   const selector = hasSizeOptions ? (
-    <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+    <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50/90 px-4 py-3">
       <label className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
         Ölçü sec
       </label>
@@ -130,7 +130,7 @@ export default function SparePartPurchaseClient({
           priceCents={resolvedPriceCents}
           imageUrl={resolvedImageUrl}
           variantValue={resolvedSize || null}
-          className="inline-flex items-center justify-center rounded-xl bg-[#f59e0b] px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#e58d07] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#f59e0b,#f97316)] px-5 py-3.5 text-sm font-semibold text-slate-950 shadow-[0_18px_36px_-18px_rgba(249,115,22,0.7)] transition hover:translate-y-[-1px] hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
           quantity={1}
           disabled={selectionDisabled}
         />
@@ -150,7 +150,7 @@ export default function SparePartPurchaseClient({
       )}
       <Link
         href="/cart"
-        className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+        className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
       >
         Sepete git
       </Link>
@@ -184,57 +184,78 @@ export default function SparePartPurchaseClient({
         {selector}
       </div>
 
-      <aside className="hidden h-fit rounded-3xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24 lg:block">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-          Satin alma
-        </div>
-        <div className="mt-2 text-3xl font-semibold text-slate-900">
-          {showPrice ? formatPrice(resolvedPriceCents, resolvedPriceCurrency) : 'Fiyat icin teklif al'}
-        </div>
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-          <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-            {inStock ? 'Stokta' : 'Siparisle'}
-          </span>
-          <span className="rounded-full border border-[#15327f]/15 bg-[#15327f]/10 px-3 py-1 text-[#15327f]">
-            {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
-          </span>
-          {isCritical ? (
-            <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
-              </span>
-              Stok azaliyor
+      <aside className="hidden h-fit overflow-hidden rounded-[32px] border border-slate-200/80 bg-white shadow-[0_28px_90px_-50px_rgba(15,23,42,0.45)] lg:sticky lg:top-24 lg:block">
+        <div className="border-b border-slate-200 bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_55%,#38bdf8_100%)] p-5 text-white">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/70">
+                Satin alma
+              </div>
+              <div className="mt-2 text-3xl font-semibold text-white">
+                {showPrice ? formatPrice(resolvedPriceCents, resolvedPriceCurrency) : 'Fiyat icin teklif al'}
+              </div>
+            </div>
+            <div className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold text-white">
+              {inStock ? 'Hazir sevk' : 'On siparis'}
+            </div>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-white/90">
+            <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-white text-[#15327f]' : 'bg-amber-100 text-amber-700'}`}>
+              {inStock ? 'Stokta' : 'Siparisle'}
             </span>
-          ) : null}
+            <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-white">
+              {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+            </span>
+            {isCritical ? (
+              <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
+                </span>
+                Stok azaliyor
+              </span>
+            ) : null}
+          </div>
         </div>
+
+        <div className="p-5">
+        <div className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+            Hizli bilgi
+          </div>
+          <div className="mt-3 grid gap-3 text-xs text-slate-600">
+            <div className="flex items-center justify-between rounded-2xl bg-white px-4 py-3">
+              <span>Gönderen</span>
+              <span className="font-semibold text-slate-900">Guohong Lazer</span>
+            </div>
+            <div className="flex items-center justify-between rounded-2xl bg-white px-4 py-3">
+              <span>Garanti</span>
+              <span className="font-semibold text-slate-900">Resmi servis</span>
+            </div>
+            <div className="flex items-center justify-between rounded-2xl bg-white px-4 py-3">
+              <span>Iade</span>
+              <span className="font-semibold text-slate-900">14 gun</span>
+            </div>
+          </div>
+        </div>
+
         {showMinimumQuantityNote ? (
-          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800">
+          <div className="mt-4 rounded-[24px] border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800">
             Bu üründen minimum alabileceğiniz miktar {minimumQuantity}. Sepete eklerken bu kural otomatik uygulanır.
           </div>
         ) : null}
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
-          <div className="flex items-center justify-between">
-            <span>Gönderen</span>
-            <span className="font-semibold text-slate-900">Guohong Lazer</span>
-          </div>
-          <div className="mt-2 flex items-center justify-between">
-            <span>Garanti</span>
-            <span className="font-semibold text-slate-900">Resmi servis</span>
-          </div>
-          <div className="mt-2 flex items-center justify-between">
-            <span>Iade</span>
-            <span className="font-semibold text-slate-900">14 gun</span>
-          </div>
-        </div>
+
         {selector}
         {actionButtons}
-        <div className="mt-5 border-t border-slate-200 pt-4 text-xs text-slate-500">
-          <ul className="space-y-2">
+
+        <div className="mt-5 rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_100%)] px-4 py-4 text-xs text-slate-500">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">Guven</div>
+          <ul className="mt-3 space-y-2">
             <li>Guvenli odeme</li>
             <li>Fatura destekli satis</li>
             <li>Teknik destek hattı</li>
           </ul>
+        </div>
         </div>
       </aside>
 

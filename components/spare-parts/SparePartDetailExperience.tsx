@@ -85,9 +85,34 @@ export default function SparePartDetailExperience({
 
   return (
     <>
-      <div className="space-y-4">
-        <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="space-y-5">
+        <div className="overflow-hidden rounded-[32px] border border-slate-200/80 bg-white p-4 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]">
           <SparePartImageSlider images={galleryImages} fallbackUrl={resolvedFallbackUrl} name={name} />
+        </div>
+        <div className="grid gap-3 rounded-[28px] border border-slate-200/80 bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_45%,#eef2ff_100%)] p-4 shadow-[0_20px_70px_-45px_rgba(37,99,235,0.35)] sm:grid-cols-[1.2fr_0.8fr] sm:items-center">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">Görsel önizleme</div>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Galeri artık büyütülebilir. Görsele tıklayıp tam ekran açabilir, klavyeden sağ-sol ile diğer fotoğraflara geçebilirsin.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600 sm:justify-end">
+            <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
+              {inStock ? 'Stokta' : 'Siparişle'}
+            </span>
+            <span className="rounded-full bg-white px-3 py-1 text-slate-600 shadow-sm ring-1 ring-slate-200">
+              {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
+            </span>
+            {isCritical && (
+              <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
+                </span>
+                Stok azalıyor
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
           <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -106,16 +131,16 @@ export default function SparePartDetailExperience({
             </span>
           )}
         </div>
-        <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-600 sm:grid-cols-3">
-          <div>
+        <div className="grid gap-3 rounded-[28px] border border-slate-200 bg-white p-4 text-xs text-slate-600 sm:grid-cols-3">
+          <div className="rounded-2xl bg-slate-50 px-4 py-4">
             <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Güvenli ödeme</div>
             <div className="mt-1 font-semibold text-slate-900">SSL korumalı</div>
           </div>
-          <div>
+          <div className="rounded-2xl bg-slate-50 px-4 py-4">
             <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Garanti</div>
             <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
           </div>
-          <div>
+          <div className="rounded-2xl bg-slate-50 px-4 py-4">
             <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">İade</div>
             <div className="mt-1 font-semibold text-slate-900">14 gün</div>
           </div>
