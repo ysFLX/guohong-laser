@@ -279,6 +279,11 @@ enum OrderStatus {
   CANCELED
 }
 
+enum OrderFulfillmentType {
+  SHIPPING
+  PICKUP
+}
+
 enum ReturnStatus {
   NEW
   UNDER_REVIEW
@@ -324,6 +329,7 @@ model Order {
   id            String      @id @default(cuid())
   userId        String
   status        OrderStatus @default(PENDING)
+  fulfillmentType OrderFulfillmentType @default(SHIPPING)
   totalCents    Int
   currency      String      @default("TRY")
   stripeSessionId       String? @unique

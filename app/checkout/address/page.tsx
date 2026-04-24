@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import { formatFulfillmentTypeTr, type OrderFulfillmentType } from '@/lib/orderFulfillment';
 import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
 
 type Address = {
@@ -75,6 +76,7 @@ function CheckoutAddressEnabled() {
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [fulfillmentType, setFulfillmentType] = useState<OrderFulfillmentType>('SHIPPING');
   const [showForm, setShowForm] = useState(false);
   const [formTarget, setFormTarget] = useState<'shipping' | 'billing'>('shipping');
   const [form, setForm] = useState({ ...emptyForm });
@@ -282,6 +284,10 @@ function CheckoutAddressEnabled() {
       const createdId = (data.address?.id as string | undefined) ?? updated[0]?.id ?? null;
       if (formTarget === 'shipping') {
         setSelectedId(createdId);
+        if (fulfillmentType === 'PICKUP') {
+          setSelectedBillingId(createdId);
+          setUseBillingSame(false);
+        }
       } else {
         setSelectedBillingId(createdId);
         setUseBillingSame(false);
@@ -295,11 +301,11 @@ function CheckoutAddressEnabled() {
 
   async function handleCheckout() {
     if (!items.length || loadingCheckout) return;
-    if (!selectedId) {
+    if (fulfillmentType === 'SHIPPING' && !selectedId) {
       setCheckoutError('Adres seçmelisin');
       return;
     }
-    if (!useBillingSame && !selectedBillingId) {
+    if (!selectedBillingId) {
       setCheckoutError('Fatura adresi seçmelisin');
       return;
     }
@@ -314,7 +320,7 @@ function CheckoutAddressEnabled() {
       trackEvent('add_shipping_info', {
         currency: 'TRY',
         value: subtotalCents / 100,
-        shipping_tier: 'Standart',
+        shipping_tier: fulfillmentType === 'PICKUP' ? 'Gel Al' : 'Standart',
         items: items.map((item) => ({
           item_id: item.id,
           item_name: item.name,
@@ -327,8 +333,9 @@ function CheckoutAddressEnabled() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          addressId: selectedId,
-          billingAddressId: useBillingSame ? selectedId : selectedBillingId,
+          addressId: fulfillmentType === 'SHIPPING' ? selectedId : null,
+          billingAddressId: fulfillmentType === 'SHIPPING' && useBillingSame ? selectedId : selectedBillingId,
+          fulfillmentType,
           items: items.map((x) => ({
             id: x.id,
             name: x.name,
@@ -402,9 +409,9 @@ function CheckoutAddressEnabled() {
               <span aria-hidden>â†</span>
               Sepete geri dön
             </Link>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight">Teslimat adresi</h1>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">Teslimat tercihi</h1>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-              Ödeme öncesi adres seçimini tamamla.
+              Siparişi kargo ile mi yoksa gel al ile mi tamamlayacağını seç.
             </p>
           </div>
           <div className="space-y-2 sm:text-right">
@@ -439,11 +446,82 @@ function CheckoutAddressEnabled() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="h-fit rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-xl backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/40">
+            <div className="rounded-[24px] border border-slate-200/70 bg-slate-50/80 p-4 dark:border-slate-800/70 dark:bg-slate-900/40">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400">
+                Teslimat tipi
+              </div>
+              <div className="mt-4 grid gap-3 md:grid-cols-2">
+                <label
+                  className={`cursor-pointer rounded-2xl border px-4 py-4 text-sm transition ${
+                    fulfillmentType === 'SHIPPING'
+                      ? 'border-indigo-500 bg-indigo-50 shadow-sm dark:border-indigo-400/60 dark:bg-indigo-500/10'
+                      : 'border-slate-200 bg-white hover:border-indigo-200 dark:border-slate-800 dark:bg-slate-950/30'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="font-semibold text-slate-900 dark:text-white">Kargo ile teslimat</div>
+                      <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                        Adrese gönderelim, ekip kargolama sürecini yönetsin.
+                      </div>
+                    </div>
+                    <input
+                      type="radio"
+                      name="fulfillment-type"
+                      checked={fulfillmentType === 'SHIPPING'}
+                      onChange={() => {
+                        setFulfillmentType('SHIPPING');
+                        setUseBillingSame(true);
+                        setSelectedBillingId(selectedId);
+                      }}
+                      className="mt-1 h-4 w-4 accent-indigo-600"
+                    />
+                  </div>
+                </label>
+                <label
+                  className={`cursor-pointer rounded-2xl border px-4 py-4 text-sm transition ${
+                    fulfillmentType === 'PICKUP'
+                      ? 'border-emerald-500 bg-emerald-50 shadow-sm dark:border-emerald-400/60 dark:bg-emerald-500/10'
+                      : 'border-slate-200 bg-white hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-950/30'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="font-semibold text-slate-900 dark:text-white">Gel Al</div>
+                      <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                        Siparişi önceden ver, biz hazırlayalım; mağazadan teslim al.
+                      </div>
+                    </div>
+                    <input
+                      type="radio"
+                      name="fulfillment-type"
+                      checked={fulfillmentType === 'PICKUP'}
+                      onChange={() => {
+                        setFulfillmentType('PICKUP');
+                        setUseBillingSame(false);
+                        setSelectedBillingId((current) => current || selectedId);
+                      }}
+                      className="mt-1 h-4 w-4 accent-emerald-600"
+                    />
+                  </div>
+                </label>
+              </div>
+              {fulfillmentType === 'PICKUP' && (
+                <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-400/30 dark:bg-emerald-500/10 dark:text-emerald-100">
+                  Gel al siparişlerinde ekip önce hazırlık yapar; sipariş hazır olduğunda durum mağaza teslimine uygun şekilde güncellenebilir.
+                </div>
+              )}
+            </div>
+
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Teslimat adresi</h2>
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  {fulfillmentType === 'PICKUP' ? 'Teslim alacak kişi bilgisi' : 'Teslimat adresi'}
+                </h2>
                 <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                  Siparişi teslim edeceğimiz adresi seç.
+                  {fulfillmentType === 'PICKUP'
+                    ? 'Gel al siparişi için kayıtlı kişi ve fatura adresini seç.'
+                    : 'Siparişi teslim edeceğimiz adresi seç.'}
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -474,7 +552,7 @@ function CheckoutAddressEnabled() {
             {loadingAddresses && (
               <div className="mt-6 text-sm text-slate-500 dark:text-slate-300">Adresler yükleniyor...</div>
             )}
-            {!loadingAddresses && addresses.length > 0 && (
+            {!loadingAddresses && addresses.length > 0 && fulfillmentType === 'SHIPPING' && (
               <div className="mt-6 space-y-3">
                 {addresses.map((address) => (
                   <label
@@ -538,7 +616,7 @@ function CheckoutAddressEnabled() {
                       Yeni adres
                     </div>
                     <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">
-                      Teslimat için yeni adres ekle
+                      {fulfillmentType === 'PICKUP' ? 'Gel al için yeni iletişim/fatura adresi ekle' : 'Teslimat için yeni adres ekle'}
                     </div>
                   </div>
                 </div>
@@ -701,6 +779,7 @@ function CheckoutAddressEnabled() {
                 <input
                   type="checkbox"
                   checked={useBillingSame}
+                  disabled={fulfillmentType === 'PICKUP'}
                   className="mt-1 h-4 w-4 accent-indigo-600"
                   onChange={(e) => {
                     const checked = e.target.checked;
@@ -714,19 +793,23 @@ function CheckoutAddressEnabled() {
                 <span>
                   Fatura adresi teslimat adresi ile aynı
                   <span className="mt-1 block text-xs font-normal text-slate-500 dark:text-slate-400">
-                    Kurumsal fatura için farklı adres seçebilirsin.
+                    {fulfillmentType === 'PICKUP'
+                      ? 'Gel al siparişlerinde fatura adresi ayrı seçilir.'
+                      : 'Kurumsal fatura için farklı adres seçebilirsin.'}
                   </span>
                 </span>
               </label>
             </div>
 
-            {!useBillingSame && (
+            {(!useBillingSame || fulfillmentType === 'PICKUP') && (
               <div className="mt-6 rounded-2xl border border-slate-200/70 bg-white/70 p-5 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white">Fatura adresi</h3>
                     <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                      Fatura bilgileri için farklı adres seç.
+                      {fulfillmentType === 'PICKUP'
+                        ? 'Gel al siparişi için fatura ve teslim alacak kişi bilgisini seç.'
+                        : 'Fatura bilgileri için farklı adres seç.'}
                     </p>
                   </div>
                   <button
@@ -1057,15 +1140,19 @@ function CheckoutAddressEnabled() {
               <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(subtotalCents)}</span>
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
-              <span>Kargo</span>
-              <span className="font-semibold text-slate-900 dark:text-white">Adresle birlikte hesaplanır</span>
+              <span>Teslimat tipi</span>
+              <span className="font-semibold text-slate-900 dark:text-white">{formatFulfillmentTypeTr(fulfillmentType)}</span>
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
               <span>Teslimat</span>
-              <span className="font-semibold text-slate-900 dark:text-white">2-5 iş günü (stokta)</span>
+              <span className="font-semibold text-slate-900 dark:text-white">
+                {fulfillmentType === 'PICKUP' ? 'Hazırlanınca mağazadan teslim' : '2-5 iş günü (stokta)'}
+              </span>
             </div>
             <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-              Kargo ücreti ve süre, seçilen adrese göre netleşir.
+              {fulfillmentType === 'PICKUP'
+                ? 'Gel al siparişlerinde kargo ücreti oluşmaz; sipariş hazır olduğunda teslim alabilirsiniz.'
+                : 'Kargo ücreti ve süre, seçilen adrese göre netleşir.'}
             </div>
             <div className="mt-4 rounded-2xl border border-slate-200/70 bg-slate-50 px-4 py-4 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/30 dark:text-slate-200">
               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">

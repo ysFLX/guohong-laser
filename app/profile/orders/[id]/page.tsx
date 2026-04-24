@@ -5,6 +5,12 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
+import {
+  formatFulfillmentTypeTr,
+  getOrderProgressStepsTr,
+  getOrderStatusLabelTr,
+  normalizeFulfillmentType,
+} from '@/lib/orderFulfillment';
 import { prisma } from '@/lib/prisma';
 import { getStripe } from '@/lib/stripe';
 import BuyAgainButton from '@/components/profile/BuyAgainButton';
@@ -24,6 +30,7 @@ type OrderItem = {
 type Order = {
   id: string;
   status: string;
+  fulfillmentType: string;
   totalCents: number;
   currency: string;
   createdAt: Date;
@@ -264,14 +271,6 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     });
   } catch {}
 
-  const statusLabel: Record<string, string> = {
-    RECEIVED: 'Sipariş alındı',
-    SHIPPED: 'Kargoya verildi',
-    IN_TRANSIT: 'Sipariş hazırlanıyor',
-    DELIVERED: 'Teslim edildi',
-    CANCELED: 'İptal',
-  };
-
   const statusTone: Record<string, string> = {
     RECEIVED: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-200',
     IN_TRANSIT: 'bg-amber-500/15 text-amber-700 dark:text-amber-200',
@@ -280,12 +279,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     CANCELED: 'bg-rose-500/15 text-rose-700 dark:text-rose-200',
   };
 
-  const progressSteps = [
-    { key: 'RECEIVED', label: 'Siparişiniz alındı' },
-    { key: 'IN_TRANSIT', label: 'Siparişiniz hazırlanıyor' },
-    { key: 'SHIPPED', label: 'Kargoya verildi' },
-    { key: 'DELIVERED', label: 'Teslim edildi' },
-  ];
+  const progressSteps = getOrderProgressStepsTr(safeOrder.fulfillmentType);
   const lineLeftPercent = 100 / (progressSteps.length * 2);
   const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
@@ -302,6 +296,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   };
 
   const displayStatus = normalizeStatus(safeOrder.status);
+  const statusLabelText = getOrderStatusLabelTr(displayStatus, safeOrder.fulfillmentType);
+  const fulfillmentType = normalizeFulfillmentType(safeOrder.fulfillmentType);
 
   const statusTimeline = progressSteps.map((step, index) => {
     const isReached = typeof statusToStep[displayStatus] === 'number' && index <= statusToStep[displayStatus];
@@ -319,7 +315,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     safeOrder.billingAddressId &&
     safeOrder.shippingAddressId &&
     safeOrder.billingAddressId === safeOrder.shippingAddressId;
-  const hasTracking = Boolean(
+  const hasTracking = fulfillmentType === 'SHIPPING' && Boolean(
     safeOrder.shippingCarrier || safeOrder.trackingNumber || safeOrder.trackingUrl,
   );
   const invoiceParams = new URLSearchParams({
@@ -328,7 +324,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   }).toString();
   const supportParams = new URLSearchParams({
     subject: `Sipariş desteği - ${safeOrder.id.slice(0, 8)}`,
-    message: `Merhaba,\n\n${safeOrder.id} numaralı siparişimde teslimat adresi bilgisi görünmüyor. Kontrol edebilir misiniz?\n\nTeşekkürler.`,
+    message:
+      fulfillmentType === 'PICKUP'
+        ? `Merhaba,\n\n${safeOrder.id} numaralı gel al siparişim için teslim alma detayını kontrol edebilir misiniz?\n\nTeşekkürler.`
+        : `Merhaba,\n\n${safeOrder.id} numaralı siparişimde teslimat adresi bilgisi görünmüyor. Kontrol edebilir misiniz?\n\nTeşekkürler.`,
   }).toString();
   const itemCount = safeOrder.items.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -367,9 +366,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-200'
                   }`}
                 >
-                  {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                  {statusLabelText}
                 </div>
-                {safeOrder.trackingUrl ? (
+                {fulfillmentType === 'SHIPPING' && safeOrder.trackingUrl ? (
                   <a
                     href={safeOrder.trackingUrl}
                     target="_blank"
@@ -403,24 +402,34 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="mt-1 text-xs text-slate-500">{itemCount} ürün</div>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Kargo</div>
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  {fulfillmentType === 'PICKUP' ? 'Teslimat tipi' : 'Kargo'}
+                </div>
                 <div className="mt-2 text-sm font-semibold text-slate-900">
-                  {safeOrder.shippingCarrier || 'Bilgi bekleniyor'}
+                  {fulfillmentType === 'PICKUP' ? formatFulfillmentTypeTr(fulfillmentType) : safeOrder.shippingCarrier || 'Bilgi bekleniyor'}
                 </div>
                 <div className="mt-1 text-xs text-slate-500">
-                  {safeOrder.trackingNumber ? `Takip no: ${safeOrder.trackingNumber}` : 'Takip eklenince görünür'}
+                  {fulfillmentType === 'PICKUP'
+                    ? displayStatus === 'SHIPPED'
+                      ? 'Sipariş mağazadan teslim alınmaya hazır.'
+                      : 'Hazırlık bilgisi durum akışında görünür.'
+                    : safeOrder.trackingNumber
+                      ? `Takip no: ${safeOrder.trackingNumber}`
+                      : 'Takip eklenince görünür'}
                 </div>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat</div>
                 <div className="mt-2 text-sm font-semibold text-slate-900">
-                  {shippingView?.city || '-'}
+                  {fulfillmentType === 'PICKUP' ? 'Magazadan teslim' : shippingView?.city || '-'}
                 </div>
-                <div className="mt-1 text-xs text-slate-500">{shippingView?.fullName || '-'}</div>
+                <div className="mt-1 text-xs text-slate-500">
+                  {fulfillmentType === 'PICKUP' ? billingView?.fullName || '-' : shippingView?.fullName || '-'}
+                </div>
               </div>
             </div>
 
-            {!shippingView && (
+            {!shippingView && fulfillmentType === 'SHIPPING' && (
               <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/70 px-5 py-4 text-sm text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-100">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.25em] text-amber-700 dark:text-amber-200">
                   Adres bilgisi bekleniyor
@@ -541,10 +550,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                             Stokta
                           </span>
                           <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
-                            2-3 gün teslim
+                            {fulfillmentType === 'PICKUP' ? 'Magaza teslim' : '2-3 gun teslim'}
                           </span>
                           <span className="rounded-full bg-slate-900/10 px-2 py-1 text-slate-600 dark:bg-white/10 dark:text-slate-200">
-                            {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                            {statusLabelText}
                           </span>
                         </div>
                       </div>
@@ -592,7 +601,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm dark:bg-slate-900/60">
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hızlı aksiyonlar</div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {safeOrder.trackingUrl ? (
+                    {fulfillmentType === 'SHIPPING' && safeOrder.trackingUrl ? (
                       <a
                         href={safeOrder.trackingUrl}
                         target="_blank"
@@ -629,7 +638,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     </div>
                   </div>
                   <span className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
-                    {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                    {statusLabelText}
                   </span>
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -654,9 +663,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat notları</div>
                   <ul className="mt-3 space-y-2 text-slate-600">
-                    <li>â€¢ Paket tesliminde kimlik teyidi alinabilir.</li>
-                    <li>â€¢ Hasarlı teslimatlar için 24 saat içinde bildirim yap.</li>
-                    <li>â€¢ Kargo gecikmelerinde destek ekibi bilgi verir.</li>
+                    <li>{fulfillmentType === 'PICKUP' ? 'Magazaya gelmeden once siparis durumunu kontrol edin.' : 'Paket tesliminde kimlik teyidi alinabilir.'}</li>
+                    <li>{fulfillmentType === 'PICKUP' ? 'Teslim alirken siparis numaranizi paylasin.' : 'Hasarli teslimatlar icin 24 saat icinde bildirim yapin.'}</li>
+                    <li>{fulfillmentType === 'PICKUP' ? 'Hazirlik tamamlandiginda ekip sizi bilgilendirir.' : 'Kargo gecikmelerinde destek ekibi bilgi verir.'}</li>
                   </ul>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
@@ -699,16 +708,24 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-200'
                       }`}
                     >
-                      {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                      {statusLabelText}
                     </span>
                 </div>
               </div>
 
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Teslimat adresi
+                  {fulfillmentType === 'PICKUP' ? 'Teslim alacak kişi / fatura bilgisi' : 'Teslimat adresi'}
                 </div>
-                {shippingView ? (
+                {fulfillmentType === 'PICKUP' && billingView ? (
+                  <div className="mt-2 space-y-1 text-slate-700">
+                    <div className="font-semibold text-slate-900">{billingView.title}</div>
+                    <div>{billingView.fullName}</div>
+                    <div>{billingView.line1}</div>
+                    <div>{billingView.city}</div>
+                    <div>{billingView.phone}</div>
+                  </div>
+                ) : shippingView ? (
                   <div className="mt-2 space-y-1 text-slate-700">
                     <div className="font-semibold text-slate-900">{shippingView.title}</div>
                     <div>{shippingView.fullName}</div>
@@ -729,9 +746,17 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Kargo takibi
+                  {fulfillmentType === 'PICKUP' ? 'Teslim alma durumu' : 'Kargo takibi'}
                 </div>
-                {hasTracking ? (
+                {fulfillmentType === 'PICKUP' ? (
+                  <div className="mt-2 text-slate-600">
+                    {displayStatus === 'SHIPPED'
+                      ? 'Siparişiniz mağazadan teslim alınmaya hazır.'
+                      : displayStatus === 'DELIVERED'
+                        ? 'Siparişiniz mağazadan teslim edildi.'
+                        : 'Sipariş hazırlık durumu güncellendikçe burada görünür.'}
+                  </div>
+                ) : hasTracking ? (
                   <div className="mt-2 space-y-2 text-slate-700">
                     {safeOrder.shippingCarrier && (
                       <div>

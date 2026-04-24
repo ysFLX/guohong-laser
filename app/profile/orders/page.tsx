@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { formatFulfillmentTypeTr, getOrderProgressStepsTr, getOrderStatusLabelTr } from '@/lib/orderFulfillment';
 import BuyAgainButton, { type BuyAgainItem } from '@/components/profile/BuyAgainButton';
 
 type OrderItem = {
@@ -19,6 +20,7 @@ type OrderItem = {
 type Order = {
   id: string;
   status: string;
+  fulfillmentType: string;
   totalCents: number;
   currency: string;
   createdAt: Date;
@@ -76,14 +78,6 @@ export default async function OrdersPage() {
   const hasOrders = orders.length > 0;
   const latestOrder = hasOrders ? orders[0] : null;
 
-  const statusLabel: Record<string, string> = {
-    RECEIVED: 'Sipariş alındı',
-    SHIPPED: 'Kargoya verildi',
-    IN_TRANSIT: 'Sipariş hazırlanıyor',
-    DELIVERED: 'Teslim edildi',
-    CANCELED: 'İptal',
-  };
-
   const statusTone: Record<string, string> = {
     RECEIVED: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-200',
     IN_TRANSIT: 'bg-amber-500/15 text-amber-700 dark:text-amber-200',
@@ -92,14 +86,6 @@ export default async function OrdersPage() {
     CANCELED: 'bg-rose-500/15 text-rose-700 dark:text-rose-200',
   };
 
-  const progressSteps = [
-    { key: 'RECEIVED', label: 'Siparişiniz alındı' },
-    { key: 'IN_TRANSIT', label: 'Siparişiniz hazırlanıyor' },
-    { key: 'SHIPPED', label: 'Kargoya verildi' },
-    { key: 'DELIVERED', label: 'Teslim edildi' },
-  ];
-  const lineLeftPercent = 100 / (progressSteps.length * 2);
-  const lineWidthPercent = 100 - lineLeftPercent * 2;
   const statusAccent: Record<string, { dot: string; line: string; glow: string }> = {
     RECEIVED: { dot: 'bg-indigo-500', line: 'bg-indigo-400', glow: 'shadow-[0_0_0_4px_rgba(99,102,241,0.22)]' },
     IN_TRANSIT: { dot: 'bg-amber-500', line: 'bg-amber-400', glow: 'shadow-[0_0_0_4px_rgba(245,158,11,0.22)]' },
@@ -216,7 +202,13 @@ export default async function OrdersPage() {
                 <div className="mt-8 space-y-4">
                 {orders.map((order) => {
                   const displayStatus = normalizeStatus(order.status);
-                  const hasTracking = Boolean(order.shippingCarrier || order.trackingNumber || order.trackingUrl);
+                  const progressSteps = getOrderProgressStepsTr(order.fulfillmentType);
+                  const lineLeftPercent = 100 / (progressSteps.length * 2);
+                  const lineWidthPercent = 100 - lineLeftPercent * 2;
+                  const statusLabelText = getOrderStatusLabelTr(displayStatus, order.fulfillmentType);
+                  const hasTracking =
+                    order.fulfillmentType === 'SHIPPING' &&
+                    Boolean(order.shippingCarrier || order.trackingNumber || order.trackingUrl);
                   const buyAgainItems: BuyAgainItem[] = order.items
                     .filter((item) => typeof item.sparePartId === 'string' && item.sparePartId.length > 0)
                     .map((item) => ({
@@ -240,9 +232,9 @@ export default async function OrdersPage() {
                     className="block rounded-24 border border-slate-200 bg-white/90 p-6 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg dark:border-white/10 dark:bg-slate-900/70"
                   >
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-slate-500">
-                    <span>Durum</span>
+                    <span>{formatFulfillmentTypeTr(order.fulfillmentType)}</span>
                     <div className="flex items-center gap-2">
-                      {order.trackingUrl ? (
+                      {order.fulfillmentType === 'SHIPPING' && order.trackingUrl ? (
                         <a
                           href={order.trackingUrl}
                           target="_blank"
@@ -252,13 +244,16 @@ export default async function OrdersPage() {
                           Kargo takip
                         </a>
                       ) : null}
+                        <span className="rounded-full border border-slate-200 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
+                          {formatFulfillmentTypeTr(order.fulfillmentType)}
+                        </span>
                         <span
                           className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${
                            statusTone[displayStatus as keyof typeof statusTone] ||
                            'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-200'
                          }`}
                        >
-                         {statusLabel[displayStatus as keyof typeof statusLabel] || displayStatus}
+                         {statusLabelText}
                        </span>
                     </div>
                   </div>
@@ -391,7 +386,19 @@ export default async function OrdersPage() {
                       </div>
                     </div>
                   )}
-                    {!hasTracking && (displayStatus === 'SHIPPED' || displayStatus === 'DELIVERED') && (
+                    {order.fulfillmentType === 'PICKUP' && (displayStatus === 'SHIPPED' || displayStatus === 'DELIVERED') && (
+                      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-emerald-800">
+                        <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                          Gel al siparişi
+                        </div>
+                        <div className="mt-1">
+                          {displayStatus === 'SHIPPED'
+                            ? 'Siparişiniz mağazadan teslim alınmaya hazır.'
+                            : 'Siparişiniz mağazadan teslim edildi.'}
+                        </div>
+                      </div>
+                    )}
+                    {!hasTracking && order.fulfillmentType === 'SHIPPING' && (displayStatus === 'SHIPPED' || displayStatus === 'DELIVERED') && (
                       <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50/70 p-3 text-xs text-amber-800">
                         <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-600">
                           Kargo bilgisi bekleniyor

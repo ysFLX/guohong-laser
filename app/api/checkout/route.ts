@@ -8,6 +8,7 @@ import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchange
 import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/lib/paytr';
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
+import { normalizeFulfillmentType } from '@/lib/orderFulfillment';
 import {
   getSparePartProductIdFromCartLineId,
   normalizeSparePartSizeOptionPricesMap,
@@ -58,9 +59,19 @@ export async function POST(req: Request) {
     );
   }
 
-  let payload: { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
+  let payload: {
+    items?: CheckoutItem[];
+    addressId?: string;
+    billingAddressId?: string | null;
+    fulfillmentType?: string | null;
+  };
   try {
-    payload = (await req.json()) as { items?: CheckoutItem[]; addressId?: string; billingAddressId?: string | null };
+    payload = (await req.json()) as {
+      items?: CheckoutItem[];
+      addressId?: string;
+      billingAddressId?: string | null;
+      fulfillmentType?: string | null;
+    };
   } catch {
     return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
   }
@@ -68,6 +79,7 @@ export async function POST(req: Request) {
   const items = Array.isArray(payload.items) ? payload.items : [];
   const addressId = typeof payload.addressId === 'string' ? payload.addressId.trim() : '';
   const billingAddressId = typeof payload.billingAddressId === 'string' ? payload.billingAddressId.trim() : '';
+  const fulfillmentType = normalizeFulfillmentType(payload.fulfillmentType);
 
   const cleanItems = items
     .filter((x) => x && typeof x.id === 'string' && typeof x.quantity === 'number')
@@ -85,17 +97,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Sepet bos' }, { status: 400 });
   }
 
-  if (!addressId) {
+  if (fulfillmentType === 'SHIPPING' && !addressId) {
     return NextResponse.json({ error: 'Adres secilmedi' }, { status: 400 });
   }
 
-  const address = await prisma.address.findFirst({
-    where: { id: addressId, userId: session.user.id },
-    select: { id: true },
-  });
+  const address =
+    fulfillmentType === 'SHIPPING'
+      ? await prisma.address.findFirst({
+          where: { id: addressId, userId: session.user.id },
+          select: { id: true },
+        })
+      : null;
 
-  if (!address) {
+  if (fulfillmentType === 'SHIPPING' && !address) {
     return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
+  }
+
+  if (!billingAddressId) {
+    return NextResponse.json({ error: 'Fatura adresi bulunamadi' }, { status: 400 });
   }
 
   if (billingAddressId) {
@@ -171,7 +190,7 @@ export async function POST(req: Request) {
   }
 
   const selectedAddress = await prisma.address.findFirst({
-    where: { id: addressId, userId: session.user.id },
+    where: { id: fulfillmentType === 'PICKUP' ? billingAddressId : addressId, userId: session.user.id },
     select: {
       fullName: true,
       phone: true,
@@ -219,11 +238,12 @@ export async function POST(req: Request) {
       data: {
         userId: session.user.id,
         status: 'PENDING',
+        fulfillmentType,
         totalCents,
         currency: 'TRY',
         stripeSessionId: merchantOid,
-        shippingAddressId: addressId,
-        billingAddressId: billingAddressId || addressId,
+        shippingAddressId: fulfillmentType === 'SHIPPING' ? addressId : null,
+        billingAddressId,
         items: {
           create: verifiedItems.map((item) => ({
             name: item.name,

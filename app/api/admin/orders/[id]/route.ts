@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
+import { getOrderStatusLabelTr, normalizeFulfillmentType } from '@/lib/orderFulfillment';
 import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
@@ -27,19 +28,6 @@ const allowedStatuses = new Set([
   'CANCELED',
 ]);
 
-const statusLabel: Record<string, string> = {
-  RECEIVED: 'Siparişiniz alındı',
-  IN_TRANSIT: 'Siparişiniz hazırlanıyor',
-  SHIPPED: 'Kargoya verildi',
-  DELIVERED: 'Teslim edildi',
-  PENDING: 'Ödeme bekleniyor',
-  PAID: 'Ödeme alındı',
-  FAILED: 'Ödeme başarısız',
-  CANCELED: 'İptal edildi',
-};
-
-const formatStatusLabel = (value: string) => statusLabel[value] || value;
-
 const prismaOrders = prisma as unknown as {
   order: {
     update: (args: unknown) => Promise<{ id: string; status: string }>;
@@ -56,6 +44,7 @@ async function sendStatusEmail(params: {
   to: string;
   orderId: string;
   status: string;
+  fulfillmentType: string;
   tracking: { carrier?: string | null; number?: string | null; url?: string | null };
   cancelReason?: string | null;
 }) {
@@ -69,15 +58,19 @@ async function sendStatusEmail(params: {
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
   const returnsUrl = `${appUrl}/returns-request`;
-  const statusText = formatStatusLabel(params.status);
+  const fulfillmentType = normalizeFulfillmentType(params.fulfillmentType);
+  const statusText = getOrderStatusLabelTr(params.status, fulfillmentType);
   const showInvoiceNote = params.status === 'SHIPPED' || params.status === 'DELIVERED';
 
   const cancelLine =
     params.status === 'CANCELED' && params.cancelReason ? `İptal nedeni: ${params.cancelReason}` : '';
   const trackingLines = [
-    params.tracking.carrier ? `Kargo firması: ${params.tracking.carrier}` : '',
-    params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
-    params.tracking.url ? `Takip linki: ${params.tracking.url}` : '',
+    fulfillmentType === 'SHIPPING' && params.tracking.carrier ? `Kargo firması: ${params.tracking.carrier}` : '',
+    fulfillmentType === 'SHIPPING' && params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
+    fulfillmentType === 'SHIPPING' && params.tracking.url ? `Takip linki: ${params.tracking.url}` : '',
+    fulfillmentType === 'PICKUP' && params.status === 'SHIPPED'
+      ? 'Siparişiniz mağazadan teslim alınmaya hazır.'
+      : '',
     cancelLine,
   ]
     .filter(Boolean)
@@ -137,6 +130,7 @@ async function sendTrackingEmail(params: {
   to: string;
   orderId: string;
   status: string;
+  fulfillmentType: string;
   tracking: { carrier?: string | null; number?: string | null; url?: string | null };
 }) {
   const smtpUser = process.env.SMTP_USER;
@@ -148,7 +142,7 @@ async function sendTrackingEmail(params: {
 
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const orderUrl = `${appUrl}/profile/orders/${params.orderId}`;
-  const statusText = formatStatusLabel(params.status);
+  const statusText = getOrderStatusLabelTr(params.status, params.fulfillmentType);
   const trackingLines = [
     params.tracking.carrier ? `Kargo firmasi: ${params.tracking.carrier}` : '',
     params.tracking.number ? `Takip no: ${params.tracking.number}` : '',
@@ -235,6 +229,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       select: {
         id: true,
         status: true,
+        fulfillmentType: true,
         shippingCarrier: true,
         trackingNumber: true,
         trackingUrl: true,
@@ -277,7 +272,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
             userId: existing.userId,
             type: 'ORDER_STATUS',
             title: 'Sipariş durumu güncellendi',
-            message: `Sipariş durumunuz güncellendi: ${formatStatusLabel(status)}${
+            message: `Sipariş durumunuz güncellendi: ${getOrderStatusLabelTr(status, existing.fulfillmentType)}${
               reasonSuffix ? `. ${reasonSuffix}` : ''
             }`,
             orderId: updated.id,
@@ -294,6 +289,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
             to: existing.user.email,
             orderId: updated.id,
             status,
+            fulfillmentType: existing.fulfillmentType,
             tracking: {
               carrier: shippingCarrier,
               number: trackingNumber,
@@ -305,7 +301,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
       } catch (error) {
         console.error('Sipariş durum e-postası gönderilemedi:', error);
       }
-    } else if (trackingChanged) {
+    } else if (trackingChanged && existing.fulfillmentType === 'SHIPPING') {
       try {
         await prismaNotifications.userNotification.create({
           data: {
@@ -327,6 +323,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
             to: existing.user.email,
             orderId: updated.id,
             status,
+            fulfillmentType: existing.fulfillmentType,
             tracking: {
               carrier: shippingCarrier,
               number: trackingNumber,
@@ -345,5 +342,4 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
 

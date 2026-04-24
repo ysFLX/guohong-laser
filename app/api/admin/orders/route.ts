@@ -41,6 +41,7 @@ type AdminOrderInvoice = {
 type AdminOrder = {
   id: string;
   status: string;
+  fulfillmentType: string;
   totalCents: number;
   currency: string;
   createdAt: Date;
@@ -154,6 +155,7 @@ export async function GET() {
     items: orders.map((order) => ({
       id: order.id,
       status: order.status,
+      fulfillmentType: order.fulfillmentType,
       totalCents: order.totalCents,
       currency: order.currency,
       createdAt: order.createdAt,

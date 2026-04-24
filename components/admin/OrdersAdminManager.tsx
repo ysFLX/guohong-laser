@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { AdminBadge, AdminButton, AdminRadioCard } from '@/components/admin/AdminUi';
+import { formatFulfillmentTypeTr, getOrderStatusLabelTr } from '@/lib/orderFulfillment';
 
 type OrderItem = {
   id: string;
@@ -42,6 +43,7 @@ type OrderInvoice = {
 type AdminOrder = {
   id: string;
   status: string;
+  fulfillmentType: string;
   totalCents: number;
   currency: string;
   createdAt: string;
@@ -575,6 +577,9 @@ export default function OrdersAdminManager() {
               <div className="divide-y divide-[var(--admin-border)]">
                 {filteredOrders.map((order, index) => {
                   const displayStatus = normalizeStatus(order.status);
+                  const fulfillmentLabel = formatFulfillmentTypeTr(order.fulfillmentType);
+                  const statusLabelText = getOrderStatusLabelTr(displayStatus, order.fulfillmentType);
+                  const isPickup = order.fulfillmentType === 'PICKUP';
                   const rowTone = index % 2 === 0 ? 'bg-[var(--admin-surface)]' : 'bg-[var(--admin-card-muted)]';
                   return (
                     <div key={order.id} className={`${rowTone} ${statusAccent(displayStatus)} border-l-4`}>
@@ -596,8 +601,9 @@ export default function OrdersAdminManager() {
                         </div>
                         <div className="flex flex-col items-start gap-2 md:items-center">
                           <AdminBadge tone={statusTone(displayStatus)}>
-                            {statusLabel[displayStatus] || displayStatus}
+                            {statusLabelText}
                           </AdminBadge>
+                          <AdminBadge tone={isPickup ? 'emerald' : 'slate'}>{fulfillmentLabel}</AdminBadge>
                           <AdminBadge tone={invoiceTone(order.invoice?.status)}>{invoiceLabel(order.invoice?.status)}</AdminBadge>
                         </div>
                         <div className="flex items-center justify-between gap-3 md:flex-col md:items-end md:justify-center">
@@ -660,12 +666,12 @@ export default function OrdersAdminManager() {
                           </div>
                           <div className="min-w-0">
                             <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                              Teslimat adresi
+                              {isPickup ? 'Teslim alacak kisi' : 'Teslimat adresi'}
                             </div>
                             {(() => {
-                              const view = formatAddress(order.shippingAddress);
+                              const view = formatAddress(isPickup ? order.billingAddress : order.shippingAddress);
                               if (!view) {
-                                return <div className="mt-2 text-xs text-[var(--admin-muted)]">Adres bilgisi yok</div>;
+                                return <div className="mt-2 text-xs text-[var(--admin-muted)]">{isPickup ? 'Kisi bilgisi yok' : 'Adres bilgisi yok'}</div>;
                               }
                               return (
                                 <div className="mt-2 space-y-1 text-xs text-[var(--admin-muted)]">
@@ -830,7 +836,7 @@ export default function OrdersAdminManager() {
                           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
                             Durum güncelle
                           </div>
-                          <AdminBadge tone={statusTone(displayStatus)}>{statusLabel[displayStatus] || displayStatus}</AdminBadge>
+                          <AdminBadge tone={statusTone(displayStatus)}>{statusLabelText}</AdminBadge>
                         </div>
 
                         <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_auto] sm:items-center">
@@ -857,7 +863,7 @@ export default function OrdersAdminManager() {
                           >
                             {statusOptions.map((option) => (
                               <option key={option.value} value={option.value}>
-                                {option.label}
+                                {getOrderStatusLabelTr(option.value, order.fulfillmentType)}
                               </option>
                             ))}
                           </select>
@@ -867,7 +873,7 @@ export default function OrdersAdminManager() {
                         </div>
 
                         <div className="mt-2 text-xs text-[var(--admin-muted)]">
-                          Mevcut: {statusLabel[displayStatus] || displayStatus}
+                          Mevcut: {statusLabelText}
                         </div>
                       </div>
 
@@ -883,9 +889,11 @@ export default function OrdersAdminManager() {
                             </div>
                             <div>
                               <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
-                                Kargo bilgisi
+                                {isPickup ? 'Teslim alma notu' : 'Kargo bilgisi'}
                               </div>
-                              <div className="text-xs text-[var(--admin-muted)]">Taşıma detaylarını tamamla.</div>
+                              <div className="text-xs text-[var(--admin-muted)]">
+                                {isPickup ? 'Gel al siparişlerinde hazırlık durumunu statüyle yönet.' : 'Taşıma detaylarını tamamla.'}
+                              </div>
                             </div>
                           </div>
                           <AdminButton
@@ -895,10 +903,12 @@ export default function OrdersAdminManager() {
                             disabled={savingId === order.id}
                             className="px-5"
                           >
-                            {savingId === order.id ? 'Kaydediliyor' : 'Kargoyu kaydet'}
+                            {savingId === order.id ? 'Kaydediliyor' : isPickup ? 'Durumu kaydet' : 'Kargoyu kaydet'}
                           </AdminButton>
                         </div>
 
+                        {!isPickup ? (
+                          <>
                         <div className="mt-4 space-y-3">
                           <div>
                             <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--admin-muted)]">
@@ -984,6 +994,12 @@ export default function OrdersAdminManager() {
                                 </a>
                               )}
                             </div>
+                          </div>
+                        )}
+                          </>
+                        ) : (
+                          <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4 text-xs text-[var(--admin-muted)]">
+                            Sipariş hazir oldugunda durumu "Gel al hazir", teslim edildiginde "Teslim alindi" karsiligi olan "DELIVERED" olarak guncelleyebilirsin.
                           </div>
                         )}
                       </div>
