@@ -40,7 +40,7 @@ export async function GET(req: Request) {
   }
 
   const order = await prismaOrders.order.findFirst({
-    where: { userId: session.user.id, stripeSessionId: sessionId },
+    where: { userId: session.user.id, paymentSessionId: sessionId },
     select: {
       id: true,
       totalCents: true,

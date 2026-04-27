@@ -241,7 +241,7 @@ export async function POST(req: Request) {
         fulfillmentType,
         totalCents,
         currency: 'TRY',
-        stripeSessionId: merchantOid,
+        paymentSessionId: merchantOid,
         shippingAddressId: fulfillmentType === 'SHIPPING' ? addressId : null,
         billingAddressId,
         items: {
@@ -283,7 +283,7 @@ export async function POST(req: Request) {
       console.error('[checkout] PAYTR get-token failed:', paytrJson);
       await prisma.order
         .updateMany({
-          where: { stripeSessionId: merchantOid },
+          where: { paymentSessionId: merchantOid },
           data: { status: 'FAILED' },
         })
         .catch(() => undefined);

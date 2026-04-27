@@ -1,6 +1,7 @@
 ﻿import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import type { Prisma } from '@prisma/client';
 
 import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
@@ -62,7 +63,7 @@ async function markEmailMeta(params: {
 
   await prisma.invoice.update({
     where: { id: params.invoiceId },
-    data: { providerPayload: providerPayload as any },
+    data: { providerPayload: providerPayload as Prisma.InputJsonValue },
   });
 }
 

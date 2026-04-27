@@ -25,6 +25,24 @@ const addressSelectInvoice = {
   identityNumber: true,
 };
 
+type AddressPatchData = {
+  label?: string;
+  fullName?: string;
+  phone?: string;
+  line1?: string;
+  line2?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+  invoiceType?: 'INDIVIDUAL' | 'COMPANY';
+  companyName?: string;
+  taxOffice?: string;
+  taxNumber?: string;
+  identityNumber?: string;
+  isDefault?: boolean;
+};
+
 async function listAddresses(userId: string) {
   try {
     return await prisma.address.findMany({
@@ -48,10 +66,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
 
   const { id } = await params;
-  const body = await request.json();
+  const body = (await request.json()) as Record<string, unknown>;
 
-  const data: any = {};
-  const fields = [
+  const data: AddressPatchData = {};
+  const stringFields = [
     'label',
     'fullName',
     'phone',
@@ -66,21 +84,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     'taxOffice',
     'taxNumber',
     'identityNumber',
-    'isDefault',
-  ];
-  for (const f of fields) {
+  ] as const;
+
+  for (const f of stringFields) {
     if (Object.prototype.hasOwnProperty.call(body, f)) {
       if (f === 'invoiceType') {
         const raw = typeof body[f] === 'string' ? String(body[f]).trim().toUpperCase() : '';
         data[f] = raw === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL';
         continue;
       }
-      if (typeof body[f] === 'string') {
-        data[f] = String(body[f]).trim();
-        continue;
-      }
-      data[f] = body[f];
+      data[f] = typeof body[f] === 'string' ? String(body[f]).trim() : '';
     }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(body, 'isDefault')) {
+    data.isDefault = Boolean(body.isDefault);
   }
 
   try {

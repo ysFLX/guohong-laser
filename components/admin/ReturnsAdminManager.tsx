@@ -331,7 +331,7 @@ export default function ReturnsAdminManager() {
               <>
                 {' '}
                 · Arama:{' '}
-                <span className="font-semibold text-[var(--admin-text)]">"{searchQuery.trim()}"</span>
+                <span className="font-semibold text-[var(--admin-text)]">&quot;{searchQuery.trim()}&quot;</span>
               </>
             ) : null}
           </div>

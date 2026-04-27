@@ -5,12 +5,13 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export default async function SparePartsPage() {
-  try {
-    const initialItems: SparePart[] = await getActiveSparePartsWithRatings();
+  let initialItems: SparePart[] = [];
 
-    return <SparePartsPageClient initialItems={initialItems} />;
+  try {
+    initialItems = await getActiveSparePartsWithRatings();
   } catch (error) {
     console.error('spare-parts:page', error);
-    return <SparePartsPageClient initialItems={[]} />;
   }
+
+  return <SparePartsPageClient initialItems={initialItems} />;
 }

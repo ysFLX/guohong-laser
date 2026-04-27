@@ -6,6 +6,9 @@ import { prisma } from '@/lib/prisma';
 import { brandKeywords, defaultDescription, getAbsoluteUrl, siteName } from '@/lib/seo';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: {
     absolute: 'Guohong Lazer | Fiber Lazer Kesim Makinesi, Yedek Parça ve Servis',

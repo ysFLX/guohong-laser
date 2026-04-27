@@ -147,7 +147,7 @@ async function acquireLock(invoiceId: string) {
       attemptCount: { increment: 1 },
       errorMessage: null,
     },
-  } as any);
+  });
 
   return { ok: locked.count === 1, lockToken };
 }
@@ -156,7 +156,7 @@ async function releaseLock(invoiceId: string, lockToken: string) {
   await prismaInvoices.invoice.updateMany({
     where: { id: invoiceId, lockedBy: lockToken },
     data: { lockedAt: null, lockedBy: null },
-  } as any);
+  });
 }
 
 async function processInvoiceRow(invoice: InvoiceRow) {
@@ -206,7 +206,7 @@ async function processInvoiceRow(invoice: InvoiceRow) {
         nextAttemptAt: null,
         errorMessage: null,
       },
-    } as any);
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Fatura oluşturma hatası';
     const nextAttemptAt = computeNextAttempt(invoice.attemptCount + 1);
@@ -219,7 +219,7 @@ async function processInvoiceRow(invoice: InvoiceRow) {
         lockedAt: null,
         lockedBy: null,
       },
-    } as any);
+    });
   } finally {
     await releaseLock(invoice.id, lockToken);
   }
@@ -333,13 +333,13 @@ export async function completeLeasedInvoice(params: {
       ettn: params.ettn || invoice.ettn || null,
       pdfObjectPath: pdfPath,
       xmlObjectPath: xmlPath,
-      providerPayload: (params.providerPayload ?? null) as any,
+      providerPayload: params.providerPayload ?? null,
       lockedAt: null,
       lockedBy: null,
       nextAttemptAt: null,
       errorMessage: null,
     },
-  } as any);
+  });
 }
 
 export async function failLeasedInvoice(params: {
@@ -367,6 +367,6 @@ export async function failLeasedInvoice(params: {
       lockedAt: null,
       lockedBy: null,
     },
-  } as any);
+  });
 }
 

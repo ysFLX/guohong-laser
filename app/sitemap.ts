@@ -4,6 +4,9 @@ import { prisma } from '@/lib/prisma';
 import { machineProducts } from '@/lib/machineCatalog';
 import { getAbsoluteUrl } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type StaticRoute = {
   path: string;
   changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
@@ -60,9 +63,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   };
 
-  const spareParts = await prismaAny.sparePart.findMany({
-    select: { id: true, updatedAt: true },
-  });
+  const spareParts = await prismaAny.sparePart
+    .findMany({
+      select: { id: true, updatedAt: true },
+    })
+    .catch((error) => {
+      console.error('sitemap:spare-parts', error);
+      return [];
+    });
 
   const sparePartEntries: MetadataRoute.Sitemap = spareParts.map((item) => ({
     url: getAbsoluteUrl(`/spare-parts/${item.id}`),

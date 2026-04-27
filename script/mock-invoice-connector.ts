@@ -21,13 +21,10 @@ function createMinimalPdf(text: string) {
   };
 
   push('%PDF-1.4\n');
-
   offsets[1] = offset;
   push('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
-
   offsets[2] = offset;
   push('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
-
   offsets[3] = offset;
   push(
     '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>\nendobj\n',
@@ -36,7 +33,6 @@ function createMinimalPdf(text: string) {
   const content = `BT\n/F1 24 Tf\n72 720 Td\n(${escapePdfText(text)}) Tj\nET\n`;
   offsets[4] = offset;
   push(`4 0 obj\n<< /Length ${Buffer.byteLength(content, 'utf8')} >>\nstream\n${content}endstream\nendobj\n`);
-
   offsets[5] = offset;
   push('5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n');
 
@@ -56,14 +52,20 @@ type LeasedInvoice = {
   lockToken: string;
 };
 
-async function fetchJson(url: string, init: RequestInit) {
-  const res = await fetch(url, init);
-  const data = await res.json().catch(() => null);
-  if (!res.ok) {
-    const message = data?.error || `İstek başarısız (${res.status})`;
-    throw new Error(message);
+function getErrorMessage(data: unknown) {
+  if (data && typeof data === 'object' && 'error' in data && typeof data.error === 'string') {
+    return data.error;
   }
-  return data as any;
+  return null;
+}
+
+async function fetchJson<T>(url: string, init: RequestInit): Promise<T> {
+  const res = await fetch(url, init);
+  const data = (await res.json().catch(() => null)) as unknown;
+  if (!res.ok) {
+    throw new Error(getErrorMessage(data) || `Istek basarisiz (${res.status})`);
+  }
+  return data as T;
 }
 
 async function run() {
@@ -73,12 +75,12 @@ async function run() {
   const leaseUrl = new URL('/api/cron/invoices/lease', appBaseUrl);
   leaseUrl.searchParams.set('limit', '1');
 
-  const leasedRes = await fetchJson(leaseUrl.toString(), {
+  const leasedRes = await fetchJson<{ items?: LeasedInvoice[] }>(leaseUrl.toString(), {
     method: 'GET',
     headers: { authorization: `Bearer ${invoiceCronSecret}` },
   });
 
-  const leased = (leasedRes?.items || []) as LeasedInvoice[];
+  const leased = leasedRes.items || [];
   if (!leased.length) {
     console.log('[mock-connector] Kuyrukta fatura yok (PENDING/FAILED).');
     return;
@@ -94,7 +96,7 @@ async function run() {
 
   const completeUrl = new URL('/api/cron/invoices/complete', appBaseUrl);
 
-  await fetchJson(completeUrl.toString(), {
+  await fetchJson<unknown>(completeUrl.toString(), {
     method: 'POST',
     headers: {
       authorization: `Bearer ${invoiceCronSecret}`,
@@ -111,11 +113,10 @@ async function run() {
     }),
   });
 
-  console.log('[mock-connector] Tamamlandı:', { invoiceId: invoice.id, orderId: invoice.orderId });
+  console.log('[mock-connector] Tamamlandi:', { invoiceId: invoice.id, orderId: invoice.orderId });
 }
 
 run().catch((error) => {
   console.error('[mock-connector] Hata:', error);
   process.exitCode = 1;
 });
-

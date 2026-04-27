@@ -101,7 +101,7 @@ export async function GET(req: Request) {
     const limit = Math.max(1, Math.min(Number.isFinite(rawLimit) ? Math.floor(rawLimit) : 3, 6));
 
     const exclude = new Set(cartIds);
-    let picked: RecommendationRow[] = [];
+    const picked: RecommendationRow[] = [];
 
     if (cartIds.length > 0) {
       const orderIdRows = await prisma.orderItem.findMany({

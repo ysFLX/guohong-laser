@@ -1,4 +1,4 @@
-# Go-Live Checklist (Kargo Haric)
+# Go-Live Checklist (PayTR + Kargo Haric)
 
 Bu dokuman, odeme sistemi acildiginda sitenin satisa hazir oldugunu dogrulamak icin kullanilir.
 
@@ -6,8 +6,11 @@ Bu dokuman, odeme sistemi acildiginda sitenin satisa hazir oldugunu dogrulamak i
 
 - `NEXTAUTH_SECRET` dolu olmali.
 - `NEXTAUTH_URL` veya `NEXT_PUBLIC_SITE_URL` production domain olmali.
-- `STRIPE_SECRET_KEY` dolu olmali.
-- `STRIPE_WEBHOOK_SECRET` dolu olmali.
+- `PAYTR_MERCHANT_ID` dolu olmali.
+- `PAYTR_MERCHANT_KEY` dolu olmali.
+- `PAYTR_MERCHANT_SALT` dolu olmali.
+- `PAYTR_TEST_MODE=0` olmali.
+- `PAYTR_DEBUG_ON=0` olmali.
 - `NEXT_PUBLIC_CHECKOUT_MODE=payment` olmali.
 - `SMTP_USER` ve `SMTP_PASS` dolu olmali.
 - `CRON_SECRET` dolu olmali.
@@ -27,7 +30,7 @@ Bu dokuman, odeme sistemi acildiginda sitenin satisa hazir oldugunu dogrulamak i
 ## 3) Odeme akisi UAT
 
 - Normal kullanici ile urun sepete eklenmeli.
-- Adres secilip Stripe checkout sayfasina gidilmeli.
+- Adres secilip PayTR guvenli odeme sayfasina gidilmeli.
 - Basarili odeme sonrasi:
   - Siparis olusmali.
   - Siparis durumu `RECEIVED` olmali.
@@ -45,7 +48,8 @@ Bu dokuman, odeme sistemi acildiginda sitenin satisa hazir oldugunu dogrulamak i
 
 ## 5) Operasyon kontrolu
 
-- Stripe webhook endpoint productionda erisilebilir olmali.
+- PayTR callback endpointi productionda erisilebilir olmali:
+  - `POST /api/paytr/callback`
 - Vercel/hosting cron ayari aktif olmali:
   - cart reminder cron
   - invoice cron endpointleri
@@ -54,7 +58,7 @@ Bu dokuman, odeme sistemi acildiginda sitenin satisa hazir oldugunu dogrulamak i
 
 ## 6) Iletisim ve yasal gorunurluk
 
-- Footer ve `payment-security` sayfasinda iyzico bandi gorunmeli.
+- Footer ve `payment-security` sayfasinda PayTR bilgisi/logosu gorunmeli.
 - Mesafeli satis, gizlilik, KVKK, iade politikasi sayfalari erisilebilir olmali.
 - Iletisim sayfasi (telefon/e-posta/adres) guncel olmali.
 

@@ -4,7 +4,6 @@ import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
 import { authOptions } from '@/auth';
-import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import {
   formatFulfillmentTypeTr,
   getOrderProgressStepsTr,
@@ -12,7 +11,6 @@ import {
   normalizeFulfillmentType,
 } from '@/lib/orderFulfillment';
 import { prisma } from '@/lib/prisma';
-import { getStripe } from '@/lib/stripe';
 import BuyAgainButton from '@/components/profile/BuyAgainButton';
 
 export const dynamic = 'force-dynamic';
@@ -39,7 +37,6 @@ type Order = {
   billingAddress: Address | null;
   shippingAddressId: string | null;
   billingAddressId: string | null;
-  stripeSessionId: string | null;
   shippingCarrier: string | null;
   trackingNumber: string | null;
   trackingUrl: string | null;
@@ -139,7 +136,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  let order = await prismaOrders.order.findFirst({
+  const order = await prismaOrders.order.findFirst({
     where: { id, userId: session.user.id },
     include: {
       items: true,
@@ -176,81 +173,6 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
   if (!order) {
     notFound();
-  }
-
-  if (isPaymentCheckoutEnabled() && !order.shippingAddressId && order.stripeSessionId) {
-    try {
-      const stripe = getStripe();
-      const checkout = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
-      const addressId =
-        typeof checkout.metadata?.addressId === 'string' ? checkout.metadata.addressId : '';
-      const billingId =
-        typeof checkout.metadata?.billingAddressId === 'string' ? checkout.metadata.billingAddressId : '';
-
-      if (addressId) {
-        const shipping = await prismaOrders.address.findFirst({
-          where: { id: addressId, userId: session.user.id },
-          select: { id: true },
-        });
-
-        const billing =
-          billingId && billingId !== addressId
-            ? await prismaOrders.address.findFirst({
-                where: { id: billingId, userId: session.user.id },
-                select: { id: true },
-              })
-            : null;
-
-        if (shipping) {
-          await prismaOrders.order.update({
-            where: { id: order.id },
-            data: {
-              shippingAddressId: shipping.id,
-              billingAddressId: billing?.id ?? shipping.id,
-            },
-          });
-
-          order = await prismaOrders.order.findFirst({
-            where: { id, userId: session.user.id },
-            include: {
-              items: true,
-              shippingAddress: {
-                select: {
-                  id: true,
-                  label: true,
-                  fullName: true,
-                  phone: true,
-                  line1: true,
-                  line2: true,
-                  city: true,
-                  state: true,
-                  postalCode: true,
-                  country: true,
-                },
-              },
-              billingAddress: {
-                select: {
-                  id: true,
-                  label: true,
-                  fullName: true,
-                  phone: true,
-                  line1: true,
-                  line2: true,
-                  city: true,
-                  state: true,
-                  postalCode: true,
-                  country: true,
-                },
-              },
-            },
-          });
-
-          if (!order) {
-            notFound();
-          }
-        }
-      }
-    } catch {}
   }
 
   const safeOrder = order!;

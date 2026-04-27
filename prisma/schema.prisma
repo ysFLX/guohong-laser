@@ -332,8 +332,8 @@ model Order {
   fulfillmentType OrderFulfillmentType @default(SHIPPING)
   totalCents    Int
   currency      String      @default("TRY")
-  stripeSessionId       String? @unique
-  stripePaymentIntentId String? @unique
+  paymentSessionId      String? @unique @map("stripeSessionId")
+  paymentIntentId       String? @unique @map("stripePaymentIntentId")
   shippingAddressId     String?
   billingAddressId      String?
   shippingCarrier       String?

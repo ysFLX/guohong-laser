@@ -1,5 +1,6 @@
 ﻿'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 export default function GlobalError({
@@ -42,18 +43,18 @@ export default function GlobalError({
                 <button type="button" onClick={reset} className="btn-primary rounded-full px-6 py-2.5 text-sm">
                   Yeniden yükle
                 </button>
-                <a
+                <Link
                   href="/"
                   className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/90 transition hover:border-white/50"
                 >
                   Ana sayfaya dön
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/90 transition hover:border-white/50"
                 >
                   İletişim
-                </a>
+                </Link>
               </div>
             </div>
           </section>

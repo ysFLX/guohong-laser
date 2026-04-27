@@ -999,7 +999,7 @@ export default function OrdersAdminManager() {
                           </>
                         ) : (
                           <div className="mt-4 rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4 text-xs text-[var(--admin-muted)]">
-                            Sipariş hazir oldugunda durumu "Gel al hazir", teslim edildiginde "Teslim alindi" karsiligi olan "DELIVERED" olarak guncelleyebilirsin.
+                            Sipariş hazir oldugunda durumu &quot;Gel al hazir&quot;, teslim edildiginde &quot;Teslim alindi&quot; karsiligi olan &quot;DELIVERED&quot; olarak guncelleyebilirsin.
                           </div>
                         )}
                       </div>

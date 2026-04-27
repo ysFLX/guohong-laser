@@ -2,10 +2,11 @@
 
 import PolicyCard from '@/components/legal/PolicyCard';
 import PolicyPageLayout from '@/components/legal/PolicyPageLayout';
-import { getPaymentProviderName, getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
+import { getPaymentProviderName, isPaymentProviderActive } from '@/lib/paymentProviderStatus';
 
 export default function PaymentSecurityPage() {
   const providerName = getPaymentProviderName();
+  const providerActive = isPaymentProviderActive();
 
   return (
     <PolicyPageLayout
@@ -100,10 +101,11 @@ export default function PaymentSecurityPage() {
         </p>
       </div>
 
-      <PolicyCard title="Odeme saglayici durumu">
+      <PolicyCard title="Ödeme sağlayıcı durumu">
         <p className="text-sm text-[var(--gray-500)]">
-          {getPaymentProviderPendingNotice()} Kartli odeme aktivasyonu tamamlandiginda bu alanda canli saglayici
-          bilgisi yayinlanacaktir.
+          {providerActive
+            ? `${providerName} güvenli ödeme altyapısı aktiftir. Kartlı ödeme işlemleri PayTR sayfasında tamamlanır.`
+            : `${providerName} aktivasyon süreci devam ediyor. Kartlı ödeme aktivasyonu tamamlandığında bu alan güncellenecektir.`}
         </p>
         <div className="mt-4 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-muted)] px-4 py-3">
           {/* SVG logo is intentionally rendered with a plain img tag to avoid next/image optimization issues. */}

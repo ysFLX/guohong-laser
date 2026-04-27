@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyPaytrCallbackHash } from '@/lib/paytr';
 import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
+import { notifyOrderStatus, sendOrderConfirmationEmail } from '@/lib/orders/paymentNotifications';
 
 export const runtime = 'nodejs';
 
@@ -28,16 +29,23 @@ export async function POST(req: Request) {
     return new NextResponse('OK', { status: 200 });
   }
 
-  const nextStatus = status === 'success' ? 'PAID' : status === 'failed' ? 'FAILED' : 'PENDING';
+  const nextStatus = status === 'success' ? 'RECEIVED' : status === 'failed' ? 'FAILED' : 'PENDING';
 
   const order = await prisma.order.findFirst({
-    where: { stripeSessionId: merchantOid },
-    select: { id: true, status: true },
+    where: { paymentSessionId: merchantOid },
+    select: { id: true, status: true, totalCents: true, userId: true },
   });
 
   if (!order) {
     return new NextResponse('OK', { status: 200 });
   }
+
+  if (Number(totalAmount) !== order.totalCents) {
+    console.error('[paytr-callback] total mismatch for', merchantOid);
+    return new NextResponse('OK', { status: 200 });
+  }
+
+  const shouldNotify = order.status !== nextStatus;
 
   if (order.status !== nextStatus) {
     await prisma.order.update({
@@ -46,9 +54,31 @@ export async function POST(req: Request) {
     });
   }
 
-  if (nextStatus === 'PAID') {
+  if (nextStatus === 'RECEIVED') {
+    if (shouldNotify) {
+      await notifyOrderStatus({
+        userId: order.userId,
+        orderId: order.id,
+        status: nextStatus,
+        title: 'Siparişiniz alındı',
+        message: 'PayTR ödemeniz tamamlandı. Siparişiniz işleme alındı.',
+      });
+
+      await sendOrderConfirmationEmail(order.id).catch((error) => {
+        console.error('[paytr-callback] order email failed:', error);
+      });
+    }
+
     await enqueueInvoiceForOrder({ orderId: order.id }).catch((error) => {
       console.error('[paytr-callback] invoice enqueue failed:', error);
+    });
+  } else if (nextStatus === 'FAILED' && shouldNotify) {
+    await notifyOrderStatus({
+      userId: order.userId,
+      orderId: order.id,
+      status: nextStatus,
+      title: 'Ödeme başarısız',
+      message: 'PayTR ödeme işlemi tamamlanamadı. Sepetinden tekrar deneyebilirsin.',
     });
   }
 
