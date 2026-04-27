@@ -476,6 +476,7 @@ export default function ReturnsAdminManager() {
                                 >
                                   {isImageUrl(url) ? (
                                     <div className="relative mb-2 h-32 w-full overflow-hidden rounded-xl bg-slate-100">
+                                      {/* eslint-disable-next-line @next/next/no-img-element */}
                                       <img
                                         src={url}
                                         alt={`Kanıt ${idx + 1}`}

@@ -403,7 +403,6 @@ async function run() {
 
   console.log('[connector] started', { once, intervalMs, appBaseUrl: env.appBaseUrl, mikroBaseUrl: env.mikroBaseUrl });
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     const leased = await leaseFromApp(env, 1);
     if (!leased.length) {

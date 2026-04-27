@@ -450,8 +450,6 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   let ty = y + 16;
 
   const labelX = totalsX + 14;
-  const valueX = totalsX + totalsBoxW - 14;
-
   if (hasDiscountOrDiff) {
     doc.text('Ara toplam', labelX, ty, { width: totalsBoxW - 28 });
     doc.text(tryFormatMoney(itemsTotalCents, params.order.currency), labelX, ty, { width: totalsBoxW - 28, align: 'right' });

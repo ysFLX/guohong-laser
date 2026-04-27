@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     }
 
     return new Response(JSON.stringify({ success: true, address: created, addresses }), { status: 200, headers: { 'Content-Type': 'application/json' } });
-  } catch (e: unknown) {
+  } catch {
     return new Response(JSON.stringify({ error: 'Kayıt sırasında hata' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }

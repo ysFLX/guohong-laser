@@ -592,23 +592,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 
-  const openStockRequest = (part: SparePart) => {
-    setStockRequestPart(part);
-    setStockRequestStatus(null);
-    setStockRequestInfo('');
-    setStockRequestEmailError('');
-    setStockRequestOtp('');
-    setStockRequestStep('details');
-    setStockRequestForm((prev) => ({
-      ...prev,
-      name: session?.user?.name || prev.name,
-      email: session?.user?.email || prev.email,
-      quantity: prev.quantity || '1',
-      note: '',
-    }));
-    setStockRequestOpen(true);
-  };
-
   const handleStockRequestChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -679,22 +662,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     } finally {
       setStockRequestLoading(false);
     }
-  };
-
-  const handleToggleCompare = (part: SparePart) => {
-    if (compareIds.includes(part.id)) {
-      setCompareIds((prev) => prev.filter((id) => id !== part.id));
-      return;
-    }
-
-    if (compareIds.length >= 3) return;
-
-    if (compareCategory && compareCategory !== part.category.name) {
-      show('Farklı türde karşılaştırma mümkün değildir.', undefined, 'error');
-      return;
-    }
-
-    setCompareIds((prev) => [...prev, part.id]);
   };
 
   const renderPartCard = (p: SparePart, index: number) => {
