@@ -3,22 +3,22 @@
 import ReferenceHomeClient from '@/components/home/ReferenceHomeClient';
 import { getUsdTryExchangeRate, resolveDisplayedCurrency, resolveDisplayedPriceCents } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
+import { brandKeywords, defaultDescription, getAbsoluteUrl, siteName } from '@/lib/seo';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
-
 export const metadata: Metadata = {
-  title: 'Fiber Lazer Kesim Makineleri, Yedek Parça ve Teknik Servis',
-  description:
-    'Guohong Lazer; sac plaka kesimi, boru kesimi ve demir kesimi için fiber lazer kesim makineleri, yedek parça ve teknik servis çözümleri sunar.',
+  title: {
+    absolute: 'Guohong Lazer | Fiber Lazer Kesim Makinesi, Yedek Parça ve Servis',
+  },
+  description: defaultDescription,
+  keywords: [...brandKeywords, 'Guohong resmi Türkiye', 'Guohong Konya iletişim'],
   alternates: {
-    canonical: siteUrl,
+    canonical: getAbsoluteUrl('/'),
   },
   openGraph: {
-    title: 'Fiber Lazer Kesim Makineleri, Yedek Parça ve Teknik Servis',
-    description:
-      'Guohong Lazer; sac plaka kesimi, boru kesimi ve demir kesimi için fiber lazer kesim makineleri, yedek parça ve teknik servis çözümleri sunar.',
-    url: siteUrl,
+    title: 'Guohong Lazer | Fiber Lazer Kesim Makinesi, Yedek Parça ve Servis',
+    description: defaultDescription,
+    url: getAbsoluteUrl('/'),
     type: 'website',
   },
 };
@@ -65,13 +65,28 @@ export default async function Home() {
     };
   });
 
+  const homeSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${getAbsoluteUrl('/')}#home`,
+    name: siteName,
+    url: getAbsoluteUrl('/'),
+    description: defaultDescription,
+    isPartOf: { '@id': `${getAbsoluteUrl('/')}#website` },
+    about: ['Guohong Lazer', 'fiber lazer kesim makinesi', 'lazer yedek parca', 'lazer teknik servis'],
+    primaryImageOfPage: `${getAbsoluteUrl('/images/logokoyu.png')}`,
+  };
+
   return (
-    <ReferenceHomeClient
-      showcase={showcase}
-      activePartCount={activePartCount}
-      sparePartPriceVisible={sparePartPriceVisible}
-      sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
-    />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }} />
+      <ReferenceHomeClient
+        showcase={showcase}
+        activePartCount={activePartCount}
+        sparePartPriceVisible={sparePartPriceVisible}
+        sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
+      />
+    </>
   );
 }
 

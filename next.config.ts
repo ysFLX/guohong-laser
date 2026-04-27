@@ -27,6 +27,50 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/admin/invoices/batch": ["assets/fonts/*.ttf", "public/images/logoacik.png"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/tr",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/tr/Anasayfa",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/tr/Anasayfa/Hakkimizda",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/tr/Anasayfa/Iletisim",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/tr/Anasayfa/Urunler",
+        destination: "/products",
+        permanent: true,
+      },
+      {
+        source: "/guohong",
+        destination: "/guohong-lazer",
+        permanent: true,
+      },
+      {
+        source: "/guohong-laser",
+        destination: "/guohong-lazer",
+        permanent: true,
+      },
+      {
+        source: "/guohonglaser",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

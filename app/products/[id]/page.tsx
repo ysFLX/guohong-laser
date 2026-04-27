@@ -4,13 +4,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { machineProducts } from '@/lib/machineCatalog';
+import { getAbsoluteUrl, getSiteUrl } from '@/lib/seo';
 
 export const dynamicParams = false;
 
 const WHATSAPP_NUMBER = '905368316787';
-
-const getBaseUrl = () =>
-  (process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000').replace(/\/$/, '');
 
 const truncate = (value: string, max = 160) => (value.length > max ? `${value.slice(0, max - 3)}...` : value);
 
@@ -54,14 +52,14 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/products/${product.id}`;
+  const baseUrl = getSiteUrl();
+  const url = getAbsoluteUrl(`/products/${product.id}`);
   const title = `${product.name} | Guohong Lazer`;
   const description = truncate(product.description || `${product.name} ürün detayları.`);
   const imageUrl = `${baseUrl}${product.image.startsWith('/') ? product.image : `/${product.image}`}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: url },
     openGraph: {
@@ -92,8 +90,8 @@ export default async function ProductDetailPage({
   const product = machineProducts.find((item) => item.id === numericId);
   if (!product) notFound();
 
-  const baseUrl = getBaseUrl();
-  const productUrl = `${baseUrl}/products/${product.id}`;
+  const baseUrl = getSiteUrl();
+  const productUrl = getAbsoluteUrl(`/products/${product.id}`);
   const whatsAppHref = buildWhatsAppHref(product.name, productUrl);
   const quoteHref = `/quote?product=${encodeURIComponent(product.name)}`;
   const related = machineProducts.filter((item) => item.category === product.category && item.id !== product.id).slice(0, 3);

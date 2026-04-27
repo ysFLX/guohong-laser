@@ -1,20 +1,21 @@
 ﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+import { brandKeywords, getAbsoluteUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Guohong Yedek Parça',
   description:
     'Guohong yedek parça sayfasında lazer kafası, lens, nozul, seramik gövde ve kritik sarf malzemeler için tedarik, stok ve teknik destek bilgileri yer alır.',
+  keywords: [...brandKeywords, 'Guohong yedek parça', 'lazer kafası', 'koruma lensi', 'lazer nozul'],
   alternates: {
-    canonical: `${siteUrl}/guohong-yedek-parca`,
+    canonical: getAbsoluteUrl('/guohong-yedek-parca'),
   },
   openGraph: {
     title: 'Guohong Yedek Parça',
     description:
       'Guohong yedek parça sayfasında lazer kafası, lens, nozul, seramik gövde ve kritik sarf malzemeler için tedarik, stok ve teknik destek bilgileri yer alır.',
-    url: `${siteUrl}/guohong-yedek-parca`,
+    url: getAbsoluteUrl('/guohong-yedek-parca'),
     type: 'website',
   },
 };
@@ -24,7 +25,7 @@ export default function GuohongYedekParcaPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Guohong Yedek Parça',
-    url: `${siteUrl}/guohong-yedek-parca`,
+    url: getAbsoluteUrl('/guohong-yedek-parca'),
     description:
       'Guohong yedek parça, fiber lazer kesim makineleri için lens, nozul, lazer kafası ve sarf malzemelerin tedarik sayfasıdır.',
   };

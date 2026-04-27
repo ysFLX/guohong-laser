@@ -1,6 +1,8 @@
 ﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { getAbsoluteUrl } from '@/lib/seo';
+
 const sectors = [
   { title: 'Otomotiv yan sanayi', detail: 'Yüksek hassasiyetli sac ve boru kesim hatları.' },
   { title: 'Metal işleme', detail: 'Fason kesim ve üretim hatları optimizasyonu.' },
@@ -33,11 +35,11 @@ const stories = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Referanslar | Guohong Lazer',
+  title: 'Referanslar',
   description:
     'Guohong Lazer referans projeleri, kurulum örnekleri ve saha deneyimleri. Sac, boru ve demir kesim çözümleri.',
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000'}/references`,
+    canonical: getAbsoluteUrl('/references'),
   },
 };
 

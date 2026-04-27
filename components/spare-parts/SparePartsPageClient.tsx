@@ -11,6 +11,7 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
+import { productionSiteUrl } from '@/lib/seo';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 
 export type SparePart = {
@@ -46,7 +47,7 @@ const machineModels = [
 ];
 
 const CRITICAL_STOCK_LEVEL = 5;
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || productionSiteUrl).replace(/\/$/, '');
 const SORT_OPTIONS = ['recommended', 'price-asc', 'price-desc', 'rating-desc', 'name-asc'] as const;
 const VALID_SORT_OPTIONS = new Set<string>(SORT_OPTIONS);
 const VALID_MODEL_IDS = new Set<string>(machineModels.map((model) => model.id));

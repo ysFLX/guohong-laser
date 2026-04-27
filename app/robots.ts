@@ -1,22 +1,28 @@
 import type { MetadataRoute } from 'next';
 
-const getBaseUrl = () =>
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  process.env.NEXTAUTH_URL ||
-  'http://localhost:3000';
+import { getAbsoluteUrl, getSiteHost } from '@/lib/seo';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = getBaseUrl();
-
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/profile', '/checkout', '/cart'],
+        disallow: [
+          '/admin',
+          '/api',
+          '/profile',
+          '/checkout',
+          '/cart',
+          '/login',
+          '/register',
+          '/forgot-password',
+          '/reset-password',
+          '/complete-profile',
+        ],
       },
     ],
-    host: baseUrl,
-    sitemap: `${baseUrl}/sitemap.xml`,
+    host: getSiteHost(),
+    sitemap: getAbsoluteUrl('/sitemap.xml'),
   };
 }

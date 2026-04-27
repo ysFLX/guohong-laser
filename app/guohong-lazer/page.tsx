@@ -1,20 +1,21 @@
 ﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+import { brandKeywords, defaultDescription, getAbsoluteUrl, legalName } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Guohong Lazer',
-  description:
-    'Guohong Lazer; fiber lazer kesim makineleri, yedek parça, teknik servis ve endüstriyel lazer çözümleri sunar. Konya merkezli Türkiye geneli destek.',
+  title: {
+    absolute: 'Guohong Lazer | Resmi Türkiye Fiber Lazer Çözümleri',
+  },
+  description: defaultDescription,
+  keywords: [...brandKeywords, 'Guohong resmi', 'Guohong Türkiye'],
   alternates: {
-    canonical: `${siteUrl}/guohong-lazer`,
+    canonical: getAbsoluteUrl('/guohong-lazer'),
   },
   openGraph: {
-    title: 'Guohong Lazer',
-    description:
-      'Guohong Lazer; fiber lazer kesim makineleri, yedek parça, teknik servis ve endüstriyel lazer çözümleri sunar. Konya merkezli Türkiye geneli destek.',
-    url: `${siteUrl}/guohong-lazer`,
+    title: 'Guohong Lazer | Resmi Türkiye Fiber Lazer Çözümleri',
+    description: defaultDescription,
+    url: getAbsoluteUrl('/guohong-lazer'),
     type: 'website',
   },
 };
@@ -24,9 +25,13 @@ export default function GuohongLazerPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Guohong Lazer',
-    url: `${siteUrl}/guohong-lazer`,
-    description:
-      'Guohong Lazer; fiber lazer kesim makineleri, teknik servis ve yedek parça alanında Konya merkezli hizmet sunar.',
+    url: getAbsoluteUrl('/guohong-lazer'),
+    description: defaultDescription,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Guohong Lazer',
+      legalName,
+    },
   };
 
   return (

@@ -5,6 +5,16 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Analytics from '@/components/analytics/Analytics';
 import CookieBanner from '@/components/legal/CookieBanner';
 import RootChrome from '@/components/layout/RootChrome';
+import {
+  brandAliases,
+  brandKeywords,
+  defaultDescription,
+  defaultTitle,
+  getAbsoluteUrl,
+  getSiteUrl,
+  legalName,
+  siteName,
+} from '@/lib/seo';
 
 import './globals.css';
 import Providers from './providers';
@@ -20,25 +30,20 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
-const siteName = 'Guohong Lazer';
-const defaultTitle = 'Guohong Lazer | Fiber Lazer Kesim Makineleri, Yedek Parça ve Teknik Servis';
-const defaultDescription =
-  'Guohong Lazer Konya merkezli fiber lazer kesim makineleri, yedek parça, teknik servis ve endüstriyel lazer çözümleri sunar. Türkiye geneli satış, destek ve yedek parça hizmeti.';
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: siteName,
+  creator: siteName,
+  publisher: siteName,
   title: {
     default: defaultTitle,
     template: '%s | Guohong Lazer',
   },
   description: defaultDescription,
   keywords: [
-    'guohong lazer',
-    'guohong lazer konya',
-    'guohong yedek parca',
-    'fiber lazer kesim makinesi',
-    'lazer kesim makinesi',
+    ...brandKeywords,
     'sac plaka kesimi',
     'boru kesimi',
     'demir kesimi',
@@ -50,7 +55,11 @@ export const metadata: Metadata = {
     'fiber lazer',
   ],
   alternates: {
-    canonical: siteUrl,
+    canonical: getAbsoluteUrl('/'),
+    languages: {
+      tr: getAbsoluteUrl('/'),
+      'tr-TR': getAbsoluteUrl('/'),
+    },
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
@@ -58,11 +67,18 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
   openGraph: {
     title: defaultTitle,
     description: defaultDescription,
-    url: siteUrl,
+    url: getAbsoluteUrl('/'),
     siteName,
     type: 'website',
     locale: 'tr_TR',
@@ -99,6 +115,9 @@ export default function RootLayout({
     '@type': 'Organization',
     '@id': `${siteUrl}#organization`,
     name: siteName,
+    legalName,
+    alternateName: brandAliases,
+    description: defaultDescription,
     url: siteUrl,
     logo: `${siteUrl}/images/logokoyu.png`,
     sameAs: [
@@ -112,8 +131,23 @@ export default function RootLayout({
         telephone: '+90 536 831 67 87',
         contactType: 'sales',
         areaServed: 'TR',
-        availableLanguage: ['tr'],
+        availableLanguage: ['tr', 'en'],
       },
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Fevzi Cakmak Mah. Aksaray Cevre Yolu Cad. Akasya Sanayi Sitesi A Blok No:18 T',
+      addressLocality: 'Karatay',
+      addressRegion: 'Konya',
+      postalCode: '42210',
+      addressCountry: 'TR',
+    },
+    knowsAbout: [
+      'Fiber lazer kesim makineleri',
+      'Lazer yedek parca',
+      'Lazer teknik servis',
+      'Sac plaka kesimi',
+      'Boru kesimi',
     ],
   };
 
@@ -122,6 +156,8 @@ export default function RootLayout({
     '@type': 'LocalBusiness',
     '@id': `${siteUrl}#localbusiness`,
     name: siteName,
+    legalName,
+    alternateName: brandAliases,
     url: siteUrl,
     image: [`${siteUrl}/images/logokoyu.png`],
     telephone: '+90 536 831 67 87',
@@ -143,7 +179,9 @@ export default function RootLayout({
     '@type': 'WebSite',
     '@id': `${siteUrl}#website`,
     name: siteName,
+    alternateName: brandAliases,
     url: siteUrl,
+    inLanguage: 'tr-TR',
     potentialAction: {
       '@type': 'SearchAction',
       target: `${siteUrl}/spare-parts?q={search_term_string}`,

@@ -2,20 +2,20 @@
 
 import ProductsPageClient from '@/components/products/ProductsPageClient';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+import { getAbsoluteUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Ürünler | Guohong Lazer',
+  title: 'Ürünler',
   description:
     'Sac plaka kesimi, boru kesimi ve demir kesimi için fiber lazer kesim makinesi çözümleri. Guohong Lazer ürün kataloğu.',
   alternates: {
-    canonical: `${siteUrl}/products`,
+    canonical: getAbsoluteUrl('/products'),
   },
   openGraph: {
     title: 'Ürünler | Guohong Lazer',
     description:
       'Sac, boru ve demir kesimi için fiber lazer kesim makinesi çözümleri. Guohong Lazer ürün kataloğu.',
-    url: `${siteUrl}/products`,
+    url: getAbsoluteUrl('/products'),
     type: 'website',
   },
 };

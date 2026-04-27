@@ -1,19 +1,19 @@
 ﻿import type { Metadata } from 'next';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+import { getAbsoluteUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'Hakkımızda | Guohong Lazer',
+  title: 'Hakkımızda',
   description:
-    'Guohong Lazerâ€™in üretim, servis ve satış sonrası destek yaklaşımı. Konya merkezli fiber lazer kesim çözümleri.',
+    "Guohong Lazer'in üretim, servis ve satış sonrası destek yaklaşımı. Konya merkezli fiber lazer kesim çözümleri.",
   alternates: {
-    canonical: `${siteUrl}/about`,
+    canonical: getAbsoluteUrl('/about'),
   },
   openGraph: {
     title: 'Hakkımızda | Guohong Lazer',
     description:
-      'Guohong Lazerâ€™in üretim, servis ve satış sonrası destek yaklaşımı. Konya merkezli fiber lazer kesim çözümleri.',
-    url: `${siteUrl}/about`,
+      "Guohong Lazer'in üretim, servis ve satış sonrası destek yaklaşımı. Konya merkezli fiber lazer kesim çözümleri.",
+    url: getAbsoluteUrl('/about'),
     type: 'website',
   },
 };

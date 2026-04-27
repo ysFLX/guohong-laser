@@ -1,20 +1,20 @@
 ﻿import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
+import { getAbsoluteUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Lazer Kesim Makinesi Konya',
   description:
     'Konya için fiber lazer kesim makinesi, kurulum, teknik servis, yedek parça ve satış sonrası destek çözümleri Guohong Lazer tarafından sunulur.',
   alternates: {
-    canonical: `${siteUrl}/lazer-kesim-makinesi-konya`,
+    canonical: getAbsoluteUrl('/lazer-kesim-makinesi-konya'),
   },
   openGraph: {
     title: 'Lazer Kesim Makinesi Konya',
     description:
       'Konya için fiber lazer kesim makinesi, kurulum, teknik servis, yedek parça ve satış sonrası destek çözümleri Guohong Lazer tarafından sunulur.',
-    url: `${siteUrl}/lazer-kesim-makinesi-konya`,
+    url: getAbsoluteUrl('/lazer-kesim-makinesi-konya'),
     type: 'website',
   },
 };
@@ -24,7 +24,7 @@ export default function LazerKesimMakinesiKonyaPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Lazer Kesim Makinesi Konya',
-    url: `${siteUrl}/lazer-kesim-makinesi-konya`,
+    url: getAbsoluteUrl('/lazer-kesim-makinesi-konya'),
     about: ['lazer kesim makinesi konya', 'fiber lazer kesim makinesi', 'teknik servis', 'Guohong Lazer'],
   };
 

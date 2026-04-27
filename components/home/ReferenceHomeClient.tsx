@@ -40,7 +40,7 @@ const heroSlides = [
     id: 'slide-1',
     image: '/images/about-showcase.jpg',
     eyebrow: 'Profesyonel üretim ve hizmet sağlayıcıları',
-    title: 'Guohong Laser Group, metal lazer kesim teknolojilerinde küresel çözüm ortağınızdır.',
+    title: 'Guohong Lazer, metal lazer kesim teknolojilerinde küresel çözüm ortağınızdır.',
     description:
       'Ar-Ge, üretim ve satış süreçlerini tek çatı altında toplayan yapımızla sac plaka, boru ve demir kesim çözümlerini kurulumdan satış sonrasına kadar uçtan uca sunuyoruz.',
   },
@@ -416,7 +416,7 @@ export default function ReferenceHomeClient({
 
         <div className="flex flex-col justify-center">
           <p className="text-sm font-semibold uppercase tracking-[0.36em] text-[#ff6a0d]">Profesyonel üretim ve hizmet sağlayıcıları</p>
-          <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Guohong Laser Group, Ar-Ge, üretim ve satışı birleştiren metal lazer kesim makinesi üreticisidir.</h2>
+          <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Guohong Lazer, Ar-Ge, üretim ve satışı birleştiren metal lazer kesim makinesi üreticisidir.</h2>
           <p className="mt-5 text-base leading-8 text-white/76">
             Çin&apos;de toplam 100.000 metrekareyi aşan modern üretim altyapısı ile sac, boru, plaka-boru kombine, kaynak ve temizleme ekipmanları geliştiriyoruz.
           </p>

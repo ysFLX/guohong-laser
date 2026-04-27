@@ -13,6 +13,7 @@ import {
 import ViewItemEvent from '@/components/analytics/ViewItemEvent';
 import SparePartDetailExperience from '@/components/spare-parts/SparePartDetailExperience';
 import SparePartReviews from '@/components/spare-parts/SparePartReviews';
+import { getAbsoluteUrl, getSiteUrl } from '@/lib/seo';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
 import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
@@ -69,9 +70,6 @@ const faqItems = [
   },
 ];
 
-const getBaseUrl = () =>
-  process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000';
-
 const truncate = (value: string, max = 160) =>
   value.length > max ? `${value.slice(0, max - 3)}...` : value;
 
@@ -95,8 +93,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/spare-parts/${part.id}`;
+  const url = getAbsoluteUrl(`/spare-parts/${part.id}`);
   const title = `${part.name} | Guohong Lazer`;
   const description = truncate(part.description || `${part.name} yedek parça detayları.`);
   const images = (part.images?.length ? part.images.map((img) => img.url) : [part.imageUrl]).filter(
@@ -104,7 +101,7 @@ export async function generateMetadata({
   ) as string[];
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: url },
     openGraph: {
@@ -209,7 +206,7 @@ export default async function SparePartDetailPage({
   const ratingCount = review.ratingCount;
   const ratingAverage = review.ratingAverage;
 
-  const baseUrl = getBaseUrl().replace(/\/$/, '');
+  const baseUrl = getSiteUrl();
 
   const [related, boughtTogether] = await Promise.all([
     getRelatedSpareParts(part.category.id, id),
