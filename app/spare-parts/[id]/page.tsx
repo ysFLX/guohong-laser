@@ -14,7 +14,7 @@ import ViewItemEvent from '@/components/analytics/ViewItemEvent';
 import SparePartDetailExperience from '@/components/spare-parts/SparePartDetailExperience';
 import SparePartReviews from '@/components/spare-parts/SparePartReviews';
 import { getAbsoluteUrl, getSiteUrl } from '@/lib/seo';
-import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
+import { isSparePartPriceVisible } from '@/lib/sparePartSales';
 import { buildSparePartSizeOptionEntries } from '@/lib/sparePartSizeOptions';
 
 type SparePartDetail = {
@@ -171,7 +171,6 @@ export default async function SparePartDetailPage({
 }) {
   const { id } = await params;
   const sparePartPriceVisible = isSparePartPriceVisible();
-  const sparePartDirectPurchaseEnabled = isSparePartDirectPurchaseEnabled();
   const backHref = '/spare-parts';
 
   const [part, review] = await Promise.all([
@@ -289,118 +288,42 @@ export default async function SparePartDetailPage({
           </div>
         </div>
 
-        <div className="mb-8 rounded-[32px] border border-slate-200/80 bg-white/80 p-5 shadow-[0_24px_90px_-55px_rgba(15,23,42,0.45)] backdrop-blur sm:p-7">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 font-medium">{p.category.name}</span>
-                {p.dimensions ? <span className="rounded-full border border-slate-200 bg-white px-3 py-1 font-medium">Ölçü: {p.dimensions}</span> : null}
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1 font-medium">Stok: {p.stockOnHand}</span>
-                {p.isFeatured ? (
-                  <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 font-semibold text-indigo-700">Vitrin ürün</span>
-                ) : null}
-              </div>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl lg:text-[2.8rem]">
-                {p.name}
-              </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-[15px]">
-                {p.description}
-              </p>
-            </div>
+        <SparePartDetailExperience
+          id={p.id}
+          name={p.name}
+          description={p.description}
+          categoryName={p.category.name}
+          dimensions={p.dimensions}
+          priceCents={visiblePriceCents}
+          imageUrl={p.imageUrl}
+          images={p.images}
+          inStock={inStock}
+          isCritical={isCritical}
+          stockOnHand={p.stockOnHand}
+          isFeatured={p.isFeatured}
+          ratingAverage={ratingAverage}
+          ratingCount={ratingCount}
+          showPrice={sparePartPriceVisible}
+          sizeOptionEntries={sizeOptionEntries}
+        />
 
-            <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[320px] lg:max-w-[360px] lg:grid-cols-1">
-              <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_100%)] px-4 py-4">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Teslim</div>
-                <div className="mt-2 text-sm font-semibold text-slate-900">{inStock ? '2-3 gün içinde sevk' : '7-10 gün planlı teslim'}</div>
-              </div>
-              <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_100%)] px-4 py-4">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Destek</div>
-                <div className="mt-2 text-sm font-semibold text-slate-900">Resmi servis ve teknik ekip</div>
-              </div>
-              <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#fff7ed_100%)] px-4 py-4">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Ödeme</div>
-                <div className="mt-2 text-sm font-semibold text-slate-900">Faturalı satış ve güvenli ödeme akışı</div>
-              </div>
+        <div className="mt-8 rounded-[24px] border border-slate-200 bg-white p-5 text-sm text-slate-700 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Uyumluluk listesi</p>
+          {compatibility.length > 0 ? (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {compatibility.map((model) => (
+                <Link
+                  key={model}
+                  href={`/spare-parts?model=${encodeURIComponent(getModelId(model))}`}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-800 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+                >
+                  {model}
+                </Link>
+              ))}
             </div>
-          </div>
-
-          {ratingCount > 0 && (
-            <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-slate-200 pt-5 text-sm text-slate-600">
-              <span className="inline-flex items-center gap-0.5" aria-label={`Ortalama puan ${ratingAverage.toFixed(1)} / 5`}>
-                {renderStars(ratingAverage)}
-              </span>
-              <Link
-                href="#reviews"
-                className="inline-flex items-center gap-1 font-semibold text-indigo-600 hover:text-indigo-700"
-              >
-                <span>{ratingAverage.toFixed(1)}</span>
-                <span className="text-slate-400">({ratingCount})</span>
-                <span className="text-slate-400">•</span>
-                <span>Yorumları gör</span>
-              </Link>
-            </div>
+          ) : (
+            <p className="mt-2">Uyumluluk için teknik ekiple iletişime geç.</p>
           )}
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_1.15fr] lg:items-start">
-          <SparePartDetailExperience
-            id={p.id}
-            name={p.name}
-            priceCents={visiblePriceCents}
-            imageUrl={p.imageUrl}
-            images={p.images}
-            inStock={inStock}
-            isCritical={isCritical}
-            stockOnHand={p.stockOnHand}
-            showPrice={sparePartPriceVisible}
-            sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
-            sizeOptionEntries={sizeOptionEntries}
-          />
-
-          <div className="space-y-5">
-            <div className="rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_20px_80px_-55px_rgba(15,23,42,0.45)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Kisa bilgi
-              </p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[22px] bg-[linear-gradient(135deg,#f8fafc_0%,#eff6ff_100%)] px-4 py-4 text-sm text-slate-700">
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Teslim</div>
-                  <div className="mt-1 font-semibold text-slate-900">{inStock ? '2-3 gün' : '7-10 gün'}</div>
-                </div>
-                <div className="rounded-[22px] bg-[linear-gradient(135deg,#f8fafc_0%,#eef2ff_100%)] px-4 py-4 text-sm text-slate-700">
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Garanti</div>
-                  <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
-                </div>
-                <div className="rounded-[22px] bg-[linear-gradient(135deg,#f8fafc_0%,#fff7ed_100%)] px-4 py-4 text-sm text-slate-700">
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Iade</div>
-                  <div className="mt-1 font-semibold text-slate-900">14 gün</div>
-                </div>
-                <div className="rounded-[22px] bg-[linear-gradient(135deg,#f8fafc_0%,#ecfeff_100%)] px-4 py-4 text-sm text-slate-700">
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Satici</div>
-                  <div className="mt-1 font-semibold text-slate-900">Guohong Lazer</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-[28px] border border-indigo-100 bg-[linear-gradient(135deg,rgba(238,242,255,0.9),rgba(224,242,254,0.9))] px-5 py-5 text-sm text-indigo-900 shadow-[0_18px_65px_-45px_rgba(79,70,229,0.7)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-700">Uyumluluk listesi</p>
-              {compatibility.length > 0 ? (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {compatibility.map((model) => (
-                    <Link
-                      key={model}
-                      href={`/spare-parts?model=${encodeURIComponent(getModelId(model))}`}
-                      className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100"
-                    >
-                      {model}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <p className="mt-2">Uyumluluk için teknik ekiple iletişime geç.</p>
-              )}
-            </div>
-          </div>
         </div>
 
         {(boughtTogether.length > 0 || related.length > 0) && (

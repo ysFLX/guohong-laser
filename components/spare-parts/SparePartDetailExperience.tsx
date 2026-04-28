@@ -21,28 +21,38 @@ type SizeOptionEntry = {
 type Props = {
   id: string;
   name: string;
+  description: string;
+  categoryName: string;
+  dimensions: string | null;
   priceCents: number;
   imageUrl: string | null;
   images: ImageItem[];
   inStock: boolean;
   isCritical: boolean;
   stockOnHand: number;
+  isFeatured: boolean;
+  ratingAverage: number;
+  ratingCount: number;
   showPrice: boolean;
-  sparePartDirectPurchaseEnabled: boolean;
   sizeOptionEntries: SizeOptionEntry[];
 };
 
 export default function SparePartDetailExperience({
   id,
   name,
+  description,
+  categoryName,
+  dimensions,
   priceCents,
   imageUrl,
   images,
   inStock,
   isCritical,
   stockOnHand,
+  isFeatured,
+  ratingAverage,
+  ratingCount,
   showPrice,
-  sparePartDirectPurchaseEnabled,
   sizeOptionEntries,
 }: Props) {
   const [selectedSize, setSelectedSize] = useState(sizeOptionEntries[0]?.value ?? '');
@@ -84,65 +94,20 @@ export default function SparePartDetailExperience({
   const resolvedFallbackUrl = selectedEntry?.imageUrls?.[0] ?? selectedEntry?.imageUrl ?? imageUrl ?? '/images/1.jpg';
 
   return (
-    <>
-      <div className="space-y-5">
-        <div className="overflow-hidden rounded-[32px] border border-slate-200/80 bg-white p-4 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]">
+    <section className="grid gap-8 rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_24px_80px_-52px_rgba(15,23,42,0.35)] lg:grid-cols-[minmax(0,1.02fr)_minmax(390px,0.78fr)] lg:p-6">
+      <div className="space-y-4">
+        <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white p-3">
           <SparePartImageSlider images={galleryImages} fallbackUrl={resolvedFallbackUrl} name={name} />
         </div>
-        <div className="grid gap-3 rounded-[28px] border border-slate-200/80 bg-[linear-gradient(135deg,#ffffff_0%,#eff6ff_45%,#eef2ff_100%)] p-4 shadow-[0_20px_70px_-45px_rgba(37,99,235,0.35)] sm:grid-cols-[1.2fr_0.8fr] sm:items-center">
-          <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">Görsel önizleme</div>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Galeri artık büyütülebilir. Görsele tıklayıp tam ekran açabilir, klavyeden sağ-sol ile diğer fotoğraflara geçebilirsin.
-            </p>
+        <div className="grid gap-3 text-xs text-slate-700 sm:grid-cols-3">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="font-semibold text-slate-950">SSL ödeme</div>
           </div>
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600 sm:justify-end">
-            <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-              {inStock ? 'Stokta' : 'Siparişle'}
-            </span>
-            <span className="rounded-full bg-white px-3 py-1 text-slate-600 shadow-sm ring-1 ring-slate-200">
-              {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
-            </span>
-            {isCritical && (
-              <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
-                </span>
-                Stok azalıyor
-              </span>
-            )}
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="font-semibold text-slate-950">Resmi servis</div>
           </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-600">
-          <span className={`rounded-full px-3 py-1 ${inStock ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'}`}>
-            {inStock ? 'Stokta' : 'Siparişle'}
-          </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-600">
-            {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
-          </span>
-          {isCritical && (
-            <span className="inline-flex items-center gap-2 rounded-full bg-amber-200 px-3 py-1 text-amber-900">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500/60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
-              </span>
-              Stok azalıyor
-            </span>
-          )}
-        </div>
-        <div className="grid gap-3 rounded-[28px] border border-slate-200 bg-white p-4 text-xs text-slate-600 sm:grid-cols-3">
-          <div className="rounded-2xl bg-slate-50 px-4 py-4">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Güvenli ödeme</div>
-            <div className="mt-1 font-semibold text-slate-900">SSL korumalı</div>
-          </div>
-          <div className="rounded-2xl bg-slate-50 px-4 py-4">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Garanti</div>
-            <div className="mt-1 font-semibold text-slate-900">Resmi servis</div>
-          </div>
-          <div className="rounded-2xl bg-slate-50 px-4 py-4">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400">İade</div>
-            <div className="mt-1 font-semibold text-slate-900">14 gün</div>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="font-semibold text-slate-950">14 gün iade</div>
           </div>
         </div>
       </div>
@@ -150,18 +115,23 @@ export default function SparePartDetailExperience({
       <SparePartPurchaseClient
         id={id}
         name={name}
+        description={description}
+        categoryName={categoryName}
+        dimensions={dimensions}
         priceCents={priceCents}
         imageUrl={imageUrl}
         inStock={inStock}
         isCritical={isCritical}
         stockOnHand={stockOnHand}
+        isFeatured={isFeatured}
+        ratingAverage={ratingAverage}
+        ratingCount={ratingCount}
         showPrice={showPrice}
-        sparePartDirectPurchaseEnabled={sparePartDirectPurchaseEnabled}
         sizeOptionEntries={sizeOptionEntries}
         selectedSize={selectedSize}
         onSelectedSizeChange={setSelectedSize}
       />
-    </>
+    </section>
   );
 }
 

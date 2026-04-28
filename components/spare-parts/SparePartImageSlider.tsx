@@ -145,7 +145,7 @@ export default function SparePartImageSlider({
 
   if (!active) {
     return (
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/90 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/30" />
+      <div className="relative aspect-square w-full overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm" />
     );
   }
 
@@ -153,7 +153,7 @@ export default function SparePartImageSlider({
     <>
       <div>
         <div
-          className="group relative aspect-[4/3] w-full touch-pan-y overflow-hidden rounded-[26px] border border-slate-200/70 bg-[radial-gradient(circle_at_top,#7dd3fc_0%,#0f172a_68%,#020617_100%)] shadow-[0_20px_60px_-24px_rgba(15,23,42,0.55)]"
+          className="group relative aspect-square w-full touch-pan-y overflow-hidden rounded-[20px] border border-slate-200 bg-white"
           role="region"
           aria-label="Ürün görselleri"
           tabIndex={items.length > 1 ? 0 : -1}
@@ -188,8 +188,6 @@ export default function SparePartImageSlider({
             swipeRef.current.active = false;
           }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.32),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(14,165,233,0.35),transparent_24%)]" />
-
           <button
             type="button"
             onClick={() => setIsLightboxOpen(true)}
@@ -203,20 +201,15 @@ export default function SparePartImageSlider({
             alt={name}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className={`object-contain p-5 transition duration-300 ${isFading ? 'scale-[0.985] opacity-0' : 'scale-100 opacity-100'} group-hover:scale-[1.015]`}
+            className={`object-contain p-6 transition duration-300 ${isFading ? 'scale-[0.985] opacity-0' : 'scale-100 opacity-100'} group-hover:scale-[1.01]`}
             priority
             unoptimized
           />
 
-          <div className="absolute left-4 top-4 z-20 inline-flex items-center gap-2 rounded-full border border-white/20 bg-slate-950/55 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur">
-            <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            İncelemek için tıkla
-          </div>
-
           <button
             type="button"
             onClick={() => setIsLightboxOpen(true)}
-            className="absolute bottom-4 left-4 z-20 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/90 px-4 py-2 text-xs font-semibold text-slate-900 shadow-lg transition hover:bg-white"
+            className="absolute bottom-4 left-4 z-20 inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-800 shadow-sm transition hover:bg-slate-50"
             aria-label="Tam ekran aç"
           >
             <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
@@ -230,7 +223,7 @@ export default function SparePartImageSlider({
               <button
                 type="button"
                 onClick={() => goTo(index - 1)}
-                className="absolute left-4 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-slate-950/35 text-white backdrop-blur transition hover:bg-slate-950/55"
+                className="absolute left-4 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-900 shadow-sm transition hover:bg-slate-50"
                 aria-label="Önceki görsel"
               >
                 <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -244,7 +237,7 @@ export default function SparePartImageSlider({
               <button
                 type="button"
                 onClick={() => goTo(index + 1)}
-                className="absolute right-4 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/35 bg-slate-950/35 text-white backdrop-blur transition hover:bg-slate-950/55"
+                className="absolute right-4 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-900 shadow-sm transition hover:bg-slate-50"
                 aria-label="Sonraki görsel"
               >
                 <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -255,38 +248,25 @@ export default function SparePartImageSlider({
                   />
                 </svg>
               </button>
-              <div className="absolute bottom-4 right-4 z-20 rounded-full border border-white/20 bg-slate-950/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
+              <div className="absolute bottom-4 right-4 z-20 rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-700 shadow-sm">
                 {index + 1} / {items.length}
               </div>
             </>
           )}
         </div>
 
-        <div className="mt-4 flex items-center justify-between gap-4">
-          <div className="text-xs text-slate-500">
-            Ürünü daha yakından görmek için görsele tıklayabilir, oklarla galeri içinde gezebilirsin.
-          </div>
-          <button
-            type="button"
-            onClick={() => setIsLightboxOpen(true)}
-            className="hidden rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900 sm:inline-flex"
-          >
-            Tam ekran önizleme
-          </button>
-        </div>
-
         {items.length > 1 && (
-          <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+          <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-5">
             {items.map((img, i) => (
               <button
                 key={img.id}
                 type="button"
                 onClick={() => setIndex(i)}
                 aria-current={i === index ? 'true' : 'false'}
-                className={`relative h-20 w-24 shrink-0 overflow-hidden rounded-2xl border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 ${
+                className={`relative aspect-square overflow-hidden rounded-xl border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6a0d]/35 ${
                   i === index
-                    ? 'border-indigo-500 bg-white shadow-[0_12px_30px_-18px_rgba(79,70,229,0.75)] ring-1 ring-indigo-500/20'
-                    : 'border-slate-200 bg-white/80 hover:border-slate-300'
+                    ? 'border-[#ff6a0d] bg-white ring-2 ring-orange-100'
+                    : 'border-slate-200 bg-white hover:border-slate-300'
                 }`}
               >
                 <Image
