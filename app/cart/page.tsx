@@ -86,7 +86,7 @@ function CartPageContent() {
       .join('\n');
     const extra = items.length > maxItems ? `\n+${items.length - maxItems} ürün daha` : '';
     const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const message = `Sepetimdeki ürünler için fiyat teklifi rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam (KDV hariç): ${formatPriceTry(subtotalCents)}\nKDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}\nGenel toplam: ${formatPriceTry(totalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
+    const message = `Sepetimdeki ürünler için fiyat teklifi rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam (KDV hariç): ${formatPriceTry(subtotalCents)}\nKDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}\nGenel toplam (KDV dahil): ${formatPriceTry(totalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
     const params = new URLSearchParams({
       product: 'Sepet Teklifi',
       message,
@@ -117,7 +117,7 @@ function CartPageContent() {
     const extra = items.length > maxItems ? `\n+${items.length - maxItems} ürün daha` : '';
     const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-    const message = `Merhaba, sepetimdeki ürünler için sipariş desteği rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam (KDV hariç): ${formatPriceTry(subtotalCents)}\nKDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}\nGenel toplam: ${formatPriceTry(totalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
+    const message = `Merhaba, sepetimdeki ürünler için sipariş desteği rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam (KDV hariç): ${formatPriceTry(subtotalCents)}\nKDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}\nGenel toplam (KDV dahil): ${formatPriceTry(totalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
 
     setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
   }, [items, subtotalCents, vatCents, totalCents]);
@@ -665,7 +665,7 @@ function CartPageContent() {
                 <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(vatCents)}</span>
               </div>
               <div className="mt-4 flex items-center justify-between border-t border-slate-200/70 pt-4 dark:border-slate-800/70">
-                <span className="text-sm font-semibold text-slate-900 dark:text-white">Genel toplam</span>
+                <span className="text-sm font-semibold text-slate-900 dark:text-white">Genel toplam (KDV dahil)</span>
                 <span className="text-lg font-bold text-slate-900 dark:text-white">{formatPriceTry(totalCents)}</span>
               </div>
               <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
@@ -825,7 +825,7 @@ function CartPageContent() {
           <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
             <div className="min-w-0">
               <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-                Sepet Toplami
+                Sepet toplamı (KDV dahil)
               </div>
               <div className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
                 {formatPriceTry(totalCents)}

@@ -719,7 +719,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
     return (
       <article
         key={p.id}
-        className="group relative overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"
+        className="group relative flex h-full flex-col overflow-hidden rounded-[16px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"
         style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 320px' } as CSSProperties}
         onClick={() => router.push(getPartHref(p.id))}
         onKeyDown={(event) => {
@@ -777,20 +777,23 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             </svg>
           </button>
 
-          <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-[11px] font-semibold">
+        </div>
+
+        <div className="px-3 pt-3">
+          <div className="flex min-h-[56px] flex-wrap content-start gap-2 text-[11px] font-semibold">
             <span
               className={`rounded-full px-2.5 py-1 ${inStock ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}
             >
               {inStock ? 'Stokta' : 'Siparisle'}
             </span>
-            <span className="rounded-full bg-black/75 px-2.5 py-1 text-white">
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">
               {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
             </span>
             {isCritical ? <span className="rounded-full bg-rose-50 px-2.5 py-1 text-rose-700">Son stoklar</span> : null}
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col p-3.5">
+        <div className="flex flex-1 flex-col px-3.5 pb-3.5">
           <Link href={getPartHref(p.id)} className="block min-h-[42px]">
             <h3 className="line-clamp-2 text-[16px] font-medium leading-6 text-slate-900 dark:text-white">{p.name}</h3>
           </Link>
@@ -804,7 +807,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             <div className="mt-1 text-[25px] font-bold leading-none text-[#ff6a0d] dark:text-amber-300">
               {sparePartPriceVisible ? formatPriceTry(getVisiblePriceCents(p)) : 'Teklif al'}
             </div>
-            <div className="mt-1 text-[11px] text-slate-400">KDV dahil</div>
           </div>
 
           {selectedModel !== 'Tümü' ? (

@@ -7,7 +7,6 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useToast } from '@/components/ui/ToastProvider';
 import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
-import { VAT_PERCENTAGE, calculateGrossCents, calculateVatCents } from '@/lib/vat';
 
 function formatPrice(priceCents: number, currency: string) {
   const amount = currency === 'TRY' ? Math.floor(priceCents / 100) : priceCents / 100;
@@ -81,9 +80,7 @@ export default function SparePartPurchaseClient({
   const selectionDisabled = hasSizeOptions && !resolvedSize;
   const minimumQuantity = getMinimumSaleQuantity(resolvedPriceCents);
   const showMinimumQuantityNote = minimumQuantity > 1;
-  const vatCents = calculateVatCents(resolvedPriceCents);
-  const grossPriceCents = calculateGrossCents(resolvedPriceCents);
-  const minimumGrossTotalCents = grossPriceCents * minimumQuantity;
+  const minimumTotalCents = resolvedPriceCents * minimumQuantity;
 
   const handleSizeChange = (value: string) => {
     if (onSelectedSizeChange) {
@@ -132,18 +129,7 @@ export default function SparePartPurchaseClient({
     <div>
       <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-slate-500">Fiyat</div>
       <div className="mt-2 text-4xl font-extrabold tracking-tight text-[#ff6a0d] sm:text-5xl">
-        {formatPrice(grossPriceCents, resolvedPriceCurrency)}
-      </div>
-      <div className="mt-2 text-sm font-bold text-emerald-700">KDV dahil satış fiyatı</div>
-      <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
-        <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
-          <div className="font-semibold uppercase tracking-[0.16em] text-slate-400">KDV hariç</div>
-          <div className="mt-1 text-sm font-bold text-slate-950">{formatPrice(resolvedPriceCents, resolvedPriceCurrency)}</div>
-        </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
-          <div className="font-semibold uppercase tracking-[0.16em] text-slate-400">{`KDV (%${VAT_PERCENTAGE})`}</div>
-          <div className="mt-1 text-sm font-bold text-slate-950">{formatPrice(vatCents, resolvedPriceCurrency)}</div>
-        </div>
+        {formatPrice(resolvedPriceCents, resolvedPriceCurrency)}
       </div>
     </div>
   ) : (
@@ -191,7 +177,7 @@ export default function SparePartPurchaseClient({
             <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
               Minimum {minimumQuantity} adet sepete eklenir.
               {showPrice ? (
-                <span className="font-bold"> Minimum tutar: {formatPrice(minimumGrossTotalCents, resolvedPriceCurrency)} KDV dahil.</span>
+                <span className="font-bold"> Minimum tutar: {formatPrice(minimumTotalCents, resolvedPriceCurrency)}.</span>
               ) : null}
             </div>
           ) : null}
@@ -240,9 +226,8 @@ export default function SparePartPurchaseClient({
           <div className="min-w-0">
             <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Fiyat</div>
             <div className="mt-0.5 text-base font-extrabold text-[#ff6a0d]">
-              {showPrice ? formatPrice(grossPriceCents, resolvedPriceCurrency) : 'Teklif al'}
+              {showPrice ? formatPrice(resolvedPriceCents, resolvedPriceCurrency) : 'Teklif al'}
             </div>
-            {showPrice ? <div className="text-[11px] font-bold text-emerald-700">KDV dahil</div> : null}
           </div>
 
           {inStock ? (

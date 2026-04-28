@@ -163,7 +163,7 @@ export default function CartDrawer() {
             <div className="text-base font-bold text-slate-900 dark:text-white">{vat}</div>
           </div>
           <div className="flex items-center justify-between border-t border-slate-200/70 pt-3 dark:border-slate-800/70">
-            <div className="text-sm font-semibold text-slate-900 dark:text-white">Genel toplam</div>
+            <div className="text-sm font-semibold text-slate-900 dark:text-white">Genel toplam (KDV dahil)</div>
             <div className="text-lg font-bold text-slate-900 dark:text-white">{total}</div>
           </div>
 
