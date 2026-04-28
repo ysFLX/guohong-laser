@@ -1,5 +1,5 @@
 export const LOW_PRICE_MINIMUM_CENTS = 30000;
-export const LOW_PRICE_MINIMUM_QUANTITY = 10;
+export const LOW_PRICE_MINIMUM_QUANTITY = 20;
 
 export function getMinimumSaleQuantity(priceCents: number) {
   if (!Number.isFinite(priceCents) || priceCents < 0) return 1;
