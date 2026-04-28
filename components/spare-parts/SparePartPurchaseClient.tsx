@@ -10,15 +10,17 @@ import { buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 import { VAT_PERCENTAGE, calculateGrossCents, calculateVatCents } from '@/lib/vat';
 
 function formatPrice(priceCents: number, currency: string) {
+  const amount = currency === 'TRY' ? Math.floor(priceCents / 100) : priceCents / 100;
+
   try {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
       currency,
       minimumFractionDigits: currency === 'USD' ? 2 : 0,
-      maximumFractionDigits: currency === 'USD' ? 2 : 2,
-    }).format(priceCents / 100);
+      maximumFractionDigits: currency === 'USD' ? 2 : 0,
+    }).format(amount);
   } catch {
-    return `${(priceCents / 100).toFixed(currency === 'USD' ? 2 : 2)} ${currency}`;
+    return `${amount.toFixed(currency === 'USD' ? 2 : 0)} ${currency}`;
   }
 }
 
