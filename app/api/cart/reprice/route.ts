@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { convertUsdCentsToTryCents, getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
+import { calculateVatTotals } from '@/lib/vat';
 import {
   getSparePartProductIdFromCartLineId,
   normalizeSparePartSizeOptionPricesMap,
@@ -49,7 +50,7 @@ export async function POST(req: Request) {
     .filter((x) => x.id.length > 0);
 
   if (!cleanItems.length) {
-    return NextResponse.json({ items: [], subtotalCents: 0 });
+    return NextResponse.json({ items: [], subtotalCents: 0, vatCents: 0, totalCents: 0 });
   }
 
   const ids = Array.from(new Set(cleanItems.map((item) => item.productId)));
@@ -118,7 +119,7 @@ export async function POST(req: Request) {
     quantity: normalizeSaleQuantity(item.quantity, item.priceCents),
   }));
 
-  const subtotalCents = normalizedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
-  return NextResponse.json({ items: normalizedItems, subtotalCents });
+  const totals = calculateVatTotals(normalizedItems);
+  return NextResponse.json({ items: normalizedItems, ...totals });
 }
 

@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 
 import { prisma } from '@/lib/prisma';
 import { createCartRecoveryToken } from '@/lib/cartRecovery';
+import { VAT_PERCENTAGE, calculateVatTotals } from '@/lib/vat';
 
 export const runtime = 'nodejs';
 
@@ -70,6 +71,10 @@ async function sendReminderEmail(params: {
       `,
     )
     .join('');
+  const itemTotals = calculateVatTotals(params.items);
+  const subtotalCents = itemTotals.subtotalCents;
+  const totalCents = params.totalCents > subtotalCents ? params.totalCents : itemTotals.totalCents;
+  const vatCents = Math.max(0, totalCents - subtotalCents);
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -100,8 +105,16 @@ async function sendReminderEmail(params: {
             <tbody>
               ${itemsHtml}
               <tr>
-                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">Toplam</td>
-                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">${formatPriceTry(params.totalCents)}</td>
+                <td style="padding: 12px 0 4px; text-align: right; color: #475569;">Ara toplam (KDV hariç)</td>
+                <td style="padding: 12px 0 4px; text-align: right; font-weight: 600; color: #0f172a;">${formatPriceTry(subtotalCents)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 4px 0; text-align: right; color: #475569;">KDV (%${VAT_PERCENTAGE})</td>
+                <td style="padding: 4px 0; text-align: right; font-weight: 600; color: #0f172a;">${formatPriceTry(vatCents)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">Genel toplam</td>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">${formatPriceTry(totalCents)}</td>
               </tr>
             </tbody>
           </table>

@@ -2,6 +2,8 @@
 import path from 'path';
 import PDFDocument from 'pdfkit';
 
+import { VAT_PERCENTAGE } from '@/lib/vat';
+
 type AddressInvoiceType = 'INDIVIDUAL' | 'COMPANY';
 
 export type ProformaAddress = {
@@ -451,12 +453,12 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
 
   const labelX = totalsX + 14;
   if (hasDiscountOrDiff) {
-    doc.text('Ara toplam', labelX, ty, { width: totalsBoxW - 28 });
+    doc.text('Ara toplam (KDV hariç)', labelX, ty, { width: totalsBoxW - 28 });
     doc.text(tryFormatMoney(itemsTotalCents, params.order.currency), labelX, ty, { width: totalsBoxW - 28, align: 'right' });
     ty += lineHeight;
 
     const diff = totalCents - itemsTotalCents;
-    doc.text(diff < 0 ? 'İndirim' : 'Ek kalem', labelX, ty, { width: totalsBoxW - 28 });
+    doc.text(diff < 0 ? 'İndirim' : `KDV (%${VAT_PERCENTAGE})`, labelX, ty, { width: totalsBoxW - 28 });
     doc.text(tryFormatMoney(diff, params.order.currency), labelX, ty, { width: totalsBoxW - 28, align: 'right' });
     ty += lineHeight;
   }

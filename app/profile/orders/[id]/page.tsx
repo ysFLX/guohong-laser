@@ -11,6 +11,7 @@ import {
   normalizeFulfillmentType,
 } from '@/lib/orderFulfillment';
 import { prisma } from '@/lib/prisma';
+import { VAT_PERCENTAGE, calculateVatTotals } from '@/lib/vat';
 import BuyAgainButton from '@/components/profile/BuyAgainButton';
 
 export const dynamic = 'force-dynamic';
@@ -252,6 +253,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         : `Merhaba,\n\n${safeOrder.id} numaralı siparişimde teslimat adresi bilgisi görünmüyor. Kontrol edebilir misiniz?\n\nTeşekkürler.`,
   }).toString();
   const itemCount = safeOrder.items.reduce((acc, item) => acc + item.quantity, 0);
+  const orderSubtotalCents = calculateVatTotals(safeOrder.items).subtotalCents;
+  const orderVatCents = Math.max(0, safeOrder.totalCents - orderSubtotalCents);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 dark:text-slate-200 dark:[&_.bg-white]:bg-slate-900/80 dark:[&_.border-slate-200]:border-white/10 dark:[&_.text-slate-900]:text-white dark:[&_.text-slate-700]:text-slate-200 dark:[&_.text-slate-600]:text-slate-300 dark:[&_.text-slate-500]:text-slate-400 dark:[&_.text-slate-400]:text-slate-300 dark:[&_.bg-slate-50]:bg-slate-900/60">
@@ -465,7 +468,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       <div className="min-w-0">
                         <div className="truncate text-base font-semibold text-slate-900">{item.name}</div>
                         <div className="mt-1 text-xs text-slate-500">
-                          {item.quantity} adet â€¢ {formatPriceTry(item.priceCents)}
+                          {item.quantity} adet â€¢ {formatPriceTry(item.priceCents)} KDV hariç
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.2em]">
                           <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
@@ -615,9 +618,19 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg dark:bg-slate-900/70">
               <div className="text-lg font-semibold text-slate-900">Ozet</div>
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-slate-600">Toplam</span>
-                <span className="font-semibold text-slate-900">{formatPriceTry(safeOrder.totalCents)}</span>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600">Ara toplam (KDV hariç)</span>
+                  <span className="font-semibold text-slate-900">{formatPriceTry(orderSubtotalCents)}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600">{`KDV (%${VAT_PERCENTAGE})`}</span>
+                  <span className="font-semibold text-slate-900">{formatPriceTry(orderVatCents)}</span>
+                </div>
+                <div className="flex items-center justify-between border-t border-slate-200 pt-3">
+                  <span className="font-semibold text-slate-900">Genel toplam</span>
+                  <span className="font-bold text-slate-900">{formatPriceTry(safeOrder.totalCents)}</span>
+                </div>
               </div>
               <div className="mt-4 rounded-2xl border border-slate-200 p-4 text-sm dark:bg-slate-900/60">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">

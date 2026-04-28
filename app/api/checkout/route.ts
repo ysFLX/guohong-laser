@@ -9,6 +9,7 @@ import { buildPaytrCheckoutPayload, buildPaytrRedirectUrl, getUserIp } from '@/l
 import { isSparePartDirectPurchaseEnabled } from '@/lib/sparePartSales';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { normalizeFulfillmentType } from '@/lib/orderFulfillment';
+import { calculateGrossCents, calculateVatTotals } from '@/lib/vat';
 import {
   getSparePartProductIdFromCartLineId,
   normalizeSparePartSizeOptionPricesMap,
@@ -207,7 +208,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Adres bulunamadi' }, { status: 400 });
   }
 
-  const totalCents = verifiedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+  const totals = calculateVatTotals(verifiedItems);
+  const totalCents = totals.totalCents;
   if (totalCents <= 0) {
     return NextResponse.json({ error: 'Sepet tutari gecersiz' }, { status: 400 });
   }
@@ -229,7 +231,9 @@ export async function POST(req: Request) {
     .join(' ')
     .trim();
   const userPhone = (selectedAddress.phone || '').trim() || '+905000000000';
-  const userBasket = verifiedItems.map((item) => [item.name, (item.priceCents / 100).toFixed(2), item.quantity] as [string, string, number]);
+  const userBasket = verifiedItems.map(
+    (item) => [item.name, (calculateGrossCents(item.priceCents) / 100).toFixed(2), item.quantity] as [string, string, number],
+  );
   const okUrl = `${appUrl}/checkout/success?merchant_oid=${encodeURIComponent(merchantOid)}`;
   const failUrl = `${appUrl}/checkout/cancel?merchant_oid=${encodeURIComponent(merchantOid)}`;
 

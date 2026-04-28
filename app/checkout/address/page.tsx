@@ -9,6 +9,7 @@ import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { formatFulfillmentTypeTr, type OrderFulfillmentType } from '@/lib/orderFulfillment';
 import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
+import { VAT_PERCENTAGE, calculateGrossCents } from '@/lib/vat';
 
 type Address = {
   id: string;
@@ -67,7 +68,7 @@ function formatPriceTry(priceCents: number) {
 
 function CheckoutAddressEnabled() {
   const router = useRouter();
-  const { items, subtotalCents, replaceItems } = useCart();
+  const { items, subtotalCents, vatCents, totalCents, replaceItems } = useCart();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedBillingId, setSelectedBillingId] = useState<string | null>(null);
@@ -319,12 +320,12 @@ function CheckoutAddressEnabled() {
     try {
       trackEvent('add_shipping_info', {
         currency: 'TRY',
-        value: subtotalCents / 100,
+        value: totalCents / 100,
         shipping_tier: fulfillmentType === 'PICKUP' ? 'Gel Al' : 'Standart',
         items: items.map((item) => ({
           item_id: item.id,
           item_name: item.name,
-          price: item.priceCents / 100,
+          price: calculateGrossCents(item.priceCents) / 100,
           quantity: item.quantity,
         })),
       });
@@ -433,7 +434,7 @@ function CheckoutAddressEnabled() {
             </div>
 
             <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-white">
-              {cartItemCount} ürün â€¢ {formatPriceTry(subtotalCents)}
+              {cartItemCount} ürün â€¢ {formatPriceTry(totalCents)}
             </div>
           </div>
         </div>
@@ -1126,7 +1127,7 @@ function CheckoutAddressEnabled() {
                 <div key={item.id} className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <div className="truncate font-semibold text-slate-900 dark:text-white">{item.name}</div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">{item.quantity} adet</div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">{item.quantity} adet, KDV hariç</div>
                   </div>
                   <div className="font-semibold text-slate-900 dark:text-white">
                     {formatPriceTry(item.priceCents * item.quantity)}
@@ -1135,9 +1136,19 @@ function CheckoutAddressEnabled() {
               ))}
             </div>
 
-            <div className="mt-6 flex items-center justify-between border-t border-slate-200/70 pt-4 text-sm dark:border-slate-800/70">
-              <span className="text-slate-600 dark:text-slate-300">Toplam</span>
-              <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(subtotalCents)}</span>
+            <div className="mt-6 space-y-3 border-t border-slate-200/70 pt-4 text-sm dark:border-slate-800/70">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-600 dark:text-slate-300">Ara toplam (KDV hariç)</span>
+                <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(subtotalCents)}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-600 dark:text-slate-300">{`KDV (%${VAT_PERCENTAGE})`}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(vatCents)}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-slate-200/70 pt-3 dark:border-slate-800/70">
+                <span className="font-semibold text-slate-900 dark:text-white">Genel toplam</span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{formatPriceTry(totalCents)}</span>
+              </div>
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
               <span>Teslimat tipi</span>
@@ -1236,7 +1247,7 @@ function CheckoutAddressEnabled() {
                 Toplam
               </div>
               <div className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
-                {formatPriceTry(subtotalCents)}
+                {formatPriceTry(totalCents)}
               </div>
             </div>
             <button

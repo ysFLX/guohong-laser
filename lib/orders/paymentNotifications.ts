@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 
 import { buildEmailHtml } from '@/lib/emailTemplate';
 import { prisma } from '@/lib/prisma';
+import { VAT_PERCENTAGE, calculateVatTotals } from '@/lib/vat';
 
 type AddressBlock = {
   fullName: string | null;
@@ -141,6 +142,9 @@ export async function sendOrderConfirmationEmail(orderId: string) {
   const lines = order.items
     .map((item) => `${item.name} x${item.quantity} ${formatPriceTry(item.priceCents * item.quantity)}`)
     .join('\n');
+  const itemTotals = calculateVatTotals(order.items);
+  const subtotalCents = itemTotals.subtotalCents;
+  const vatCents = Math.max(0, order.totalCents - subtotalCents);
 
   const itemsHtml = order.items
     .map(
@@ -180,6 +184,8 @@ export async function sendOrderConfirmationEmail(orderId: string) {
       'Sipariş özeti:',
       lines,
       '',
+      `Ara toplam (KDV hariç): ${formatPriceTry(subtotalCents)}`,
+      `KDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}`,
       `Toplam: ${formatPriceTry(order.totalCents)}`,
       '',
       'Teslimat adresi:',
@@ -207,7 +213,15 @@ export async function sendOrderConfirmationEmail(orderId: string) {
             <tbody>
               ${itemsHtml}
               <tr>
-                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">Toplam</td>
+                <td style="padding: 12px 0 4px; text-align: right; color: #475569;">Ara toplam (KDV hariç)</td>
+                <td style="padding: 12px 0 4px; text-align: right; font-weight: 600; color: #0f172a;">${formatPriceTry(subtotalCents)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 4px 0; text-align: right; color: #475569;">KDV (%${VAT_PERCENTAGE})</td>
+                <td style="padding: 4px 0; text-align: right; font-weight: 600; color: #0f172a;">${formatPriceTry(vatCents)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">Genel toplam</td>
                 <td style="padding: 12px 0; text-align: right; font-weight: 700; color: #0f172a;">${formatPriceTry(order.totalCents)}</td>
               </tr>
             </tbody>

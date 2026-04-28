@@ -12,6 +12,7 @@ import React, {
 import { useSession } from 'next-auth/react';
 import { buildSparePartCartLineId, buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
+import { calculateVatTotals } from '@/lib/vat';
 
 type CartItem = {
   id: string;
@@ -27,6 +28,8 @@ type CartContextValue = {
   isOpen: boolean;
   itemCount: number;
   subtotalCents: number;
+  vatCents: number;
+  totalCents: number;
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
@@ -244,14 +247,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [updateItems]);
 
   const itemCount = useMemo(() => items.reduce((sum, x) => sum + x.quantity, 0), [items]);
-  const subtotalCents = useMemo(() => items.reduce((sum, x) => sum + x.quantity * x.priceCents, 0), [items]);
+  const totals = useMemo(() => calculateVatTotals(items), [items]);
 
   const value: CartContextValue = useMemo(
     () => ({
       items,
       isOpen,
       itemCount,
-      subtotalCents,
+      subtotalCents: totals.subtotalCents,
+      vatCents: totals.vatCents,
+      totalCents: totals.totalCents,
       openCart,
       closeCart,
       toggleCart,
@@ -261,7 +266,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setQuantity,
       clear,
     }),
-    [items, isOpen, itemCount, subtotalCents, openCart, closeCart, toggleCart, addItem, replaceItems, removeItem, setQuantity, clear],
+    [items, isOpen, itemCount, totals, openCart, closeCart, toggleCart, addItem, replaceItems, removeItem, setQuantity, clear],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

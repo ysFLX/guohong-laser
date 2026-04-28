@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
+import { calculateGrossCents } from '@/lib/vat';
 
 export type BuyAgainItem = {
   id: string;
@@ -45,7 +46,7 @@ export default function BuyAgainButton({ items, label = 'Tekrar satın al', clas
   const isDisabled = isAdding;
 
   const totalCents = useMemo(
-    () => normalizedItems.reduce((sum, item) => sum + item.priceCents * item.quantity, 0),
+    () => normalizedItems.reduce((sum, item) => sum + calculateGrossCents(item.priceCents) * item.quantity, 0),
     [normalizedItems],
   );
 
@@ -79,7 +80,7 @@ export default function BuyAgainButton({ items, label = 'Tekrar satın al', clas
           items: normalizedItems.map((item) => ({
             item_id: item.id,
             item_name: item.name,
-            price: item.priceCents / 100,
+            price: calculateGrossCents(item.priceCents) / 100,
             quantity: item.quantity,
           })),
         });
@@ -98,7 +99,7 @@ export default function BuyAgainButton({ items, label = 'Tekrar satın al', clas
                 items: normalizedItems.map((item) => ({
                   item_id: item.id,
                   item_name: item.name,
-                  price: item.priceCents / 100,
+                  price: calculateGrossCents(item.priceCents) / 100,
                   quantity: item.quantity,
                 })),
               });

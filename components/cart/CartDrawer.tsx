@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 
 import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
+import { VAT_PERCENTAGE } from '@/lib/vat';
 import { useCart } from './CartProvider';
 
 function formatPriceTry(priceCents: number) {
@@ -20,9 +21,11 @@ function formatPriceTry(priceCents: number) {
 }
 
 export default function CartDrawer() {
-  const { isOpen, closeCart, items, itemCount, subtotalCents, removeItem, setQuantity, clear } = useCart();
+  const { isOpen, closeCart, items, itemCount, subtotalCents, vatCents, totalCents, removeItem, setQuantity, clear } = useCart();
 
   const subtotal = useMemo(() => formatPriceTry(subtotalCents), [subtotalCents]);
+  const vat = useMemo(() => formatPriceTry(vatCents), [vatCents]);
+  const total = useMemo(() => formatPriceTry(totalCents), [totalCents]);
 
   return (
     <div className={`fixed inset-0 z-50 ${isOpen ? '' : 'pointer-events-none'}`}>
@@ -97,7 +100,9 @@ export default function CartDrawer() {
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <div className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2">{x.name}</div>
-                      <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">{formatPriceTry(x.priceCents)}</div>
+                      <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                        {formatPriceTry(x.priceCents)} <span className="text-xs text-slate-400">KDV hariç</span>
+                      </div>
                     </div>
                     <button
                       type="button"
@@ -150,8 +155,16 @@ export default function CartDrawer() {
 
         <div className="space-y-3 border-t border-slate-200/70 p-5 pb-[calc(env(safe-area-inset-bottom)+16px)] dark:border-slate-800/70">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-slate-600 dark:text-slate-300">Ara Toplam</div>
+            <div className="text-sm text-slate-600 dark:text-slate-300">Ara toplam (KDV hariç)</div>
             <div className="text-base font-bold text-slate-900 dark:text-white">{subtotal}</div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-slate-600 dark:text-slate-300">{`KDV (%${VAT_PERCENTAGE})`}</div>
+            <div className="text-base font-bold text-slate-900 dark:text-white">{vat}</div>
+          </div>
+          <div className="flex items-center justify-between border-t border-slate-200/70 pt-3 dark:border-slate-800/70">
+            <div className="text-sm font-semibold text-slate-900 dark:text-white">Genel toplam</div>
+            <div className="text-lg font-bold text-slate-900 dark:text-white">{total}</div>
           </div>
 
           <div className="flex gap-3">

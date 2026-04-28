@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { buildSparePartCartLineId, buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
+import { calculateGrossCents } from '@/lib/vat';
 import { useCart } from './CartProvider';
 
 type Props = {
@@ -38,6 +39,7 @@ export default function AddToCartButton({
   const lineId = buildSparePartCartLineId(id, variantValue);
   const displayName = buildSparePartVariantName(name, variantValue);
   const effectiveQuantity = normalizeSaleQuantity(quantity, priceCents);
+  const grossPriceCents = calculateGrossCents(priceCents);
 
   return (
     <button
@@ -47,12 +49,12 @@ export default function AddToCartButton({
         addItem({ id, name, priceCents, imageUrl, variantValue }, effectiveQuantity);
         trackEvent('add_to_cart', {
           currency: 'TRY',
-          value: (priceCents * effectiveQuantity) / 100,
+          value: (grossPriceCents * effectiveQuantity) / 100,
           items: [
             {
               item_id: lineId,
               item_name: displayName,
-              price: priceCents / 100,
+              price: grossPriceCents / 100,
               quantity: effectiveQuantity,
             },
           ],
@@ -66,12 +68,12 @@ export default function AddToCartButton({
               dismiss(toastId);
               trackEvent('begin_checkout', {
                 currency: 'TRY',
-                value: (priceCents * effectiveQuantity) / 100,
+                value: (grossPriceCents * effectiveQuantity) / 100,
                 items: [
                   {
                     item_id: lineId,
                     item_name: displayName,
-                    price: priceCents / 100,
+                    price: grossPriceCents / 100,
                     quantity: effectiveQuantity,
                   },
                 ],

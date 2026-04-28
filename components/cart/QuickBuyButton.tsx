@@ -7,6 +7,7 @@ import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { buildSparePartCartLineId } from '@/lib/sparePartSizeOptions';
+import { calculateGrossCents } from '@/lib/vat';
 import { useCart } from './CartProvider';
 
 type QuickBuyItem = {
@@ -31,6 +32,7 @@ function QuickBuyButtonEnabled({
   const [isLoading, setIsLoading] = useState(false);
   const lineId = buildSparePartCartLineId(item.id, item.variantValue);
   const effectiveQuantity = normalizeSaleQuantity(1, item.priceCents);
+  const grossPriceCents = calculateGrossCents(item.priceCents);
 
   const handleQuickBuy = () => {
     if (isLoading || disabled) return;
@@ -49,12 +51,12 @@ function QuickBuyButtonEnabled({
 
     trackEvent('begin_checkout', {
       currency: 'TRY',
-      value: (item.priceCents * effectiveQuantity) / 100,
+      value: (grossPriceCents * effectiveQuantity) / 100,
       items: [
         {
           item_id: lineId,
           item_name: item.name,
-          price: item.priceCents / 100,
+          price: grossPriceCents / 100,
           quantity: effectiveQuantity,
         },
       ],

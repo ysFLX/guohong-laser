@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/auth';
 import { normalizeSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { prisma } from '@/lib/prisma';
+import { calculateVatTotals } from '@/lib/vat';
 
 export const runtime = 'nodejs';
 
@@ -68,7 +69,7 @@ export async function POST(req: Request) {
   const totalCents =
     typeof body.totalCents === 'number'
       ? Math.max(0, Math.round(body.totalCents))
-      : items.reduce((sum, item) => sum + item.priceCents * item.quantity, 0);
+      : calculateVatTotals(items).totalCents;
 
   const userId = session?.user?.id ?? null;
 

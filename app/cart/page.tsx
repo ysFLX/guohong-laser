@@ -13,6 +13,7 @@ import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
 import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
 import { getSparePartProductIdFromCartLineId } from '@/lib/sparePartSizeOptions';
+import { VAT_PERCENTAGE, calculateGrossCents } from '@/lib/vat';
 
 type RecommendedItem = {
   id: string;
@@ -43,7 +44,7 @@ function CartPageContent() {
   const searchParams = useSearchParams();
   const recoverToken = searchParams.get('recover');
   const { data: session } = useSession();
-  const { items, subtotalCents, addItem, removeItem, setQuantity, clear } = useCart();
+  const { items, subtotalCents, vatCents, totalCents, addItem, removeItem, setQuantity, clear } = useCart();
   const viewedCart = useRef(false);
   const recoveryAttempted = useRef(false);
   const [checkoutError, setCheckoutError] = useState('');
@@ -85,13 +86,13 @@ function CartPageContent() {
       .join('\n');
     const extra = items.length > maxItems ? `\n+${items.length - maxItems} ürün daha` : '';
     const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const message = `Sepetimdeki ürünler için fiyat teklifi rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam: ${formatPriceTry(subtotalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
+    const message = `Sepetimdeki ürünler için fiyat teklifi rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam (KDV hariç): ${formatPriceTry(subtotalCents)}\nKDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}\nGenel toplam: ${formatPriceTry(totalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
     const params = new URLSearchParams({
       product: 'Sepet Teklifi',
       message,
     });
     return `/quote?${params.toString()}`;
-  }, [items, subtotalCents]);
+  }, [items, subtotalCents, vatCents, totalCents]);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -116,10 +117,10 @@ function CartPageContent() {
     const extra = items.length > maxItems ? `\n+${items.length - maxItems} ürün daha` : '';
     const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-    const message = `Merhaba, sepetimdeki ürünler için sipariş desteği rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam: ${formatPriceTry(subtotalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
+    const message = `Merhaba, sepetimdeki ürünler için sipariş desteği rica ediyorum.\n\nSepet:\n${preview}${extra}\n\nAra toplam (KDV hariç): ${formatPriceTry(subtotalCents)}\nKDV (%${VAT_PERCENTAGE}): ${formatPriceTry(vatCents)}\nGenel toplam: ${formatPriceTry(totalCents)}${pageUrl ? `\nSayfa: ${pageUrl}` : ''}`;
 
     setWhatsAppHref(`https://wa.me/905368316787?text=${encodeURIComponent(message)}`);
-  }, [items, subtotalCents]);
+  }, [items, subtotalCents, vatCents, totalCents]);
 
   useEffect(() => {
     if (!cartIdsKey) {
@@ -218,15 +219,15 @@ function CartPageContent() {
     viewedCart.current = true;
     trackEvent('view_cart', {
       currency: 'TRY',
-      value: subtotalCents / 100,
+      value: totalCents / 100,
       items: items.map((item) => ({
         item_id: item.id,
         item_name: item.name,
-        price: item.priceCents / 100,
+        price: calculateGrossCents(item.priceCents) / 100,
         quantity: item.quantity,
       })),
     });
-  }, [items, subtotalCents]);
+  }, [items, totalCents]);
 
   useEffect(() => {
     if (!items.length) {
@@ -238,12 +239,12 @@ function CartPageContent() {
   const handleRemoveItem = (item: (typeof items)[number]) => {
     trackEvent('remove_from_cart', {
       currency: 'TRY',
-      value: (item.priceCents * item.quantity) / 100,
+      value: (calculateGrossCents(item.priceCents) * item.quantity) / 100,
       items: [
         {
           item_id: item.id,
           item_name: item.name,
-          price: item.priceCents / 100,
+          price: calculateGrossCents(item.priceCents) / 100,
           quantity: item.quantity,
         },
       ],
@@ -269,7 +270,7 @@ function CartPageContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: reminderEmail.trim(),
-          totalCents: subtotalCents,
+          totalCents,
           items: items.map((item) => ({
             id: item.id,
             name: item.name,
@@ -314,11 +315,11 @@ function CartPageContent() {
     }
     trackEvent('begin_checkout', {
       currency: 'TRY',
-      value: subtotalCents / 100,
+      value: totalCents / 100,
       items: items.map((item) => ({
         item_id: item.id,
         item_name: item.name,
-        price: item.priceCents / 100,
+        price: calculateGrossCents(item.priceCents) / 100,
         quantity: item.quantity,
       })),
     });
@@ -350,11 +351,11 @@ function CartPageContent() {
 
       trackEvent('begin_checkout', {
         currency: 'TRY',
-        value: subtotalCents / 100,
+        value: totalCents / 100,
         items: items.map((item) => ({
           item_id: item.id,
           item_name: item.name,
-          price: item.priceCents / 100,
+          price: calculateGrossCents(item.priceCents) / 100,
           quantity: item.quantity,
         })),
       });
@@ -424,7 +425,7 @@ function CartPageContent() {
 
             {items.length > 0 && (
               <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-white">
-                {cartItemCount} ürün â€¢ {formatPriceTry(subtotalCents)}
+                {cartItemCount} ürün â€¢ {formatPriceTry(totalCents)}
               </div>
             )}
 
@@ -497,7 +498,7 @@ function CartPageContent() {
                           {x.name}
                         </div>
                         <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                          {formatPriceTry(x.priceCents)}
+                          {formatPriceTry(x.priceCents)} <span className="text-xs text-slate-400">KDV hariç</span>
                         </div>
                       </div>
                       <button
@@ -654,10 +655,18 @@ function CartPageContent() {
               <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Özet</div>
               <div className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">Sipariş özeti</div>
               <div className="mt-4 flex items-center justify-between">
-                <div className="text-sm text-slate-600 dark:text-slate-300">Ara toplam</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">Ara toplam (KDV hariç)</div>
                 <div className="text-base font-semibold text-slate-900 dark:text-white">
                   {formatPriceTry(subtotalCents)}
                 </div>
+              </div>
+              <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
+                <span>{`KDV (%${VAT_PERCENTAGE})`}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">{formatPriceTry(vatCents)}</span>
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-slate-200/70 pt-4 dark:border-slate-800/70">
+                <span className="text-sm font-semibold text-slate-900 dark:text-white">Genel toplam</span>
+                <span className="text-lg font-bold text-slate-900 dark:text-white">{formatPriceTry(totalCents)}</span>
               </div>
               <div className="mt-3 flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
                 <span>Kargo</span>
@@ -819,7 +828,7 @@ function CartPageContent() {
                 Sepet Toplami
               </div>
               <div className="mt-0.5 text-sm font-semibold text-slate-900 dark:text-white">
-                {formatPriceTry(subtotalCents)}
+                {formatPriceTry(totalCents)}
               </div>
             </div>
             <button

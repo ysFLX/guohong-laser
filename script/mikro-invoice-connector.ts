@@ -216,7 +216,15 @@ async function issueInvoiceViaMikro(env: MikroConnectorEnv, snapshot: InvoiceSna
   }
 
   const kdvRate = env.kdvRate;
+  const itemsSubtotalCents = items.reduce((acc, item) => acc + item.priceCents * item.quantity, 0);
+  const itemsAreNet = snapshot.order.totalCents > itemsSubtotalCents;
   const lineTotals = items.map((item) => {
+    if (itemsAreNet) {
+      const net = round2((item.priceCents / 100) * item.quantity);
+      const vat = round2(net * kdvRate);
+      return { net, vat };
+    }
+
     const gross = (item.priceCents / 100) * item.quantity;
     const net = round2(gross / (1 + kdvRate));
     const vat = round2(gross - net);

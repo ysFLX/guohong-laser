@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
+import { VAT_PERCENTAGE, calculateGrossCents, calculateVatTotals } from '@/lib/vat';
 
 type OrderItem = {
   id: string;
@@ -66,6 +67,15 @@ export default function CheckoutSuccessClient() {
     () => (orderInfo ? orderInfo.items.reduce((acc, item) => acc + (item.quantity || 0), 0) : 0),
     [orderInfo],
   );
+  const orderTotals = useMemo(() => {
+    if (!orderInfo) return { subtotalCents: 0, vatCents: 0, totalCents: 0 };
+    const totals = calculateVatTotals(orderInfo.items);
+    return {
+      subtotalCents: totals.subtotalCents,
+      vatCents: Math.max(0, orderInfo.totalCents - totals.subtotalCents),
+      totalCents: orderInfo.totalCents,
+    };
+  }, [orderInfo]);
 
   const whatsAppHref = useMemo(() => {
     const subject = orderInfo?.id ? `Sipariş: #${orderInfo.id.slice(0, 8)}` : 'Sipariş sonrası destek';
@@ -176,10 +186,12 @@ export default function CheckoutSuccessClient() {
             typeof window !== 'undefined' && window.sessionStorage.getItem(storageKey) === '1';
 
           if (!alreadyTracked) {
+            const trackedItemTotals = calculateVatTotals(safeItems);
+            const trackedItemsAreNet = order.totalCents > trackedItemTotals.subtotalCents;
             const analyticsItems = safeItems.map((item) => ({
               item_id: item.sparePartId || item.id,
               item_name: item.name,
-              price: item.priceCents / 100,
+              price: (trackedItemsAreNet ? calculateGrossCents(item.priceCents) : item.priceCents) / 100,
               quantity: item.quantity,
             }));
 
@@ -361,7 +373,7 @@ export default function CheckoutSuccessClient() {
                     >
                       <div className="min-w-0">
                         <div className="truncate font-semibold text-slate-900 dark:text-white">{item.name}</div>
-                        <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{item.quantity} adet</div>
+                        <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{item.quantity} adet, KDV hariç</div>
                       </div>
                       <div className="text-sm font-semibold text-slate-900 dark:text-white">
                         {formatPriceTry(item.priceCents * item.quantity)}
@@ -375,11 +387,25 @@ export default function CheckoutSuccessClient() {
                     </div>
                   ) : null}
 
-                  <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200/70 bg-slate-50/70 px-4 py-3 text-sm dark:border-slate-800/70 dark:bg-slate-900/40">
-                    <span className="text-slate-600 dark:text-slate-300">Toplam</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">
-                      {formatPriceTry(orderInfo.totalCents)}
-                    </span>
+                  <div className="mt-4 space-y-2 rounded-2xl border border-slate-200/70 bg-slate-50/70 px-4 py-3 text-sm dark:border-slate-800/70 dark:bg-slate-900/40">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-600 dark:text-slate-300">Ara toplam (KDV hariç)</span>
+                      <span className="font-semibold text-slate-900 dark:text-white">
+                        {formatPriceTry(orderTotals.subtotalCents)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-600 dark:text-slate-300">{`KDV (%${VAT_PERCENTAGE})`}</span>
+                      <span className="font-semibold text-slate-900 dark:text-white">
+                        {formatPriceTry(orderTotals.vatCents)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between border-t border-slate-200/70 pt-2 dark:border-slate-800/70">
+                      <span className="font-semibold text-slate-900 dark:text-white">Genel toplam</span>
+                      <span className="font-bold text-slate-900 dark:text-white">
+                        {formatPriceTry(orderTotals.totalCents)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ) : null}
