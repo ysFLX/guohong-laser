@@ -51,6 +51,14 @@ const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || productionSiteUrl).replace(
 const SORT_OPTIONS = ['recommended', 'price-asc', 'price-desc', 'rating-desc', 'name-asc'] as const;
 const VALID_SORT_OPTIONS = new Set<string>(SORT_OPTIONS);
 const VALID_MODEL_IDS = new Set<string>(machineModels.map((model) => model.id));
+const LASER_HEAD_PRIORITY_NAMES = [
+  'boci 421ts',
+  'boci 421s',
+  'jiaqiang bm110',
+  'wsx nc30e',
+  'wan shun xing wsx nc30e',
+  'boci blt310',
+];
 
 type SearchParamsLike = { get: (key: string) => string | null };
 
@@ -83,6 +91,29 @@ function formatPriceTry(priceCents: number) {
 
 function getVisiblePriceCents(item: SparePart) {
   return item.displayPriceCents ?? item.priceCents;
+}
+
+function normalizeSearchText(value: string) {
+  return value
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ı/g, 'i')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+}
+
+function getLaserHeadPriority(item: SparePart) {
+  const name = normalizeSearchText(item.name);
+  const category = normalizeSearchText(item.category.name);
+  const explicitIndex = LASER_HEAD_PRIORITY_NAMES.findIndex((priorityName) => {
+    const priority = normalizeSearchText(priorityName);
+    return name === priority || name.includes(priority);
+  });
+
+  if (explicitIndex >= 0) return explicitIndex;
+  if (category.includes('lazer kafasi')) return LASER_HEAD_PRIORITY_NAMES.length;
+  return Number.POSITIVE_INFINITY;
 }
 
 const renderStars = (average: number) =>
@@ -158,7 +189,7 @@ function VirtualizedPartsGridRows({
               transform: `translateY(${virtualRow.start - scrollMargin}px)`,
             }}
           >
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
               {rowItems.map((part, idx) => renderPartCard(part, startIndex + idx))}
             </div>
           </div>
@@ -470,7 +501,21 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
         list.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
         break;
       default:
-        list.sort((a, b) => Number(b.isFeatured) - Number(a.isFeatured));
+        list.sort((a, b) => {
+          const priorityA = getLaserHeadPriority(a);
+          const priorityB = getLaserHeadPriority(b);
+          const aIsLaserHead = Number.isFinite(priorityA);
+          const bIsLaserHead = Number.isFinite(priorityB);
+
+          if (aIsLaserHead || bIsLaserHead) {
+            if (aIsLaserHead !== bIsLaserHead) return aIsLaserHead ? -1 : 1;
+            if (priorityA !== priorityB) return priorityA - priorityB;
+          }
+
+          const featuredDiff = Number(b.isFeatured) - Number(a.isFeatured);
+          if (featuredDiff !== 0) return featuredDiff;
+          return a.name.localeCompare(b.name, 'tr');
+        });
         break;
     }
     return list;
@@ -541,7 +586,9 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth;
-      if (width >= 1024) {
+      if (width >= 1280) {
+        setGridColumns(5);
+      } else if (width >= 1024) {
         setGridColumns(4);
       } else if (width >= 768) {
         setGridColumns(2);
@@ -1039,7 +1086,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                     renderPartCard={renderPartCard}
                   />
                 ) : (
-                  <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                  <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
                     {visibleItems.map((p, index) => renderPartCard(p, index))}
                   </section>
                 )}
