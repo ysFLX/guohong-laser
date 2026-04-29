@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 type StatItem = {
   value: number;
@@ -13,14 +13,22 @@ type StatsOverviewProps = {
 };
 
 function formatTrInt(value: number) {
-  return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 0 }).format(
+    value,
+  );
 }
 
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
 }
 
-function AnimatedValue({ value, suffix = '' }: { value: number; suffix?: string }) {
+function AnimatedValue({
+  value,
+  suffix = "",
+}: {
+  value: number;
+  suffix?: string;
+}) {
   const [current, setCurrent] = useState(0);
   const [started, setStarted] = useState(false);
   const ref = useRef<HTMLParagraphElement | null>(null);
@@ -36,7 +44,7 @@ function AnimatedValue({ value, suffix = '' }: { value: number; suffix?: string 
           observer.disconnect();
         }
       },
-      { threshold: 0.45, rootMargin: '0px 0px -12% 0px' },
+      { threshold: 0.45, rootMargin: "0px 0px -12% 0px" },
     );
 
     observer.observe(node);
@@ -75,9 +83,12 @@ export default function StatsOverview({ items }: StatsOverviewProps) {
   return (
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => (
-        <div key={item.label} className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#15148c] px-4 py-5">
+        <div
+          key={item.label}
+          className="spotlight-card rounded-2xl border border-[#ff6a0d]/35 bg-[#15148c] px-4 py-5"
+        >
           <AnimatedValue value={item.value} suffix={item.suffix} />
-          <p className="mt-1 text-sm text-[#fdf9f6]/85">{item.label}</p>
+          <p className="mt-1 text-sm text-[#ff6a0d]/85">{item.label}</p>
         </div>
       ))}
     </div>
