@@ -66,7 +66,7 @@ export default function AboutPage() {
           ].map((item) => (
             <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/6 p-5">
               <div className="text-3xl font-semibold text-[#ff6a0d]">{item.value}</div>
-              <div className="mt-2 text-sm text-white/72">{item.label}</div>
+              <div className="mt-2 text-sm text-[#ff6a0d]">{item.label}</div>
             </div>
           ))}
         </div>
