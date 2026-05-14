@@ -286,7 +286,7 @@ export default function SparePartImageSlider({
 
       {isLightboxOpen && (
         <div
-          className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/92 px-4 py-6 backdrop-blur-sm"
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-white/96 px-4 py-6 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label={`${name} büyük önizleme`}
@@ -298,10 +298,10 @@ export default function SparePartImageSlider({
               event.stopPropagation();
             }}
           >
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 text-white">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 text-slate-950">
               <div>
                 <div className="text-sm font-semibold">{name}</div>
-                <div className="mt-1 text-xs text-slate-300">
+                <div className="mt-1 text-xs text-slate-500">
                   `ESC` ile kapat, `+` ve `-` ile yakınlaştır.
                 </div>
               </div>
@@ -310,19 +310,19 @@ export default function SparePartImageSlider({
                   type="button"
                   onClick={() => updateZoom('out')}
                   disabled={zoom <= MIN_ZOOM}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-lg text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-lg text-slate-900 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
                   aria-label="Uzaklaştır"
                 >
                   -
                 </button>
-                <div className="min-w-[72px] rounded-full border border-white/15 bg-white/10 px-3 py-2 text-center text-sm font-semibold text-white">
+                <div className="min-w-[72px] rounded-full border border-slate-200 bg-white px-3 py-2 text-center text-sm font-semibold text-slate-900 shadow-sm">
                   {Math.round(zoom * 100)}%
                 </div>
                 <button
                   type="button"
                   onClick={() => updateZoom('in')}
                   disabled={zoom >= MAX_ZOOM}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-lg text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-lg text-slate-900 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
                   aria-label="Yakınlaştır"
                 >
                   +
@@ -333,7 +333,7 @@ export default function SparePartImageSlider({
                     setZoom(1);
                     setIsLightboxOpen(false);
                   }}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white text-slate-900 transition hover:bg-slate-100"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition hover:bg-slate-50"
                   aria-label="Kapat"
                 >
                   <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -347,7 +347,7 @@ export default function SparePartImageSlider({
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(15,23,42,0.96),rgba(30,41,59,0.88))] shadow-2xl">
+            <div className="relative overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.14)]">
               <div className="relative flex h-[70vh] min-h-[420px] items-center justify-center overflow-auto">
                 <div
                   className="relative h-full w-full transition-transform duration-200"
@@ -370,7 +370,7 @@ export default function SparePartImageSlider({
                   <button
                     type="button"
                     onClick={() => goPrev()}
-                    className="absolute left-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-slate-950/55 text-white backdrop-blur transition hover:bg-slate-900/80"
+                    className="absolute left-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-900 shadow-sm backdrop-blur transition hover:bg-slate-50"
                     aria-label="Önceki görsel"
                   >
                     <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
@@ -384,7 +384,7 @@ export default function SparePartImageSlider({
                   <button
                     type="button"
                     onClick={() => goNext()}
-                    className="absolute right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-slate-950/55 text-white backdrop-blur transition hover:bg-slate-900/80"
+                    className="absolute right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-900 shadow-sm backdrop-blur transition hover:bg-slate-50"
                     aria-label="Sonraki görsel"
                   >
                     <svg viewBox="0 0 20 20" className="h-5 w-5" fill="currentColor" aria-hidden="true">
