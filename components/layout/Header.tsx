@@ -24,7 +24,7 @@ type NavItem = {
 
 const PRIMARY_NAV: NavItem[] = [
   { href: '/', label: 'Ana Sayfa' },
-  { href: '/about', label: 'Yusuf Can' },
+  { href: '/about', label: 'Hakkımızda' },
   {
     href: '/products',
     label: 'Ürünler',
@@ -40,7 +40,7 @@ const PRIMARY_NAV: NavItem[] = [
 
 const MOBILE_LINKS = [
   { href: '/', label: 'Ana Sayfa' },
-  { href: '/about', label: 'Yusuf Can' },
+  { href: '/about', label: 'Hakkımızda' },
   { href: '/products', label: 'Ürünler' },
   { href: '/spare-parts', label: 'Yedek Parçalar' },
   { href: '/gallery', label: 'Galeri' },
