@@ -18,6 +18,12 @@ type SizeOptionEntry = {
   imageUrls: string[];
 };
 
+const SUPPORTED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
+
+function getSupportedImageFiles(files: File[]) {
+  return files.filter((file) => SUPPORTED_IMAGE_TYPES.has(file.type));
+}
+
 export default function AdminImageUpload({
   sparePartId,
   images,
@@ -57,6 +63,10 @@ export default function AdminImageUpload({
   async function uploadFile(file: File) {
     if (!supabase) {
       throw new Error('Supabase client hazir degil');
+    }
+
+    if (!SUPPORTED_IMAGE_TYPES.has(file.type)) {
+      throw new Error('HEIC desteklenmiyor. Lütfen JPG, PNG veya WEBP yükle.');
     }
 
     const signRes = await fetch(`/api/spare-parts/${sparePartId}/upload-url`, {
@@ -136,13 +146,17 @@ export default function AdminImageUpload({
           <input
             ref={uploadMode === 'size' ? sizeInputRef : galleryInputRef}
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
             multiple
             onChange={(e) => {
               setError('');
               const list = Array.from(e.target.files || []);
-              if (uploadMode === 'size') setSizeFiles(list);
-              else setGalleryFiles(list);
+              const supportedFiles = getSupportedImageFiles(list);
+              if (supportedFiles.length !== list.length) {
+                setError('HEIC desteklenmiyor. Lütfen JPG, PNG veya WEBP yükle.');
+              }
+              if (uploadMode === 'size') setSizeFiles(supportedFiles);
+              else setGalleryFiles(supportedFiles);
             }}
             className="block w-full rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card)] px-4 py-3 text-sm text-[var(--admin-text)] shadow-sm file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--admin-card-muted)] file:px-4 file:py-2 file:text-xs file:font-semibold file:text-[var(--admin-text)] hover:file:bg-[var(--admin-surface-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--admin-accent)]/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--admin-bg)]"
           />
