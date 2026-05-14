@@ -201,6 +201,25 @@ function normalizeImageMap(value: unknown) {
   return result;
 }
 
+function normalizePriceMap(value: unknown) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {} as Record<string, { priceCents: number; currency: string }>;
+  }
+
+  const result: Record<string, { priceCents: number; currency: string }> = {};
+  for (const [key, raw] of Object.entries(value as Record<string, unknown>)) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) continue;
+
+    const row = raw as Record<string, unknown>;
+    const priceCents = typeof row.priceCents === 'number' ? Math.max(0, Math.round(row.priceCents)) : null;
+    const currency = typeof row.currency === 'string' ? row.currency : typeof row.priceCurrency === 'string' ? row.priceCurrency : 'TRY';
+
+    if (priceCents === null) continue;
+    result[key] = { priceCents, currency };
+  }
+  return result;
+}
+
 async function syncGalleryImages(sparePartId: string, imageUrls: string[]) {
   const existing = await prisma.sparePartImage.findMany({
     where: { sparePartId },
@@ -228,21 +247,29 @@ async function main() {
       imageUrl: true,
       hasSizeOptions: true,
       sizeOptions: true,
+      sizeOptionPrices: true,
       sizeOptionImages: true,
+      priceCents: true,
+      currency: true,
     },
     orderBy: { name: 'asc' },
   });
 
   let updatedParts = 0;
   let addedGalleryImages = 0;
+  let addedSizeOptions = 0;
   const missing: string[] = [];
 
   for (const assignment of assignments) {
     const candidates = parts.filter((part) => hasNameMatch(part.name, assignment.productNames));
-    const matchedParts = candidates.filter((part) => {
+    let matchedParts = candidates.filter((part) => {
       if (part.sizeOptions.some((option) => hasLabelMatch(option, assignment.labels))) return true;
       return hasLabelMatch(part.dimensions, assignment.labels);
     });
+
+    if (matchedParts.length === 0 && candidates.length > 0) {
+      matchedParts = candidates;
+    }
 
     if (matchedParts.length === 0) {
       missing.push(`${assignment.productNames.join(' / ')} (${assignment.labels[0]})`);
@@ -252,6 +279,10 @@ async function main() {
     for (const part of matchedParts) {
       const data: {
         imageUrl?: string;
+        dimensions?: string;
+        hasSizeOptions?: boolean;
+        sizeOptions?: string[];
+        sizeOptionPrices?: Record<string, { priceCents: number; currency: string }>;
         sizeOptionImages?: Record<string, string[]>;
       } = {};
 
@@ -259,11 +290,28 @@ async function main() {
         data.imageUrl = assignment.imageUrls[0];
       }
 
-      if (part.sizeOptions.length > 0) {
+      let resolvedSizeOptions = [...part.sizeOptions];
+
+      if (resolvedSizeOptions.length > 0 && !resolvedSizeOptions.some((option) => hasLabelMatch(option, assignment.labels))) {
+        const newSizeOption = assignment.labels[0];
+        resolvedSizeOptions = uniq([...resolvedSizeOptions, newSizeOption]);
+        data.hasSizeOptions = true;
+        data.sizeOptions = resolvedSizeOptions;
+        data.sizeOptionPrices = {
+          ...normalizePriceMap(part.sizeOptionPrices),
+          [newSizeOption]: {
+            priceCents: part.priceCents,
+            currency: part.currency || 'TRY',
+          },
+        };
+        addedSizeOptions += 1;
+      }
+
+      if (resolvedSizeOptions.length > 0) {
         const nextImageMap = normalizeImageMap(part.sizeOptionImages);
         let touchedSize = false;
 
-        for (const option of part.sizeOptions) {
+        for (const option of resolvedSizeOptions) {
           if (!hasLabelMatch(option, assignment.labels)) continue;
           nextImageMap[option] = uniq([...(nextImageMap[option] ?? []), ...assignment.imageUrls]);
           touchedSize = true;
@@ -272,6 +320,8 @@ async function main() {
         if (touchedSize) {
           data.sizeOptionImages = nextImageMap;
         }
+      } else if (!hasLabelMatch(part.dimensions, assignment.labels)) {
+        data.dimensions = assignment.labels[0];
       }
 
       if (Object.keys(data).length > 0) {
@@ -279,6 +329,11 @@ async function main() {
           where: { id: part.id },
           data,
         });
+        if (data.imageUrl) part.imageUrl = data.imageUrl;
+        if (data.dimensions) part.dimensions = data.dimensions;
+        if (data.sizeOptions) part.sizeOptions = data.sizeOptions;
+        if (data.sizeOptionImages) part.sizeOptionImages = data.sizeOptionImages;
+        if (data.sizeOptionPrices) part.sizeOptionPrices = data.sizeOptionPrices;
         updatedParts += 1;
       }
 
@@ -286,7 +341,9 @@ async function main() {
     }
   }
 
-  console.log(`Spare part images synced. updatedParts=${updatedParts} addedGalleryImages=${addedGalleryImages}`);
+  console.log(
+    `Spare part images synced. updatedParts=${updatedParts} addedSizeOptions=${addedSizeOptions} addedGalleryImages=${addedGalleryImages}`,
+  );
   if (missing.length > 0) {
     console.log('No matching product/size found for:');
     for (const item of missing) console.log(`- ${item}`);
