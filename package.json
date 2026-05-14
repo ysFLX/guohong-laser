@@ -10,6 +10,7 @@
     "lint": "eslint",
     "postinstall": "prisma generate",
     "seed": "ts-node --compiler-options \"{\\\"module\\\":\\\"CommonJS\\\"}\" prisma/seed.ts",
+    "spare-parts:add-requested": "tsx script/add-requested-spare-parts.ts",
     "spare-parts:mark-usd": "tsx script/bulk-mark-spare-parts-usd.ts",
     "cleanup:test-data": "tsx script/cleanup-test-data.ts"
   },
