@@ -9,6 +9,7 @@ type Assignment = {
 };
 
 const IMAGE_BASE = '/images/spare-parts/requested';
+const ASD_IMAGE_BASE = '/images/spare-parts/asd';
 
 const assignments: Assignment[] = [
   {
@@ -19,12 +20,18 @@ const assignments: Assignment[] = [
   {
     productNames: ['Koruma Lens'],
     labels: ['D18T2 260420', 'D18*2', 'D18T2'],
-    imageUrls: [`${IMAGE_BASE}/img_0131.jpg`, `${IMAGE_BASE}/img_0132.jpg`],
+    imageUrls: [`${IMAGE_BASE}/img_0131.jpg`, `${IMAGE_BASE}/img_0132.jpg`, `${ASD_IMAGE_BASE}/img-0144.jpg`],
   },
   {
     productNames: ['Koruma Lens'],
     labels: ['D24.9T1.5', 'D24.9*1.5', 'D24.9T1.5 251101'],
-    imageUrls: [`${IMAGE_BASE}/img_0309.jpg`, `${IMAGE_BASE}/img_0315.jpg`],
+    imageUrls: [
+      `${IMAGE_BASE}/img_0309.jpg`,
+      `${IMAGE_BASE}/img_0315.jpg`,
+      `${ASD_IMAGE_BASE}/img-0157.jpg`,
+      `${ASD_IMAGE_BASE}/img-0166.jpg`,
+      `${ASD_IMAGE_BASE}/img-0167.jpg`,
+    ],
   },
   {
     productNames: ['Koruma Lens'],
@@ -62,12 +69,82 @@ const assignments: Assignment[] = [
       `${IMAGE_BASE}/img_0310.jpg`,
       `${IMAGE_BASE}/img_0311.jpg`,
       `${IMAGE_BASE}/img_0312.jpg`,
+      `${ASD_IMAGE_BASE}/img-0172.jpg`,
+      `${ASD_IMAGE_BASE}/img-0173.jpg`,
+      `${ASD_IMAGE_BASE}/img-0174.jpg`,
+      `${ASD_IMAGE_BASE}/img-0175.jpg`,
+      `${ASD_IMAGE_BASE}/img-0176.jpg`,
+      `${ASD_IMAGE_BASE}/img-0177.jpg`,
+      `${ASD_IMAGE_BASE}/img-0178.jpg`,
+      `${ASD_IMAGE_BASE}/img-0180.jpg`,
+      `${ASD_IMAGE_BASE}/img-0181.jpg`,
+      `${ASD_IMAGE_BASE}/img-0182.jpg`,
+      `${ASD_IMAGE_BASE}/img-0183.jpg`,
     ],
   },
   {
     productNames: ['Koruma Lens'],
+    labels: ['D37T5', 'D37*5'],
+    imageUrls: [`${ASD_IMAGE_BASE}/img-0184.jpg`, `${ASD_IMAGE_BASE}/img-0185.jpg`, `${ASD_IMAGE_BASE}/img-0186.jpg`],
+  },
+  {
+    productNames: ['Koruma Lens'],
     labels: ['D30*5', 'D30T5'],
-    imageUrls: [`${IMAGE_BASE}/img_0138.jpg`],
+    imageUrls: [
+      `${IMAGE_BASE}/img_0138.jpg`,
+      `${ASD_IMAGE_BASE}/img-0133.jpg`,
+      `${ASD_IMAGE_BASE}/img-0135.jpg`,
+      `${ASD_IMAGE_BASE}/img-0137.jpg`,
+      `${ASD_IMAGE_BASE}/img-0139.jpg`,
+      `${ASD_IMAGE_BASE}/img-0140.jpg`,
+      `${ASD_IMAGE_BASE}/img-0141.jpg`,
+    ],
+  },
+  {
+    productNames: ['Koruma Lens'],
+    labels: ['D25.4T4', 'D25.4*4'],
+    imageUrls: [`${ASD_IMAGE_BASE}/img-0142.jpg`],
+  },
+  {
+    productNames: ['Koruma Lens'],
+    labels: ['D21.5T2', 'D21.5*2'],
+    imageUrls: [
+      `${ASD_IMAGE_BASE}/img-0168.jpg`,
+      `${ASD_IMAGE_BASE}/img-0169.jpg`,
+      `${ASD_IMAGE_BASE}/img-0170.jpg`,
+      `${ASD_IMAGE_BASE}/img-0171.jpg`,
+    ],
+  },
+  {
+    productNames: ['Yansıtma Lens'],
+    labels: ['30*14T2', '30T14T2'],
+    imageUrls: [`${ASD_IMAGE_BASE}/yansitma-lens.jpg`],
+  },
+  {
+    productNames: ['Odak Lens'],
+    labels: ['D03010006'],
+    imageUrls: [`${ASD_IMAGE_BASE}/odak-lens-d03010006.jpg`],
+  },
+  {
+    productNames: ['Üst Koruma Lens Çekmecesi'],
+    labels: ['Q0207AA'],
+    imageUrls: [
+      `${ASD_IMAGE_BASE}/ust-koruma-lens-cekmecesi-q0207aa.jpg`,
+      `${ASD_IMAGE_BASE}/img-0036.jpg`,
+      `${ASD_IMAGE_BASE}/img-0037.jpg`,
+    ],
+  },
+  {
+    productNames: ['Odak Lens Set'],
+    labels: ['D37F200'],
+    imageUrls: [
+      `${ASD_IMAGE_BASE}/img-0118.jpg`,
+      `${ASD_IMAGE_BASE}/img-0119.jpg`,
+      `${ASD_IMAGE_BASE}/img-0128.jpg`,
+      `${ASD_IMAGE_BASE}/img-0129.jpg`,
+      `${ASD_IMAGE_BASE}/img-0294.jpg`,
+      `${ASD_IMAGE_BASE}/img-0295.jpg`,
+    ],
   },
   {
     productNames: ['Çarpışma Koruma Modülü', 'Çarpışma Önleyici'],
