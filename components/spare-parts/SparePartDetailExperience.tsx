@@ -97,7 +97,12 @@ export default function SparePartDetailExperience({
     <section className="grid gap-8 rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_24px_80px_-52px_rgba(15,23,42,0.35)] lg:grid-cols-[minmax(0,1.02fr)_minmax(390px,0.78fr)] lg:p-6">
       <div className="space-y-4">
         <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white p-3">
-          <SparePartImageSlider images={galleryImages} fallbackUrl={resolvedFallbackUrl} name={name} />
+          <SparePartImageSlider
+            key={selectedSize || 'default'}
+            images={galleryImages}
+            fallbackUrl={resolvedFallbackUrl}
+            name={name}
+          />
         </div>
         <div className="grid gap-3 text-xs text-slate-700 sm:grid-cols-3">
           <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
