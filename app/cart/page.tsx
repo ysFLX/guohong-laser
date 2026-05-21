@@ -399,7 +399,7 @@ function CartPageContent() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight">Sepet</h1>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Ödeme öncesi son kontrol.</p>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Ödeme öncesi sepet kontrolü.</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:justify-end">
