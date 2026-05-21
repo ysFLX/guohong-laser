@@ -5,7 +5,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useToast } from '@/components/ui/ToastProvider';
-import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { buildSparePartVariantName } from '@/lib/sparePartSizeOptions';
 
 function formatPrice(priceCents: number, currency: string) {
@@ -78,9 +77,6 @@ export default function SparePartPurchaseClient({
   const resolvedImageUrl = selectedEntry?.imageUrl ?? imageUrl;
   const displayName = useMemo(() => buildSparePartVariantName(name, resolvedSize), [name, resolvedSize]);
   const selectionDisabled = hasSizeOptions && !resolvedSize;
-  const minimumQuantity = getMinimumSaleQuantity(resolvedPriceCents);
-  const showMinimumQuantityNote = minimumQuantity > 1;
-  const minimumTotalCents = resolvedPriceCents * minimumQuantity;
 
   const handleSizeChange = (value: string) => {
     if (onSelectedSizeChange) {
@@ -172,15 +168,6 @@ export default function SparePartPurchaseClient({
         <div className="space-y-5 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
           {priceBlock}
           {optionButtons}
-
-          {showMinimumQuantityNote ? (
-            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
-              Minimum {minimumQuantity} adet sepete eklenir.
-              {showPrice ? (
-                <span className="font-bold"> Minimum tutar: {formatPrice(minimumTotalCents, resolvedPriceCurrency)}.</span>
-              ) : null}
-            </div>
-          ) : null}
 
           <div className="grid gap-3">
             {inStock ? (

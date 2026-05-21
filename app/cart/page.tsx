@@ -10,7 +10,6 @@ import AddToCartButton from '@/components/cart/AddToCartButton';
 import { useCart } from '@/components/cart/CartProvider';
 import { trackEvent } from '@/lib/analytics';
 import { isPaymentCheckoutEnabled } from '@/lib/checkoutMode';
-import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { getPaymentProviderPendingNotice } from '@/lib/paymentProviderStatus';
 import { getSparePartProductIdFromCartLineId } from '@/lib/sparePartSizeOptions';
 import { VAT_PERCENTAGE, calculateGrossCents } from '@/lib/vat';
@@ -512,17 +511,12 @@ function CartPageContent() {
 
                     <div className="mt-4 flex items-center justify-between">
                       <div className="inline-flex items-center rounded-xl border border-slate-200 bg-white/70 shadow-sm dark:border-slate-800 dark:bg-slate-950/30">
-                        {(() => {
-                          const minQuantity = getMinimumSaleQuantity(x.priceCents);
-                          const cannotDecrease = x.quantity <= minQuantity;
-
-                          return (
-                            <>
+                        <>
                         <button
                           type="button"
                           className="rounded-l-xl px-4 py-2 text-slate-900 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 dark:text-white dark:hover:bg-slate-900/60"
                           onClick={() => setQuantity(x.id, x.quantity - 1)}
-                          disabled={cannotDecrease}
+                          disabled={x.quantity <= 1}
                         >
                           -
                         </button>
@@ -536,20 +530,13 @@ function CartPageContent() {
                         >
                           +
                         </button>
-                            </>
-                          );
-                        })()}
+                        </>
                       </div>
 
                       <div className="text-base font-bold text-slate-900 dark:text-white">
                         {formatPriceTry(x.priceCents * x.quantity)}
                       </div>
                     </div>
-                    {getMinimumSaleQuantity(x.priceCents) > 1 ? (
-                      <div className="mt-2 text-xs font-medium text-amber-700 dark:text-amber-300">
-                        Bu ürün için minimum adet {getMinimumSaleQuantity(x.priceCents)}.
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               ))}

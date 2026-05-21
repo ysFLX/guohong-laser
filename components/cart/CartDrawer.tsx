@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
-import { getMinimumSaleQuantity } from '@/lib/minimumSaleQuantity';
 import { VAT_PERCENTAGE } from '@/lib/vat';
 import { useCart } from './CartProvider';
 
@@ -76,11 +75,7 @@ export default function CartDrawer() {
             </div>
           )}
 
-          {items.map((x) => {
-            const minQuantity = getMinimumSaleQuantity(x.priceCents);
-            const cannotDecrease = x.quantity <= minQuantity;
-
-            return (
+          {items.map((x) => (
               <div
                 key={x.id}
                 className="flex gap-3 rounded-2xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40"
@@ -119,7 +114,7 @@ export default function CartDrawer() {
                         type="button"
                         className="rounded-l-xl px-3 py-2 text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-900/60 disabled:cursor-not-allowed disabled:opacity-40"
                         onClick={() => setQuantity(x.id, x.quantity - 1)}
-                        disabled={cannotDecrease}
+                        disabled={x.quantity <= 1}
                         aria-label="Azalt"
                       >
                         -
@@ -142,15 +137,9 @@ export default function CartDrawer() {
                     </div>
                   </div>
 
-                  {minQuantity > 1 ? (
-                    <div className="mt-2 text-xs font-medium text-amber-700 dark:text-amber-300">
-                      Bu ürün için minimum adet {minQuantity}.
-                    </div>
-                  ) : null}
                 </div>
               </div>
-            );
-          })}
+          ))}
         </div>
 
         <div className="space-y-3 border-t border-slate-200/70 p-5 pb-[calc(env(safe-area-inset-bottom)+16px)] dark:border-slate-800/70">
