@@ -11,6 +11,9 @@ type Props = {
   helper?: string;
 };
 
+const SUPPORTED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+
 export default function AdminAssetUpload({ label, value, onChange, helper }: Props) {
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === 'ADMIN';
@@ -54,10 +57,15 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
           onChange={(e) => {
             setError('');
             const selected = e.target.files?.[0] || null;
+            if (selected && (!SUPPORTED_IMAGE_TYPES.has(selected.type) || selected.size > MAX_IMAGE_BYTES)) {
+              setFile(null);
+              setError('Sadece JPG, PNG veya WEBP ve en fazla 8 MB görsel yükle.');
+              return;
+            }
             setFile(selected);
           }}
           className="block w-full text-sm text-slate-700"
@@ -76,7 +84,7 @@ export default function AdminAssetUpload({ label, value, onChange, helper }: Pro
               const signRes = await fetch('/api/admin/site-assets/upload-url', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fileName: file.name, contentType: file.type }),
+                body: JSON.stringify({ fileName: file.name, contentType: file.type, size: file.size }),
               });
               const signData = await signRes.json();
               if (!signRes.ok) throw new Error(signData?.error || 'Upload url oluşturulamadı');

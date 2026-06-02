@@ -8,6 +8,9 @@ type ReturnsRequestClientProps = {
   itemNameParam: string;
 };
 
+const SUPPORTED_EVIDENCE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'application/pdf']);
+const MAX_EVIDENCE_BYTES = 10 * 1024 * 1024;
+
 export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: ReturnsRequestClientProps) {
   const [formData, setFormData] = useState({
     name: '',
@@ -135,10 +138,14 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
     try {
       const uploaded: string[] = [];
       for (const file of Array.from(files)) {
+        if (!SUPPORTED_EVIDENCE_TYPES.has(file.type) || file.size > MAX_EVIDENCE_BYTES) {
+          throw new Error('Sadece JPG, PNG, WEBP veya PDF ve en fazla 10 MB dosya yükle.');
+        }
+
         const res = await fetch('/api/returns-request/upload-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename: file.name, contentType: file.type || 'application/octet-stream' }),
+          body: JSON.stringify({ filename: file.name, contentType: file.type || 'application/octet-stream', size: file.size }),
         });
         const data = await res.json();
         if (!res.ok || !data?.uploadUrl || !data?.publicUrl) {
@@ -273,7 +280,7 @@ export default function ReturnsRequestClient({ orderIdParam, itemNameParam }: Re
                   <input
                     type="file"
                     multiple
-                    accept="image/*,application/pdf"
+                    accept="image/jpeg,image/png,image/webp,application/pdf,.jpg,.jpeg,.png,.webp,.pdf"
                     onChange={(e) => handleEvidenceUpload(e.target.files)}
                     className="form-input"
                   />

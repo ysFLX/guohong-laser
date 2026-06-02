@@ -1,17 +1,12 @@
-﻿import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { validateReturnEvidenceUpload } from '@/lib/uploadValidation';
 
 const BUCKET = 'returns';
-
-const getExtension = (name: string, contentType: string) => {
-  const fromName = name.split('.').pop();
-  if (fromName && fromName.length <= 5) return fromName;
-  const fromType = contentType.split('/').pop();
-  return fromType || 'bin';
-};
 
 export async function POST(req: Request) {
   try {
@@ -20,12 +15,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Dosya yuklemek icin giris yapmalisiniz.' }, { status: 401 });
     }
 
-    const body = (await req.json()) as { filename?: string; contentType?: string };
+    const body = (await req.json()) as { filename?: string; fileName?: string; contentType?: string; size?: number };
     const filename = typeof body.filename === 'string' ? body.filename.trim() : '';
     const contentType = typeof body.contentType === 'string' ? body.contentType.trim() : '';
 
-    if (!filename || !contentType) {
-      return NextResponse.json({ error: 'filename ve contentType gerekli' }, { status: 400 });
+    if (!filename && !body.fileName) {
+      return NextResponse.json({ error: 'filename gerekli' }, { status: 400 });
+    }
+
+    let upload;
+    try {
+      upload = validateReturnEvidenceUpload({
+        fileName: body.fileName ?? filename,
+        contentType,
+        size: body.size,
+      });
+    } catch (error) {
+      return NextResponse.json({ error: (error as Error).message }, { status: 400 });
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
@@ -42,8 +48,7 @@ export async function POST(req: Request) {
       await supabase.storage.createBucket(BUCKET, { public: true });
     }
 
-    const ext = getExtension(filename, contentType);
-    const key = `returns/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const key = `returns/${crypto.randomUUID()}-${upload.safeName}`;
     const { data, error } = await supabase.storage.from(BUCKET).createSignedUploadUrl(key, {
       upsert: true,
     });
@@ -56,10 +61,11 @@ export async function POST(req: Request) {
     return NextResponse.json({
       uploadUrl: data.signedUrl,
       path: key,
+      contentType: upload.contentType,
+      maxBytes: upload.maxBytes,
       publicUrl,
     });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message || 'Upload url hatası' }, { status: 500 });
   }
 }
-

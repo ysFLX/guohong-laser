@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
+import { escapeHtml, textToHtml } from '@/lib/htmlEscape';
 import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
@@ -105,7 +106,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
           badge: 'İade durumu',
           preheader: `Durum: ${statusLabel[status] || status}`,
           bodyHtml: `
-            <div>Merhaba <strong>${existing.name}</strong>,</div>
+            <div>Merhaba <strong>${escapeHtml(existing.name)}</strong>,</div>
             <div style="margin-top: 8px; color:#475569;">Talep durumunuz güncellendi.</div>
             <div style="margin-top: 14px; padding: 12px 14px; background:#f8fafc; border-radius: 10px; font-weight: 600;">
               ${statusLabel[status] || status}
@@ -114,7 +115,7 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
               adminNote
                 ? `<div style="margin-top: 12px; padding: 12px; background: #eef2f7; border-radius: 8px;">
                     <div style="font-weight: 600; margin-bottom: 6px;">Not</div>
-                    <div style="white-space: pre-line;">${adminNote}</div>
+                    <div style="white-space: pre-line;">${textToHtml(adminNote)}</div>
                   </div>`
                 : ''
             }

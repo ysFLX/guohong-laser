@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 
 import { authOptions } from '@/auth';
 import { buildEmailHtml } from '@/lib/emailTemplate';
+import { escapeHtml, textToHtml } from '@/lib/htmlEscape';
 import { appendInquiryAdminResponse } from '@/lib/inquiryAdminResponses';
 import { prisma } from '@/lib/prisma';
 
@@ -44,7 +45,7 @@ async function sendInquiryReplyEmail(params: {
   const appUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const safeName = params.name?.trim() || 'Müşterimiz';
   const subjectText = params.subject?.trim() || 'Talebiniz';
-  const responseHtml = params.adminResponse.replace(/\n/g, '<br />');
+  const responseHtml = textToHtml(params.adminResponse);
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -75,7 +76,7 @@ async function sendInquiryReplyEmail(params: {
       badge: 'Destek yanıtı',
       preheader: 'Talebinize yanıt verildi.',
       bodyHtml: `
-        <div>Merhaba <strong>${safeName}</strong>,</div>
+        <div>Merhaba <strong>${escapeHtml(safeName)}</strong>,</div>
         <div style="margin-top: 8px; color:#475569;">Talebinizi inceledik ve yanıtımız aşağıdadır.</div>
         <div style="margin-top: 16px; padding: 16px; background:#f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; color:#0f172a; line-height: 1.65;">
           ${responseHtml}

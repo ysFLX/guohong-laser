@@ -10,6 +10,9 @@ type Props = {
   onUpdated?: (url: string) => void;
 };
 
+const SUPPORTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const MAX_AVATAR_BYTES = 4 * 1024 * 1024;
+
 export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
   const router = useRouter();
   const { update } = useSession();
@@ -40,6 +43,7 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
         body: JSON.stringify({
           fileName: file.name,
           contentType: file.type,
+          size: file.size,
         }),
       });
       const signData = await signRes.json();
@@ -89,10 +93,15 @@ export default function ProfileAvatarUploader({ imageUrl, onUpdated }: Props) {
         <div className="flex-1">
           <input
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
             onChange={(e) => {
               const selected = e.target.files?.[0] || null;
               setError("");
+              if (selected && (!SUPPORTED_IMAGE_TYPES.has(selected.type) || selected.size > MAX_AVATAR_BYTES)) {
+                setFile(null);
+                setError("Sadece JPG, PNG veya WEBP ve en fazla 4 MB görsel yükle.");
+                return;
+              }
               setFile(selected);
             }}
             className="block w-full text-sm text-gray-700"

@@ -19,9 +19,10 @@ type SizeOptionEntry = {
 };
 
 const SUPPORTED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 
 function getSupportedImageFiles(files: File[]) {
-  return files.filter((file) => SUPPORTED_IMAGE_TYPES.has(file.type));
+  return files.filter((file) => SUPPORTED_IMAGE_TYPES.has(file.type) && file.size <= MAX_IMAGE_BYTES);
 }
 
 export default function AdminImageUpload({
@@ -68,6 +69,9 @@ export default function AdminImageUpload({
     if (!SUPPORTED_IMAGE_TYPES.has(file.type)) {
       throw new Error('HEIC desteklenmiyor. Lütfen JPG, PNG veya WEBP yükle.');
     }
+    if (file.size > MAX_IMAGE_BYTES) {
+      throw new Error('Görsel 8 MB sınırını aşmamalı.');
+    }
 
     const signRes = await fetch(`/api/spare-parts/${sparePartId}/upload-url`, {
       method: 'POST',
@@ -75,6 +79,7 @@ export default function AdminImageUpload({
       body: JSON.stringify({
         fileName: file.name,
         contentType: file.type,
+        size: file.size,
       }),
     });
     const signData = await signRes.json();
@@ -153,7 +158,7 @@ export default function AdminImageUpload({
               const list = Array.from(e.target.files || []);
               const supportedFiles = getSupportedImageFiles(list);
               if (supportedFiles.length !== list.length) {
-                setError('HEIC desteklenmiyor. Lütfen JPG, PNG veya WEBP yükle.');
+                setError('Sadece JPG, PNG veya WEBP ve en fazla 8 MB görsel yükle.');
               }
               if (uploadMode === 'size') setSizeFiles(supportedFiles);
               else setGalleryFiles(supportedFiles);

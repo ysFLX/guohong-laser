@@ -1,24 +1,18 @@
-﻿import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/auth';
+import { validateImageUpload } from '@/lib/uploadValidation';
 
 const BUCKET = 'spare-parts';
 
 type UploadRequest = {
   fileName?: string;
   contentType?: string;
+  size?: number;
 };
-
-function sanitizeFileName(name: string) {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9.\-_]+/g, '-')
-    .replace(/-+/g, '-')
-    .slice(0, 80);
-}
 
 export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
@@ -31,16 +25,13 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     return NextResponse.json({ error: 'Yetersiz yetki' }, { status: 403 });
   }
 
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    process.env.SUPABASE_URL ||
-    '';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
   if (!supabaseUrl || !serviceRoleKey) {
     return NextResponse.json(
       { error: 'Supabase env eksik. NEXT_PUBLIC_SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY gerekli.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -51,13 +42,19 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
-  const fileName = typeof body.fileName === 'string' ? body.fileName : 'image';
-  const contentType = typeof body.contentType === 'string' ? body.contentType : 'application/octet-stream';
+  let upload;
+  try {
+    upload = validateImageUpload({
+      fileName: body.fileName,
+      contentType: body.contentType,
+      size: body.size,
+    });
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
+  }
 
   const { id } = await ctx.params;
-  const safeName = sanitizeFileName(fileName) || 'image';
-  const objectPath = `${id}/${Date.now()}-${safeName}`;
-
+  const objectPath = `${id}/${crypto.randomUUID()}-${upload.safeName}`;
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false },
   });
@@ -76,8 +73,8 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     path: data.path,
     token: data.token,
     signedUrl: data.signedUrl,
-    contentType,
+    contentType: upload.contentType,
+    maxBytes: upload.maxBytes,
     publicUrl,
   });
 }
-
