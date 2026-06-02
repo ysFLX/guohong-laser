@@ -1,5 +1,7 @@
 ﻿import Link from 'next/link';
 
+import { unstable_cache } from 'next/cache';
+
 import { getUsdTryExchangeRate } from '@/lib/exchangeRates';
 import { prisma } from '@/lib/prisma';
 
@@ -123,8 +125,102 @@ function formatExchangeRate(rate: number) {
   }
 }
 
+const getAdminDashboardData = unstable_cache(
+  async () => {
+    const [
+      totalParts,
+      activeParts,
+      featuredParts,
+      lowStockParts,
+      newQuotes,
+      newContacts,
+      totalOrders,
+      totalReturns,
+      totalMembers,
+      adminMembers,
+      verifiedMembers,
+      latestParts,
+      latestMembers,
+      recentInquiries,
+      homePanels,
+      usdTryExchangeRate,
+    ] = await Promise.all([
+      prismaAdmin.sparePart.count(),
+      prismaAdmin.sparePart.count({ where: { isActive: true } }),
+      prismaAdmin.sparePart.count({ where: { isFeatured: true } }),
+      prismaAdmin.sparePart.count({ where: { stockOnHand: { lte: 3 } } }),
+      prismaAdmin.inquiry.count({ where: { type: 'QUOTE', status: 'NEW' } }),
+      prismaAdmin.inquiry.count({ where: { type: 'CONTACT', status: 'NEW' } }),
+      prismaAdmin.order.count(),
+      prismaAdmin.returnRequest.count(),
+      prismaAdmin.user.count(),
+      prismaAdmin.user.count({ where: { role: 'ADMIN' } }),
+      prismaAdmin.user.count({ where: { emailVerified: { not: null } } }),
+      prismaAdmin.sparePart.findMany({
+        take: 5,
+        orderBy: { updatedAt: 'desc' },
+        include: { category: true },
+      }),
+      prismaAdmin.user.findMany({
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          name: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          role: true,
+          emailVerified: true,
+          createdAt: true,
+          _count: { select: { orders: true } },
+        },
+      }),
+      prismaAdmin.inquiry.findMany({
+        take: 5,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          type: true,
+          status: true,
+          name: true,
+          email: true,
+          message: true,
+          createdAt: true,
+        },
+      }),
+      prismaAdmin.homePanelConfig.findUnique({ where: { id: 'home' }, select: { updatedAt: true } }),
+      getUsdTryExchangeRate(),
+    ]);
+
+    return {
+      totalParts,
+      activeParts,
+      featuredParts,
+      lowStockParts,
+      newQuotes,
+      newContacts,
+      totalOrders,
+      totalReturns,
+      totalMembers,
+      adminMembers,
+      verifiedMembers,
+      latestParts,
+      latestMembers,
+      recentInquiries,
+      homePanels,
+      usdTryExchangeRate,
+    };
+  },
+  ['admin:dashboard:v1'],
+  {
+    revalidate: 15,
+    tags: ['admin-dashboard', 'spare-parts', 'orders', 'returns', 'inquiries', 'users', 'exchange-rate-usd-try'],
+  },
+);
+
 export default async function AdminHomePage() {
-  const [
+  const {
     totalParts,
     activeParts,
     featuredParts,
@@ -141,54 +237,7 @@ export default async function AdminHomePage() {
     recentInquiries,
     homePanels,
     usdTryExchangeRate,
-  ] = await Promise.all([
-    prismaAdmin.sparePart.count(),
-    prismaAdmin.sparePart.count({ where: { isActive: true } }),
-    prismaAdmin.sparePart.count({ where: { isFeatured: true } }),
-    prismaAdmin.sparePart.count({ where: { stockOnHand: { lte: 3 } } }),
-    prismaAdmin.inquiry.count({ where: { type: 'QUOTE', status: 'NEW' } }),
-    prismaAdmin.inquiry.count({ where: { type: 'CONTACT', status: 'NEW' } }),
-    prismaAdmin.order.count(),
-    prismaAdmin.returnRequest.count(),
-    prismaAdmin.user.count(),
-    prismaAdmin.user.count({ where: { role: 'ADMIN' } }),
-    prismaAdmin.user.count({ where: { emailVerified: { not: null } } }),
-    prismaAdmin.sparePart.findMany({
-      take: 5,
-      orderBy: { updatedAt: 'desc' },
-      include: { category: true },
-    }),
-    prismaAdmin.user.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        name: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        role: true,
-        emailVerified: true,
-        createdAt: true,
-        _count: { select: { orders: true } },
-      },
-    }),
-    prismaAdmin.inquiry.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        type: true,
-        status: true,
-        name: true,
-        email: true,
-        message: true,
-        createdAt: true,
-      },
-    }),
-    prismaAdmin.homePanelConfig.findUnique({ where: { id: 'home' }, select: { updatedAt: true } }),
-    getUsdTryExchangeRate(),
-  ]);
+  } = await getAdminDashboardData();
 
   const stats = [
     { label: 'Toplam Parça', value: totalParts },

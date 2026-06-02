@@ -74,9 +74,18 @@ export async function GET() {
   try {
     orders = await prismaOrders.order.findMany({
       orderBy: { createdAt: 'desc' },
+      take: 100,
       include: {
         user: { select: { name: true, email: true } },
-        items: true,
+        items: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            quantity: true,
+            priceCents: true,
+          },
+        },
         shippingAddress: {
           select: {
             label: true,
@@ -118,9 +127,18 @@ export async function GET() {
   } catch {
     orders = await prismaOrders.order.findMany({
       orderBy: { createdAt: 'desc' },
+      take: 100,
       include: {
         user: { select: { name: true, email: true } },
-        items: true,
+        items: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            quantity: true,
+            priceCents: true,
+          },
+        },
         shippingAddress: {
           select: {
             label: true,
