@@ -166,8 +166,8 @@ export default function Header() {
                     href={item.href}
                     className={`inline-flex items-center border-b-2 px-3 py-2 text-sm font-semibold transition ${
                       isActive(item.href)
-                        ? 'border-[#f36b21] text-[#0f2a52]'
-                        : 'border-transparent text-[var(--header-muted-text)] hover:border-slate-300 hover:text-[#0f2a52]'
+                        ? 'border-[#ff6f1a] text-[#12355b] dark:text-white'
+                        : 'border-transparent text-[var(--header-muted-text)] hover:border-slate-300 hover:text-[#12355b] dark:hover:border-white/20 dark:hover:text-white'
                     }`}
                   >
                     {item.label}
@@ -205,17 +205,17 @@ export default function Header() {
           </nav>
 
           <div className="ml-auto hidden items-center gap-2 lg:flex">
-            <Link href="/quote" className="inline-flex items-center justify-center rounded-lg bg-[#0f2a52] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#071526]">
+            <Link href="/quote" className="inline-flex items-center justify-center rounded-lg bg-[#12355b] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#071526] dark:bg-[#ff6f1a] dark:hover:bg-[#e85f0c]">
               Teklif Al
             </Link>
-            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50">
+            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
               Yedek Parçalar
             </Link>
 
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
               aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
@@ -234,7 +234,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openNotifications}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
                   aria-label="Bildirimleri aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -245,7 +245,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={toggleCart}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
                   aria-label="Sepeti aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -256,7 +256,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setProfileOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
+                  className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm font-semibold text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12"
                   aria-label="Profili aç"
                 >
                   {avatarUrl ? (
@@ -270,17 +270,17 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50">
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
                   Giriş
                 </Link>
-                <Link href={registerHref} className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50">
+                <Link href={registerHref} className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#12355b] transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:bg-white/8 dark:text-white dark:hover:bg-white/12">
                   Kayıt
                 </Link>
               </>
             )}
 
             {isAdmin ? (
-              <Link href="/admin" className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#0f2a52]">
+              <Link href="/admin" className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#12355b] dark:border-white/10 dark:bg-white/8 dark:text-white">
                 Admin
               </Link>
             ) : null}
