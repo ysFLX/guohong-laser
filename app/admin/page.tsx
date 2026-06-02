@@ -103,7 +103,17 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
-function formatDateTime(date: Date) {
+function parseDateLike(value: Date | string | null | undefined) {
+  if (!value) return null;
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatDateTime(value: Date | string | null | undefined) {
+  const date = parseDateLike(value);
+  if (!date) return '-';
+
   try {
     return new Intl.DateTimeFormat('tr-TR', {
       dateStyle: 'short',
@@ -238,6 +248,7 @@ export default async function AdminHomePage() {
     homePanels,
     usdTryExchangeRate,
   } = await getAdminDashboardData();
+  const exchangeRateFetchedAt = parseDateLike(usdTryExchangeRate.fetchedAt);
 
   const stats = [
     { label: 'Toplam Parça', value: totalParts },
@@ -397,8 +408,8 @@ export default async function AdminHomePage() {
               </div>
               <div className="mt-1 text-sm text-[var(--admin-muted)]">
                 Son guncelleme:{' '}
-                {usdTryExchangeRate.fetchedAt.getTime() > 0
-                  ? formatDateTime(usdTryExchangeRate.fetchedAt)
+                {exchangeRateFetchedAt && exchangeRateFetchedAt.getTime() > 0
+                  ? formatDateTime(exchangeRateFetchedAt)
                   : 'Henuz canli veri alinmadi'}
               </div>
               <div className="mt-1 text-xs text-[var(--admin-muted)]">
