@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react';
 import Reveal from '@/components/home/Reveal';
 import { machineProducts } from '@/lib/machineCatalog';
 
-const tabs = ['Sac Plaka Kesimi', 'Boru Kesimi', 'Demir Kesimi'] as const;
+const tabs = ['Tümü', 'Sac Plaka Kesimi', 'Boru Kesimi', 'Demir Kesimi'] as const;
 type ProductTab = (typeof tabs)[number];
 
 const categoryMap: Record<string, ProductTab> = {
@@ -17,14 +17,15 @@ const categoryMap: Record<string, ProductTab> = {
 };
 
 function getInitialTab(initialCategory?: string | null): ProductTab {
-  if (!initialCategory) return 'Sac Plaka Kesimi';
-  return categoryMap[initialCategory] ?? 'Sac Plaka Kesimi';
+  if (!initialCategory) return 'Tümü';
+  return categoryMap[initialCategory] ?? 'Tümü';
 }
 
 export default function ProductsPageClient({ initialCategory }: { initialCategory?: string | null }) {
   const [activeTab, setActiveTab] = useState<ProductTab>(() => getInitialTab(initialCategory));
 
   const products = useMemo(() => {
+    if (activeTab === 'Tümü') return machineProducts;
     return machineProducts.filter((item) => item.category === activeTab);
   }, [activeTab]);
 
@@ -69,8 +70,8 @@ export default function ProductsPageClient({ initialCategory }: { initialCategor
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Kategori seçimi</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Sektörümüzde üç ana ürün grubu var</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Makine portföyü</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Tüm makineler</h2>
           </div>
           <div className="text-sm text-white/55">{products.length} model listeleniyor</div>
         </div>

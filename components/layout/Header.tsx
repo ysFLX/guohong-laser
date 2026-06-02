@@ -28,11 +28,6 @@ const PRIMARY_NAV: NavItem[] = [
   {
     href: '/products',
     label: 'Ürünler',
-    children: [
-      { href: '/products?category=sac-plaka-kesimi', label: 'Sac Plaka Kesimi' },
-      { href: '/products?category=boru-kesimi', label: 'Boru Kesimi' },
-      { href: '/products?category=demir-kesimi', label: 'Demir Kesimi' },
-    ],
   },
   { href: '/gallery', label: 'Galeri' },
   { href: '/contact', label: 'İletişim' },
