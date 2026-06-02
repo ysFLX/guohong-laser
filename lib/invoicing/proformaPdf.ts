@@ -140,13 +140,13 @@ function formatAddressLines(address: ProformaAddress | null) {
 }
 
 function getFontPaths() {
-  const regularPath = path.join(process.cwd(), 'assets', 'fonts', 'NotoSans-Regular.ttf');
-  const boldPath = path.join(process.cwd(), 'assets', 'fonts', 'NotoSans-Bold.ttf');
+  const regularPath = path.join(/*turbopackIgnore: true*/ process.cwd(), 'assets', 'fonts', 'NotoSans-Regular.ttf');
+  const boldPath = path.join(/*turbopackIgnore: true*/ process.cwd(), 'assets', 'fonts', 'NotoSans-Bold.ttf');
   return { regularPath, boldPath };
 }
 
 function getLogoPath() {
-  return path.join(process.cwd(), 'public', 'images', 'logoacik.png');
+  return path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', 'images', 'logoacik.png');
 }
 
 function drawCard(params: {

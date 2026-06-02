@@ -1,16 +1,18 @@
 'use client';
 
 import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
 import { SessionProvider, useSession } from 'next-auth/react';
 
-import CartDrawer from '@/components/cart/CartDrawer';
 import { CartProvider } from '@/components/cart/CartProvider';
-import NotificationsDrawer from '@/components/notifications/NotificationsDrawer';
 import { NotificationsProvider } from '@/components/notifications/NotificationsProvider';
-import OrderStatusToast from '@/components/notifications/OrderStatusToast';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { ToastProvider } from '@/components/ui/ToastProvider';
+
+const CartDrawer = dynamic(() => import('@/components/cart/CartDrawer'), { ssr: false });
+const NotificationsDrawer = dynamic(() => import('@/components/notifications/NotificationsDrawer'), { ssr: false });
+const OrderStatusToast = dynamic(() => import('@/components/notifications/OrderStatusToast'), { ssr: false });
 
 const PROFILE_COMPLETE_REQUIRED_ROUTES = new Set(['/checkout/address']);
 

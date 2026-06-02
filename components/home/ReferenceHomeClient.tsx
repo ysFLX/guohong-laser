@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
+import LazyVideoSlider from '@/components/home/LazyVideoSlider';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
 import Reveal from '@/components/home/Reveal';
 import StatsOverview from '@/components/home/StatsOverview';
-import VideoSlider from '@/components/home/VideoSlider';
 
 type ShowcaseItem = {
   id: string;
@@ -565,7 +565,7 @@ export default function ReferenceHomeClient({
           </div>
         </div>
 
-        <VideoSlider items={homeVideos.map((item) => ({ ...item }))} autoAdvanceMs={7200} />
+        <LazyVideoSlider items={homeVideos.map((item) => ({ ...item }))} autoAdvanceMs={7200} />
       </Reveal>
 
       <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">

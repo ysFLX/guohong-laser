@@ -178,12 +178,12 @@ export default function VideoSlider({
                 ref={(el) => {
                   videoRefs.current[i] = el;
                 }}
-                src={item.src}
+                src={i === index ? item.src : undefined}
                 poster={item.poster}
                 className="h-full w-full cursor-pointer bg-slate-900 object-cover"
                 muted={false}
                 playsInline
-                preload="metadata"
+                preload={i === index ? 'metadata' : 'none'}
                 onClick={handleToggle}
                 onLoadedMetadata={(event) => {
                   const video = event.currentTarget;

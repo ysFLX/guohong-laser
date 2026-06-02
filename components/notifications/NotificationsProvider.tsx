@@ -70,6 +70,7 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     if (status !== 'authenticated') return;
     const pollMs = isAdmin ? 5000 : 30000;
     const interval = window.setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
       refresh();
     }, pollMs);
     return () => window.clearInterval(interval);

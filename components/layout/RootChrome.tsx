@@ -6,7 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PageShell from '@/components/layout/PageShell';
 import ScrollPulse from '@/components/layout/ScrollPulse';
-import SupportWidget from '@/components/support/SupportWidget';
+import LazySupportWidget from '@/components/support/LazySupportWidget';
 
 export default function RootChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,7 +23,7 @@ export default function RootChrome({ children }: { children: React.ReactNode }) 
         <PageShell>{children}</PageShell>
       </main>
       <ScrollPulse />
-      <SupportWidget />
+      <LazySupportWidget />
       <Footer />
     </>
   );
