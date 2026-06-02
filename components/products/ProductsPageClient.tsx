@@ -1,10 +1,9 @@
-﻿'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
-import Reveal from '@/components/home/Reveal';
 import { machineProducts } from '@/lib/machineCatalog';
 
 const tabs = ['Tümü', 'Sac Plaka Kesimi', 'Boru Kesimi', 'Demir Kesimi'] as const;
@@ -30,62 +29,66 @@ export default function ProductsPageClient({ initialCategory }: { initialCategor
   }, [activeTab]);
 
   return (
-    <div className="space-y-14 pb-16 text-white">
-      <Reveal as="section" className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#15148c] shadow-[0_40px_120px_-60px_rgba(5,0,92,0.95)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,106,13,0.25),_transparent_30%),linear-gradient(120deg,_rgba(5,0,92,0.2),_rgba(5,0,92,0.92))]" />
-        <div className="relative grid gap-8 px-6 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:px-14 lg:py-16">
-          <div className="flex flex-col justify-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.38em] text-[#ff6a0d]">Ürünler</p>
-            <h1 className="mt-5 text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              Sac, boru ve demir kesim makine portföyü
+    <div className="space-y-10 pb-14">
+      <section className="overflow-hidden rounded-[18px] border border-slate-200 bg-slate-950 text-white">
+        <div className="grid min-h-[480px] lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:px-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#f36b21]">Makine kataloğu</p>
+            <h1 className="mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+              Fiber lazer kesim makineleri, tek katalogda.
             </h1>
-            <p className="mt-6 max-w-3xl text-base leading-8 text-white/76">
-              Tüm katalog tek mantıkta toplandı: sac plaka kesimi, boru kesimi ve demir kesimi.
+            <p className="mt-5 max-w-2xl text-base leading-8 text-white/68">
+              Sac, boru ve profil kesim ihtiyaçları için üretim kapasitesine göre seçilebilen Guohong makine portföyü.
             </p>
+            <div className="mt-8 grid max-w-xl grid-cols-3 border-y border-white/12 py-5">
+              <div>
+                <div className="text-2xl font-semibold text-white">{machineProducts.length}</div>
+                <div className="mt-1 text-xs text-white/52">Model</div>
+              </div>
+              <div>
+                <div className="text-2xl font-semibold text-white">60 kW</div>
+                <div className="mt-1 text-xs text-white/52">Güç skalası</div>
+              </div>
+              <div>
+                <div className="text-2xl font-semibold text-white">3</div>
+                <div className="mt-1 text-xs text-white/52">Ürün grubu</div>
+              </div>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-7 py-3 text-sm font-semibold text-[#15148c]">
-                Daha Fazlasını Gör
+              <Link href="/quote" className="inline-flex items-center justify-center rounded-lg bg-[#f36b21] px-5 py-3 text-sm font-semibold text-white">
+                Teklif iste
               </Link>
-              <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white">
-                Teknik Destek
+              <Link href="/contact" className="inline-flex items-center justify-center rounded-lg border border-white/16 px-5 py-3 text-sm font-semibold text-white hover:bg-white/8">
+                Teknik danışmanlık
               </Link>
             </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { label: '12+', text: 'Hazır katalog modeli' },
-              { label: '60 kW', text: 'Maksimum güç skalası' },
-              { label: '3', text: 'Ana ürün grubu' },
-              { label: '100+', text: 'Ülke ve bölgeye teslimat' },
-            ].map((item) => (
-              <div key={item.text} className="rounded-[26px] border border-white/10 bg-white/6 p-5 backdrop-blur">
-                <div className="text-3xl font-semibold text-[#ff6a0d]">{item.label}</div>
-                <div className="mt-2 text-sm text-white/72">{item.text}</div>
-              </div>
-            ))}
+          <div className="relative min-h-[320px]">
+            <Image src="/images/7.jpg" alt="Guohong fiber lazer kesim makinesi" fill priority sizes="(max-width: 1024px) 100vw, 54vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/20 to-transparent lg:bg-gradient-to-l" />
           </div>
         </div>
-      </Reveal>
+      </section>
 
-      <Reveal as="section" className="rounded-[34px] border border-white/10 bg-[#15148c] px-6 py-8 shadow-[0_30px_90px_-70px_rgba(5,0,92,0.95)]">
+      <section className="rounded-[18px] border border-slate-200 bg-white p-5 sm:p-7">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#ff6a0d]">Makine portföyü</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Tüm makineler</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#f36b21]">Portföy</p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Tüm makineler</h2>
           </div>
-          <div className="text-sm text-white/55">{products.length} model listeleniyor</div>
+          <div className="text-sm text-slate-500">{products.length} model listeleniyor</div>
         </div>
 
-        <div className="mt-7 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap gap-2">
           {tabs.map((tab) => (
             <button
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition ${
                 activeTab === tab
-                  ? 'bg-[#ff6a0d] text-[#15148c]'
-                  : 'border border-white/15 bg-white/6 text-white/82 hover:bg-white/10'
+                  ? 'border-[#0f2a52] bg-[#0f2a52] text-white'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
               {tab}
@@ -93,51 +96,52 @@ export default function ProductsPageClient({ initialCategory }: { initialCategor
           ))}
         </div>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {products.map((product, index) => (
-            <article key={product.id} className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/6 transition hover:-translate-y-1 hover:border-[#ff6a0d]/55">
-              <div className="relative h-64 overflow-hidden">
-                <Image src={product.image} alt={product.name} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
-                <div className="absolute left-5 top-5 rounded-full bg-[#ff6a0d] px-3 py-1 text-xs font-semibold text-[#15148c]">
-                  {String(index + 1).padStart(2, '0')}
+        <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {products.map((product) => (
+            <article key={product.id} className="group overflow-hidden rounded-[16px] border border-slate-200 bg-white transition hover:border-slate-300 hover:shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+              <Link href={`/products/${product.id}`} className="block">
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                  <Image src={product.image} alt={product.name} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
+                  <div className="absolute left-4 top-4 rounded-md bg-white/92 px-3 py-1 text-xs font-semibold text-[#0f2a52] shadow-sm">
+                    {product.category}
+                  </div>
                 </div>
-                <div className="absolute bottom-5 left-5 flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                  <span className="rounded-full bg-white/90 px-3 py-1 text-[#15148c]">{product.stockLabel}</span>
-                  <span className="rounded-full bg-[#15148c]/80 px-3 py-1 text-white">{product.deliveryLabel}</span>
-                </div>
-              </div>
+              </Link>
               <div className="p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">{product.category}</p>
-                <h3 className="mt-3 text-xl font-semibold text-white">{product.name}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/72">{product.description}</p>
-                <div className="mt-4 grid gap-2 text-sm text-white/72">
-                  <div className="flex items-center justify-between">
-                    <span>Güç</span>
-                    <span className="font-semibold text-white">{product.power}</span>
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-lg font-semibold leading-snug text-slate-950">{product.name}</h3>
+                  <span className="shrink-0 rounded-md bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-600">
+                    {product.stockLabel}
+                  </span>
+                </div>
+                <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">{product.description}</p>
+                <div className="mt-5 grid grid-cols-3 gap-2 border-y border-slate-200 py-4 text-xs">
+                  <div>
+                    <div className="text-slate-400">Güç</div>
+                    <div className="mt-1 font-semibold text-slate-950">{product.power}</div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>Çalışma alanı</span>
-                    <span className="font-semibold text-white">{product.workArea}</span>
+                  <div>
+                    <div className="text-slate-400">Alan</div>
+                    <div className="mt-1 font-semibold text-slate-950">{product.workArea}</div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>Otomasyon</span>
-                    <span className="font-semibold text-white">{product.automation}</span>
+                  <div>
+                    <div className="text-slate-400">Teslim</div>
+                    <div className="mt-1 font-semibold text-slate-950">{product.deliveryLabel}</div>
                   </div>
                 </div>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link href={`/products/${product.id}`} className="inline-flex items-center justify-center rounded-full bg-[#ff6a0d] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#15148c]">
-                    Ayrıntıyı Görüntüle
+                <div className="mt-5 flex gap-2">
+                  <Link href={`/products/${product.id}`} className="inline-flex flex-1 items-center justify-center rounded-lg bg-[#0f2a52] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#071526]">
+                    İncele
                   </Link>
-                  <Link href={`/quote?product=${encodeURIComponent(product.name)}`} className="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white">
-                    Teklif Al
+                  <Link href={`/quote?product=${encodeURIComponent(product.name)}`} className="inline-flex flex-1 items-center justify-center rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-[#0f2a52] hover:bg-slate-50">
+                    Teklif
                   </Link>
                 </div>
               </div>
             </article>
           ))}
         </div>
-      </Reveal>
+      </section>
     </div>
   );
 }
-

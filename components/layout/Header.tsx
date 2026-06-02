@@ -137,9 +137,9 @@ export default function Header() {
   }, [mounted, unreadCount]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--header-border)] bg-[var(--header-bg)] text-[var(--header-text)] shadow-[0_10px_30px_rgba(21,50,127,0.08)] backdrop-blur-xl">
-      <div className="border-b border-[#15327f]/10 bg-[#15327f]">
-        <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-xs text-white/82 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-[var(--header-border)] bg-[var(--header-bg)] text-[var(--header-text)] backdrop-blur-xl">
+      <div className="border-b border-slate-200/80 bg-slate-950 text-white">
+        <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-[11px] text-white/72 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-4">
             <a href="mailto:guohonglazerinfo@gmail.com" className="transition hover:text-white">
               E-posta: guohonglazerinfo@gmail.com
@@ -153,19 +153,21 @@ export default function Header() {
       </div>
 
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-[76px] items-center gap-3 sm:h-[92px] sm:gap-4">
+        <div className="flex h-[72px] items-center gap-3 sm:h-[80px] sm:gap-4">
           <Link href="/" className="inline-flex items-center gap-3">
-            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={220} height={90} priority className="h-[46px] w-auto sm:h-[64px]" />
+            <Image src="/images/logokoyu-crop.png" alt="Guohong Lazer" width={220} height={90} priority className="h-[44px] w-auto sm:h-[56px]" />
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center lg:flex">
-            <div className="flex items-center gap-1 rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] px-2 py-2">
+            <div className="flex items-center gap-1">
               {PRIMARY_NAV.map((item) => (
                 <div key={item.label} className="group relative">
                   <Link
                     href={item.href}
-                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
-                      isActive(item.href) ? 'bg-[#15327f] text-white' : 'text-[var(--header-muted-text)] hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]'
+                    className={`inline-flex items-center border-b-2 px-3 py-2 text-sm font-semibold transition ${
+                      isActive(item.href)
+                        ? 'border-[#f36b21] text-[#0f2a52]'
+                        : 'border-transparent text-[var(--header-muted-text)] hover:border-slate-300 hover:text-[#0f2a52]'
                     }`}
                   >
                     {item.label}
@@ -203,17 +205,17 @@ export default function Header() {
           </nav>
 
           <div className="ml-auto hidden items-center gap-2 lg:flex">
-            <Link href="/quote" className="inline-flex items-center justify-center rounded-full bg-[#15327f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0d2260]">
+            <Link href="/quote" className="inline-flex items-center justify-center rounded-lg bg-[#0f2a52] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#071526]">
               Teklif Al
             </Link>
-            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-5 py-3 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]">
+            <Link href="/spare-parts" className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50">
               Yedek Parçalar
             </Link>
 
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
               aria-label="Tema değiştir"
             >
               {theme === 'dark' ? (
@@ -232,7 +234,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={openNotifications}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
                   aria-label="Bildirimleri aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -243,7 +245,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={toggleCart}
-                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]"
+                  className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
                   aria-label="Sepeti aç"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -254,7 +256,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setProfileOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--header-card-border)] bg-[var(--header-surface)] px-2 py-2 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#edf2ff] hover:text-[var(--header-button-text)]"
+                  className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2 py-2 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50"
                   aria-label="Profili aç"
                 >
                   {avatarUrl ? (
@@ -268,17 +270,17 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href={loginHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]">
+                <Link href={loginHref} className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50">
                   Giriş
                 </Link>
-                <Link href={registerHref} className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-4 py-3 text-sm font-semibold text-[var(--header-button-text)] transition hover:bg-[#15327f]/6 hover:text-[var(--header-button-text)]">
+                <Link href={registerHref} className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0f2a52] transition hover:border-slate-300 hover:bg-slate-50">
                   Kayıt
                 </Link>
               </>
             )}
 
             {isAdmin ? (
-              <Link href="/admin" className="inline-flex items-center justify-center rounded-full border border-[var(--header-card-border)] bg-[var(--header-button-bg)] px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--header-button-text)]">
+              <Link href="/admin" className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#0f2a52]">
                 Admin
               </Link>
             ) : null}
