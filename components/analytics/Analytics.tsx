@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 type Props = {
   gaId?: string;
+  adsId?: string;
 };
 
 const COOKIE_KEY = 'cookie_consent';
@@ -30,7 +31,7 @@ const parseAnalyticsConsent = (raw: string | null) => {
   return null;
 };
 
-export default function Analytics({ gaId }: Props) {
+export default function Analytics({ gaId, adsId }: Props) {
   const [consent, setConsent] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -39,16 +40,25 @@ export default function Analytics({ gaId }: Props) {
     if (parsed !== null) setConsent(parsed);
   }, []);
 
-  if (!gaId || consent !== true) return null;
+  const primaryTagId = gaId || adsId;
+
+  if (!primaryTagId || consent !== true) return null;
+
+  const configLines = [
+    gaId ? `gtag('config', '${gaId}', { anonymize_ip: true });` : null,
+    adsId ? `gtag('config', '${adsId}');` : null,
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   return (
     <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${primaryTagId}`} strategy="afterInteractive" />
       <Script id="ga-init" strategy="afterInteractive">
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${gaId}', { anonymize_ip: true });`}
+${configLines}`}
       </Script>
     </>
   );
