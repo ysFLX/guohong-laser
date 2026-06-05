@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 const COOKIE_KEY = 'cookie_consent';
 const ONE_YEAR = 60 * 60 * 24 * 365;
+const CONSENT_EVENT = 'laser-market:cookie-consent';
 
 type ConsentState = {
   analytics: boolean;
@@ -56,6 +57,7 @@ export default function CookieBanner() {
     writeCookie(payload);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(COOKIE_KEY, payload);
+      window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: nextState }));
     }
     setConsent(nextState);
   };

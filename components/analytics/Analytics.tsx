@@ -9,6 +9,7 @@ type Props = {
 };
 
 const COOKIE_KEY = 'cookie_consent';
+const CONSENT_EVENT = 'laser-market:cookie-consent';
 
 const readCookie = () => {
   if (typeof document === 'undefined') return null;
@@ -37,12 +38,35 @@ export default function Analytics({ gaId, adsId }: Props) {
   useEffect(() => {
     const stored = readCookie() || (typeof window !== 'undefined' ? window.localStorage.getItem(COOKIE_KEY) : null);
     const parsed = parseAnalyticsConsent(stored);
-    if (parsed !== null) setConsent(parsed);
+    setConsent(parsed);
+
+    const handleConsentChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ analytics?: boolean }>;
+      setConsent(typeof customEvent.detail?.analytics === 'boolean' ? customEvent.detail.analytics : null);
+    };
+
+    window.addEventListener(CONSENT_EVENT, handleConsentChange);
+    return () => window.removeEventListener(CONSENT_EVENT, handleConsentChange);
   }, []);
 
   const primaryTagId = gaId || adsId;
 
-  if (!primaryTagId || consent !== true) return null;
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const gtag = (window as Window & {
+      gtag?: (...args: unknown[]) => void;
+    }).gtag;
+    if (typeof gtag !== 'function') return;
+
+    gtag('consent', 'update', {
+      analytics_storage: consent === true ? 'granted' : 'denied',
+      ad_storage: consent === true ? 'granted' : 'denied',
+      ad_user_data: consent === true ? 'granted' : 'denied',
+      ad_personalization: consent === true ? 'granted' : 'denied',
+    });
+  }, [consent]);
+
+  if (!primaryTagId) return null;
 
   const configLines = [
     gaId ? `gtag('config', '${gaId}', { anonymize_ip: true });` : null,
@@ -58,6 +82,13 @@ export default function Analytics({ gaId, adsId }: Props) {
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
+gtag('consent', 'default', {
+  analytics_storage: 'denied',
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});
 ${configLines}`}
       </Script>
     </>
