@@ -896,6 +896,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             {[
               { title: 'Hızlı teslim', detail: 'Stokta 2-3 gün, özel siparişte 7-10 gün.' },
               { title: 'Uyum kontrolü', detail: 'Model seçerek sadece uyumlu parçaları görün.' },
+              { title: 'Ölçü desteği', detail: 'Ebat ve teknik ölçüler için bizimle iletişime geçebilirsiniz.' },
               { title: 'Kurumsal destek', detail: 'Teknik ekipten doğrudan teyit ve destek.' },
             ].map((item) => (
               <div
