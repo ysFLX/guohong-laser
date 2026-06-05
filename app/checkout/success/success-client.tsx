@@ -130,7 +130,7 @@ export default function CheckoutSuccessClient() {
   useEffect(() => {
     if (!sessionId) {
       setOrderStatus('error');
-      setOrderError('Ödeme oturumu bulunamadı. Siparişlerini â€œSiparişlerimâ€ sayfasından kontrol edebilirsin.');
+      setOrderError('Ödeme oturumu bulunamadı. Siparişlerini “Siparişlerim” sayfasından kontrol edebilirsin.');
       return;
     }
 
@@ -277,17 +277,23 @@ export default function CheckoutSuccessClient() {
               </p>
 
               <div className="mt-6 grid w-full max-w-2xl gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Sipariş no</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `#${orderShortId}` : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}</div>
+                <div className="rounded-2xl border border-white/20 bg-white px-4 py-4 text-left shadow-lg shadow-slate-950/10">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Sipariş no</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-950">
+                    {orderInfo ? `#${orderShortId}` : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}
+                  </div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Toplam</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? formatPriceTry(orderInfo.totalCents) : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}</div>
+                <div className="rounded-2xl border border-white/20 bg-white px-4 py-4 text-left shadow-lg shadow-slate-950/10">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Toplam</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-950">
+                    {orderInfo ? formatPriceTry(orderInfo.totalCents) : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}
+                  </div>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Ürün</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `${itemCount} adet` : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}</div>
+                <div className="rounded-2xl border border-white/20 bg-white px-4 py-4 text-left shadow-lg shadow-slate-950/10">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Ürün</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-950">
+                    {orderInfo ? `${itemCount} adet` : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}
+                  </div>
                 </div>
               </div>
 
@@ -429,7 +435,7 @@ export default function CheckoutSuccessClient() {
                     },
                     {
                       title: 'Kargo bilgisi',
-                      desc: 'Kargo takip numarası girildiğinde â€œSipariş detayıâ€nda görünür.',
+                      desc: 'Kargo takip numarası girildiğinde “Sipariş detayı”nda görünür.',
                     },
                   ].map((step, idx) => (
                     <li key={step.title} className="flex gap-3">
@@ -550,7 +556,7 @@ export default function CheckoutSuccessClient() {
                             </span>
                             {item.ratingCount > 0 && (
                               <span className="font-semibold text-amber-700 dark:text-amber-300">
-                                â˜… {item.ratingAverage.toFixed(1)} ({item.ratingCount})
+                                ★ {item.ratingAverage.toFixed(1)} ({item.ratingCount})
                               </span>
                             )}
                           </div>

@@ -47,8 +47,6 @@ function CartPageContent() {
   const viewedCart = useRef(false);
   const recoveryAttempted = useRef(false);
   const [checkoutError, setCheckoutError] = useState('');
-  const [isQuickBuying, setIsQuickBuying] = useState(false);
-  const [showQuickBuyPrompt, setShowQuickBuyPrompt] = useState(false);
   const [reminderEmail, setReminderEmail] = useState('');
   const [reminderStatus, setReminderStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [reminderError, setReminderError] = useState('');
@@ -325,74 +323,6 @@ function CartPageContent() {
     router.push('/checkout/address');
   };
 
-  const handleQuickBuy = async () => {
-    if (!items.length || isQuickBuying) return;
-    setCheckoutError('');
-    if (!paymentsEnabled) {
-      router.push(cartQuoteHref);
-      return;
-    }
-    setIsQuickBuying(true);
-    try {
-      const profileRes = await fetch('/api/profile');
-      if (profileRes.status === 401) {
-        router.push(`/login?next=${encodeURIComponent('/cart')}`);
-        return;
-      }
-      const profile = await profileRes.json();
-      const addresses = (profile.user?.addresses || []) as Array<{ id: string; isDefault: boolean }>;
-      const selected = addresses.find((addr) => addr.isDefault) ?? addresses[0];
-
-      if (!selected?.id) {
-        setShowQuickBuyPrompt(true);
-        return;
-      }
-
-      trackEvent('begin_checkout', {
-        currency: 'TRY',
-        value: totalCents / 100,
-        items: items.map((item) => ({
-          item_id: item.id,
-          item_name: item.name,
-          price: calculateGrossCents(item.priceCents) / 100,
-          quantity: item.quantity,
-        })),
-      });
-
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          addressId: selected.id,
-          billingAddressId: selected.id,
-          items: items.map((x) => ({
-            id: x.id,
-            name: x.name,
-            priceCents: x.priceCents,
-            quantity: x.quantity,
-            imageUrl: x.imageUrl,
-          })),
-        }),
-      });
-
-      if (res.status === 401) {
-        router.push(`/login?next=${encodeURIComponent('/cart')}`);
-        return;
-      }
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.url) {
-        throw new Error(data?.error || 'Ödeme başlatılamadı');
-      }
-
-      window.location.href = data.url as string;
-    } catch (err: unknown) {
-      setCheckoutError(err instanceof Error ? err.message : 'Ödeme başlatılamadı');
-    } finally {
-      setIsQuickBuying(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 pb-28 text-slate-900 dark:bg-slate-950 dark:text-white lg:pb-0">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -424,7 +354,7 @@ function CartPageContent() {
 
             {items.length > 0 && (
               <div className="rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/40 dark:text-white">
-                {cartItemCount} ürün â€¢ {formatPriceTry(totalCents)}
+                {cartItemCount} ürün • {formatPriceTry(totalCents)}
               </div>
             )}
 
@@ -611,7 +541,7 @@ function CartPageContent() {
                                 </span>
                                 {item.ratingCount > 0 && (
                                   <span className="font-semibold text-amber-700 dark:text-amber-300">
-                                    â˜… {item.ratingAverage.toFixed(1)} ({item.ratingCount})
+                                    ★ {item.ratingAverage.toFixed(1)} ({item.ratingCount})
                                   </span>
                                 )}
                               </div>
@@ -699,29 +629,18 @@ function CartPageContent() {
               {paymentsEnabled ? (
                 <>
                   <div className="mt-6">
-                <button
-                  type="button"
-                  className="hidden w-full items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:opacity-70 dark:bg-white/10 dark:hover:bg-white/20 lg:inline-flex"
-                  onClick={handleQuickBuy}
-                  disabled={!items.length || isQuickBuying}
-                >
-                  {isQuickBuying ? 'Hızlı ödeme hazırlanıyor...' : 'Hızlı Al (tek sayfa)'}
-                </button>
-                <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                  Varsayılan adresinizle direkt ödemeye geçebilirsiniz.
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <button
-                  type="button"
-                  className="hidden w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70 lg:inline-flex"
-                  onClick={handleCheckout}
-                  disabled={!items.length}
-                >
-                  Adres seçerek devam et
-                </button>
-              </div>
+                    <button
+                      type="button"
+                      className="hidden w-full items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70 lg:inline-flex"
+                      onClick={handleCheckout}
+                      disabled={!items.length}
+                    >
+                      Teslimat ve ödeme adımına geç
+                    </button>
+                    <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                      Kargo ya da gel al tercihini sonraki ekranda seçebilirsin.
+                    </div>
+                  </div>
                 </>
               ) : (
                 <div className="mt-6 space-y-3">
@@ -824,40 +743,8 @@ function CartPageContent() {
               disabled={!items.length}
               className="ml-auto inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
             >
-              {paymentsEnabled ? 'Ödeme Adımına Geç' : 'Teklif ile Devam Et'}
+              {paymentsEnabled ? 'Teslimat ve ödeme' : 'Teklif ile Devam Et'}
             </button>
-          </div>
-        </div>
-      )}
-
-      {showQuickBuyPrompt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-2xl dark:border-slate-800/70 dark:bg-slate-950/40">
-            <div className="text-sm font-semibold text-slate-900 dark:text-white">
-              Hızlı Al için adres gerekli
-            </div>
-            <div className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Kayıtlı adresiniz yoksa hızlı ödeme başlatılamaz. Şimdi adres eklemek ister misiniz?
-            </div>
-            <div className="mt-5 flex items-center justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => setShowQuickBuyPrompt(false)}
-                className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-slate-300 dark:border-slate-800 dark:text-slate-300"
-              >
-                Vazgeç
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setShowQuickBuyPrompt(false);
-                  router.push('/profile/addresses');
-                }}
-                className="rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-indigo-700"
-              >
-                Adres ekle
-              </button>
-            </div>
           </div>
         </div>
       )}

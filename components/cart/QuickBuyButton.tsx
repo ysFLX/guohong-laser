@@ -21,7 +21,7 @@ type QuickBuyItem = {
 function QuickBuyButtonEnabled({
   item,
   disabled = false,
-  label = 'Hizli Al',
+  label = 'Hızlı Al',
 }: {
   item: QuickBuyItem;
   disabled?: boolean;
