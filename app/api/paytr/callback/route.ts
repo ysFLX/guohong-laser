@@ -7,7 +7,47 @@ import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
 
-const STOCK_DECREMENTED_STATUSES = new Set(['RECEIVED', 'PAID', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED']);
+async function releaseReservedStock(order: {
+  id: string;
+  items: Array<{ sparePartId: string | null; quantity: number }>;
+}) {
+  const reserveNote = `paytr-order:${order.id}`;
+  const releaseNote = `paytr-release:${order.id}`;
+
+  await prisma.$transaction(async (tx) => {
+    const [reservedCount, releasedCount] = await Promise.all([
+      tx.stockMovement.count({ where: { note: reserveNote, delta: { lt: 0 } } }),
+      tx.stockMovement.count({ where: { note: releaseNote, delta: { gt: 0 } } }),
+    ]);
+
+    if (reservedCount === 0 || releasedCount > 0) return;
+
+    const quantityByPartId = new Map<string, number>();
+    for (const item of order.items) {
+      if (!item.sparePartId) continue;
+      quantityByPartId.set(item.sparePartId, (quantityByPartId.get(item.sparePartId) || 0) + item.quantity);
+    }
+
+    for (const [sparePartId, quantity] of quantityByPartId.entries()) {
+      if (quantity <= 0) continue;
+
+      await tx.sparePart.update({
+        where: { id: sparePartId },
+        data: { stockOnHand: { increment: quantity } },
+      });
+
+      await tx.stockMovement.create({
+        data: {
+          sparePartId,
+          delta: quantity,
+          reason: 'RETURN',
+          note: releaseNote,
+          createdByUserId: null,
+        },
+      });
+    }
+  });
+}
 
 export async function POST(req: Request) {
   const form = await req.formData();
@@ -60,46 +100,12 @@ export async function POST(req: Request) {
       return new NextResponse('OK', { status: 200 });
     }
 
-    const previousStatus = order.status;
-    const shouldNotify = previousStatus !== nextStatus;
-    const shouldDecrementStock =
-      nextStatus === 'RECEIVED' && !STOCK_DECREMENTED_STATUSES.has(previousStatus);
+    const shouldNotify = order.status !== nextStatus;
 
-    if (previousStatus !== nextStatus || shouldDecrementStock) {
-      await prisma.$transaction(async (tx) => {
-        if (previousStatus !== nextStatus) {
-          await tx.order.update({
-            where: { id: order.id },
-            data: { status: nextStatus },
-          });
-        }
-
-        if (!shouldDecrementStock) return;
-
-        const quantityByPartId = new Map<string, number>();
-        for (const item of order.items) {
-          if (!item.sparePartId) continue;
-          quantityByPartId.set(item.sparePartId, (quantityByPartId.get(item.sparePartId) || 0) + item.quantity);
-        }
-
-        for (const [sparePartId, quantity] of quantityByPartId.entries()) {
-          if (quantity <= 0) continue;
-
-          await tx.sparePart.update({
-            where: { id: sparePartId },
-            data: { stockOnHand: { decrement: quantity } },
-          });
-
-          await tx.stockMovement.create({
-            data: {
-              sparePartId,
-              delta: -quantity,
-              reason: 'SALE',
-              note: `paytr-order:${order.id}`,
-              createdByUserId: null,
-            },
-          });
-        }
+    if (order.status !== nextStatus) {
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { status: nextStatus },
       });
     }
 
@@ -121,14 +127,20 @@ export async function POST(req: Request) {
       await enqueueInvoiceForOrder({ orderId: order.id }).catch((error) => {
         console.error('[paytr-callback] invoice enqueue failed:', error);
       });
-    } else if (nextStatus === 'FAILED' && shouldNotify) {
-      await notifyOrderStatus({
-        userId: order.userId,
-        orderId: order.id,
-        status: nextStatus,
-        title: 'Ödeme başarısız',
-        message: 'PayTR ödeme işlemi tamamlanamadı. Sepetinden tekrar deneyebilirsin.',
+    } else if (nextStatus === 'FAILED') {
+      await releaseReservedStock(order).catch((error) => {
+        console.error('[paytr-callback] reserved stock release failed:', error);
       });
+
+      if (shouldNotify) {
+        await notifyOrderStatus({
+          userId: order.userId,
+          orderId: order.id,
+          status: nextStatus,
+          title: 'Ödeme başarısız',
+          message: 'PayTR ödeme işlemi tamamlanamadı. Sepetinden tekrar deneyebilirsin.',
+        });
+      }
     }
   } catch (error) {
     console.error('[paytr-callback] processing failed:', error);

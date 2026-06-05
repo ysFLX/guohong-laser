@@ -259,31 +259,91 @@ export async function POST(req: Request) {
   );
   const okUrl = `${appUrl}/checkout/success?merchant_oid=${encodeURIComponent(merchantOid)}`;
   const failUrl = `${appUrl}/checkout/cancel?merchant_oid=${encodeURIComponent(merchantOid)}`;
+  let orderId = '';
+
+  const restoreReservedStock = async () => {
+    if (!orderId) return;
+
+    await prisma.$transaction(async (tx) => {
+      await tx.order.updateMany({
+        where: { id: orderId, status: 'PENDING' },
+        data: { status: 'FAILED' },
+      });
+
+      for (const [sparePartId, quantity] of quantityByPartId.entries()) {
+        if (quantity <= 0) continue;
+
+        await tx.sparePart.update({
+          where: { id: sparePartId },
+          data: { stockOnHand: { increment: quantity } },
+        });
+
+        await tx.stockMovement.create({
+          data: {
+            sparePartId,
+            delta: quantity,
+            reason: 'RETURN',
+            note: `paytr-release:${orderId}`,
+            createdByUserId: null,
+          },
+        });
+      }
+    });
+  };
 
   try {
-    await prisma.order.create({
-      data: {
-        userId: session.user.id,
-        status: 'PENDING',
-        fulfillmentType,
-        totalCents,
-        currency: 'TRY',
-        paymentSessionId: merchantOid,
-        shippingAddressId: fulfillmentType === 'SHIPPING' ? addressId : null,
-        billingAddressId,
-        items: {
-          create: verifiedItems.map((item) => ({
-            name: item.name,
-            imageUrl: item.imageUrl,
-            quantity: item.quantity,
-            priceCents: item.priceCents,
-            sparePart: {
-              connect: { id: item.id },
-            },
-          })),
+    const createdOrder = await prisma.$transaction(async (tx) => {
+      const created = await tx.order.create({
+        data: {
+          userId: session.user.id,
+          status: 'PENDING',
+          fulfillmentType,
+          totalCents,
+          currency: 'TRY',
+          paymentSessionId: merchantOid,
+          shippingAddressId: fulfillmentType === 'SHIPPING' ? addressId : null,
+          billingAddressId,
+          items: {
+            create: verifiedItems.map((item) => ({
+              name: item.name,
+              imageUrl: item.imageUrl,
+              quantity: item.quantity,
+              priceCents: item.priceCents,
+              sparePart: {
+                connect: { id: item.id },
+              },
+            })),
+          },
         },
-      },
+        select: { id: true },
+      });
+
+      for (const [sparePartId, quantity] of quantityByPartId.entries()) {
+        if (quantity <= 0) continue;
+
+        const updated = await tx.sparePart.updateMany({
+          where: { id: sparePartId, stockOnHand: { gte: quantity } },
+          data: { stockOnHand: { decrement: quantity } },
+        });
+
+        if (updated.count !== 1) {
+          throw new Error('INSUFFICIENT_STOCK');
+        }
+
+        await tx.stockMovement.create({
+          data: {
+            sparePartId,
+            delta: -quantity,
+            reason: 'SALE',
+            note: `paytr-order:${created.id}`,
+            createdByUserId: null,
+          },
+        });
+      }
+
+      return created;
     });
+    orderId = createdOrder.id;
 
     const payload = buildPaytrCheckoutPayload({
       merchantOid,
@@ -308,12 +368,9 @@ export async function POST(req: Request) {
     const paytrJson = (await paytrRes.json().catch(() => ({}))) as { status?: string; token?: string; reason?: string };
     if (!paytrRes.ok || paytrJson.status !== 'success' || !paytrJson.token) {
       console.error('[checkout] PAYTR get-token failed:', paytrJson);
-      await prisma.order
-        .updateMany({
-          where: { paymentSessionId: merchantOid },
-          data: { status: 'FAILED' },
-        })
-        .catch(() => undefined);
+      await restoreReservedStock().catch((error) => {
+        console.error('[checkout] reserved stock restore failed:', error);
+      });
       return NextResponse.json(
         { error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
         { status: 502 },
@@ -323,6 +380,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ url: buildPaytrRedirectUrl(paytrJson.token), merchant_oid: merchantOid });
   } catch (error) {
     console.error('[checkout] PAYTR checkout create failed:', error);
+    await restoreReservedStock().catch((restoreError) => {
+      console.error('[checkout] reserved stock restore failed:', restoreError);
+    });
+    if (error instanceof Error && error.message === 'INSUFFICIENT_STOCK') {
+      return NextResponse.json(
+        { error: 'Sepetteki ürünlerden biri için stok yetersiz. Lütfen sepeti güncelleyin.', code: 'INSUFFICIENT_STOCK' },
+        { status: 409 },
+      );
+    }
     return NextResponse.json(
       { error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
       { status: 500 },

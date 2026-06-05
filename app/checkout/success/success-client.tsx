@@ -270,7 +270,7 @@ export default function CheckoutSuccessClient() {
                 Ödeme tamamlandı
               </div>
 
-              <h1 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">Siparişin alındı</h1>
+              <h1 className="mt-5 text-3xl font-semibold tracking-tight !text-white sm:text-4xl">Siparişin alındı</h1>
               <p className="mt-3 text-sm text-white/70">
                 Sipariş detaylarını ve kargo güncellemelerini{' '}
                 <span className="font-semibold text-white">Siparişlerim</span> sayfasından takip edebilirsin.
@@ -279,15 +279,15 @@ export default function CheckoutSuccessClient() {
               <div className="mt-6 grid w-full max-w-2xl gap-3 sm:grid-cols-3">
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Sipariş no</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `#${orderShortId}` : orderStatus === 'loading' ? 'Yükleniyorâ€¦' : '-'}</div>
+                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `#${orderShortId}` : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Toplam</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? formatPriceTry(orderInfo.totalCents) : orderStatus === 'loading' ? 'Yükleniyorâ€¦' : '-'}</div>
+                  <div className="mt-2 text-sm font-semibold">{orderInfo ? formatPriceTry(orderInfo.totalCents) : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}</div>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">Ürün</div>
-                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `${itemCount} adet` : orderStatus === 'loading' ? 'Yükleniyorâ€¦' : '-'}</div>
+                  <div className="mt-2 text-sm font-semibold">{orderInfo ? `${itemCount} adet` : orderStatus === 'loading' ? 'Yükleniyor...' : '-'}</div>
                 </div>
               </div>
 
