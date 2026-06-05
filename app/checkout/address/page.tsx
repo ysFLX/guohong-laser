@@ -66,13 +66,47 @@ function formatPriceTry(priceCents: number) {
   }
 }
 
+function getInvoiceLabel(address: Address | null | undefined) {
+  if (!address) return 'Fatura bilgisi yok';
+  return address.invoiceType === 'COMPANY' ? 'Kurumsal fatura' : 'Bireysel fatura';
+}
+
+function getInvoiceSummary(address: Address | null | undefined) {
+  if (!address) return 'Fatura adresi seçilmedi.';
+  if (address.invoiceType === 'COMPANY') {
+    return [
+      address.companyName ? `Firma: ${address.companyName}` : 'Firma ünvanı eksik',
+      address.taxNumber ? `VKN: ${address.taxNumber}` : 'VKN eksik',
+      address.taxOffice ? `Vergi dairesi: ${address.taxOffice}` : null,
+    ]
+      .filter(Boolean)
+      .join(' • ');
+  }
+
+  return address.identityNumber ? `TCKN: ${address.identityNumber}` : 'TCKN eksik';
+}
+
+function getInvoiceValidationError(address: Address | null | undefined) {
+  if (!address) return 'Fatura adresi seçmelisin';
+  if (address.invoiceType === 'COMPANY') {
+    if (!address.companyName?.trim() || !address.taxNumber?.trim()) {
+      return 'Kurumsal fatura için firma ünvanı ve VKN zorunludur';
+    }
+    return '';
+  }
+  if (!address.identityNumber?.trim()) {
+    return 'Bireysel fatura için TC Kimlik numarası zorunludur';
+  }
+  return '';
+}
+
 function CheckoutAddressEnabled() {
   const router = useRouter();
   const { items, subtotalCents, vatCents, totalCents, replaceItems } = useCart();
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedBillingId, setSelectedBillingId] = useState<string | null>(null);
-  const [useBillingSame, setUseBillingSame] = useState(true);
+  const [useBillingSame, setUseBillingSame] = useState(false);
   const [loadingAddresses, setLoadingAddresses] = useState(true);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
@@ -182,7 +216,7 @@ function CheckoutAddressEnabled() {
       const def = list.find((a) => a.isDefault) ?? list[0] ?? null;
       setSelectedId(def?.id ?? null);
       setSelectedBillingId(def?.id ?? null);
-      setUseBillingSame(true);
+      setUseBillingSame(false);
       setFormTarget('shipping');
       setShowForm(list.length === 0);
     } catch {
@@ -248,6 +282,10 @@ function CheckoutAddressEnabled() {
       setCheckoutError('Kurumsal fatura için Firma ünvanı ve VKN zorunludur');
       return;
     }
+    if (formTarget === 'billing' && invoiceType === 'INDIVIDUAL' && !identityNumber) {
+      setCheckoutError('Bireysel fatura için TC Kimlik numarası zorunludur');
+      return;
+    }
 
     const payload: Record<string, unknown> = {
       label: form.label.trim() || 'Ev',
@@ -307,8 +345,15 @@ function CheckoutAddressEnabled() {
       setCheckoutError('Adres seçmelisin');
       return;
     }
-    if (!selectedBillingId) {
+    const resolvedBillingId = fulfillmentType === 'SHIPPING' && useBillingSame ? selectedId : selectedBillingId;
+    if (!resolvedBillingId) {
       setCheckoutError('Fatura adresi seçmelisin');
+      return;
+    }
+    const billingAddress = addresses.find((address) => address.id === resolvedBillingId) ?? null;
+    const invoiceError = getInvoiceValidationError(billingAddress);
+    if (invoiceError) {
+      setCheckoutError(invoiceError);
       return;
     }
     if (!acceptedTerms) {
@@ -336,7 +381,7 @@ function CheckoutAddressEnabled() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           addressId: fulfillmentType === 'SHIPPING' ? selectedId : null,
-          billingAddressId: fulfillmentType === 'SHIPPING' && useBillingSame ? selectedId : selectedBillingId,
+          billingAddressId: resolvedBillingId,
           fulfillmentType,
           items: items.map((x) => ({
             id: x.id,
@@ -871,6 +916,10 @@ function CheckoutAddressEnabled() {
                           {address.country || ''}
                         </div>
                         <div className="text-slate-500 dark:text-slate-400">{address.phone || '-'}</div>
+                        <div className="rounded-xl border border-slate-200/70 bg-slate-50 px-3 py-2 text-xs text-slate-600 dark:border-slate-800/70 dark:bg-slate-900/40 dark:text-slate-300">
+                          <div className="font-semibold text-slate-900 dark:text-white">{getInvoiceLabel(address)}</div>
+                          <div className="mt-1">{getInvoiceSummary(address)}</div>
+                        </div>
                       </label>
                     ))}
                   </div>
@@ -1047,7 +1096,7 @@ function CheckoutAddressEnabled() {
                               <option value="COMPANY">Kurumsal</option>
                             </select>
                             <div className="text-xs text-slate-500 dark:text-slate-400">
-                              Kurumsal fatura için firma ünvanı ve VKN girilmelidir.
+                              Bireysel fatura için TCKN; kurumsal fatura için firma ünvanı ve VKN zorunludur.
                             </div>
                           </div>
 
@@ -1083,7 +1132,7 @@ function CheckoutAddressEnabled() {
                             </>
                           ) : (
                             <div className="space-y-2 md:col-span-2">
-                              <div className="form-label">TCKN (opsiyonel)</div>
+                              <div className="form-label">TCKN</div>
                               <input
                                 className="form-input"
                                 placeholder="Kimlik numarası"

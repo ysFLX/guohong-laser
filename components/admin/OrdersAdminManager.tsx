@@ -29,6 +29,11 @@ type OrderAddress = {
   state: string | null;
   postalCode: string | null;
   country: string | null;
+  invoiceType: 'INDIVIDUAL' | 'COMPANY' | null;
+  companyName: string | null;
+  taxOffice: string | null;
+  taxNumber: string | null;
+  identityNumber: string | null;
 };
 
 type OrderInvoice = {
@@ -168,6 +173,20 @@ function formatAddress(address: OrderAddress | null) {
     city: `${cityLine} ${country}`.trim(),
     phone: address.phone || '-',
   };
+}
+
+function formatInvoiceInfo(address: OrderAddress | null) {
+  if (!address) return [];
+  if (address.invoiceType === 'COMPANY') {
+    return [
+      `Fatura tipi: Kurumsal`,
+      `Firma: ${address.companyName || '-'}`,
+      `VKN: ${address.taxNumber || '-'}`,
+      address.taxOffice ? `Vergi dairesi: ${address.taxOffice}` : null,
+    ].filter(Boolean) as string[];
+  }
+
+  return [`Fatura tipi: Bireysel`, `TCKN: ${address.identityNumber || '-'}`];
 }
 
 export default function OrdersAdminManager() {
@@ -702,6 +721,7 @@ export default function OrdersAdminManager() {
                             </div>
                             {(() => {
                               const view = formatAddress(order.billingAddress);
+                              const invoiceInfo = formatInvoiceInfo(order.billingAddress);
                               if (!view) {
                                 return <div className="mt-2 text-xs text-[var(--admin-muted)]">Adres bilgisi yok</div>;
                               }
@@ -711,6 +731,13 @@ export default function OrdersAdminManager() {
                                   <div>{view.line1}</div>
                                   <div>{view.city}</div>
                                   <div>{view.phone}</div>
+                                  {invoiceInfo.length > 0 && (
+                                    <div className="mt-3 rounded-xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-3 py-2">
+                                      {invoiceInfo.map((line) => (
+                                        <div key={line}>{line}</div>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                               );
                             })()}

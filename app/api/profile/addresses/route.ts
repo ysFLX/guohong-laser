@@ -35,6 +35,25 @@ export async function POST(request: Request) {
     taxNumber: typeof body.taxNumber === 'string' ? body.taxNumber.trim() : null,
     identityNumber: typeof body.identityNumber === 'string' ? body.identityNumber.trim() : null,
   };
+  const hasInvoicePayload =
+    Object.prototype.hasOwnProperty.call(body, 'invoiceType') ||
+    Object.prototype.hasOwnProperty.call(body, 'companyName') ||
+    Object.prototype.hasOwnProperty.call(body, 'taxNumber') ||
+    Object.prototype.hasOwnProperty.call(body, 'identityNumber');
+
+  if (hasInvoicePayload && invoiceType === 'COMPANY' && (!invoiceData.companyName || !invoiceData.taxNumber)) {
+    return new Response(JSON.stringify({ error: 'Kurumsal fatura için Firma ünvanı ve VKN zorunludur' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (hasInvoicePayload && invoiceType === 'INDIVIDUAL' && !invoiceData.identityNumber) {
+    return new Response(JSON.stringify({ error: 'Bireysel fatura için TC Kimlik numarası zorunludur' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 
   try {
     const addressSelectBase = {

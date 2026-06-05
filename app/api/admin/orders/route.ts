@@ -27,6 +27,11 @@ type AdminOrderAddress = {
   state: string | null;
   postalCode: string | null;
   country: string | null;
+  invoiceType: 'INDIVIDUAL' | 'COMPANY' | null;
+  companyName: string | null;
+  taxOffice: string | null;
+  taxNumber: string | null;
+  identityNumber: string | null;
 };
 
 type AdminOrderInvoice = {
@@ -97,6 +102,11 @@ export async function GET() {
             state: true,
             postalCode: true,
             country: true,
+            invoiceType: true,
+            companyName: true,
+            taxOffice: true,
+            taxNumber: true,
+            identityNumber: true,
           },
         },
         billingAddress: {
@@ -110,6 +120,11 @@ export async function GET() {
             state: true,
             postalCode: true,
             country: true,
+            invoiceType: true,
+            companyName: true,
+            taxOffice: true,
+            taxNumber: true,
+            identityNumber: true,
           },
         },
         invoice: {
@@ -150,6 +165,11 @@ export async function GET() {
             state: true,
             postalCode: true,
             country: true,
+            invoiceType: true,
+            companyName: true,
+            taxOffice: true,
+            taxNumber: true,
+            identityNumber: true,
           },
         },
         billingAddress: {
@@ -163,6 +183,11 @@ export async function GET() {
             state: true,
             postalCode: true,
             country: true,
+            invoiceType: true,
+            companyName: true,
+            taxOffice: true,
+            taxNumber: true,
+            identityNumber: true,
           },
         },
       },

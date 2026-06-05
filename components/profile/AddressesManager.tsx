@@ -222,6 +222,9 @@ export default function AddressesManager() {
       if (invoiceType === "COMPANY" && (!companyName || !taxNumber)) {
         throw new Error("Kurumsal fatura için Firma ünvanı ve VKN zorunludur");
       }
+      if (invoiceType === "INDIVIDUAL" && !identityNumber) {
+        throw new Error("Bireysel fatura için TC Kimlik numarası zorunludur");
+      }
 
       const payload = {
         label: form.label.trim() || "Ev",
@@ -553,7 +556,7 @@ export default function AddressesManager() {
                     <option value="COMPANY">Kurumsal</option>
                   </select>
                   <div className="text-xs text-gray-500">
-                    Kurumsal fatura için firma ünvanı ve VKN girilmelidir.
+                    Bireysel fatura için TCKN; kurumsal fatura için firma ünvanı ve VKN zorunludur.
                   </div>
                 </div>
 
@@ -589,7 +592,7 @@ export default function AddressesManager() {
                   </>
                 ) : (
                   <div className="space-y-2 md:col-span-2">
-                    <div className="form-label">TCKN (opsiyonel)</div>
+                      <div className="form-label">TCKN</div>
                     <input
                       className="form-input"
                       placeholder="Kimlik numarası"

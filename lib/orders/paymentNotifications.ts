@@ -13,6 +13,11 @@ type AddressBlock = {
   state: string | null;
   postalCode: string | null;
   country: string | null;
+  invoiceType?: 'INDIVIDUAL' | 'COMPANY' | null;
+  companyName?: string | null;
+  taxOffice?: string | null;
+  taxNumber?: string | null;
+  identityNumber?: string | null;
 } | null;
 
 function formatPriceTry(priceCents: number) {
@@ -46,6 +51,41 @@ function formatAddressBlock(address: AddressBlock) {
   ]
     .filter(Boolean)
     .join('\n');
+
+  return {
+    text,
+    html: text.replace(/\n/g, '<br />'),
+  };
+}
+
+function formatInvoiceBlock(address: AddressBlock) {
+  if (!address) {
+    return {
+      text: 'Fatura bilgisi bulunamadı.',
+      html: '<span style="color:#64748b;">Fatura bilgisi bulunamadı.</span>',
+    };
+  }
+
+  const isCompany = address.invoiceType === 'COMPANY';
+  const lines = isCompany
+    ? [
+        'Fatura tipi: Kurumsal',
+        `Firma ünvanı: ${address.companyName || '-'}`,
+        `Vergi numarası: ${address.taxNumber || '-'}`,
+        `Vergi dairesi: ${address.taxOffice || '-'}`,
+      ]
+    : ['Fatura tipi: Bireysel', `TC Kimlik No: ${address.identityNumber || '-'}`];
+
+  const addressLines = [
+    `Ad Soyad: ${address.fullName || '-'}`,
+    `Telefon: ${address.phone || '-'}`,
+    `Adres: ${[address.line1, address.line2].filter(Boolean).join(', ') || '-'}`,
+    `İl / İlçe: ${[address.city, address.state].filter(Boolean).join(' / ') || '-'}`,
+    `Posta Kodu: ${address.postalCode || '-'}`,
+    `Ülke: ${address.country || '-'}`,
+  ];
+
+  const text = [...lines, ...addressLines].join('\n');
 
   return {
     text,
@@ -118,6 +158,11 @@ export async function sendOrderConfirmationEmail(orderId: string) {
           state: true,
           postalCode: true,
           country: true,
+          invoiceType: true,
+          companyName: true,
+          taxOffice: true,
+          taxNumber: true,
+          identityNumber: true,
         },
       },
       user: {
@@ -138,6 +183,7 @@ export async function sendOrderConfirmationEmail(orderId: string) {
   const returnsUrl = `${appUrl}/returns-request`;
   const shippingBlock = formatAddressBlock(order.shippingAddress);
   const billingBlock = formatAddressBlock(order.billingAddress);
+  const invoiceBlock = formatInvoiceBlock(order.billingAddress);
 
   const lines = order.items
     .map((item) => `${item.name} x${item.quantity} ${formatPriceTry(item.priceCents * item.quantity)}`)
@@ -241,4 +287,46 @@ export async function sendOrderConfirmationEmail(orderId: string) {
       footerNote: 'Bu e-posta otomatik olarak gönderilmiştir.',
     }),
   });
+
+  const accountingEmail = (process.env.ACCOUNTING_EMAIL || '').trim();
+  if (accountingEmail) {
+    await transporter.sendMail({
+      from: `Guohong Lazer <${smtpUser}>`,
+      to: accountingEmail,
+      subject: `Muhasebe fatura bilgisi (#${order.id.slice(0, 8)})`,
+      text: [
+        `Sipariş: #${order.id.slice(0, 8)}`,
+        `Müşteri e-posta: ${recipient}`,
+        `Toplam: ${formatPriceTry(order.totalCents)}`,
+        '',
+        'Ürünler:',
+        lines,
+        '',
+        'Fatura bilgileri:',
+        invoiceBlock.text,
+      ].join('\n'),
+      html: buildEmailHtml({
+        title: 'Muhasebe fatura bilgisi',
+        subtitle: `Sipariş #${order.id.slice(0, 8)}`,
+        badge: order.billingAddress?.invoiceType === 'COMPANY' ? 'Kurumsal fatura' : 'Bireysel fatura',
+        preheader: `Sipariş #${order.id.slice(0, 8)} fatura bilgileri`,
+        bodyHtml: `
+          <div style="margin-top: 14px; padding: 14px; background: #f8fafc; border-radius: 12px; font-size: 14px; color: #334155;">
+            <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Sipariş</div>
+            <div style="margin-top: 8px; line-height: 1.6;">
+              <strong>#${order.id.slice(0, 8)}</strong><br />
+              Müşteri e-posta: ${recipient}<br />
+              Toplam: ${formatPriceTry(order.totalCents)}
+            </div>
+          </div>
+          <div style="margin-top: 18px; padding: 14px; background: #eef2f7; border-radius: 12px; font-size: 14px; color: #334155;">
+            <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;">Fatura bilgileri</div>
+            <div style="margin-top: 8px; line-height: 1.6;">${invoiceBlock.html}</div>
+          </div>
+        `,
+        primaryCta: { label: 'Siparişi aç', href: orderUrl },
+        footerNote: 'Bu e-posta muhasebe bilgilendirmesi için otomatik gönderilmiştir.',
+      }),
+    });
+  }
 }

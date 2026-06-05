@@ -108,6 +108,25 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       return new Response(JSON.stringify({ error: 'Adres bulunamadı' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
     }
 
+    const nextInvoiceType = data.invoiceType ?? existing.invoiceType ?? 'INDIVIDUAL';
+    const nextCompanyName = data.companyName ?? existing.companyName ?? '';
+    const nextTaxNumber = data.taxNumber ?? existing.taxNumber ?? '';
+    const nextIdentityNumber = data.identityNumber ?? existing.identityNumber ?? '';
+
+    if (nextInvoiceType === 'COMPANY' && (!nextCompanyName.trim() || !nextTaxNumber.trim())) {
+      return new Response(JSON.stringify({ error: 'Kurumsal fatura için Firma ünvanı ve VKN zorunludur' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (nextInvoiceType === 'INDIVIDUAL' && !nextIdentityNumber.trim()) {
+      return new Response(JSON.stringify({ error: 'Bireysel fatura için TC Kimlik numarası zorunludur' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     // If setting default, unset others
     if (data.isDefault) {
       await prisma.address.updateMany({ where: { userId: session.user.id, isDefault: true }, data: { isDefault: false } });

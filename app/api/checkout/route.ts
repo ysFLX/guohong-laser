@@ -119,15 +119,33 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Fatura adresi bulunamadi' }, { status: 400 });
   }
 
-  if (billingAddressId) {
-    const billingAddress = await prisma.address.findFirst({
-      where: { id: billingAddressId, userId: session.user.id },
-      select: { id: true },
-    });
+  const billingAddress = await prisma.address.findFirst({
+    where: { id: billingAddressId, userId: session.user.id },
+    select: {
+      id: true,
+      invoiceType: true,
+      companyName: true,
+      taxNumber: true,
+      identityNumber: true,
+    },
+  });
 
-    if (!billingAddress) {
-      return NextResponse.json({ error: 'Fatura adresi bulunamadi' }, { status: 400 });
+  if (!billingAddress) {
+    return NextResponse.json({ error: 'Fatura adresi bulunamadı' }, { status: 400 });
+  }
+
+  if (billingAddress.invoiceType === 'COMPANY') {
+    if (!billingAddress.companyName?.trim() || !billingAddress.taxNumber?.trim()) {
+      return NextResponse.json(
+        { error: 'Kurumsal fatura için firma ünvanı ve vergi numarası zorunludur.' },
+        { status: 400 },
+      );
     }
+  } else if (!billingAddress.identityNumber?.trim()) {
+    return NextResponse.json(
+      { error: 'Bireysel fatura için TC Kimlik numarası zorunludur.' },
+      { status: 400 },
+    );
   }
 
   const ids = Array.from(new Set(cleanItems.map((item) => item.productId)));
