@@ -81,10 +81,10 @@ function formatPriceTry(priceCents: number) {
       style: 'currency',
       currency: 'TRY',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 0,
     }).format(priceCents / 100);
   } catch {
-    return `${(priceCents / 100).toFixed(2)} TL`;
+    return `${Math.round(priceCents / 100)} TL`;
   }
 }
 
