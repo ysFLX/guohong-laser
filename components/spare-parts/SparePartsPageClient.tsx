@@ -876,6 +876,14 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             <p className="max-w-2xl text-base !text-white/80">
               Fiber lazer makineleri için kritik yedek parçayı hızlı temin edin.
             </p>
+            <div className="max-w-2xl rounded-2xl border border-[#ff6a0d]/40 bg-[#ff6a0d]/15 px-5 py-4 shadow-[0_18px_45px_rgba(255,106,13,0.18)] backdrop-blur">
+              <p className="text-sm font-semibold !text-white">
+                Ürün ölçüleri ve teknik detaylar için bizimle iletişime geçebilirsiniz.
+              </p>
+              <p className="mt-1 text-sm !text-white/75">
+                Ekibimiz, makinenize uygun parça ölçülerini hızlıca teyit eder.
+              </p>
+            </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
@@ -896,7 +904,6 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             {[
               { title: 'Hızlı teslim', detail: 'Stokta 2-3 gün, özel siparişte 7-10 gün.' },
               { title: 'Uyum kontrolü', detail: 'Model seçerek sadece uyumlu parçaları görün.' },
-              { title: 'Ölçü desteği', detail: 'Ebat ve teknik ölçüler için bizimle iletişime geçebilirsiniz.' },
               { title: 'Kurumsal destek', detail: 'Teknik ekipten doğrudan teyit ve destek.' },
             ].map((item) => (
               <div
