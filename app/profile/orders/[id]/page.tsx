@@ -475,7 +475,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                             Stokta
                           </span>
                           <span className="rounded-full bg-indigo-500/15 px-2 py-1 text-indigo-600">
-                            {fulfillmentType === 'PICKUP' ? 'Magaza teslim' : '2-3 gun teslim'}
+                            {fulfillmentType === 'PICKUP' ? 'Mağaza teslim' : '2-3 gün teslim'}
                           </span>
                           <span className="rounded-full bg-slate-900/10 px-2 py-1 text-slate-600 dark:bg-white/10 dark:text-slate-200">
                             {statusLabelText}
@@ -588,8 +588,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm dark:bg-slate-900/60">
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Teslimat notları</div>
                   <ul className="mt-3 space-y-2 text-slate-600">
-                    <li>{fulfillmentType === 'PICKUP' ? 'Magazaya gelmeden once siparis durumunu kontrol edin.' : 'Paket tesliminde kimlik teyidi alinabilir.'}</li>
-                    <li>{fulfillmentType === 'PICKUP' ? 'Teslim alirken siparis numaranizi paylasin.' : 'Hasarli teslimatlar icin 24 saat icinde bildirim yapin.'}</li>
+                    <li>{fulfillmentType === 'PICKUP' ? 'Mağazaya gelmeden önce sipariş durumunu kontrol edin.' : 'Paket tesliminde kimlik teyidi alınabilir.'}</li>
+                    <li>{fulfillmentType === 'PICKUP' ? 'Teslim alırken sipariş numaranızı paylaşın.' : 'Hasarlı teslimatlar için 24 saat içinde bildirim yapın.'}</li>
                     <li>{fulfillmentType === 'PICKUP' ? 'Hazirlik tamamlandiginda ekip sizi bilgilendirir.' : 'Kargo gecikmelerinde destek ekibi bilgi verir.'}</li>
                   </ul>
                 </div>

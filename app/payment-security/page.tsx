@@ -46,7 +46,7 @@ export default function PaymentSecurityPage() {
               <li>3. Ödeme durumunu sipariş ekranından takip et.</li>
             </ol>
             <Link
-              href="/contact?subject=Odeme+Sorusu"
+              href="/contact?subject=Ödeme+Sorusu"
               className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800"
             >
               Ödeme desteği al

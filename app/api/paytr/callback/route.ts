@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server';
 
-import { prisma } from '@/lib/prisma';
-import { verifyPaytrCallbackHash } from '@/lib/paytr';
 import { enqueueInvoiceForOrder } from '@/lib/invoicing/service';
 import { notifyOrderStatus, sendOrderConfirmationEmail } from '@/lib/orders/paymentNotifications';
+import { verifyPaytrCallbackHash } from '@/lib/paytr';
+import { prisma } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
+
+const STOCK_DECREMENTED_STATUSES = new Set(['RECEIVED', 'PAID', 'SHIPPED', 'IN_TRANSIT', 'DELIVERED']);
 
 export async function POST(req: Request) {
   const form = await req.formData();
@@ -24,6 +26,7 @@ export async function POST(req: Request) {
     totalAmount,
     hash,
   });
+
   if (!isValid) {
     console.error('[paytr-callback] invalid hash for', merchantOid);
     return new NextResponse('OK', { status: 200 });
@@ -31,55 +34,104 @@ export async function POST(req: Request) {
 
   const nextStatus = status === 'success' ? 'RECEIVED' : status === 'failed' ? 'FAILED' : 'PENDING';
 
-  const order = await prisma.order.findFirst({
-    where: { paymentSessionId: merchantOid },
-    select: { id: true, status: true, totalCents: true, userId: true },
-  });
-
-  if (!order) {
-    return new NextResponse('OK', { status: 200 });
-  }
-
-  if (Number(totalAmount) !== order.totalCents) {
-    console.error('[paytr-callback] total mismatch for', merchantOid);
-    return new NextResponse('OK', { status: 200 });
-  }
-
-  const shouldNotify = order.status !== nextStatus;
-
-  if (order.status !== nextStatus) {
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { status: nextStatus },
+  try {
+    const order = await prisma.order.findFirst({
+      where: { paymentSessionId: merchantOid },
+      select: {
+        id: true,
+        status: true,
+        totalCents: true,
+        userId: true,
+        items: {
+          select: {
+            sparePartId: true,
+            quantity: true,
+          },
+        },
+      },
     });
-  }
 
-  if (nextStatus === 'RECEIVED') {
-    if (shouldNotify) {
+    if (!order) {
+      return new NextResponse('OK', { status: 200 });
+    }
+
+    if (Number(totalAmount) !== order.totalCents) {
+      console.error('[paytr-callback] total mismatch for', merchantOid);
+      return new NextResponse('OK', { status: 200 });
+    }
+
+    const previousStatus = order.status;
+    const shouldNotify = previousStatus !== nextStatus;
+    const shouldDecrementStock =
+      nextStatus === 'RECEIVED' && !STOCK_DECREMENTED_STATUSES.has(previousStatus);
+
+    if (previousStatus !== nextStatus || shouldDecrementStock) {
+      await prisma.$transaction(async (tx) => {
+        if (previousStatus !== nextStatus) {
+          await tx.order.update({
+            where: { id: order.id },
+            data: { status: nextStatus },
+          });
+        }
+
+        if (!shouldDecrementStock) return;
+
+        const quantityByPartId = new Map<string, number>();
+        for (const item of order.items) {
+          if (!item.sparePartId) continue;
+          quantityByPartId.set(item.sparePartId, (quantityByPartId.get(item.sparePartId) || 0) + item.quantity);
+        }
+
+        for (const [sparePartId, quantity] of quantityByPartId.entries()) {
+          if (quantity <= 0) continue;
+
+          await tx.sparePart.update({
+            where: { id: sparePartId },
+            data: { stockOnHand: { decrement: quantity } },
+          });
+
+          await tx.stockMovement.create({
+            data: {
+              sparePartId,
+              delta: -quantity,
+              reason: 'SALE',
+              note: `paytr-order:${order.id}`,
+              createdByUserId: null,
+            },
+          });
+        }
+      });
+    }
+
+    if (nextStatus === 'RECEIVED') {
+      if (shouldNotify) {
+        await notifyOrderStatus({
+          userId: order.userId,
+          orderId: order.id,
+          status: nextStatus,
+          title: 'Siparişiniz alındı',
+          message: 'PayTR ödemeniz tamamlandı. Siparişiniz işleme alındı.',
+        });
+
+        await sendOrderConfirmationEmail(order.id).catch((error) => {
+          console.error('[paytr-callback] order email failed:', error);
+        });
+      }
+
+      await enqueueInvoiceForOrder({ orderId: order.id }).catch((error) => {
+        console.error('[paytr-callback] invoice enqueue failed:', error);
+      });
+    } else if (nextStatus === 'FAILED' && shouldNotify) {
       await notifyOrderStatus({
         userId: order.userId,
         orderId: order.id,
         status: nextStatus,
-        title: 'Siparişiniz alındı',
-        message: 'PayTR ödemeniz tamamlandı. Siparişiniz işleme alındı.',
-      });
-
-      await sendOrderConfirmationEmail(order.id).catch((error) => {
-        console.error('[paytr-callback] order email failed:', error);
+        title: 'Ödeme başarısız',
+        message: 'PayTR ödeme işlemi tamamlanamadı. Sepetinden tekrar deneyebilirsin.',
       });
     }
-
-    await enqueueInvoiceForOrder({ orderId: order.id }).catch((error) => {
-      console.error('[paytr-callback] invoice enqueue failed:', error);
-    });
-  } else if (nextStatus === 'FAILED' && shouldNotify) {
-    await notifyOrderStatus({
-      userId: order.userId,
-      orderId: order.id,
-      status: nextStatus,
-      title: 'Ödeme başarısız',
-      message: 'PayTR ödeme işlemi tamamlanamadı. Sepetinden tekrar deneyebilirsin.',
-    });
+  } catch (error) {
+    console.error('[paytr-callback] processing failed:', error);
   }
 
   return new NextResponse('OK', { status: 200 });

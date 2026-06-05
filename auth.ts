@@ -35,12 +35,12 @@ const sendOtpEmail = async (email: string, code: string) => {
   await transporter.sendMail({
     from: `Guohong Lazer <${smtpUser}>`,
     to: email,
-    subject: 'Giris dogrulama kodun',
-    text: `Giris yapmak icin dogrulama kodun: ${code}`,
+    subject: 'Giriş doğrulama kodun',
+    text: `Giriş yapmak için doğrulama kodun: ${code}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px;">
-        <h2 style="margin-top: 0; color: #111827;">Giris dogrulama kodu</h2>
-        <p>Guvenli giris icin dogrulama kodun:</p>
+        <h2 style="margin-top: 0; color: #111827;">Giriş doğrulama kodu</h2>
+        <p>Güvenli giriş için doğrulama kodun:</p>
         <div style="margin: 16px 0; font-size: 20px; font-weight: 700; letter-spacing: 6px; color: #111827;">${code}</div>
         <p style="font-size: 12px; color: #6b7280;">Kod ${OTP_TTL_MINUTES} dakika boyunca gecerlidir.</p>
       </div>
@@ -90,7 +90,7 @@ export const authOptions: NextAuthOptions = {
           );
 
           if (!isCorrectPassword) {
-            throw new Error('Gecersiz sifre');
+            throw new Error('Geçersiz şifre');
           }
 
           if (user.twoFactorEnabled) {

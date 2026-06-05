@@ -11,6 +11,9 @@ import { trackEvent } from '@/lib/analytics';
 function ContactPageInner() {
   const searchParams = useSearchParams();
   const { data: session } = useSession();
+  const sessionName = session?.user?.name || '';
+  const sessionEmail = session?.user?.email || '';
+  const sessionPhone = session?.user?.phone || '';
   const subjectParam = searchParams.get('subject')?.trim() ?? '';
   const messageParam = searchParams.get('message')?.trim() ?? '';
   const [formData, setFormData] = useState({
@@ -37,14 +40,14 @@ function ContactPageInner() {
   }, [subjectParam, messageParam]);
 
   useEffect(() => {
-    if (!session?.user) return;
+    if (!sessionName && !sessionEmail && !sessionPhone) return;
     setFormData((prev) => ({
       ...prev,
-      name: prev.name || session.user.name || '',
-      email: prev.email || session.user.email || '',
-      phone: prev.phone || session.user.phone || '',
+      name: prev.name || sessionName,
+      email: prev.email || sessionEmail,
+      phone: prev.phone || sessionPhone,
     }));
-  }, [session?.user?.email, session?.user?.name, session?.user?.phone]);
+  }, [sessionEmail, sessionName, sessionPhone]);
 
   const isEmailValid = (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.trim());
 

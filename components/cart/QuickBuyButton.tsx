@@ -86,7 +86,7 @@ function QuickBuyButtonEnabled({
           </svg>
         )}
       </span>
-      <span className="text-inherit">{isLoading ? 'Yonlendiriliyor...' : label}</span>
+      <span className="text-inherit">{isLoading ? 'Yönlendiriliyor...' : label}</span>
     </button>
   );
 }

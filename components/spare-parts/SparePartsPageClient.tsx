@@ -9,7 +9,6 @@ import { useWindowVirtualizer } from '@tanstack/react-virtual';
 
 import AddToCartButton from '@/components/cart/AddToCartButton';
 import QuickBuyButton from '@/components/cart/QuickBuyButton';
-import { useToast } from '@/components/ui/ToastProvider';
 import { trackEvent } from '@/lib/analytics';
 import { productionSiteUrl } from '@/lib/seo';
 import { isSparePartDirectPurchaseEnabled, isSparePartPriceVisible } from '@/lib/sparePartSales';
@@ -203,8 +202,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { status, data: session } = useSession();
-  const { show } = useToast();
+  const { status } = useSession();
   const sparePartPriceVisible = isSparePartPriceVisible();
   const sparePartDirectPurchaseEnabled = isSparePartDirectPurchaseEnabled();
   const urlFilters = useMemo(() => parseFiltersFromSearchParams(searchParams), [searchParams]);
@@ -784,10 +782,10 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
             <span
               className={`rounded-full px-2.5 py-1 ${inStock ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}
             >
-              {inStock ? 'Stokta' : 'Siparisle'}
+              {inStock ? 'Stokta' : 'Siparişle'}
             </span>
             <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">
-              {inStock ? '2-3 gun teslim' : '7-10 gun teslim'}
+              {inStock ? '2-3 gün teslim' : '7-10 gün teslim'}
             </span>
             {isCritical ? <span className="rounded-full bg-rose-50 px-2.5 py-1 text-rose-700">Son stoklar</span> : null}
           </div>
@@ -800,7 +798,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
 
           <div className="mt-1.5 flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-300">
             <div className="flex items-center gap-1">{renderStars(p.ratingCount > 0 ? p.ratingAverage : 0)}</div>
-            <span>{p.ratingCount > 0 ? `${p.ratingAverage.toFixed(1)} (${p.ratingCount})` : 'Degerlendirme yok'}</span>
+            <span>{p.ratingCount > 0 ? `${p.ratingAverage.toFixed(1)} (${p.ratingCount})` : 'Değerlendirme yok'}</span>
           </div>
 
           <div className="mt-2 rounded-2xl bg-slate-50 px-3 py-2 dark:bg-slate-900/60">
@@ -825,7 +823,7 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                     priceCents: getVisiblePriceCents(p),
                     imageUrl: p.imageUrl,
                   }}
-                  label="Satin al"
+                  label="Satın al"
                 />
                 <AddToCartButton
                   id={p.id}
@@ -835,13 +833,24 @@ function SparePartsPageContent({ initialItems }: { initialItems: SparePart[] }) 
                   className="rounded-xl border border-[#ff6a0d] bg-white px-4 py-2.5 text-sm font-semibold text-[#ff6a0d] transition hover:bg-orange-50"
                 />
               </div>
+            ) : !inStock ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setStockRequestPart(p);
+                  setStockRequestOpen(true);
+                }}
+                className="rounded-xl bg-[#ff6a0d] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#ff6a0d]"
+              >
+                Stok talebi oluştur
+              </button>
             ) : (
               <div className="grid gap-2">
                 <Link
                   href={`/quote?product=${encodeURIComponent(p.name)}&id=${encodeURIComponent(p.id)}`}
                   className="rounded-xl bg-[#ff6a0d] px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-[#ff6a0d]"
                 >
-                  Satin al
+                  Satın al
                 </Link>
               </div>
             )}

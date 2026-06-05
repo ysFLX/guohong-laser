@@ -32,6 +32,7 @@ type SparePartRow = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: unknown;
+  stockOnHand: number;
 };
 
 export async function POST(req: Request) {
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
   if (!isPaymentCheckoutEnabled()) {
     return NextResponse.json(
       {
-        error: 'Odeme altyapisi su an kapali. Lutfen Teklif iste veya WhatsApp hattini kullanin.',
+        error: 'Ödeme altyapısı şu an kapalı. Lütfen teklif iste veya WhatsApp hattını kullanın.',
         code: 'PAYMENTS_DISABLED',
       },
       { status: 503 },
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
   if (!isSparePartDirectPurchaseEnabled()) {
     return NextResponse.json(
       {
-        error: 'Yedek parca satisi su anda teklifle ilerliyor. Lutfen teklif olustürün.',
+        error: 'Yedek parça satışı şu anda teklifle ilerliyor. Lütfen teklif oluşturun.',
         code: 'SPARE_PART_DIRECT_PURCHASE_DISABLED',
       },
       { status: 503 },
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
       fulfillmentType?: string | null;
     };
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const items = Array.isArray(payload.items) ? payload.items : [];
@@ -141,6 +142,7 @@ export async function POST(req: Request) {
       hasSizeOptions: true,
       sizeOptions: true,
       sizeOptionPrices: true,
+      stockOnHand: true,
     },
   })) as SparePartRow[];
   const exchangeRate = await getUsdTryExchangeRate();
@@ -176,6 +178,7 @@ export async function POST(req: Request) {
         priceCents: resolvedPriceCents,
         imageUrl: item.imageUrl || part.imageUrl,
         quantity: normalizeSaleQuantity(item.quantity, resolvedPriceCents),
+        stockOnHand: part.stockOnHand,
       };
     })
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
@@ -184,10 +187,30 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Sepette gecersiz veya pasif ürün var.' }, { status: 400 });
   }
 
+  const quantityByPartId = new Map<string, number>();
+  for (const item of verifiedItems) {
+    quantityByPartId.set(item.id, (quantityByPartId.get(item.id) || 0) + item.quantity);
+  }
+
+  const insufficientItem = verifiedItems.find((item) => {
+    const requestedQuantity = quantityByPartId.get(item.id) || item.quantity;
+    return requestedQuantity > item.stockOnHand;
+  });
+
+  if (insufficientItem) {
+    return NextResponse.json(
+      {
+        error: `${insufficientItem.name} için stok yetersiz. Mevcut stok: ${Math.max(0, insufficientItem.stockOnHand)}.`,
+        code: 'INSUFFICIENT_STOCK',
+      },
+      { status: 409 },
+    );
+  }
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const email = (session.user.email || '').trim();
   if (!email) {
-    return NextResponse.json({ error: 'Odeme icin e-posta gerekli.' }, { status: 400 });
+    return NextResponse.json({ error: 'Ödeme için e-posta gerekli.' }, { status: 400 });
   }
 
   const selectedAddress = await prisma.address.findFirst({
@@ -292,7 +315,7 @@ export async function POST(req: Request) {
         })
         .catch(() => undefined);
       return NextResponse.json(
-        { error: 'Odeme baslatilamadi. Lutfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
+        { error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
         { status: 502 },
       );
     }
@@ -301,7 +324,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('[checkout] PAYTR checkout create failed:', error);
     return NextResponse.json(
-      { error: 'Odeme baslatilamadi. Lutfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
+      { error: 'Ödeme başlatılamadı. Lütfen tekrar deneyin.', code: 'CHECKOUT_FAILED' },
       { status: 500 },
     );
   }

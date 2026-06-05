@@ -726,8 +726,8 @@ function CartPageContent() {
               ) : (
                 <div className="mt-6 space-y-3">
                   <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-200">
-                    {getPaymentProviderPendingNotice()} Simdilik sepetin icin teklif isteyebilir veya WhatsApp
-                    hattindan siparis destegi alabilirsin.
+                    {getPaymentProviderPendingNotice()} Şimdilik sepetin için teklif isteyebilir veya WhatsApp
+                    hattından sipariş desteği alabilirsin.
                   </div>
                   <Link
                     href={cartQuoteHref}
@@ -824,7 +824,7 @@ function CartPageContent() {
               disabled={!items.length}
               className="ml-auto inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
             >
-              {paymentsEnabled ? 'Odeme Adimina Gec' : 'Teklif Ile Devam Et'}
+              {paymentsEnabled ? 'Ödeme Adımına Geç' : 'Teklif ile Devam Et'}
             </button>
           </div>
         </div>

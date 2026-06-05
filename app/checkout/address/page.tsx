@@ -95,6 +95,7 @@ function CheckoutAddressEnabled() {
   useEffect(() => {
     loadAddresses();
     loadCities();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -1256,7 +1257,7 @@ function CheckoutAddressEnabled() {
               disabled={loadingCheckout || loadingAddresses || !acceptedTerms}
               className="ml-auto inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-70"
             >
-              {loadingCheckout ? 'Yonlendiriliyor...' : 'Odemeye Devam Et'}
+              {loadingCheckout ? 'Yönlendiriliyor...' : 'Ödemeye Devam Et'}
             </button>
           </div>
         </div>
@@ -1275,8 +1276,8 @@ function CheckoutAddressDisabled() {
           </div>
           <h1 className="mt-3 text-2xl font-semibold tracking-tight">Şimdilik teklif ile ilerliyoruz</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-            {getPaymentProviderPendingNotice()} Sepetiniz icin teklif isteyebilir veya WhatsApp hattindan siparis
-            destegi alabilirsiniz.
+            {getPaymentProviderPendingNotice()} Sepetiniz için teklif isteyebilir veya WhatsApp hattından sipariş
+            desteği alabilirsiniz.
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">

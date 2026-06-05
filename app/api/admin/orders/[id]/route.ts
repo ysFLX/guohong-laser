@@ -115,7 +115,7 @@ async function sendStatusEmail(params: {
         }
         ${
           showInvoiceNote
-            ? `<div style="margin-top: 12px; padding: 12px; background: #eef2f7; border-radius: 10px; font-size: 13px; color: #475569;">Fatura / irsaliye bilgileri siparis onay e-postasinda paylasilmistir.</div>`
+            ? `<div style="margin-top: 12px; padding: 12px; background: #eef2f7; border-radius: 10px; font-size: 13px; color: #475569;">Fatura / irsaliye bilgileri sipariş onay e-postasında paylaşılmıştır.</div>`
             : ''
         }
       `,

@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 
@@ -53,7 +53,7 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
   const [body, setBody] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -69,11 +69,11 @@ export default function SparePartReviews({ sparePartId }: { sparePartId: string 
     } finally {
       setLoading(false);
     }
-  };
+  }, [sparePartId]);
 
   useEffect(() => {
     fetchReviews();
-  }, [sparePartId]);
+  }, [fetchReviews]);
 
   const averageLabel = useMemo(() => {
     if (!summary.count) return '0.0';

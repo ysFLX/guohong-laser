@@ -129,7 +129,7 @@ export default function SupportWidget() {
   useEffect(() => {
     if (!open) return;
     loadMessages(!initialized);
-  }, [open]);
+  }, [initialized, open]);
 
   useEffect(() => {
     if (!open) return;

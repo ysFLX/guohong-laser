@@ -26,6 +26,7 @@ type SparePartRow = {
   hasSizeOptions: boolean;
   sizeOptions: string[];
   sizeOptionPrices: unknown;
+  stockOnHand: number;
 };
 
 export async function POST(req: Request) {
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
   try {
     payload = (await req.json()) as { items?: CartItemPayload[] };
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const items = Array.isArray(payload.items) ? payload.items : [];
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
       hasSizeOptions: true,
       sizeOptions: true,
       sizeOptionPrices: true,
+      stockOnHand: true,
     },
   })) as SparePartRow[];
 
@@ -100,6 +102,7 @@ export async function POST(req: Request) {
         imageUrl: item.imageUrl || part.imageUrl,
         quantity: item.quantity,
         variantValue: item.variantValue || null,
+        stockOnHand: part.stockOnHand,
         priceCents:
           part.hasSizeOptions && item.variantValue && sizeOptionPrices[item.variantValue]?.currency === 'USD'
             ? convertUsdCentsToTryCents(sizeOptionPrices[item.variantValue].priceCents, exchangeRate.rate)
@@ -118,6 +121,26 @@ export async function POST(req: Request) {
     ...item,
     quantity: normalizeSaleQuantity(item.quantity, item.priceCents),
   }));
+
+  const quantityByPartId = new Map<string, number>();
+  for (const item of normalizedItems) {
+    quantityByPartId.set(item.productId, (quantityByPartId.get(item.productId) || 0) + item.quantity);
+  }
+
+  const insufficientItem = normalizedItems.find((item) => {
+    const requestedQuantity = quantityByPartId.get(item.productId) || item.quantity;
+    return requestedQuantity > item.stockOnHand;
+  });
+
+  if (insufficientItem) {
+    return NextResponse.json(
+      {
+        error: `${insufficientItem.name} için stok yetersiz. Mevcut stok: ${Math.max(0, insufficientItem.stockOnHand)}.`,
+        code: 'INSUFFICIENT_STOCK',
+      },
+      { status: 409 },
+    );
+  }
 
   const totals = calculateVatTotals(normalizedItems);
   return NextResponse.json({ items: normalizedItems, ...totals });

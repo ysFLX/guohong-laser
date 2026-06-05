@@ -194,7 +194,7 @@ export async function POST(request: Request) {
 
     if (session?.user?.id) {
       if (order.userId !== session.user.id) {
-        return NextResponse.json({ error: 'Bu siparis size ait degil.' }, { status: 403 });
+        return NextResponse.json({ error: 'Bu sipariş size ait değil.' }, { status: 403 });
       }
     } else {
       const orderEmail = (order.user?.email || '').trim().toLowerCase();

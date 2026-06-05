@@ -78,7 +78,7 @@ export default function AdminSparePartCreateForm({
     <div className="space-y-6">
       <div className="rounded-2xl border border-[var(--admin-border)] bg-[var(--admin-card-muted)] px-4 py-4">
         <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--admin-muted)]">
-          Hizli olustur
+          Hızlı oluştur
         </div>
         <div className="mt-2 text-sm text-[var(--admin-muted)]">
           Temel bilgileri gir, kaydet. Sonrasinda gorselleri ve ek detaylari ürün sayfasindan tamamlayabilirsin.
@@ -336,7 +336,7 @@ export default function AdminSparePartCreateForm({
                   const data = await res.json();
                   if (!res.ok) throw new Error(data?.error || 'Kaydedilemedi');
 
-                  setSuccess('Ürün olusturuldu');
+                  setSuccess('Ürün oluşturuldu');
                   router.push(`/admin/spare-parts/${data.item.id}`);
                   router.refresh();
                 } catch (e: unknown) {

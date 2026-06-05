@@ -83,7 +83,7 @@ export default function AdminImageUpload({
       }),
     });
     const signData = await signRes.json();
-    if (!signRes.ok) throw new Error(signData?.error || 'Upload url olusturulamadi');
+    if (!signRes.ok) throw new Error(signData?.error || 'Upload url oluşturulamadı');
 
     const upload = await supabase.storage
       .from('spare-parts')

@@ -20,5 +20,5 @@ export function isPaymentProviderActive() {
 }
 
 export function getPaymentProviderPendingNotice() {
-  return `Odeme altyapisi hazirlaniyor. ${getPaymentProviderName()} aktivasyon sureci devam ediyor.`;
+  return `Ödeme altyapısı hazırlanıyor. ${getPaymentProviderName()} aktivasyon süreci devam ediyor.`;
 }

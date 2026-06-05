@@ -61,7 +61,7 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as CreatePayload;
   } catch {
-    return NextResponse.json({ error: 'Gecersiz JSON' }, { status: 400 });
+    return NextResponse.json({ error: 'Geçersiz JSON' }, { status: 400 });
   }
 
   const name = typeof body.name === 'string' ? body.name.trim() : '';
@@ -149,7 +149,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ item: created });
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : 'Ürün olusturulamadi';
+    const message = e instanceof Error ? e.message : 'Ürün oluşturulamadı';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
