@@ -2,7 +2,7 @@
 import path from 'path';
 import PDFDocument from 'pdfkit';
 
-import { VAT_PERCENTAGE } from '@/lib/vat';
+import { VAT_PERCENTAGE, calculateVatCents } from '@/lib/vat';
 
 type AddressInvoiceType = 'INDIVIDUAL' | 'COMPANY';
 
@@ -33,6 +33,16 @@ export type ProformaOrder = {
   items: Array<{ name: string; quantity: number; priceCents: number }>;
   billingAddress: ProformaAddress | null;
   shippingAddress: ProformaAddress | null;
+};
+
+type CreateProformaPdfParams = {
+  order: ProformaOrder;
+  invoiceNumber: string;
+  issuedAtIso: string;
+  documentTitle?: string;
+  watermark?: string;
+  footerNote?: string;
+  infoTitlePrefix?: string;
 };
 
 const COLORS = {
@@ -235,7 +245,7 @@ function ensureSpace(doc: PDFKit.PDFDocument, y: number, needed: number) {
   return doc.page.margins.top;
 }
 
-export async function createProformaPdf(params: { order: ProformaOrder; invoiceNumber: string; issuedAtIso: string }) {
+export async function createProformaPdf(params: CreateProformaPdfParams) {
   const { regularPath, boldPath } = getFontPaths();
   const hasFonts = fs.existsSync(regularPath) && fs.existsSync(boldPath);
 
@@ -245,12 +255,18 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
     );
   }
 
+  const documentTitle = params.documentTitle || 'PROFORMA';
+  const watermark = params.watermark || documentTitle;
+  const footerNote =
+    params.footerNote || 'Not: Bu belge proforma / geçici belgedir. Resmi e-Fatura ayrıca iletilecektir.';
+  const infoTitlePrefix = params.infoTitlePrefix || documentTitle;
+
   const doc = new PDFDocument({
     size: 'A4',
     margin: 48,
     font: regularPath,
     info: {
-      Title: `Proforma ${params.invoiceNumber}`,
+      Title: `${infoTitlePrefix} ${params.invoiceNumber}`,
       Author: 'Guohong Lazer',
       Subject: `Sipariş #${compactOrderId(params.order.id)}`,
     },
@@ -268,7 +284,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   const fontRegular = 'NotoRegular';
   const fontBold = 'NotoBold';
 
-  addWatermark(doc, 'PROFORMA', fontBold);
+  addWatermark(doc, watermark, fontBold);
 
   const pageW = doc.page.width;
   const left = doc.page.margins.left;
@@ -288,7 +304,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   }
 
   doc.fillColor('white');
-  doc.font(fontBold).fontSize(24).text('PROFORMA', right - 220, 34, { width: 220, align: 'right' });
+  doc.font(fontBold).fontSize(22).text(documentTitle, right - 260, 34, { width: 260, align: 'right' });
 
   doc.font(fontRegular).fontSize(10).fillColor('#c7d2fe');
   doc.text(`Belge No: ${params.invoiceNumber}`, right - 240, 70, { width: 240, align: 'right' });
@@ -310,7 +326,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   doc.fillColor('white');
   doc.font(fontBold).fontSize(16).text('Guohong Lazer', left, 86, { width: 320 });
   doc.font(fontRegular).fontSize(9).fillColor('#c7d2fe');
-  doc.text(`Web: ${siteHost}  â€¢  WhatsApp: +90 536 831 6787`, left, 106, { width: 360 });
+  doc.text(`Web: ${siteHost}  •  WhatsApp: +90 536 831 6787`, left, 106, { width: 360 });
 
   let y = headerH + 22;
 
@@ -367,7 +383,9 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   doc.font(fontBold).fontSize(12).text('Ürünler', left, y, { width: contentW });
   y += 14;
 
-  const tableWidths = [contentW * 0.54, contentW * 0.12, contentW * 0.16, contentW * 0.18].map((x) => Math.floor(x));
+  const tableWidths = [contentW * 0.42, contentW * 0.1, contentW * 0.16, contentW * 0.14, contentW * 0.18].map((x) =>
+    Math.floor(x),
+  );
   const widthDiff = contentW - tableWidths.reduce((a, b) => a + b, 0);
   tableWidths[0] += widthDiff;
 
@@ -376,7 +394,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
     x: left,
     y,
     widths: tableWidths,
-    labels: ['Ürün', 'Adet', 'Birim', 'Tutar'],
+    labels: ['Ürün', 'Adet', 'Birim KDV hariç', 'KDV', 'Toplam'],
     fontBold,
   });
 
@@ -387,6 +405,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   for (let i = 0; i < params.order.items.length; i += 1) {
     const item = params.order.items[i];
     const lineTotalCents = item.priceCents * item.quantity;
+    const lineVatCents = calculateVatCents(item.priceCents) * item.quantity;
     itemsTotalCents += lineTotalCents;
 
     const rowPaddingX = 10;
@@ -426,10 +445,18 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
     });
     cx += tableWidths[2];
 
+    doc.fillColor(COLORS.muted);
+    doc.font(fontRegular).fontSize(10);
+    doc.text(tryFormatMoney(lineVatCents, params.order.currency), cx + rowPaddingX, y + rowPaddingY, {
+      width: tableWidths[3] - rowPaddingX * 2,
+      align: 'right',
+    });
+    cx += tableWidths[3];
+
     doc.fillColor(COLORS.ink);
     doc.font(fontBold).fontSize(10);
-    doc.text(tryFormatMoney(lineTotalCents, params.order.currency), cx + rowPaddingX, y + rowPaddingY, {
-      width: tableWidths[3] - rowPaddingX * 2,
+    doc.text(tryFormatMoney(lineTotalCents + lineVatCents, params.order.currency), cx + rowPaddingX, y + rowPaddingY, {
+      width: tableWidths[4] - rowPaddingX * 2,
       align: 'right',
     });
 
@@ -469,7 +496,7 @@ export async function createProformaPdf(params: { order: ProformaOrder; invoiceN
   ty += lineHeight;
 
   doc.font(fontRegular).fontSize(9).fillColor(COLORS.muted);
-  doc.text('Not: Bu belge proforma / geçici belgedir. Resmi eâ€‘Fatura ayrıca iletilecektir.', labelX, ty + 6, {
+  doc.text(footerNote, labelX, ty + 6, {
     width: totalsBoxW - 28,
   });
 

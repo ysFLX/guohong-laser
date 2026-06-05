@@ -791,6 +791,13 @@ export default function OrdersAdminManager() {
                                 {invoicingId === order.id ? 'İşleniyor' : 'Fatura oluştur'}
                               </AdminButton>
 
+                              <a
+                                href={`/api/admin/orders/${order.id}/accounting-pdf`}
+                                className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-indigo-700 transition hover:bg-indigo-100 hover:text-indigo-900"
+                              >
+                                Muhasebe PDF indir
+                              </a>
+
                               {order.invoice?.status === 'ISSUED' ? (
                                 <>
                                   <a
