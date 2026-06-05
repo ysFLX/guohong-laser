@@ -120,11 +120,24 @@ function CheckoutAddressEnabled() {
   const [loadingCities, setLoadingCities] = useState(false);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
   const [repricing, setRepricing] = useState(false);
+  const [invoiceModalOpen, setInvoiceModalOpen] = useState(false);
+  const [invoiceModalError, setInvoiceModalError] = useState('');
+  const [invoiceModalSaving, setInvoiceModalSaving] = useState(false);
+  const [invoiceForm, setInvoiceForm] = useState({
+    invoiceType: 'INDIVIDUAL' as 'INDIVIDUAL' | 'COMPANY',
+    companyName: '',
+    taxOffice: '',
+    taxNumber: '',
+    identityNumber: '',
+  });
 
   const cartItemCount = useMemo(
     () => items.reduce((acc, item) => acc + item.quantity, 0),
     [items],
   );
+  const resolvedBillingId = fulfillmentType === 'SHIPPING' && useBillingSame ? selectedId : selectedBillingId;
+  const resolvedBillingAddress = addresses.find((address) => address.id === resolvedBillingId) ?? null;
+  const invoiceFixNeeded = Boolean(checkoutError) && Boolean(getInvoiceValidationError(resolvedBillingAddress));
 
   useEffect(() => {
     loadAddresses();
@@ -339,6 +352,95 @@ function CheckoutAddressEnabled() {
     }
   }
 
+  function openInvoiceModal() {
+    const address = resolvedBillingAddress;
+    if (!address) {
+      setCheckoutError('Fatura bilgisi eklemek için önce fatura adresi seçmelisin');
+      return;
+    }
+
+    setInvoiceModalError('');
+    setInvoiceForm({
+      invoiceType: address.invoiceType === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL',
+      companyName: address.companyName ?? '',
+      taxOffice: address.taxOffice ?? '',
+      taxNumber: address.taxNumber ?? '',
+      identityNumber: address.identityNumber ?? '',
+    });
+    setInvoiceModalOpen(true);
+  }
+
+  async function submitInvoiceInfo(e: React.FormEvent) {
+    e.preventDefault();
+    if (!resolvedBillingId) {
+      setInvoiceModalError('Fatura adresi seçilmedi');
+      return;
+    }
+
+    const invoiceType = invoiceForm.invoiceType;
+    const companyName = invoiceForm.companyName.trim();
+    const taxOffice = invoiceForm.taxOffice.trim();
+    const taxNumber = invoiceForm.taxNumber.trim();
+    const identityNumber = invoiceForm.identityNumber.trim();
+
+    if (invoiceType === 'COMPANY' && (!companyName || !taxNumber)) {
+      setInvoiceModalError('Kurumsal fatura için firma ünvanı ve VKN zorunludur');
+      return;
+    }
+
+    if (invoiceType === 'INDIVIDUAL' && !identityNumber) {
+      setInvoiceModalError('Bireysel fatura için TC Kimlik numarası zorunludur');
+      return;
+    }
+
+    setInvoiceModalSaving(true);
+    setInvoiceModalError('');
+    try {
+      const res = await fetch(`/api/profile/addresses/${resolvedBillingId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          invoiceType,
+          companyName: invoiceType === 'COMPANY' ? companyName : null,
+          taxOffice: invoiceType === 'COMPANY' ? taxOffice || null : null,
+          taxNumber: invoiceType === 'COMPANY' ? taxNumber : null,
+          identityNumber: invoiceType === 'INDIVIDUAL' ? identityNumber : null,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || 'Fatura bilgisi kaydedilemedi');
+      }
+
+      if (Array.isArray(data?.addresses)) {
+        setAddresses(data.addresses as Address[]);
+      } else {
+        setAddresses((prev) =>
+          prev.map((address) =>
+            address.id === resolvedBillingId
+              ? {
+                  ...address,
+                  invoiceType,
+                  companyName: invoiceType === 'COMPANY' ? companyName : null,
+                  taxOffice: invoiceType === 'COMPANY' ? taxOffice || null : null,
+                  taxNumber: invoiceType === 'COMPANY' ? taxNumber : null,
+                  identityNumber: invoiceType === 'INDIVIDUAL' ? identityNumber : null,
+                }
+              : address,
+          ),
+        );
+      }
+
+      setCheckoutError('');
+      setInvoiceModalOpen(false);
+    } catch (err) {
+      setInvoiceModalError(err instanceof Error ? err.message : 'Fatura bilgisi kaydedilemedi');
+    } finally {
+      setInvoiceModalSaving(false);
+    }
+  }
+
   async function handleCheckout() {
     if (!items.length || loadingCheckout) return;
     if (fulfillmentType === 'SHIPPING' && !selectedId) {
@@ -487,7 +589,16 @@ function CheckoutAddressEnabled() {
 
         {checkoutError && (
           <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200">
-            {checkoutError}
+            <div>{checkoutError}</div>
+            {invoiceFixNeeded && (
+              <button
+                type="button"
+                onClick={openInvoiceModal}
+                className="mt-2 inline-flex font-semibold text-rose-700 underline underline-offset-4 hover:text-rose-900 dark:text-rose-100"
+              >
+                Eklemek istiyorsanız buraya tıklayın
+              </button>
+            )}
           </div>
         )}
 
@@ -1311,6 +1422,114 @@ function CheckoutAddressEnabled() {
           </div>
         </div>
       </div>
+
+      {invoiceModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 py-6 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-950">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
+                  Fatura bilgileri
+                </div>
+                <h3 className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
+                  Eksik fatura bilgisini tamamla
+                </h3>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                  Bu bilgiler muhasebe ekibine siparişle birlikte iletilir.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInvoiceModalOpen(false)}
+                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:border-slate-800 dark:text-slate-300"
+              >
+                Kapat
+              </button>
+            </div>
+
+            <form onSubmit={submitInvoiceInfo} className="mt-5 space-y-4">
+              <div className="space-y-2">
+                <div className="form-label">Fatura tipi</div>
+                <select
+                  className="form-input"
+                  value={invoiceForm.invoiceType}
+                  onChange={(e) =>
+                    setInvoiceForm((prev) => ({
+                      ...prev,
+                      invoiceType: e.target.value === 'COMPANY' ? 'COMPANY' : 'INDIVIDUAL',
+                    }))
+                  }
+                >
+                  <option value="INDIVIDUAL">Bireysel</option>
+                  <option value="COMPANY">Kurumsal</option>
+                </select>
+              </div>
+
+              {invoiceForm.invoiceType === 'COMPANY' ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2 sm:col-span-2">
+                    <div className="form-label">Firma ünvanı</div>
+                    <input
+                      className="form-input"
+                      value={invoiceForm.companyName}
+                      onChange={(e) => setInvoiceForm((prev) => ({ ...prev, companyName: e.target.value }))}
+                      placeholder="Firma ünvanı"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="form-label">Vergi dairesi</div>
+                    <input
+                      className="form-input"
+                      value={invoiceForm.taxOffice}
+                      onChange={(e) => setInvoiceForm((prev) => ({ ...prev, taxOffice: e.target.value }))}
+                      placeholder="Vergi dairesi"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="form-label">VKN</div>
+                    <input
+                      className="form-input"
+                      value={invoiceForm.taxNumber}
+                      onChange={(e) => setInvoiceForm((prev) => ({ ...prev, taxNumber: e.target.value }))}
+                      placeholder="Vergi numarası"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="form-label">TC Kimlik numarası</div>
+                  <input
+                    className="form-input"
+                    value={invoiceForm.identityNumber}
+                    onChange={(e) => setInvoiceForm((prev) => ({ ...prev, identityNumber: e.target.value }))}
+                    placeholder="TC Kimlik numarası"
+                    inputMode="numeric"
+                  />
+                </div>
+              )}
+
+              {invoiceModalError && (
+                <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200">
+                  {invoiceModalError}
+                </div>
+              )}
+
+              <div className="flex flex-wrap justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setInvoiceModalOpen(false)}
+                  className="btn-secondary"
+                >
+                  Vazgeç
+                </button>
+                <button type="submit" disabled={invoiceModalSaving} className="btn-primary disabled:opacity-70">
+                  {invoiceModalSaving ? 'Kaydediliyor...' : 'Kaydet'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
